@@ -1,4 +1,7 @@
 <RCC>
-    <qresource prefix="DrillGIFActionSequenceEditor">
+    <qresource prefix="/DrillGIFActionSequenceEditor">
+        <file>Resources/icons/global/drill_logo_64x64.png</file>
+        <file>Resources/icons/global/HoverCursor_1.png</file>
+        <file>Resources/icons/global/HoverCursor_2.png</file>
     </qresource>
 </RCC>
