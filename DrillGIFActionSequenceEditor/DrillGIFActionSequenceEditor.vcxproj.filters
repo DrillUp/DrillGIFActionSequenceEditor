@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;cxx;c;def</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{15d45554-5aa3-4977-9605-141211349881}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{e75824a6-65bd-47fb-8a3e-50b150bb6ae2}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Source Files\【 主窗体 MainModule】">
+      <UniqueIdentifier>{146070f3-791f-48b1-b1fe-0f5adb1486c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\【 工具箱 Utils】">
+      <UniqueIdentifier>{e6b9c521-15ed-43f2-be8e-5bfd513eeb83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\【 工具箱 Utils】\管理器工具（manager）">
+      <UniqueIdentifier>{d39c2e78-314e-402e-ada6-e417abebd28d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_drillgifactionsequenceeditor.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainModule\drillgifactionsequenceeditor.cpp">
+      <Filter>Source Files\【 主窗体 MainModule】</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_drillgifactionsequenceeditor.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_drillgifactionsequenceeditor.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\manager\s_CallManager.cpp">
+      <Filter>Source Files\【 工具箱 Utils】\管理器工具（manager）</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_s_CallManager.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_s_CallManager.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="drillgifactionsequenceeditor.qrc">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\MainModule\drillgifactionsequenceeditor.h">
+      <Filter>Source Files\【 主窗体 MainModule】</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\MainModule\drillgifactionsequenceeditor.ui">
+      <Filter>Source Files\【 主窗体 MainModule】</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\manager\s_CallManager.h">
+      <Filter>Source Files\【 工具箱 Utils】\管理器工具（manager）</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DrillGIFActionSequenceEditor.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_drillgifactionsequenceeditor.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
