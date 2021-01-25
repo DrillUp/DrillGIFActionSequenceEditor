@@ -4,16 +4,25 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_drillgifactionsequenceeditor.h"
 
+/*
+-----==========================================================-----
+		类：		主窗体.h
+		作者：		drill_up
+		所属模块：	主窗体模块
+		功能：		程序进入后的主控制窗口。
+					（详细见cpp）
+-----==========================================================-----
+*/
 class DrillGIFActionSequenceEditor : public QMainWindow
 {
 	Q_OBJECT
 
-public:
-	DrillGIFActionSequenceEditor(QWidget *parent = 0);
-	~DrillGIFActionSequenceEditor();
+	public:
+		DrillGIFActionSequenceEditor(QWidget *parent = 0);
+		~DrillGIFActionSequenceEditor();
 
-private:
-	Ui::DrillGIFActionSequenceEditorClass ui;
+	private:
+		Ui::DrillGIFActionSequenceEditorClass ui;
 };
 
 #endif // DRILLGIFACTIONSEQUENCEEDITOR_H

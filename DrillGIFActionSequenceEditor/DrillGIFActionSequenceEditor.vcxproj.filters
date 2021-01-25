@@ -42,6 +42,18 @@
       <Extensions>qrc;*</Extensions>
       <ParseFiles>false</ParseFiles>
     </Filter>
+    <Filter Include="源文件\【 动作序列 ActionSeqModule】">
+      <UniqueIdentifier>{f5f343cf-ad4f-47e0-a294-4d22e35b468c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 动作序列 ActionSeqModule】\动作序列块">
+      <UniqueIdentifier>{04488223-3081-4fd0-86a0-1dcc57331ec8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 动作序列 ActionSeqModule】\状态元块">
+      <UniqueIdentifier>{b9175ef4-c3c3-4830-b481-0136333a709b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 动作序列 ActionSeqModule】\动作元块">
+      <UniqueIdentifier>{098df1bf-d3a8-453e-8625-399216e54aed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -71,6 +83,33 @@
     <ClCompile Include="GeneratedFiles\Release\moc_s_CallManager.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ActionSeqModule\actionSeqPart\p_ActionSeqPart.cpp">
+      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_p_ActionSeqPart.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_p_ActionSeqPart.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ActionSeqModule\actionPart\p_ActionPart.cpp">
+      <Filter>源文件\【 动作序列 ActionSeqModule】\动作元块</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_p_ActionPart.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_p_ActionPart.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ActionSeqModule\statePart\p_StatePart.cpp">
+      <Filter>源文件\【 动作序列 ActionSeqModule】\状态元块</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_p_StatePart.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_p_StatePart.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="drillgifactionsequenceeditor.qrc">
@@ -85,6 +124,24 @@
     <CustomBuild Include="Source\Utils\manager\s_CallManager.h">
       <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）</Filter>
     </CustomBuild>
+    <CustomBuild Include="Source\ActionSeqModule\actionSeqPart\p_ActionSeqPart.h">
+      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ActionSeqModule\actionSeqPart\p_ActionSeqPart.ui">
+      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ActionSeqModule\actionPart\p_ActionPart.h">
+      <Filter>源文件\【 动作序列 ActionSeqModule】\动作元块</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ActionSeqModule\actionPart\p_ActionPart.ui">
+      <Filter>源文件\【 动作序列 ActionSeqModule】\动作元块</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ActionSeqModule\statePart\p_StatePart.h">
+      <Filter>源文件\【 动作序列 ActionSeqModule】\状态元块</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ActionSeqModule\statePart\p_StatePart.ui">
+      <Filter>源文件\【 动作序列 ActionSeqModule】\状态元块</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DrillGIFActionSequenceEditor.rc" />
@@ -94,6 +151,15 @@
       <Filter>源文件</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_drillgifactionsequenceeditor.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_p_ActionSeqPart.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_p_ActionPart.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_p_StatePart.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
