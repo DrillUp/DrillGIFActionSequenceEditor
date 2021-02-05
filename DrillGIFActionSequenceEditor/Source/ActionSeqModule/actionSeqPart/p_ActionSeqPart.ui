@@ -93,7 +93,7 @@
         <number>1</number>
        </property>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_action"/>
+        <layout class="QVBoxLayout" name="verticalLayout_state"/>
        </item>
       </layout>
      </widget>
@@ -115,7 +115,7 @@
         <number>1</number>
        </property>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_state"/>
+        <layout class="QVBoxLayout" name="verticalLayout_action"/>
        </item>
       </layout>
      </widget>
