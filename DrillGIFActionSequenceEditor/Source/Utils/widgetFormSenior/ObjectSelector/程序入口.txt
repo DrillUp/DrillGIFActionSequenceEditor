@@ -1,0 +1,34 @@
+	【注意，对象选择器的全部以 code_piece_qt笔记 为准，所有修改在笔记中强化】
+			
+	程序入口（独立窗口）：
+		W_ObjectSelector.cpp
+		W_ObjectSelector.h
+
+		直接调用窗口即可，通过该类的接口进行相关数据交互，可见cpp中的使用方法。
+	
+
+	交互对象：
+		1.	资源数据（QList<QJsonObject>*）
+			只读。获取 id、name、type 。
+			选择器将处理数据列表并进行分类显示。
+
+		2.	选择器设置（QJsonObject）
+			配置ui等选项，是C_ObjectSelectorConfig类的QJsonObject对象。
+			由于该类是私有类，所以使用QJsonObject交互（用于存储配置），外部不需要对该配置类进行修改。
+
+	私有类：
+		c_ObjectSelectorConfig.cpp
+		c_ObjectSelectorConfig.h
+		w_ObjectSelectorConfig.cpp
+		w_ObjectSelectorConfig.h
+		w_ObjectSelectorConfig.ui
+
+		c_ObjectSortData.cpp
+		c_ObjectSortData.h
+		p_ObjectSortController.cpp
+		p_ObjectSortController.h
+		（选择器中调用了 排序控制器 的功能。）
+
+	编写所用时间：
+		4天起草与完善，后面一星期断断续续维护，分离出了排序控制器。
+		编写灵活分类树时，对其进行了较大的结构优化，1星期时间断断续续优化。

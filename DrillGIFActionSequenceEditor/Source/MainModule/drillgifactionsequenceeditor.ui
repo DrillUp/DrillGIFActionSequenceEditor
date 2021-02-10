@@ -1,38 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>DrillGIFActionSequenceEditorClass</class>
- <widget class="QMainWindow" name="DrillGIFActionSequenceEditorClass">
+ <widget class="QDialog" name="DrillGIFActionSequenceEditorClass">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>830</width>
-    <height>547</height>
+    <width>800</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>DrillGIFActionSequenceEditor</string>
+   <string>Dialog</string>
   </property>
-  <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,4">
-    <item>
-     <widget class="QTreeWidget" name="treeWidget">
-      <column>
-       <property name="text">
-        <string>动作序列</string>
-       </property>
-      </column>
-     </widget>
-    </item>
-    <item>
-     <widget class="QWidget" name="widget_actionSeq" native="true"/>
-    </item>
-   </layout>
-  </widget>
+  <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,4">
+   <item>
+    <widget class="QTreeWidget" name="treeWidget">
+     <column>
+      <property name="text">
+       <string>动作序列</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="widget_actionSeq" native="true"/>
+   </item>
+  </layout>
  </widget>
- <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="../../drillgifactionsequenceeditor.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

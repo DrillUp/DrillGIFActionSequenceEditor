@@ -1,7 +1,7 @@
 #ifndef DRILLGIFACTIONSEQUENCEEDITOR_H
 #define DRILLGIFACTIONSEQUENCEEDITOR_H
 
-#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QDialog>
 #include "ui_drillgifactionsequenceeditor.h"
 
 /*
@@ -13,7 +13,7 @@
 					£¨ÏêÏ¸¼ûcpp£©
 -----==========================================================-----
 */
-class DrillGIFActionSequenceEditor : public QMainWindow
+class DrillGIFActionSequenceEditor : public QDialog
 {
 	Q_OBJECT
 
