@@ -105,6 +105,15 @@
     <Filter Include="源文件\【 工具箱 Utils】\通用工具（common）">
       <UniqueIdentifier>{b1b392c0-0a3a-4d3a-b9dc-f8e81bab288c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\【 交互模块 RmmvInteractiveModule】">
+      <UniqueIdentifier>{2611183d-eedb-48d4-96e5-197f2cb8caa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 交互模块 RmmvInteractiveModule】\基本交互">
+      <UniqueIdentifier>{c7593aec-c579-40a9-ab68-acb338a788fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 交互模块 RmmvInteractiveModule】\操作面板">
+      <UniqueIdentifier>{0765d8a1-c8d5-40dd-afaf-d2329f7086ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -302,6 +311,39 @@
     <ClCompile Include="Source\Utils\common\TTool.cpp">
       <Filter>源文件\【 工具箱 Utils】\通用工具（common）</Filter>
     </ClCompile>
+    <ClCompile Include="Source\PluginModule\storageData\c_PluginData.cpp">
+      <Filter>源文件\【 插件模块 PluginModule】\存储数据读取器</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PluginModule\storageData\s_PluginDataContainer.cpp">
+      <Filter>源文件\【 插件模块 PluginModule】\存储数据读取器</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_s_PluginDataContainer.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_s_PluginDataContainer.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RmmvInteractiveModule\base\p_RmmvCaller.cpp">
+      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\基本交互</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_p_RmmvCaller.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_p_RmmvCaller.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RmmvInteractiveModule\base\c_RmmvProjectData.cpp">
+      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\基本交互</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RmmvInteractiveModule\base\s_RmmvCaller_ActionSeq.cpp">
+      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\基本交互</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_s_RmmvCaller_ActionSeq.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_s_RmmvCaller_ActionSeq.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="drillgifactionsequenceeditor.qrc">
@@ -388,6 +430,15 @@
     <CustomBuild Include="Source\Utils\manager\chineseManager\s_ChineseManager.h">
       <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\中文管理器</Filter>
     </CustomBuild>
+    <CustomBuild Include="Source\PluginModule\storageData\s_PluginDataContainer.h">
+      <Filter>源文件\【 插件模块 PluginModule】\存储数据读取器</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\RmmvInteractiveModule\base\p_RmmvCaller.h">
+      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\基本交互</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\RmmvInteractiveModule\base\s_RmmvCaller_ActionSeq.h">
+      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\基本交互</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DrillGIFActionSequenceEditor.rc" />
@@ -459,6 +510,12 @@
     <ClInclude Include="Source\Utils\common\TTool.h">
       <Filter>源文件\【 工具箱 Utils】\通用工具（common）</Filter>
     </ClInclude>
+    <ClInclude Include="Source\PluginModule\storageData\c_PluginData.h">
+      <Filter>源文件\【 插件模块 PluginModule】\存储数据读取器</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RmmvInteractiveModule\base\c_RmmvProjectData.h">
+      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\基本交互</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Utils\widgetForm\radioTable\程序入口.txt">
@@ -472,6 +529,9 @@
     </Text>
     <Text Include="Source\Utils\widgetFormSenior\ObjectSortController\程序入口.txt">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\排序控制器</Filter>
+    </Text>
+    <Text Include="Source\RmmvInteractiveModule\base\程序入口.txt">
+      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\基本交互</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

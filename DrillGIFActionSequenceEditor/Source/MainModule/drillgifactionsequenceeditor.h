@@ -20,6 +20,9 @@ class DrillGIFActionSequenceEditor : public QDialog
 	public:
 		DrillGIFActionSequenceEditor(QWidget *parent = 0);
 		~DrillGIFActionSequenceEditor();
+		static DrillGIFActionSequenceEditor* cur_instance;		//单例
+		static DrillGIFActionSequenceEditor* getInstance();		//单例，获取自己
+		void _init();											//初始化
 
 	private:
 		Ui::DrillGIFActionSequenceEditorClass ui;
