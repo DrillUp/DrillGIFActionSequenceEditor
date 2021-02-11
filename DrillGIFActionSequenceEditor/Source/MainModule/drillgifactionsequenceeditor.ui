@@ -6,28 +6,209 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>900</width>
     <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Drill动作序列编辑器(DrillGIFActionSequenceEditor)</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,4">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item>
-    <widget class="QTreeWidget" name="treeWidget">
-     <column>
-      <property name="text">
-       <string>动作序列</string>
+    <widget class="QWidget" name="nav" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>52</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>52</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#nav{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #fff, stop:0.4 #fff,stop:1 #eaecef );
+}
+
+/* 选项卡中的 按钮 样式 */
+#nav QToolButton{
+	padding:1px;
+	padding-bottom:4px;
+	border: 1px solid transparent;
+	background: rgba(255,255,255,0);
+}
+#nav QToolButton:hover{
+	border-radius:1px;
+	border:1px solid #f2ca58;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #fdecad, stop:0.3 #fde48c, stop:0.9 #fce58c, stop:1 #fdfadf )
+}
+
+#nav QPushButton{
+	border: 1px solid transparent;
+	background: rgba(255,255,255,0);
+}
+#nav QPushButton:hover{
+	border-radius:1px;
+	border:1px solid #f2ca58;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #fdecad, stop:0.3 #fde48c, stop:0.9 #fce58c, stop:1 #fdfadf );
+}</string>
+     </property>
+     <widget class="QToolButton" name="toolButton_new">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>41</width>
+        <height>41</height>
+       </rect>
       </property>
-     </column>
+      <property name="text">
+       <string>...</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../../drillgifactionsequenceeditor.qrc">
+        <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/nav/New.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/nav/New.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>32</width>
+        <height>32</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="toolButton_open">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>10</y>
+        <width>41</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>...</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../../drillgifactionsequenceeditor.qrc">
+        <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/nav/Open.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/nav/Open.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>32</width>
+        <height>32</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="toolButton_save">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>10</y>
+        <width>41</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>...</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../../drillgifactionsequenceeditor.qrc">
+        <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/nav/Save.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/nav/Save.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>32</width>
+        <height>32</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="toolButton_rmmv">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>10</y>
+        <width>41</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>...</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../../drillgifactionsequenceeditor.qrc">
+        <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/nav/Interactive_rmmv.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/nav/Interactive_rmmv.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>32</width>
+        <height>32</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="Line" name="line">
+      <property name="geometry">
+       <rect>
+        <x>143</x>
+        <y>10</y>
+        <width>31</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
     </widget>
    </item>
    <item>
-    <widget class="QWidget" name="widget_actionSeq" native="true"/>
+    <widget class="QWidget" name="widget" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,4">
+      <property name="topMargin">
+       <number>2</number>
+      </property>
+      <item>
+       <widget class="QTreeWidget" name="treeWidget">
+        <column>
+         <property name="text">
+          <string>动作序列</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="widget_actionSeq" native="true"/>
+      </item>
+     </layout>
+    </widget>
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../drillgifactionsequenceeditor.qrc"/>
+ </resources>
  <connections/>
 </ui>

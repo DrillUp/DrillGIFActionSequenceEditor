@@ -1,7 +1,17 @@
 <RCC>
-    <qresource prefix="/DrillGIFActionSequenceEditor">
-        <file>Resources/icons/global/drill_logo_64x64.png</file>
-        <file>Resources/icons/global/HoverCursor_1.png</file>
-        <file>Resources/icons/global/HoverCursor_2.png</file>
-    </qresource>
+  <qresource prefix="/DrillGIFActionSequenceEditor">
+    <file>Resources/icons/nav/Interactive.png</file>
+    <file>Resources/icons/nav/Interactive_rmmv.png</file>
+    <file>Resources/icons/global/drill_logo_64x64.png</file>
+    <file>Resources/icons/global/HoverCursor_1.png</file>
+    <file>Resources/icons/global/HoverCursor_2.png</file>
+    <file>Resources/icons/nav/Import_rmmv.png</file>
+    <file>Resources/icons/nav/New.png</file>
+    <file>Resources/icons/nav/Open.png</file>
+    <file>Resources/icons/nav/Open_rmmv.png</file>
+    <file>Resources/icons/nav/Run.png</file>
+    <file>Resources/icons/nav/Run_rmmv.png</file>
+    <file>Resources/icons/nav/Save.png</file>
+    <file>Resources/icons/nav/Save_rmmv.png</file>
+  </qresource>
 </RCC>

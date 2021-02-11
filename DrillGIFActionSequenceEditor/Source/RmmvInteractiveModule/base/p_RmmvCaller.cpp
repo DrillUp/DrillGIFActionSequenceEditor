@@ -21,6 +21,9 @@
 					-> 保存rmmv
 					-> 运行rmmv
 					
+		问题：		> 必须关了rmmv编辑器，再保存才是最保险且有效的方法。
+					> 虽然可以做到让rmmv保存，但是保存后再修改，这时候rmmv中的编辑器数据是不同步的。
+
 		使用方法：
 				>继承该类
 					
@@ -75,7 +78,7 @@ C_RmmvProjectData P_RmmvCaller::callRmmvOpen(){
 		// > 解析出名称
 		int i_a = index_context.indexOf("<title>") + 7;
 		int i_b = index_context.indexOf("</title>", i_a);
-		data.name = index_context.mid(i_a,i_b-1);
+		data.name = index_context.mid(i_a, i_b - i_a);
 
 		return data;
 	}
@@ -86,7 +89,7 @@ C_RmmvProjectData P_RmmvCaller::callRmmvOpen(){
 }
 
 /*-------------------------------------------------
-		rmmv - 保存rmmv
+		rmmv - 保存rmmv（让rmmv先保存，然后自己存）
 */
 void P_RmmvCaller::callRmmvSave(C_RmmvProjectData rmmvProjectData){
 	QString rmmv_window_name = rmmvProjectData.name + " - RPG Maker MV";
@@ -94,7 +97,7 @@ void P_RmmvCaller::callRmmvSave(C_RmmvProjectData rmmvProjectData){
 	// > rmmv数量检查
 	int num = S_CallManager::getInstance()->getWindowNum(rmmv_window_name);
 	if (num > 1){
-		QMessageBox::warning( nullptr, "错误", "你同时开了" + TTool::_auto_(num) + "个一模一样的rmmv工程窗口，请确保只有一个rmmv工程窗口。", QMessageBox::Yes);
+		QMessageBox::warning(DrillGIFActionSequenceEditor::getInstance(), "错误", "你同时开了" + TTool::_auto_(num) + "个一模一样的rmmv工程窗口，请确保只有一个rmmv工程窗口。", QMessageBox::Yes);
 		return;
 	}else if (num == 0){
 		this->saveDataToRmmv(rmmvProjectData);
@@ -114,6 +117,21 @@ void P_RmmvCaller::callRmmvSave(C_RmmvProjectData rmmvProjectData){
 		QMessageBox::warning(DrillGIFActionSequenceEditor::getInstance(), "错误", "保存失败，请先关闭你在rmmv中正在编辑的窗口。", QMessageBox::Yes);
 		return;
 	}
+}
+/*-------------------------------------------------
+		rmmv - 保存rmmv（要求用户关闭rmmv，才能保存）
+*/
+void P_RmmvCaller::callRmmvSave_RequestingClose(C_RmmvProjectData rmmvProjectData){
+	QString rmmv_window_name = rmmvProjectData.name + " - RPG Maker MV";
+
+	// > rmmv数量检查
+	int num = S_CallManager::getInstance()->getWindowNum(rmmv_window_name);
+	if (num >= 1){
+		QMessageBox::information(nullptr, "提示", "需要关闭工程" + rmmvProjectData.name + "的编辑器，才能保存。", QMessageBox::Yes);
+		return;
+	}
+
+	this->saveDataToRmmv(rmmvProjectData);
 }
 
 /*-------------------------------------------------
@@ -137,7 +155,7 @@ void P_RmmvCaller::callRmmvRun(C_RmmvProjectData rmmvProjectData){
 
 	//>工程运行
 	HWND hwnd = S_CallManager::getInstance()->getWindow(rmmv_window_name);
-	int success = S_CallManager::getInstance()->callSave(hwnd);
+	int success = S_CallManager::getInstance()->callRun(hwnd);
 
 	//>返回界面
 	S_CallManager::getInstance()->activeLocalWindow(DrillGIFActionSequenceEditor::getInstance());

@@ -23,7 +23,15 @@ class DrillGIFActionSequenceEditor : public QDialog
 		static DrillGIFActionSequenceEditor* cur_instance;		//单例
 		static DrillGIFActionSequenceEditor* getInstance();		//单例，获取自己
 		void _init();											//初始化
+		
+	//-----------------------------------
+	//----控件
+	public:
+								//控件 - 打开rmmv交互窗口
+		void openWindowRmmvInteractive();
 
+	//-----------------------------------
+	//----窗口
 	private:
 		Ui::DrillGIFActionSequenceEditorClass ui;
 };

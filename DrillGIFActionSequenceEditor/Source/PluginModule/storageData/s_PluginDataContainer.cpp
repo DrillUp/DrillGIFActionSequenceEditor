@@ -65,6 +65,8 @@ void S_PluginDataContainer::resetPluginDataFromText(QString data_context){
 		c_p->description = obj_plugin.value("description").toString();
 		c_p->parameters = obj_plugin.value("parameters").toObject();
 		data_list.push_back(c_p);
+
+		qDebug() << c_p->parameters;
 	}
 
 	this->resetPluginData(data_list);
