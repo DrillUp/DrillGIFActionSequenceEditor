@@ -6,6 +6,7 @@
 /*
 -----==========================================================-----
 		类：		操作面板（窗口）.cpp
+		版本：		v1.01
 		所属模块：	交互模块
 		功能：		操作面板的窗口。
 					
@@ -42,3 +43,15 @@ W_RmmvOperateBoard::W_RmmvOperateBoard(QWidget *parent)
 W_RmmvOperateBoard::~W_RmmvOperateBoard(){
 }
 
+/*-------------------------------------------------
+		窗口 - 设置数据
+*/
+void W_RmmvOperateBoard::setData(C_RmmvProjectData actionData) {
+	this->m_P_RmmvOperateBoard->setData(actionData);
+}
+/*-------------------------------------------------
+		窗口 - 取出数据
+*/
+C_RmmvProjectData W_RmmvOperateBoard::getData(){
+	return this->m_P_RmmvOperateBoard->getData();
+}

@@ -23,13 +23,13 @@ class P_RmmvCaller : public QObject
 	//----rmmv
 	public:
 									//rmmv - 打开rmmv（注意可能返回空）
-		C_RmmvProjectData callRmmvOpen();
+		virtual C_RmmvProjectData callRmmvOpen();
 									//rmmv - 保存rmmv（让rmmv先保存，然后自己存）
-		void callRmmvSave(C_RmmvProjectData rmmvProjectData);
+		virtual void callRmmvSave(C_RmmvProjectData rmmvProjectData);
 									//rmmv - 保存rmmv（要求用户关闭rmmv，才能保存）
-		void callRmmvSave_RequestingClose(C_RmmvProjectData rmmvProjectData);
+		virtual void callRmmvSave_RequestingClose(C_RmmvProjectData rmmvProjectData);
 									//rmmv - 运行rmmv
-		void callRmmvRun(C_RmmvProjectData rmmvProjectData);
+		virtual void callRmmvRun(C_RmmvProjectData rmmvProjectData);
 
 	protected:
 									//rmmv - 保存操作（覆盖到rmmv）

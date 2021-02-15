@@ -1,13 +1,13 @@
 #include "stdafx.h"
-#include "S_ScriptFrameReader.h"
+#include "s_ScriptAnnotationReader.h"
 
 #include "Source/Utils/manager/txtRead/p_TxtFastReader.h"
 
 /*
 -----==========================================================-----
-		类：		脚本参数解析器.cpp
+		类：		脚本注解解析器.cpp
 		所属模块：	插件模块
-		功能：		读取js文件内的所有数据框架内容。
+		功能：		读取js文件内的所有数据 @的注解 内容。
 
 		使用方法：
 				>初始化：
@@ -15,18 +15,18 @@
 -----==========================================================-----
 */
 
-S_ScriptFrameReader::S_ScriptFrameReader(){
+S_ScriptAnnotationReader::S_ScriptAnnotationReader(){
 }
-S_ScriptFrameReader::~S_ScriptFrameReader() {
+S_ScriptAnnotationReader::~S_ScriptAnnotationReader() {
 }
 
 /* --------------------------------------------------------------
 ----------PluginFrameManager 单例
 */
-S_ScriptFrameReader* S_ScriptFrameReader::cur_manager = NULL;
-S_ScriptFrameReader* S_ScriptFrameReader::getInstance() {
+S_ScriptAnnotationReader* S_ScriptAnnotationReader::cur_manager = NULL;
+S_ScriptAnnotationReader* S_ScriptAnnotationReader::getInstance() {
 	if (cur_manager == NULL) {
-		cur_manager = new S_ScriptFrameReader();
+		cur_manager = new S_ScriptAnnotationReader();
 	}
 	return cur_manager;
 }
@@ -35,8 +35,8 @@ S_ScriptFrameReader* S_ScriptFrameReader::getInstance() {
 /*-------------------------------------------------
 		读取 - 插件参数（简要）
 */
-C_ScriptFrame S_ScriptFrameReader::readPlugin_simple(QString plugin_context) {
-	C_ScriptFrame c_ScriptFrame = C_ScriptFrame();
+C_ScriptAnnotation S_ScriptAnnotationReader::readPlugin_simple(QString plugin_context) {
+	C_ScriptAnnotation c_ScriptFrame = C_ScriptAnnotation();
 	c_ScriptFrame.isComplete = false;
 
 	// > 读取基本信息
@@ -76,8 +76,8 @@ C_ScriptFrame S_ScriptFrameReader::readPlugin_simple(QString plugin_context) {
 /*-------------------------------------------------
 		读取 - 插件参数（完整）
 */
-C_ScriptFrame S_ScriptFrameReader::readPlugin_complete(QString plugin_context) {
-	C_ScriptFrame c_ScriptFrame = C_ScriptFrame();
+C_ScriptAnnotation S_ScriptAnnotationReader::readPlugin_complete(QString plugin_context) {
+	C_ScriptAnnotation c_ScriptFrame = C_ScriptAnnotation();
 	c_ScriptFrame.isComplete = true;
 
 	// > 读取基本信息

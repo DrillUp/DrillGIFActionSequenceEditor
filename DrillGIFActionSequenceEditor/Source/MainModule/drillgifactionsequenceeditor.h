@@ -13,6 +13,8 @@
 					（详细见cpp）
 -----==========================================================-----
 */
+class P_ActionSeqPart;
+class W_RmmvOperateBoard;
 class DrillGIFActionSequenceEditor : public QDialog
 {
 	Q_OBJECT
@@ -25,11 +27,24 @@ class DrillGIFActionSequenceEditor : public QDialog
 		void _init();											//初始化
 		
 	//-----------------------------------
-	//----控件
+	//----控件（rmmv交互数据）
+	public:
+		W_RmmvOperateBoard* m_w_RmmvOperateBoard;
 	public:
 								//控件 - 打开rmmv交互窗口
 		void openWindowRmmvInteractive();
+	public slots:
+								//控件 - rmmv交互数据已读取
+		void rmmvInteractiveDataLoaded();
 
+	//-----------------------------------
+	//----控件（动作序列交互数据）
+	public:
+		P_ActionSeqPart* m_p_ActionSeqPart;
+	public slots:
+								//控件 - 动作序列已读取
+		void actionDataLoaded();
+		
 	//-----------------------------------
 	//----窗口
 	private:

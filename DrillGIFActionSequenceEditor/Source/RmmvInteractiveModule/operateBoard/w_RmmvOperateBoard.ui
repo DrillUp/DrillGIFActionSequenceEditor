@@ -6,16 +6,29 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>634</width>
-    <height>388</height>
+    <width>650</width>
+    <height>420</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>rmmv交互</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0">
    <item>
     <widget class="QWidget" name="widget" native="true"/>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
@@ -23,7 +36,7 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::Close</set>
      </property>
      <property name="centerButtons">
       <bool>false</bool>

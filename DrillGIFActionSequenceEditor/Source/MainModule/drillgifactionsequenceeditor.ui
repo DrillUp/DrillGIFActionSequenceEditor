@@ -185,7 +185,10 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" name="widget" native="true">
+    <widget class="QWidget" name="main_widget" native="true">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,4">
       <property name="topMargin">
        <number>2</number>

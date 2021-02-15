@@ -2,15 +2,17 @@
 #include "s_RmmvCaller_ActionSeq.h"
 
 #include "Source/PluginModule/storageData/s_PluginDataContainer.h"
+#include "s_RmmvDataContainer.h"
 
 /*
 -----==========================================================-----
-		类：		rmmv数据文件管理器.cpp
-		所属模块：	rmmv读取模块
-		功能：		管理插件数据类的模块。
+		类：		rmmv交互者（动作序列 专用）.cpp
+		所属模块：	交互模块
+		功能：		与rmmv交互的模块，只考虑 动作序列 相关文件。
 
-		目标：		-> 打开rmmv工程文件
-					-> 
+		子功能：	->文件
+						-> 读取插件文件
+						-> 读取系统文件
 					
 		使用方法：
 				>打开：
@@ -87,6 +89,16 @@ void S_RmmvCaller_ActionSeq::readSystemData(QString context) {
 }
 
 
+
+
+/*-------------------------------------------------
+		工程 - 打开rmmv（继承）
+*/
+C_RmmvProjectData S_RmmvCaller_ActionSeq::callRmmvOpen(){
+	C_RmmvProjectData result = P_RmmvCaller::callRmmvOpen();
+	S_RmmvDataContainer::getInstance()->modify(result);		//打开后，立即记录位置
+	return result;
+}
 /*-------------------------------------------------
 		工程 - 保存操作（覆盖到rmmv）
 */

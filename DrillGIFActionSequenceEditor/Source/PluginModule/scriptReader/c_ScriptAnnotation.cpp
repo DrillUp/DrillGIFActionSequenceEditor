@@ -1,18 +1,18 @@
 #include "stdafx.h"
-#include "C_ScriptFrame.h"
+#include "c_ScriptAnnotation.h"
 
 
 /*
 -----==========================================================-----
-		类：		插件框架 实体类.cpp
+		类：		插件注解 实体类.cpp
 		所属模块：	插件模块
-		功能：		插件框架 的数据。
+		功能：		插件注解的数据。
 
 		必要事项：	> 框架数据为从js脚本中读取到的数据。
 					  由于js脚本随时可变，所以不建议存储。
 -----==========================================================-----
 */
-C_ScriptFrame::C_ScriptFrame(){
+C_ScriptAnnotation::C_ScriptAnnotation(){
 	this->name = "";								  	//插件名
 	this->plugindesc = "";							 	//插件描述（@plugindesc）
 	this->author = "";									//作者（@author）
@@ -21,24 +21,24 @@ C_ScriptFrame::C_ScriptFrame(){
 
 	this->isComplete = false;							//完整解析内容（参数解析器 标记）
 }
-C_ScriptFrame::~C_ScriptFrame(){
+C_ScriptAnnotation::~C_ScriptAnnotation(){
 }
 /*-------------------------------------------------
 		是否为完整解析的内容
 */
-bool C_ScriptFrame::isCompleted(){
+bool C_ScriptAnnotation::isCompleted(){
 	return this->isComplete;
 }
 /*-------------------------------------------------
 		运算符重载
 */
-const bool C_ScriptFrame::operator== (const C_ScriptFrame& a)const {
+const bool C_ScriptAnnotation::operator== (const C_ScriptAnnotation& a)const {
 	return this->name == a.name;
 }
 /*-------------------------------------------------
 		实体类 -> QJsonObject
 */
-QJsonObject C_ScriptFrame::getJsonObject(){
+QJsonObject C_ScriptAnnotation::getJsonObject(){
 	QJsonObject obj = QJsonObject();
 	obj.insert("name", this->name);
 	obj.insert("plugindesc", this->plugindesc);
@@ -57,7 +57,7 @@ QJsonObject C_ScriptFrame::getJsonObject(){
 /*-------------------------------------------------
 		QJsonObject -> 实体类
 */
-void C_ScriptFrame::setJsonObject(QJsonObject obj){
+void C_ScriptAnnotation::setJsonObject(QJsonObject obj){
 
 	if (obj.value("name").isUndefined() == false){ this->name = obj.value("name").toString(); }
 	if (obj.value("plugindesc").isUndefined() == false){ this->plugindesc = obj.value("plugindesc").toString(); }

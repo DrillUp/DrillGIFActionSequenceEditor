@@ -87,9 +87,6 @@
     <Filter Include="源文件\【 插件模块 PluginModule】\存储数据读取器">
       <UniqueIdentifier>{a39775db-bab5-481e-bc55-dc41981ce72c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 插件模块 PluginModule】\脚本参数解析器">
-      <UniqueIdentifier>{0aa113a6-ba17-4464-bf00-d737bd54718d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\【 工具箱 Utils】\管理器工具（manager）\文本解析器">
       <UniqueIdentifier>{25e51dd7-a47f-4f22-a0c3-4d90f4cbfc69}</UniqueIdentifier>
     </Filter>
@@ -113,6 +110,39 @@
     </Filter>
     <Filter Include="源文件\【 交互模块 RmmvInteractiveModule】\操作面板">
       <UniqueIdentifier>{0765d8a1-c8d5-40dd-afaf-d2329f7086ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 工具箱 Utils】\管理器工具（manager）\GIF转换器">
+      <UniqueIdentifier>{fbb5ac67-a910-4409-8d58-11231d4d0315}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 动作序列 ActionSeqModule】\数据读取器">
+      <UniqueIdentifier>{34c87558-44ee-4308-b51b-19156d9ad909}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 交互模块 RmmvInteractiveModule】\专用交互">
+      <UniqueIdentifier>{379783ed-3608-4d90-927d-e374fc13ca76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 插件模块 PluginModule】\最大值编辑器">
+      <UniqueIdentifier>{73814674-7d50-4cf5-811d-1257c7dbce3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 插件模块 PluginModule】\脚本注解解析器">
+      <UniqueIdentifier>{0aa113a6-ba17-4464-bf00-d737bd54718d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 插件模块 PluginModule】\最大值编辑器\修改器">
+      <UniqueIdentifier>{0b11bcbb-0da1-46fa-be1c-0d7ed38fe2d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 插件模块 PluginModule】\最大值编辑器\读取器（暂时用不上）">
+      <UniqueIdentifier>{ec383764-e654-4cd9-886e-139151a23868}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 项目管理模块 ProjectModule】">
+      <UniqueIdentifier>{850e5c2d-13fb-48ce-97ac-a1a21f40d1c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 项目管理模块 ProjectModule】\temp文件夹">
+      <UniqueIdentifier>{77b5d387-e75a-4d81-9751-d8f8900abd80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 项目管理模块 ProjectModule】\存储文件">
+      <UniqueIdentifier>{412c7763-d6d1-4bfc-a05c-0a7adec7522d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 项目管理模块 ProjectModule】\项目数据">
+      <UniqueIdentifier>{1620f03b-d882-4ce6-bca9-463c378addd5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -281,18 +311,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_p_ObjectSortController.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Source\PluginModule\scriptReader\c_ScriptFrame.cpp">
-      <Filter>源文件\【 插件模块 PluginModule】\脚本参数解析器</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\PluginModule\scriptReader\s_ScriptFrameReader.cpp">
-      <Filter>源文件\【 插件模块 PluginModule】\脚本参数解析器</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_s_ScriptFrameReader.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_s_ScriptFrameReader.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Utils\manager\txtRead\p_TxtFastReader.cpp">
       <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\文本解析器</Filter>
     </ClCompile>
@@ -335,15 +353,6 @@
     <ClCompile Include="Source\RmmvInteractiveModule\base\c_RmmvProjectData.cpp">
       <Filter>源文件\【 交互模块 RmmvInteractiveModule】\基本交互</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RmmvInteractiveModule\base\s_RmmvCaller_ActionSeq.cpp">
-      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\基本交互</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_s_RmmvCaller_ActionSeq.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_s_RmmvCaller_ActionSeq.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RmmvInteractiveModule\operateBoard\p_RmmvOperateBoard.cpp">
       <Filter>源文件\【 交互模块 RmmvInteractiveModule】\操作面板</Filter>
     </ClCompile>
@@ -360,6 +369,150 @@
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_w_RmmvOperateBoard.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\manager\GIFManager\s_GIFManager.cpp">
+      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\GIF转换器</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_s_GIFManager.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_s_GIFManager.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ActionSeqModule\actionSeqData\s_ActionSeqDataContainer.cpp">
+      <Filter>源文件\【 动作序列 ActionSeqModule】\数据读取器</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_s_ActionSeqDataContainer.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_s_ActionSeqDataContainer.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RmmvInteractiveModule\custom\s_RmmvCaller_ActionSeq.cpp">
+      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\专用交互</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_s_RmmvCaller_ActionSeq.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_s_RmmvCaller_ActionSeq.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PluginModule\scriptReader\c_ScriptAnnotation.cpp">
+      <Filter>源文件\【 插件模块 PluginModule】\脚本注解解析器</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PluginModule\scriptReader\s_ScriptAnnotationReader.cpp">
+      <Filter>源文件\【 插件模块 PluginModule】\脚本注解解析器</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_s_ScriptAnnotationReader.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_s_ScriptAnnotationReader.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PluginModule\lengthEditor\c_LEAnnotation.cpp">
+      <Filter>源文件\【 插件模块 PluginModule】\最大值编辑器\修改器</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PluginModule\lengthEditor\s_LEAnnotationReader.cpp">
+      <Filter>源文件\【 插件模块 PluginModule】\最大值编辑器\修改器</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_s_LEAnnotationReader.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_s_LEAnnotationReader.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PluginModule\lengthEditor\c_LEConfigData.cpp">
+      <Filter>源文件\【 插件模块 PluginModule】\最大值编辑器\读取器（暂时用不上）</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PluginModule\lengthEditor\s_LEConfigWriter.cpp">
+      <Filter>源文件\【 插件模块 PluginModule】\最大值编辑器\读取器（暂时用不上）</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_s_LEConfigWriter.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_s_LEConfigWriter.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RmmvInteractiveModule\custom\s_RmmvDataContainer.cpp">
+      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\专用交互</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_s_RmmvDataContainer.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_s_RmmvDataContainer.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ProjectModule\s_ProjectManager.cpp">
+      <Filter>源文件\【 项目管理模块 ProjectModule】</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_s_ProjectManager.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_s_ProjectManager.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ProjectModule\s_ProjectWindowManager.cpp">
+      <Filter>源文件\【 项目管理模块 ProjectModule】</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_s_ProjectWindowManager.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_s_ProjectWindowManager.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_s_StorageManager.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_s_StorageManager.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ProjectModule\storage\s_StorageManager.cpp">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ProjectModule\storage\s_StorageManagerTemplate.cpp">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ProjectModule\data\c_ProjectData.cpp">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ProjectModule\data\p_ProjectCreate.cpp">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_p_ProjectCreate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_p_ProjectCreate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ProjectModule\data\w_ProjectCreate.cpp">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_w_ProjectCreate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_w_ProjectCreate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ProjectModule\data\w_ProjectNote.cpp">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_w_ProjectNote.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_w_ProjectNote.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ProjectModule\file\c_UniqueTempFile.cpp">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\temp文件夹</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ProjectModule\file\s_TempFileManager.cpp">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\temp文件夹</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_s_TempFileManager.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_s_TempFileManager.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
   </ItemGroup>
@@ -442,9 +595,6 @@
     <CustomBuild Include="Source\Utils\widgetFormSenior\ObjectSortController\p_ObjectSortController.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\排序控制器</Filter>
     </CustomBuild>
-    <CustomBuild Include="Source\PluginModule\scriptReader\s_ScriptFrameReader.h">
-      <Filter>源文件\【 插件模块 PluginModule】\脚本参数解析器</Filter>
-    </CustomBuild>
     <CustomBuild Include="Source\Utils\manager\chineseManager\s_ChineseManager.h">
       <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\中文管理器</Filter>
     </CustomBuild>
@@ -452,9 +602,6 @@
       <Filter>源文件\【 插件模块 PluginModule】\存储数据读取器</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\RmmvInteractiveModule\base\p_RmmvCaller.h">
-      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\基本交互</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\RmmvInteractiveModule\base\s_RmmvCaller_ActionSeq.h">
       <Filter>源文件\【 交互模块 RmmvInteractiveModule】\基本交互</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\RmmvInteractiveModule\operateBoard\p_RmmvOperateBoard.h">
@@ -468,6 +615,57 @@
     </CustomBuild>
     <CustomBuild Include="Source\RmmvInteractiveModule\operateBoard\w_RmmvOperateBoard.ui">
       <Filter>源文件\【 交互模块 RmmvInteractiveModule】\操作面板</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\manager\GIFManager\s_GIFManager.h">
+      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\GIF转换器</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ActionSeqModule\actionSeqData\s_ActionSeqDataContainer.h">
+      <Filter>源文件\【 动作序列 ActionSeqModule】\数据读取器</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\RmmvInteractiveModule\custom\s_RmmvCaller_ActionSeq.h">
+      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\专用交互</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\PluginModule\scriptReader\s_ScriptAnnotationReader.h">
+      <Filter>源文件\【 插件模块 PluginModule】\脚本注解解析器</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\PluginModule\lengthEditor\s_LEAnnotationReader.h">
+      <Filter>源文件\【 插件模块 PluginModule】\最大值编辑器\修改器</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\PluginModule\lengthEditor\s_LEConfigWriter.h">
+      <Filter>源文件\【 插件模块 PluginModule】\最大值编辑器\读取器（暂时用不上）</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\RmmvInteractiveModule\custom\s_RmmvDataContainer.h">
+      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\专用交互</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ProjectModule\s_ProjectManager.h">
+      <Filter>源文件\【 项目管理模块 ProjectModule】</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ProjectModule\s_ProjectWindowManager.h">
+      <Filter>源文件\【 项目管理模块 ProjectModule】</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ProjectModule\storage\s_StorageManager.h">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ProjectModule\data\p_ProjectCreate.h">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ProjectModule\data\p_ProjectCreate.ui">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ProjectModule\data\w_ProjectCreate.h">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ProjectModule\data\w_ProjectCreate.ui">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ProjectModule\data\w_ProjectNote.h">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ProjectModule\data\w_ProjectNote.ui">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ProjectModule\file\s_TempFileManager.h">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\temp文件夹</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -528,9 +726,6 @@
     <ClInclude Include="Source\Utils\widgetFormSenior\ObjectSortController\c_ObjectSortData.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\排序控制器</Filter>
     </ClInclude>
-    <ClInclude Include="Source\PluginModule\scriptReader\c_ScriptFrame.h">
-      <Filter>源文件\【 插件模块 PluginModule】\脚本参数解析器</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Utils\manager\txtRead\p_TxtFastReader.h">
       <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\文本解析器</Filter>
     </ClInclude>
@@ -551,6 +746,36 @@
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_w_RmmvOperateBoard.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\manager\GIFManager\gif.h">
+      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\GIF转换器</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PluginModule\scriptReader\c_ScriptAnnotation.h">
+      <Filter>源文件\【 插件模块 PluginModule】\脚本注解解析器</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PluginModule\lengthEditor\c_LEAnnotation.h">
+      <Filter>源文件\【 插件模块 PluginModule】\最大值编辑器\修改器</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PluginModule\lengthEditor\c_LEConfigData.h">
+      <Filter>源文件\【 插件模块 PluginModule】\最大值编辑器\读取器（暂时用不上）</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ProjectModule\storage\s_StorageManagerTemplate.h">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ProjectModule\data\c_ProjectData.h">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_p_ProjectCreate.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_w_ProjectCreate.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_w_ProjectNote.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ProjectModule\file\c_UniqueTempFile.h">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\temp文件夹</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -575,7 +800,13 @@
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树</Filter>
     </None>
     <None Include="Source\PluginModule\scriptReader\注释参数集合.docx">
-      <Filter>源文件\【 插件模块 PluginModule】\脚本参数解析器</Filter>
+      <Filter>源文件\【 插件模块 PluginModule】\脚本注解解析器</Filter>
+    </None>
+    <None Include="Source\ProjectModule\项目管理模块结构.vsdx">
+      <Filter>源文件\【 项目管理模块 ProjectModule】</Filter>
+    </None>
+    <None Include="Source\ProjectModule\file\UniqueTempFile运行原理.vsdx">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\temp文件夹</Filter>
     </None>
   </ItemGroup>
 </Project>

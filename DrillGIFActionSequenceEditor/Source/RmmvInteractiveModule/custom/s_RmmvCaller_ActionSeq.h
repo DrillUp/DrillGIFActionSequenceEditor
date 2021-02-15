@@ -1,11 +1,11 @@
 #pragma once
-#include "p_RmmvCaller.h"
+#include "../base/p_RmmvCaller.h"
 
 /*
 -----==========================================================-----
-		类：		rmmv数据文件管理器.h
-		所属模块：	rmmv读取模块
-		功能：		管理插件数据类的模块。
+		类：		rmmv交互者（动作序列 专用）.h
+		所属模块：	交互模块
+		功能：		与rmmv交互的模块，只考虑 动作序列 相关文件。
 					（详细见.cpp）
 -----==========================================================-----
 */
@@ -31,6 +31,9 @@ class S_RmmvCaller_ActionSeq : public P_RmmvCaller
 		void readPluginData(QString context);
 										//工程 - 读取文件 - System.json
 		void readSystemData(QString context);
+		
+										//工程 - 打开rmmv（继承）
+		virtual C_RmmvProjectData callRmmvOpen();
 
 	protected:
 										//工程 - 保存操作（覆盖到rmmv）

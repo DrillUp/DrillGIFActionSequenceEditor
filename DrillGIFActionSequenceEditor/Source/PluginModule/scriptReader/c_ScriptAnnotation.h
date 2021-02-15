@@ -5,18 +5,18 @@
 
 /*
 -----==========================================================-----
-		类：		插件框架 实体类.h
+		类：		插件注解 实体类.h
 		所属模块：	插件模块
-		功能：		插件框架 的数据。
+		功能：		插件注解的数据。
 					（详细见.cpp）
 -----==========================================================-----
 */
 class C_ScriptFrame_Param;
-class C_ScriptFrame{
+class C_ScriptAnnotation{
 
 	public:
-		C_ScriptFrame();
-		~C_ScriptFrame();
+		C_ScriptAnnotation();
+		~C_ScriptAnnotation();
 		
 	public:
 		QString name;								//插件名
@@ -33,7 +33,7 @@ class C_ScriptFrame{
 										//是否为完整解析的内容
 		bool isCompleted();
 										//运算符重载
-		const bool operator== (const C_ScriptFrame& a)const;
+		const bool operator== (const C_ScriptAnnotation& a)const;
 										//实体类 -> QJsonObject
 		QJsonObject getJsonObject();
 										//QJsonObject -> 实体类

@@ -30,7 +30,10 @@ class P_ActionSeqPart : public QWidget
 		P_ActionPart* m_actionPart;
 		P_StatePart* m_statePart;
 	public:
-		
+										//控件 - 开始播放
+		void startPlay();
+										//控件 - 结束播放
+		void endPlay();
 
 	//-----------------------------------
 	//----窗口

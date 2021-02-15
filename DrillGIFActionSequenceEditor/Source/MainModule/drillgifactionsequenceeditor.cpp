@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "drillgifactionsequenceeditor.h"
 
-#include "Source/ActionSeqModule/actionSeqPart/p_ActionSeqPart.h"
 #include "Source/RmmvInteractiveModule/operateBoard/w_RmmvOperateBoard.h"
+#include "Source/RmmvInteractiveModule/custom/s_RmmvDataContainer.h"
+#include "Source/ActionSeqModule/actionSeqPart/p_ActionSeqPart.h"
+#include "Source/ActionSeqModule/actionSeqData/s_ActionSeqDataContainer.h"
 
 /*
 -----==========================================================-----
@@ -51,12 +53,18 @@ void DrillGIFActionSequenceEditor::_init() {
 	//----初始化ui
 	QHBoxLayout* l = new QHBoxLayout();
 	ui.widget_actionSeq->setLayout(l);
-	P_ActionSeqPart* actionSeqPart = new P_ActionSeqPart(this);
-	l->addWidget(actionSeqPart);
+	this->m_p_ActionSeqPart = new P_ActionSeqPart(ui.widget_actionSeq);
+	l->addWidget(this->m_p_ActionSeqPart);
+	
+	//-----------------------------------
+	//----初始化参数
+	this->m_w_RmmvOperateBoard = nullptr;
 
 	//-----------------------------------
 	//----事件绑定
-	connect(ui.toolButton_rmmv, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::openWindowRmmvInteractive );
+	connect(ui.toolButton_rmmv, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::openWindowRmmvInteractive);
+	connect(S_ActionSeqDataContainer::getInstance(), &S_ActionSeqDataContainer::actionSeqDataChanged, this, &DrillGIFActionSequenceEditor::actionDataLoaded);
+	connect(S_RmmvDataContainer::getInstance(), &S_RmmvDataContainer::dataAllReloaded, this, &DrillGIFActionSequenceEditor::rmmvInteractiveDataLoaded);
 	
 }
 
@@ -64,6 +72,33 @@ void DrillGIFActionSequenceEditor::_init() {
 		控件 - 打开rmmv交互窗口
 */
 void DrillGIFActionSequenceEditor::openWindowRmmvInteractive(){
-	W_RmmvOperateBoard d(this);
-	d.exec();
+	if (this->m_w_RmmvOperateBoard == nullptr){
+		this->m_w_RmmvOperateBoard = new W_RmmvOperateBoard(this);
+		this->m_w_RmmvOperateBoard->setData(S_RmmvDataContainer::getInstance()->getRmmvProjectData());
+	}
+	this->m_w_RmmvOperateBoard->show();
+
+	//（RmmvProjectData在操作"打开rmmv"获取到数据后，立即存入容器）
+}
+/*-------------------------------------------------
+		控件 - rmmv交互数据已读取
+*/
+void DrillGIFActionSequenceEditor::rmmvInteractiveDataLoaded(){
+	if (this->m_w_RmmvOperateBoard != nullptr){		//（刷新窗口数据）
+		this->m_w_RmmvOperateBoard->setData(S_RmmvDataContainer::getInstance()->getRmmvProjectData());
+	}
+}
+
+/*-------------------------------------------------
+		控件 - 动作序列已读取
+*/
+void DrillGIFActionSequenceEditor::actionDataLoaded(){
+
+	C_PluginData* p_data = S_ActionSeqDataContainer::getInstance()->getActionSeqData();
+	if (p_data == nullptr){
+		ui.main_widget->setEnabled(false);
+	}else{
+		ui.main_widget->setEnabled(true);
+		this->m_p_ActionSeqPart->setData(p_data->parameters);
+	}
 }
