@@ -4,6 +4,8 @@
 #include <QtWidgets>
 #include "ui_P_ActionPart.h"
 
+#include "Source/Utils/widgetForm/radioTable/p_RadioTable.h"
+
 /*
 -----==========================================================-----
 		类：		动作元块.h
@@ -24,17 +26,24 @@ class P_ActionPart : public QWidget
 	//-----------------------------------
 	//----控件
 	public:
-		
+		P_RadioTable* m_table;
+	public slots:
+										//控件 - 获取动作元名称
+		QStringList getNameList();
+										//控件 - 动作元切换
+		void currentIndexChanged(int index);
 
 	//-----------------------------------
 	//----窗口
 	public:
-		QJsonObject local_actionData;
+		QList<QJsonObject> local_actionDataList;
 	public:
 										//窗口 - 设置数据
-		void setData(QJsonObject actionData);
+										//		【说明】：动作元只编辑数组元素，不改变数组长度。
+		void setData(QList<QJsonObject> actionDataList);
 										//窗口 - 取出数据
-		QJsonObject getData();
+										//		【说明】：外部接收后，还需要手动打包内容。
+		QList<QJsonObject> getData();
 										//窗口 - 本地数据 -> ui数据
 		void putDataToUi();							
 										//窗口 - ui数据 -> 本地数据

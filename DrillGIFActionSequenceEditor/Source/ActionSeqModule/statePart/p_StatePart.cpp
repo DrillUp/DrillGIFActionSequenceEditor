@@ -40,20 +40,20 @@ P_StatePart::~P_StatePart(){
 /*-------------------------------------------------
 		窗口 - 设置数据
 */
-void P_StatePart::setData(QJsonObject state) {
-	this->local_state = state;
+void P_StatePart::setData(QList<QJsonObject> state) {
+	this->local_stateDataList = state;
 	this->putDataToUi();
 }
 /*-------------------------------------------------
 		窗口 - 取出数据
 */
-QJsonObject P_StatePart::getData(){
+QList<QJsonObject> P_StatePart::getData(){
 	this->putUiToData();
 
 	// > 校验
 	//...
 	
-	return this->local_state;
+	return this->local_stateDataList;
 }
 /*-------------------------------------------------
 		窗口 - 本地数据 -> ui数据

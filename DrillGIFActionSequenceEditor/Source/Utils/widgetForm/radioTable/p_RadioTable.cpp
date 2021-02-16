@@ -7,7 +7,7 @@
 /*
 -----==========================================================-----
 		类：		单选表格.cpp
-		版本：		v1.00
+		版本：		v1.01
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		将数据全部显示，并能单选。（不含排序功能）
@@ -63,7 +63,7 @@ P_RadioTable::~P_RadioTable(){
 		控件 - 刷新表格
 */
 void P_RadioTable::refreshTableUi() {
-	QList<QTableWidgetItem*> last_selected_item = this->m_table->selectedItems();
+	QList<QTableWidgetSelectionRange> last_range = this->m_table->selectedRanges();
 
 	// > 清理
 	this->m_table->clearContents();
@@ -78,12 +78,11 @@ void P_RadioTable::refreshTableUi() {
 	}
 
 	// > 行高刷新
-	this->m_table->setStyleSheet(this->m_tableStyle + "\n QTreeView::item { height: " + QString::number(this->m_config.rowHeight) + "px;}");
+	this->m_table->setStyleSheet(this->m_tableStyle + "\n QTableView::item { height: " + QString::number(this->m_config.rowHeight) + "px;}");
 
 	// > 选中变化项
-	if (last_selected_item.count() > 0){
-		this->m_table->setItemSelected(last_selected_item.at(0), true);
-		this->m_table->scrollToItem(last_selected_item.at(0));
+	if (last_range.count() > 0){
+		this->m_table->setRangeSelected(last_range.at(0), true);
 	}else{
 		QTableWidgetSelectionRange range = QTableWidgetSelectionRange(0,0,1,1);
 		this->m_table->setRangeSelected(range, true);

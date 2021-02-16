@@ -48,12 +48,6 @@
     <Filter Include="源文件\【 动作序列 ActionSeqModule】\动作序列块">
       <UniqueIdentifier>{04488223-3081-4fd0-86a0-1dcc57331ec8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 动作序列 ActionSeqModule】\状态元块">
-      <UniqueIdentifier>{b9175ef4-c3c3-4830-b481-0136333a709b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\【 动作序列 ActionSeqModule】\动作元块">
-      <UniqueIdentifier>{098df1bf-d3a8-453e-8625-399216e54aed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）">
       <UniqueIdentifier>{dd73c86b-1ce5-40f8-b30a-8308407bd13e}</UniqueIdentifier>
     </Filter>
@@ -144,6 +138,15 @@
     <Filter Include="源文件\【 项目管理模块 ProjectModule】\项目数据">
       <UniqueIdentifier>{1620f03b-d882-4ce6-bca9-463c378addd5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\【 动作序列 ActionSeqModule】\动作序列块\放映区">
+      <UniqueIdentifier>{777e3569-1c82-4e26-9135-fc02f0457784}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 动作序列 ActionSeqModule】\动作序列块\动作元块">
+      <UniqueIdentifier>{098df1bf-d3a8-453e-8625-399216e54aed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 动作序列 ActionSeqModule】\动作序列块\状态元块">
+      <UniqueIdentifier>{b9175ef4-c3c3-4830-b481-0136333a709b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -183,7 +186,7 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\actionPart\p_ActionPart.cpp">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\动作元块</Filter>
+      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块\动作元块</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_p_ActionPart.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -192,7 +195,7 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\statePart\p_StatePart.cpp">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\状态元块</Filter>
+      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块\状态元块</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_p_StatePart.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -515,6 +518,15 @@
     <ClCompile Include="GeneratedFiles\Release\moc_s_TempFileManager.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ActionSeqModule\playingPart\p_PlayingPart.cpp">
+      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块\放映区</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_p_PlayingPart.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_p_PlayingPart.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="drillgifactionsequenceeditor.qrc">
@@ -536,16 +548,16 @@
       <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\actionPart\p_ActionPart.h">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\动作元块</Filter>
+      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块\动作元块</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\actionPart\p_ActionPart.ui">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\动作元块</Filter>
+      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块\动作元块</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\statePart\p_StatePart.h">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\状态元块</Filter>
+      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块\状态元块</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\statePart\p_StatePart.ui">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\状态元块</Filter>
+      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块\状态元块</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\Utils\widgetForm\radioTable\p_RadioTable.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\单选表格</Filter>
@@ -667,6 +679,12 @@
     <CustomBuild Include="Source\ProjectModule\file\s_TempFileManager.h">
       <Filter>源文件\【 项目管理模块 ProjectModule】\temp文件夹</Filter>
     </CustomBuild>
+    <CustomBuild Include="Source\ActionSeqModule\playingPart\p_PlayingPart.h">
+      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块\放映区</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ActionSeqModule\playingPart\p_PlayingPart.ui">
+      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块\放映区</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DrillGIFActionSequenceEditor.rc" />
@@ -776,6 +794,9 @@
     </ClInclude>
     <ClInclude Include="Source\ProjectModule\file\c_UniqueTempFile.h">
       <Filter>源文件\【 项目管理模块 ProjectModule】\temp文件夹</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_p_PlayingPart.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

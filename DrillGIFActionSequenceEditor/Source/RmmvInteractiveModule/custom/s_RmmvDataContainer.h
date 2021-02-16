@@ -25,7 +25,7 @@ class S_RmmvDataContainer : public QObject, public S_StorageManagerTemplate
 	//-----------------------------------
 	//----数据
 	private:
-		C_RmmvProjectData m_RmmvProjectData;
+		C_RmmvProjectData data_RmmvProjectData;
 	public:
 										//数据 - 修改
 		void modify(C_RmmvProjectData data);
@@ -35,8 +35,37 @@ class S_RmmvDataContainer : public QObject, public S_StorageManagerTemplate
 	//-----------------------------------
 	//----数据文件
 	public:
-										//数据 - 获取插件文件
+										//数据 - 获取文件 - 插件
 		QFileInfo getRmmvFile_Plugin(QString plugin_name);
+										//数据 - 获取文件 - 地图
+		QFileInfo getRmmvFile_Map(int i);
+		QFileInfo getRmmvFile_MapInfos();
+										//数据 - 获取文件 - 角色
+		QFileInfo getRmmvFile_Actors();
+										//数据 - 获取文件 - 职业
+		QFileInfo getRmmvFile_Classes();
+										//数据 - 获取文件 - 物品
+		QFileInfo getRmmvFile_Items();
+										//数据 - 获取文件 - 技能
+		QFileInfo getRmmvFile_Skills();
+										//数据 - 获取文件 - 武器
+		QFileInfo getRmmvFile_Weapons();
+										//数据 - 获取文件 - 护甲
+		QFileInfo getRmmvFile_Armors();
+										//数据 - 获取文件 - 状态
+		QFileInfo getRmmvFile_States();
+										//数据 - 获取文件 - 敌人
+		QFileInfo getRmmvFile_Enemies();
+										//数据 - 获取文件 - 敌群
+		QFileInfo getRmmvFile_Troops();
+										//数据 - 获取文件 - 公共事件
+		QFileInfo getRmmvFile_CommonEvents();
+										//数据 - 获取文件 - 动画
+		QFileInfo getRmmvFile_Animations();
+										//数据 - 获取文件 - 图块
+		QFileInfo getRmmvFile_Tilesets();
+										//数据 - 获取文件 - 系统
+		QFileInfo getRmmvFile_System();
 		
 
 	//-----------------------------------

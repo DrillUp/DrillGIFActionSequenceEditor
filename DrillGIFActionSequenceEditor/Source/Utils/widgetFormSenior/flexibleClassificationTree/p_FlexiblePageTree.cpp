@@ -11,7 +11,7 @@
 /*
 -----==========================================================-----
 		类：		灵活分类树.cpp
-		版本：		v1.00
+		版本：		v1.01
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		能够显示一堆数据，并且将这些数据分类或转移到不同的树枝中，便于查询。
@@ -40,10 +40,17 @@
 					如果只是简单修改树ui，添加分类，是不会刷新的。
 					
 		使用方法：
-				>初始化
+				> 初始化
 					this->m_p_FlexiblePageTree = new P_FlexiblePageTree(ui.treeWidget);
 					this->m_p_FlexiblePageTree->setData(obj);		//（存储的数据需要在load前完成赋值）
 					this->m_p_FlexiblePageTree->loadSource(data_list, "id", "name", "type");
+				> 设置默认值
+					QJsonObject obj_config = QJsonObject();		//由于交互只能通过QJsonObject，所以，默认值也需要对应到object中。
+					QJsonObject obj_tree = QJsonObject();
+					obj_tree.insert("rowHeight", 32);
+					obj_config.insert("sortMode", "自定义分支（按id递增排序）");
+					obj_config.insert("FCTConfig", obj_tree);
+					this->m_p_tree->setData(obj_config);
 					
 -----==========================================================-----
 */
@@ -58,7 +65,7 @@ P_FlexiblePageTree::P_FlexiblePageTree(QTreeWidget *parent)
 	this->m_slotBlock = false;							//槽阻塞
 	this->m_leafItem = QList<I_FCTLeaf*>();				//叶子列表
 	this->m_branchItem = QList<I_FCTBranch*>();			//树枝列表
-	this->m_leafOuterControlEnabled = true;
+	this->m_leafOuterControlEnabled = true;				//叶子编辑开关
 
 	// > 数据
 	this->local_treeData = QJsonObject();
@@ -70,7 +77,9 @@ P_FlexiblePageTree::P_FlexiblePageTree(QTreeWidget *parent)
 	this->m_selectionSignalBlock_Root = false;
 	this->m_mainMenu = nullptr;
 	this->m_modeMenu = nullptr;
-	this->m_menuIconSrcPath = ":/code_piece_qt/Resources/images";
+	this->m_last_item = nullptr;
+	this->m_last_leaf = nullptr;
+	this->m_menuIconSrcPath = ":/DrillGIFActionSequenceEditor/Resources/icons";
 
 	// > 资源数据
 	this->m_source_ObjectSortController = new P_ObjectSortController();
@@ -189,8 +198,7 @@ void P_FlexiblePageTree::clearAll(){
 	this->m_leafItem.clear();
 	this->m_branchItem.clear();
 
-	// > 树设置
-	this->m_config = C_FCTConfig();
+	// > 树设置（树设置与资源读取无关，不清理）
 
 	// > 资源清理
 	this->m_source_list.clear();
@@ -495,8 +503,20 @@ void P_FlexiblePageTree::sltItemDoubleClicked(QTreeWidgetItem *item, int index) 
 */
 void P_FlexiblePageTree::sltItemSelectionChanged(){
 	if (this->m_slotBlock == true){ return; }
+	QList<QTreeWidgetItem*> selected_items = this->m_tree->selectedItems();
+	if (selected_items.count() == 0){ return; }
+	QTreeWidgetItem *item = selected_items.at(0);
 
-	//...
+	if (this->m_last_item != item){
+		this->m_last_item = item;
+		emit currentItemChanged(item);
+	}
+	if ( this->isLeaf(item) && 
+		 this->m_last_leaf != item){
+		this->m_last_leaf = item;
+		I_FCTLeaf* leaf = dynamic_cast<I_FCTLeaf*>(item);	
+		emit currentLeafChanged(item, leaf->getId(),leaf->getName());
+	}
 }
 
 /*-------------------------------------------------

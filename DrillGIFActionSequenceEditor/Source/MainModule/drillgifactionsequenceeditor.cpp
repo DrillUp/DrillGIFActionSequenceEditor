@@ -54,6 +54,7 @@ void DrillGIFActionSequenceEditor::_init() {
 	QHBoxLayout* l = new QHBoxLayout();
 	ui.widget_actionSeq->setLayout(l);
 	this->m_p_ActionSeqPart = new P_ActionSeqPart(ui.widget_actionSeq);
+	l->setMargin(0);
 	l->addWidget(this->m_p_ActionSeqPart);
 	
 	//-----------------------------------

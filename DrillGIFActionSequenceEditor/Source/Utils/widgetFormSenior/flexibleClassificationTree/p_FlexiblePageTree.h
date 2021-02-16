@@ -11,7 +11,7 @@
 /*
 -----==========================================================-----
 		类：		灵活分类树.cpp
-		版本：		v1.00
+		版本：		v1.01
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		能够显示一堆数据，并且将这些数据分类或转移到不同的树枝中，便于查询。
@@ -47,7 +47,7 @@ class P_FlexiblePageTree : public QObject
 		void refreshTreeUi_id_inc();
 									//控件 - 刷新树_名称分支
 		void refreshTreeUi_name_inc();
-									//控件 - 清理全部
+									//控件 - 清理全部（不含树配置）
 		virtual void clearAll();
 
 	//-----------------------------------
@@ -69,7 +69,9 @@ class P_FlexiblePageTree : public QObject
 	//-----------------------------------
 	//----控件（叶子接口）
 	protected:
-		bool m_leafOuterControlEnabled;
+		bool m_leafOuterControlEnabled;		//叶子编辑开关
+		QTreeWidgetItem* m_last_item;
+		QTreeWidgetItem* m_last_leaf;
 	signals:
 									//叶子接口 - 复制按下（信号）
 		void menuCopyLeafTriggered(int id);
@@ -77,6 +79,10 @@ class P_FlexiblePageTree : public QObject
 		void menuPasteLeafTriggered(int id);
 									//叶子接口 - 清空按下（信号）
 		void menuClearLeafTriggered(int id);
+									//叶子接口 - 当前叶子变化（信号）
+		void currentLeafChanged(QTreeWidgetItem* item, int id, QString name);
+									//控件接口 - 当前树节点变化，包括叶子和树枝（信号）
+		void currentItemChanged(QTreeWidgetItem* item);
 	public:
 									//叶子接口 - 开关（默认开启）
 		void setLeafOuterControlEnabled(bool enabled);

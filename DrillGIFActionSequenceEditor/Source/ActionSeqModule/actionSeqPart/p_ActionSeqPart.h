@@ -6,6 +6,9 @@
 
 #include "Source/ActionSeqModule/actionPart/p_ActionPart.h"
 #include "Source/ActionSeqModule/statePart/p_StatePart.h"
+#include "Source/ActionSeqModule/playingPart/p_PlayingPart.h"
+
+#include "Source/Utils/widgetFormSenior/flexibleClassificationTree/p_FlexibleClassificationTree.h"
 
 /*
 -----==========================================================-----
@@ -25,15 +28,30 @@ class P_ActionSeqPart : public QWidget
 		~P_ActionSeqPart();
 		
 	//-----------------------------------
-	//----控件
+	//----动作序列 全数据
+	protected:
+		P_FlexibleClassificationTree* m_p_tree;		//动作序列显示树
+		QList<QJsonObject> m_actionSeq_list;		//动作序列列表
+
+		int m_realLen_actionSeq;					//长度 - 动作序列
+		int m_realLen_action;						//长度 - 动作元
+		int m_realLen_state;						//长度 - 状态元
+
+		int m_cur_actionSeqIndex;				//当前动作序列索引
+		QJsonObject m_cur_actionSeq;			//当前动作序列
+		QList<QJsonObject> m_cur_actionTank;	//当前动作元容器
+		QList<QJsonObject> m_cur_stateTank;		//当前状态元容器
+	public slots:
+										//全数据 - 树选择变化
+		void currentActionSeqChanged(QTreeWidgetItem* item, int id, QString name);
+		
+
+	//-----------------------------------
+	//----大控件
 	protected:
 		P_ActionPart* m_actionPart;
 		P_StatePart* m_statePart;
-	public:
-										//控件 - 开始播放
-		void startPlay();
-										//控件 - 结束播放
-		void endPlay();
+		P_PlayingPart* m_playingPart;
 
 	//-----------------------------------
 	//----窗口

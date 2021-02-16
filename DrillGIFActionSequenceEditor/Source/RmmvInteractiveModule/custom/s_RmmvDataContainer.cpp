@@ -29,22 +29,83 @@ S_RmmvDataContainer* S_RmmvDataContainer::getInstance() {
 		数据 - 修改
 */
 void S_RmmvDataContainer::modify(C_RmmvProjectData data){
-	this->m_RmmvProjectData = data;
+	this->data_RmmvProjectData = data;
 }
 /*-------------------------------------------------
 		数据 - 获取
 */
 C_RmmvProjectData S_RmmvDataContainer::getRmmvProjectData(){
-	return this->m_RmmvProjectData;
+	return this->data_RmmvProjectData;
 }
 
 /*-------------------------------------------------
-		数据 - 获取插件文件
+		数据 - 获取文件
 */
 QFileInfo S_RmmvDataContainer::getRmmvFile_Plugin(QString plugin_name){
 	QString name = plugin_name.replace(".js","");
-	return QFileInfo(this->m_RmmvProjectData.path + "/js/plugins/" + plugin_name+ ".js");
+	return QFileInfo(this->data_RmmvProjectData.path + "/js/plugins/" + plugin_name+ ".js");
 }
+//数据 - 获取文件 - 地图
+QFileInfo S_RmmvDataContainer::getRmmvFile_Map(int i){
+	QString name = QString("Map%1").arg(i, 3, 10, QLatin1Char('0'));
+	return QFileInfo(this->data_RmmvProjectData.path + "/data/" + name + ".json");
+}
+QFileInfo S_RmmvDataContainer::getRmmvFile_MapInfos(){
+	return QFileInfo(this->data_RmmvProjectData.path + "/data/MapInfos.json");
+}
+//数据 - 获取文件 - 角色
+QFileInfo S_RmmvDataContainer::getRmmvFile_Actors(){
+	return QFileInfo(this->data_RmmvProjectData.path + "/data/Actors.json");
+}
+//数据 - 获取文件 - 职业
+QFileInfo S_RmmvDataContainer::getRmmvFile_Classes(){
+	return QFileInfo(this->data_RmmvProjectData.path + "/data/Classes.json");
+}
+//数据 - 获取文件 - 物品
+QFileInfo S_RmmvDataContainer::getRmmvFile_Items(){
+	return QFileInfo(this->data_RmmvProjectData.path + "/data/Items.json");
+}
+//数据 - 获取文件 - 技能
+QFileInfo S_RmmvDataContainer::getRmmvFile_Skills(){
+	return QFileInfo(this->data_RmmvProjectData.path + "/data/Skills.json");
+}
+//数据 - 获取文件 - 武器
+QFileInfo S_RmmvDataContainer::getRmmvFile_Weapons(){
+	return QFileInfo(this->data_RmmvProjectData.path + "/data/Weapons.json");
+}
+//数据 - 获取文件 - 护甲
+QFileInfo S_RmmvDataContainer::getRmmvFile_Armors(){
+	return QFileInfo(this->data_RmmvProjectData.path + "/data/Armors.json");
+}
+//数据 - 获取文件 - 状态
+QFileInfo S_RmmvDataContainer::getRmmvFile_States(){
+	return QFileInfo(this->data_RmmvProjectData.path + "/data/States.json");
+}
+//数据 - 获取文件 - 敌人
+QFileInfo S_RmmvDataContainer::getRmmvFile_Enemies(){
+	return QFileInfo(this->data_RmmvProjectData.path + "/data/Enemies.json");
+}
+//数据 - 获取文件 - 敌群
+QFileInfo S_RmmvDataContainer::getRmmvFile_Troops(){
+	return QFileInfo(this->data_RmmvProjectData.path + "/data/Troops.json");
+}
+//数据 - 获取文件 - 公共事件
+QFileInfo S_RmmvDataContainer::getRmmvFile_CommonEvents(){
+	return QFileInfo(this->data_RmmvProjectData.path + "/data/CommonEvents.json");
+}
+//数据 - 获取文件 - 动画
+QFileInfo S_RmmvDataContainer::getRmmvFile_Animations(){
+	return QFileInfo(this->data_RmmvProjectData.path + "/data/Animations.json");
+}
+//数据 - 获取文件 - 图块
+QFileInfo S_RmmvDataContainer::getRmmvFile_Tilesets(){
+	return QFileInfo(this->data_RmmvProjectData.path + "/data/Tilesets.json");
+}
+//数据 - 获取文件 - 系统
+QFileInfo S_RmmvDataContainer::getRmmvFile_System(){
+	return QFileInfo(this->data_RmmvProjectData.path + "/data/System.json");
+}
+
 
 /*-----------------------------------
 		数据 - 获取存储的名称
@@ -56,7 +117,7 @@ QString S_RmmvDataContainer::getSaveName() {
 		数据 - 清除当前管理器数据
 */
 void S_RmmvDataContainer::clearAllData() {
-	this->m_RmmvProjectData = C_RmmvProjectData();
+	this->data_RmmvProjectData = C_RmmvProjectData();
 }
 /*-----------------------------------
 		数据 - 全部激励源数据 -> QJsonObject
@@ -64,7 +125,7 @@ void S_RmmvDataContainer::clearAllData() {
 QJsonObject S_RmmvDataContainer::getAllDataOfJsonObject(){
 	QJsonObject obj_all = QJsonObject();
 
-	obj_all.insert("C_RmmvProjectData", this->m_RmmvProjectData.getJsonObject());	//rmmv工程数据
+	obj_all.insert("C_RmmvProjectData", this->data_RmmvProjectData.getJsonObject());	//rmmv工程数据
 	
 	return obj_all;
 }
@@ -76,7 +137,7 @@ void S_RmmvDataContainer::setAllDataFromJsonObject(QJsonObject obj_all){
 	this->clearAllData();
 
 	QJsonObject obj_RmmvProjectData = obj_all.value("C_RmmvProjectData").toObject();	//rmmv工程数据
-	this->m_RmmvProjectData.setJsonObject(obj_RmmvProjectData);
+	this->data_RmmvProjectData.setJsonObject(obj_RmmvProjectData);
 
 	emit dataAllReloaded();
 }

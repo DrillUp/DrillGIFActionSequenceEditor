@@ -13,109 +13,227 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout">
    <property name="leftMargin">
-    <number>1</number>
+    <number>0</number>
    </property>
    <property name="topMargin">
-    <number>1</number>
+    <number>0</number>
    </property>
    <property name="rightMargin">
-    <number>1</number>
+    <number>0</number>
    </property>
    <property name="bottomMargin">
-    <number>1</number>
+    <number>0</number>
    </property>
-   <property name="horizontalSpacing">
-    <number>12</number>
-   </property>
-   <item row="0" column="0">
-    <widget class="QTabWidget" name="tabWidget">
-     <property name="currentIndex">
-      <number>0</number>
+   <item>
+    <widget class="QSplitter" name="splitter">
+     <property name="styleSheet">
+      <string notr="true">
+QSplitter::handle {
+    background-color: #dcebfd;
+    border: 1px solid #3d7bad;
+}
+QSplitter::handle:hover {
+/* 悬浮事件需要在脚本里面添加&quot;ui.splitter-&gt;handle(1)-&gt;setAttribute(Qt::WA_Hover, true);&quot;才能激活。 */
+	border:1px solid #f2ca58;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #fdecad, stop:0.3 #fde48c, stop:0.9 #fce58c, stop:1 #fdfadf );
+}
+QSplitter::handle:pressed {
+    background-color: #3d7bad;
+    border: 1px solid #3d7bad;
+}
+QSplitter::handle:disabled {
+    background-color: #f0f0f0;
+    border: 1px solid #999999;
+}
+</string>
      </property>
-     <widget class="QWidget" name="tab">
-      <attribute name="title">
-       <string>动作序列放映区</string>
-      </attribute>
-      <widget class="QToolButton" name="toolButton">
-       <property name="geometry">
-        <rect>
-         <x>280</x>
-         <y>40</y>
-         <width>47</width>
-         <height>41</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>开始</string>
-       </property>
-      </widget>
-      <widget class="QToolButton" name="toolButton_2">
-       <property name="geometry">
-        <rect>
-         <x>350</x>
-         <y>40</y>
-         <width>47</width>
-         <height>41</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>结束</string>
-       </property>
-      </widget>
-      <widget class="QGraphicsView" name="graphicsView">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>10</y>
-         <width>241</width>
-         <height>411</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QWidget" name="tab_2">
-      <attribute name="title">
-       <string>状态元</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <widget class="QWidget" name="widget" native="true">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
        <property name="leftMargin">
-        <number>1</number>
+        <number>0</number>
        </property>
        <property name="topMargin">
-        <number>1</number>
+        <number>0</number>
        </property>
        <property name="rightMargin">
-        <number>1</number>
+        <number>0</number>
        </property>
        <property name="bottomMargin">
-        <number>1</number>
+        <number>0</number>
        </property>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_state"/>
+        <widget class="QTreeWidget" name="treeWidget_ActionSeq">
+         <property name="styleSheet">
+          <string notr="true">/* == 数据库 - 控件块 - 左侧树控件 == */
+#treeWidget_ActionSeq {	/*（隔行颜色要勾选alternativeRowColors值）*/
+	border: 1px solid #0078D7;
+	border-color: rgb(240, 240, 240);
+	border-left: 0px solid;
+	background-color: #ffffff;
+	alternate-background-color: #f3f3f5;
+}
+#treeWidget_ActionSeq::item:selected {
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #5C87D9, stop:0.505 #557CC7, stop:1 #5075BC);
+}
+
+/* 图片可以自定义，但是会被拉伸，更丑了。
+QTreeView::branch:has-siblings:!adjoins-item {
+    border-image: url(&quot;:/DrillGIFActionSequenceEditor/Resources/treeStyle/vline.png&quot;) 0;
+}
+QTreeView::branch:has-siblings:!has-children:adjoins-item {
+    border-image: url(&quot;:/DrillGIFActionSequenceEditor/Resources/treeStyle/branch-more.png&quot;) 0;
+}
+QTreeView::branch:!has-children:!has-siblings:adjoins-item {
+    border-image: url(&quot;:/DrillGIFActionSequenceEditor/Resources/treeStyle/branch-end.png&quot;) 0;
+}
+*/</string>
+         </property>
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="indentation">
+          <number>16</number>
+         </property>
+         <attribute name="headerVisible">
+          <bool>false</bool>
+         </attribute>
+         <column>
+          <property name="text">
+           <string>动作序列</string>
+          </property>
+         </column>
+        </widget>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_3">
-      <attribute name="title">
-       <string>动作元</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_4">
+     <widget class="QWidget" name="widget_editPart" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>4</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
        <property name="leftMargin">
-        <number>1</number>
+        <number>4</number>
        </property>
        <property name="topMargin">
-        <number>1</number>
+        <number>4</number>
        </property>
        <property name="rightMargin">
-        <number>1</number>
+        <number>4</number>
        </property>
        <property name="bottomMargin">
-        <number>1</number>
+        <number>4</number>
        </property>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_action"/>
+        <widget class="QWidget" name="widget_3" native="true">
+         <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,5,6">
+          <property name="leftMargin">
+           <number>4</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>4</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>标签</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit"/>
+          </item>
+          <item>
+           <widget class="QWidget" name="widget_4" native="true"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTabWidget" name="tabWidget">
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="tab">
+          <attribute name="title">
+           <string>放映区</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <property name="leftMargin">
+            <number>1</number>
+           </property>
+           <property name="topMargin">
+            <number>1</number>
+           </property>
+           <property name="rightMargin">
+            <number>1</number>
+           </property>
+           <property name="bottomMargin">
+            <number>1</number>
+           </property>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_playing"/>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="tab_2">
+          <attribute name="title">
+           <string>状态元</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <property name="leftMargin">
+            <number>1</number>
+           </property>
+           <property name="topMargin">
+            <number>1</number>
+           </property>
+           <property name="rightMargin">
+            <number>1</number>
+           </property>
+           <property name="bottomMargin">
+            <number>1</number>
+           </property>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_state"/>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="tab_3">
+          <attribute name="title">
+           <string>动作元</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <property name="leftMargin">
+            <number>1</number>
+           </property>
+           <property name="topMargin">
+            <number>1</number>
+           </property>
+           <property name="rightMargin">
+            <number>1</number>
+           </property>
+           <property name="bottomMargin">
+            <number>1</number>
+           </property>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_action"/>
+           </item>
+          </layout>
+         </widget>
+        </widget>
        </item>
       </layout>
      </widget>

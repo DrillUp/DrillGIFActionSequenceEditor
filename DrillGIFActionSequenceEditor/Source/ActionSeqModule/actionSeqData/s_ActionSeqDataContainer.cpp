@@ -18,6 +18,7 @@
 */
 S_ActionSeqDataContainer::S_ActionSeqDataContainer(){
 	this->data_ActionSeq = nullptr;
+	this->data_treeConfig = QJsonObject();
 
 	//-----------------------------------
 	//----事件绑定
@@ -40,7 +41,7 @@ S_ActionSeqDataContainer* S_ActionSeqDataContainer::getInstance() {
 
 
 /*-------------------------------------------------
-		数据 - 重设
+		插件数据 - 重设
 */
 void S_ActionSeqDataContainer::resetPluginData() {
 	this->data_ActionSeq = nullptr;
@@ -63,14 +64,62 @@ void S_ActionSeqDataContainer::resetPluginData() {
 }
 
 /*-------------------------------------------------
-		数据 - 获取（插件数据）
+		插件数据 - 获取（插件数据）
 */
 C_PluginData* S_ActionSeqDataContainer::getActionSeqData() {
 	return this->data_ActionSeq;
 }
 /*-------------------------------------------------
-		数据 - 获取（插件文件）
+		插件数据 - 获取（插件文件）
 */
 QFileInfo S_ActionSeqDataContainer::getActionSeqPluginFile() {
 	return S_RmmvDataContainer::getInstance()->getRmmvFile_Plugin("Drill_CoreOfActionSequence");
+}
+
+
+/*-------------------------------------------------
+		数据 - 修改
+*/
+void S_ActionSeqDataContainer::modifyTreeData(QJsonObject tree){
+	this->data_treeConfig = tree;
+}
+/*-------------------------------------------------
+		数据 - 获取
+*/
+QJsonObject S_ActionSeqDataContainer::getTreeData(){
+	return this->data_treeConfig;
+}
+
+/*-----------------------------------
+		数据 - 获取存储的名称
+*/
+QString S_ActionSeqDataContainer::getSaveName() {
+	return "S_ActionSeqDataContainer";
+}
+/*-----------------------------------
+		数据 - 清除当前管理器数据
+*/
+void S_ActionSeqDataContainer::clearAllData() {
+	this->data_treeConfig = QJsonObject();
+}
+/*-----------------------------------
+		数据 - 全部激励源数据 -> QJsonObject
+*/
+QJsonObject S_ActionSeqDataContainer::getAllDataOfJsonObject(){
+	QJsonObject obj_all = QJsonObject();
+
+	obj_all.insert("data_treeConfig", this->data_treeConfig);	//树配置数据
+	
+	return obj_all;
+}
+
+/*-----------------------------------
+		数据 - QJsonObject -> 全部激励源数据
+*/
+void S_ActionSeqDataContainer::setAllDataFromJsonObject(QJsonObject obj_all){
+	this->clearAllData();
+
+	this->data_treeConfig = obj_all.value("data_treeConfig").toObject();	//树配置数据
+
+	emit dataAllReloaded();
 }

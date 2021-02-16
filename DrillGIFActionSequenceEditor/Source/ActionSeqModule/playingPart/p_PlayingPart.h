@@ -1,50 +1,51 @@
-#ifndef P_StatePart_H
-#define P_StatePart_H
+#ifndef P_PlayingPart_H
+#define P_PlayingPart_H
 
 #include <QtWidgets>
-#include "ui_P_StatePart.h"
+#include "ui_P_PlayingPart.h"
 
 /*
 -----==========================================================-----
-		类：		状态元块.h
+		类：		放映区.h
 		作者：		drill_up
-		所属模块：	状态元模块
-		功能：		该部分提供状态元编辑功能。
+		所属模块：	动作序列模块
+		功能：		该部分提供动作序列的放映。
 					（详细见cpp）
 -----==========================================================-----
 */
-class P_StatePart : public QWidget
+class P_PlayingPart : public QWidget
 {
 	Q_OBJECT
 
 	public:
-		P_StatePart(QWidget *parent = 0);
-		~P_StatePart();
+		P_PlayingPart(QWidget *parent = 0);
+		~P_PlayingPart();
 		
 	//-----------------------------------
 	//----控件
 	public:
-		
+										//控件 - 开始播放
+		void startPlay();
+										//控件 - 结束播放
+		void endPlay();
 
 	//-----------------------------------
 	//----窗口
 	public:
-		QList<QJsonObject> local_stateDataList;
+		QJsonObject local_actionData;
 	public:
 										//窗口 - 设置数据
-										//		【说明】：动作元只编辑数组元素，不改变数组长度。
-		void setData(QList<QJsonObject> stateDataList);
+		void setData(QJsonObject actionData);
 										//窗口 - 取出数据
-										//		【说明】：外部接收后，还需要手动打包内容。
-		QList<QJsonObject> getData();
+		QJsonObject getData();
 										//窗口 - 本地数据 -> ui数据
 		void putDataToUi();							
 										//窗口 - ui数据 -> 本地数据
 		void putUiToData();
 
 	private:
-		Ui::P_StatePart ui;
+		Ui::P_PlayingPart ui;
 
 };
 
-#endif // P_StatePart_H
+#endif // P_PlayingPart_H
