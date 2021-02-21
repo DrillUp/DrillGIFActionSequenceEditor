@@ -3,6 +3,7 @@
 
 #include <QtWidgets>
 #include "ui_P_StatePart.h"
+#include "Source/Utils/widgetFormSenior/AnimationListEditor/p_AnimationListEditor.h"
 
 /*
 -----==========================================================-----
@@ -22,8 +23,12 @@ class P_StatePart : public QWidget
 		~P_StatePart();
 		
 	//-----------------------------------
-	//----控件
+	//----动画帧
 	public:
+		P_AnimationListEditor* m_p_AnimationListEditor;
+	public:
+									//动画帧 - 选项变化
+		void tableChanged_Multi(QList<int> index);
 		
 
 	//-----------------------------------

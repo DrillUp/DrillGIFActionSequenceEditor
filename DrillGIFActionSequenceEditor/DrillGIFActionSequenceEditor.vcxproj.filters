@@ -147,6 +147,18 @@
     <Filter Include="源文件\【 动作序列 ActionSeqModule】\动作序列块\状态元块">
       <UniqueIdentifier>{b9175ef4-c3c3-4830-b481-0136333a709b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块">
+      <UniqueIdentifier>{dbc4af67-097d-4f45-9731-029b0bf00775}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块\私有类">
+      <UniqueIdentifier>{14fcb02a-3cba-43b7-9c96-9602acc11f64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块">
+      <UniqueIdentifier>{0c23d9ac-4a6d-4b38-8499-d58032cf9abb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块\私有类">
+      <UniqueIdentifier>{3e8638cd-2436-4f93-824f-735c605c9626}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -527,6 +539,69 @@
     <ClCompile Include="GeneratedFiles\Release\moc_p_PlayingPart.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Utils\widgetForm\pictureSelector\c_PiSConfig.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetForm\pictureSelector\p_PictureSelector.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_p_PictureSelector.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_p_PictureSelector.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetForm\pictureSelector\private\i_PiSPicture.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块\私有类</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_i_PiSPicture.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_i_PiSPicture.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetForm\pictureSelector\private\p_PiSBlock.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块\私有类</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_p_PiSBlock.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_p_PiSBlock.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\animationListEditor\c_ALEConfig.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\animationListEditor\c_ALEData.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\animationListEditor\p_AnimationListEditor.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_p_AnimationListEditor.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_p_AnimationListEditor.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\animationListEditor\private\p_ALEBlock.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块\私有类</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_p_ALEBlock.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_p_ALEBlock.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\animationListEditor\private\w_ALEDataEdit.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块\私有类</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_w_ALEDataEdit.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_w_ALEDataEdit.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="drillgifactionsequenceeditor.qrc">
@@ -685,6 +760,30 @@
     <CustomBuild Include="Source\ActionSeqModule\playingPart\p_PlayingPart.ui">
       <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块\放映区</Filter>
     </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetForm\pictureSelector\p_PictureSelector.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetForm\pictureSelector\private\i_PiSPicture.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块\私有类</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetForm\pictureSelector\private\p_PiSBlock.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块\私有类</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetForm\pictureSelector\private\p_PiSBlock.ui">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块\私有类</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\animationListEditor\p_AnimationListEditor.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\animationListEditor\private\p_ALEBlock.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块\私有类</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\animationListEditor\private\w_ALEDataEdit.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块\私有类</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\animationListEditor\private\w_ALEDataEdit.ui">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块\私有类</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DrillGIFActionSequenceEditor.rc" />
@@ -798,6 +897,21 @@
     <ClInclude Include="GeneratedFiles\ui_p_PlayingPart.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Utils\widgetForm\pictureSelector\c_PiSConfig.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_p_PiSBlock.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\widgetFormSenior\animationListEditor\c_ALEConfig.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\widgetFormSenior\animationListEditor\c_ALEData.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_w_ALEDataEdit.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Utils\widgetForm\radioTable\程序入口.txt">
@@ -814,6 +928,12 @@
     </Text>
     <Text Include="Source\RmmvInteractiveModule\base\程序入口.txt">
       <Filter>源文件\【 交互模块 RmmvInteractiveModule】\基本交互</Filter>
+    </Text>
+    <Text Include="Source\Utils\widgetForm\pictureSelector\程序入口.txt">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块</Filter>
+    </Text>
+    <Text Include="Source\Utils\widgetFormSenior\animationListEditor\程序入口.txt">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

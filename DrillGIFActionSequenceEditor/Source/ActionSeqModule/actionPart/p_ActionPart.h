@@ -5,6 +5,7 @@
 #include "ui_P_ActionPart.h"
 
 #include "Source/Utils/widgetForm/radioTable/p_RadioTable.h"
+#include "Source/Utils/widgetFormSenior/AnimationListEditor/p_AnimationListEditor.h"
 
 /*
 -----==========================================================-----
@@ -32,6 +33,14 @@ class P_ActionPart : public QWidget
 		QStringList getNameList();
 										//控件 - 动作元切换
 		void currentIndexChanged(int index);
+
+	//-----------------------------------
+	//----动画帧
+	public:
+		P_AnimationListEditor* m_p_AnimationListEditor;
+	public:
+									//动画帧 - 选项变化
+		void tableChanged_Multi(QList<int> index);
 
 	//-----------------------------------
 	//----窗口

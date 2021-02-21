@@ -1,0 +1,32 @@
+	【注意，对象选择器的全部以 code_piece_qt笔记 为准，所有修改在笔记中强化】
+			
+	程序入口（独立控件块）：
+		p_AnimationListEditor.cpp
+		p_AnimationListEditor.h
+		注意，该 列表控件 被装饰后，最好对该控件块进行交互，不要与 列表控件 进行直接交互。
+		【继承于p_PictureSelector】
+		这里含一个特殊的信号：allFrameDeleted，全部帧被删除情况
+
+	交互对象：
+		1.	c_ALEConfig.cpp
+			c_ALEConfig.h
+			动画帧的配置。继承于c_PiSConfig。
+
+		2.	c_ALEData.cpp
+			c_ALEData.h
+			数据交互类，注意，获取后list中的元素顺序不一样也算作已修改。
+
+	私有类：
+		p_ALEBlock.cpp
+		p_ALEBlock.h
+		继承于p_PiSBlock，在该控件块上，扩展一些控件。
+
+	大坑：
+		1. QListWidget就是个垃圾控件。
+		2. 【设置item的QWidget不能撑开控件。】通过图标 横向 挤压，字符\n 纵向 挤压，才能勉强将控件完全撑开。
+		3. 【insertItem没用】，还好数据和ui是分离的，设置addItem，然后刷新item，就能实现撑开添加。
+		
+	诡异问题：
+		【iconMode下出问题】，listMode没问题。
+		直接additem，滚动条会被理所当然地撑开，但是使用op_append之后（后期additem），滚动条总会 漏 一个item。
+		初步确认，不是op_append的问题，改变config，rebuild重新addItem之后，一样会出现此问题。

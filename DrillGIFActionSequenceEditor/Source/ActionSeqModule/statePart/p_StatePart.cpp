@@ -23,19 +23,51 @@ P_StatePart::P_StatePart(QWidget *parent)
 
 	//-----------------------------------
 	//----初始化参数
-
-	//-----------------------------------
-	//----初始化ui
 	
 
 	//-----------------------------------
+	//----初始化ui
+
+	// > 动画帧
+	C_ALEData data = C_ALEData();
+	data.setId(10);
+	data.setSource("F:/rpg mv箱/mog插件中文全翻译(Drill_up)v2.41/插件集合示例/img/enemies/", QList<QString>()
+		<< "小爱丽丝001"
+		<< "小爱丽丝002"
+		<< "小爱丽丝003"
+		<< "小爱丽丝004"
+		<< "小爱丽丝005"
+		<< "小爱丽丝006"
+		<< "小爱丽丝004"
+		<< "小爱丽丝006");
+	data.setInterval(3, QList<int>() << 6 << 5 << 4 << 3 << 2 << 1);
+
+	this->m_p_AnimationListEditor = new P_AnimationListEditor(ui.listWidget);
+	this->m_p_AnimationListEditor->setSource(data);
+
+	C_PiSConfig config = C_PiSConfig();
+	config.isMultiSelect = true;
+	this->m_p_AnimationListEditor->setConfigParam(config);
+
+	//-----------------------------------
 	//----事件绑定
+	connect(this->m_p_AnimationListEditor, &P_AnimationListEditor::selectedIndexChanged_Multi, this, &P_StatePart::tableChanged_Multi);
 
 }
 
 P_StatePart::~P_StatePart(){
 }
 
+/*-------------------------------------------------
+		动画帧 - 选项变化
+*/
+void P_StatePart::tableChanged_Multi(QList<int> index_list){
+	QString text = "";
+	for (int i = 0; i < index_list.count(); i++){
+		text += QString::number( index_list.at(i) + 1 )+ "/";
+	}
+	//ui.label->setText("你选择了：" + text);
+}
 
 /*-------------------------------------------------
 		窗口 - 设置数据

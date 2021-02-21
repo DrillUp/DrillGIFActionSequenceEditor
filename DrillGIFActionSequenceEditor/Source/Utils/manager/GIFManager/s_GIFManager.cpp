@@ -3,18 +3,27 @@
 
 #include <math.h>
 #include "gif.h"
+#include <QImage>
 
 /*
 -----==========================================================-----
 		类：		GIF转换器.cpp
-		版本：		v1.00
+		版本：		v1.02
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		提供GIF文件转换等功能。
 
 		目标：		-> 拆解GIF
 					-> 合成GIF
-					
+
+		大坑：		【透明的gif会有图片重影问题】
+						1. 于是我从QMoive找到QImageReader，再找到QGifHandler最底层。
+						2. 为了修改这个底层，我将源码找到，新写了个 p_DrillGIFHandler。（已被删除）
+						3. 这个底层是通过decode【每帧解码】的方式读取的。【无法直接解码指定的一帧】
+						4. reader中提供的 jumpToFrame 函数【没有一点用】，浪费了我大量时间研究。
+						5. 在ps软件中打开gif，选择全部帧后，右键点击"处理"，导出的gif将不再出现重影问题。
+						6. 至于ps软件是怎么做到不重影的，我也不知道。估计是某位神人写的解码器，能够解析。
+
 		使用方法：
 				>合成：
 					QList<QFileInfo> info_list = QList<QFileInfo>();
@@ -123,25 +132,70 @@ bool S_GIFManager::generateGIF(QList<QFileInfo> path_list, QFileInfo gif_path, i
 		拆解 - 执行拆解（qt自带）
 */
 bool S_GIFManager::dismantlingGIF(QFileInfo gif_path, QDir image_dir_path, char* suffix){
-	return this->dismantlingGIF(gif_path, image_dir_path, suffix, "%1");
+	return this->dismantlingGIF(gif_path, image_dir_path, suffix, "%2_%1");
 }
 bool S_GIFManager::dismantlingGIF(QFileInfo gif_path, QDir image_dir_path, char* suffix, QString imageName){
 	if (gif_path.exists() == false){ return false; }
 	if (image_dir_path.exists() == false){ return false; }
-		
-	QMovie* movie = new QMovie();
-	movie->setFileName(gif_path.absoluteFilePath());
-	movie->setCacheMode(QMovie::CacheAll);
-
-	for( int i = 0; i < movie->frameCount(); i++ ){
-		movie->jumpToFrame(i);
-		QImage image = movie->currentImage();
-		
-		QFile file(image_dir_path.absolutePath() + QString("/" + imageName + ".").arg(i) + suffix);
-		file.open(QFile::WriteOnly);
-		image.save(&file, suffix );
-		file.close();
+	
+	// > 普通办法
+	//			【在部分透明GIF文件中，会出现重影】
+	//			【是GIF文件的问题，现有的GIF解析器，无法解决重影问题】
+	QImageReader* reader = new QImageReader();		//（QMovie基于QImageReader）
+	reader->setFileName(gif_path.absoluteFilePath());
+	this->m_lastFileList.clear();
+	this->m_lastIntervalList.clear();
+	
+	// > 数量提示
+	int image_count = reader->imageCount();
+	if (image_count > 100){
+		QMessageBox box(QMessageBox::Question, "提示", "GIF的帧数超过100，速度较慢，是否继续？");
+		box.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+		box.setButtonText(QMessageBox::Ok, QString("继续"));
+		box.setButtonText(QMessageBox::Cancel, QString("取消"));
+		if (box.exec() == QMessageBox::Cancel){ return false; };
 	}
-	delete movie;
+	
+	// > 读取帧
+	bool has_transparentArea = false;
+	for (int i = 0; i < image_count; i++){
+		reader->jumpToNextImage();
+		
+		// > 读取
+		QImage image = reader->read();
+		QFileInfo fileinfo(image_dir_path.absolutePath() + QString("/" + imageName + ".").arg(i).arg(gif_path.completeBaseName()) + suffix);
+		this->m_lastFileList.append(fileinfo);
+		this->m_lastIntervalList.append(reader->nextImageDelay());
+		
+		// > 检测透明区域
+		QRgb rgb = image.pixel(0, 0);
+		int alpha = qAlpha(rgb);
+		if (alpha < 255 && has_transparentArea == false){
+			has_transparentArea = true;
+		}
+
+		// > 写入文件
+		QFile file(fileinfo.absoluteFilePath());
+		file.open(QFile::WriteOnly);
+		image.save(&file, suffix);
+		file.close();
+
+		image.fill(QColor(0, 0, 255, 255));
+	}
+	delete reader;
+
 	return true;
+}
+
+/*-------------------------------------------------
+		拆解 - 获取拆解后的帧间隔数据
+*/
+QList<int> S_GIFManager::getLastDismantledGIFIntervalList(){
+	return this->m_lastIntervalList;
+}
+/*-------------------------------------------------
+		拆解 - 获取拆解后的文件列表
+*/
+QList<QFileInfo> S_GIFManager::getLastDismantledGIFFileList(){
+	return this->m_lastFileList;
 }
