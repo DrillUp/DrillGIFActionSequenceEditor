@@ -35,12 +35,15 @@ P_ActionSeqPart::P_ActionSeqPart(QWidget *parent)
 
 	// > 放映区、动作元、状态元
 	this->m_playingPart = new P_PlayingPart(parent);
-	ui.verticalLayout_playing->addWidget(this->m_playingPart);
-	this->m_actionPart = new P_ActionPart(parent);
-	ui.verticalLayout_action->addWidget(this->m_actionPart);
 	this->m_statePart = new P_StatePart(parent);
-	ui.verticalLayout_state->addWidget(this->m_statePart);
-	
+	this->m_actionPart = new P_ActionPart(parent);
+
+	// > 可折叠选项卡
+	this->m_p_FoldableTabRelater = new P_FoldableTabRelater(ui.tabWidget);	//（ui中的只是示意，该工具类会重建tab）
+	this->m_p_FoldableTabRelater->addPart(" 放映区  ", this->m_playingPart);
+	this->m_p_FoldableTabRelater->addPart(" 状态元  ", this->m_statePart);
+	this->m_p_FoldableTabRelater->addPart(" 动作元  ", this->m_actionPart);
+
 	// > 树
 	this->m_p_tree = new P_FlexibleClassificationTree(ui.treeWidget_ActionSeq);
 	QJsonObject obj_config = QJsonObject();		//默认配置
@@ -52,8 +55,8 @@ P_ActionSeqPart::P_ActionSeqPart(QWidget *parent)
 	connect(this->m_p_tree, &P_FlexibleClassificationTree::currentLeafChanged, this, &P_ActionSeqPart::currentActionSeqChanged );
 
 	// > 水平分割线
-	ui.splitter->setStretchFactor(0, 1);
-	ui.splitter->setStretchFactor(1, 4);
+	ui.splitter->setStretchFactor(0, 4);		//（比例变化比较奇怪，暂时这样吧）
+	ui.splitter->setStretchFactor(1, 5);
 	ui.splitter->handle(1)->setAttribute(Qt::WA_Hover, true);
 
 	//-----------------------------------

@@ -8,6 +8,7 @@
 #include "Source/ActionSeqModule/statePart/p_StatePart.h"
 #include "Source/ActionSeqModule/playingPart/p_PlayingPart.h"
 
+#include "Source/Utils/widgetForm/foldableTabWindow/p_FoldableTabRelater.h"
 #include "Source/Utils/widgetFormSenior/flexibleClassificationTree/p_FlexibleClassificationTree.h"
 
 /*
@@ -49,9 +50,10 @@ class P_ActionSeqPart : public QWidget
 	//-----------------------------------
 	//----大控件
 	protected:
-		P_ActionPart* m_actionPart;
-		P_StatePart* m_statePart;
-		P_PlayingPart* m_playingPart;
+		P_FoldableTabRelater* m_p_FoldableTabRelater;	//可折叠选项卡
+		P_ActionPart* m_actionPart;						//动作元块
+		P_StatePart* m_statePart;						//状态元块
+		P_PlayingPart* m_playingPart;					//放映区
 
 	//-----------------------------------
 	//----窗口
