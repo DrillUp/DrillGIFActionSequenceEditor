@@ -80,19 +80,18 @@ void P_PictureSelector::rebuildListUi() {
 	this->m_listWidget->clear();
 
 	// > 单选/多选切换
-	if (this->m_config.isMultiSelect == true && this->m_listWidget->selectionMode() == QAbstractItemView::SelectionMode::SingleSelection){
+	if (this->m_config.m_isMultiSelect == true && this->m_listWidget->selectionMode() == QAbstractItemView::SelectionMode::SingleSelection){
 		this->m_listWidget->setSelectionMode(QAbstractItemView::SelectionMode::ExtendedSelection);
 	}
-	if (this->m_config.isMultiSelect == false && this->m_listWidget->selectionMode() != QAbstractItemView::SelectionMode::SingleSelection){
+	if (this->m_config.m_isMultiSelect == false && this->m_listWidget->selectionMode() != QAbstractItemView::SelectionMode::SingleSelection){
 		this->m_listWidget->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
 	}
 
 	// > 行高刷新
-	this->m_listWidget->setFixedHeight(this->m_config.height);
-	this->m_listWidget->setMinimumHeight(this->m_config.height);
-	this->m_listWidget->setMaximumHeight(this->m_config.height);
+	this->m_listWidget->setFixedHeight(this->m_config.m_height);
+	this->m_listWidget->setMinimumHeight(this->m_config.m_height);
+	this->m_listWidget->setMaximumHeight(this->m_config.m_height);
 	this->m_listWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-	//this->m_listWidget->setStyleSheet(this->m_listWidgetStyle + "\n QListView::item { height: " + QString::number(this->m_config.getItemHeight()) + "px;}");
 
 	// > 刷新内容
 	this->m_listWidget->setIconSize(QSize(item_height, 1));	//（图标大小）
@@ -114,7 +113,7 @@ void P_PictureSelector::rebuildListUi() {
 	}
 
 	// > 选中变化项
-	if (this->m_config.isMultiSelect){
+	if (this->m_config.m_isMultiSelect){
 		this->selectIndex_Multi(last_selected_item);
 	}else{
 		if (last_selected_item.count() > 0){
@@ -147,14 +146,15 @@ QWidget* P_PictureSelector::createPictureWidget(int i, QPixmap pixmap){
 
 	// > 建立图片块
 	P_PiSBlock* widget = new P_PiSBlock(item_height, item_height, this->m_listWidget);
-	if (this->m_config.zeroFill == true){
-		widget->setCountText(TTool::_zeroFill_(i + 1, this->m_config.zeroFillCount, QLatin1Char(this->m_config.zeroFillChar.toLatin1())));
+	if (this->m_config.m_zeroFill == true){
+		widget->setCountText(TTool::_zeroFill_(i + 1, this->m_config.m_zeroFillCount, QLatin1Char(this->m_config.m_zeroFillChar.toLatin1())));
 	}else{
 		widget->setCountText(QString::number(i + 1));
 	}
 
 	// > 绘制图片
 	widget->setPixmap(pixmap);
+	widget->setMaskEnabled(this->m_config.m_isMaskEnabled);
 	
 	return widget;
 }
@@ -274,11 +274,14 @@ void P_PictureSelector::setSource(QList<QPixmap> bitmap_list) {
 		选中 - 设置选中
 */
 void P_PictureSelector::selectIndex(int index){
-	if (index == -1){ return; }
+	if (index < 0){ index = 0; }
+	if (index >= this->m_itemTank.count()){ index = this->m_itemTank.count() - 1; }
+
 	for (int i = 0; i < this->m_itemTank.count(); i++){
 		QListWidgetItem* item = this->m_itemTank.at(i);
 		if (i == index){
 			item->setSelected(true);
+			this->m_listWidget->scrollToItem(item);
 		}else{
 			item->setSelected(false);
 		}
@@ -304,6 +307,7 @@ void P_PictureSelector::selectIndex_Multi(QList<int> index_list){
 		QListWidgetItem* item = this->m_itemTank.at(i);
 		if (index_list.contains( i )){
 			item->setSelected(true);
+			this->m_listWidget->scrollToItem(item);
 		}else{
 			item->setSelected(false);
 		}
@@ -320,4 +324,28 @@ QList<int> P_PictureSelector::getSelectedIndex_Multi(){
 		}
 	}
 	return result_list;
+}
+/*-------------------------------------------------
+		选中 - 选中上一项
+*/
+void P_PictureSelector::selectLast(){
+	this->selectIndex(this->getSelectedIndex() - 1);
+}
+/*-------------------------------------------------
+		选中 - 选中下一项
+*/
+void P_PictureSelector::selectNext(){
+	this->selectIndex(this->getSelectedIndex() + 1);
+}
+/*-------------------------------------------------
+		选中 - 选中首项
+*/
+void P_PictureSelector::selectStart(){
+	this->selectIndex(0);
+}
+/*-------------------------------------------------
+		选中 - 选中尾项
+*/
+void P_PictureSelector::selectEnd(){
+	this->selectIndex(this->m_itemTank.count()-1);
 }

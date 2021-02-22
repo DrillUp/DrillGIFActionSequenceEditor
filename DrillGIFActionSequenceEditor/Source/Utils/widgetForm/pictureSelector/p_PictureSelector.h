@@ -68,9 +68,9 @@ class P_PictureSelector : public QObject
 		C_PiSConfig m_config;			//图片列配置项
 	public:
 										//图片列设置 - 设置参数
-		void setConfigParam(C_PiSConfig config);
+		virtual void setConfigParam(C_PiSConfig config);
 										//图片列设置 - 取出参数
-		C_PiSConfig getConfigParam();
+		virtual C_PiSConfig getConfigParam();
 
 	//-----------------------------------
 	//----资源数据
@@ -84,14 +84,31 @@ class P_PictureSelector : public QObject
 
 	//-----------------------------------
 	//----选中
-	public:
+	public slots:
 									//选中 - 设置选中
+									//		【参数】：数字，可以随意越界，越界后会选择最接近的一项。
+									//		【说明】：多选也可以用，将会保持只有一个被选中。
 		void selectIndex(int index);
-									//选中 - 获取选中数据
-		int getSelectedIndex();
 									//选中 - 设置选中（多选时）
+									//		【参数】：数字，可以随意越界，越界的数字没有效果。
+									//		【说明】：空数组可以取消所有选中。
 		void selectIndex_Multi(QList<int> index_list);
+
+									//选中 - 选中上一项
+		void selectLast();
+									//选中 - 选中下一项
+		void selectNext();
+									//选中 - 选中首项
+		void selectStart();
+									//选中 - 选中尾项
+		void selectEnd();
+
+	public:
+									//选中 - 获取选中数据
+									//		【说明】：-1，表示全部未选；多选时，表示第一个选中的索引。
+		int getSelectedIndex();
 									//选中 - 获取选中数据（多选时）
+									//		【说明】：注意，可能出现空数组情况。
 		QList<int> getSelectedIndex_Multi();
 
 };

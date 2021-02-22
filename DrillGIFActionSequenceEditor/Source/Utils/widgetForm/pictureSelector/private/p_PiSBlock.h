@@ -36,6 +36,8 @@ class P_PiSBlock : public QWidget
 		QString getCountText();
 							//控件 - 设置图片
 		void setPixmap(QPixmap pixmap);
+							//控件 - 设置马赛克背景
+		void setMaskEnabled(bool enabled);
 		
 	//-----------------------------------
 	//----窗口

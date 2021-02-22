@@ -40,8 +40,11 @@ class C_ALEData {
 											//		【参数2】：不带文件后缀，文件可重名
 		void setSource(QString gif_src_file, QList<QString> gif_src);
 											//设置 - 帧间隔
-		void setInterval(int gif_interval);
 		void setInterval(int gif_interval, QList<int> gif_intervalTank);
+											//设置 - 默认帧间隔
+		void setIntervalDefault(int gif_interval);
+											//设置 - 默认帧间隔（统一改变）
+		void setIntervalDefaultAndChange(int gif_interval);
 	protected:
 		void checkInterval();
 

@@ -3,6 +3,7 @@
 
 #include "private/p_ALEBlock.h"
 #include "private/w_ALEDataEdit.h"
+#include "private/w_ALEConfigEdit.h"
 
 #include "Source/Utils/widgetForm/pictureSelector/p_PictureSelector.h"
 #include "Source/Utils/manager/GIFManager/s_GIFManager.h"
@@ -28,14 +29,27 @@
 						-> 右键菜单
 						-> 添加、替换、删除
 						-> 复制、粘贴
-						-> 编辑帧
-					-> 播放器
-						-> 定时切换单选项
+					-> 编辑帧
+						-> 单帧编辑：图像、帧数
+						-> 多帧编辑：帧数
+					-> 编辑UI配置
 					
 		使用方法：
-				>初始化
-					this->m_p_AnimationListEditor = new P_AnimationListEditor(ui.treeWidget);
-					this->m_p_AnimationListEditor->setSource(bitmap_list);		
+				> 初始化（需要数据）
+					this->m_p_AnimationListEditor = new P_AnimationListEditor(ui.listWidget);
+					this->m_p_AnimationListEditor->setSource(data);
+
+				> 数据初始化
+					C_ALEData data = C_ALEData();
+					data.setId(10);
+					data.setSource(	"F:/rpg mv箱/mog插件中文全翻译(Drill_up)v2.41 - 副本/插件集合示例/img/enemies/", 
+									QList<QString>() << "小爱丽丝001" << "小爱丽丝002" << "小爱丽丝003" << "小爱丽丝004" << "小爱丽丝005" << "小爱丽丝006" << "小爱丽丝004" << "小爱丽丝006");
+					data.setInterval( 3, QList<int>() << 6 << 5 << 4 << 3 << 2 << 1);
+
+				> 修改配置
+					C_ALEConfig config = C_ALEConfig();		//注意，C_PiSConfig也可以当配置，但是要开启多选功能。
+					config ...
+					this->m_p_AnimationListEditor->setConfigParam(config);
 					
 -----==========================================================-----
 */
@@ -48,8 +62,8 @@ P_AnimationListEditor::P_AnimationListEditor(QListWidget *parent)
 	this->m_iconSrcPath = ":/DrillGIFActionSequenceEditor/Resources/icons";
 	
 	// > 数据
-	this->m_ALE_config = C_ALEConfig();
-	
+	this->setConfigParam(C_ALEConfig());
+
 }
 P_AnimationListEditor::~P_AnimationListEditor(){
 }
@@ -63,14 +77,15 @@ QWidget* P_AnimationListEditor::createPictureWidget(int i, QPixmap pixmap){
 
 	// > 建立图片块
 	P_ALEBlock* widget = new P_ALEBlock(item_height, item_height, this->m_listWidget);
-	if (this->m_config.zeroFill == true){
-		widget->setCountText(TTool::_zeroFill_(i + 1, this->m_config.zeroFillCount, QLatin1Char(this->m_config.zeroFillChar.toLatin1())));
+	if (this->m_config.m_zeroFill == true){
+		widget->setCountText(TTool::_zeroFill_(i + 1, this->m_config.m_zeroFillCount, QLatin1Char(this->m_config.m_zeroFillChar.toLatin1())));
 	}else{
 		widget->setCountText(QString::number(i + 1));
 	}
 
 	// > 绘制图片
 	widget->setPixmap(pixmap);
+	widget->setMaskEnabled(this->m_config.m_isMaskEnabled);
 
 	// > 绘制帧数
 	widget->setFrameText(this->m_data.getIntervalString(i));
@@ -90,15 +105,47 @@ void P_AnimationListEditor::clearAll(){
 		动画帧设置 - 设置参数
 */
 void P_AnimationListEditor::setConfigParam_ALE(C_ALEConfig config){
-	this->m_ALE_config = config;
-	this->rebuildListUi();
+	this->m_config_ALE = config;
+	this->m_data.setIntervalDefault(config.m_defaultInterval);
+	P_PictureSelector::setConfigParam(config);
 }
 /*-------------------------------------------------
 		动画帧设置 - 取出参数
 */
 C_ALEConfig P_AnimationListEditor::getConfigParam_ALE(){
-	return this->m_ALE_config;
+	return this->m_config_ALE;
 }
+/*-------------------------------------------------
+		动画帧设置 - 设置参数（不开放）
+*/
+void P_AnimationListEditor::setConfigParam(C_PiSConfig config){
+	P_PictureSelector::setConfigParam(config);
+}
+/*-------------------------------------------------
+		动画帧设置 - 取出参数（不开放）
+*/
+C_PiSConfig P_AnimationListEditor::getConfigParam(){
+	return P_PictureSelector::getConfigParam();
+}
+/*-------------------------------------------------
+		动画帧设置 - 窗口编辑ui设置
+*/
+void P_AnimationListEditor::openWindow_setConfigParam(){
+
+	// > 弹出ui编辑框
+	W_ALEConfigEdit d(this->m_listWidget);
+	d.setDataInModifyMode(this->m_config_ALE);
+	if (d.exec() == QDialog::Accepted){
+		C_ALEConfig config = d.getData();
+
+		// > 设置后，强制变化统一默认帧间隔
+		this->m_data.setIntervalDefaultAndChange(config.m_defaultInterval);
+		
+		// > 设置参数
+		this->setConfigParam_ALE(config);
+	}
+}
+
 
 
 /*-------------------------------------------------
@@ -283,12 +330,21 @@ void P_AnimationListEditor::event_itemSelectionChanged(QList<QListWidgetItem*> s
 void P_AnimationListEditor::setSource(QList<QFileInfo> file_list) {
 	P_PictureSelector::setSource(file_list);
 }
+void P_AnimationListEditor::setSource(QList<QPixmap> bitmap_list) {
+	P_PictureSelector::setSource(bitmap_list);
+}
 /*-------------------------------------------------
 		资源数据 - 设置数据
 */
 void P_AnimationListEditor::setSource(C_ALEData data) {
 	this->m_data = data;
 	this->setSource(this->m_data.getAllFile());
+}
+/*-------------------------------------------------
+		资源数据 - 获取数据
+*/
+C_ALEData P_AnimationListEditor::getSource(){
+	return this->m_data;
 }
 
 
@@ -419,8 +475,8 @@ void P_AnimationListEditor::op_swap(int index_a, int index_b){
 */
 void P_AnimationListEditor::op_refresh(int index){
 	P_ALEBlock* widget = dynamic_cast<P_ALEBlock*>(this->m_widgetTank.at(index));
-	if (this->m_config.zeroFill == true){		//（刷新计数）
-		widget->setCountText(TTool::_zeroFill_(index + 1, this->m_config.zeroFillCount, QLatin1Char(this->m_config.zeroFillChar.toLatin1())));
+	if (this->m_config.m_zeroFill == true){		//（刷新计数）
+		widget->setCountText(TTool::_zeroFill_(index + 1, this->m_config.m_zeroFillCount, QLatin1Char(this->m_config.m_zeroFillChar.toLatin1())));
 	}else{
 		widget->setCountText(QString::number(index + 1));
 	}

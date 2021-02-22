@@ -50,9 +50,17 @@ P_ActionPart::P_ActionPart(QWidget *parent)
 	this->m_p_AnimationListEditor = new P_AnimationListEditor(ui.listWidget);
 	this->m_p_AnimationListEditor->setSource(data);
 
-	C_PiSConfig config = C_PiSConfig();
-	config.isMultiSelect = true;
-	this->m_p_AnimationListEditor->setConfigParam(config);
+	C_ALEConfig config = C_ALEConfig();
+	this->m_p_AnimationListEditor->setConfigParam_ALE(config);
+
+	// > 动画帧播放器
+	this->m_p_AnimationListPlayer = new P_AnimationListPlayer();
+	this->m_p_AnimationListPlayer->setAnimationListEditor(m_p_AnimationListEditor);
+	this->m_p_AnimationListPlayer->setPlayType(QStringList() << "播放一次" << "播放两次" << "播放三次");
+	QHBoxLayout* layout = new QHBoxLayout(ui.groupBox_animPlayer);
+	ui.groupBox_animPlayer->setLayout(layout);
+	layout->setMargin(3);
+	layout->addWidget(this->m_p_AnimationListPlayer);
 
 	//-----------------------------------
 	//----事件绑定

@@ -19,11 +19,15 @@ class C_ALEConfig : public C_PiSConfig {
 	//-----------------------------------
 	//----常规配置
 	protected:
-		QString sizeMode;			//尺寸模式
-		bool isUseFileSys;			//使用文件夹管理器
+		QString m_sizeMode;			//尺寸模式
+	public:
+		int m_defaultInterval;		//默认帧间隔
+		bool m_isUseFileSys;		//使用文件夹管理器
+
 	public:
 									//设置尺寸模式
 		void setSizeMode(QString sizeMode);
+		QString getSizeMode();
 
 	//-----------------------------------
 	//----类属性

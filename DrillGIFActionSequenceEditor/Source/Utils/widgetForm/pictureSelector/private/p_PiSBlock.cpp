@@ -60,3 +60,9 @@ QString P_PiSBlock::getCountText(){
 void P_PiSBlock::setPixmap(QPixmap pixmap){
 	this->m_i_PiSPicture->setPixmap(pixmap);
 }
+/*-------------------------------------------------
+		控件 - 设置马赛克背景
+*/
+void P_PiSBlock::setMaskEnabled(bool enabled){
+	this->m_i_PiSPicture->setMaskEnabled(enabled);
+}

@@ -41,7 +41,15 @@ void C_ALEData::setSource(QString gif_src_file, QList<QString> gif_src){
 /*-------------------------------------------------
 		设置 - 帧间隔
 */
-void C_ALEData::setInterval(int gif_interval){
+void C_ALEData::setInterval(int gif_interval, QList<int> gif_intervalTank){
+	this->gif_interval = gif_interval;
+	this->gif_intervalTank = gif_intervalTank;
+	this->checkInterval();
+}
+void C_ALEData::setIntervalDefault(int gif_interval){
+	this->gif_interval = gif_interval;
+}
+void C_ALEData::setIntervalDefaultAndChange(int gif_interval){
 	int old_interval = this->gif_interval;
 	this->gif_interval = gif_interval;
 	for (int i = 0; i < this->gif_intervalTank.count(); i++){	//（替换掉所有默认的旧帧间隔）
@@ -49,11 +57,6 @@ void C_ALEData::setInterval(int gif_interval){
 			this->gif_intervalTank.replace(i, gif_interval);
 		}
 	}
-}
-void C_ALEData::setInterval(int gif_interval, QList<int> gif_intervalTank){
-	this->gif_interval = gif_interval;
-	this->gif_intervalTank = gif_intervalTank;
-	this->checkInterval();
 }
 
 /*-------------------------------------------------

@@ -12,8 +12,11 @@
 -----==========================================================-----
 */
 C_ALEConfig::C_ALEConfig() : C_PiSConfig() {
-	this->sizeMode = "中";
-	this->isUseFileSys = false;
+	this->m_sizeMode = "中";
+	this->m_defaultInterval = 4;
+	this->m_isUseFileSys = false;
+
+	this->m_isMultiSelect = true;		//（固定为多选模式）
 }
 C_ALEConfig::~C_ALEConfig(){
 }
@@ -24,18 +27,21 @@ C_ALEConfig::~C_ALEConfig(){
 */
 void C_ALEConfig::setSizeMode(QString sizeMode){
 	if (sizeMode == ""){ return; }
-	if (this->sizeMode == sizeMode){ return; }
-	this->sizeMode = sizeMode;
+	if (this->m_sizeMode == sizeMode){ return; }
+	this->m_sizeMode = sizeMode;
 
-	if (this->sizeMode == "大"){
-		this->height = 200;
+	if (this->m_sizeMode == "大"){
+		this->m_height = 200;
 	}
-	if (this->sizeMode == "中"){
-		this->height = 140;
+	if (this->m_sizeMode == "中"){
+		this->m_height = 140;
 	}
-	if (this->sizeMode == "小"){
-		this->height = 100;
+	if (this->m_sizeMode == "小"){
+		this->m_height = 100;
 	}
+}
+QString C_ALEConfig::getSizeMode(){
+	return this->m_sizeMode;
 }
 
 /*-------------------------------------------------
@@ -43,7 +49,8 @@ void C_ALEConfig::setSizeMode(QString sizeMode){
 */
 QJsonObject C_ALEConfig::getJsonObject(){
 	QJsonObject obj = C_PiSConfig::getJsonObject();
-	obj.insert("sizeMode", this->sizeMode);
+	obj.insert("m_sizeMode", this->m_sizeMode);
+	obj.insert("m_defaultInterval", this->m_defaultInterval);
 	return obj;
 }
 /*-------------------------------------------------
@@ -51,5 +58,9 @@ QJsonObject C_ALEConfig::getJsonObject(){
 */
 void C_ALEConfig::setJsonObject(QJsonObject obj){
 	C_PiSConfig::setJsonObject(obj);
-	if (obj.value("sizeMode").isUndefined() == false){ this->setSizeMode(obj.value("sizeModule").toString()); }
+	this->m_isMultiSelect = true;		//（固定为多选模式）
+
+	if (obj.value("m_sizeMode").isUndefined() == false){ this->setSizeMode(obj.value("m_sizeModule").toString()); }
+	if (obj.value("m_defaultInterval").isUndefined() == false){ this->m_defaultInterval = obj.value("m_defaultInterval").toInt(); }
+
 }

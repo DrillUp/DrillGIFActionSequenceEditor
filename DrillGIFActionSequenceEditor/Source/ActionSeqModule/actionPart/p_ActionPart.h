@@ -6,6 +6,7 @@
 
 #include "Source/Utils/widgetForm/radioTable/p_RadioTable.h"
 #include "Source/Utils/widgetFormSenior/AnimationListEditor/p_AnimationListEditor.h"
+#include "Source/Utils/widgetFormSenior/AnimationListPlayer/p_AnimationListPlayer.h"
 
 /*
 -----==========================================================-----
@@ -38,6 +39,7 @@ class P_ActionPart : public QWidget
 	//----动画帧
 	public:
 		P_AnimationListEditor* m_p_AnimationListEditor;
+		P_AnimationListPlayer* m_p_AnimationListPlayer;
 	public:
 									//动画帧 - 选项变化
 		void tableChanged_Multi(QList<int> index);

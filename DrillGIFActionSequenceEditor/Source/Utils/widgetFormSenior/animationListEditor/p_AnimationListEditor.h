@@ -38,12 +38,19 @@ class P_AnimationListEditor : public P_PictureSelector
 	//-----------------------------------
 	//----动画帧设置
 	protected:
-		C_ALEConfig m_ALE_config;			//动画帧配置项
+		C_ALEConfig m_config_ALE;
 	public:
-											//动画帧设置 - 设置参数
 		void setConfigParam_ALE(C_ALEConfig config);
 											//动画帧设置 - 取出参数
 		C_ALEConfig getConfigParam_ALE();
+	protected:
+											//动画帧设置 - 设置参数（不开放）
+		virtual void setConfigParam(C_PiSConfig config);
+											//动画帧设置 - 取出参数（不开放）
+		virtual C_PiSConfig getConfigParam();
+	public slots:
+											//动画帧设置 - 窗口编辑ui设置
+		void openWindow_setConfigParam();
 		
 	//-----------------------------------
 	//----事件
@@ -61,6 +68,8 @@ class P_AnimationListEditor : public P_PictureSelector
 	protected:
 									//资源数据 - 设置数据（不开放）
 		virtual void setSource(QList<QFileInfo> file_list);
+									//资源数据 - 设置数据（不开放）
+		virtual void setSource(QList<QPixmap> bitmap_list);
 	public:
 									//资源数据 - 设置数据（注意，数据中的id要赋值）
 		void setSource(C_ALEData data);
@@ -114,9 +123,6 @@ class P_AnimationListEditor : public P_PictureSelector
 									//编辑窗口 - 选择GIF
 		QString openWindow_getGIFFile();
 	
-	//-----------------------------------
-	//----播放器
-	public:
 
 
 };

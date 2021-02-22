@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>W_ALEDataEdit</class>
- <widget class="QDialog" name="W_ALEDataEdit">
+ <class>W_ALEConfigEdit</class>
+ <widget class="QDialog" name="W_ALEConfigEdit">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>350</width>
-    <height>200</height>
+    <height>250</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>编辑帧</string>
+   <string>动画帧设置</string>
   </property>
   <property name="styleSheet">
    <string notr="true">
@@ -19,53 +19,68 @@ QComboBox QAbstractItemView::item { min-height: 26px;}</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>ui设置</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2" columnstretch="1,2">
+      <item row="0" column="1">
+       <widget class="QComboBox" name="comboBox_sizeMode">
+        <item>
+         <property name="text">
+          <string>大</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>中</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>小</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>显示尺寸</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>网格背景</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QCheckBox" name="checkBox">
+        <property name="text">
+         <string>显示</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>当前帧</string>
+      <string>帧</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout" columnstretch="1,4,1">
+     <layout class="QGridLayout" name="gridLayout" columnstretch="1,2">
       <item row="0" column="0">
-       <widget class="QLabel" name="label_zeroFillChar">
+       <widget class="QLabel" name="label">
         <property name="text">
-         <string>当前资源</string>
+         <string>默认帧时间</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLineEdit" name="lineEdit">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QPushButton" name="pushButton">
-        <property name="text">
-         <string>浏览</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0" colspan="3">
-       <widget class="Line" name="line">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>12</height>
-         </size>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>当前帧时间</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
        <widget class="QComboBox" name="comboBox">
         <item>
          <property name="text">
@@ -74,7 +89,7 @@ QComboBox QAbstractItemView::item { min-height: 26px;}</string>
         </item>
        </widget>
       </item>
-      <item row="3" column="1">
+      <item row="1" column="1">
        <widget class="QDoubleSpinBox" name="doubleSpinBox">
         <property name="suffix">
          <string>秒</string>
@@ -123,7 +138,7 @@ QComboBox QAbstractItemView::item { min-height: 26px;}</string>
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>W_ALEDataEdit</receiver>
+   <receiver>W_ALEConfigEdit</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

@@ -165,6 +165,9 @@
     <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\可折叠选项卡\私有类">
       <UniqueIdentifier>{d48241cf-2219-4f32-8548-9aee14e524ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧播放器">
+      <UniqueIdentifier>{7cdb3496-a4d4-4234-9b15-041748c61e3f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -629,6 +632,24 @@
     <ClCompile Include="GeneratedFiles\Release\moc_w_FoldableTabChildWindow.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\animationListEditor\private\w_ALEConfigEdit.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块\私有类</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_w_ALEConfigEdit.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_w_ALEConfigEdit.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\animationListPlayer\p_AnimationListPlayer.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧播放器</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_p_AnimationListPlayer.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_p_AnimationListPlayer.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="drillgifactionsequenceeditor.qrc">
@@ -820,6 +841,18 @@
     <CustomBuild Include="Source\Utils\widgetForm\foldableTabWindow\private\w_FoldableTabChildWindow.ui">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\可折叠选项卡\私有类</Filter>
     </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\animationListEditor\private\w_ALEConfigEdit.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块\私有类</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\animationListEditor\private\w_ALEConfigEdit.ui">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块\私有类</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\animationListPlayer\p_AnimationListPlayer.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧播放器</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\animationListPlayer\p_AnimationListPlayer.ui">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧播放器</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DrillGIFActionSequenceEditor.rc" />
@@ -954,6 +987,12 @@
     <ClInclude Include="GeneratedFiles\ui_w_FoldableTabChildWindow.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_w_ALEConfigEdit.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_p_AnimationListPlayer.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Utils\widgetForm\radioTable\程序入口.txt">
@@ -979,6 +1018,9 @@
     </Text>
     <Text Include="Source\Utils\widgetForm\foldableTabWindow\程序入口.txt">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\可折叠选项卡</Filter>
+    </Text>
+    <Text Include="Source\Utils\widgetFormSenior\animationListPlayer\程序入口.txt">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧播放器</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
