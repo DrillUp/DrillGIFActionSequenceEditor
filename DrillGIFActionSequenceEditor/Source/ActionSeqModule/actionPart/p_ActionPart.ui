@@ -77,7 +77,15 @@
             <item>
              <widget class="QLabel" name="label">
               <property name="styleSheet">
-               <string notr="true">font-size:20px;</string>
+               <string notr="true">
+font-family:&quot;微软雅黑&quot;;
+font-size:20px;
+font-weight:bold;
+padding:4px;
+color:#ffffff;
+border-radius:3px;
+border:1px solid #000000;
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #444444, stop:0.3 #525252, stop:0.9 #525252, stop:1 #444444 )</string>
               </property>
               <property name="text">
                <string>动作元</string>
@@ -226,10 +234,8 @@ QTableView::item:selected {
              <widget class="QWidget" name="widget_5" native="true">
               <property name="styleSheet">
                <string notr="true">
-/* 选项卡中的 按钮 样式 */
 QToolButton{
-	padding:1px;
-	padding-bottom:4px;
+	padding:2px;
 	border: 1px solid transparent;
 	background: rgba(255,255,255,0);
 }
@@ -238,15 +244,10 @@ QToolButton:hover{
 	border:1px solid #f2ca58;
 	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #fdecad, stop:0.3 #fde48c, stop:0.9 #fce58c, stop:1 #fdfadf )
 }
-
-QPushButton{
-	border: 1px solid transparent;
-	background: rgba(255,255,255,0);
-}
-QPushButton:hover{
+QToolButton:pressed{
 	border-radius:1px;
 	border:1px solid #f2ca58;
-	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #fdecad, stop:0.3 #fde48c, stop:0.9 #fce58c, stop:1 #fdfadf );
+	background-color: #FDF4BF;
 }</string>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout">
@@ -313,6 +314,13 @@ QPushButton:hover{
                    <width>24</width>
                    <height>24</height>
                   </size>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_4">
+                 <property name="text">
+                  <string>100.0%</string>
                  </property>
                 </widget>
                </item>

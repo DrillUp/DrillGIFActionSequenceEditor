@@ -66,6 +66,11 @@
 	border:1px solid #f2ca58;
 	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #fdecad, stop:0.3 #fde48c, stop:0.9 #fce58c, stop:1 #fdfadf )
 }
+#nav QToolButton:pressed{
+	border-radius:1px;
+	border:1px solid #f2ca58;
+	background-color: #FDF4BF;
+}
 
 #nav QPushButton{
 	border: 1px solid transparent;
@@ -75,6 +80,11 @@
 	border-radius:1px;
 	border:1px solid #f2ca58;
 	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #fdecad, stop:0.3 #fde48c, stop:0.9 #fce58c, stop:1 #fdfadf );
+}
+#nav QPushButton:pressed{
+	border-radius:1px;
+	border:1px solid #f2ca58;
+	background-color: #FDF4BF;
 }</string>
      </property>
      <widget class="QToolButton" name="toolButton_new">

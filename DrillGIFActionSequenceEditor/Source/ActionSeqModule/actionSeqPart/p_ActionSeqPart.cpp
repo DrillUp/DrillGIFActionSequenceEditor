@@ -124,6 +124,19 @@ void P_ActionSeqPart::currentActionSeqChanged(QTreeWidgetItem* item, int id, QSt
 	}
 	this->m_statePart->setData(this->m_cur_stateTank);
 
+	// > 加入数据（放映区）
+	QStringList defaultState = QStringList();
+	QJsonValue value_defaultState = this->m_cur_actionSeq.value("默认的状态元集合");
+	if (value_defaultState.isUndefined() == false){
+		QString data = value_defaultState.toString();
+		QJsonDocument jsonDocument = QJsonDocument::fromJson(data.toUtf8());
+		QJsonArray arr = jsonDocument.array();
+		for (int i = 0; i < arr.count();i++){
+			defaultState.append(arr.at(i).toString());
+		}
+	}
+	this->m_playingPart->setDefaultStateData(defaultState);
+	this->m_playingPart->setSource(this->m_cur_stateTank, this->m_cur_actionTank);
 }
 
 

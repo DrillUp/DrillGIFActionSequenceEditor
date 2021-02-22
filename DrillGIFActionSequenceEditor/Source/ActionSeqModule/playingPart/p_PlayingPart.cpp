@@ -25,14 +25,22 @@ P_PlayingPart::P_PlayingPart(QWidget *parent)
 	//-----------------------------------
 	//----初始化参数
 
+	// > 编辑表格
+	this->m_table_action = new P_RadioTable(ui.tableWidget_action);
+	this->m_table_state = new P_RadioTable(ui.tableWidget_state);
+	QJsonObject obj_config = QJsonObject();
+	obj_config.insert("zeroFillCount", 2);
+	obj_config.insert("rowHeight", 22);
+	this->m_table_action->setConfigParam(obj_config);	//固定参数
+	this->m_table_state->setConfigParam(obj_config);	
+
 	//-----------------------------------
 	//----初始化ui
 
 
 	//-----------------------------------
 	//----事件绑定
-	connect(ui.toolButton, &QPushButton::clicked, this, &P_PlayingPart::startPlay);
-	connect(ui.toolButton_2, &QPushButton::clicked, this, &P_PlayingPart::endPlay);
+
 
 }
 
@@ -42,57 +50,65 @@ P_PlayingPart::~P_PlayingPart(){
 /*-------------------------------------------------
 		放映区 - 开始播放
 */
-void P_PlayingPart::startPlay() {
+void P_PlayingPart::openPlay() {
 	//S_GIFManager::getInstance()->dismantlingGIF_testApi();
-	QList<QFileInfo> info_list = QList<QFileInfo>();
-	info_list.push_back(QFileInfo("F:/新建文件夹/0.png"));
-	info_list.push_back(QFileInfo("F:/新建文件夹/1.png"));
-	info_list.push_back(QFileInfo("F:/新建文件夹/2.png"));
-	info_list.push_back(QFileInfo("F:/新建文件夹/3.png"));
-	info_list.push_back(QFileInfo("F:/新建文件夹/4.png"));
-	info_list.push_back(QFileInfo("F:/新建文件夹/5.png"));
-	info_list.push_back(QFileInfo("F:/新建文件夹/6.png"));
-	info_list.push_back(QFileInfo("F:/新建文件夹/7.png"));
-	info_list.push_back(QFileInfo("F:/新建文件夹/8.png"));
-	info_list.push_back(QFileInfo("F:/新建文件夹/9.png"));
-	info_list.push_back(QFileInfo("F:/新建文件夹/10.png"));
-	info_list.push_back(QFileInfo("F:/新建文件夹/11.png"));
-	info_list.push_back(QFileInfo("F:/新建文件夹/12.png"));
-	info_list.push_back(QFileInfo("F:/新建文件夹/13.png"));
-	info_list.push_back(QFileInfo("F:/新建文件夹/14.png"));
-	S_GIFManager::getInstance()->generateGIF(info_list, QFileInfo("F:/aaa.gif"), 4);
+	
+}
+
+/*-------------------------------------------------
+		控件 - 获取状态元名称
+*/
+QStringList P_PlayingPart::getStateNameList(){
+	QStringList result = QStringList();
+	for (int i = 0; i < this->local_stateDataList.count(); i++){
+		result.append(this->local_stateDataList.at(i).value("状态元名称").toString());
+	}
+	return result;
 }
 /*-------------------------------------------------
-		放映区 - 结束播放
+		控件 - 获取动作元名称
 */
-void P_PlayingPart::endPlay() {
-	S_GIFManager::getInstance()->dismantlingGIF(QFileInfo("F:/gif箱/6HDFVPQ(DV~UCB)2L1D4[(R.gif"),QDir("F:/新建文件夹/"),"png");
+QStringList P_PlayingPart::getActionNameList(){
+	QStringList result = QStringList();
+	for (int i = 0; i < this->local_actionDataList.count(); i++){
+		result.append(this->local_actionDataList.at(i).value("动作元名称").toString());
+	}
+	return result;
 }
 
 /*-------------------------------------------------
 		窗口 - 设置数据
 */
-void P_PlayingPart::setData(QJsonObject actionData) {
-	this->local_actionData = actionData;
+void P_PlayingPart::setSource(QList<QJsonObject> stateDataList, QList<QJsonObject> actionDataList){
+	this->local_stateDataList = stateDataList;
+	this->local_actionDataList = actionDataList;
 	this->putDataToUi();
+}
+/*-------------------------------------------------
+		窗口 - 设置数据
+*/
+void P_PlayingPart::setDefaultStateData(QStringList defaultStateList) {
+	this->local_defaultStateList = defaultStateList;
+	ui.label_defaultState->setText(this->local_defaultStateList.join("\n"));
 }
 /*-------------------------------------------------
 		窗口 - 取出数据
 */
-QJsonObject P_PlayingPart::getData(){
+QStringList P_PlayingPart::getDefaultStateData(){
 	this->putUiToData();
 
 	// > 校验
 	//...
 	
-	return this->local_actionData;
+	return this->local_defaultStateList;
 }
 /*-------------------------------------------------
 		窗口 - 本地数据 -> ui数据
 */
 void P_PlayingPart::putDataToUi() {
-	
 
+	this->m_table_action->setSource(this->getActionNameList());
+	this->m_table_state->setSource(this->getStateNameList());
 }
 /*-------------------------------------------------
 		窗口 - ui数据 -> 本地数据

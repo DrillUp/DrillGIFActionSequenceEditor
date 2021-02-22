@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>957</width>
+    <width>789</width>
     <height>597</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout" stretch="4">
+  <layout class="QVBoxLayout" name="verticalLayout_6" stretch="0">
    <property name="leftMargin">
     <number>0</number>
    </property>
@@ -28,9 +28,9 @@
    </property>
    <item>
     <widget class="QWidget" name="widget" native="true">
-     <layout class="QVBoxLayout" name="verticalLayout" stretch="4,1">
+     <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
       <property name="spacing">
-       <number>0</number>
+       <number>2</number>
       </property>
       <property name="leftMargin">
        <number>0</number>
@@ -60,7 +60,50 @@
           <number>2</number>
          </property>
          <item>
-          <widget class="QTableWidget" name="tableWidget"/>
+          <widget class="QWidget" name="widget_4" native="true">
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="styleSheet">
+               <string notr="true">
+font-family:&quot;微软雅黑&quot;;
+font-size:20px;
+font-weight:bold;
+padding:4px;
+color:#ffffff;
+border-radius:3px;
+border:1px solid #000000;
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #444444, stop:0.3 #525252, stop:0.9 #525252, stop:1 #444444 )</string>
+              </property>
+              <property name="text">
+               <string>状态元</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QTableWidget" name="tableWidget">
+              <property name="styleSheet">
+               <string notr="true">
+QTableView::item:selected {
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #5C87D9, stop:0.505 #557CC7, stop:1 #5075BC);
+}</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
          </item>
          <item>
           <widget class="QWidget" name="widget_3" native="true">
@@ -133,7 +176,132 @@
           </widget>
          </item>
          <item>
-          <widget class="QGraphicsView" name="graphicsView"/>
+          <widget class="QGroupBox" name="groupBox_3">
+           <property name="title">
+            <string>视图</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_5">
+            <property name="spacing">
+             <number>2</number>
+            </property>
+            <property name="topMargin">
+             <number>6</number>
+            </property>
+            <item>
+             <widget class="QWidget" name="widget_5" native="true">
+              <property name="styleSheet">
+               <string notr="true">
+QToolButton{
+	padding:2px;
+	border: 1px solid transparent;
+	background: rgba(255,255,255,0);
+}
+QToolButton:hover{
+	border-radius:1px;
+	border:1px solid #f2ca58;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #fdecad, stop:0.3 #fde48c, stop:0.9 #fce58c, stop:1 #fdfadf )
+}
+QToolButton:pressed{
+	border-radius:1px;
+	border:1px solid #f2ca58;
+	background-color: #FDF4BF;
+}</string>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_3">
+               <property name="spacing">
+                <number>2</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QToolButton" name="toolButton_zoom_in">
+                 <property name="text">
+                  <string>放大</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../../../drillgifactionsequenceeditor.qrc">
+                   <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/view/Zoom_In.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/view/Zoom_In.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>24</width>
+                   <height>24</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QToolButton" name="toolButton_zoom_out">
+                 <property name="text">
+                  <string>缩小</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../../../drillgifactionsequenceeditor.qrc">
+                   <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/view/Zoom_Out.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/view/Zoom_Out.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>24</width>
+                   <height>24</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QToolButton" name="toolButton_zoom_regular">
+                 <property name="text">
+                  <string>原比例</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../../../drillgifactionsequenceeditor.qrc">
+                   <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/view/Zoom_Regular.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/view/Zoom_Regular.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>24</width>
+                   <height>24</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_4">
+                 <property name="text">
+                  <string>100.0%</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGraphicsView" name="graphicsView"/>
+            </item>
+           </layout>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -153,6 +321,8 @@ QListView::item:selected {
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../../drillgifactionsequenceeditor.qrc"/>
+ </resources>
  <connections/>
 </ui>

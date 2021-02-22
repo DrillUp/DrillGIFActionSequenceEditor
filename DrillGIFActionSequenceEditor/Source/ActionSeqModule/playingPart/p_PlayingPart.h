@@ -4,6 +4,8 @@
 #include <QtWidgets>
 #include "ui_P_PlayingPart.h"
 
+#include "Source/Utils/widgetForm/radioTable/p_RadioTable.h"
+
 /*
 -----==========================================================-----
 		类：		放映区.h
@@ -24,20 +26,28 @@ class P_PlayingPart : public QWidget
 	//-----------------------------------
 	//----控件
 	public:
+		P_RadioTable* m_table_action;
+		P_RadioTable* m_table_state;
+	public:
 										//控件 - 开始播放
-		void startPlay();
-										//控件 - 结束播放
-		void endPlay();
+		void openPlay();
+										//控件 - 获取名称
+		QStringList getStateNameList();
+		QStringList getActionNameList();
 
 	//-----------------------------------
 	//----窗口
 	public:
-		QJsonObject local_actionData;
+		QStringList local_defaultStateList;
+		QList<QJsonObject> local_stateDataList;
+		QList<QJsonObject> local_actionDataList;
 	public:
 										//窗口 - 设置数据
-		void setData(QJsonObject actionData);
+		void setSource(QList<QJsonObject> stateDataList, QList<QJsonObject> actionDataList);
+										//窗口 - 设置数据
+		void setDefaultStateData(QStringList defaultStateList);
 										//窗口 - 取出数据
-		QJsonObject getData();
+		QStringList getDefaultStateData();
 										//窗口 - 本地数据 -> ui数据
 		void putDataToUi();							
 										//窗口 - ui数据 -> 本地数据

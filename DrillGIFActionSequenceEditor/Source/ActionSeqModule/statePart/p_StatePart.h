@@ -3,6 +3,8 @@
 
 #include <QtWidgets>
 #include "ui_P_StatePart.h"
+
+#include "Source/Utils/widgetForm/radioTable/p_RadioTable.h"
 #include "Source/Utils/widgetFormSenior/AnimationListEditor/p_AnimationListEditor.h"
 #include "Source/Utils/widgetFormSenior/AnimationListPlayer/p_AnimationListPlayer.h"
 
@@ -22,6 +24,16 @@ class P_StatePart : public QWidget
 	public:
 		P_StatePart(QWidget *parent = 0);
 		~P_StatePart();
+		
+	//-----------------------------------
+	//----控件
+	public:
+		P_RadioTable* m_table;
+	public slots:
+										//控件 - 获取动作元名称
+		QStringList getNameList();
+										//控件 - 动作元切换
+		void currentIndexChanged(int index);
 		
 	//-----------------------------------
 	//----动画帧

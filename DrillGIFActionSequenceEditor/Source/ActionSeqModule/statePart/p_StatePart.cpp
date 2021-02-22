@@ -27,6 +27,13 @@ P_StatePart::P_StatePart(QWidget *parent)
 
 	//-----------------------------------
 	//----初始化ui
+	
+	// > 编辑表格
+	this->m_table = new P_RadioTable(ui.tableWidget);
+	QJsonObject obj_config = QJsonObject();
+	obj_config.insert("zeroFillCount", 2);
+	obj_config.insert("rowHeight", 22);
+	this->m_table->setConfigParam(obj_config);	//固定参数
 
 	// > 动画帧
 	C_ALEData data = C_ALEData();
@@ -59,6 +66,7 @@ P_StatePart::P_StatePart(QWidget *parent)
 
 	//-----------------------------------
 	//----事件绑定
+	connect(this->m_table, &P_RadioTable::currentIndexChanged, this, &P_StatePart::currentIndexChanged);
 	connect(this->m_p_AnimationListEditor, &P_AnimationListEditor::selectedIndexChanged_Multi, this, &P_StatePart::tableChanged_Multi);
 
 }
@@ -76,6 +84,32 @@ void P_StatePart::tableChanged_Multi(QList<int> index_list){
 	}
 	//ui.label->setText("你选择了：" + text);
 }
+
+
+/*-------------------------------------------------
+		控件 - 获取状态元名称
+*/
+QStringList P_StatePart::getNameList(){
+	QStringList result = QStringList();
+	for (int i = 0; i < this->local_stateDataList.count(); i++){
+		result.append(this->local_stateDataList.at(i).value("状态元名称").toString());
+	}
+	return result;
+}
+
+/*-------------------------------------------------
+		控件 - 动作元切换
+*/
+void P_StatePart::currentIndexChanged(int index){
+
+	// > 旧的内容存储
+
+
+	// > 填入新的内容
+	ui.lineEdit_name->setText(this->getNameList().at(index));
+}
+
+
 
 /*-------------------------------------------------
 		窗口 - 设置数据
@@ -99,8 +133,8 @@ QList<QJsonObject> P_StatePart::getData(){
 		窗口 - 本地数据 -> ui数据
 */
 void P_StatePart::putDataToUi() {
-	
 
+	this->m_table->setSource(this->getNameList());
 }
 /*-------------------------------------------------
 		窗口 - ui数据 -> 本地数据
