@@ -64,10 +64,25 @@ P_StatePart::P_StatePart(QWidget *parent)
 	layout->setMargin(3);
 	layout->addWidget(this->m_p_AnimationListPlayer);
 
+	// > 图片查看块
+	this->m_p_AnimPictureViewer = new P_AnimPictureViewer(ui.widget_view);
+	this->m_p_AnimPictureViewer->rebuildUI();
+	this->m_p_AnimPictureViewer->setSource(data.getAllFile());
+
 	//-----------------------------------
 	//----事件绑定
 	connect(this->m_table, &P_RadioTable::currentIndexChanged, this, &P_StatePart::currentIndexChanged);
 	connect(this->m_p_AnimationListEditor, &P_AnimationListEditor::selectedIndexChanged_Multi, this, &P_StatePart::tableChanged_Multi);
+
+	// > 图片查看块 - 连接帧切换
+	connect(this->m_p_AnimationListEditor, &P_AnimationListEditor::currentIndexChanged, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::setAnimFrame);
+	// > 图片查看块 - 连接资源切换
+	connect(this->m_p_AnimationListEditor, &P_AnimationListEditor::animBitmapChanged, this, &P_StatePart::bitmapChanged);
+	// > 图片查看块 - 缩放
+	connect(ui.toolButton_zoom_in, &QPushButton::clicked, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::zoomIn);
+	connect(ui.toolButton_zoom_out, &QPushButton::clicked, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::zoomOut);
+	connect(ui.toolButton_zoom_regular, &QPushButton::clicked, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::zoomReset);
+	connect(this->m_p_AnimPictureViewer, &P_AnimPictureViewer::scaleChanged, this, &P_StatePart::zoomValueChanged);
 
 }
 
@@ -84,7 +99,19 @@ void P_StatePart::tableChanged_Multi(QList<int> index_list){
 	}
 	//ui.label->setText("你选择了：" + text);
 }
-
+/*-------------------------------------------------
+		动画帧 - 资源切换
+*/
+void P_StatePart::bitmapChanged(){
+	C_ALEData data = this->m_p_AnimationListEditor->getSource();
+	this->m_p_AnimPictureViewer->setSource(data.getAllFile());
+}
+/*-------------------------------------------------
+		动画帧 - 缩放比例切换
+*/
+void P_StatePart::zoomValueChanged(double value){
+	ui.label_zoomValue->setText( QString::number(value * 100)+"%" );
+}
 
 /*-------------------------------------------------
 		控件 - 获取状态元名称

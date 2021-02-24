@@ -341,7 +341,7 @@ void P_AnimationListEditor::setSource(C_ALEData data) {
 	this->setSource(this->m_data.getAllFile());
 }
 /*-------------------------------------------------
-		资源数据 - 获取数据
+		资源数据 - 获取数据（资源数据会被该块修改，需要随时获取并变化）
 */
 C_ALEData P_AnimationListEditor::getSource(){
 	return this->m_data;
@@ -375,6 +375,8 @@ void P_AnimationListEditor::op_append(QString gif_src){
 	this->m_widgetTank.append(widget);
 
 	//（不需要刷）
+
+	emit animBitmapChanged();
 }
 /*-------------------------------------------------
 		操作 - 添加资源(insert)【此处 绕开了 insertItem 的bug，代码结构会比较复杂】
@@ -407,6 +409,8 @@ void P_AnimationListEditor::op_insert(int index, QStringList gif_src_list, QList
 
 	// > 强制全刷
 	this->op_refreshAll(index);
+
+	emit animBitmapChanged();
 }
 /*-------------------------------------------------
 		操作 - 移除
@@ -431,6 +435,8 @@ void P_AnimationListEditor::op_remove(int index){
 
 	// > 清除复制项
 	this->m_copyedList.clear();
+
+	emit animBitmapChanged();
 }
 /*-------------------------------------------------
 		操作 - 交换位置
@@ -469,6 +475,8 @@ void P_AnimationListEditor::op_swap(int index_a, int index_b){
 
 	//this->m_itemTank.swap(index_a, index_b);
 	//this->m_widgetTank.swap(index_a, index_b);
+
+	emit animBitmapChanged();
 }
 /*-------------------------------------------------
 		操作 - 刷新贴图内容

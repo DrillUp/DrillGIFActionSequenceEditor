@@ -5,9 +5,11 @@
 		p_AnimationListPlayer.h
 		p_AnimationListPlayer.ui
 		该播放器相当于 动画帧编辑块 的一个扩展粘合剂。
+		该控件的【图标路径】见变量：this->m_iconSrcPath
 
 		播放器 与 编辑器 是独立的，播放器发出信号，编辑器接收并处理。
 		具体去看看编辑器接收信号处理方式，可以此使播放器连接其它的控件。
+
 
 	交互对象：
 		【信号】

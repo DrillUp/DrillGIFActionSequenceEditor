@@ -263,10 +263,14 @@ void P_PictureSelector::setSource(QList<QFileInfo> file_list) {
 		this->m_org_bitmapList.append(pixmap);
 	}
 	this->rebuildListUi();
+	
+	emit animBitmapChanged();
 }
 void P_PictureSelector::setSource(QList<QPixmap> bitmap_list) {
 	this->m_org_bitmapList = bitmap_list;
 	this->rebuildListUi();
+
+	emit animBitmapChanged();
 }
 
 

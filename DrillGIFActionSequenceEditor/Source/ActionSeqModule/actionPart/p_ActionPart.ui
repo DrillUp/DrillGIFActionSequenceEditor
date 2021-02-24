@@ -223,7 +223,7 @@ QTableView::item:selected {
            <property name="title">
             <string>视图</string>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout_5">
+           <layout class="QVBoxLayout" name="verticalLayout_5" stretch="0,1">
             <property name="spacing">
              <number>2</number>
             </property>
@@ -318,7 +318,7 @@ QToolButton:pressed{
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_4">
+                <widget class="QLabel" name="label_zoomValue">
                  <property name="text">
                   <string>100.0%</string>
                  </property>
@@ -341,7 +341,7 @@ QToolButton:pressed{
              </widget>
             </item>
             <item>
-             <widget class="QGraphicsView" name="graphicsView"/>
+             <widget class="QWidget" name="widget_view" native="true"/>
             </item>
            </layout>
           </widget>

@@ -4,6 +4,8 @@
 #include <QtWidgets>
 #include "ui_P_StatePart.h"
 
+#include "Source/GraphModule/widget/animPictureViewer/p_AnimPictureViewer.h"
+
 #include "Source/Utils/widgetForm/radioTable/p_RadioTable.h"
 #include "Source/Utils/widgetFormSenior/AnimationListEditor/p_AnimationListEditor.h"
 #include "Source/Utils/widgetFormSenior/AnimationListPlayer/p_AnimationListPlayer.h"
@@ -40,9 +42,14 @@ class P_StatePart : public QWidget
 	public:
 		P_AnimationListEditor* m_p_AnimationListEditor;
 		P_AnimationListPlayer* m_p_AnimationListPlayer;
+		P_AnimPictureViewer* m_p_AnimPictureViewer;
 	public:
 									//动画帧 - 选项变化
 		void tableChanged_Multi(QList<int> index);
+									//动画帧 - 资源切换
+		void bitmapChanged();
+									//动画帧 - 缩放比例切换
+		void zoomValueChanged(double value);
 		
 
 	//-----------------------------------

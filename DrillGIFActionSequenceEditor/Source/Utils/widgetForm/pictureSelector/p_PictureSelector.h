@@ -35,7 +35,7 @@ class P_PictureSelector : public QObject
 									//控件 - 重建图片列（如果图片多，不建议反复调用）
 		void rebuildListUi();
 									//控件 - 建立图片项
-		QListWidgetItem* createPictureItem();
+		virtual QListWidgetItem* createPictureItem();
 									//控件 - 建立图片控件
 		virtual QWidget* createPictureWidget(int i, QPixmap pixmap);
 									//控件 - 清理全部
@@ -46,6 +46,10 @@ class P_PictureSelector : public QObject
 		void currentIndexChanged(int index);
 									//控件 - 选中选项变化（多选时，信号）
 		void selectedIndexChanged_Multi(QList<int> index);
+
+									//控件 - 贴图bitmap变化（信号）
+									//		【说明】：QPixmap有QPixmapCache缓存机制，其它控件可以反复读取QPixmap资源。
+		void animBitmapChanged();
 
 	//-----------------------------------
 	//----事件

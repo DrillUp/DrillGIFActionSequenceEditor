@@ -168,6 +168,18 @@
     <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧播放器">
       <UniqueIdentifier>{7cdb3496-a4d4-4234-9b15-041748c61e3f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\【 图形模块 GraphModule】">
+      <UniqueIdentifier>{1c2a3e7b-4130-48a4-8ff9-3cd941c8fe72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 图形模块 GraphModule】\集合组件（widget）">
+      <UniqueIdentifier>{5b1f25ec-c5b9-4f95-8020-f3d267f4c9c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 图形模块 GraphModule】\集合组件（widget）\图片查看块">
+      <UniqueIdentifier>{3d1dd754-3b12-4cbe-b4d1-ef144ad23361}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 图形模块 GraphModule】\集合组件（widget）\图片查看块\私有类">
+      <UniqueIdentifier>{7388ddd9-13e0-4d85-b609-fc798d47ab65}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -650,6 +662,33 @@
     <ClCompile Include="GeneratedFiles\Release\moc_p_AnimationListPlayer.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GraphModule\widget\animPictureViewer\p_AnimPictureViewer.cpp">
+      <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片查看块</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_p_AnimPictureViewer.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_p_AnimPictureViewer.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GraphModule\widget\animPictureViewer\private\i_APVScene.cpp">
+      <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片查看块\私有类</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_i_APVScene.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_i_APVScene.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GraphModule\widget\animPictureViewer\private\i_APVView.cpp">
+      <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片查看块\私有类</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_i_APVView.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_i_APVView.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="drillgifactionsequenceeditor.qrc">
@@ -853,6 +892,15 @@
     <CustomBuild Include="Source\Utils\widgetFormSenior\animationListPlayer\p_AnimationListPlayer.ui">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧播放器</Filter>
     </CustomBuild>
+    <CustomBuild Include="Source\GraphModule\widget\animPictureViewer\p_AnimPictureViewer.h">
+      <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片查看块</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\GraphModule\widget\animPictureViewer\private\i_APVScene.h">
+      <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片查看块\私有类</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\GraphModule\widget\animPictureViewer\private\i_APVView.h">
+      <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片查看块\私有类</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DrillGIFActionSequenceEditor.rc" />
@@ -1021,6 +1069,9 @@
     </Text>
     <Text Include="Source\Utils\widgetFormSenior\animationListPlayer\程序入口.txt">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧播放器</Filter>
+    </Text>
+    <Text Include="Source\GraphModule\widget\animPictureViewer\程序入口.txt">
+      <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片查看块</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
