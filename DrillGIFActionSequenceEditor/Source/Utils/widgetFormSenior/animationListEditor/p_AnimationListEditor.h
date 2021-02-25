@@ -2,6 +2,7 @@
 #include "Source/Utils/widgetForm/pictureSelector/p_PictureSelector.h"
 #include "c_ALEConfig.h"
 #include "c_ALEData.h"
+#include <QKeyEvent>
 
 /*
 -----==========================================================-----
@@ -80,12 +81,12 @@ class P_AnimationListEditor : public P_PictureSelector
 	//----资源数据（操作）
 	protected:
 		QList<QFileInfo> m_copyedList;
-	public:
+	protected:
 									//操作 - 添加【此处 绕开了 insertItem 的bug，代码结构会比较复杂】
 		void op_append(QString gif_src);
 		void op_insert(int index, QStringList gif_src_list, QList<int> interval_list = QList<int>() );
 									//操作 - 移除
-		void op_remove(int index);
+		void op_remove(QList<int> index_list);
 									//操作 - 交换位置
 		void op_swap(int index_a, int index_b);
 									//操作 - 刷新贴图内容
@@ -101,6 +102,8 @@ class P_AnimationListEditor : public P_PictureSelector
 		void op_insertGIFInAction();
 									//action - 删除帧（单个和多个）
 		void op_removeInAction();
+									//action - 全选
+		void op_selectAllInAction();
 									//action - 复制（单个和多个）
 		void op_copyInAction();
 									//action - 粘贴（单个和多个）
@@ -123,6 +126,16 @@ class P_AnimationListEditor : public P_PictureSelector
 									//编辑窗口 - 选择GIF
 		QString openWindow_getGIFFile();
 	
-
+	//-----------------------------------
+	//----快捷键
+	public:
+									//快捷键 - 全选
+		void shortcut_selectAll();
+									//快捷键 - 复制
+		void shortcut_copy();
+									//快捷键 - 粘贴
+		void shortcut_paste();
+									//快捷键 - 删除
+		void shortcut_delete();
 
 };

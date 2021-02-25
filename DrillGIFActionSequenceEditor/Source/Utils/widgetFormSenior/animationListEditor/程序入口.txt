@@ -9,6 +9,7 @@
 		继承于p_PictureSelector图片选择块。
 		部分继承的方法会被 私有化 ，需要调用新函数来代替。
 		这里含一个特殊的信号：allFrameDeleted，全部帧被删除情况
+		快捷键函数需要外部父类进行调用。
 
 	交互对象：
 		1.	c_ALEConfig.cpp

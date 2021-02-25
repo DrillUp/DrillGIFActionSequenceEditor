@@ -50,6 +50,12 @@ class P_ActionPart : public QWidget
 		void bitmapChanged();
 									//动画帧 - 缩放比例切换
 		void zoomValueChanged(double value);
+		
+	//-----------------------------------
+	//----快捷键
+	public:
+									//快捷键 - 事件
+		void keyPressEvent(QKeyEvent *event);
 
 	//-----------------------------------
 	//----窗口

@@ -33,6 +33,7 @@
 						-> 单帧编辑：图像、帧数
 						-> 多帧编辑：帧数
 					-> 编辑UI配置
+					-> 快捷键
 					
 		使用方法：
 				> 初始化（需要数据）
@@ -60,10 +61,13 @@ P_AnimationListEditor::P_AnimationListEditor(QListWidget *parent)
 	//-----------------------------------
 	//----参数初始化
 	this->m_iconSrcPath = ":/DrillGIFActionSequenceEditor/Resources/icons";
-	
+	this->m_copyedList = QList<QFileInfo>();
+
 	// > 数据
 	this->setConfigParam(C_ALEConfig());
 
+	// > 快捷键过滤器
+	this->m_listWidget->installEventFilter(this);
 }
 P_AnimationListEditor::~P_AnimationListEditor(){
 }
@@ -170,6 +174,12 @@ void P_AnimationListEditor::event_itemRightClicked(QList<QListWidgetItem*> item_
 		connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_insertGIFInAction);
 		menu->addAction(action);
 
+		action = new QAction("全选", this);
+		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_SelectAll.png"));
+		action->setShortcut(QKeySequence::SelectAll);
+		action->setEnabled(false);
+		menu->addAction(action);
+
 		action = new QAction("复制帧", this);
 		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Copy.png"));
 		action->setShortcut(QKeySequence::Copy);
@@ -223,6 +233,13 @@ void P_AnimationListEditor::event_itemRightClicked(QList<QListWidgetItem*> item_
 		connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_insertGIFInAction);
 		menu->addAction(action);
 
+		action = new QAction("全选", this);
+		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_SelectAll.png"));
+		action->setShortcut(QKeySequence::SelectAll);
+		connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_selectAllInAction);
+		menu->addAction(action);
+		if (this->m_config_ALE.m_isMultiSelect == false){ action->setEnabled(false); }
+
 		action = new QAction("复制帧", this);
 		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Copy.png"));
 		action->setData( QString::number(pos) );
@@ -258,16 +275,19 @@ void P_AnimationListEditor::event_itemRightClicked(QList<QListWidgetItem*> item_
 	/*-------------------------点击多个-----------------------------*/
 	}else{
 		int front_pos = 1000;
-		QList<QString> pos_list = QList<QString>();
-
+		QList<int> pos_list = QList<int>();
 		for (int i = 0; i < item_list.count(); i++){
 			QListWidgetItem* item = item_list.at(i);
 			int pos = this->m_itemTank.indexOf(item);
 			if (pos == -1){ continue; }
 			if (pos < front_pos){ front_pos = pos; }
-			pos_list.append( QString::number(pos) );
+			pos_list.append( pos );
 		}
 		qSort(pos_list);		//（排序，防止删除时顺序乱了）
+		QList<QString> pos_list_str = QList<QString>();
+		for (int i = 0; i < pos_list.count(); i++){
+			pos_list_str.append(QString::number(pos_list.at(i)));
+		}
 
 		action = new QAction("添加帧", this);
 		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Add.png"));
@@ -281,9 +301,16 @@ void P_AnimationListEditor::event_itemRightClicked(QList<QListWidgetItem*> item_
 		connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_insertGIFInAction);
 		menu->addAction(action);
 
+		action = new QAction("全选", this);
+		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_SelectAll.png"));
+		action->setShortcut(QKeySequence::SelectAll);
+		connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_selectAllInAction);
+		menu->addAction(action);
+		if (this->m_config_ALE.m_isMultiSelect == false){ action->setEnabled(false); }
+
 		action = new QAction("复制帧", this);
 		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Copy.png"));
-		action->setData(pos_list.join(","));
+		action->setData(pos_list_str.join(","));
 		action->setShortcut(QKeySequence::Copy);
 		connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_copyInAction);
 		menu->addAction(action);
@@ -298,7 +325,7 @@ void P_AnimationListEditor::event_itemRightClicked(QList<QListWidgetItem*> item_
 
 		action = new QAction("删除帧", this);
 		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Delete.png"));
-		action->setData(pos_list.join(","));
+		action->setData(pos_list_str.join(","));
 		action->setShortcut(QKeySequence::Delete);
 		connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_removeInAction);
 		menu->addAction(action);
@@ -307,7 +334,7 @@ void P_AnimationListEditor::event_itemRightClicked(QList<QListWidgetItem*> item_
 
 		action = new QAction("编辑帧时间", this);
 		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Edit.png"));
-		action->setData(pos_list.join(","));
+		action->setData(pos_list_str.join(","));
 		action->setShortcut(QKeySequence::Delete);
 		connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_editMultiInAction);
 		menu->addAction(action);
@@ -415,26 +442,40 @@ void P_AnimationListEditor::op_insert(int index, QStringList gif_src_list, QList
 /*-------------------------------------------------
 		操作 - 移除
 */
-void P_AnimationListEditor::op_remove(int index){
+void P_AnimationListEditor::op_remove(QList<int> index_list){
 	if (this->m_data.isNull()){ return; }
+	qSort(index_list);	//（排序）
 
-	// > 数据移除
-	this->m_data.op_remove(index);
+	// > 倒序删除
+	int index = 0;
+	for (int i = index_list.count() - 1; i >= 0; i--){
+		index = index_list.at(i);
 
-	// > 图形移除
-	this->m_org_bitmapList.removeAt(index);
+		// > 数据移除
+		this->m_data.op_remove(index);
 
-	// > 控件移除
-	this->m_listWidget->takeItem(index);
-	QListWidgetItem* item = this->m_itemTank.at(index);
-	QWidget* widget = this->m_widgetTank.at(index);
-	this->m_itemTank.removeAt(index);
-	this->m_widgetTank.removeAt(index);
-	delete item;
-	delete widget;
+		// > 图形移除
+		this->m_org_bitmapList.removeAt(index);
+
+		// > 控件移除
+		this->m_listWidget->takeItem(index);
+		QListWidgetItem* item = this->m_itemTank.at(index);
+		QWidget* widget = this->m_widgetTank.at(index);
+		this->m_itemTank.removeAt(index);
+		this->m_widgetTank.removeAt(index);
+		delete item;
+		delete widget;
+	}
 
 	// > 清除复制项
 	this->m_copyedList.clear();
+
+	// > 取消选择
+	if (this->m_itemTank.count() == 0){
+		emit allFrameDeleted();
+	}else{
+		this->selectIndex(index - 1);
+	}
 
 	emit animBitmapChanged();
 }
@@ -564,7 +605,7 @@ void P_AnimationListEditor::op_insertGIFInAction(){
 	}
 
 	// > 获取文件名
-	QList<int> interval_list = S_GIFManager::getInstance()->getLastDismantledGIFIntervalList();
+	QList<int> interval_list = S_GIFManager::getInstance()->getLastDismantledGIFIntervalList_divideTen();
 	QList<QFileInfo> file_list = S_GIFManager::getInstance()->getLastDismantledGIFFileList();
 	QStringList file_name_list = QStringList();
 	for (int i = 0; i <file_list.count(); i++){
@@ -580,21 +621,20 @@ void P_AnimationListEditor::op_insertGIFInAction(){
 void P_AnimationListEditor::op_removeInAction(){
 	QAction* cur_action = qobject_cast<QAction*>(sender());		//从action里面取出数据
 	QString index_str = cur_action->data().value<QString>();
-	
-	// > 倒序删除
-	int pos = 0;
-	QStringList index_list = index_str.split(",");
-	for (int i = index_list.count()-1; i >=0 ; i--){
-		pos = index_list.at(i).toInt();
-		this->op_remove(pos);
+	QStringList index_str_list = index_str.split(",");
+
+	QList<int> index_list = QList<int>();
+	for (int i = 0; i < index_str_list.count(); i++){
+		index_list.append(index_str_list.at(i).toInt());
 	}
-	
-	// > 取消选择
-	if (this->m_itemTank.count() == 0){
-		emit allFrameDeleted();
-	}else{
-		this->selectIndex(pos - 1);
-	}
+
+	this->op_remove(index_list);
+}
+/*-------------------------------------------------
+		action - 全选（单个和多个）
+*/
+void P_AnimationListEditor::op_selectAllInAction(){
+	this->m_listWidget->selectAll();
 }
 /*-------------------------------------------------
 		action - 复制（单个和多个）
@@ -698,9 +738,6 @@ void P_AnimationListEditor::op_editMultiInAction(){
 
 
 
-
-
-
 /*-------------------------------------------------
 		编辑窗口 - 选择多张图片
 */
@@ -740,3 +777,44 @@ QString P_AnimationListEditor::openWindow_getGIFFile(){
 	}
 }
 
+
+/*-------------------------------------------------
+		快捷键 - 全选
+*/
+void P_AnimationListEditor::shortcut_selectAll(){
+	if (this->m_listWidget->hasFocus() == false){ return; }
+	this->m_listWidget->selectAll();
+
+}
+/*-------------------------------------------------
+		快捷键 - 复制
+*/
+void P_AnimationListEditor::shortcut_copy(){
+	if (this->m_listWidget->hasFocus() == false){ return; }
+
+	QList<int> index_list = this->getSelectedIndex_Multi();
+	this->m_copyedList = this->m_data.getFileList(index_list);
+}
+/*-------------------------------------------------
+		快捷键 - 粘贴
+*/
+void P_AnimationListEditor::shortcut_paste(){
+	if (this->m_listWidget->hasFocus() == false){ return; }
+	if (this->m_copyedList.count() == 0){ return; }
+
+	QStringList file_name_list = QStringList();
+	for (int i = 0; i < this->m_copyedList.count(); i++){
+		file_name_list.append(this->m_copyedList.at(i).completeBaseName());
+	}
+	int pos = this->getSelectedIndex();
+	this->op_insert(pos, file_name_list);
+	
+}
+/*-------------------------------------------------
+		快捷键 - 删除
+*/
+void P_AnimationListEditor::shortcut_delete(){
+	if (this->m_listWidget->hasFocus() == false){ return; }
+	QList<int> index_list = this->getSelectedIndex_Multi();
+	this->op_remove(index_list);
+}

@@ -42,5 +42,6 @@
         <file>Resources/icons/tabWidget/outFrame.png</file>
         <file>Resources/icons/tabWidget/outFrame_disabled.png</file>
         <file>Resources/icons/tabWidget/outFrame_hover.png</file>
+        <file>Resources/icons/menu/Common_SelectAll.png</file>
     </qresource>
 </RCC>

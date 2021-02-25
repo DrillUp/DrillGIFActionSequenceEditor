@@ -193,6 +193,13 @@ bool S_GIFManager::dismantlingGIF(QFileInfo gif_path, QDir image_dir_path, char*
 QList<int> S_GIFManager::getLastDismantledGIFIntervalList(){
 	return this->m_lastIntervalList;
 }
+QList<int> S_GIFManager::getLastDismantledGIFIntervalList_divideTen(){
+	QList<int> result_list = this->m_lastIntervalList;
+	for (int i = 0; i < result_list.count(); i++){
+		result_list.replace(i, result_list.at(i)*0.1);
+	}
+	return result_list;
+}
 /*-------------------------------------------------
 		拆解 - 获取拆解后的文件列表
 */

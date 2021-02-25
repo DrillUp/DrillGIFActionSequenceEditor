@@ -139,6 +139,28 @@ void P_StatePart::currentIndexChanged(int index){
 
 
 /*-------------------------------------------------
+		快捷键 - 事件
+*/
+void P_StatePart::keyPressEvent(QKeyEvent *event){
+	if (event->modifiers() & Qt::ControlModifier){
+		if (event->key() == Qt::Key_C){
+			this->m_p_AnimationListEditor->shortcut_copy();
+		}
+		if (event->key() == Qt::Key_V){
+			this->m_p_AnimationListEditor->shortcut_paste();
+		}
+		if (event->key() == Qt::Key_A){
+			this->m_p_AnimationListEditor->shortcut_selectAll();
+		}
+	}
+	if (event->key() == Qt::Key_Delete){
+		this->m_p_AnimationListEditor->shortcut_delete();
+	}
+}
+
+
+
+/*-------------------------------------------------
 		窗口 - 设置数据
 */
 void P_StatePart::setData(QList<QJsonObject> state) {

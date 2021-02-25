@@ -49,6 +49,7 @@ class S_GIFManager : public QObject
 
 										//拆解 - 获取拆解后的帧间隔数据
 		QList<int> getLastDismantledGIFIntervalList();
+		QList<int> getLastDismantledGIFIntervalList_divideTen();
 										//拆解 - 获取拆解后的文件列表
 		QList<QFileInfo> getLastDismantledGIFFileList();
 
