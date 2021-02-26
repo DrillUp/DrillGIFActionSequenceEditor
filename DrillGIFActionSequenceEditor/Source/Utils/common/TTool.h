@@ -11,7 +11,7 @@
 /*
 -----==========================================================-----
 		类：		Drill_up工具包.h
-		版本：		v1.15
+		版本：		v1.16
 		作者：		drill_up
 		编码：		UTF-8
 		所属模块：	工具模块
@@ -406,6 +406,24 @@ class TTool
 		/*b的值赋给a
 			【说明】：QJsonObject赋值给另一个，相同的key会被覆盖。*/
 		static void _QJsonObject_put_(QJsonObject *a, QJsonObject b);
+		
+	//-----------------------------------------------------
+	//----字符串与JSON
+	public:
+		/*列表字符串 转 obj列表
+			【说明】：冗余操作的简化，注意是utf8的字符串。*/
+		static QList<QJsonObject> _QJsonArrayString_To_QListObj_(QString context);
+		static QList<bool> _QJsonArrayString_To_QListBool_(QString context);
+		static QList<int> _QJsonArrayString_To_QListInt_(QString context);
+		static QList<double> _QJsonArrayString_To_QListDouble_(QString context);
+		static QList<QString> _QJsonArrayString_To_QListQString_(QString context);
+
+		static QString _QListObj_To_QJsonArrayString_(QList<QJsonObject> data);
+		static QString _QListBool_To_QJsonArrayString_(QList<bool> data);
+		static QString _QListInt_To_QJsonArrayString_(QList<int> data);
+		static QString _QListDouble_To_QJsonArrayString_(QList<double> data);
+		static QString _QListQString_To_QJsonArrayString_(QList<QString> data);
+
 };
 
 

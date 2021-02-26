@@ -38,14 +38,21 @@ class S_ActionSeqDataContainer : public QObject, public S_StorageManagerTemplate
 		void actionSeqDataChanged();
 		
 	//-----------------------------------
-	//----数据
+	//----树数据
 	private:
 		QJsonObject data_treeConfig;
 	public:
-										//数据 - 修改
+										//树数据 - 修改
 		void modifyTreeData(QJsonObject tree);
-										//数据 - 获取
+										//树数据 - 获取
 		QJsonObject getTreeData();
+
+	//-----------------------------------
+	//----常量
+	public:
+										//常量 - 获取软件保存图片路径（F:/xxx/xxx/Special__actionSeq）
+										//		【说明】：不是rmmv的文件路径，rmmv相关数据都在交互模块。
+		QString getActionSeqDir();
 		
 	//-----------------------------------
 	//----信号

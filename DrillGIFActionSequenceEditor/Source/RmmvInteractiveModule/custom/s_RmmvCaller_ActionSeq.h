@@ -32,6 +32,9 @@ class S_RmmvCaller_ActionSeq : public P_RmmvCaller
 										//工程 - 读取文件 - System.json
 		void readSystemData(QString context);
 		
+										//工程 - 覆盖资源文件
+		void coverSourceFileToTemp(C_RmmvProjectData rmmvProjectData);
+
 										//工程 - 打开rmmv（继承）
 		virtual C_RmmvProjectData callRmmvOpen();
 

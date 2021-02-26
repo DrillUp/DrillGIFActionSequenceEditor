@@ -1,12 +1,11 @@
 #include "stdafx.h"
-
 #include "s_TempFileManager.h"
 
 
 /*
 -----==========================================================-----
 		类：		temp文件夹管理.cpp
-		版本：		v1.19
+		版本：		v1.21
 		所属模块：	项目管理模块
 		功能：		对temp文件夹的任何操作都在这里进行。
 					直接在exe文件目录下建立temp文件夹，对文件作转移、临时处理。
@@ -63,7 +62,7 @@ S_TempFileManager* S_TempFileManager::getInstance() {
 }
 /* -------------销毁单例------------ */
 void S_TempFileManager::destroyInstance() {
-	this->clearAllTempFile();
+	this->removeAllTempFile();
 	QDir dir(this->workspace_url);
 	dir.removeRecursively();
 	delete cur_instance;
@@ -175,48 +174,25 @@ void S_TempFileManager::removeInTemp_File(QString filename) {
 }
 void S_TempFileManager::removeInTemp_FileBySuffix(QString suffix) {
 	// > 递归删除（深度0）
-	this->removeFile_recursion( "*." + suffix, 0, this->workspace_url, 0);
+	this->removeFilePrivate_recursion( "*." + suffix, 0, this->workspace_url, 0);
 }
 void S_TempFileManager::removeInTemp_FileBySuffix_WithAllSubfolders(QString suffix) {
 	// > 递归删除（深度-1）
-	this->removeFile_recursion("*." + suffix, -1, this->workspace_url, 0);
+	this->removeFilePrivate_recursion("*." + suffix, -1, this->workspace_url, 0);
 }
 void S_TempFileManager::removeInTemp_FileByNameNoSuffix(QString onlyname) {
 	// > 递归删除（深度0）
-	this->removeFile_recursion(onlyname + ".*", 0, this->workspace_url,0 );
+	this->removeFilePrivate_recursion(onlyname + ".*", 0, this->workspace_url, 0);
 }
 void S_TempFileManager::removeInTemp_FileByNameNoSuffix_WithAllSubfolders(QString onlyname) {
 	// > 递归删除（深度-1）
-	this->removeFile_recursion(onlyname + ".*", -1, this->workspace_url, 0);
+	this->removeFilePrivate_recursion(onlyname + ".*", -1, this->workspace_url, 0);
 }
 
-void S_TempFileManager::removeFile_recursion(QString nameFilter, int tar_depth, QString cur_url, int cur_depth) {
-	QDir cur_from(cur_url);
-
-	// > 删除当前层的文件
-	QFileInfoList f_list = cur_from.entryInfoList(QStringList() << nameFilter, QDir::Files, QDir::Name);
-	for (int i = 0; i < f_list.count(); i++) {
-		QFile::remove(f_list.at(i).absoluteFilePath());
-	}
-
-	// > 深度检查
-	if (tar_depth != -1){				//（-1则无限深度）
-		if (tar_depth == cur_depth){	//（达到指定深度后不再复制）
-			return;
-		}
-	}
-
-	// > 子文件夹
-	QFileInfoList d_list = cur_from.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);	// NoDotAndDotDot指文件夹当前级和上一级的目录
-	for (int i = 0; i < d_list.count(); i++){
-		QFileInfo info = d_list.at(i);
-		this->removeFile_recursion(nameFilter, tar_depth, info.absoluteFilePath(), cur_depth + 1);
-	}
-}
 /* ----------------------------------------------------------------------------------------------------------------------------
 ------删除 - 清空所有文件（包括文件夹）
 */
-void S_TempFileManager::clearAllTempFile() {
+void S_TempFileManager::removeAllTempFile() {
 
 	QDir dir( this->workspace_url );
 	QFileInfoList fileList;
@@ -254,7 +230,7 @@ void S_TempFileManager::copyResourceToTemp_SeveralFile(QString src_url, QStringL
 		QString file_from_name = src_url + "/" + file_names.at(i);
 		if (QFile(file_from_name).exists()){
 			QString file_to_name = this->workspace_url + "/" + file_names.at(i);
-			this->copyFile(file_from_name, file_to_name);
+			this->copyFilePrivate(file_from_name, file_to_name);
 		}
 	}
 }
@@ -269,7 +245,7 @@ void S_TempFileManager::copyTempToTarget_SeveralFile(QString tar_url, QStringLis
 		QString file_from_name = this->workspace_url + "/" + file_names.at(i);
 		if (QFile(file_from_name).exists()){
 			QString file_to_name = tar_url + "/" + file_names.at(i);
-			this->copyFile(file_from_name, file_to_name);
+			this->copyFilePrivate(file_from_name, file_to_name);
 		}
 	}
 }
@@ -280,7 +256,7 @@ bool S_TempFileManager::copyResourceToTemp_File(QString src_url) {
 	QFileInfo info(src_url);
 	if (!info.isFile()){ return false; }
 	if (this->isInCurTempFile(info.absoluteFilePath()) == true){ Q_ASSERT(false); return false; }	//（temp文件夹内部不能复制）
-	return this->copyFile(info.absoluteFilePath(), this->workspace_url + "/" + info.fileName());
+	return this->copyFilePrivate(info.absoluteFilePath(), this->workspace_url + "/" + info.fileName());
 }
 bool S_TempFileManager::copyResourceToTemp_Dir(QString src_url) {
 	// > 递归复制（深度0）
@@ -289,7 +265,7 @@ bool S_TempFileManager::copyResourceToTemp_Dir(QString src_url) {
 	if (this->isInCurTempFile(info.absoluteFilePath()) == true){ Q_ASSERT(false); return false; }	//（temp文件夹内部不能复制）
 	QString dir_from = src_url;
 	QString dir_to = this->workspace_url;
-	return this->copyDir_recursion(dir_to, 0, dir_from, dir_from, 0);
+	return this->copyDirPrivate_recursion(dir_to, 0, dir_from, dir_from, 0);
 }
 bool S_TempFileManager::copyResourceToTemp_DirWithDepth(QString src_url, int depth) {
 	// > 递归复制（深度自定义）
@@ -298,7 +274,7 @@ bool S_TempFileManager::copyResourceToTemp_DirWithDepth(QString src_url, int dep
 	if (this->isInCurTempFile(info.absoluteFilePath()) == true){ Q_ASSERT(false); return false; }	//（temp文件夹内部不能复制）
 	QString dir_from = src_url;
 	QString dir_to = this->workspace_url;
-	return this->copyDir_recursion(dir_to, depth, dir_from, dir_from, 0);
+	return this->copyDirPrivate_recursion(dir_to, depth, dir_from, dir_from, 0);
 }
 bool S_TempFileManager::copyResourceToTemp_DirWithAllSubfolders(QString src_url) {
 	// > 递归复制（深度-1）
@@ -307,7 +283,7 @@ bool S_TempFileManager::copyResourceToTemp_DirWithAllSubfolders(QString src_url)
 	if (this->isInCurTempFile(info.absoluteFilePath()) == true){ Q_ASSERT(false); return false; }	//（temp文件夹内部不能复制）
 	QString dir_from = src_url;
 	QString dir_to = this->workspace_url;
-	return this->copyDir_recursion(dir_to, -1, dir_from, dir_from, 0);
+	return this->copyDirPrivate_recursion(dir_to, -1, dir_from, dir_from, 0);
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------
@@ -317,19 +293,19 @@ bool S_TempFileManager::copyTempToTarget_Dir(QString tar_url) {
 	// > 递归复制（深度0）
 	QString dir_from = this->workspace_url;
 	QString dir_to = tar_url;
-	return this->copyDir_recursion(dir_to, 0, dir_from, dir_from, 0);
+	return this->copyDirPrivate_recursion(dir_to, 0, dir_from, dir_from, 0);
 }
 bool S_TempFileManager::copyTempToTarget_DirWithDepth(QString tar_url, int depth) {
 	// > 递归复制（深度自定义）
 	QString dir_from = this->workspace_url;
 	QString dir_to = tar_url;
-	return this->copyDir_recursion(dir_to, depth, dir_from, dir_from, 0);
+	return this->copyDirPrivate_recursion(dir_to, depth, dir_from, dir_from, 0);
 }
 bool S_TempFileManager::copyTempToTarget_DirWithAllSubfolders(QString tar_url) {
 	// > 递归复制（深度-1）
 	QString dir_from = this->workspace_url;
 	QString dir_to = tar_url;
-	return this->copyDir_recursion(dir_to, -1, dir_from, dir_from, 0);
+	return this->copyDirPrivate_recursion(dir_to, -1, dir_from, dir_from, 0);
 }
 
 
@@ -342,7 +318,7 @@ void S_TempFileManager::copyTempToTemp_FileWithNewName(QString filename, QString
 	if (file_new_name == ""){ return; }
 	QString urlA = this->workspace_url + "/" + filename;
 	QString urlB = this->workspace_url + "/" + file_new_name;
-	this->copyFile(urlA, urlB);
+	this->copyFilePrivate(urlA, urlB);
 }
 /* ----------------------------------------------------------------------------------------------------------------------------
 ------复制 - temp文件夹 的文件夹，并命名新的名字
@@ -350,53 +326,42 @@ void S_TempFileManager::copyTempToTemp_FileWithNewName(QString filename, QString
 bool S_TempFileManager::copyTempToTemp_Dir(QString dir_name, QString dir_new_name){
 	QString dir_from = this->workspace_url + "/" + dir_name;
 	QString dir_to = this->workspace_url + "/" + dir_new_name;
-	return this->copyDir_recursion(dir_to, 0, dir_from, dir_from, 0);
+	return this->copyDirPrivate_recursion(dir_to, 0, dir_from, dir_from, 0);
 }
 bool S_TempFileManager::copyTempToTemp_DirWithDepth(QString dir_name, QString dir_new_name, int depth){
 	QString dir_from = this->workspace_url + "/" + dir_name;
 	QString dir_to = this->workspace_url + "/" + dir_new_name;
-	return this->copyDir_recursion(dir_to, depth, dir_from, dir_from, 0);
+	return this->copyDirPrivate_recursion(dir_to, depth, dir_from, dir_from, 0);
 }
 bool S_TempFileManager::copyTempToTemp_DirWithAllSubfolders(QString dir_name, QString dir_new_name){
 	QString dir_from = this->workspace_url + "/" + dir_name;
 	QString dir_to = this->workspace_url + "/" + dir_new_name;
-	return this->copyDir_recursion(dir_to, -1, dir_from, dir_from, 0);
+	return this->copyDirPrivate_recursion(dir_to, -1, dir_from, dir_from, 0);
 }
 
 
 /* ----------------------------------------------------------------------------------------------------------------------------
-------私有 - 复制文件 A -> B （不是文件夹）
+------私有 - 复制文件夹 A -> B （覆写）
 */
-bool S_TempFileManager::copyFile(QString filePath_from, QString filePath_to) {
-	//qDebug() << file_from + " -> " + file_to;
-	QFile file_from(filePath_from);
-	QFile file_to(filePath_to);
-	if (!file_from.open(QIODevice::ReadOnly)) { return false; }
-	if (!file_to.open(QIODevice::WriteOnly | QIODevice::Truncate)) { return false; }
-	QByteArray ba = file_from.readAll();
-	file_to.write(ba);
-	file_from.close();
-	file_to.close();
-	return true;
-}
-/* ----------------------------------------------------------------------------------------------------------------------------
-------私有 - 复制文件夹 A -> B （只复制子文件）
-*/
-bool S_TempFileManager::copyDir(QString dirPath_from, QString dirPath_to){
+bool S_TempFileManager::copyDirPrivate(QString dirPath_from, QString dirPath_to){
 	QFileInfo info_to(dirPath_to);
 	QFileInfo info_from(dirPath_from);
 	QDir dir_to(dirPath_to);
 	QDir dir_from(dirPath_from);
+	if (dir_to.absolutePath() == dir_from.absolutePath()){ return true; }		//（相同路径跳过）
 
 	// > 路径生成
-	dir_to.mkdir(dirPath_to);
+	if (dir_to.exists() == false){
+		dir_to.mkdir(dirPath_to);
+	}
+	bool all_success = true;
 
 	// > 禁止复制
 	QFileInfoList f_list = dir_from.entryInfoList(QDir::Files);
 	for (int i = 0; i < f_list.size(); i++) {
 		QFileInfo temp_info(f_list.at(i));
 		if (this->isForbiddenFile(temp_info)){
-			return false;
+			return false;	//（出现后，立即终止）
 		}
 	}
 
@@ -405,40 +370,11 @@ bool S_TempFileManager::copyDir(QString dirPath_from, QString dirPath_to){
 		QFileInfo temp_info(f_list.at(i));
 		if (!this->isSkipFile(temp_info)){
 			QString file_to_name = info_to.absoluteFilePath() + "/" + temp_info.fileName();
-			this->copyFile(temp_info.absoluteFilePath(), file_to_name);
+			bool success = this->copyFilePrivate(temp_info.absoluteFilePath(), file_to_name);
+			if ( success == false){ all_success = false; }
 		}
 	}
-	return true;
-}
-/* ----------------------------------------------------------------------------------------------------------------------------
-------私有 - 复制文件夹 A -> B （根据深度遍历复制文件夹）
-*/
-bool S_TempFileManager::copyDir_recursion(QString tar_parent_url, int tar_depth, QString cur_parent_url, QString cur_url, int cur_depth) {
-	QDir parent_to(tar_parent_url);
-	QDir parent_from(cur_parent_url);
-	QDir cur_from(cur_url);
-
-	// > 复制当前层的文件（temp中的）
-	QString child_path = cur_from.absolutePath();
-	child_path = child_path.replace(parent_from.absolutePath(), parent_to.absolutePath());	//将复制方的文件夹路径，替换成目标方的文件夹路径
-	QDir(child_path).mkpath(child_path);
-	bool result = this->copyDir(cur_from.absolutePath(), child_path);
-
-	// > 深度检查
-	if (tar_depth != -1){				//（-1则无限深度）
-		if (tar_depth == cur_depth){	//（达到指定深度后不再复制）
-			return result;
-		}
-	}
-
-	// > 子文件夹
-	QFileInfoList d_list = cur_from.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);	// NoDotAndDotDot指文件夹当前级和上一级的目录
-	for (int i = 0; i < d_list.count(); i++){
-		QFileInfo info = d_list.at(i);
-		result = result && this->copyDir_recursion(parent_to.absolutePath(), tar_depth, parent_from.absolutePath(), info.absoluteFilePath(), cur_depth + 1);
-	}
-
-	return result;
+	return all_success;
 }
 
 

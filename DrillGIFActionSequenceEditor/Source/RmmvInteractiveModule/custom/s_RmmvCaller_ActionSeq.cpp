@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "s_RmmvCaller_ActionSeq.h"
 
+#include "Source/ProjectModule/file/s_TempFileManager.h"
 #include "Source/PluginModule/storageData/s_PluginDataContainer.h"
 #include "s_RmmvDataContainer.h"
 
@@ -88,6 +89,18 @@ void S_RmmvCaller_ActionSeq::readSystemData(QString context) {
 	//...
 }
 
+/*-------------------------------------------------
+		工程 - 覆盖资源文件
+*/
+void S_RmmvCaller_ActionSeq::coverSourceFileToTemp(C_RmmvProjectData rmmvProjectData){
+	if (rmmvProjectData.isNull()){ return ; }
+
+	// > img/Special__actionSeq
+	QString temp_path = S_TempFileManager::getInstance()->getTempFileUrl() + "/Special__actionSeq";
+	S_TempFileManager::getInstance()->remove_Dir(QDir(temp_path));
+	S_TempFileManager::getInstance()->copy_Dir(QDir(rmmvProjectData.path + "/img/Special__actionSeq"), QDir(temp_path));
+
+}
 
 
 

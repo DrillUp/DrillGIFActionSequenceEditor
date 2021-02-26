@@ -295,7 +295,7 @@ void S_ProjectManager::clearProject() {
 	this->m_isDirty = false;										//清理项目修改痕迹
 
 	// > 清除缓存数据
-	S_TempFileManager::getInstance()->clearAllTempFile();
+	S_TempFileManager::getInstance()->removeAllTempFile();
 
 	// > 清除撤回栈
 	//S_UndoStackManager::getInstance()->clearAll();

@@ -7,6 +7,7 @@
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		动画帧 的数据类。
+					注意，只有五项。如果有其他数据合并，想办法另起一个类。
 					（详细见cpp）
 -----==========================================================-----
 */
@@ -22,29 +23,29 @@ class C_ALEData {
 		int id;								//标识
 		QList<QString> gif_src;				//资源文件名
 		QString gif_src_file;				//资源文件夹
-		QList<int> gif_intervalTank;		//帧间隔列表
+		QList<int> gif_intervalTank;		//帧间隔-明细表
 		int gif_interval;					//帧间隔
-
-	public:	
-		bool gif_back_run;					//是否倒放
-		int gif_tint;						//图像-色调值
-		bool gif_smooth;					//图像-模糊边缘
 		
 	//-----------------------------------
 	//----设置
 	public:
 											//设置 - 标识
 		void setId(int id);
+
 											//设置 - 资源
 											//		【参数1】：文件父目录
 											//		【参数2】：不带文件后缀，文件可重名
 		void setSource(QString gif_src_file, QList<QString> gif_src);
+											//设置 - 只设置文件父目录
+		void setSourceParentFile(QString gif_src_file);
+
 											//设置 - 帧间隔
 		void setInterval(int gif_interval, QList<int> gif_intervalTank);
 											//设置 - 默认帧间隔
 		void setIntervalDefault(int gif_interval);
 											//设置 - 默认帧间隔（统一改变）
 		void setIntervalDefaultAndChange(int gif_interval);
+
 	protected:
 		void checkInterval();
 
@@ -96,7 +97,7 @@ class C_ALEData {
 									//空判断
 		bool isNull();
 									//实体类 -> QJsonObject
-		virtual QJsonObject getJsonObject();
+		QJsonObject getJsonObject();
 									//QJsonObject -> 实体类
-		virtual void setJsonObject(QJsonObject obj);
+		void setJsonObject(QJsonObject obj);
 };

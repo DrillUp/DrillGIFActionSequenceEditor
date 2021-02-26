@@ -139,7 +139,6 @@ void P_ActionSeqPart::currentActionSeqChanged(QTreeWidgetItem* item, int id, QSt
 	this->m_playingPart->setSource(this->m_cur_stateTank, this->m_cur_actionTank);
 }
 
-
 /*-------------------------------------------------
 		窗口 - 设置数据
 */

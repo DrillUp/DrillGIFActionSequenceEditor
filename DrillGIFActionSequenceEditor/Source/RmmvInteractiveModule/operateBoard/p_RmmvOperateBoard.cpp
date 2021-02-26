@@ -67,6 +67,7 @@ void P_RmmvOperateBoard::importRmmv(){
 	}
 
 	S_RmmvCaller_ActionSeq::getInstance()->loadAllRmmvFile(this->local_rmmvData);
+	S_RmmvCaller_ActionSeq::getInstance()->coverSourceFileToTemp(this->local_rmmvData);
 }
 /*-------------------------------------------------
 		¿Ø¼þ - ±£´æµ½rmmv

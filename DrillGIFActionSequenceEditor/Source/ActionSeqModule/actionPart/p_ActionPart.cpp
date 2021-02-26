@@ -1,6 +1,10 @@
 #include "stdafx.h"
 #include "p_ActionPart.h"
 
+#include "../actionSeqData/s_ActionSeqDataDefiner.h"
+#include "../actionSeqData/s_ActionSeqDataContainer.h"
+#include "Source/Utils/common/TTool.h"
+
 /*
 -----==========================================================-----
 		类：		动作元块.cpp
@@ -25,6 +29,7 @@ P_ActionPart::P_ActionPart(QWidget *parent)
 
 	//-----------------------------------
 	//----初始化ui
+	this->m_last_index = -1;
 	
 	// > 编辑树
 	this->m_table = new P_RadioTable(ui.tableWidget);
@@ -33,22 +38,15 @@ P_ActionPart::P_ActionPart(QWidget *parent)
 	obj_config.insert("rowHeight", 22);
 	this->m_table->setConfigParam(obj_config);	//固定参数
 
-	// > 动画帧
-	C_ALEData data = C_ALEData();
-	data.setId(10);
-	data.setSource("F:/rpg mv箱/mog插件中文全翻译(Drill_up)v2.41/插件集合示例/img/enemies/", QList<QString>()
-		<< "小爱丽丝001"
-		<< "小爱丽丝002"
-		<< "小爱丽丝003"
-		<< "小爱丽丝004"
-		<< "小爱丽丝005"
-		<< "小爱丽丝006"
-		<< "小爱丽丝004"
-		<< "小爱丽丝006");
-	data.setInterval(3, QList<int>() << 6 << 5 << 4 << 3 << 2 << 1);
+	// > 快速表单
+	C_FastClass c_class = S_ActionSeqDataDefiner::getInstance()->getTable_Action();
+	this->m_FastForm = new P_FastForm(ui.widget_form);
+	this->m_FastForm->prepareFastClass(c_class);
+	this->m_FastForm->rebuildUI();
 
+	// > 动画帧
 	this->m_p_AnimationListEditor = new P_AnimationListEditor(ui.listWidget);
-	this->m_p_AnimationListEditor->setSource(data);
+	this->m_p_AnimationListEditor->setSource(C_ALEData());
 
 	C_ALEConfig config = C_ALEConfig();
 	this->m_p_AnimationListEditor->setConfigParam_ALE(config);
@@ -65,7 +63,6 @@ P_ActionPart::P_ActionPart(QWidget *parent)
 	// > 图片查看块
 	this->m_p_AnimPictureViewer = new P_AnimPictureViewer(ui.widget_view);
 	this->m_p_AnimPictureViewer->rebuildUI();
-	this->m_p_AnimPictureViewer->setSource(data.getAllFile());
 
 	//-----------------------------------
 	//----事件绑定
@@ -91,11 +88,7 @@ P_ActionPart::~P_ActionPart(){
 		动画帧 - 选项变化
 */
 void P_ActionPart::tableChanged_Multi(QList<int> index_list){
-	QString text = "";
-	for (int i = 0; i < index_list.count(); i++){
-		text += QString::number( index_list.at(i) + 1 )+ "/";
-	}
-	//ui.label->setText("你选择了：" + text);
+	//（暂无操作）
 }
 /*-------------------------------------------------
 		动画帧 - 资源切换
@@ -128,10 +121,10 @@ QStringList P_ActionPart::getNameList(){
 void P_ActionPart::currentIndexChanged(int index){
 
 	// > 旧的内容存储
-
+	this->local_saveCurIndexData();
 
 	// > 填入新的内容
-	ui.lineEdit_name->setText(this->getNameList().at(index));
+	this->local_loadIndexData(index);
 }
 
 
@@ -157,6 +150,57 @@ void P_ActionPart::keyPressEvent(QKeyEvent *event){
 
 
 /*-------------------------------------------------
+		数据 - 保存本地数据
+*/
+void P_ActionPart::local_saveCurIndexData(){
+	if (this->m_last_index < 0){ return; }
+	if (this->m_last_index > this->local_actionDataList.count()){ return; }
+
+	// > 表单数据
+	QJsonObject obj_edit = this->m_FastForm->getJsonObject();
+	QJsonObject obj_org = this->local_actionDataList.at(this->m_last_index);
+	TTool::_QJsonObject_put_(&obj_org, obj_edit);
+
+	// > 图片数据
+	QJsonObject obj_org2 = QJsonObject();
+	//....
+
+	TTool::_QJsonObject_put_(&obj_org, obj_edit);
+
+	this->local_actionDataList.replace(this->m_last_index, obj_org);
+}
+/*-------------------------------------------------
+		数据 - 读取本地数据
+*/
+void P_ActionPart::local_loadIndexData(int index){
+	if (index < 0){ return; }
+	if (index > this->local_actionDataList.count()){ return; }
+
+	// > 表单数据
+	QJsonObject obj_data = this->local_actionDataList.at(index);
+	this->m_FastForm->setJsonObjectAutoDefault(obj_data);
+	qDebug() << obj_data;
+
+	// > 图片数据
+		int gif_interval = obj_data.value("帧间隔").toString().toInt();					//帧间隔
+		QString gif_src_file = S_ActionSeqDataContainer::getInstance()->getActionSeqDir();				//资源文件夹
+	
+		QString gif_src_str = obj_data.value("资源-动作元").toString();
+		QList<QString> gif_src = TTool::_QJsonArrayString_To_QListQString_(gif_src_str);	//资源文件名
+		QString gif_intervalTank_str = obj_data.value("帧间隔-明细表").toString();
+		QList<int> gif_intervalTank = TTool::_QJsonArrayString_To_QListInt_(gif_intervalTank_str);;		//帧间隔-明细表
+
+	C_ALEData data = C_ALEData();
+	data.setId(index);
+	data.setSource(gif_src_file, gif_src);
+	data.setInterval(gif_interval, gif_intervalTank);
+	this->m_p_AnimationListEditor->setSource(data);
+	this->m_p_AnimationListEditor->selectStart();
+
+	this->m_last_index = index;
+}
+
+/*-------------------------------------------------
 		窗口 - 设置数据
 */
 void P_ActionPart::setData(QList<QJsonObject> actionData) {
@@ -168,10 +212,6 @@ void P_ActionPart::setData(QList<QJsonObject> actionData) {
 */
 QList<QJsonObject> P_ActionPart::getData(){
 	this->putUiToData();
-
-	// > 校验
-	//...
-	
 	return this->local_actionDataList;
 }
 /*-------------------------------------------------
@@ -179,13 +219,18 @@ QList<QJsonObject> P_ActionPart::getData(){
 */
 void P_ActionPart::putDataToUi() {
 	
+	// > 名称列表
 	this->m_table->setSource(this->getNameList());
 
+	// > 当前选中的数据
+	this->local_loadIndexData(this->m_last_index);
 }
 /*-------------------------------------------------
 		窗口 - ui数据 -> 本地数据
 */
 void P_ActionPart::putUiToData() {
-	
+
+	// > 保存当前数据
+	this->local_saveCurIndexData();
 
 }

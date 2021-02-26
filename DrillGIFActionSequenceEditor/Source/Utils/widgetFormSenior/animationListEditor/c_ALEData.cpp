@@ -7,8 +7,7 @@
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		动画帧编辑块 的数据类。
-					
-		说明：		该数据类继承于C_PiSConfig。
+					注意，只有五项。如果有其他数据合并，想办法另起一个类。
 -----==========================================================-----
 */
 C_ALEData::C_ALEData() {
@@ -17,9 +16,6 @@ C_ALEData::C_ALEData() {
 	this->gif_src_file = "";					//资源文件夹
 	this->gif_intervalTank = QList<int>();		//帧间隔列表
 	this->gif_interval = 4;						//帧间隔
-	this->gif_back_run = false;					//是否倒放
-	this->gif_tint = 0;							//图像-色调值
-	this->gif_smooth = false;					//图像-模糊边缘
 }
 C_ALEData::~C_ALEData(){
 }
@@ -37,6 +33,9 @@ void C_ALEData::setSource(QString gif_src_file, QList<QString> gif_src){
 	this->gif_src_file = gif_src_file;
 	this->gif_src = gif_src;
 	this->checkInterval();
+}
+void C_ALEData::setSourceParentFile(QString gif_src_file){
+	this->gif_src_file = gif_src_file;
 }
 /*-------------------------------------------------
 		设置 - 帧间隔
@@ -239,11 +238,8 @@ QJsonObject C_ALEData::getJsonObject(){
 	obj.insert("gif_intervalTank", arr_2);
 
 	obj.insert("id", this->id);
-	//obj.insert("gif_src_file", this->gif_src_file);（temp文件夹中的配置，实际不存）
+	obj.insert("gif_src_file", this->gif_src_file);//（temp文件夹中的配置，实际用不上）
 	obj.insert("gif_interval", this->gif_interval);
-	obj.insert("gif_back_run", this->gif_back_run);
-	obj.insert("gif_tint", this->gif_tint);
-	obj.insert("gif_smooth", this->gif_smooth);
 	return obj;
 }
 /*-------------------------------------------------
@@ -266,9 +262,6 @@ void C_ALEData::setJsonObject(QJsonObject obj){
 	}
 
 	if (obj.value("id").isUndefined() == false){ this->id = obj.value("id").toInt(); }
-	//if (obj.value("gif_src_file").isUndefined() == false){ this->gif_src_file = obj.value("gif_src_file").toString(); }
+	if (obj.value("gif_src_file").isUndefined() == false){ this->gif_src_file = obj.value("gif_src_file").toString(); }
 	if (obj.value("gif_interval").isUndefined() == false){ this->gif_interval = obj.value("gif_interval").toInt(); }
-	if (obj.value("gif_back_run").isUndefined() == false){ this->gif_back_run = obj.value("gif_back_run").toBool(); }
-	if (obj.value("gif_tint").isUndefined() == false){ this->gif_tint = obj.value("gif_tint").toInt(); }
-	if (obj.value("gif_smooth").isUndefined() == false){ this->gif_smooth = obj.value("gif_smooth").toBool(); }
 }

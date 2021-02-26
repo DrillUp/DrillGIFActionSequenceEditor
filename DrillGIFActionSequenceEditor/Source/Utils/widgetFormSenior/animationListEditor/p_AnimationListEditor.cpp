@@ -12,7 +12,7 @@
 /*
 -----==========================================================-----
 		类：		动画帧编辑块.cpp
-		版本：		v1.00
+		版本：		v1.01
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		将图片全部显示，并能单选/多选。
@@ -51,6 +51,22 @@
 					C_ALEConfig config = C_ALEConfig();		//注意，C_PiSConfig也可以当配置，但是要开启多选功能。
 					config ...
 					this->m_p_AnimationListEditor->setConfigParam(config);
+					
+				> 快捷键（父类widget覆写keyPressEvent方法）
+					if (event->modifiers() & Qt::ControlModifier){
+						if (event->key() == Qt::Key_C){
+							this->m_p_AnimationListEditor->shortcut_copy();
+						}
+						if (event->key() == Qt::Key_V){
+							this->m_p_AnimationListEditor->shortcut_paste();
+						}
+						if (event->key() == Qt::Key_A){
+							this->m_p_AnimationListEditor->shortcut_selectAll();
+						}
+					}
+					if (event->key() == Qt::Key_Delete){
+						this->m_p_AnimationListEditor->shortcut_delete();
+					}
 					
 -----==========================================================-----
 */

@@ -1,11 +1,10 @@
 #pragma once
-
-#include <QWidget>
+#include "Source/Utils/common/p_FileOperater.h"
 
 /*
 -----==========================================================-----
 		类：		temp文件夹管理.h
-		版本：		v1.19
+		版本：		v1.21
 		所属模块：	项目管理模块
 		功能：		对temp文件夹的任何操作都在这里进行。
 					直接在exe文件目录下建立temp文件夹，对文件作转移、临时处理。
@@ -13,7 +12,7 @@
 -----==========================================================-----
 */
 
-class S_TempFileManager : public QObject
+class S_TempFileManager : public P_FileOperater
 {
 	Q_OBJECT
 
@@ -27,14 +26,11 @@ class S_TempFileManager : public QObject
 		
 	//-----------------------------------
 	//----私有数据
-	private:
+	protected:
 		QString temp_file_url;		//当前缓存文件夹路径
 		QString workspace_url;		//当前工作区路径
-	private:
-		bool copyFile(QString filePath_from, QString filePath_to);	//复制文件（私有）
-		bool copyDir(QString dirPath_from, QString dirPath_to);		//复制文件夹（私有，只复制子文件）
-		bool copyDir_recursion(QString tar_parent_url, int tar_depth, QString cur_parent_url, QString cur_url, int cur_depth);	//递归复制文件夹（私有）
-		void removeFile_recursion(QString nameFilter, int tar_depth, QString cur_url, int cur_depth);		//递归删除文件夹（私有）
+	protected:
+		virtual bool copyDirPrivate(QString dirPath_from, QString dirPath_to);		//复制文件夹（覆写）
 
 	//-----------------------------------
 	//----log文件
@@ -124,7 +120,7 @@ class S_TempFileManager : public QObject
 		void removeInTemp_FileByNameNoSuffix(QString onlyname);
 		void removeInTemp_FileByNameNoSuffix_WithAllSubfolders(QString onlyname);
 									//删除 - 清空所有文件（包括文件夹）
-		void clearAllTempFile();
+		void removeAllTempFile();
 		
 	//-----------------------------------
 	//----获取

@@ -7,6 +7,7 @@
 #include "Source/GraphModule/widget/animPictureViewer/p_AnimPictureViewer.h"
 
 #include "Source/Utils/widgetForm/radioTable/p_RadioTable.h"
+#include "Source/Utils/widgetFastForm/fastForm/p_FastForm.h"
 #include "Source/Utils/widgetFormSenior/AnimationListEditor/p_AnimationListEditor.h"
 #include "Source/Utils/widgetFormSenior/AnimationListPlayer/p_AnimationListPlayer.h"
 
@@ -31,6 +32,7 @@ class P_ActionPart : public QWidget
 	//----控件
 	public:
 		P_RadioTable* m_table;
+		P_FastForm* m_FastForm;
 	public slots:
 										//控件 - 获取动作元名称
 		QStringList getNameList();
@@ -56,6 +58,17 @@ class P_ActionPart : public QWidget
 	public:
 									//快捷键 - 事件
 		void keyPressEvent(QKeyEvent *event);
+		
+	//-----------------------------------
+	//----本地数据的索引
+	protected:
+		int m_last_index;
+	public:
+									//数据 - 保存本地数据
+		void local_saveCurIndexData();
+									//数据 - 读取本地数据
+		void local_loadIndexData(int index);
+
 
 	//-----------------------------------
 	//----窗口

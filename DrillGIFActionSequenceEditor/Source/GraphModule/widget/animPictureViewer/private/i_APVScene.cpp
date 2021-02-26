@@ -163,6 +163,9 @@ void I_APVScene::rebuildScene(){
 		this->addItem(item);
 		this->m_animList.append(item);
 	}
+	if (this->m_animList.count() > 0 && this->m_curFrame == -1){
+		this->m_curFrame = 0;
+	}
 
 	// > Ë¢ÐÂÖ¡
 	this->refreshFrame();
