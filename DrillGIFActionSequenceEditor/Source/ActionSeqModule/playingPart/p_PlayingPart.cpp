@@ -28,11 +28,11 @@ P_PlayingPart::P_PlayingPart(QWidget *parent)
 	// > 编辑表格
 	this->m_table_action = new P_RadioTable(ui.tableWidget_action);
 	this->m_table_state = new P_RadioTable(ui.tableWidget_state);
-	QJsonObject obj_config = QJsonObject();
-	obj_config.insert("zeroFillCount", 2);
-	obj_config.insert("rowHeight", 22);
-	this->m_table_action->setConfigParam(obj_config);	//固定参数
-	this->m_table_state->setConfigParam(obj_config);	
+	C_RaTConfig rat_config = C_RaTConfig();
+	rat_config.zeroFillCount = 2;
+	rat_config.rowHeight = 22;
+	this->m_table_action->setConfigParam(rat_config);	//固定参数
+	this->m_table_state->setConfigParam(rat_config);
 
 	//-----------------------------------
 	//----初始化ui

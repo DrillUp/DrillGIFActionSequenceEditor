@@ -12,7 +12,9 @@
 		所属模块：	工具模块
 		功能：		将数据全部显示，并能单选。（不含排序功能）
 
-		子功能：	-> 文本单选
+		子功能：	-> 文本选择
+						-> 单选
+						-> 多选
 						-> 自动编号
 					-> 表格配置
 						-> 设置行高
@@ -34,6 +36,7 @@ P_RadioTable::P_RadioTable(QTableWidget *parent)
 	this->m_table = parent;									//表格对象
 	this->m_tableStyle = this->m_table->styleSheet();		//表格默认样式
 	this->m_itemTank = QList<QTableWidgetItem*>();			//表格项列表
+	this->m_last_index = -1;								//上一个选中的索引项
 
 	// > 数据
 	this->m_config = C_RaTConfig();
@@ -64,7 +67,8 @@ P_RadioTable::~P_RadioTable(){
 		控件 - 刷新表格
 */
 void P_RadioTable::refreshTableUi() {
-	QList<QTableWidgetSelectionRange> last_range = this->m_table->selectedRanges();
+	this->m_selectionSignalBlock_Root = true;
+	QList<int> last_selected_index = this->getSelectedIndex_Multi();
 
 	// > 清理
 	this->m_table->clearContents();
@@ -74,22 +78,36 @@ void P_RadioTable::refreshTableUi() {
 	this->m_itemTank = QList<QTableWidgetItem*>();
 	for (int i = 0; i < local_text.count(); i++){
 		QTableWidgetItem* item = new QTableWidgetItem();
-		item->setText(TTool::_zeroFill_( i+1, this->m_config.zeroFillCount, QLatin1Char(this->m_config.zeroFillChar.toLatin1())) + " " + local_text.at(i));
-		item->setData(Qt::UserRole + 1, local_text.at(i));
+		if (this->m_config.zeroFill == true){
+			item->setText(TTool::_zeroFill_(i + 1, this->m_config.zeroFillCount, QLatin1Char(this->m_config.zeroFillChar.toLatin1())) + " " + local_text.at(i));
+		}else{
+			item->setText(QString::number(i+1));
+		}
+		item->setData(Qt::UserRole + 1, local_text.at(i));	//名称
 		this->m_table->setItem(i, 0, item);
 		this->m_itemTank.append(item);
+	}
+
+	// > 单选/多选切换
+	if (this->m_config.isMultiSelect == true && this->m_table->selectionMode() == QAbstractItemView::SelectionMode::SingleSelection){
+		this->m_table->setSelectionMode(QAbstractItemView::SelectionMode::ExtendedSelection);
+	}
+	if (this->m_config.isMultiSelect == false && this->m_table->selectionMode() != QAbstractItemView::SelectionMode::SingleSelection){
+		this->m_table->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);	
 	}
 
 	// > 行高刷新
 	this->m_table->setStyleSheet(this->m_tableStyle + "\n QTableView::item { height: " + QString::number(this->m_config.rowHeight) + "px;}");
 
 	// > 选中变化项
-	if (last_range.count() > 0){
-		this->m_table->setRangeSelected(last_range.at(0), true);
+	if (this->m_config.isMultiSelect){
+		this->selectIndex_Multi(last_selected_index);
 	}else{
-		QTableWidgetSelectionRange range = QTableWidgetSelectionRange(0,0,1,1);
-		this->m_table->setRangeSelected(range, true);
+		if (last_selected_index.count() > 0){
+			this->selectIndex(last_selected_index.at(0));
+		}
 	}
+	this->m_selectionSignalBlock_Root = false;
 }
 /*-------------------------------------------------
 		控件 - 修改指定位置文本（不发信号）
@@ -115,6 +133,7 @@ void P_RadioTable::modifyText_Selected(QString text){
 void P_RadioTable::clearAll(){
 
 	// > 控件清理
+	this->m_itemTank.clear();
 	this->m_table->clearContents();
 	this->m_table->setRowCount(0);
 
@@ -122,18 +141,32 @@ void P_RadioTable::clearAll(){
 	this->m_config = C_RaTConfig();
 
 }
+/*-------------------------------------------------
+		控件 - 获取文本
+*/
+QString P_RadioTable::getRealText(QTableWidgetItem* item){
+	if (item == nullptr){ return ""; }
+	return item->data(Qt::UserRole + 1).toString();
+}
 
 /*-------------------------------------------------
 		表格设置 - 设置参数
 */
-void P_RadioTable::setConfigParam(QJsonObject config){
+void P_RadioTable::setConfigParam(C_RaTConfig config){
+	this->m_config = config;
+	this->refreshTableUi();
+}
+C_RaTConfig P_RadioTable::setConfigParam(){
+	return this->m_config;
+}
+/*-------------------------------------------------
+		表格设置 - 设置参数
+*/
+void P_RadioTable::setConfigParam_obj(QJsonObject config){
 	this->m_config.setJsonObject(config);
 	this->refreshTableUi();
 }
-/*-------------------------------------------------
-		表格设置 - 取出参数
-*/
-QJsonObject P_RadioTable::getConfigParam(){
+QJsonObject P_RadioTable::getConfigParam_obj(){
 	return this->m_config.getJsonObject();
 }
 /*-------------------------------------------------
@@ -157,11 +190,19 @@ void P_RadioTable::sltItemSelectionChanged(){
 	this->m_selectionSignalBlock_Root = true;
 	
 	QList<QTableWidgetItem*> selected_item = this->m_table->selectedItems();
-	if (selected_item.count() > 0) {
-		QString text = selected_item.at(0)->data(Qt::UserRole + 1).toString();
+	if( selected_item.count() == 1 ){
+
 		int index = this->getSelectedIndex();
-		emit currentTextChanged(text);
-		emit currentIndexChanged(index);
+		if (this->m_last_index != index){
+			this->m_last_index = index;
+			emit currentIndexChanged(index);
+			emit currentTextChanged(this->getSelectedText());
+			emit currentIndexChanged_Multi(this->getSelectedIndex_Multi());
+		}
+
+	}else if (selected_item.count() > 1){
+
+		emit currentIndexChanged_Multi(this->getSelectedIndex_Multi());
 	}
 
 	this->m_selectionSignalBlock_Root = false;
@@ -204,10 +245,32 @@ QString P_RadioTable::getSelectedText(){
 	for (int i = 0; i < this->m_itemTank.count(); i++){
 		QTableWidgetItem* item = this->m_itemTank.at(i);
 		if (item->isSelected()){
-			return item->data(Qt::UserRole + 1).toString();
+			return this->getRealText( item );
 		}
 	}
 	return "";
+}
+/*-------------------------------------------------
+		资源数据 - 取出数据（多选）
+*/
+QList<int> P_RadioTable::getSelectedIndex_Multi(){
+	QList<int> result_list = QList<int>();
+	for (int i = 0; i < this->m_itemTank.count(); i++){
+		if (this->m_itemTank.at(i)->isSelected()){
+			result_list.append(i);
+		}
+	}
+	return result_list;
+}
+QList<QString> P_RadioTable::getSelectedText_Multi(){
+	QList<QString> result_list = QList<QString>();
+	for (int i = 0; i < this->m_itemTank.count(); i++){
+		QTableWidgetItem* item = this->m_itemTank.at(i);
+		if (item->isSelected()){
+			result_list.append(this->getRealText( item ));
+		}
+	}
+	return result_list;
 }
 
 
@@ -218,33 +281,74 @@ void  P_RadioTable::selectIndex(int index){
 	if (index < 0){ index = 0; }
 	if (index >= this->m_itemTank.count()){ index = this->m_itemTank.count() - 1; }
 
+	QString c_text = "";
 	for (int i = 0; i < this->m_itemTank.count(); i++){
 		QTableWidgetItem* item = this->m_itemTank.at(i);
 		if (i == index){
 			item->setSelected(true);
+			c_text = this->getRealText(item);
 			this->m_table->scrollToItem(item);
 		}else{
 			item->setSelected(false);
 		}
 	}
-	emit currentIndexChanged(index);
+	if (this->m_selectionSignalBlock_Root == false){
+		emit currentIndexChanged(index);
+		emit currentTextChanged(c_text);
+		emit currentIndexChanged_Multi(QList<int>() << index);
+	}
 }
 void  P_RadioTable::selectText(QString text){
-	bool index = -1;
+	QString c_text = "";
+	int index = -1;
 	for (int i = 0; i < this->m_itemTank.count(); i++){
 		QTableWidgetItem* item = this->m_itemTank.at(i);
 
-		if (item->data(Qt::UserRole + 1).toString() == text &&
+		if (this->getRealText(item) == text &&
 			index == -1){
 			item->setSelected(true);
+			c_text = this->getRealText(item);
 			this->m_table->scrollToItem(item);
 			index = i;
 		}else{
 			item->setSelected(false);
 		}
 	}
-	if (index != -1){
+	if (this->m_selectionSignalBlock_Root == false && index != -1){
 		emit currentIndexChanged(index);
+		emit currentTextChanged(c_text);
+		emit currentIndexChanged_Multi(QList<int>() << index);
+	}
+}
+/*-------------------------------------------------
+		选中 - 设置选中（多选）
+*/
+void  P_RadioTable::selectIndex_Multi(QList<int> index_list){
+	for (int i = 0; i < this->m_itemTank.count(); i++){
+		QTableWidgetItem* item = this->m_itemTank.at(i);
+		if (index_list.contains(i)){
+			item->setSelected(true);
+			this->m_table->scrollToItem(item);
+		}else{
+			item->setSelected(false);
+		}
+	}
+	if (this->m_selectionSignalBlock_Root == false){
+		emit currentIndexChanged_Multi(this->getSelectedIndex_Multi());
+	}
+}
+void  P_RadioTable::selectText_Multi(QList<QString> text_list){
+	for (int i = 0; i < this->m_itemTank.count(); i++){
+		QTableWidgetItem* item = this->m_itemTank.at(i);
+		if (text_list.contains(this->getRealText(item))){
+			item->setSelected(true);
+			this->m_table->scrollToItem(item);
+		}else{
+			item->setSelected(false);
+		}
+	}
+	if (this->m_selectionSignalBlock_Root == false){
+		emit currentIndexChanged_Multi(this->getSelectedIndex_Multi());
 	}
 }
 /*-------------------------------------------------

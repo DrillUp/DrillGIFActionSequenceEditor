@@ -4,7 +4,7 @@
 
 /*
 -----==========================================================-----
-		类：		单选表格配置 数据类.cpp
+		类：		表格配置 数据类.cpp
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		单选表格配置 的数据类。
@@ -21,6 +21,7 @@ C_RaTConfig::C_RaTConfig(){
 	this->zeroFillCount = 4;
 	this->zeroFillChar = '0';
 
+	this->isMultiSelect = false;
 }
 C_RaTConfig::~C_RaTConfig(){
 }

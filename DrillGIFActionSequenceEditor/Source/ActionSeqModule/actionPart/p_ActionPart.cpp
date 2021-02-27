@@ -34,10 +34,10 @@ P_ActionPart::P_ActionPart(QWidget *parent)
 	
 	// > 编辑树
 	this->m_table = new P_RadioTable(ui.tableWidget);
-	QJsonObject obj_config = QJsonObject();
-	obj_config.insert("zeroFillCount", 2);
-	obj_config.insert("rowHeight", 22);
-	this->m_table->setConfigParam(obj_config);	//固定参数
+	C_RaTConfig rat_config = C_RaTConfig();
+	rat_config.zeroFillCount = 2;
+	rat_config.rowHeight = 22;
+	this->m_table->setConfigParam(rat_config);	//固定参数
 
 	// > 快速表单
 	C_FastClass c_class = S_ActionSeqDataDefiner::getInstance()->getTable_Action();

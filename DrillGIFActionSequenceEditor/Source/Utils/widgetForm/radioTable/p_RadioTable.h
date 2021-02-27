@@ -38,6 +38,9 @@ class P_RadioTable : public QObject
 		void modifyText_Selected( QString text );
 									//控件 - 清理全部
 		void clearAll();
+	protected:
+									//控件 - 获取文本
+		QString getRealText(QTableWidgetItem* item);
 		
 	//-----------------------------------
 	//----数据（表格设置）
@@ -45,9 +48,13 @@ class P_RadioTable : public QObject
 		C_RaTConfig m_config;	//表格设置
 	public:
 										//表格设置 - 设置参数
-		void setConfigParam(QJsonObject config);
+		void setConfigParam(C_RaTConfig config);
 										//表格设置 - 取出参数
-		QJsonObject getConfigParam();
+		C_RaTConfig setConfigParam();
+										//表格设置 - 设置参数
+		void setConfigParam_obj(QJsonObject config);
+										//表格设置 - 取出参数
+		QJsonObject getConfigParam_obj();
 	protected slots:
 										//表格设置 - 编辑窗口
 		void openConfigParamWindow();
@@ -72,10 +79,15 @@ class P_RadioTable : public QObject
 									//资源数据 - 取出数据
 		int getSelectedIndex();
 		QString getSelectedText();
+									//资源数据 - 取出数据（多选）
+		QList<int> getSelectedIndex_Multi();
+		QList<QString> getSelectedText_Multi();
 
 		
 	//-----------------------------------
 	//----选中
+	protected:
+		int m_last_index;			//上一个选中项
 	public slots:
 									//选中 - 设置选中
 									//		【参数】：数字，可以随意越界，越界后会选择最接近的一项。
@@ -83,6 +95,9 @@ class P_RadioTable : public QObject
 									//选中 - 设置选中
 									//		【参数】：字符串，多个相同字符串，只选第一个。没有匹配的则无效。
 		void selectText(QString text);
+									//选中 - 设置选中（多选）
+		void selectIndex_Multi(QList<int> index);
+		void selectText_Multi(QList<QString> text);
 									//选中 - 选中上一项
 		void selectLast();
 									//选中 - 选中下一项
@@ -96,5 +111,7 @@ class P_RadioTable : public QObject
 		void currentIndexChanged(int index);
 									//选中 - 选中文本变化
 		void currentTextChanged(QString text);
+									//选中 - 选中选项变化（多选）
+		void currentIndexChanged_Multi(QList<int> index_list);
 
 };
