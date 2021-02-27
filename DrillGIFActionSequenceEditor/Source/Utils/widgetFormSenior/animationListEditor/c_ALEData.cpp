@@ -47,10 +47,12 @@ void C_ALEData::setInterval(int gif_interval, QList<int> gif_intervalTank){
 }
 void C_ALEData::setIntervalDefault(int gif_interval){
 	this->gif_interval = gif_interval;
+	this->checkIntervalValue();
 }
 void C_ALEData::setIntervalDefaultAndChange(int gif_interval){
 	int old_interval = this->gif_interval;
 	this->gif_interval = gif_interval;
+	this->checkIntervalValue();
 	for (int i = 0; i < this->gif_intervalTank.count(); i++){	//（替换掉所有默认的旧帧间隔）
 		if (this->gif_intervalTank.at(i) == old_interval){
 			this->gif_intervalTank.replace(i, gif_interval);
@@ -62,6 +64,8 @@ void C_ALEData::setIntervalDefaultAndChange(int gif_interval){
 		设置 - 检查帧间隔（私有）
 */
 void C_ALEData::checkInterval(){
+	this->checkIntervalValue();
+
 	for (int i = this->gif_intervalTank.count(); i < this->gif_src.count(); i++){
 		this->gif_intervalTank.append(this->gif_interval);	//（自动填充 默认帧间隔）
 	}
@@ -72,6 +76,14 @@ void C_ALEData::checkInterval(){
 			this->gif_intervalTank.removeLast();
 		}
 	}
+}
+/*-------------------------------------------------
+		设置 - 校验帧间隔（私有）
+*/
+void C_ALEData::checkIntervalValue(){
+
+	// > 默认值不能为零
+	if (this->gif_interval == 0){ this->gif_interval = 4; }
 }
 
 
@@ -85,6 +97,7 @@ int C_ALEData::getFileCount(){
 		获取 - 获取文件
 */
 QFileInfo C_ALEData::getFile(int index){
+	if (index < 0){ return QFileInfo(); }
 	if (index >= this->getFileCount()){ return QFileInfo(); }
 
 	QString path = this->gif_src_file;
@@ -117,6 +130,9 @@ QString C_ALEData::getFileRoot(){
 /*-------------------------------------------------
 		获取 - 获取帧间隔
 */
+int C_ALEData::getIntervalDefault(){
+	return this->gif_interval;
+}
 QList<int> C_ALEData::getAllInterval(){
 	return this->gif_intervalTank;
 }
@@ -125,7 +141,7 @@ QList<int> C_ALEData::getAllInterval(){
 */
 QString C_ALEData::getIntervalString(int index){
 	int interval = this->gif_interval;
-	if (index < this->getFileCount()){ 
+	if (index >= 0 && index < this->getFileCount()){
 		interval = this->gif_intervalTank.at(index);
 	}
 	return QString::number(interval*0.01);

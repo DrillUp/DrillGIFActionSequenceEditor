@@ -297,9 +297,6 @@ void S_ProjectManager::clearProject() {
 	// > 清除缓存数据
 	S_TempFileManager::getInstance()->removeAllTempFile();
 
-	// > 清除撤回栈
-	//S_UndoStackManager::getInstance()->clearAll();
-
 	// > 清理输出窗口
 	//S_ConsoleManager::getInstance()->clearContents();
 	//S_ConsoleManager::getInstance()->append("----开始新工程----");
@@ -362,8 +359,6 @@ void S_ProjectManager::createSaveFile() {
 	// > 复制 temp 到 src
 	S_TempFileManager::getInstance()->copyTempToTarget_DirWithAllSubfolders(this->data_ProjectData.getProjectFilePath());
 
-	// > 后处理结果文件复制（这部分暂时没意义，上一步已经全复制）
-	//S_TempFileManager::getInstance()->copyTempToTarget_SeveralFile(this->data_ProjectData.getProjectFilePath(), S_PostFileManager::getInstance()->getAllFileNames());
 }
 
 /* --------------------------------------------------------------
@@ -379,8 +374,6 @@ void S_ProjectManager::readSaveFile() {
 	// > 复制 src 到 temp
 	S_TempFileManager::getInstance()->copyResourceToTemp_DirWithAllSubfolders(this->data_ProjectData.getProjectFilePath());
 
-	// > 后处理结果文件复制（这部分暂时没意义，上一步已经全复制）
-	//S_TempFileManager::getInstance()->copyResourceToTemp_SeveralFile(this->data_ProjectData.getProjectFilePath(), S_PostFileManager::getInstance()->getAllFileNames());
 }
 
 

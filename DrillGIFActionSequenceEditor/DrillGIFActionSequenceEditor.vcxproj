@@ -590,7 +590,6 @@
     <ClCompile Include="Source\ProjectModule\data\p_ProjectCreate.cpp" />
     <ClCompile Include="Source\ProjectModule\data\w_ProjectCreate.cpp" />
     <ClCompile Include="Source\ProjectModule\data\w_ProjectNote.cpp" />
-    <ClCompile Include="Source\ProjectModule\file\c_UniqueTempFile.cpp" />
     <ClCompile Include="Source\ProjectModule\file\s_TempFileManager.cpp" />
     <ClCompile Include="Source\ProjectModule\storage\s_StorageManager.cpp" />
     <ClCompile Include="Source\ProjectModule\storage\s_StorageManagerTemplate.cpp" />
@@ -1144,7 +1143,6 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp" "-fstdafx.h" "-f../../Source/ProjectModule/data/w_ProjectNote.h"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets"</Command>
     </CustomBuild>
-    <ClInclude Include="Source\ProjectModule\file\c_UniqueTempFile.h" />
     <CustomBuild Include="Source\ProjectModule\file\s_TempFileManager.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing s_TempFileManager.h...</Message>
@@ -1954,7 +1952,6 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
     </CustomBuild>
-    <None Include="Source\ProjectModule\file\UniqueTempFile运行原理.vsdx" />
     <None Include="Source\ProjectModule\项目管理模块结构.vsdx" />
     <CustomBuild Include="Source\Utils\widgetFormSenior\animationListEditor\private\w_ALEDataEdit.ui">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>

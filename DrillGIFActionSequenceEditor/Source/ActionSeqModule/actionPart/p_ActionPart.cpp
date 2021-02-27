@@ -26,10 +26,11 @@ P_ActionPart::P_ActionPart(QWidget *parent)
 
 	//-----------------------------------
 	//----初始化参数
+	this->m_last_index = -1;
+	this->m_slotBlock_source = false;
 
 	//-----------------------------------
 	//----初始化ui
-	this->m_last_index = -1;
 	
 	// > 编辑树
 	this->m_table = new P_RadioTable(ui.tableWidget);
@@ -68,6 +69,10 @@ P_ActionPart::P_ActionPart(QWidget *parent)
 	//----事件绑定
 	connect(this->m_table, &P_RadioTable::currentIndexChanged, this, &P_ActionPart::currentIndexChanged);
 	connect(this->m_p_AnimationListEditor, &P_AnimationListEditor::selectedIndexChanged_Multi, this, &P_ActionPart::tableChanged_Multi);
+
+	// > 表单变化绑定
+	connect(this->m_FastForm->getQLineEditByName("动作元名称"), &QLineEdit::textEdited, this->m_table, &P_RadioTable::modifyText_Selected);
+	connect(this->m_FastForm->getQCheckBoxByName("是否倒放"), &QCheckBox::toggled, this->m_p_AnimationListPlayer, &P_AnimationListPlayer::setPlayBackRun);
 
 	// > 图片查看块 - 连接帧切换
 	connect(this->m_p_AnimationListEditor, &P_AnimationListEditor::currentIndexChanged, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::setAnimFrame);
@@ -119,6 +124,7 @@ QStringList P_ActionPart::getNameList(){
 		控件 - 动作元切换
 */
 void P_ActionPart::currentIndexChanged(int index){
+	if (this->m_slotBlock_source == true){ return; }
 
 	// > 旧的内容存储
 	this->local_saveCurIndexData();
@@ -154,7 +160,7 @@ void P_ActionPart::keyPressEvent(QKeyEvent *event){
 */
 void P_ActionPart::local_saveCurIndexData(){
 	if (this->m_last_index < 0){ return; }
-	if (this->m_last_index > this->local_actionDataList.count()){ return; }
+	if (this->m_last_index >= this->local_actionDataList.count()){ return; }
 
 	// > 表单数据
 	QJsonObject obj_edit = this->m_FastForm->getJsonObject();
@@ -162,10 +168,21 @@ void P_ActionPart::local_saveCurIndexData(){
 	TTool::_QJsonObject_put_(&obj_org, obj_edit);
 
 	// > 图片数据
-	QJsonObject obj_org2 = QJsonObject();
-	//....
-
-	TTool::_QJsonObject_put_(&obj_org, obj_edit);
+		C_ALEData data = this->m_p_AnimationListEditor->getSource();
+		QJsonObject obj_edit2 = QJsonObject();
+		obj_edit2.insert("帧间隔", QString::number( data.getIntervalDefault() ));
+		//（资源文件夹不需要）
+		QList<QString> gif_src = QList<QString>();
+		QList<QFileInfo> info_list = data.getAllFile();
+		for (int i = 0; i < info_list.count(); i++){
+			gif_src.append(info_list.at(i).completeBaseName());
+		}
+		obj_edit2.insert("资源-动作元", TTool::_QListQString_To_QJsonArrayString_(gif_src));
+		QList<int> gif_intervalTank = data.getAllInterval();
+		QList<QString> gif_intervalTank_strList = TTool::_QList_IntToQString_(gif_intervalTank);
+		obj_edit2.insert("帧间隔-明细表", TTool::_QListQString_To_QJsonArrayString_(gif_intervalTank_strList));
+		//qDebug() << obj_edit2;
+	TTool::_QJsonObject_put_(&obj_org, obj_edit2);
 
 	this->local_actionDataList.replace(this->m_last_index, obj_org);
 }
@@ -174,21 +191,22 @@ void P_ActionPart::local_saveCurIndexData(){
 */
 void P_ActionPart::local_loadIndexData(int index){
 	if (index < 0){ return; }
-	if (index > this->local_actionDataList.count()){ return; }
+	if (index >= this->local_actionDataList.count()){ return; }
 
 	// > 表单数据
 	QJsonObject obj_data = this->local_actionDataList.at(index);
 	this->m_FastForm->setJsonObjectAutoDefault(obj_data);
-	qDebug() << obj_data;
+	//qDebug() << obj_data;
 
 	// > 图片数据
-		int gif_interval = obj_data.value("帧间隔").toString().toInt();					//帧间隔
-		QString gif_src_file = S_ActionSeqDataContainer::getInstance()->getActionSeqDir();				//资源文件夹
+		int gif_interval = obj_data.value("帧间隔").toString().toInt();								//帧间隔
+		QString gif_src_file = S_ActionSeqDataContainer::getInstance()->getActionSeqDir();			//资源文件夹
 	
 		QString gif_src_str = obj_data.value("资源-动作元").toString();
-		QList<QString> gif_src = TTool::_QJsonArrayString_To_QListQString_(gif_src_str);	//资源文件名
+		QList<QString> gif_src = TTool::_QJsonArrayString_To_QListQString_(gif_src_str);			//资源文件名
 		QString gif_intervalTank_str = obj_data.value("帧间隔-明细表").toString();
-		QList<int> gif_intervalTank = TTool::_QJsonArrayString_To_QListInt_(gif_intervalTank_str);;		//帧间隔-明细表
+		QList<QString> gif_intervalTank_strList = TTool::_QJsonArrayString_To_QListQString_(gif_intervalTank_str);	//帧间隔-明细表
+		QList<int> gif_intervalTank = TTool::_QList_QStringToInt_(gif_intervalTank_strList);
 
 	C_ALEData data = C_ALEData();
 	data.setId(index);
@@ -204,8 +222,12 @@ void P_ActionPart::local_loadIndexData(int index){
 		窗口 - 设置数据
 */
 void P_ActionPart::setData(QList<QJsonObject> actionData) {
+	this->m_slotBlock_source = true;
 	this->local_actionDataList = actionData;
+	this->m_p_AnimationListPlayer->stopFrame();		//（设置数据时，暂停播放）
 	this->putDataToUi();
+	this->m_slotBlock_source = false;
+	this->m_table->selectStart();
 }
 /*-------------------------------------------------
 		窗口 - 取出数据

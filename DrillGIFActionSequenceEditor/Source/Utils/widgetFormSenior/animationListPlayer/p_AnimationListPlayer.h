@@ -9,7 +9,7 @@
 /*
 -----==========================================================-----
 		类：		动画帧播放器.h
-		版本：		v1.00
+		版本：		v1.01
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		该模块能够控制动画帧播放，相当于 动画帧编辑块 的一个扩展粘合剂。
@@ -30,6 +30,7 @@ class P_AnimationListPlayer : public QWidget
 	//----动画帧
 	private:
 		bool m_playing;					//正在播放
+		bool m_backRun;					//是否倒放
 		QTimer* m_timer;				//计时器
 		int m_curFrame;					//当前时间帧
 		QList<int> m_IndexFrame;		//动画帧的时间帧数
@@ -37,15 +38,18 @@ class P_AnimationListPlayer : public QWidget
 
 	public:
 										//动画帧 - 开始
-		void startFrame(int startFrame = 0);
+		void startFrame();
 										//动画帧 - 暂停
 		void stopFrame();
 										//动画帧 - 正在播放
 		bool isPlaying();
+	public slots:
 										//动画帧 - 设置播放类型
 		void setPlayType(QStringList play_type);
 										//动画帧 - 设置时间帧列表（每个动画帧占用的时间帧数）
 		void setPlayFrame(QList<int> indexFrame);
+										//动画帧 - 设置倒放
+		void setPlayBackRun(bool backRun);
 
 	private slots:
 										//动画帧 - 帧刷新

@@ -13,7 +13,7 @@
 /*
 -----==========================================================-----
 		类：		灵活类型树（含自定义分支）.cpp
-		版本：		v1.01
+		版本：		v1.02
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		能够显示一堆数据，并且将这些数据类型或转移到不同的树枝中，便于查询。
@@ -121,7 +121,6 @@ void P_FlexibleClassificationTree::clearAll(){
 */
 void P_FlexibleClassificationTree::outerModifyLeafName(int id, QString name){
 	P_FlexiblePageTree::outerModifyLeafName(id, name);
-
 	//（无变化）
 }
 /*-------------------------------------------------
@@ -129,7 +128,20 @@ void P_FlexibleClassificationTree::outerModifyLeafName(int id, QString name){
 */
 void P_FlexibleClassificationTree::outerModifyLeafType(int id, QString name){
 	P_FlexiblePageTree::outerModifyLeafType(id, name);
-
+	// （无变化）
+}
+/*-------------------------------------------------
+		叶子 - 【外部修改】选中的叶子名称
+*/
+void P_FlexibleClassificationTree::outerModifySelectedLeafName( QString name){
+	P_FlexiblePageTree::outerModifySelectedLeafName( name);
+	//（无变化）
+}
+/*-------------------------------------------------
+		叶子 - 【外部修改】选中的叶子类型
+*/
+void P_FlexibleClassificationTree::outerModifySelectedLeafType( QString name){
+	P_FlexiblePageTree::outerModifySelectedLeafType( name);
 	// （无变化）
 }
 /*-------------------------------------------------
@@ -143,6 +155,14 @@ QList<I_FCTLeaf*> P_FlexibleClassificationTree::getLeafByType(QString type){
 		}
 	}
 	return result_list;
+}
+/*-------------------------------------------------
+		叶子 - 获取 - 类型
+*/
+QString P_FlexibleClassificationTree::getLeafType(int id){
+	I_FCTLeaf* leaf = this->getLeafById(id);
+	if (leaf == nullptr){ return ""; }
+	return leaf->getType();
 }
 /*-------------------------------------------------
 		树枝 - 获取树枝（自定义分支专用）

@@ -48,6 +48,7 @@ class C_ALEData {
 
 	protected:
 		void checkInterval();
+		void checkIntervalValue();
 
 	//-----------------------------------
 	//----获取
@@ -60,8 +61,10 @@ class C_ALEData {
 		QList<QFileInfo> getAllFile();
 											//获取 - 获取文件路径（F:/aaa/vvv ）
 		QString getFileRoot();
-
+		
 											//获取 - 获取帧间隔
+		int getIntervalDefault();
+											//获取 - 获取帧间隔明细表
 		QList<int> getAllInterval();
 											//获取 - 获取帧间隔文本（"0.01"，实际帧为 0.01666 * n ）
 		QString getIntervalString(int index);

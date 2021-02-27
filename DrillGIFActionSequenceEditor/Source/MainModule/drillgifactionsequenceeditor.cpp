@@ -5,6 +5,7 @@
 #include "Source/RmmvInteractiveModule/custom/s_RmmvDataContainer.h"
 #include "Source/ActionSeqModule/actionSeqPart/p_ActionSeqPart.h"
 #include "Source/ActionSeqModule/actionSeqData/s_ActionSeqDataContainer.h"
+#include "Source/ProjectModule/s_ProjectManager.h"
 
 /*
 -----==========================================================-----
@@ -60,12 +61,19 @@ void DrillGIFActionSequenceEditor::_init() {
 	//-----------------------------------
 	//----初始化参数
 	this->m_w_RmmvOperateBoard = nullptr;
+	S_ProjectManager::getInstance();
+	S_RmmvDataContainer::getInstance();
+	S_ActionSeqDataContainer::getInstance();
 
 	//-----------------------------------
 	//----事件绑定
+	connect(ui.toolButton_new, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::newProject);
+	connect(ui.toolButton_open, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::openProject);
+	connect(ui.toolButton_save, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::saveProject);
 	connect(ui.toolButton_rmmv, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::openWindowRmmvInteractive);
-	connect(S_ActionSeqDataContainer::getInstance(), &S_ActionSeqDataContainer::actionSeqDataChanged, this, &DrillGIFActionSequenceEditor::actionDataLoaded);
+	// （注意rmmv交互的数据要最先连接，这样在存档读取时不会乱序）
 	connect(S_RmmvDataContainer::getInstance(), &S_RmmvDataContainer::dataAllReloaded, this, &DrillGIFActionSequenceEditor::rmmvInteractiveDataLoaded);
+	connect(S_ActionSeqDataContainer::getInstance(), &S_ActionSeqDataContainer::dataAllReloaded, this, &DrillGIFActionSequenceEditor::actionSeqDataLoaded);
 	
 }
 
@@ -90,16 +98,40 @@ void DrillGIFActionSequenceEditor::rmmvInteractiveDataLoaded(){
 	}
 }
 
+
 /*-------------------------------------------------
 		控件 - 动作序列已读取
 */
-void DrillGIFActionSequenceEditor::actionDataLoaded(){
+void DrillGIFActionSequenceEditor::actionSeqDataLoaded(){
 
-	C_PluginData* p_data = S_ActionSeqDataContainer::getInstance()->getActionSeqData();
-	if (p_data == nullptr){
+	QJsonObject obj_data = S_ActionSeqDataContainer::getInstance()->getActionSeqData();
+	if (obj_data.isEmpty()){
 		ui.main_widget->setEnabled(false);
 	}else{
 		ui.main_widget->setEnabled(true);
-		this->m_p_ActionSeqPart->setData(p_data->parameters);
+		this->m_p_ActionSeqPart->setData(obj_data);
 	}
+}
+/*-------------------------------------------------
+		控件 - 新建项目
+*/
+void DrillGIFActionSequenceEditor::newProject(){
+	S_ProjectManager::getInstance()->newProject();
+}
+/*-------------------------------------------------
+		控件 - 打开项目
+*/
+void DrillGIFActionSequenceEditor::openProject(){
+	S_ProjectManager::getInstance()->openProject();
+}
+/*-------------------------------------------------
+		控件 - 保存项目
+*/
+void DrillGIFActionSequenceEditor::saveProject(){
+	
+	// > 点击保存前，将页面数据全部导出
+	this->m_p_ActionSeqPart->putUiToData();
+	
+	// > 保存
+	S_ProjectManager::getInstance()->saveProject();
 }

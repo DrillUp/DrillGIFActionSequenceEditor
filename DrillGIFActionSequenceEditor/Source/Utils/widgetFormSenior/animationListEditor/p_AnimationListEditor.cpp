@@ -12,7 +12,7 @@
 /*
 -----==========================================================-----
 		类：		动画帧编辑块.cpp
-		版本：		v1.01
+		版本：		v1.02
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		将图片全部显示，并能单选/多选。
@@ -539,6 +539,8 @@ void P_AnimationListEditor::op_swap(int index_a, int index_b){
 		操作 - 刷新贴图内容
 */
 void P_AnimationListEditor::op_refresh(int index){
+	if (index < 0){ return; }
+	if (index >= this->m_widgetTank.count() ){ return; }
 	P_ALEBlock* widget = dynamic_cast<P_ALEBlock*>(this->m_widgetTank.at(index));
 	if (this->m_config.m_zeroFill == true){		//（刷新计数）
 		widget->setCountText(TTool::_zeroFill_(index + 1, this->m_config.m_zeroFillCount, QLatin1Char(this->m_config.m_zeroFillChar.toLatin1())));

@@ -73,6 +73,7 @@ class P_ActionPart : public QWidget
 	//-----------------------------------
 	//----窗口
 	public:
+		bool m_slotBlock_source;
 		QList<QJsonObject> local_actionDataList;
 	public:
 										//窗口 - 设置数据

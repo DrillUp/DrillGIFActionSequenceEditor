@@ -11,7 +11,7 @@
 /*
 -----==========================================================-----
 		类：		灵活分类树.cpp
-		版本：		v1.01
+		版本：		v1.02
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		能够显示一堆数据，并且将这些数据分类或转移到不同的树枝中，便于查询。
@@ -53,25 +53,32 @@ class P_FlexiblePageTree : public QObject
 	//-----------------------------------
 	//----控件（叶子）
 	public:
+									//叶子 - 获取 - 获取对象（根据ID）
+		I_FCTLeaf* getLeafById(int id);
+		I_FCTLeaf* getLeafByName(QString name);
+									//叶子 - 获取 - 名称
+		QString getLeafName(int id);
+									//叶子 - 获取 - 判断叶子
+		bool hasLeafName(QString name);
+									//叶子 - 获取 - 判断对象
+		bool isLeaf(QTreeWidgetItem* item);
+		bool isLeafList(QList<QTreeWidgetItem*> item_list);
+	public slots:
 									//叶子 - 【外部修改】叶子名称
 		virtual void outerModifyLeafName(int id, QString name);
 									//叶子 - 【外部修改】叶子类型
 		virtual void outerModifyLeafType(int id, QString type);
-									//叶子 - 获取 - 获取对象（根据ID）
-		I_FCTLeaf* getLeafById(int id);
-									//叶子 - 获取 - 判断叶子
-		bool hasLeafName(QString name);
-		I_FCTLeaf* getLeafByName(QString name);
-									//叶子 - 获取 - 判断对象
-		bool isLeaf(QTreeWidgetItem* item);
-		bool isLeafList(QList<QTreeWidgetItem*> item_list);
+									//叶子 - 【外部修改】选中的叶子名称（选树枝不影响，只记录叶子）
+		virtual void outerModifySelectedLeafName( QString name);
+									//叶子 - 【外部修改】选中的叶子类型（选树枝不影响，只记录叶子）
+		virtual void outerModifySelectedLeafType( QString type);
 		
 	//-----------------------------------
 	//----控件（叶子接口）
 	protected:
 		bool m_leafOuterControlEnabled;		//叶子编辑开关
 		QTreeWidgetItem* m_last_item;
-		QTreeWidgetItem* m_last_leaf;
+		I_FCTLeaf* m_last_leaf;
 	signals:
 									//叶子接口 - 复制按下（信号）
 		void menuCopyLeafTriggered(int id);
@@ -83,7 +90,7 @@ class P_FlexiblePageTree : public QObject
 		void currentLeafChanged(QTreeWidgetItem* item, int id, QString name);
 									//控件接口 - 当前树节点变化，包括叶子和树枝（信号）
 		void currentItemChanged(QTreeWidgetItem* item);
-	public:
+	public slots:
 									//叶子接口 - 开关（默认开启）
 		void setLeafOuterControlEnabled(bool enabled);
 									//叶子接口 - 复制按下

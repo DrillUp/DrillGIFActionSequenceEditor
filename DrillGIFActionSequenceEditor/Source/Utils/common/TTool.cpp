@@ -38,8 +38,11 @@
 						-> double转字符串
 						-> int转字符串
 						-> 获取唯一id
-						-> 将QJsonObject放到另一个里面
 						-> getter和setter宏定义（头文件中）
+						-> 列表转换
+					QJson：
+						-> 将QJsonObject放到另一个里面
+						-> 列表字符串QJson转换
 
 		说明：		1._QString_函数用于消除很多修改情况，比如 lineedit与doublespinbox 相互改的情况。
 					2._QString_函数用于消除很多麻烦，QTableWidgetItem等各种编辑框赋值情况。
@@ -51,13 +54,9 @@
 
 -----==========================================================-----
 */
-TTool::TTool()
-{
+TTool::TTool(){
 }
-
-
-TTool::~TTool()
-{
+TTool::~TTool(){
 }
 
 /*========================================================================*/
@@ -739,6 +738,79 @@ QString TTool::_unique_id_() {
 	result.replace("}", "");
 	return result;
 }
+
+
+/*========================================================================*/
+QList<bool>  TTool::_QList_QStringToBool_(QList<QString> list){
+	QList<bool> result_list = QList<bool>();
+	for (int i = 0; i < list.count(); i++){
+		if (list.at(i).toLower() == "true"){
+			result_list.append(true);
+		}else{
+			result_list.append(false);
+		}
+	}
+	return result_list;
+}
+QList<int>  TTool::_QList_QStringToInt_(QList<QString> list){
+	QList<int> result_list = QList<int>();
+	for (int i = 0; i < list.count(); i++){
+		result_list.append(list.at(i).toInt());
+	}
+	return result_list;
+}
+QList<double>  TTool::_QList_QStringToDouble_(QList<QString> list){
+	QList<double> result_list = QList<double>();
+	for (int i = 0; i < list.count(); i++){
+		result_list.append(list.at(i).toDouble());
+	}
+	return result_list;
+}
+QList<QJsonObject>  TTool::_QList_QStringToQJsonObject_(QList<QString> list){
+	QList<QJsonObject> result_list = QList<QJsonObject>();
+	for (int i = 0; i < list.count(); i++){
+		QJsonDocument jsonDocument = QJsonDocument::fromJson(list.at(i).toUtf8());
+		QJsonObject obj = jsonDocument.object();
+		result_list.append(obj);
+	}
+	return result_list;
+}
+QList<QString>  TTool::_QList_BoolToQString_(QList<bool> list){
+	QList<QString> result_list = QList<QString>();
+	for (int i = 0; i < list.count(); i++){
+		if (list.at(i) == true){
+			result_list.append("true");
+		}else{
+			result_list.append("false");
+		}
+	}
+	return result_list;
+}
+QList<QString>  TTool::_QList_IntToQString_(QList<int> list){
+	QList<QString> result_list = QList<QString>();
+	for (int i = 0; i < list.count(); i++){
+		result_list.append(QString::number( list.at(i) ));
+	}
+	return result_list;
+}
+QList<QString>  TTool::_QList_DoubleToQString_(QList<double> list){
+	QList<QString> result_list = QList<QString>();
+	for (int i = 0; i < list.count(); i++){
+		result_list.append(QString::number( list.at(i) ));
+	}
+	return result_list;
+}
+QList<QString>  TTool::_QList_QJsonObjectToQString_(QList<QJsonObject> list){
+	QList<QString> result_list = QList<QString>();
+	for (int i = 0; i < list.count(); i++){
+		result_list.append(QJsonDocument(list.at(i)).toJson(QJsonDocument::Compact));
+	}
+	return result_list;
+}
+
+
+
+/*========================================================================*/
 void TTool::_QJsonObject_put_(QJsonObject *a, QJsonObject b) {
 	for (int i = 0; i < b.keys().count(); i++){
 		QString key = b.keys().at(i);
@@ -746,8 +818,6 @@ void TTool::_QJsonObject_put_(QJsonObject *a, QJsonObject b) {
 	}
 }
 
-
-/*========================================================================*/
 QList<QJsonObject>  TTool::_QJsonArrayString_To_QListObj_(QString context){
 	QList<QJsonObject> result_list = QList<QJsonObject>();
 	QJsonDocument jsonDocument = QJsonDocument::fromJson(context.toUtf8());
@@ -797,36 +867,36 @@ QList<QString>  TTool::_QJsonArrayString_To_QListQString_(QString context){
 
 QString  TTool::_QListObj_To_QJsonArrayString_(QList<QJsonObject> data){
 	QJsonArray arr = QJsonArray();
-	for (int i = 0; i < arr.count(); i++){
+	for (int i = 0; i < data.count(); i++){
 		arr.append(data.at(i));
 	}
-	return QJsonDocument(arr).toJson();
+	return QJsonDocument(arr).toJson(QJsonDocument::Compact);
 }
 QString  TTool::_QListBool_To_QJsonArrayString_(QList<bool> data){
 	QJsonArray arr = QJsonArray();
-	for (int i = 0; i < arr.count(); i++){
+	for (int i = 0; i < data.count(); i++){
 		arr.append(data.at(i));
 	}
-	return QJsonDocument(arr).toJson();
+	return QJsonDocument(arr).toJson(QJsonDocument::Compact);
 }
 QString  TTool::_QListInt_To_QJsonArrayString_(QList<int> data){
 	QJsonArray arr = QJsonArray();
-	for (int i = 0; i < arr.count(); i++){
+	for (int i = 0; i < data.count(); i++){
 		arr.append(data.at(i));
 	}
-	return QJsonDocument(arr).toJson();
+	return QJsonDocument(arr).toJson(QJsonDocument::Compact);
 }
 QString  TTool::_QListDouble_To_QJsonArrayString_(QList<double> data){
 	QJsonArray arr = QJsonArray();
-	for (int i = 0; i < arr.count(); i++){
+	for (int i = 0; i < data.count(); i++){
 		arr.append(data.at(i));
 	}
-	return QJsonDocument(arr).toJson();
+	return QJsonDocument(arr).toJson(QJsonDocument::Compact);
 }
 QString  TTool::_QListQString_To_QJsonArrayString_(QList<QString> data){
 	QJsonArray arr = QJsonArray();
-	for (int i = 0; i < arr.count(); i++){
+	for (int i = 0; i < data.count(); i++){
 		arr.append(data.at(i));
 	}
-	return QJsonDocument(arr).toJson();
+	return QJsonDocument(arr).toJson(QJsonDocument::Compact);
 }

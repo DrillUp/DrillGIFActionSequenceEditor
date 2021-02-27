@@ -6,7 +6,7 @@
 /*
 -----==========================================================-----
 		类：		动画帧播放器.cpp
-		版本：		v1.00
+		版本：		v1.01
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		该模块能够控制动画帧播放，相当于 动画帧编辑块 的一个扩展粘合剂。
@@ -44,6 +44,7 @@ P_AnimationListPlayer::P_AnimationListPlayer(QWidget *parent)
 	//-----------------------------------
 	//----初始化参数
 	this->m_playing = false;					//正在播放
+	this->m_backRun = false;					//是否倒放
 	this->m_timer = new QTimer();				//计时器
 	this->m_curFrame = 0;						//当前时间帧
 	this->m_IndexFrame = QList<int>();			//动画帧的时间帧数
@@ -91,21 +92,41 @@ void P_AnimationListPlayer::updateFrame(){
 
 	// > 切换选项
 	int index = this->m_curFrame % this->m_IndexFrameCount;
-	for (int i = 0; i < this->m_IndexFrame.count(); i++){
-		int i_count = this->m_IndexFrame.at(i);
-		if (index < i_count){
+	if (this->m_backRun == false){
 
-			// > 信号变化
-			emit frameIndexChanged(i);
+		// > 正向播放
+		for (int i = 0; i < this->m_IndexFrame.count(); i++){
+			int i_count = this->m_IndexFrame.at(i);
+			if (index < i_count){
 
-			break;
+				// > 信号变化
+				emit frameIndexChanged(i);
+
+				break;
+			}
+			index -= i_count;
 		}
-		index -= i_count;
+	
+	}else{
+
+		// > 倒放
+		for (int i = this->m_IndexFrame.count()-1; i >=0; i--){
+			int i_count = this->m_IndexFrame.at(i);
+			if (index < i_count){
+
+				// > 信号变化
+				emit frameIndexChanged(i);
+
+				break;
+			}
+			index -= i_count;
+		}
 	}
 
 
 	// > 固定次数暂停
-	if (index == 0){
+	if ( (this->m_backRun == false && index == 0) ||
+		 (this->m_backRun == true && index == this->m_IndexFrame.count()-1) ){
 		int loop_time = qFloor(this->m_curFrame / this->m_IndexFrameCount);
 		
 		if (loop_time >= 1 && ui.combo->currentText() == "播放一次"){ this->stopFrame(); return; }
@@ -123,9 +144,9 @@ void P_AnimationListPlayer::updateFrame(){
 /*-------------------------------------------------
 		动画帧 - 开始
 */
-void P_AnimationListPlayer::startFrame(int startFrame){
-	this->m_timer->start(10);
-	this->m_curFrame = startFrame; 
+void P_AnimationListPlayer::startFrame(){
+	this->m_timer->start(16);		//暂时以60帧的速度为准
+	this->m_curFrame = 0; 
 	this->m_playing = true;
 	this->updateIcon();
 	emit frameButton_started();
@@ -161,6 +182,12 @@ void P_AnimationListPlayer::setPlayFrame(QList<int> indexFrame){
 	for (int i = 0; i < this->m_IndexFrame.count(); i++){
 		this->m_IndexFrameCount += this->m_IndexFrame.at(i);
 	}
+}
+/*-------------------------------------------------
+		动画帧 - 设置倒放
+*/
+void P_AnimationListPlayer::setPlayBackRun(bool backRun){
+	this->m_backRun = backRun;
 }
 
 

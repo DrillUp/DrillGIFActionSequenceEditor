@@ -26,6 +26,7 @@ P_ActionSeqPart::P_ActionSeqPart(QWidget *parent)
 
 	//-----------------------------------
 	//----初始化参数
+	this->m_slotBlock_source = false;
 	this->m_cur_actionSeqIndex = -1;
 	this->m_cur_actionSeq = QJsonObject();
 
@@ -61,6 +62,7 @@ P_ActionSeqPart::P_ActionSeqPart(QWidget *parent)
 
 	//-----------------------------------
 	//----事件绑定
+	connect(ui.lineEdit, &QLineEdit::textEdited, this->m_p_tree, &P_FlexibleClassificationTree::outerModifySelectedLeafName);
 
 }
 
@@ -73,78 +75,96 @@ P_ActionSeqPart::~P_ActionSeqPart(){
 */
 void P_ActionSeqPart::currentActionSeqChanged(QTreeWidgetItem* item, int id, QString name){
 	if (id > this->m_actionSeq_list.length()){ return; }
+	if (this->m_slotBlock_source == true){ return; }
 
 	// > 旧数据存储
-	if (this->m_cur_actionSeqIndex != -1){
-		QList<QJsonObject> old_actionTank = this->m_actionPart->getData();
-		QList<QJsonObject> old_stateTank = this->m_statePart->getData();
+	this->local_saveCurIndexData();
 
-		// ... this->m_cur_actionSeq 赋值操作
+	// > 新数据填充
+	this->local_loadIndexData(id - 1);
+	
+}
 
-		this->m_actionSeq_list.replace(this->m_cur_actionSeqIndex, this->m_cur_actionSeq);
+
+
+/*-------------------------------------------------
+		数据 - 保存本地数据
+*/
+void P_ActionSeqPart::local_saveCurIndexData(){
+	if (this->m_cur_actionSeqIndex < 0){ return; }
+	if (this->m_cur_actionSeqIndex >= this->m_actionSeq_list.count()){ return; }
+
+	// > 表单数据
+	this->m_cur_actionSeq.insert("标签", ui.lineEdit->text());
+
+	// > 保存数据（动作元）
+	QList<QJsonObject> old_actionTank = this->m_actionPart->getData();
+	QStringList actionTank_str = TTool::_QList_QJsonObjectToQString_(old_actionTank);
+	for (int i = 0; i < actionTank_str.count(); i++){
+		this->m_cur_actionSeq.insert("动作元-" + QString::number(i + 1), actionTank_str.at(i));
 	}
 
-	//----------------------------------------------
-	// > 新数据填充
-	this->m_cur_actionSeqIndex = id - 1;
-	this->m_cur_actionSeq = this->m_actionSeq_list.at(this->m_cur_actionSeqIndex);
-	ui.lineEdit->setText(name);
-	ui.widget_editPart->setEnabled(true);
+	// > 保存数据（状态元）
+	QList<QJsonObject> old_stateTank = this->m_statePart->getData();
+	QStringList stateTank_str = TTool::_QList_QJsonObjectToQString_(old_stateTank);
+	for (int i = 0; i < stateTank_str.count(); i++){
+		this->m_cur_actionSeq.insert("状态元-" + QString::number(i + 1), stateTank_str.at(i));
+	}
 
+	// > 保存数据（放映区）
+	// ... this->m_cur_actionSeq 赋值操作
+	
+
+	this->m_actionSeq_list.replace(this->m_cur_actionSeqIndex, this->m_cur_actionSeq);
+}
+/*-------------------------------------------------
+		数据 - 读取本地数据
+*/
+void P_ActionSeqPart::local_loadIndexData(int index){
+	if (index < 0){ return; }
+	if (index >= this->m_actionSeq_list.count()){ return; }
+
+	// > 表单数据
+	this->m_cur_actionSeq = this->m_actionSeq_list.at(index);
+	ui.widget_editPart->setEnabled(true);
+	ui.lineEdit->setText(this->m_cur_actionSeq.value("标签").toString());
+	
 	// > 加入数据（动作元）
-	this->m_cur_actionTank = QList<QJsonObject>();
+	QStringList actionTank_str = QStringList();
 	for (int i = 0; i < this->m_realLen_action; i++){
 		QJsonValue value = this->m_cur_actionSeq.value("动作元-" + QString::number(i + 1));
-		if (value.isUndefined() == false){
-			QString data = value.toString();
-			QJsonDocument jsonDocument = QJsonDocument::fromJson(data.toUtf8());
-			QJsonObject obj = jsonDocument.object();
-			this->m_cur_actionTank.append(obj);
-		}
-		else{
-			QJsonObject obj = QJsonObject();
-			this->m_cur_actionTank.append(obj);
-		}
+		actionTank_str.append(value.toString());
 	}
+	this->m_cur_actionTank = TTool::_QList_QStringToQJsonObject_(actionTank_str);
 	this->m_actionPart->setData(this->m_cur_actionTank);
 
 	// > 加入数据（状态元）
-	this->m_cur_stateTank = QList<QJsonObject>();
+	QStringList stateTank_str = QStringList();
 	for (int i = 0; i < this->m_realLen_state; i++){
 		QJsonValue value = this->m_cur_actionSeq.value("状态元-" + QString::number(i + 1));
-		if (value.isUndefined() == false){
-			QString data = value.toString();
-			QJsonDocument jsonDocument = QJsonDocument::fromJson(data.toUtf8());
-			QJsonObject obj = jsonDocument.object();
-			this->m_cur_stateTank.append(obj);
-		}else{
-			QJsonObject obj = QJsonObject();
-			this->m_cur_stateTank.append(obj);
-		}
+		stateTank_str.append(value.toString());
 	}
+	this->m_cur_stateTank = TTool::_QList_QStringToQJsonObject_(stateTank_str);
 	this->m_statePart->setData(this->m_cur_stateTank);
 
 	// > 加入数据（放映区）
-	QStringList defaultState = QStringList();
-	QJsonValue value_defaultState = this->m_cur_actionSeq.value("默认的状态元集合");
-	if (value_defaultState.isUndefined() == false){
-		QString data = value_defaultState.toString();
-		QJsonDocument jsonDocument = QJsonDocument::fromJson(data.toUtf8());
-		QJsonArray arr = jsonDocument.array();
-		for (int i = 0; i < arr.count();i++){
-			defaultState.append(arr.at(i).toString());
-		}
-	}
+	QStringList defaultState = TTool::_QJsonArrayString_To_QListQString_(this->m_cur_actionSeq.value("默认的状态元集合").toString());
 	this->m_playingPart->setDefaultStateData(defaultState);
 	this->m_playingPart->setSource(this->m_cur_stateTank, this->m_cur_actionTank);
+
+	this->m_cur_actionSeqIndex = index;
 }
+
+
 
 /*-------------------------------------------------
 		窗口 - 设置数据
 */
 void P_ActionSeqPart::setData(QJsonObject actionSeq) {
+	this->m_slotBlock_source = true;
 	this->local_actionSeq = actionSeq;
 	this->putDataToUi();
+	this->m_slotBlock_source = false;
 }
 /*-------------------------------------------------
 		窗口 - 取出数据
@@ -173,7 +193,7 @@ void P_ActionSeqPart::putDataToUi() {
 	QJsonObject obj_treeData = S_ActionSeqDataContainer::getInstance()->getTreeData();
 	this->m_p_tree->setData(obj_treeData);		//（存储的数据需要在load前完成赋值）
 
-	// > 加入数据（动作序列）
+	// > 分解数据（动作序列 --> 动作序列列表）
 	this->m_actionSeq_list = QList<QJsonObject>();
 	for (int i = 0; i < this->m_realLen_actionSeq; i++){
 		QJsonValue value = this->local_actionSeq.value("动作序列-" + QString::number(i + 1));
@@ -181,18 +201,18 @@ void P_ActionSeqPart::putDataToUi() {
 			QString data = value.toString();
 			QJsonDocument jsonDocument = QJsonDocument::fromJson(data.toUtf8());
 			QJsonObject obj = jsonDocument.object();
-			obj.insert("id", i + 1);
-			obj.insert("name", obj.value("标签").toString());
+			obj.insert("COAS_id", i + 1);
+			obj.insert("COAS_name", obj.value("标签").toString());
 			this->m_actionSeq_list.append(obj);
 		}
 		else{
 			QJsonObject obj = QJsonObject();
-			obj.insert("id", i+1);
-			obj.insert("name","");
+			obj.insert("COAS_id", i+1);
+			obj.insert("COAS_name","");
 			this->m_actionSeq_list.append(obj);
 		}
 	}
-	this->m_p_tree->loadSource(this->m_actionSeq_list, "id", "name", "type");
+	this->m_p_tree->loadSource(this->m_actionSeq_list, "COAS_id", "COAS_name", "COAS_type");
 
 	// > 载入动作序列数据
 	//qDebug() << this->local_actionSeq;
@@ -202,6 +222,25 @@ void P_ActionSeqPart::putDataToUi() {
 		窗口 - ui数据 -> 本地数据
 */
 void P_ActionSeqPart::putUiToData() {
-	
 
+	// > 保存当前数据
+	this->local_saveCurIndexData();
+
+
+	// > 合并数据（动作序列列表 --> 动作序列 ）
+	for (int i = 0; i < this->m_realLen_actionSeq; i++){
+		QJsonObject data_obj = this->m_actionSeq_list.at(i);
+
+		// > 树数据（合并到动作序列）
+		int id = data_obj.value("COAS_id").toInt();
+		data_obj.insert("COAS_type", this->m_p_tree->getLeafType(id));
+		data_obj.remove("COAS_id");
+		data_obj.remove("COAS_name");	//（去除id和name，type保留）
+
+		QString data_str = QJsonDocument(data_obj).toJson(QJsonDocument::Compact);
+		this->local_actionSeq.insert("动作序列-" + QString::number(i + 1), data_str);
+	}
+
+	S_ActionSeqDataContainer::getInstance()->setActionSeqData(this->local_actionSeq);
+	S_ActionSeqDataContainer::getInstance()->modifyTreeData(this->m_p_tree->getData());
 }

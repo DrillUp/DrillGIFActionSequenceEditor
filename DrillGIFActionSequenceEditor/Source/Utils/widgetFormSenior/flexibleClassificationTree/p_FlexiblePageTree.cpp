@@ -11,7 +11,7 @@
 /*
 -----==========================================================-----
 		类：		灵活分类树.cpp
-		版本：		v1.01
+		版本：		v1.02
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		能够显示一堆数据，并且将这些数据分类或转移到不同的树枝中，便于查询。
@@ -222,6 +222,7 @@ void P_FlexiblePageTree::outerModifyLeafName(int id, QString name){
 			leaf->setLeaf_name_Symbol(S_ChineseManager::getInstance()->getChineseFirstSpell(name));	//首字母
 		}
 	}
+	leaf->refreshItemSelf();
 
 	// > 修改本地数据
 	for (int i = 0; i < this->m_source_list.count(); i++){
@@ -234,9 +235,7 @@ void P_FlexiblePageTree::outerModifyLeafName(int id, QString name){
 			break;
 		}
 	}
-
 }
-
 /*-------------------------------------------------
 		叶子 - 【外部修改】叶子类型
 */
@@ -246,6 +245,7 @@ void P_FlexiblePageTree::outerModifyLeafType(int id, QString type){
 
 	// > 修改叶子
 	leaf->setType(type);
+	leaf->refreshItemSelf();
 
 	// > 修改本地数据
 	for (int i = 0; i < this->m_source_list.count(); i++){
@@ -258,8 +258,61 @@ void P_FlexiblePageTree::outerModifyLeafType(int id, QString type){
 			break;
 		}
 	}
-
 }
+/*-------------------------------------------------
+		叶子 - 【外部修改】选中的叶子名称
+*/
+void P_FlexiblePageTree::outerModifySelectedLeafName(QString name){
+	if (this->m_last_leaf == nullptr){ return; }
+	
+	// > 修改叶子
+	this->m_last_leaf->setName(name);
+	// > 修改叶子 - 名称分支时，叶子父类可能转移
+	if (this->m_sortMode == "名称分支（按名称递增排序）"){
+		if (name == ""){
+			this->m_last_leaf->setLeaf_name_Symbol("空字符");
+		}else{
+			this->m_last_leaf->setLeaf_name_Symbol(S_ChineseManager::getInstance()->getChineseFirstSpell(name));	//首字母
+		}
+	}
+	this->m_last_leaf->refreshItemSelf();
+
+	// > 修改本地数据
+	for (int i = 0; i < this->m_source_list.count(); i++){
+		C_ObjectSortData c_data = this->m_source_list.at(i);
+		if (c_data.id == this->m_last_leaf->getId()){
+			if (c_data.name != name){
+				c_data.name = name;
+				this->m_source_list.replace(i, c_data);
+			}
+			break;
+		}
+	}
+}
+/*-------------------------------------------------
+		叶子 - 【外部修改】选中的叶子类型
+*/
+void P_FlexiblePageTree::outerModifySelectedLeafType(QString type){
+	if (this->m_last_leaf == nullptr){ return; }
+
+	// > 修改叶子
+	this->m_last_leaf->setType(type);
+	this->m_last_leaf->refreshItemSelf();
+
+	// > 修改本地数据
+	for (int i = 0; i < this->m_source_list.count(); i++){
+		C_ObjectSortData c_data = this->m_source_list.at(i);
+		if (c_data.id == this->m_last_leaf->getId()){
+			if (c_data.type != type){
+				c_data.type = type;
+				this->m_source_list.replace(i, c_data);
+			}
+			break;
+		}
+	}
+}
+
+
 /*-------------------------------------------------
 		叶子 - 获取 - 获取对象（根据ID）
 */
@@ -272,6 +325,22 @@ I_FCTLeaf* P_FlexiblePageTree::getLeafById(int id){
 	}
 	return nullptr;
 }
+I_FCTLeaf* P_FlexiblePageTree::getLeafByName(QString name){
+	for (int i = 0; i < this->m_leafItem.count(); i++){
+		if (this->m_leafItem.at(i)->getName() == name){
+			return this->m_leafItem.at(i);
+		}
+	}
+	return nullptr;
+}
+/*-------------------------------------------------
+		叶子 - 获取 - 名称
+*/
+QString P_FlexiblePageTree::getLeafName(int id){
+	I_FCTLeaf* leaf = this->getLeafById(id);
+	if (leaf == nullptr){ return ""; }
+	return leaf->getName();
+}
 /*-------------------------------------------------
 		叶子 - 获取 - 判断叶子
 */
@@ -282,14 +351,6 @@ bool P_FlexiblePageTree::hasLeafName(QString name){
 		}
 	}
 	return false;
-}
-I_FCTLeaf* P_FlexiblePageTree::getLeafByName(QString name){
-	for (int i = 0; i < this->m_leafItem.count(); i++){
-		if (this->m_leafItem.at(i)->getName() == name){
-			return this->m_leafItem.at(i);
-		}
-	}
-	return nullptr;
 }
 /*-------------------------------------------------
 		叶子 - 获取 - 判断对象
@@ -513,9 +574,8 @@ void P_FlexiblePageTree::sltItemSelectionChanged(){
 	}
 	if ( this->isLeaf(item) && 
 		 this->m_last_leaf != item){
-		this->m_last_leaf = item;
-		I_FCTLeaf* leaf = dynamic_cast<I_FCTLeaf*>(item);	
-		emit currentLeafChanged(item, leaf->getId(),leaf->getName());
+		this->m_last_leaf = dynamic_cast<I_FCTLeaf*>(item);
+		emit currentLeafChanged(item, this->m_last_leaf->getId(), this->m_last_leaf->getName());
 	}
 }
 

@@ -403,21 +403,44 @@ class TTool
 		/*唯一ID字符串
 			【返回】：唯一标识的字符串*/
 		static QString _unique_id_();
+		
+	//-----------------------------------------------------
+	//----快速操作 - 列表转换
+	public:
+		/*字符串列表 --> 布尔列表
+			【说明】："True"和"TRUE"也能转true。*/
+		static QList<bool> _QList_QStringToBool_(QList<QString> list);
+		/*字符串列表 --> 数字列表*/
+		static QList<int> _QList_QStringToInt_(QList<QString> list);
+		/*字符串列表 --> 小数列表*/
+		static QList<double> _QList_QStringToDouble_(QList<QString> list);
+		/*字符串列表 --> obj列表*/
+		static QList<QJsonObject> _QList_QStringToQJsonObject_(QList<QString> list);
+		/*布尔列表 --> 字符串列表*/
+		static QList<QString> _QList_BoolToQString_(QList<bool> list);
+		/*数字列表 --> 字符串列表。*/
+		static QList<QString> _QList_IntToQString_(QList<int> list);
+		/*小数列表 --> 字符串列表。*/
+		static QList<QString> _QList_DoubleToQString_(QList<double> list);
+		/*obj列表 --> 字符串列表*/
+		static QList<QString> _QList_QJsonObjectToQString_(QList<QJsonObject> list);
+
+	//-----------------------------------------------------
+	//----QJson
+	public:
 		/*b的值赋给a
 			【说明】：QJsonObject赋值给另一个，相同的key会被覆盖。*/
 		static void _QJsonObject_put_(QJsonObject *a, QJsonObject b);
-		
-	//-----------------------------------------------------
-	//----字符串与JSON
-	public:
-		/*列表字符串 转 obj列表
+
+		/*Json列表的字符串 --> 列表
 			【说明】：冗余操作的简化，注意是utf8的字符串。*/
 		static QList<QJsonObject> _QJsonArrayString_To_QListObj_(QString context);
 		static QList<bool> _QJsonArrayString_To_QListBool_(QString context);
 		static QList<int> _QJsonArrayString_To_QListInt_(QString context);
 		static QList<double> _QJsonArrayString_To_QListDouble_(QString context);
 		static QList<QString> _QJsonArrayString_To_QListQString_(QString context);
-
+		
+		/*列表 --> Json列表的字符串 */
 		static QString _QListObj_To_QJsonArrayString_(QList<QJsonObject> data);
 		static QString _QListBool_To_QJsonArrayString_(QList<bool> data);
 		static QString _QListInt_To_QJsonArrayString_(QList<int> data);

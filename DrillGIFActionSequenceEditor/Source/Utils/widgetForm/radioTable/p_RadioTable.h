@@ -8,7 +8,7 @@
 /*
 -----==========================================================-----
 		类：		单选表格.cpp
-		版本：		v1.00
+		版本：		v1.02
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		将数据全部显示，并能单选。（不含排序功能）
@@ -28,16 +28,16 @@ class P_RadioTable : public QObject
 	protected:
 		QTableWidget* m_table;						//表格对象
 		QString m_tableStyle;						//表格默认样式
+		QList<QTableWidgetItem*> m_itemTank;		//表格项列表
 	public:
 									//控件 - 刷新树
 		void refreshTableUi();
+									//控件 - 修改指定位置文本（不发textchange信号）
+		void modifyText(int index, QString text);
+									//控件 - 修改选中项文本（不发textchange信号）
+		void modifyText_Selected( QString text );
 									//控件 - 清理全部
 		void clearAll();
-	signals:
-									//控件 - 选中选项变化
-		void currentIndexChanged(int index);
-									//控件 - 选中文本变化
-		void currentTextChanged(QString text);
 		
 	//-----------------------------------
 	//----数据（表格设置）
@@ -72,5 +72,29 @@ class P_RadioTable : public QObject
 									//资源数据 - 取出数据
 		int getSelectedIndex();
 		QString getSelectedText();
+
+		
+	//-----------------------------------
+	//----选中
+	public slots:
+									//选中 - 设置选中
+									//		【参数】：数字，可以随意越界，越界后会选择最接近的一项。
+		void selectIndex(int index);
+									//选中 - 设置选中
+									//		【参数】：字符串，多个相同字符串，只选第一个。没有匹配的则无效。
+		void selectText(QString text);
+									//选中 - 选中上一项
+		void selectLast();
+									//选中 - 选中下一项
+		void selectNext();
+									//选中 - 选中首项
+		void selectStart();
+									//选中 - 选中尾项
+		void selectEnd();
+	signals:
+									//选中 - 选中选项变化
+		void currentIndexChanged(int index);
+									//选中 - 选中文本变化
+		void currentTextChanged(QString text);
 
 };

@@ -5,7 +5,7 @@
 /*
 -----==========================================================-----
 		类：		灵活分类树（含自定义分支）.cpp
-		版本：		v1.01
+		版本：		v1.02
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		能够显示一堆数据，并且将这些数据分类或转移到不同的树枝中，便于查询。
@@ -36,13 +36,20 @@ class P_FlexibleClassificationTree : public P_FlexiblePageTree
 	//-----------------------------------
 	//----控件（叶子）
 	public:
+									//叶子 - 获取 - 根据类型获取
+		QList<I_FCTLeaf*> getLeafByType(QString type);
+									//叶子 - 获取 - 类型
+		QString getLeafType(int id);
+	public slots:
 									//叶子 - 【外部修改】叶子名称
 		virtual void outerModifyLeafName(int id, QString name);
 									//叶子 - 【外部修改】叶子类型
 		virtual void outerModifyLeafType(int id, QString type);
+									//叶子 - 【外部修改】选中的叶子名称（选树枝不影响，只记录叶子）
+		virtual void outerModifySelectedLeafName( QString name);
+									//叶子 - 【外部修改】选中的叶子类型（选树枝不影响，只记录叶子）
+		virtual void outerModifySelectedLeafType( QString type);
 		
-									//叶子 - 获取 - 根据类型获取
-		QList<I_FCTLeaf*> getLeafByType(QString type);
 		
 	//-----------------------------------
 	//----控件（树枝）
@@ -97,6 +104,8 @@ class P_FlexibleClassificationTree : public P_FlexiblePageTree
 										//修改的数据 - 【内部修改】叶子的类型
 		void innerModifyLeafType(int id, QString type);
 		void innerModifyLeafTypeInAction();
+										//修改的数据 - 获取叶子的类型
+		QString getLeafTypeById(int id);
 										//修改的数据 - 记录修改（只改type参数）
 		void appendChangedSource(C_ObjectSortData data);
 										//修改的数据 - 修改的数据（只改type参数）

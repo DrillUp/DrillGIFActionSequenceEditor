@@ -548,9 +548,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_w_ProjectNote.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ProjectModule\file\c_UniqueTempFile.cpp">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\temp文件夹</Filter>
-    </ClCompile>
     <ClCompile Include="Source\ProjectModule\file\s_TempFileManager.cpp">
       <Filter>源文件\【 项目管理模块 ProjectModule】\temp文件夹</Filter>
     </ClCompile>
@@ -1056,9 +1053,6 @@
     <ClInclude Include="GeneratedFiles\ui_w_ProjectNote.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ProjectModule\file\c_UniqueTempFile.h">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\temp文件夹</Filter>
-    </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_p_PlayingPart.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
@@ -1134,9 +1128,6 @@
     </None>
     <None Include="Source\ProjectModule\项目管理模块结构.vsdx">
       <Filter>源文件\【 项目管理模块 ProjectModule】</Filter>
-    </None>
-    <None Include="Source\ProjectModule\file\UniqueTempFile运行原理.vsdx">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\temp文件夹</Filter>
     </None>
   </ItemGroup>
 </Project>

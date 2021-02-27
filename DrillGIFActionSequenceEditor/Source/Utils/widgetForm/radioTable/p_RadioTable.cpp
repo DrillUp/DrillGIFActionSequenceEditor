@@ -7,7 +7,7 @@
 /*
 -----==========================================================-----
 		类：		单选表格.cpp
-		版本：		v1.01
+		版本：		v1.02
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		将数据全部显示，并能单选。（不含排序功能）
@@ -33,6 +33,7 @@ P_RadioTable::P_RadioTable(QTableWidget *parent)
 	//----参数初始化
 	this->m_table = parent;									//表格对象
 	this->m_tableStyle = this->m_table->styleSheet();		//表格默认样式
+	this->m_itemTank = QList<QTableWidgetItem*>();			//表格项列表
 
 	// > 数据
 	this->m_config = C_RaTConfig();
@@ -70,11 +71,13 @@ void P_RadioTable::refreshTableUi() {
 	this->m_table->setRowCount(local_text.count());
 
 	// > 刷新内容
+	this->m_itemTank = QList<QTableWidgetItem*>();
 	for (int i = 0; i < local_text.count(); i++){
 		QTableWidgetItem* item = new QTableWidgetItem();
 		item->setText(TTool::_zeroFill_( i+1, this->m_config.zeroFillCount, QLatin1Char(this->m_config.zeroFillChar.toLatin1())) + " " + local_text.at(i));
 		item->setData(Qt::UserRole + 1, local_text.at(i));
 		this->m_table->setItem(i, 0, item);
+		this->m_itemTank.append(item);
 	}
 
 	// > 行高刷新
@@ -87,6 +90,24 @@ void P_RadioTable::refreshTableUi() {
 		QTableWidgetSelectionRange range = QTableWidgetSelectionRange(0,0,1,1);
 		this->m_table->setRangeSelected(range, true);
 	}
+}
+/*-------------------------------------------------
+		控件 - 修改指定位置文本（不发信号）
+*/
+void P_RadioTable::modifyText(int index, QString text){
+	if (index == -1 ){ return; }
+	if (index < 0){ index = 0; }
+	if (index >= this->m_itemTank.count()){ index = this->m_itemTank.count() - 1; }
+
+	QTableWidgetItem* item = this->m_itemTank.at(index);
+	item->setText(TTool::_zeroFill_(index + 1, this->m_config.zeroFillCount, QLatin1Char(this->m_config.zeroFillChar.toLatin1())) + " " + text);
+	item->setData(Qt::UserRole + 1, text);
+}
+/*-------------------------------------------------
+		控件 - 修改选中项文本（不发信号）
+*/
+void P_RadioTable::modifyText_Selected(QString text){
+	this->modifyText(this->getSelectedIndex(),text);
 }
 /*-------------------------------------------------
 		控件 - 清理全部
@@ -172,16 +193,81 @@ void P_RadioTable::setSource(QStringList text_list) {
 		资源数据 - 取出数据
 */
 int P_RadioTable::getSelectedIndex(){
-	QList<QTableWidgetSelectionRange> range = this->m_table->selectedRanges();
-	if (range.size() == 0) {
-		return -1;
+	for (int i = 0; i < this->m_itemTank.count(); i++){
+		if (this->m_itemTank.at(i)->isSelected()){
+			return i;
+		}
 	}
-	return range.at(0).topRow();
+	return -1;
 }
 QString P_RadioTable::getSelectedText(){
-	QList<QTableWidgetItem*> selected_item = this->m_table->selectedItems();
-	if (selected_item.count() == 0) {
-		return "";
+	for (int i = 0; i < this->m_itemTank.count(); i++){
+		QTableWidgetItem* item = this->m_itemTank.at(i);
+		if (item->isSelected()){
+			return item->data(Qt::UserRole + 1).toString();
+		}
 	}
-	return selected_item.at(0)->data(Qt::UserRole + 1).toString();
+	return "";
+}
+
+
+/*-------------------------------------------------
+		选中 - 设置选中
+*/
+void  P_RadioTable::selectIndex(int index){
+	if (index < 0){ index = 0; }
+	if (index >= this->m_itemTank.count()){ index = this->m_itemTank.count() - 1; }
+
+	for (int i = 0; i < this->m_itemTank.count(); i++){
+		QTableWidgetItem* item = this->m_itemTank.at(i);
+		if (i == index){
+			item->setSelected(true);
+			this->m_table->scrollToItem(item);
+		}else{
+			item->setSelected(false);
+		}
+	}
+	emit currentIndexChanged(index);
+}
+void  P_RadioTable::selectText(QString text){
+	bool index = -1;
+	for (int i = 0; i < this->m_itemTank.count(); i++){
+		QTableWidgetItem* item = this->m_itemTank.at(i);
+
+		if (item->data(Qt::UserRole + 1).toString() == text &&
+			index == -1){
+			item->setSelected(true);
+			this->m_table->scrollToItem(item);
+			index = i;
+		}else{
+			item->setSelected(false);
+		}
+	}
+	if (index != -1){
+		emit currentIndexChanged(index);
+	}
+}
+/*-------------------------------------------------
+		选中 - 选中上一项
+*/
+void  P_RadioTable::selectLast(){
+	this->selectIndex(this->getSelectedIndex() - 1);
+}
+/*-------------------------------------------------
+		选中 - 选中下一项
+*/
+void  P_RadioTable::selectNext(){
+	this->selectIndex(this->getSelectedIndex() + 1);
+}
+/*-------------------------------------------------
+		选中 - 选中首项
+*/
+void  P_RadioTable::selectStart(){
+	this->selectIndex(0);
+}
+/*-------------------------------------------------
+		选中 - 选中尾项
+*/
+void  P_RadioTable::selectEnd(){
+	this->selectIndex(this->m_itemTank.count() - 1);
 }

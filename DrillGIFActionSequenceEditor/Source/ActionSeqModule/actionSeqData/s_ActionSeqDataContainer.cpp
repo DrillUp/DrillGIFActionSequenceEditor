@@ -18,8 +18,7 @@
 -----==========================================================-----
 */
 S_ActionSeqDataContainer::S_ActionSeqDataContainer(){
-	this->data_ActionSeq = nullptr;
-	this->data_treeConfig = QJsonObject();
+	this->clearAllData();
 
 	//-----------------------------------
 	//----事件绑定
@@ -45,36 +44,58 @@ S_ActionSeqDataContainer* S_ActionSeqDataContainer::getInstance() {
 		插件数据 - 重设
 */
 void S_ActionSeqDataContainer::resetPluginData() {
-	this->data_ActionSeq = nullptr;
+	this->clearAllData();
 
 	QList<C_PluginData*> data_list = S_PluginDataContainer::getInstance()->getPluginData();
 	for (int i = 0; i < data_list.count(); i++){
 		C_PluginData* data = data_list.at(i);
 		if (data->name == "Drill_CoreOfActionSequence"){		//（GIF动作序列核心）
-			this->data_ActionSeq = data;
+			this->data_ActionSeqPlugin = data;
 		}
 	}
 
-	if (this->data_ActionSeq == nullptr){
-		if (QMessageBox::information(nullptr, "提示", "该工程中，没有找到\"GIF动作序列核心\"的插件配置，是否添加？", "添加", "取消", 0, 1) == 0){
-			//...
-		}
+	if (this->data_ActionSeqPlugin == nullptr){
+		//if (QMessageBox::information(nullptr, "提示", "该工程中，没有找到\"GIF动作序列核心\"的插件配置，是否添加？", "添加", "取消", 0, 1) == 0){
+		//	//...
+		//}
 	}
 
-	emit actionSeqDataChanged();
+	emit dataAllReloaded();
 }
 
 /*-------------------------------------------------
 		插件数据 - 获取（插件数据）
 */
-C_PluginData* S_ActionSeqDataContainer::getActionSeqData() {
-	return this->data_ActionSeq;
+C_PluginData* S_ActionSeqDataContainer::getActionSeqPlugin() {
+	return this->data_ActionSeqPlugin;
 }
 /*-------------------------------------------------
 		插件数据 - 获取（插件文件）
 */
 QFileInfo S_ActionSeqDataContainer::getActionSeqPluginFile() {
 	return S_RmmvDataContainer::getInstance()->getRmmvFile_Plugin("Drill_CoreOfActionSequence");
+}
+
+/*-------------------------------------------------
+		动作序列数据 - 设置
+*/
+void S_ActionSeqDataContainer::setActionSeqData(QJsonObject obj){
+	this->data_ActionSeqData = obj;
+}
+/*-------------------------------------------------
+		动作序列数据 - 获取
+*/
+QJsonObject S_ActionSeqDataContainer::getActionSeqData(){
+
+	// > 如果为从rmmv中读取的数据，则载入
+	if (this->data_ActionSeqData.isEmpty()){
+		if (this->data_ActionSeqPlugin != nullptr){
+			this->data_ActionSeqData = this->data_ActionSeqPlugin->parameters;
+		}
+	}
+
+	// > 默认载入存档内的数据
+	return this->data_ActionSeqData;
 }
 
 /*-------------------------------------------------
@@ -86,6 +107,7 @@ QString S_ActionSeqDataContainer::getActionSeqDir(){
 	if (dir.exists() == false){ dir.mkdir(dir_path); }
 	return dir_path;
 }
+
 
 /*-------------------------------------------------
 		树数据 - 修改
@@ -110,7 +132,9 @@ QString S_ActionSeqDataContainer::getSaveName() {
 		数据 - 清除当前管理器数据
 */
 void S_ActionSeqDataContainer::clearAllData() {
+	this->data_ActionSeqPlugin = nullptr;
 	this->data_treeConfig = QJsonObject();
+	this->data_ActionSeqData = QJsonObject();
 }
 /*-----------------------------------
 		数据 - 全部激励源数据 -> QJsonObject
@@ -118,7 +142,8 @@ void S_ActionSeqDataContainer::clearAllData() {
 QJsonObject S_ActionSeqDataContainer::getAllDataOfJsonObject(){
 	QJsonObject obj_all = QJsonObject();
 
-	obj_all.insert("data_treeConfig", this->data_treeConfig);	//树配置数据
+	obj_all.insert("data_treeConfig", this->data_treeConfig);			//树配置数据
+	obj_all.insert("data_ActionSeqData", this->data_ActionSeqData);		//动作序列数据
 	
 	return obj_all;
 }
@@ -129,7 +154,8 @@ QJsonObject S_ActionSeqDataContainer::getAllDataOfJsonObject(){
 void S_ActionSeqDataContainer::setAllDataFromJsonObject(QJsonObject obj_all){
 	this->clearAllData();
 
-	this->data_treeConfig = obj_all.value("data_treeConfig").toObject();	//树配置数据
+	this->data_treeConfig = obj_all.value("data_treeConfig").toObject();		//树配置数据
+	this->data_ActionSeqData = obj_all.value("data_ActionSeqData").toObject();	//动作序列数据
 
 	emit dataAllReloaded();
 }

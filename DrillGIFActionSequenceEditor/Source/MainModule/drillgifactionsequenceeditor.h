@@ -43,7 +43,13 @@ class DrillGIFActionSequenceEditor : public QDialog
 		P_ActionSeqPart* m_p_ActionSeqPart;
 	public slots:
 								//控件 - 动作序列已读取
-		void actionDataLoaded();
+		void actionSeqDataLoaded();
+								//控件 - 新建项目
+		void newProject();
+								//控件 - 打开项目
+		void openProject();
+								//控件 - 保存项目
+		void saveProject();
 		
 	//-----------------------------------
 	//----窗口
