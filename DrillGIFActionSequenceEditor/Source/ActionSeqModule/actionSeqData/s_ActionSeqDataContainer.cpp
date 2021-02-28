@@ -55,9 +55,12 @@ void S_ActionSeqDataContainer::resetPluginData() {
 	}
 
 	if (this->data_ActionSeqPlugin == nullptr){
-		//if (QMessageBox::information(nullptr, "提示", "该工程中，没有找到\"GIF动作序列核心\"的插件配置，是否添加？", "添加", "取消", 0, 1) == 0){
-		//	//...
-		//}
+		if (QMessageBox::information(nullptr, "提示", "该工程中，没有找到\"GIF动作序列核心\"的插件配置，是否添加？", "添加", "取消", 0, 1) == 0){
+
+			QMessageBox::information(nullptr, "提示", "功能没做完。", QMessageBox::Yes);
+			return;
+
+		}
 	}
 
 	emit dataAllReloaded();

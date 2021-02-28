@@ -189,6 +189,9 @@
     <Filter Include="源文件\【 工具箱 Utils】\辅助操作器（operater）">
       <UniqueIdentifier>{06829457-7ef3-4408-babb-40ac4669d527}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\【 主窗体 MainModule】\关于">
+      <UniqueIdentifier>{820e42b3-479a-45ba-add6-783c05407300}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -725,6 +728,15 @@
     <ClCompile Include="GeneratedFiles\Release\moc_p_FileOperater.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Source\MainModule\about\w_SoftwareAbout.cpp">
+      <Filter>源文件\【 主窗体 MainModule】\关于</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_w_SoftwareAbout.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_w_SoftwareAbout.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="drillgifactionsequenceeditor.qrc">
@@ -946,6 +958,12 @@
     <CustomBuild Include="Source\Utils\common\p_FileOperater.h">
       <Filter>源文件\【 工具箱 Utils】\通用工具（common）</Filter>
     </CustomBuild>
+    <CustomBuild Include="Source\MainModule\about\w_SoftwareAbout.h">
+      <Filter>源文件\【 主窗体 MainModule】\关于</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\MainModule\about\w_SoftwareAbout.ui">
+      <Filter>源文件\【 主窗体 MainModule】\关于</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DrillGIFActionSequenceEditor.rc" />
@@ -1085,6 +1103,9 @@
     </ClInclude>
     <ClInclude Include="Source\Utils\widgetFastForm\fastForm\c_FastClass.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-快速表单（widgetFastForm）\快速表单</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_w_SoftwareAbout.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

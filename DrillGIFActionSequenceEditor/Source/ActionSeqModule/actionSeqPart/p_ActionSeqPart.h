@@ -53,6 +53,23 @@ class P_ActionSeqPart : public QWidget
 		void local_saveCurIndexData();
 									//数据 - 读取本地数据
 		void local_loadIndexData(int index);
+		
+	//-----------------------------------
+	//----资源数据（操作）
+	protected:
+		QJsonObject m_copyed_actionSeq;
+	protected:
+									//操作 - 替换
+		void op_replace(int index, QJsonObject actiong_seq);
+									//操作 - 移除
+		void op_remove(QList<int> index_list);
+	public:
+									//快捷键 - 复制
+		void shortcut_copy();
+									//快捷键 - 粘贴
+		void shortcut_paste();
+									//快捷键 - 清空
+		void shortcut_delete();
 
 	//-----------------------------------
 	//----大控件

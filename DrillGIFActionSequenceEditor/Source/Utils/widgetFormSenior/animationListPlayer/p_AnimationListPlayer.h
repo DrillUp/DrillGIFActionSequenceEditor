@@ -90,6 +90,8 @@ class P_AnimationListPlayer : public QWidget
 		void btn_next();
 										//按钮 - 新建帧
 		void btn_new();
+										//按钮 - 导出GIF
+		void btn_exportGIF();
 										//按钮 - 播放设置
 		void btn_setting();
 	private:

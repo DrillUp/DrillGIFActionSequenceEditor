@@ -1,5 +1,9 @@
 <RCC>
     <qresource prefix="/DrillGIFActionSequenceEditor">
+        <file>Resources/icons/global/drill_logo_200x200.png</file>
+        <file>Resources/icons/nav/SaveAs.png</file>
+        <file>Resources/icons/nav/About.png</file>
+        <file>Resources/icons/nav/Help.png</file>
         <file>Resources/icons/menu/Common_New.png</file>
         <file>Resources/icons/nav/Interactive.png</file>
         <file>Resources/icons/nav/Interactive_rmmv.png</file>
@@ -43,5 +47,6 @@
         <file>Resources/icons/tabWidget/outFrame_disabled.png</file>
         <file>Resources/icons/tabWidget/outFrame_hover.png</file>
         <file>Resources/icons/menu/Common_SelectAll.png</file>
+        <file>Resources/icons/player/Play_ExportGIF.png</file>
     </qresource>
 </RCC>

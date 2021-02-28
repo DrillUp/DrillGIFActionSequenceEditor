@@ -67,6 +67,7 @@ P_AnimationListPlayer::P_AnimationListPlayer(QWidget *parent)
 	ui.toolButton_play->setIcon(QIcon(this->m_iconSrcPath + "/player/Play_Run.png"));
 	ui.toolButton_next->setIcon(QIcon(this->m_iconSrcPath + "/player/Play_Next.png"));
 	ui.toolButton_new->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_New.png"));
+	ui.toolButton_ExportGIF->setIcon(QIcon(this->m_iconSrcPath + "/player/Play_ExportGIF.png"));
 	ui.toolButton_setting->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Setting.png"));
 
 	//-----------------------------------
@@ -76,8 +77,10 @@ P_AnimationListPlayer::P_AnimationListPlayer(QWidget *parent)
 	connect(ui.toolButton_play, &QToolButton::clicked, this, &P_AnimationListPlayer::btn_play);
 	connect(ui.toolButton_next, &QToolButton::clicked, this, &P_AnimationListPlayer::btn_next);
 	connect(ui.toolButton_new, &QToolButton::clicked, this, &P_AnimationListPlayer::btn_new);
+	connect(ui.toolButton_ExportGIF, &QToolButton::clicked, this, &P_AnimationListPlayer::btn_exportGIF);
 	connect(ui.toolButton_setting, &QToolButton::clicked, this, &P_AnimationListPlayer::btn_setting);
 
+	ui.toolButton_ExportGIF->setVisible(false);
 }
 
 P_AnimationListPlayer::~P_AnimationListPlayer(){
@@ -253,6 +256,13 @@ void P_AnimationListPlayer::btn_setting(){
 	this->btn_pause();
 	emit frameButton_setting();
 }
+/*-------------------------------------------------
+		按钮 - 导出GIF（必须要编辑器导出）
+*/
+void P_AnimationListPlayer::btn_exportGIF(){
+	if (this->m_animEditor == nullptr){ return; }
+
+}
 
 
 
@@ -261,6 +271,7 @@ void P_AnimationListPlayer::btn_setting(){
 */
 void P_AnimationListPlayer::setAnimationListEditor(P_AnimationListEditor* animEditor){
 	this->m_animEditor = animEditor;
+	ui.toolButton_ExportGIF->setVisible(true);
 
 	connect(this, &P_AnimationListPlayer::frameIndexChanged, this->m_animEditor, &P_AnimationListEditor::selectIndex);					//播放器 索引 信号连接
 	connect(this, &P_AnimationListPlayer::frameButton_homing, this->m_animEditor, &P_AnimationListEditor::selectStart);					//播放器 切至首帧 信号连接

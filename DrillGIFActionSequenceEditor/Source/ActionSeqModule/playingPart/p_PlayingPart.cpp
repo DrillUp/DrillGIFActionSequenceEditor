@@ -2,6 +2,7 @@
 #include "p_PlayingPart.h"
 
 #include "Source/Utils/manager/GIFManager/s_GIFManager.h"
+#include "Source/ProjectModule/s_ProjectManager.h"
 
 /*
 -----==========================================================-----
@@ -40,7 +41,7 @@ P_PlayingPart::P_PlayingPart(QWidget *parent)
 
 	//-----------------------------------
 	//----事件绑定
-
+	connect(ui.toolButton_open, &QPushButton::clicked, this, &P_PlayingPart::openPlay);
 
 }
 
@@ -52,7 +53,8 @@ P_PlayingPart::~P_PlayingPart(){
 */
 void P_PlayingPart::openPlay() {
 	//S_GIFManager::getInstance()->dismantlingGIF_testApi();
-	
+
+	QMessageBox::information(this, "提示", "功能没做完。", QMessageBox::Yes);
 }
 
 /*-------------------------------------------------

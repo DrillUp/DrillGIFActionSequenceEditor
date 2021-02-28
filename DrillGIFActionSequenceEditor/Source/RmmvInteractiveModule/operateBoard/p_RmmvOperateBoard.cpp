@@ -62,7 +62,7 @@ void P_RmmvOperateBoard::importRmmv(){
 		QMessageBox::warning(this, "提示", "你需要先打开rmmv工程。", QMessageBox::Yes);
 		return;
 	}
-	if (QMessageBox::information(this, "提示", "此操作会从rmmv工程中读取数据，并覆盖到当前数据，是否继续?", "继续", "取消", 0, 1) == 1){
+	if (QMessageBox::information(this, "提示", "此操作会从rmmv工程中读取数据，并覆盖到当前数据，当前的动作序列数据将全部丢失，是否继续?", "继续", "取消", 0, 1) == 1){
 		return;
 	}
 

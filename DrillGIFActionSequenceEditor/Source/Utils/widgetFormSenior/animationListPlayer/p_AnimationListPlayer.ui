@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>312</width>
+    <width>367</width>
     <height>37</height>
    </rect>
   </property>
@@ -75,7 +75,7 @@ QToolButton:pressed{
       <string>跳至首帧</string>
      </property>
      <property name="icon">
-      <iconset resource="../../../../code_piece_qt.qrc">
+      <iconset>
        <normaloff>:/code_piece_qt/Resources/images/player/Play_Start.png</normaloff>:/code_piece_qt/Resources/images/player/Play_Start.png</iconset>
      </property>
      <property name="iconSize">
@@ -95,7 +95,7 @@ QToolButton:pressed{
       <string>上一帧</string>
      </property>
      <property name="icon">
-      <iconset resource="../../../../code_piece_qt.qrc">
+      <iconset>
        <normaloff>:/code_piece_qt/Resources/images/player/Play_Last.png</normaloff>:/code_piece_qt/Resources/images/player/Play_Last.png</iconset>
      </property>
      <property name="iconSize">
@@ -115,7 +115,7 @@ QToolButton:pressed{
       <string>播放</string>
      </property>
      <property name="icon">
-      <iconset resource="../../../../code_piece_qt.qrc">
+      <iconset>
        <normaloff>:/code_piece_qt/Resources/images/player/Play_Run.png</normaloff>:/code_piece_qt/Resources/images/player/Play_Run.png</iconset>
      </property>
      <property name="iconSize">
@@ -135,7 +135,7 @@ QToolButton:pressed{
       <string>下一帧</string>
      </property>
      <property name="icon">
-      <iconset resource="../../../../code_piece_qt.qrc">
+      <iconset>
        <normaloff>:/code_piece_qt/Resources/images/player/Play_Next.png</normaloff>:/code_piece_qt/Resources/images/player/Play_Next.png</iconset>
      </property>
      <property name="iconSize">
@@ -155,8 +155,28 @@ QToolButton:pressed{
       <string>添加帧</string>
      </property>
      <property name="icon">
-      <iconset resource="../../../../code_piece_qt.qrc">
+      <iconset>
        <normaloff>:/code_piece_qt/Resources/images/menu/Common_New.png</normaloff>:/code_piece_qt/Resources/images/menu/Common_New.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>24</width>
+       <height>24</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QToolButton" name="toolButton_ExportGIF">
+     <property name="toolTip">
+      <string>导出GIF</string>
+     </property>
+     <property name="text">
+      <string>导出GIF</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>:/code_piece_qt/Resources/images/menu/Common_Setting.png</normaloff>:/code_piece_qt/Resources/images/menu/Common_Setting.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -175,7 +195,7 @@ QToolButton:pressed{
       <string>播放器设置</string>
      </property>
      <property name="icon">
-      <iconset resource="../../../../code_piece_qt.qrc">
+      <iconset>
        <normaloff>:/code_piece_qt/Resources/images/menu/Common_Setting.png</normaloff>:/code_piece_qt/Resources/images/menu/Common_Setting.png</iconset>
      </property>
      <property name="iconSize">

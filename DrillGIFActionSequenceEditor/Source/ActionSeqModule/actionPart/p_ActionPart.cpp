@@ -3,6 +3,7 @@
 
 #include "../actionSeqData/s_ActionSeqDataDefiner.h"
 #include "../actionSeqData/s_ActionSeqDataContainer.h"
+#include "Source/ProjectModule/s_ProjectManager.h"
 #include "Source/Utils/common/TTool.h"
 
 /*
@@ -183,6 +184,9 @@ void P_ActionPart::local_saveCurIndexData(){
 		obj_edit2.insert("帧间隔-明细表", TTool::_QListQString_To_QJsonArrayString_(gif_intervalTank_strList));
 		//qDebug() << obj_edit2;
 	TTool::_QJsonObject_put_(&obj_org, obj_edit2);
+
+	// > 编辑标记
+	S_ProjectManager::getInstance()->setDirty();
 
 	this->local_actionDataList.replace(this->m_last_index, obj_org);
 }

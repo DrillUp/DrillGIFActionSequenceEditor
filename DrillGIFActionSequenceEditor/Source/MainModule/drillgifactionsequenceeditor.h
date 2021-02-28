@@ -50,7 +50,17 @@ class DrillGIFActionSequenceEditor : public QDialog
 		void openProject();
 								//控件 - 保存项目
 		void saveProject();
-		
+								//控件 - 另存为项目
+		void saveAsProject();
+								//控件 - 修改文件名称
+		void changeWindowTitle(QString title);
+								//控件 - 用户手册
+		void openUserManual();
+								//控件 - 关于...
+		void openAbout();
+								//窗口关闭事件（点击关闭按钮）
+		void closeEvent(QCloseEvent *event);
+
 	//-----------------------------------
 	//----窗口
 	private:

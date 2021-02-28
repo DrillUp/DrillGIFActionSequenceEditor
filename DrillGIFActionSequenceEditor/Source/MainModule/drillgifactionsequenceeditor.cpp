@@ -1,11 +1,13 @@
 #include "stdafx.h"
 #include "drillgifactionsequenceeditor.h"
 
+#include "about/w_SoftwareAbout.h"
 #include "Source/RmmvInteractiveModule/operateBoard/w_RmmvOperateBoard.h"
 #include "Source/RmmvInteractiveModule/custom/s_RmmvDataContainer.h"
 #include "Source/ActionSeqModule/actionSeqPart/p_ActionSeqPart.h"
 #include "Source/ActionSeqModule/actionSeqData/s_ActionSeqDataContainer.h"
 #include "Source/ProjectModule/s_ProjectManager.h"
+#include "Source/ProjectModule/file/s_TempFileManager.h"
 
 /*
 -----==========================================================-----
@@ -70,11 +72,16 @@ void DrillGIFActionSequenceEditor::_init() {
 	connect(ui.toolButton_new, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::newProject);
 	connect(ui.toolButton_open, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::openProject);
 	connect(ui.toolButton_save, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::saveProject);
+	connect(ui.toolButton_saveAs, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::saveAsProject);
 	connect(ui.toolButton_rmmv, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::openWindowRmmvInteractive);
+	connect(ui.toolButton_userManual, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::openUserManual);
+	connect(ui.toolButton_about, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::openAbout);
+	connect(S_ProjectManager::getInstance(), &S_ProjectManager::changeWindowTitle, this, &DrillGIFActionSequenceEditor::changeWindowTitle);
 	// （注意rmmv交互的数据要最先连接，这样在存档读取时不会乱序）
 	connect(S_RmmvDataContainer::getInstance(), &S_RmmvDataContainer::dataAllReloaded, this, &DrillGIFActionSequenceEditor::rmmvInteractiveDataLoaded);
 	connect(S_ActionSeqDataContainer::getInstance(), &S_ActionSeqDataContainer::dataAllReloaded, this, &DrillGIFActionSequenceEditor::actionSeqDataLoaded);
-	
+
+	S_ProjectManager::getInstance()->newProject();
 }
 
 /*-------------------------------------------------
@@ -107,8 +114,12 @@ void DrillGIFActionSequenceEditor::actionSeqDataLoaded(){
 	QJsonObject obj_data = S_ActionSeqDataContainer::getInstance()->getActionSeqData();
 	if (obj_data.isEmpty()){
 		ui.main_widget->setEnabled(false);
+		ui.toolButton_save->setEnabled(false);
+		ui.toolButton_saveAs->setEnabled(false);
 	}else{
 		ui.main_widget->setEnabled(true);
+		ui.toolButton_save->setEnabled(true);
+		ui.toolButton_saveAs->setEnabled(true);
 		this->m_p_ActionSeqPart->setData(obj_data);
 	}
 }
@@ -134,4 +145,55 @@ void DrillGIFActionSequenceEditor::saveProject(){
 	
 	// > 保存
 	S_ProjectManager::getInstance()->saveProject();
+}
+/*-------------------------------------------------
+		控件 - 另存为项目
+*/
+void DrillGIFActionSequenceEditor::saveAsProject(){
+	
+	// > 点击保存前，将页面数据全部导出
+	this->m_p_ActionSeqPart->putUiToData();
+	
+	// > 另存为
+	S_ProjectManager::getInstance()->saveAs();
+}
+/*-------------------------------------------------
+		控件 - 修改文件名称
+*/
+void DrillGIFActionSequenceEditor::changeWindowTitle(QString title){
+	this->setWindowTitle(title);
+}
+/* --------------------------------------------------------------
+		控件 - 用户手册
+*/
+void DrillGIFActionSequenceEditor::openUserManual() {
+	QString sPath = qApp->applicationDirPath();
+
+	QString docx = sPath + "/help/关于GIF动作序列核心编辑器.docx";
+	if (QFileInfo(docx).exists()){
+		QDesktopServices::openUrl(QUrl("file:/" + docx)); 
+	}else{
+		QMessageBox::warning(this, "错误", "文档\"关于GIF动作序列核心编辑器.docx\"不见了。", QMessageBox::Yes);
+	}
+
+}
+/* --------------------------------------------------------------
+		控件 - 关于...
+*/
+void DrillGIFActionSequenceEditor::openAbout() {
+	W_SoftwareAbout d(this);
+	d.exec();
+}
+/* --------------------------------------------------------------
+		控件 - 窗口关闭事件（点击关闭按钮）
+*/
+void DrillGIFActionSequenceEditor::closeEvent(QCloseEvent *event){
+
+	if (S_ProjectManager::getInstance()->dirtyTip() == false) {
+		event->ignore();
+		return;
+	}
+
+	S_TempFileManager::getInstance()->destroyInstance();
+	event->accept();
 }

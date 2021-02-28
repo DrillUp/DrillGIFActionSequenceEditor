@@ -5,7 +5,8 @@
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
-	DrillGIFActionSequenceEditor w;
-	w.show();
+
+	DrillGIFActionSequenceEditor::getInstance()->show();
+	
 	return a.exec();
 }

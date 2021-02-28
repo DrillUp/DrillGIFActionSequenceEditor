@@ -99,18 +99,11 @@ bool S_GIFManager::generateGIF(QList<QFileInfo> path_list, QFileInfo gif_path, i
 		uint8_t* image_p = new uint8_t[max_width * max_height * 4];
 		for (int x = 0; x < max_width; x++){
 			for (int y = 0; y < max_height; y++){
-				QColor color = image.pixel(y,x);
-				//if (color.alpha() == 0){
-				//	image_p[(x*max_width + y) * 4 + 0] = 255;
-				//	image_p[(x*max_width + y) * 4 + 1] = 255;
-				//	image_p[(x*max_width + y) * 4 + 2] = 255;
-				//	image_p[(x*max_width + y) * 4 + 3] = 255;
-				//	continue;
-				//}
-				image_p[(x*max_width + y) * 4 + 0] = color.red();
-				image_p[(x*max_width + y) * 4 + 1] = color.green();
-				image_p[(x*max_width + y) * 4 + 2] = color.blue();
-				image_p[(x*max_width + y) * 4 + 3] = color.alpha();
+				QRgb rgb = image.pixel(y, x);
+				image_p[(x*max_width + y) * 4 + 0] = qRed(rgb);
+				image_p[(x*max_width + y) * 4 + 1] = qGreen(rgb);
+				image_p[(x*max_width + y) * 4 + 2] = qBlue(rgb);
+				image_p[(x*max_width + y) * 4 + 3] = qAlpha(rgb);
 			}
 		}
 

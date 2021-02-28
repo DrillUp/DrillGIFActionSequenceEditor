@@ -2,6 +2,7 @@
 #include "p_ActionSeqPart.h"
 
 #include "Source/PluginModule/lengthEditor/s_LEAnnotationReader.h"
+#include "Source/ProjectModule/s_ProjectManager.h"
 
 #include "../actionSeqData/s_ActionSeqDataContainer.h"
 
@@ -114,6 +115,8 @@ void P_ActionSeqPart::local_saveCurIndexData(){
 	// > 保存数据（放映区）
 	// ... this->m_cur_actionSeq 赋值操作
 	
+	// > 编辑标记
+	S_ProjectManager::getInstance()->setDirty();
 
 	this->m_actionSeq_list.replace(this->m_cur_actionSeqIndex, this->m_cur_actionSeq);
 }
