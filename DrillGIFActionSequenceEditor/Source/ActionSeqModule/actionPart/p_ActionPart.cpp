@@ -171,7 +171,7 @@ void P_ActionPart::local_saveCurIndexData(){
 	// > 图片数据
 		C_ALEData data = this->m_p_AnimationListEditor->getSource();
 		QJsonObject obj_edit2 = QJsonObject();
-		obj_edit2.insert("帧间隔", QString::number( data.getIntervalDefault() ));
+		obj_edit2.insert("帧间隔", QString::number( data.getData_IntervalDefault() ));
 		//（资源文件夹不需要）
 		QList<QString> gif_src = QList<QString>();
 		QList<QFileInfo> info_list = data.getAllFile();
@@ -179,7 +179,7 @@ void P_ActionPart::local_saveCurIndexData(){
 			gif_src.append(info_list.at(i).completeBaseName());
 		}
 		obj_edit2.insert("资源-动作元", TTool::_QListQString_To_QJsonArrayString_(gif_src));
-		QList<int> gif_intervalTank = data.getAllInterval();
+		QList<int> gif_intervalTank = data.getData_IntervalTank();
 		QList<QString> gif_intervalTank_strList = TTool::_QList_IntToQString_(gif_intervalTank);
 		obj_edit2.insert("帧间隔-明细表", TTool::_QListQString_To_QJsonArrayString_(gif_intervalTank_strList));
 		//qDebug() << obj_edit2;
@@ -213,7 +213,7 @@ void P_ActionPart::local_loadIndexData(int index){
 		QList<int> gif_intervalTank = TTool::_QList_QStringToInt_(gif_intervalTank_strList);
 
 	C_ALEData data = C_ALEData();
-	data.setId(index);
+	data.setData_Id(index);
 	data.setSource(gif_src_file, gif_src);
 	data.setInterval(gif_interval, gif_intervalTank);
 	this->m_p_AnimationListEditor->setSource(data);

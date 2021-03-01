@@ -34,9 +34,15 @@ W_ALEDataEdit::W_ALEDataEdit(QWidget *parent)
 	
 	//-----------------------------------
 	//----³õÊ¼»¯ui
-	ui.comboBox->clear();
-	ui.comboBox->setView(new QListView());
-	ui.comboBox->addItems(QStringList()
+	ui.comboBox_frameUnit->clear();
+	ui.comboBox_frameUnit->setView(new QListView());
+	ui.comboBox_frameUnit->addItems(QStringList()
+		<< "1Ö¡" << "2Ö¡" << "3Ö¡" << "4Ö¡" << "5Ö¡"
+		<< "10Ö¡" << "20Ö¡" << "30Ö¡" << "40Ö¡" << "50Ö¡"
+		<< "100Ö¡" << "500Ö¡" << "×Ô¶¨Òå");
+	ui.comboBox_secondUnit->clear();
+	ui.comboBox_secondUnit->setView(new QListView());
+	ui.comboBox_secondUnit->addItems(QStringList()
 		<< "0.01Ãë" << "0.02Ãë" << "0.03Ãë" << "0.04Ãë" << "0.05Ãë"
 		<< "0.10Ãë" << "0.20Ãë" << "0.30Ãë" << "0.40Ãë" << "0.50Ãë"
 		<< "1.00Ãë" << "5.00Ãë" << "×Ô¶¨Òå");
@@ -46,9 +52,12 @@ W_ALEDataEdit::W_ALEDataEdit(QWidget *parent)
 	//-----------------------------------
 	//----ÊÂ¼þ°ó¶¨
 	connect(ui.pushButton, &QPushButton::clicked, this, &W_ALEDataEdit::chooseFile);
-	connect(ui.comboBox, &QComboBox::currentTextChanged, this, &W_ALEDataEdit::timeSelected);
-	connect(ui.doubleSpinBox, SIGNAL(valueChanged(double)), this, SLOT(timeEdited(double)));
 	connect(ui.buttonBox, &QDialogButtonBox::accepted, this, &W_ALEDataEdit::acceptData);
+
+	connect(ui.comboBox_frameUnit, &QComboBox::currentTextChanged, this, &W_ALEDataEdit::timeSelected_frameUnit);
+	connect(ui.spinBox_frameUnit, SIGNAL(valueChanged(int)), this, SLOT(timeEdited_frameUnit(int)));
+	connect(ui.comboBox_secondUnit, &QComboBox::currentTextChanged, this, &W_ALEDataEdit::timeSelected_secondUnit);
+	connect(ui.doubleSpinBox_secondUnit, SIGNAL(valueChanged(double)), this, SLOT(timeEdited_secondUnit(double)));
 }
 
 W_ALEDataEdit::~W_ALEDataEdit(){
@@ -101,48 +110,94 @@ void W_ALEDataEdit::chooseFile(){
 	ui.lineEdit->setText(file_name);
 
 }
+
 /*-------------------------------------------------
 		¿Ø¼þ - Ñ¡ÔñÊý×Ö
 */
-void W_ALEDataEdit::timeSelected(QString text){
+void W_ALEDataEdit::timeSelected_frameUnit(QString text){
 	if (this->m_slotBlock == true){ return; }
 	this->m_slotBlock = true;
 
-	if (text == "0.01Ãë"){ ui.doubleSpinBox->setValue(0.01); }
-	if (text == "0.02Ãë"){ ui.doubleSpinBox->setValue(0.02); }
-	if (text == "0.03Ãë"){ ui.doubleSpinBox->setValue(0.03); }
-	if (text == "0.04Ãë"){ ui.doubleSpinBox->setValue(0.04); }
-	if (text == "0.05Ãë"){ ui.doubleSpinBox->setValue(0.05); }
-	if (text == "0.10Ãë"){ ui.doubleSpinBox->setValue(0.1); }
-	if (text == "0.20Ãë"){ ui.doubleSpinBox->setValue(0.2); }
-	if (text == "0.30Ãë"){ ui.doubleSpinBox->setValue(0.3); }
-	if (text == "0.40Ãë"){ ui.doubleSpinBox->setValue(0.4); }
-	if (text == "0.50Ãë"){ ui.doubleSpinBox->setValue(0.5); }
-	if (text == "1.00Ãë"){ ui.doubleSpinBox->setValue(1); }
-	if (text == "5.00Ãë"){ ui.doubleSpinBox->setValue(5); }
+	if (text == "1Ö¡"){ ui.spinBox_frameUnit->setValue(1); }
+	if (text == "2Ö¡"){ ui.spinBox_frameUnit->setValue(2); }
+	if (text == "3Ö¡"){ ui.spinBox_frameUnit->setValue(3); }
+	if (text == "4Ö¡"){ ui.spinBox_frameUnit->setValue(4); }
+	if (text == "5Ö¡"){ ui.spinBox_frameUnit->setValue(5); }
+	if (text == "10Ö¡"){ ui.spinBox_frameUnit->setValue(10); }
+	if (text == "20Ö¡"){ ui.spinBox_frameUnit->setValue(20); }
+	if (text == "30Ö¡"){ ui.spinBox_frameUnit->setValue(30); }
+	if (text == "40Ö¡"){ ui.spinBox_frameUnit->setValue(40); }
+	if (text == "50Ö¡"){ ui.spinBox_frameUnit->setValue(50); }
+	if (text == "100Ö¡"){ ui.spinBox_frameUnit->setValue(100); }
+	if (text == "500Ö¡"){ ui.spinBox_frameUnit->setValue(500); }
+
+	this->m_slotBlock = false;
+}
+/*-------------------------------------------------
+		¿Ø¼þ - ±à¼­Êý×Ö
+*/
+void W_ALEDataEdit::timeEdited_frameUnit(int value){
+	if (this->m_slotBlock == true){ return; }
+	this->m_slotBlock = true;
+
+	if (value == 1){ ui.comboBox_frameUnit->setCurrentText("1Ö¡"); }
+	else if (value == 2){ ui.comboBox_frameUnit->setCurrentText("2Ö¡"); }
+	else if (value == 3){ ui.comboBox_frameUnit->setCurrentText("3Ö¡"); }
+	else if (value == 4){ ui.comboBox_frameUnit->setCurrentText("4Ö¡"); }
+	else if (value == 5){ ui.comboBox_frameUnit->setCurrentText("5Ö¡"); }
+	else if (value == 10){ ui.comboBox_frameUnit->setCurrentText("10Ö¡"); }
+	else if (value == 20){ ui.comboBox_frameUnit->setCurrentText("20Ö¡"); }
+	else if (value == 30){ ui.comboBox_frameUnit->setCurrentText("30Ö¡"); }
+	else if (value == 40){ ui.comboBox_frameUnit->setCurrentText("40Ö¡"); }
+	else if (value == 50){ ui.comboBox_frameUnit->setCurrentText("50Ö¡"); }
+	else if (value == 100){ ui.comboBox_frameUnit->setCurrentText("100Ö¡"); }
+	else if (value == 500){ ui.comboBox_frameUnit->setCurrentText("500Ö¡"); }
+	else{ ui.comboBox_frameUnit->setCurrentText("×Ô¶¨Òå"); }
+
+	this->m_slotBlock = false;
+}
+/*-------------------------------------------------
+		¿Ø¼þ - Ñ¡ÔñÊý×Ö
+*/
+void W_ALEDataEdit::timeSelected_secondUnit(QString text){
+	if (this->m_slotBlock == true){ return; }
+	this->m_slotBlock = true;
+
+	if (text == "0.01Ãë"){ ui.doubleSpinBox_secondUnit->setValue(0.01); }
+	if (text == "0.02Ãë"){ ui.doubleSpinBox_secondUnit->setValue(0.02); }
+	if (text == "0.03Ãë"){ ui.doubleSpinBox_secondUnit->setValue(0.03); }
+	if (text == "0.04Ãë"){ ui.doubleSpinBox_secondUnit->setValue(0.04); }
+	if (text == "0.05Ãë"){ ui.doubleSpinBox_secondUnit->setValue(0.05); }
+	if (text == "0.10Ãë"){ ui.doubleSpinBox_secondUnit->setValue(0.1); }
+	if (text == "0.20Ãë"){ ui.doubleSpinBox_secondUnit->setValue(0.2); }
+	if (text == "0.30Ãë"){ ui.doubleSpinBox_secondUnit->setValue(0.3); }
+	if (text == "0.40Ãë"){ ui.doubleSpinBox_secondUnit->setValue(0.4); }
+	if (text == "0.50Ãë"){ ui.doubleSpinBox_secondUnit->setValue(0.5); }
+	if (text == "1.00Ãë"){ ui.doubleSpinBox_secondUnit->setValue(1); }
+	if (text == "5.00Ãë"){ ui.doubleSpinBox_secondUnit->setValue(5); }
 	
 	this->m_slotBlock = false;
 }
 /*-------------------------------------------------
 		¿Ø¼þ - ±à¼­Êý×Ö
 */
-void W_ALEDataEdit::timeEdited(double value){
+void W_ALEDataEdit::timeEdited_secondUnit(double value){
 	if (this->m_slotBlock == true){ return; }
 	this->m_slotBlock = true;
 
-	if (value == 0.01){ ui.comboBox->setCurrentText("0.01Ãë"); }
-	else if (value == 0.02){ ui.comboBox->setCurrentText("0.02Ãë"); }
-	else if (value == 0.03){ ui.comboBox->setCurrentText("0.03Ãë"); }
-	else if (value == 0.04){ ui.comboBox->setCurrentText("0.04Ãë"); }
-	else if (value == 0.05){ ui.comboBox->setCurrentText("0.05Ãë"); }
-	else if (value == 0.1){ ui.comboBox->setCurrentText("0.10Ãë"); }
-	else if (value == 0.2){ ui.comboBox->setCurrentText("0.20Ãë"); }
-	else if (value == 0.3){ ui.comboBox->setCurrentText("0.30Ãë"); }
-	else if (value == 0.4){ ui.comboBox->setCurrentText("0.40Ãë"); }
-	else if (value == 0.5){ ui.comboBox->setCurrentText("0.50Ãë"); }
-	else if (value == 0.1){ ui.comboBox->setCurrentText("1.00Ãë"); }
-	else if (value == 0.5){ ui.comboBox->setCurrentText("5.00Ãë"); }
-	else{ ui.comboBox->setCurrentText("×Ô¶¨Òå"); }
+	if (value == 0.01){ ui.comboBox_secondUnit->setCurrentText("0.01Ãë"); }
+	else if (value == 0.02){ ui.comboBox_secondUnit->setCurrentText("0.02Ãë"); }
+	else if (value == 0.03){ ui.comboBox_secondUnit->setCurrentText("0.03Ãë"); }
+	else if (value == 0.04){ ui.comboBox_secondUnit->setCurrentText("0.04Ãë"); }
+	else if (value == 0.05){ ui.comboBox_secondUnit->setCurrentText("0.05Ãë"); }
+	else if (value == 0.1){ ui.comboBox_secondUnit->setCurrentText("0.10Ãë"); }
+	else if (value == 0.2){ ui.comboBox_secondUnit->setCurrentText("0.20Ãë"); }
+	else if (value == 0.3){ ui.comboBox_secondUnit->setCurrentText("0.30Ãë"); }
+	else if (value == 0.4){ ui.comboBox_secondUnit->setCurrentText("0.40Ãë"); }
+	else if (value == 0.5){ ui.comboBox_secondUnit->setCurrentText("0.50Ãë"); }
+	else if (value == 1){ ui.comboBox_secondUnit->setCurrentText("1.00Ãë"); }
+	else if (value == 5){ ui.comboBox_secondUnit->setCurrentText("5.00Ãë"); }
+	else{ ui.comboBox_secondUnit->setCurrentText("×Ô¶¨Òå"); }
 
 	this->m_slotBlock = false;
 }
@@ -171,6 +226,14 @@ C_ALEData W_ALEDataEdit::getData(){
 */
 void W_ALEDataEdit::putDataToUi() {
 
+	// > µ¥Î»
+	if (this->local_data.getData_Unit() == C_ALEData::FrameUnit){
+		ui.stackedWidget->setCurrentIndex(0);
+	}
+	if (this->local_data.getData_Unit() == C_ALEData::SecondUnit){
+		ui.stackedWidget->setCurrentIndex(1);
+	}
+
 	// > µ¥Ö¡±à¼­Ê±
 	if (this->local_index != -1){
 
@@ -178,8 +241,9 @@ void W_ALEDataEdit::putDataToUi() {
 		QString file_name = this->local_data.getFile(local_index).completeBaseName();
 		ui.lineEdit->setText(file_name);
 
-		double value = this->local_data.getAllInterval().at(local_index)*0.01;
-		ui.doubleSpinBox->setValue(value);
+		int value = this->local_data.getData_IntervalTank().at(local_index);
+		ui.spinBox_frameUnit->setValue(value);
+		ui.doubleSpinBox_secondUnit->setValue(value*0.01);
 
 	// > ¶àÖ¡±à¼­Ê±
 	}else{
@@ -187,8 +251,9 @@ void W_ALEDataEdit::putDataToUi() {
 		ui.pushButton->setEnabled(false);
 		ui.lineEdit->setText("£¨¶à¸öÖ¡×ÊÔ´£©");
 
-		double value = this->local_data.getAllInterval().at(local_index_list.at(0))*0.01;
-		ui.doubleSpinBox->setValue(value);
+		int value = this->local_data.getData_IntervalTank().at(local_index_list.at(0));
+		ui.spinBox_frameUnit->setValue(value);
+		ui.doubleSpinBox_secondUnit->setValue(value*0.01);
 
 	}
 };
@@ -198,10 +263,23 @@ void W_ALEDataEdit::putDataToUi() {
 void W_ALEDataEdit::putUiToData() {
 	//£¨Í¼Æ¬×ÊÔ´Ö±½Ó¸³Öµ£©
 
-	if (this->local_index != -1){
-		this->local_data.op_replace_interval(local_index, ui.doubleSpinBox->value() * 100);
-	}else{
-		this->local_data.op_replace_interval(local_index_list, ui.doubleSpinBox->value() * 100);
+	// > Ö¡µ¥Î»Ê±
+	if (this->local_data.getData_Unit() == C_ALEData::FrameUnit){
+		if (this->local_index != -1){
+			this->local_data.op_replace_interval(local_index, ui.spinBox_frameUnit->value());
+		}
+		else{
+			this->local_data.op_replace_interval(local_index_list, ui.spinBox_frameUnit->value());
+		}
+	}
+	// > Ãëµ¥Î»Ê±
+	if (this->local_data.getData_Unit() == C_ALEData::SecondUnit){
+		if (this->local_index != -1){
+			this->local_data.op_replace_interval(local_index, ui.doubleSpinBox_secondUnit->value() * 100);
+		}
+		else{
+			this->local_data.op_replace_interval(local_index_list, ui.doubleSpinBox_secondUnit->value() * 100);
+		}
 	}
 };
 /*-------------------------------------------------

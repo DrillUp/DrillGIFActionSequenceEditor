@@ -31,7 +31,7 @@ void P_ALEBlock::_init2(){
 	// > Ãû³ÆÇøÓò
 	QLabel* label = new QLabel(this);
 	label->setText("");
-	label->setGeometry(this->m_width - 45, this->m_height - 21, 40, 18);
+	label->setGeometry(this->m_width - 51, this->m_height - 21, 46, 18);
 	label->setStyleSheet("border: 1px solid #000000; background-color: #ffffff; color:#000000; font-size:13px; ");
 	label->setAlignment(Qt::AlignCenter);
 	label->stackUnder(ui.label);

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>350</width>
-    <height>250</height>
+    <height>260</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -73,35 +73,131 @@ QComboBox QAbstractItemView::item { min-height: 26px;}</string>
       <string>帧</string>
      </property>
      <layout class="QGridLayout" name="gridLayout" columnstretch="1,2">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>默认帧时间</string>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="1">
-       <widget class="QComboBox" name="comboBox">
+       <widget class="QComboBox" name="comboBox_unit">
         <item>
          <property name="text">
-          <string>自定义</string>
+          <string>帧单位（1秒60帧）</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>秒单位（1秒100帧）</string>
          </property>
         </item>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QDoubleSpinBox" name="doubleSpinBox">
-        <property name="suffix">
-         <string>秒</string>
+      <item row="2" column="0" colspan="2">
+       <widget class="QStackedWidget" name="stackedWidget">
+        <property name="currentIndex">
+         <number>0</number>
         </property>
-        <property name="minimum">
-         <double>0.010000000000000</double>
+        <widget class="QWidget" name="page_frameUnit">
+         <layout class="QGridLayout" name="gridLayout_3" columnstretch="1,2">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_frameUnit">
+            <property name="text">
+             <string>默认帧时间</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="comboBox_frameUnit">
+            <item>
+             <property name="text">
+              <string>自定义</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QSpinBox" name="spinBox_frameUnit">
+            <property name="suffix">
+             <string>帧</string>
+            </property>
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>999999</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="page_secondUnit">
+         <layout class="QGridLayout" name="gridLayout_4" columnstretch="1,2">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_secondUnit">
+            <property name="text">
+             <string>默认帧时间</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="comboBox_secondUnit">
+            <item>
+             <property name="text">
+              <string>自定义</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QDoubleSpinBox" name="doubleSpinBox_secondUnit">
+            <property name="suffix">
+             <string>秒</string>
+            </property>
+            <property name="minimum">
+             <double>0.010000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>100.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.100000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_frameUnit_2">
+        <property name="text">
+         <string>时间单位</string>
         </property>
-        <property name="maximum">
-         <double>100.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.100000000000000</double>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="Line" name="line">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
@@ -142,12 +238,28 @@ QComboBox QAbstractItemView::item { min-height: 26px;}</string>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>345</x>
-     <y>303</y>
+     <x>340</x>
+     <y>240</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>comboBox_unit</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>stackedWidget</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>201</x>
+     <y>121</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>112</x>
+     <y>163</y>
     </hint>
    </hints>
   </connection>

@@ -12,6 +12,7 @@
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		提供GIF文件转换等功能。
+					【GIF每帧标准为0.01秒间隔，必要时注意单位换算】
 
 		目标：		-> 拆解GIF
 					-> 合成GIF
@@ -57,10 +58,7 @@ S_GIFManager* S_GIFManager::getInstance() {
 /*-------------------------------------------------
 		合成 - 执行合成（基于gif.h）
 */
-bool S_GIFManager::generateGIF(QList<QFileInfo> path_list, QFileInfo gif_path, int frame_interval) {
-	return this->generateGIF(path_list, gif_path, frame_interval, QList<int>());
-}
-bool S_GIFManager::generateGIF(QList<QFileInfo> path_list, QFileInfo gif_path, int frame_interval, QList<int> frame_intervalList) {
+bool S_GIFManager::generateGIF(QList<QFileInfo> path_list, QFileInfo gif_path, int frame_interval, QList<int> frame_intervalList, QColor backgroundColor) {
 
 	// > 读取图片
 	QList<QImage> image_list = QList<QImage>();
@@ -81,29 +79,53 @@ bool S_GIFManager::generateGIF(QList<QFileInfo> path_list, QFileInfo gif_path, i
 		if (max_width < w){
 			max_width = w;
 		}
-		if (max_height < w){
-			max_height = w;
+		if (max_height < h){
+			max_height = h;
 		}
 	}
 
 	// > 开始建立
-	QByteArray ba;
-	ba.append(gif_path.absoluteFilePath());
-	GifWriter writer = {};
-	GifBegin(&writer, ba.data(), max_width, max_height, frame_interval, 8, true);
+	GifWriter* writer = new GifWriter();
+	GifBegin(writer, gif_path.absoluteFilePath().toLocal8Bit(), max_width, max_height, frame_interval, 8, false);
 
 	// > 动画帧
 	for (int frame = 0; frame < image_list.count(); frame++){
 		QImage image = image_list.at(frame);
+		int p_x = (max_width - image.width())/2;	 //(所有帧居中处理)
+		int p_y = (max_height - image.height())/2;
 
 		uint8_t* image_p = new uint8_t[max_width * max_height * 4];
-		for (int x = 0; x < max_width; x++){
-			for (int y = 0; y < max_height; y++){
-				QRgb rgb = image.pixel(y, x);
-				image_p[(x*max_width + y) * 4 + 0] = qRed(rgb);
-				image_p[(x*max_width + y) * 4 + 1] = qGreen(rgb);
-				image_p[(x*max_width + y) * 4 + 2] = qBlue(rgb);
-				image_p[(x*max_width + y) * 4 + 3] = qAlpha(rgb);
+		for (int y = 0; y < max_height; y++){
+			for (int x = 0; x < max_width; x++){
+				int r = backgroundColor.red();
+				int g = backgroundColor.green();
+				int b = backgroundColor.blue();
+				int a = 255;
+				int xx = x - p_x;
+				int yy = y - p_y;
+				if (xx >= 0 && xx < image.width() &&
+					yy >= 0 && yy < image.height() ){
+					QRgb rgb = image.pixel(xx, yy);
+					r = qRed(rgb);
+					g = qGreen(rgb);
+					b = qBlue(rgb);
+					a = qAlpha(rgb);
+					if (r == 0 && g == 0 && b == 0 && a == 0){
+						r = backgroundColor.red();
+						g = backgroundColor.green();
+						b = backgroundColor.blue();
+						a = 255;
+					}else if (a < 255){		// 融合背景
+						r = (r*a + backgroundColor.red()  *(255 - a)) / 255;
+						g = (g*a + backgroundColor.green()*(255 - a)) / 255;
+						b = (b*a + backgroundColor.blue() *(255 - a)) / 255;
+						a = 255;
+					}
+				}
+				image_p[(x + y*max_width) * 4 + 0] = r;
+				image_p[(x + y*max_width) * 4 + 1] = g;
+				image_p[(x + y*max_width) * 4 + 2] = b;
+				image_p[(x + y*max_width) * 4 + 3] = a;	//（设置透明没用，会变成黑色）
 			}
 		}
 
@@ -112,11 +134,12 @@ bool S_GIFManager::generateGIF(QList<QFileInfo> path_list, QFileInfo gif_path, i
 		if (frame < frame_intervalList.count()){
 			f_i = frame_intervalList.at(frame);
 		}
-		GifWriteFrame(&writer, image_p, max_width, max_height, f_i, 8, true);
+		GifWriteFrame(writer, image_p, max_width, max_height, f_i, 8, false);
 	}
 
 	// > 结束gif绘制
-	GifEnd(&writer);
+	GifEnd(writer);
+	delete writer;
 
 	return true;
 }
@@ -129,7 +152,7 @@ bool S_GIFManager::dismantlingGIF(QFileInfo gif_path, QDir image_dir_path, char*
 }
 bool S_GIFManager::dismantlingGIF(QFileInfo gif_path, QDir image_dir_path, char* suffix, QString imageName){
 	if (gif_path.exists() == false){ return false; }
-	if (image_dir_path.exists() == false){ return false; }
+	if (image_dir_path.exists() == false){ return false; }//（这里面获取到的单位是0.001秒，所以真实值要除以10。）
 	
 	// > 普通办法
 	//			【在部分透明GIF文件中，会出现重影】
@@ -184,12 +207,9 @@ bool S_GIFManager::dismantlingGIF(QFileInfo gif_path, QDir image_dir_path, char*
 		拆解 - 获取拆解后的帧间隔数据
 */
 QList<int> S_GIFManager::getLastDismantledGIFIntervalList(){
-	return this->m_lastIntervalList;
-}
-QList<int> S_GIFManager::getLastDismantledGIFIntervalList_divideTen(){
 	QList<int> result_list = this->m_lastIntervalList;
 	for (int i = 0; i < result_list.count(); i++){
-		result_list.replace(i, result_list.at(i)*0.1);
+		result_list.replace(i, result_list.at(i)*0.1);		//获取到的帧单位是毫秒，值大了10倍，需要统一
 	}
 	return result_list;
 }

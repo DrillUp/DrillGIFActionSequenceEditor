@@ -35,7 +35,7 @@ class P_AnimationListEditor : public P_PictureSelector
 	signals:
 									//控件 - 全部帧被删除（信号）
 		void allFrameDeleted();
-		
+
 	//-----------------------------------
 	//----动画帧设置
 	protected:
@@ -66,6 +66,7 @@ class P_AnimationListEditor : public P_PictureSelector
 	//----资源数据
 	protected:
 		C_ALEData m_data;						//配置
+		C_ALEData::DATA_UNIT m_unit;			//单位
 	protected:
 									//资源数据 - 设置数据（不开放）
 		virtual void setSource(QList<QFileInfo> file_list);
@@ -76,6 +77,12 @@ class P_AnimationListEditor : public P_PictureSelector
 		void setSource(C_ALEData data);
 									//资源数据 - 获取数据
 		C_ALEData getSource();
+									//资源数据 - 设置单位
+									//			【说明】：数据的单位以编辑块的为准。
+		void setUnit(C_ALEData::DATA_UNIT unit);
+									//资源数据 - 获取单位
+									//			【说明】：数据的单位以编辑块的为准。
+		C_ALEData::DATA_UNIT getUnit();
 		
 	//-----------------------------------
 	//----资源数据（操作）

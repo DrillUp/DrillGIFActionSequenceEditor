@@ -11,7 +11,8 @@
 -----==========================================================-----
 */
 C_ALEData::C_ALEData() {
-	this->id = -1;
+	this->id = -1;								//标识
+	this->m_unit = DATA_UNIT::FrameUnit;		//单位（默认1秒60帧）
 	this->gif_src = QList<QString>();			//资源文件名
 	this->gif_src_file = "";					//资源文件夹
 	this->gif_intervalTank = QList<int>();		//帧间隔列表
@@ -21,35 +22,50 @@ C_ALEData::~C_ALEData(){
 }
 
 /*-------------------------------------------------
-		设置 - 标识
+		访问器 - 标识
 */
-void C_ALEData::setId(int id){
+void C_ALEData::setData_Id(int id){
 	this->id = id;
 }
 /*-------------------------------------------------
-		设置 - 资源
+		访问器 - 设置文件父目录
+*/
+void C_ALEData::setData_ParentFile(QString gif_src_file){
+	this->gif_src_file = gif_src_file;
+}
+/*-------------------------------------------------
+		访问器 - 设置默认帧间隔
+*/
+void C_ALEData::setData_IntervalDefault(int gif_interval){
+	this->gif_interval = gif_interval;
+	this->checkIntervalValue();
+}
+/*-------------------------------------------------
+		访问器 - 设置单位
+*/
+void C_ALEData::setData_Unit(C_ALEData::DATA_UNIT unit){
+	this->m_unit = unit;
+}
+/*-------------------------------------------------
+		接口 - 设置资源
 */
 void C_ALEData::setSource(QString gif_src_file, QList<QString> gif_src){
 	this->gif_src_file = gif_src_file;
 	this->gif_src = gif_src;
 	this->checkInterval();
 }
-void C_ALEData::setSourceParentFile(QString gif_src_file){
-	this->gif_src_file = gif_src_file;
-}
 /*-------------------------------------------------
-		设置 - 帧间隔
+		接口 - 设置帧间隔
 */
 void C_ALEData::setInterval(int gif_interval, QList<int> gif_intervalTank){
 	this->gif_interval = gif_interval;
 	this->gif_intervalTank = gif_intervalTank;
 	this->checkInterval();
 }
-void C_ALEData::setIntervalDefault(int gif_interval){
-	this->gif_interval = gif_interval;
-	this->checkIntervalValue();
-}
-void C_ALEData::setIntervalDefaultAndChange(int gif_interval){
+/*-------------------------------------------------
+		接口 - 设置默认帧间隔（统一改变）
+*/
+void C_ALEData::setIntervalDefaultWithFit(int gif_interval){
 	int old_interval = this->gif_interval;
 	this->gif_interval = gif_interval;
 	this->checkIntervalValue();
@@ -59,9 +75,8 @@ void C_ALEData::setIntervalDefaultAndChange(int gif_interval){
 		}
 	}
 }
-
 /*-------------------------------------------------
-		设置 - 检查帧间隔（私有）
+		私有 - 检查帧间隔（私有）
 */
 void C_ALEData::checkInterval(){
 	this->checkIntervalValue();
@@ -78,7 +93,7 @@ void C_ALEData::checkInterval(){
 	}
 }
 /*-------------------------------------------------
-		设置 - 校验帧间隔（私有）
+		私有 - 校验帧间隔（私有）
 */
 void C_ALEData::checkIntervalValue(){
 
@@ -88,13 +103,32 @@ void C_ALEData::checkIntervalValue(){
 
 
 /*-------------------------------------------------
-		获取 - 获取文件数量
+		访问器 - 获取标识
 */
-int C_ALEData::getFileCount(){
-	return this->gif_src.count();
+int C_ALEData::getData_Id(){
+	return this->id;
 }
 /*-------------------------------------------------
-		获取 - 获取文件
+		访问器 - 获取帧间隔
+*/
+int C_ALEData::getData_IntervalDefault(){
+	return this->gif_interval;
+}
+/*-------------------------------------------------
+		访问器 - 获取帧间隔明细表
+*/
+QList<int> C_ALEData::getData_IntervalTank(){
+	return this->gif_intervalTank;
+}
+/*-------------------------------------------------
+		访问器 - 单位
+*/
+C_ALEData::DATA_UNIT C_ALEData::getData_Unit(){
+	return this->m_unit;
+}
+
+/*-------------------------------------------------
+		接口 - 获取文件
 */
 QFileInfo C_ALEData::getFile(int index){
 	if (index < 0){ return QFileInfo(); }
@@ -105,7 +139,7 @@ QFileInfo C_ALEData::getFile(int index){
 	path +=this->gif_src.at(index);
 	return QFileInfo(path);
 }
-QList<QFileInfo> C_ALEData::getFileList(QList<int> index_list){
+QList<QFileInfo> C_ALEData::getFile_Multi(QList<int> index_list){
 	QList<QFileInfo> result_list = QList<QFileInfo>();
 	for (int i = 0; i < index_list.count(); i++){
 		result_list.append(this->getFile(index_list.at(i)));
@@ -119,8 +153,11 @@ QList<QFileInfo> C_ALEData::getAllFile(){
 	}
 	return result_list;
 }
+int C_ALEData::getFileCount(){
+	return this->gif_src.count();
+}
 /*-------------------------------------------------
-		获取 - 获取文件路径（F:/aaa/vvv ）
+		接口 - 获取文件路径（F:/aaa/vvv ）
 */
 QString C_ALEData::getFileRoot(){
 	QString path = this->gif_src_file;
@@ -128,35 +165,60 @@ QString C_ALEData::getFileRoot(){
 	return path;
 }
 /*-------------------------------------------------
-		获取 - 获取帧间隔
+		接口 - 检查文件（不带文件后缀）
 */
-int C_ALEData::getIntervalDefault(){
-	return this->gif_interval;
+bool C_ALEData::hasFileName(QString file_name){
+	return this->gif_src.contains(file_name);
 }
-QList<int> C_ALEData::getAllInterval(){
-	return this->gif_intervalTank;
+
+/*-------------------------------------------------
+		接口 - 获取帧间隔（含单位转换）
+*/
+double C_ALEData::getIntervalDefaultWithUnit(){
+
+	// > 秒单位：0.0100秒
+	if (this->m_unit == DATA_UNIT::SecondUnit){
+		return this->gif_interval*1.000;
+	}
+	// > 帧单位：0.0166秒
+	return this->gif_interval*1.666;
 }
 /*-------------------------------------------------
-		获取 - 获取帧间隔文本（"0.01"，实际帧为 0.01666 * n ）
+		接口 - 获取帧间隔明细表（含单位转换）
+*/
+QList<double> C_ALEData::getIntervalTankWithUnit(){
+	QList<double> result_list = QList<double>();
+	for (int i = 0; i < this->gif_intervalTank.count(); i++){
+		double interval = this->gif_intervalTank.at(i);
+
+		// > 秒单位：0.0100秒
+		if (this->m_unit == DATA_UNIT::SecondUnit){
+			interval = interval*1.000;
+		}
+		// > 帧单位：0.0166秒
+		if (this->m_unit == DATA_UNIT::FrameUnit){
+			interval = interval*1.666;
+		}
+		result_list.append(interval);
+	}
+	return result_list;
+}
+/*-------------------------------------------------
+		接口 - 获取帧间隔文本
 */
 QString C_ALEData::getIntervalString(int index){
 	int interval = this->gif_interval;
 	if (index >= 0 && index < this->getFileCount()){
 		interval = this->gif_intervalTank.at(index);
 	}
-	return QString::number(interval*0.01);
-}
-/*-------------------------------------------------
-		获取 - 获取标识
-*/
-int C_ALEData::getId(){
-	return this->id;
-}
-/*-------------------------------------------------
-		获取 - 检查文件（不带文件后缀）
-*/
-bool C_ALEData::hasFileName(QString file_name){
-	return this->gif_src.contains(file_name);
+
+	// > 秒单位：0.0100秒
+	if (this->m_unit == DATA_UNIT::SecondUnit){
+		return QString::number(interval*0.01)+"秒";	
+	}
+
+	// > 帧单位：0.0166秒
+	return QString::number(interval) + "帧";
 }
 
 

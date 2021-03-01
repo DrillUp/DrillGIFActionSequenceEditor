@@ -33,9 +33,13 @@ class W_ALEDataEdit : public QDialog
 										//选择文件（单张）
 		void chooseFile();
 										//控件 - 选择数字
-		void timeSelected(QString text);
+		void timeSelected_frameUnit(QString text);
 										//控件 - 编辑数字
-		void timeEdited(double value);
+		void timeEdited_frameUnit(int value);
+										//控件 - 选择数字
+		void timeSelected_secondUnit(QString text);
+										//控件 - 编辑数字
+		void timeEdited_secondUnit(double value);
 
 	//-----------------------------------
 	//----窗口

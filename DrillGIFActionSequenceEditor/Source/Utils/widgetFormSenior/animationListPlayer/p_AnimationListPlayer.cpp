@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "p_AnimationListPlayer.h"
 
+#include "Source/Utils/manager/GIFManager/s_GIFManager.h"
 #include "Source/Utils/common/TTool.h"
 
 /*
@@ -49,6 +50,7 @@ P_AnimationListPlayer::P_AnimationListPlayer(QWidget *parent)
 	this->m_curFrame = 0;						//当前时间帧
 	this->m_IndexFrame = QList<int>();			//动画帧的时间帧数
 	this->m_IndexFrameCount = 0;				//总时间帧数
+	this->m_timerInterval = 10;					//播放帧间隔
 	connect(this->m_timer, SIGNAL(timeout()), this, SLOT(updateFrame()));	
 
 	this->m_iconSrcPath = ":/DrillGIFActionSequenceEditor/Resources/icons";
@@ -148,7 +150,7 @@ void P_AnimationListPlayer::updateFrame(){
 		动画帧 - 开始
 */
 void P_AnimationListPlayer::startFrame(){
-	this->m_timer->start(16);		//暂时以60帧的速度为准
+	this->m_timer->start(this->m_timerInterval);
 	this->m_curFrame = 0; 
 	this->m_playing = true;
 	this->updateIcon();
@@ -191,6 +193,12 @@ void P_AnimationListPlayer::setPlayFrame(QList<int> indexFrame){
 */
 void P_AnimationListPlayer::setPlayBackRun(bool backRun){
 	this->m_backRun = backRun;
+}
+/*-------------------------------------------------
+		动画帧 - 设置播放间隔
+*/
+void P_AnimationListPlayer::setPlayTimerInterval(int timerInterval){
+	this->m_timerInterval = timerInterval;
 }
 
 
@@ -261,7 +269,32 @@ void P_AnimationListPlayer::btn_setting(){
 */
 void P_AnimationListPlayer::btn_exportGIF(){
 	if (this->m_animEditor == nullptr){ return; }
+	
+	QString target_file = "";
+	QFileDialog fd;
+	fd.setWindowTitle("导出GIF");
+	fd.setAcceptMode(QFileDialog::AcceptSave);
+	fd.setDirectory(".");
+	fd.setNameFilters(QStringList() << "动图(*.gif)");
+	fd.setViewMode(QFileDialog::Detail);
+	fd.setFileMode(QFileDialog::ExistingFile);		//单个文件
+	fd.selectFile("动图.gif");
+	if (fd.exec() == QDialog::Accepted) {
+		if (fd.selectedFiles().empty()){ return ; }
+		target_file = fd.selectedFiles().at(0);
+	}else {
+		return ;
+	}
 
+	C_ALEData data = this->m_animEditor->getSource();
+
+	// > 生成GIF
+	S_GIFManager::getInstance()->generateGIF(
+		data.getAllFile(), 
+		target_file, 
+		data.getIntervalDefaultWithUnit(), 
+		TTool::_QList_DoubleToInt_floor_( data.getIntervalTankWithUnit() )
+	);
 }
 
 
@@ -272,6 +305,13 @@ void P_AnimationListPlayer::btn_exportGIF(){
 void P_AnimationListPlayer::setAnimationListEditor(P_AnimationListEditor* animEditor){
 	this->m_animEditor = animEditor;
 	ui.toolButton_ExportGIF->setVisible(true);
+
+	if (this->m_animEditor->getUnit() == C_ALEData::SecondUnit){
+		this->m_timerInterval = 10;
+	}
+	if (this->m_animEditor->getUnit() == C_ALEData::FrameUnit){
+		this->m_timerInterval = 16;
+	}
 
 	connect(this, &P_AnimationListPlayer::frameIndexChanged, this->m_animEditor, &P_AnimationListEditor::selectIndex);					//播放器 索引 信号连接
 	connect(this, &P_AnimationListPlayer::frameButton_homing, this->m_animEditor, &P_AnimationListEditor::selectStart);					//播放器 切至首帧 信号连接
@@ -293,5 +333,5 @@ P_AnimationListEditor* P_AnimationListPlayer::getAnimationListEditor(){
 */
 void P_AnimationListPlayer::animEditor_started(){
 	if (this->m_animEditor == nullptr){ return; }
-	this->setPlayFrame(this->m_animEditor->getSource().getAllInterval());		//在开始播放后，立即设置时间帧（因为时间帧会变）
+	this->setPlayFrame(this->m_animEditor->getSource().getData_IntervalTank());		//在开始播放后，立即设置时间帧（因为时间帧会变）
 }

@@ -78,6 +78,7 @@ P_AnimationListEditor::P_AnimationListEditor(QListWidget *parent)
 	//----参数初始化
 	this->m_iconSrcPath = ":/DrillGIFActionSequenceEditor/Resources/icons";
 	this->m_copyedList = QList<QFileInfo>();
+	this->m_unit = C_ALEData::FrameUnit;
 
 	// > 数据
 	this->setConfigParam(C_ALEConfig());
@@ -126,7 +127,7 @@ void P_AnimationListEditor::clearAll(){
 */
 void P_AnimationListEditor::setConfigParam_ALE(C_ALEConfig config){
 	this->m_config_ALE = config;
-	this->m_data.setIntervalDefault(config.m_defaultInterval);
+	this->m_data.setData_IntervalDefault(config.m_defaultInterval);
 	P_PictureSelector::setConfigParam(config);
 }
 /*-------------------------------------------------
@@ -154,12 +155,16 @@ void P_AnimationListEditor::openWindow_setConfigParam(){
 
 	// > 弹出ui编辑框
 	W_ALEConfigEdit d(this->m_listWidget);
-	d.setDataInModifyMode(this->m_config_ALE);
+	d.setDataInModifyMode(this->m_config_ALE, this->m_unit);
 	if (d.exec() == QDialog::Accepted){
 		C_ALEConfig config = d.getData();
 
 		// > 设置后，强制变化统一默认帧间隔
-		this->m_data.setIntervalDefaultAndChange(config.m_defaultInterval);
+		this->m_data.setIntervalDefaultWithFit(config.m_defaultInterval);
+
+		// > 单位标记
+		this->m_unit = (C_ALEData::DATA_UNIT)d.getDataUnit();
+		this->m_data.setData_Unit(this->m_unit);
 		
 		// > 设置参数
 		this->setConfigParam_ALE(config);
@@ -381,13 +386,27 @@ void P_AnimationListEditor::setSource(QList<QPixmap> bitmap_list) {
 */
 void P_AnimationListEditor::setSource(C_ALEData data) {
 	this->m_data = data;
+	this->m_data.setData_Unit(this->m_unit);	//（单位标记）
 	this->setSource(this->m_data.getAllFile());
 }
 /*-------------------------------------------------
 		资源数据 - 获取数据（资源数据会被该块修改，需要随时获取并变化）
 */
 C_ALEData P_AnimationListEditor::getSource(){
+	this->m_data.setData_Unit(this->m_unit);	//（单位标记）
 	return this->m_data;
+}
+/*-------------------------------------------------
+		资源数据 - 设置单位
+*/
+void P_AnimationListEditor::setUnit(C_ALEData::DATA_UNIT unit){
+	this->m_unit = unit;
+}
+/*-------------------------------------------------
+		资源数据 - 获取单位
+*/
+C_ALEData::DATA_UNIT P_AnimationListEditor::getUnit(){
+	return this->m_unit;
 }
 
 
@@ -623,7 +642,7 @@ void P_AnimationListEditor::op_insertGIFInAction(){
 	}
 
 	// > 获取文件名
-	QList<int> interval_list = S_GIFManager::getInstance()->getLastDismantledGIFIntervalList_divideTen();
+	QList<int> interval_list = S_GIFManager::getInstance()->getLastDismantledGIFIntervalList();
 	QList<QFileInfo> file_list = S_GIFManager::getInstance()->getLastDismantledGIFFileList();
 	QStringList file_name_list = QStringList();
 	for (int i = 0; i <file_list.count(); i++){
@@ -667,7 +686,7 @@ void P_AnimationListEditor::op_copyInAction(){
 		index_list.append( index_list_str.at(i).toInt() );
 	}
 
-	this->m_copyedList = this->m_data.getFileList(index_list);
+	this->m_copyedList = this->m_data.getFile_Multi(index_list);
 }
 /*-------------------------------------------------
 		action - 粘贴（单个和多个）
@@ -811,7 +830,7 @@ void P_AnimationListEditor::shortcut_copy(){
 	if (this->m_listWidget->hasFocus() == false){ return; }
 
 	QList<int> index_list = this->getSelectedIndex_Multi();
-	this->m_copyedList = this->m_data.getFileList(index_list);
+	this->m_copyedList = this->m_data.getFile_Multi(index_list);
 }
 /*-------------------------------------------------
 		快捷键 - 粘贴

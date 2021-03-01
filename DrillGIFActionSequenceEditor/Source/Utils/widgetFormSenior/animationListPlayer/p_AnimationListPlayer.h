@@ -35,6 +35,7 @@ class P_AnimationListPlayer : public QWidget
 		int m_curFrame;					//当前时间帧
 		QList<int> m_IndexFrame;		//动画帧的时间帧数
 		int m_IndexFrameCount;			//总时间帧数
+		int m_timerInterval;			//播放间隔
 
 	public:
 										//动画帧 - 开始
@@ -50,6 +51,8 @@ class P_AnimationListPlayer : public QWidget
 		void setPlayFrame(QList<int> indexFrame);
 										//动画帧 - 设置倒放
 		void setPlayBackRun(bool backRun);
+										//动画帧 - 设置播放间隔
+		void setPlayTimerInterval(int timerInterval);
 
 	private slots:
 										//动画帧 - 帧刷新

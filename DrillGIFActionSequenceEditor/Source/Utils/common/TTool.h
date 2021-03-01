@@ -216,19 +216,30 @@ class TTool
 		/*b的值赋给a
 			【说明】：如果QObject对象为nullptr，则不操作赋值。*/
 		static void _double_(double *a, QDoubleSpinBox *b);
-		
 		/*b的值赋给a
 			【说明】：如果QObject对象为nullptr，则不操作赋值。*/
 		static void _double_(QComboBox *a, double *b);
 		/*b的值赋给a
 			【说明】：如果QObject对象为nullptr，则不操作赋值。*/
+		static void _double_(QComboBox *a, double b);
+		/*b的值赋给a
+			【说明】：如果QObject对象为nullptr，则不操作赋值。*/
 		static void _double_(QTableWidgetItem *a, double *b);
+		/*b的值赋给a
+			【说明】：如果QObject对象为nullptr，则不操作赋值。*/
+		static void _double_(QTableWidgetItem *a, double b);
 		/*b的值赋给a
 			【说明】：如果QObject对象为nullptr，则不操作赋值。*/
 		static void _double_(QLineEdit *a, double *b);
 		/*b的值赋给a
 			【说明】：如果QObject对象为nullptr，则不操作赋值。*/
+		static void _double_(QLineEdit *a, double b);
+		/*b的值赋给a
+			【说明】：如果QObject对象为nullptr，则不操作赋值。*/
 		static void _double_(QDoubleSpinBox *a, double *b);
+		/*b的值赋给a
+			【说明】：如果QObject对象为nullptr，则不操作赋值。*/
+		static void _double_(QDoubleSpinBox *a, double b);
 		
 		/*b的值赋给a
 			【说明1】：这里赋的是index的值。
@@ -424,6 +435,15 @@ class TTool
 		static QList<QString> _QList_DoubleToQString_(QList<double> list);
 		/*obj列表 --> 字符串列表*/
 		static QList<QString> _QList_QJsonObjectToQString_(QList<QJsonObject> list);
+
+		/*数字列表 --> 小数列表*/
+		static QList<double> _QList_IntToDouble_(QList<int> list);
+		/*小数列表 --> 数字列表（取整）*/
+		static QList<int> _QList_DoubleToInt_floor_(QList<double> list);
+		/*小数列表 --> 数字列表（取顶）*/
+		static QList<int> _QList_DoubleToInt_ceil_(QList<double> list);
+		/*小数列表 --> 数字列表（四舍五入）*/
+		static QList<int> _QList_DoubleToInt_round_(QList<double> list);
 
 	//-----------------------------------------------------
 	//----QJson

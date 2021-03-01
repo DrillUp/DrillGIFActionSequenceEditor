@@ -7,6 +7,7 @@
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		提供GIF文件转换等功能。
+					【GIF每帧标准为0.01秒间隔，必要时注意单位换算】
 					（详细见.cpp）
 -----==========================================================-----
 */
@@ -29,8 +30,8 @@ class S_GIFManager : public QObject
 										//		【参数2】：保存的GIF路径
 										//		【参数3】：默认帧间隔（单位0.01秒）
 										//		【参数4】：自定义帧间隔列表
-		bool generateGIF(QList<QFileInfo> file_list, QFileInfo gif_path, int frame_interval);
-		bool generateGIF(QList<QFileInfo> file_list, QFileInfo gif_path, int frame_interval, QList<int> frame_intervalList);
+										//		【参数5】：强制填涂的背景
+		bool generateGIF(QList<QFileInfo> file_list, QFileInfo gif_path, int frame_interval, QList<int> frame_intervalList = QList<int>(), QColor backgroundColor = QColor(255,255,255));
 		
 		
 	//-----------------------------------
@@ -49,7 +50,6 @@ class S_GIFManager : public QObject
 
 										//拆解 - 获取拆解后的帧间隔数据
 		QList<int> getLastDismantledGIFIntervalList();
-		QList<int> getLastDismantledGIFIntervalList_divideTen();
 										//拆解 - 获取拆解后的文件列表
 		QList<QFileInfo> getLastDismantledGIFFileList();
 

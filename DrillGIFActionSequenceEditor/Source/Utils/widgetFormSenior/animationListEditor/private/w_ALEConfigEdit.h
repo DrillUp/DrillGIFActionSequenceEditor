@@ -33,19 +33,26 @@ class W_ALEConfigEdit : public QDialog
 										//控件 - 勾选切换
 		void checkBoxChanged(bool checked);
 										//控件 - 选择数字
-		void timeSelected(QString text);
+		void timeSelected_frameUnit(QString text);
 										//控件 - 编辑数字
-		void timeEdited(double value);
+		void timeEdited_frameUnit(int value);
+										//控件 - 选择数字
+		void timeSelected_secondUnit(QString text);
+										//控件 - 编辑数字
+		void timeEdited_secondUnit(double value);
 
 	//-----------------------------------
 	//----窗口
 	protected:
 		C_ALEConfig local_config;		//
+		int local_unit;
 	public:
 										//窗口 - 设置数据（修改）
-		void setDataInModifyMode(C_ALEConfig config);
+		void setDataInModifyMode(C_ALEConfig config, int unit);
 										//窗口 - 取出数据
 		C_ALEConfig getData();
+										//窗口 - 取出数据（单位）
+		int getDataUnit();
 										//窗口 - 本地数据 -> ui数据
 		void putDataToUi();							
 										//窗口 - ui数据 -> 本地数据

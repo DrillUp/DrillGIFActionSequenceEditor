@@ -382,6 +382,7 @@ void TTool::_double_(double *a, QLineEdit *b){
 void TTool::_double_(double *a, QDoubleSpinBox *b){
 	if (b != nullptr){ *a = b->value(); }
 }
+
 void TTool::_double_(QComboBox *a, double *b){
 	if (a != nullptr){ a->setCurrentText(QString::number(*b, 'g', 16)); }
 }
@@ -394,6 +395,19 @@ void TTool::_double_(QLineEdit *a, double *b){
 }
 void TTool::_double_(QDoubleSpinBox *a, double *b){
 	if (a != nullptr){ a->setValue(*b); }
+}
+void TTool::_double_(QComboBox *a, double b){
+	if (a != nullptr){ a->setCurrentText(QString::number(b, 'g', 16)); }
+}
+void TTool::_double_(QTableWidgetItem *a, double b){
+	if (a != nullptr){ a->setText(QString::number(b, 'g', 16)); }
+}
+void TTool::_double_(QLineEdit *a, double b){
+	if (a != nullptr) {
+		a->setText(QString::number(b, 'g', 16));}
+}
+void TTool::_double_(QDoubleSpinBox *a, double b){
+	if (a != nullptr){ a->setValue(b); }
 }
 
 /*-----------------ªÒ»°ui÷µ£®int£©-------------------*/
@@ -804,6 +818,35 @@ QList<QString>  TTool::_QList_QJsonObjectToQString_(QList<QJsonObject> list){
 	QList<QString> result_list = QList<QString>();
 	for (int i = 0; i < list.count(); i++){
 		result_list.append(QJsonDocument(list.at(i)).toJson(QJsonDocument::Compact));
+	}
+	return result_list;
+}
+
+QList<double>  TTool::_QList_IntToDouble_(QList<int> list){
+	QList<double> result_list = QList<double>();
+	for (int i = 0; i < list.count(); i++){
+		result_list.append(list.at(i));
+	}
+	return result_list;
+}
+QList<int>  TTool::_QList_DoubleToInt_floor_(QList<double> list){
+	QList<int> result_list = QList<int>();
+	for (int i = 0; i < list.count(); i++){
+		result_list.append(qFloor(list.at(i)));
+	}
+	return result_list;
+}
+QList<int>  TTool::_QList_DoubleToInt_ceil_(QList<double> list){
+	QList<int> result_list = QList<int>();
+	for (int i = 0; i < list.count(); i++){
+		result_list.append(qCeil(list.at(i)));
+	}
+	return result_list;
+}
+QList<int>  TTool::_QList_DoubleToInt_round_(QList<double> list){
+	QList<int> result_list = QList<int>();
+	for (int i = 0; i < list.count(); i++){
+		result_list.append(qRound(list.at(i)));
 	}
 	return result_list;
 }

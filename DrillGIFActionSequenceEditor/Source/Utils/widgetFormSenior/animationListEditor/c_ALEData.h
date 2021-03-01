@@ -19,8 +19,14 @@ class C_ALEData {
 		
 	//-----------------------------------
 	//----数据
+	public:
+		enum DATA_UNIT{	
+			FrameUnit,		//帧单位（1秒60帧）
+			SecondUnit,		//秒单位（1秒100帧）
+		};
 	protected:
 		int id;								//标识
+		DATA_UNIT m_unit;					//单位
 		QList<QString> gif_src;				//资源文件名
 		QString gif_src_file;				//资源文件夹
 		QList<int> gif_intervalTank;		//帧间隔-明细表
@@ -29,22 +35,30 @@ class C_ALEData {
 	//-----------------------------------
 	//----设置
 	public:
-											//设置 - 标识
-		void setId(int id);
+											//访问器 - 设置标识
+		void setData_Id(int id);
+											//访问器 - 设置文件父目录
+		void setData_ParentFile(QString gif_src_file);
+											//访问器 - 设置默认帧间隔
+		void setData_IntervalDefault(int gif_interval);
+											//访问器 - 设置单位
+											//		【说明】：数据单位以编辑器的为准。单位变化并不影响实际存储的帧间隔。
+		void setData_Unit(C_ALEData::DATA_UNIT unit);
 
-											//设置 - 资源
+											//接口 - 设置资源
 											//		【参数1】：文件父目录
 											//		【参数2】：不带文件后缀，文件可重名
 		void setSource(QString gif_src_file, QList<QString> gif_src);
-											//设置 - 只设置文件父目录
-		void setSourceParentFile(QString gif_src_file);
 
-											//设置 - 帧间隔
+											//接口 - 设置帧间隔
+											//		【参数1】：默认帧间隔
+											//		【参数2】：帧间隔 明细表
 		void setInterval(int gif_interval, QList<int> gif_intervalTank);
-											//设置 - 默认帧间隔
-		void setIntervalDefault(int gif_interval);
-											//设置 - 默认帧间隔（统一改变）
-		void setIntervalDefaultAndChange(int gif_interval);
+											//接口 - 设置默认帧间隔
+											//		【参数】：默认帧间隔
+											//		【说明】：与原默认帧间隔一样的值，会被统一改变。
+		void setIntervalDefaultWithFit(int gif_interval);
+
 
 	protected:
 		void checkInterval();
@@ -53,26 +67,36 @@ class C_ALEData {
 	//-----------------------------------
 	//----获取
 	public:
-											//获取 - 获取文件数量
-		int getFileCount();
-											//获取 - 获取文件
+											//访问器 - 获取标识
+		int getData_Id();
+											//访问器 - 获取帧间隔
+		int getData_IntervalDefault();
+											//访问器 - 获取帧间隔明细表
+		QList<int> getData_IntervalTank();
+											//访问器 - 单位
+											//		【说明】：数据单位以编辑器的为准。单位变化并不影响实际存储的帧间隔。
+		C_ALEData::DATA_UNIT getData_Unit();
+
+											//接口 - 获取文件
 		QFileInfo getFile(int index);
-		QList<QFileInfo> getFileList(QList<int> index_list);
+											//接口 - 获取文件（多个）
+		QList<QFileInfo> getFile_Multi(QList<int> index_list);
+											//接口 - 获取全部文件
 		QList<QFileInfo> getAllFile();
-											//获取 - 获取文件路径（F:/aaa/vvv ）
+											//接口 - 获取文件数量
+		int getFileCount();
+											//接口 - 获取文件路径（F:/aaa/vvv ）
 		QString getFileRoot();
-		
-											//获取 - 获取帧间隔
-		int getIntervalDefault();
-											//获取 - 获取帧间隔明细表
-		QList<int> getAllInterval();
-											//获取 - 获取帧间隔文本（"0.01"，实际帧为 0.01666 * n ）
+											//接口 - 检查文件（不带文件后缀）
+		bool hasFileName(QString file_name);
+
+											//接口 - 获取帧间隔（含单位转换）
+		double getIntervalDefaultWithUnit();
+											//接口 - 获取帧间隔明细表（含单位转换）
+		QList<double> getIntervalTankWithUnit();
+											//接口 - 获取帧间隔文本（"0.01"，实际帧为 0.01666 * n ）
 		QString getIntervalString(int index);
 
-											//获取 - 获取标识
-		int getId();
-											//获取 - 检查文件（不带文件后缀）
-		bool hasFileName(QString file_name);
 		
 
 	//-----------------------------------
