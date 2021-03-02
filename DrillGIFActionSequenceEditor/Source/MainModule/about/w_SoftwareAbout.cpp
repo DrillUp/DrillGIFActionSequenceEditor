@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "W_SoftwareAbout.h"
 
+#include "Source/ProjectModule/s_ProjectManager.h"
 #include "Source/Utils/common/TTool.h"
 
 
@@ -24,11 +25,14 @@ W_SoftwareAbout::W_SoftwareAbout(QWidget *parent)
 
 	//-----------------------------------
 	//----事件绑定
-	connect(ui.pushButton, &QToolButton::clicked, this, &W_SoftwareAbout::openUserManual);
+	connect(ui.toolButton, &QToolButton::clicked, this, &W_SoftwareAbout::openUserManual);
 
 	//-----------------------------------
 	//----ui初始化
 	TTool::_chinese_(ui.buttonBox);
+
+	ui.label_title->setText("GIF动作序列编辑器（" + S_ProjectManager::getInstance()->data_ProjectData.version + "）");
+
 }
 
 W_SoftwareAbout::~W_SoftwareAbout(){

@@ -6,26 +6,56 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>558</width>
-    <height>315</height>
+    <width>500</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>关于Drill_up</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
+  <property name="styleSheet">
+   <string notr="true">#widget_title{
+	background-color: rgb(255, 255, 255);
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item>
-    <widget class="QWidget" name="widget_2" native="true">
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="1">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>作者：Drill_up
-制作时间：2021.1.10 - 2021.2.28</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
+    <widget class="QWidget" name="widget_title" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <property name="leftMargin">
+       <number>12</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
        <widget class="QWidget" name="widget" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -35,14 +65,14 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>200</width>
-          <height>200</height>
+          <width>75</width>
+          <height>75</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>200</width>
-          <height>200</height>
+          <width>75</width>
+          <height>75</height>
          </size>
         </property>
         <property name="styleSheet">
@@ -50,10 +80,16 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QPushButton" name="pushButton">
+      <item>
+       <widget class="QLabel" name="label_title">
+        <property name="styleSheet">
+         <string notr="true">font-family:&quot;微软雅黑&quot;;
+font-size:18px;
+font-weight:bold;
+padding:4px;</string>
+        </property>
         <property name="text">
-         <string>帮助文档</string>
+         <string>GIF动作序列编辑器（vX.XX）</string>
         </property>
        </widget>
       </item>
@@ -61,10 +97,109 @@
     </widget>
    </item>
    <item>
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Close</set>
-     </property>
+    <widget class="QWidget" name="widget_2" native="true">
+     <layout class="QGridLayout" name="gridLayout" rowstretch="1,0,0">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item row="2" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0">
+        <property name="leftMargin">
+         <number>9</number>
+        </property>
+        <property name="topMargin">
+         <number>9</number>
+        </property>
+        <property name="rightMargin">
+         <number>9</number>
+        </property>
+        <property name="bottomMargin">
+         <number>9</number>
+        </property>
+        <item>
+         <widget class="QToolButton" name="toolButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>帮助文档</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../../drillgifactionsequenceeditor.qrc">
+            <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/nav/Help.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/nav/Help.png</iconset>
+          </property>
+          <property name="toolButtonStyle">
+           <enum>Qt::ToolButtonTextBesideIcon</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QDialogButtonBox" name="buttonBox">
+          <property name="standardButtons">
+           <set>QDialogButtonBox::Close</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="0" column="1">
+       <widget class="QWidget" name="widget_3" native="true">
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>GIF动作序列编辑器（DrillGIFActionSequenceEditor）
+作者： Drill_up
+制作时间： 2021.1 - 2021.3
+
+
+此软件为个人兴趣开发哦，并且源码公开。
+如果你有好的建议和想法，可以和我提哦！</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(240, 240, 240);</string>
+           </property>
+           <property name="text">
+            <string>https://github.com/DrillUp/DrillGIFActionSequenceEditor</string>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>

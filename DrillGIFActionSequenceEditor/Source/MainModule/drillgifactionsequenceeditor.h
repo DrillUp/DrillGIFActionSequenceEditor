@@ -63,6 +63,11 @@ class DrillGIFActionSequenceEditor : public QDialog
 
 	//-----------------------------------
 	//----窗口
+	public:
+								//窗口 - 用户自定义UI读取
+		void ui_loadConfig();
+								//窗口 - 用户自定义UI存储
+		void ui_saveConfig();
 	private:
 		Ui::DrillGIFActionSequenceEditorClass ui;
 };

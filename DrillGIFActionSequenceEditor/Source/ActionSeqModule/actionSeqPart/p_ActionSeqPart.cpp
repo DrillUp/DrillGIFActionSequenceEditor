@@ -3,6 +3,7 @@
 
 #include "Source/PluginModule/lengthEditor/s_LEAnnotationReader.h"
 #include "Source/ProjectModule/s_ProjectManager.h"
+#include "Source/ProjectModule/storageGlobal/s_IniManager.h"
 
 #include "../actionSeqData/s_ActionSeqDataContainer.h"
 
@@ -246,4 +247,26 @@ void P_ActionSeqPart::putUiToData() {
 
 	S_ActionSeqDataContainer::getInstance()->setActionSeqData(this->local_actionSeq);
 	S_ActionSeqDataContainer::getInstance()->modifyTreeData(this->m_p_tree->getData());
+}
+
+/*-------------------------------------------------
+		窗口 - 用户自定义UI读取
+*/
+void P_ActionSeqPart::ui_loadConfig(){
+
+	// > 分割条
+	QString data = S_IniManager::getInstance()->getConfig("COAS_MainWindowSpliter");
+	if (data != ""){
+		ui.splitter->setSizes(TTool::_QList_QStringToInt_(data.split(",")));
+	}
+
+}
+/*-------------------------------------------------
+		窗口 - 用户自定义UI存储
+*/
+void P_ActionSeqPart::ui_saveConfig(){
+
+	// > 分割条
+	QStringList data = TTool::_QList_IntToQString_( ui.splitter->sizes() );
+	S_IniManager::getInstance()->setConfig("COAS_MainWindowSpliter", data.join(","));
 }

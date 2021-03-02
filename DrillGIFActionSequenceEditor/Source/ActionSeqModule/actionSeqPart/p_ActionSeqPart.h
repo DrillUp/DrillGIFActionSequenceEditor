@@ -94,7 +94,12 @@ class P_ActionSeqPart : public QWidget
 		void putDataToUi();							
 										//窗口 - ui数据 -> 本地数据
 		void putUiToData();
-
+		
+	public:
+										//窗口 - 用户自定义UI读取
+		void ui_loadConfig();
+										//窗口 - 用户自定义UI存储
+		void ui_saveConfig();
 	private:
 		Ui::P_ActionSeqPart ui;
 

@@ -8,6 +8,7 @@
 #include "Source/ActionSeqModule/actionSeqData/s_ActionSeqDataContainer.h"
 #include "Source/ProjectModule/s_ProjectManager.h"
 #include "Source/ProjectModule/file/s_TempFileManager.h"
+#include "Source/ProjectModule/storageGlobal/s_IniManager.h"
 
 /*
 -----==========================================================-----
@@ -21,10 +22,9 @@
 DrillGIFActionSequenceEditor::DrillGIFActionSequenceEditor(QWidget *parent)
 	: QDialog(parent)
 {
+	DrillGIFActionSequenceEditor::cur_instance = this;
 	ui.setupUi(this);
 	this->_init();
-	DrillGIFActionSequenceEditor::cur_instance = this;
-
 }
 DrillGIFActionSequenceEditor::~DrillGIFActionSequenceEditor(){
 }
@@ -59,6 +59,9 @@ void DrillGIFActionSequenceEditor::_init() {
 	this->m_p_ActionSeqPart = new P_ActionSeqPart(ui.widget_actionSeq);
 	l->setMargin(0);
 	l->addWidget(this->m_p_ActionSeqPart);
+
+	// > UI读取
+	this->ui_loadConfig();
 	
 	//-----------------------------------
 	//----初始化参数
@@ -82,6 +85,7 @@ void DrillGIFActionSequenceEditor::_init() {
 	connect(S_ActionSeqDataContainer::getInstance(), &S_ActionSeqDataContainer::dataAllReloaded, this, &DrillGIFActionSequenceEditor::actionSeqDataLoaded);
 
 	S_ProjectManager::getInstance()->newProject();
+
 }
 
 /*-------------------------------------------------
@@ -194,6 +198,53 @@ void DrillGIFActionSequenceEditor::closeEvent(QCloseEvent *event){
 		return;
 	}
 
+	// > UI保存
+	this->ui_saveConfig();
+
+	// > temp文件销毁
 	S_TempFileManager::getInstance()->destroyInstance();
+
 	event->accept();
+}
+
+/* --------------------------------------------------------------
+		窗口 - 用户自定义UI读取
+*/
+void DrillGIFActionSequenceEditor::ui_loadConfig(){
+	QString config;
+
+	// > 窗口高宽
+	QString ww = S_IniManager::getInstance()->getConfig("COAS_MainWindowWidth");
+	QString hh = S_IniManager::getInstance()->getConfig("COAS_MainWindowHeight");
+	if (ww != "" && hh != ""){
+		this->resize(ww.toInt(), hh.toInt());
+	}
+
+	// > 窗口位置
+	QString xx = S_IniManager::getInstance()->getConfig("COAS_MainWindowX");
+	QString yy = S_IniManager::getInstance()->getConfig("COAS_MainWindowY");
+	if (xx != "" && yy != ""){
+		this->move(xx.toInt(), yy.toInt());
+	}
+
+	// > 子控件
+	this->m_p_ActionSeqPart->ui_loadConfig();
+	
+}
+/* --------------------------------------------------------------
+		窗口 - 用户自定义UI存储
+*/
+void DrillGIFActionSequenceEditor::ui_saveConfig(){
+
+	// > 窗口高宽
+	S_IniManager::getInstance()->setConfig("COAS_MainWindowWidth",QString::number(this->width()));
+	S_IniManager::getInstance()->setConfig("COAS_MainWindowHeight", QString::number(this->height()));
+
+	// > 窗口位置
+	S_IniManager::getInstance()->setConfig("COAS_MainWindowX", QString::number(this->x()));
+	S_IniManager::getInstance()->setConfig("COAS_MainWindowY", QString::number(this->y()));
+
+	// > 子控件
+	this->m_p_ActionSeqPart->ui_saveConfig();
+
 }

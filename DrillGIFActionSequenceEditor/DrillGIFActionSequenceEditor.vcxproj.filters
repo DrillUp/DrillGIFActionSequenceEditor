@@ -192,6 +192,15 @@
     <Filter Include="源文件\【 主窗体 MainModule】\关于">
       <UniqueIdentifier>{820e42b3-479a-45ba-add6-783c05407300}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\【 主窗体 MainModule】\首页提示">
+      <UniqueIdentifier>{c8169de7-8770-43b2-a8b3-25deb5eab36f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 项目管理模块 ProjectModule】\存储文件（全局）">
+      <UniqueIdentifier>{e3075032-6f58-489b-857d-ebe1e5450b98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 动作序列 ActionSeqModule】\数据读取器\数据最大值编辑">
+      <UniqueIdentifier>{bc9f198c-e495-4c47-83e5-c5fabf56c615}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -737,6 +746,24 @@
     <ClCompile Include="GeneratedFiles\Release\moc_w_SoftwareAbout.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Source\MainModule\firstTip\w_SoftwareFirstTip.cpp">
+      <Filter>源文件\【 主窗体 MainModule】\首页提示</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_w_SoftwareFirstTip.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_w_SoftwareFirstTip.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ProjectModule\storageGlobal\s_IniManager.cpp">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件（全局）</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_s_IniManager.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_s_IniManager.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="drillgifactionsequenceeditor.qrc">
@@ -964,6 +991,15 @@
     <CustomBuild Include="Source\MainModule\about\w_SoftwareAbout.ui">
       <Filter>源文件\【 主窗体 MainModule】\关于</Filter>
     </CustomBuild>
+    <CustomBuild Include="Source\MainModule\firstTip\w_SoftwareFirstTip.h">
+      <Filter>源文件\【 主窗体 MainModule】\首页提示</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\MainModule\firstTip\w_SoftwareFirstTip.ui">
+      <Filter>源文件\【 主窗体 MainModule】\首页提示</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ProjectModule\storageGlobal\s_IniManager.h">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件（全局）</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DrillGIFActionSequenceEditor.rc" />
@@ -1105,6 +1141,9 @@
       <Filter>源文件\【 工具箱 Utils】\集合组件-快速表单（widgetFastForm）\快速表单</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_w_SoftwareAbout.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_w_SoftwareFirstTip.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
