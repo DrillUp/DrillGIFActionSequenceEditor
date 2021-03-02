@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "W_SoftwareFirstTip.h"
 
+#include "../drillgifactionsequenceeditor.h"
 #include "Source/ProjectModule/storageGlobal/s_IniManager.h"
 #include "Source/Utils/common/TTool.h"
 
@@ -32,7 +33,7 @@ W_SoftwareFirstTip::~W_SoftwareFirstTip(){
 W_SoftwareFirstTip* W_SoftwareFirstTip::cur_instance = NULL;
 W_SoftwareFirstTip* W_SoftwareFirstTip::getInstance() {
 	if (cur_instance == NULL) {
-		cur_instance = new W_SoftwareFirstTip(NULL);
+		cur_instance = new W_SoftwareFirstTip(DrillGIFActionSequenceEditor::getInstance());
 	}
 	return cur_instance;
 }

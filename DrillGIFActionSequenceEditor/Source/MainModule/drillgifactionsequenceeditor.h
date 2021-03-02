@@ -58,8 +58,20 @@ class DrillGIFActionSequenceEditor : public QDialog
 		void openUserManual();
 								//控件 - 关于...
 		void openAbout();
-								//窗口关闭事件（点击关闭按钮）
+
+	//-----------------------------------
+	//----事件
+	private:
+		QSize m_last_uiSize;
+	public:
+								//事件 - 窗口切换大小事件
+		void resizeEvent(QResizeEvent *event);
+								//事件 - 窗口关闭事件（点击关闭按钮）
 		void closeEvent(QCloseEvent *event);
+								//事件 - 拖入文件判断
+		void dragEnterEvent(QDragEnterEvent *event);
+								//事件 - 放置文件动作
+		void dropEvent(QDropEvent *event);
 
 	//-----------------------------------
 	//----窗口

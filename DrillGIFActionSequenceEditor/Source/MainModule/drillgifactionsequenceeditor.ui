@@ -10,6 +10,9 @@
     <height>670</height>
    </rect>
   </property>
+  <property name="acceptDrops">
+   <bool>true</bool>
+  </property>
   <property name="windowTitle">
    <string>Drill动作序列编辑器(DrillGIFActionSequenceEditor)</string>
   </property>

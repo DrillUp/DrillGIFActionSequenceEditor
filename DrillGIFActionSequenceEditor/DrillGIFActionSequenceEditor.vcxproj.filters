@@ -195,11 +195,11 @@
     <Filter Include="源文件\【 主窗体 MainModule】\首页提示">
       <UniqueIdentifier>{c8169de7-8770-43b2-a8b3-25deb5eab36f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 项目管理模块 ProjectModule】\存储文件（全局）">
-      <UniqueIdentifier>{e3075032-6f58-489b-857d-ebe1e5450b98}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\【 动作序列 ActionSeqModule】\数据读取器\数据最大值编辑">
       <UniqueIdentifier>{bc9f198c-e495-4c47-83e5-c5fabf56c615}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 项目管理模块 ProjectModule】\存储文件-全局">
+      <UniqueIdentifier>{e3075032-6f58-489b-857d-ebe1e5450b98}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -756,7 +756,7 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\ProjectModule\storageGlobal\s_IniManager.cpp">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件（全局）</Filter>
+      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件-全局</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_s_IniManager.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -998,7 +998,7 @@
       <Filter>源文件\【 主窗体 MainModule】\首页提示</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ProjectModule\storageGlobal\s_IniManager.h">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件（全局）</Filter>
+      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件-全局</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
