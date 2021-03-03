@@ -306,6 +306,9 @@ void P_ActionSeqPart::putDataToUi() {
 	}
 	this->m_p_tree->loadSource(this->m_actionSeq_list, "COAS_id", "COAS_name", "COAS_type");
 
+	// > 编辑块置灰
+	this->setPartGray();	//（需要玩家重新选择一个动作序列）
+	
 	// > 载入动作序列数据
 	//qDebug() << data_actionSeq;
 
@@ -354,8 +357,6 @@ void P_ActionSeqPart::modifyDataLengthInAction(){
 		C_ActionSeqLength result = d.getData();
 		S_ActionSeqDataContainer::getInstance()->setActionSeqLength(result);
 		this->putDataToUi();
-
-		this->setPartGray();	//（需要玩家重新选择一个动作序列）
 	}
 	this->m_slotBlock_source = false;
 
