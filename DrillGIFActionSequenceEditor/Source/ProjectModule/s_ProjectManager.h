@@ -6,7 +6,7 @@
 /*
 -----==========================================================-----
 		类：		项目管理.h
-		版本：		v1.12
+		版本：		v1.13
 		所属模块：	项目管理模块
 		功能：		项目管理相关数据、相关操作都在这里主要控制。
 					（详细见cpp）
@@ -81,6 +81,14 @@ class S_ProjectManager : public QObject, public S_StorageManagerTemplate
 										//项目 - 强制保存
 										//		【返回】 true：成功执行，false：中途被取消。
 		bool saveInForce();
+
+	signals:
+										//项目 - 项目新建清空后（信号）
+		void newProjectFinished();
+										//项目 - 项目打开后（信号）
+		void openProjectFinished();
+										//项目 - 项目保存后（信号）
+		void saveProjectFinished();
 
 	private:
 										//#项目 - 清除项目数据

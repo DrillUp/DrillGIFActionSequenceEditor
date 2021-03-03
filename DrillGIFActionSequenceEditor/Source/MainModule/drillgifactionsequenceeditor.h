@@ -44,6 +44,8 @@ class DrillGIFActionSequenceEditor : public QDialog
 	public slots:
 								//控件 - 动作序列已读取
 		void actionSeqDataLoaded();
+								//控件 - 动作序列数据重建
+		void rebuildActionSeqData();
 								//控件 - 新建项目
 		void newProject();
 								//控件 - 打开项目

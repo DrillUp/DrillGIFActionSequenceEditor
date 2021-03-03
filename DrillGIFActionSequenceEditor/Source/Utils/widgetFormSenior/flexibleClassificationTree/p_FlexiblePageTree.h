@@ -76,23 +76,30 @@ class P_FlexiblePageTree : public QObject
 	//-----------------------------------
 	//----控件（叶子接口）
 	protected:
-		bool m_leafOuterControlEnabled;		//叶子编辑开关
 		QTreeWidgetItem* m_last_item;
 		I_FCTLeaf* m_last_leaf;
+		bool m_leafOuterControlEnabled;			//叶子编辑 - 开关
+		bool m_leafOuterControl_CopyActive;		//叶子编辑 - 复制激活
+		bool m_leafOuterControl_PasteActive;	//叶子编辑 - 粘贴激活
+		bool m_leafOuterControl_ClearActive;	//叶子编辑 - 清空激活
 	signals:
+									//叶子接口 - 当前叶子变化（信号）
+		void currentLeafChanged(QTreeWidgetItem* item, int id, QString name);
+									//控件接口 - 当前树节点变化，包括叶子和树枝（信号）
+		void currentItemChanged(QTreeWidgetItem* item);
 									//叶子接口 - 复制按下（信号）
 		void menuCopyLeafTriggered(int id);
 									//叶子接口 - 粘贴按下（信号）
 		void menuPasteLeafTriggered(int id);
 									//叶子接口 - 清空按下（信号）
 		void menuClearLeafTriggered(int id);
-									//叶子接口 - 当前叶子变化（信号）
-		void currentLeafChanged(QTreeWidgetItem* item, int id, QString name);
-									//控件接口 - 当前树节点变化，包括叶子和树枝（信号）
-		void currentItemChanged(QTreeWidgetItem* item);
 	public slots:
 									//叶子接口 - 开关（默认开启）
 		void setLeafOuterControlEnabled(bool enabled);
+									//叶子接口 - 激活控制
+		void setLeafOuterControl_CopyActive(bool enabled);
+		void setLeafOuterControl_PasteActive(bool enabled);
+		void setLeafOuterControl_ClearActive(bool enabled);
 									//叶子接口 - 复制按下
 		void menuCopyLeafInAction();
 									//叶子接口 - 粘贴按下

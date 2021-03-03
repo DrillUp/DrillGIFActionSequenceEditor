@@ -19,6 +19,8 @@
 					-> 表格配置
 						-> 设置行高
 						-> 设置叶子显示文本
+					-> 右键菜单
+						-> 只单选时有效
 					
 		使用方法：
 				>初始化
@@ -33,6 +35,7 @@ P_RadioTable::P_RadioTable(QTableWidget *parent)
 
 	//-----------------------------------
 	//----参数初始化
+	this->m_iconSrcPath = ":/DrillGIFActionSequenceEditor/Resources/icons";
 	this->m_table = parent;									//表格对象
 	this->m_tableStyle = this->m_table->styleSheet();		//表格默认样式
 	this->m_itemTank = QList<QTableWidgetItem*>();			//表格项列表
@@ -40,6 +43,12 @@ P_RadioTable::P_RadioTable(QTableWidget *parent)
 
 	// > 数据
 	this->m_config = C_RaTConfig();
+
+	// > 右键菜单
+	this->m_itemOuterControlEnabled = false;				//编辑 - 开关（默认关闭）
+	this->m_itemOuterControl_CopyActive = true;				//编辑 - 复制激活
+	this->m_itemOuterControl_PasteActive = false;			//编辑 - 粘贴激活
+	this->m_itemOuterControl_ClearActive = true;			//编辑 - 清空激活
 
 	//-----------------------------------
 	//----ui初始化
@@ -139,7 +148,13 @@ void P_RadioTable::clearAll(){
 
 	// > 表格设置
 	this->m_config = C_RaTConfig();
-
+	this->m_itemOuterControl_PasteActive = false;
+}
+/*-------------------------------------------------
+		控件 - 表格项数量
+*/
+int P_RadioTable::count(){
+	return this->m_itemTank.count();
 }
 /*-------------------------------------------------
 		控件 - 获取文本
@@ -217,7 +232,38 @@ void P_RadioTable::sltItemRightClicked(QPoint point) {
 	if (item == nullptr){ return; }
 	if (this->m_table->selectedItems().count() == 0){ return; }
 
-	//...（暂无）
+	/*------------------------右键点击单个叶子------------------------*/
+	if (this->m_table->selectedItems().count() == 1 && this->m_itemOuterControlEnabled == true ){
+		QAction* action;
+		QMenu* menu = new QMenu(this->m_table);
+
+		action = new QAction("复制", this);
+		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Copy.png"));
+		action->setData( this->m_itemTank.indexOf(item) );
+		action->setShortcut(QKeySequence::Copy);
+		connect(action, &QAction::triggered, this, &P_RadioTable::menuCopyItemInAction);
+		menu->addAction(action);
+		action->setEnabled(this->m_itemOuterControl_CopyActive);
+
+		action = new QAction("粘贴", this);
+		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Paste.png"));
+		action->setData( this->m_itemTank.indexOf(item) );
+		action->setShortcut(QKeySequence::Paste);
+		connect(action, &QAction::triggered, this, &P_RadioTable::menuPasteItemInAction);
+		menu->addAction(action);
+		action->setEnabled(this->m_itemOuterControl_PasteActive);
+
+		action = new QAction("清空", this);
+		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Clear.png"));
+		action->setData( this->m_itemTank.indexOf(item) );
+		action->setShortcut(QKeySequence::Delete);
+		connect(action, &QAction::triggered, this, &P_RadioTable::menuClearItemInAction);
+		menu->addAction(action);
+		action->setEnabled(this->m_itemOuterControl_ClearActive);
+
+		menu->exec(QCursor::pos());
+		menu->deleteLater();
+	}
 
 	this->m_selectionSignalBlock_Root = false;
 }
@@ -374,4 +420,51 @@ void  P_RadioTable::selectStart(){
 */
 void  P_RadioTable::selectEnd(){
 	this->selectIndex(this->m_itemTank.count() - 1);
+}
+
+
+/*-------------------------------------------------
+		接口 - 开关（默认关闭）
+*/
+void P_RadioTable::setItemOuterControlEnabled(bool enabled){
+	this->m_itemOuterControlEnabled = enabled;
+}
+/*-------------------------------------------------
+		接口 - 激活控制
+*/
+void P_RadioTable::setItemOuterControl_CopyActive(bool enabled){
+	this->m_itemOuterControl_CopyActive = enabled;
+}
+void P_RadioTable::setItemOuterControl_PasteActive(bool enabled){
+	this->m_itemOuterControl_PasteActive = enabled;
+}
+void P_RadioTable::setItemOuterControl_ClearActive(bool enabled){
+	this->m_itemOuterControl_ClearActive = enabled;
+}
+/*-------------------------------------------------
+		接口 - 复制按下
+*/
+void P_RadioTable::menuCopyItemInAction(){
+	if (this->m_itemOuterControl_CopyActive == false){ return; }
+	QAction* cur_action = qobject_cast<QAction*>(sender());		//从action里面取出数据
+	int index = cur_action->data().value<int>();
+	emit menuCopyItemTriggered(index);
+}
+/*-------------------------------------------------
+		接口 - 粘贴按下
+*/
+void P_RadioTable::menuPasteItemInAction(){
+	if (this->m_itemOuterControl_PasteActive == false){ return; }
+	QAction* cur_action = qobject_cast<QAction*>(sender());		//从action里面取出数据
+	int index = cur_action->data().value<int>();
+	emit menuPasteItemTriggered(index);
+}
+/*-------------------------------------------------
+		接口 - 清空按下
+*/
+void P_RadioTable::menuClearItemInAction(){
+	if (this->m_itemOuterControl_ClearActive == false){ return; }
+	QAction* cur_action = qobject_cast<QAction*>(sender());		//从action里面取出数据
+	int index = cur_action->data().value<int>();
+	emit menuClearItemTriggered(index);
 }

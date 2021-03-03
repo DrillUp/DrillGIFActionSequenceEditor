@@ -12,8 +12,23 @@
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		该部分提供状态元编辑功能。
+					【该功能块是一个大集合组件，功能交织复杂，多注意注释部分】
 		
-		目标：		1.
+		目标：		->控件
+						->单选表格
+						->快速表单
+					->控件（动画帧）
+						->动画帧编辑块
+						->动画帧播放器
+						->图片查看块
+					->快捷键
+						->复制
+						->粘贴
+						->清空
+					->本地数据
+						->列表
+						->索引
+						->窗口交互
 
 		使用方法：
 				>初始化
@@ -38,7 +53,8 @@ P_StatePart::P_StatePart(QWidget *parent)
 	C_RaTConfig rat_config = C_RaTConfig();
 	rat_config.zeroFillCount = 2;
 	rat_config.rowHeight = 22;
-	this->m_table->setConfigParam(rat_config);	//固定参数
+	this->m_table->setConfigParam(rat_config);			//固定参数
+	this->m_table->setItemOuterControlEnabled(true);	//开启右键菜单
 
 	// > 快速表单
 	C_FastClass c_class = S_ActionSeqDataDefiner::getInstance()->getTable_State();
@@ -53,7 +69,7 @@ P_StatePart::P_StatePart(QWidget *parent)
 	C_ALEConfig config = C_ALEConfig();
 	this->m_p_AnimationListEditor->setConfigParam_ALE(config);
 
-	// > 播放器
+	// > 动画帧播放器
 	this->m_p_AnimationListPlayer = new P_AnimationListPlayer();
 	this->m_p_AnimationListPlayer->setAnimationListEditor(m_p_AnimationListEditor);
 	this->m_p_AnimationListPlayer->setPlayType(QStringList() << "永久循环");
@@ -69,6 +85,9 @@ P_StatePart::P_StatePart(QWidget *parent)
 	//-----------------------------------
 	//----事件绑定
 	connect(this->m_table, &P_RadioTable::currentIndexChanged, this, &P_StatePart::currentIndexChanged);
+	connect(this->m_table, &P_RadioTable::menuPasteItemTriggered, this, &P_StatePart::shortcut_pasteData);
+	connect(this->m_table, &P_RadioTable::menuCopyItemTriggered, this, &P_StatePart::shortcut_copyData);
+	connect(this->m_table, &P_RadioTable::menuClearItemTriggered, this, &P_StatePart::shortcut_clearData);
 	connect(this->m_p_AnimationListEditor, &P_AnimationListEditor::selectedIndexChanged_Multi, this, &P_StatePart::tableChanged_Multi);
 
 	// > 表单变化绑定
@@ -94,11 +113,7 @@ P_StatePart::~P_StatePart(){
 		动画帧 - 选项变化
 */
 void P_StatePart::tableChanged_Multi(QList<int> index_list){
-	QString text = "";
-	for (int i = 0; i < index_list.count(); i++){
-		text += QString::number( index_list.at(i) + 1 )+ "/";
-	}
-	//ui.label->setText("你选择了：" + text);
+	//（暂无操作）
 }
 /*-------------------------------------------------
 		动画帧 - 资源切换
@@ -119,14 +134,14 @@ void P_StatePart::zoomValueChanged(double value){
 */
 QStringList P_StatePart::getNameList(){
 	QStringList result = QStringList();
-	for (int i = 0; i < this->local_stateDataList.count(); i++){
-		result.append(this->local_stateDataList.at(i).value("状态元名称").toString());
+	for (int i = 0; i < this->m_stateDataList.count(); i++){
+		result.append(this->m_stateDataList.at(i).value("状态元名称").toString());
 	}
 	return result;
 }
 
 /*-------------------------------------------------
-		控件 - 动作元切换
+		控件 - 状态元切换
 */
 void P_StatePart::currentIndexChanged(int index){
 	if (this->m_slotBlock_source == true){ return; }
@@ -147,9 +162,11 @@ void P_StatePart::keyPressEvent(QKeyEvent *event){
 	if (event->modifiers() & Qt::ControlModifier){
 		if (event->key() == Qt::Key_C){
 			this->m_p_AnimationListEditor->shortcut_copy();
+			this->shortcut_copyData();
 		}
 		if (event->key() == Qt::Key_V){
 			this->m_p_AnimationListEditor->shortcut_paste();
+			this->shortcut_pasteData();
 		}
 		if (event->key() == Qt::Key_A){
 			this->m_p_AnimationListEditor->shortcut_selectAll();
@@ -157,7 +174,68 @@ void P_StatePart::keyPressEvent(QKeyEvent *event){
 	}
 	if (event->key() == Qt::Key_Delete){
 		this->m_p_AnimationListEditor->shortcut_delete();
+		this->shortcut_clearData();
 	}
+}
+/*-------------------------------------------------
+		操作 - 替换
+*/
+void P_StatePart::op_replace(int index, QJsonObject state){
+	if (index < 0){ return; }
+	if (index >= this->m_table->count()){ return; }
+	if (state.isEmpty()){ return; }
+
+	// > 编辑标记
+	S_ProjectManager::getInstance()->setDirty();
+
+	// > 执行替换
+	this->m_stateDataList.replace(index, state);
+	this->local_loadIndexData(index);
+
+	// > 更新表格的名称
+	this->m_table->modifyText_Selected(this->m_FastForm->getQLineEditByName("状态元名称")->text());
+}
+/*-------------------------------------------------
+		操作 - 清空
+*/
+void P_StatePart::op_clear(int index){
+	if (index < 0){ return; }
+	if (index >= this->m_table->count()){ return; }
+
+	// > 编辑标记
+	S_ProjectManager::getInstance()->setDirty();
+
+	// > 执行替换
+	this->m_stateDataList.replace(index, QJsonObject());
+	this->local_loadIndexData(index);
+
+	// > 更新表格的名称
+	this->m_table->modifyText_Selected(this->m_FastForm->getQLineEditByName("状态元名称")->text());
+}
+/*-------------------------------------------------
+		快捷键 - 复制
+*/
+void P_StatePart::shortcut_copyData(){
+	if (ui.tableWidget->hasFocus() == false){ return; }
+	if (this->m_last_index == -1 ){ return; }
+	this->m_copyed_data = this->m_stateDataList.at(m_last_index);
+	this->m_table->setItemOuterControl_PasteActive(true);		//激活粘贴
+}
+/*-------------------------------------------------
+		快捷键 - 粘贴
+*/
+void P_StatePart::shortcut_pasteData(){
+	if (ui.tableWidget->hasFocus() == false){ return; }
+	if (this->m_last_index == -1){ return; }
+	this->op_replace(this->m_last_index, this->m_copyed_data);
+}
+/*-------------------------------------------------
+		快捷键 - 清空
+*/
+void P_StatePart::shortcut_clearData(){
+	if (ui.tableWidget->hasFocus() == false){ return; }
+	if (this->m_last_index == -1){ return; }
+	this->op_clear(this->m_last_index);
 }
 
 
@@ -166,11 +244,11 @@ void P_StatePart::keyPressEvent(QKeyEvent *event){
 */
 void P_StatePart::local_saveCurIndexData(){
 	if (this->m_last_index < 0){ return; }
-	if (this->m_last_index >= this->local_stateDataList.count()){ return; }
+	if (this->m_last_index >= this->m_stateDataList.count()){ return; }
 
 	// > 表单数据
 	QJsonObject obj_edit = this->m_FastForm->getJsonObject();
-	QJsonObject obj_org = this->local_stateDataList.at(this->m_last_index);
+	QJsonObject obj_org = this->m_stateDataList.at(this->m_last_index);
 	TTool::_QJsonObject_put_(&obj_org, obj_edit);
 
 	// > 图片数据
@@ -193,17 +271,17 @@ void P_StatePart::local_saveCurIndexData(){
 	// > 编辑标记
 	S_ProjectManager::getInstance()->setDirty();
 
-	this->local_stateDataList.replace(this->m_last_index, obj_org);
+	this->m_stateDataList.replace(this->m_last_index, obj_org);
 }
 /*-------------------------------------------------
 		数据 - 读取本地数据
 */
 void P_StatePart::local_loadIndexData(int index){
 	if (index < 0){ return; }
-	if (index >= this->local_stateDataList.count()){ return; }
+	if (index >= this->m_stateDataList.count()){ return; }
 
 	// > 表单数据
-	QJsonObject obj_data = this->local_stateDataList.at(index);
+	QJsonObject obj_data = this->m_stateDataList.at(index);
 	this->m_FastForm->setJsonObjectAutoDefault(obj_data);
 	//qDebug() << obj_data;
 
@@ -234,7 +312,7 @@ void P_StatePart::local_loadIndexData(int index){
 */
 void P_StatePart::setData(QList<QJsonObject> state) {
 	this->m_slotBlock_source = true;
-	this->local_stateDataList = state;
+	this->m_stateDataList = state;
 	this->m_p_AnimationListPlayer->stopFrame();		//（设置数据时，暂停播放）
 	this->putDataToUi();
 	this->m_slotBlock_source = false;
@@ -249,7 +327,7 @@ QList<QJsonObject> P_StatePart::getData(){
 	// > 校验
 	//...
 	
-	return this->local_stateDataList;
+	return this->m_stateDataList;
 }
 /*-------------------------------------------------
 		窗口 - 本地数据 -> ui数据

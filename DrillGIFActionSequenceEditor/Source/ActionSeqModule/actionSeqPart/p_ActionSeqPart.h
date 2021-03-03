@@ -7,6 +7,7 @@
 #include "Source/ActionSeqModule/actionPart/p_ActionPart.h"
 #include "Source/ActionSeqModule/statePart/p_StatePart.h"
 #include "Source/ActionSeqModule/playingPart/p_PlayingPart.h"
+#include "Source/ActionSeqModule/actionSeqData/lengthData/c_ActionSeqLength.h"
 
 #include "Source/Utils/widgetForm/foldableTabWindow/p_FoldableTabRelater.h"
 #include "Source/Utils/widgetFormSenior/flexibleClassificationTree/p_FlexibleClassificationTree.h"
@@ -32,11 +33,6 @@ class P_ActionSeqPart : public QWidget
 	//----动作序列 全数据
 	protected:
 		P_FlexibleClassificationTree* m_p_tree;		//动作序列显示树
-
-		int m_realLen_actionSeq;					//长度 - 动作序列
-		int m_realLen_action;						//长度 - 动作元
-		int m_realLen_state;						//长度 - 状态元
-
 	public slots:
 										//全数据 - 树选择变化
 		void currentActionSeqChanged(QTreeWidgetItem* item, int id, QString name);
@@ -55,21 +51,23 @@ class P_ActionSeqPart : public QWidget
 		void local_loadIndexData(int index);
 		
 	//-----------------------------------
-	//----资源数据（操作）
+	//----快捷键
 	protected:
 		QJsonObject m_copyed_actionSeq;
 	protected:
 									//操作 - 替换
 		void op_replace(int index, QJsonObject actiong_seq);
-									//操作 - 移除
-		void op_remove(QList<int> index_list);
+									//操作 - 清空
+		void op_clear(int index);
 	public:
+									//快捷键 - 事件
+		void keyPressEvent(QKeyEvent *event);
 									//快捷键 - 复制
-		void shortcut_copy();
+		void shortcut_copyData();
 									//快捷键 - 粘贴
-		void shortcut_paste();
+		void shortcut_pasteData();
 									//快捷键 - 清空
-		void shortcut_delete();
+		void shortcut_clearData();
 
 	//-----------------------------------
 	//----大控件
@@ -78,22 +76,29 @@ class P_ActionSeqPart : public QWidget
 		P_ActionPart* m_actionPart;						//动作元块
 		P_StatePart* m_statePart;						//状态元块
 		P_PlayingPart* m_playingPart;					//放映区
+	public:
+										//大控件 - 置灰
+										//		【说明】：选择一个动作序列后，置灰才会被取消。
+		void setPartGray();
 
 	//-----------------------------------
 	//----窗口
 	public:
-		bool m_slotBlock_source;
-		QJsonObject local_actionSeq;				//动作序列数据
+		bool m_slotBlock_source;					//加载时阻塞
 		QList<QJsonObject> m_actionSeq_list;		//动作序列列表（临时）
 	public:
 										//窗口 - 设置数据
-		void setData(QJsonObject actionSeq);
+		void setData(QJsonObject actionSeq, C_ActionSeqLength length);
 										//窗口 - 取出数据
-		QJsonObject getData();
+		QJsonObject getDataActionSeqData();
+		C_ActionSeqLength getDataActionSeqLength();
 										//窗口 - 本地数据 -> ui数据
 		void putDataToUi();							
 										//窗口 - ui数据 -> 本地数据
 		void putUiToData();
+	public:
+										//窗口 - 修改长度
+		void modifyDataLengthInAction();
 		
 	public:
 										//窗口 - 用户自定义UI读取

@@ -12,8 +12,23 @@
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		该部分提供动作元编辑功能。
+					【该功能块是一个大集合组件，功能交织复杂，多注意注释部分】
 		
-		目标：		1.
+		子功能：	->控件
+						->单选表格
+						->快速表单
+					->控件（动画帧）
+						->动画帧编辑块
+						->动画帧播放器
+						->图片查看块
+					->快捷键
+						->复制
+						->粘贴
+						->清空
+					->本地数据
+						->列表
+						->索引
+						->窗口交互
 
 		使用方法：
 				>初始化
@@ -32,13 +47,14 @@ P_ActionPart::P_ActionPart(QWidget *parent)
 
 	//-----------------------------------
 	//----初始化ui
-	
-	// > 编辑树
+
+	// > 编辑表格
 	this->m_table = new P_RadioTable(ui.tableWidget);
 	C_RaTConfig rat_config = C_RaTConfig();
 	rat_config.zeroFillCount = 2;
 	rat_config.rowHeight = 22;
-	this->m_table->setConfigParam(rat_config);	//固定参数
+	this->m_table->setConfigParam(rat_config);			//固定参数
+	this->m_table->setItemOuterControlEnabled(true);	//开启右键菜单
 
 	// > 快速表单
 	C_FastClass c_class = S_ActionSeqDataDefiner::getInstance()->getTable_Action();
@@ -69,6 +85,9 @@ P_ActionPart::P_ActionPart(QWidget *parent)
 	//-----------------------------------
 	//----事件绑定
 	connect(this->m_table, &P_RadioTable::currentIndexChanged, this, &P_ActionPart::currentIndexChanged);
+	connect(this->m_table, &P_RadioTable::menuPasteItemTriggered, this, &P_ActionPart::shortcut_pasteData);
+	connect(this->m_table, &P_RadioTable::menuCopyItemTriggered, this, &P_ActionPart::shortcut_copyData);
+	connect(this->m_table, &P_RadioTable::menuClearItemTriggered, this, &P_ActionPart::shortcut_clearData);
 	connect(this->m_p_AnimationListEditor, &P_AnimationListEditor::selectedIndexChanged_Multi, this, &P_ActionPart::tableChanged_Multi);
 
 	// > 表单变化绑定
@@ -115,8 +134,8 @@ void P_ActionPart::zoomValueChanged(double value){
 */
 QStringList P_ActionPart::getNameList(){
 	QStringList result = QStringList();
-	for (int i = 0; i < this->local_actionDataList.count(); i++){
-		result.append(this->local_actionDataList.at(i).value("动作元名称").toString());
+	for (int i = 0; i < this->m_actionDataList.count(); i++){
+		result.append(this->m_actionDataList.at(i).value("动作元名称").toString());
 	}
 	return result;
 }
@@ -142,9 +161,11 @@ void P_ActionPart::keyPressEvent(QKeyEvent *event){
 	if (event->modifiers() & Qt::ControlModifier){
 		if (event->key() == Qt::Key_C){
 			this->m_p_AnimationListEditor->shortcut_copy();
+			this->shortcut_copyData();
 		}
 		if (event->key() == Qt::Key_V){
 			this->m_p_AnimationListEditor->shortcut_paste();
+			this->shortcut_pasteData();
 		}
 		if (event->key() == Qt::Key_A){
 			this->m_p_AnimationListEditor->shortcut_selectAll();
@@ -152,7 +173,68 @@ void P_ActionPart::keyPressEvent(QKeyEvent *event){
 	}
 	if (event->key() == Qt::Key_Delete){
 		this->m_p_AnimationListEditor->shortcut_delete();
+		this->shortcut_clearData();
 	}
+}
+/*-------------------------------------------------
+		操作 - 替换
+*/
+void P_ActionPart::op_replace(int index, QJsonObject action_data){
+	if (index < 0){ return; }
+	if (index >= this->m_table->count()){ return; }
+	if (action_data.isEmpty()){ return; }
+
+	// > 编辑标记
+	S_ProjectManager::getInstance()->setDirty();
+
+	// > 执行替换
+	this->m_actionDataList.replace(index, action_data);
+	this->local_loadIndexData(index);
+
+	// > 更新表格的名称
+	this->m_table->modifyText_Selected(this->m_FastForm->getQLineEditByName("动作元名称")->text());
+}
+/*-------------------------------------------------
+		操作 - 清空
+*/
+void P_ActionPart::op_clear(int index){
+	if (index < 0){ return; }
+	if (index >= this->m_table->count()){ return; }
+
+	// > 编辑标记
+	S_ProjectManager::getInstance()->setDirty();
+
+	// > 执行替换
+	this->m_actionDataList.replace(index, QJsonObject());
+	this->local_loadIndexData(index);
+
+	// > 更新表格的名称
+	this->m_table->modifyText_Selected(this->m_FastForm->getQLineEditByName("动作元名称")->text());
+}
+/*-------------------------------------------------
+		快捷键 - 复制
+*/
+void P_ActionPart::shortcut_copyData(){
+	if (ui.tableWidget->hasFocus() == false){ return; }
+	if (this->m_last_index == -1 ){ return; }
+	this->m_copyed_data = this->m_actionDataList.at(m_last_index);
+	this->m_table->setItemOuterControl_PasteActive(true);		//激活粘贴
+}
+/*-------------------------------------------------
+		快捷键 - 粘贴
+*/
+void P_ActionPart::shortcut_pasteData(){
+	if (ui.tableWidget->hasFocus() == false){ return; }
+	if (this->m_last_index == -1){ return; }
+	this->op_replace(this->m_last_index, this->m_copyed_data);
+}
+/*-------------------------------------------------
+		快捷键 - 清空
+*/
+void P_ActionPart::shortcut_clearData(){
+	if (ui.tableWidget->hasFocus() == false){ return; }
+	if (this->m_last_index == -1){ return; }
+	this->op_clear(this->m_last_index);
 }
 
 
@@ -161,11 +243,11 @@ void P_ActionPart::keyPressEvent(QKeyEvent *event){
 */
 void P_ActionPart::local_saveCurIndexData(){
 	if (this->m_last_index < 0){ return; }
-	if (this->m_last_index >= this->local_actionDataList.count()){ return; }
+	if (this->m_last_index >= this->m_actionDataList.count()){ return; }
 
 	// > 表单数据
 	QJsonObject obj_edit = this->m_FastForm->getJsonObject();
-	QJsonObject obj_org = this->local_actionDataList.at(this->m_last_index);
+	QJsonObject obj_org = this->m_actionDataList.at(this->m_last_index);
 	TTool::_QJsonObject_put_(&obj_org, obj_edit);
 
 	// > 图片数据
@@ -188,17 +270,17 @@ void P_ActionPart::local_saveCurIndexData(){
 	// > 编辑标记
 	S_ProjectManager::getInstance()->setDirty();
 
-	this->local_actionDataList.replace(this->m_last_index, obj_org);
+	this->m_actionDataList.replace(this->m_last_index, obj_org);
 }
 /*-------------------------------------------------
 		数据 - 读取本地数据
 */
 void P_ActionPart::local_loadIndexData(int index){
 	if (index < 0){ return; }
-	if (index >= this->local_actionDataList.count()){ return; }
+	if (index >= this->m_actionDataList.count()){ return; }
 
 	// > 表单数据
-	QJsonObject obj_data = this->local_actionDataList.at(index);
+	QJsonObject obj_data = this->m_actionDataList.at(index);
 	this->m_FastForm->setJsonObjectAutoDefault(obj_data);
 	//qDebug() << obj_data;
 
@@ -227,7 +309,7 @@ void P_ActionPart::local_loadIndexData(int index){
 */
 void P_ActionPart::setData(QList<QJsonObject> actionData) {
 	this->m_slotBlock_source = true;
-	this->local_actionDataList = actionData;
+	this->m_actionDataList = actionData;
 	this->m_p_AnimationListPlayer->stopFrame();		//（设置数据时，暂停播放）
 	this->putDataToUi();
 	this->m_slotBlock_source = false;
@@ -238,13 +320,13 @@ void P_ActionPart::setData(QList<QJsonObject> actionData) {
 */
 QList<QJsonObject> P_ActionPart::getData(){
 	this->putUiToData();
-	return this->local_actionDataList;
+	return this->m_actionDataList;
 }
 /*-------------------------------------------------
 		窗口 - 本地数据 -> ui数据
 */
 void P_ActionPart::putDataToUi() {
-	
+
 	// > 名称列表
 	this->m_table->setSource(this->getNameList());
 

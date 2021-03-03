@@ -65,7 +65,10 @@ P_FlexiblePageTree::P_FlexiblePageTree(QTreeWidget *parent)
 	this->m_slotBlock = false;							//槽阻塞
 	this->m_leafItem = QList<I_FCTLeaf*>();				//叶子列表
 	this->m_branchItem = QList<I_FCTBranch*>();			//树枝列表
-	this->m_leafOuterControlEnabled = true;				//叶子编辑开关
+	this->m_leafOuterControlEnabled = true;				//叶子编辑 - 开关
+	this->m_leafOuterControl_CopyActive = true;			//叶子编辑 - 复制激活
+	this->m_leafOuterControl_PasteActive = false;		//叶子编辑 - 粘贴激活
+	this->m_leafOuterControl_ClearActive = true;		//叶子编辑 - 清空激活
 
 	// > 数据
 	this->local_treeData = QJsonObject();
@@ -202,6 +205,7 @@ void P_FlexiblePageTree::clearAll(){
 
 	// > 资源清理
 	this->m_source_list.clear();
+	this->m_leafOuterControl_PasteActive = false;
 }
 
 
@@ -379,9 +383,22 @@ void P_FlexiblePageTree::setLeafOuterControlEnabled(bool enabled){
 	this->m_leafOuterControlEnabled = enabled;
 }
 /*-------------------------------------------------
+		叶子接口 - 激活控制
+*/
+void P_FlexiblePageTree::setLeafOuterControl_CopyActive(bool enabled){
+	this->m_leafOuterControl_CopyActive = enabled;
+}
+void P_FlexiblePageTree::setLeafOuterControl_PasteActive(bool enabled){
+	this->m_leafOuterControl_PasteActive = enabled;
+}
+void P_FlexiblePageTree::setLeafOuterControl_ClearActive(bool enabled){
+	this->m_leafOuterControl_ClearActive = enabled;
+}
+/*-------------------------------------------------
 		叶子接口 - 复制按下
 */
 void P_FlexiblePageTree::menuCopyLeafInAction(){
+	if (this->m_leafOuterControl_CopyActive == false){ return; }
 	QAction* cur_action = qobject_cast<QAction*>(sender());		//从action里面取出数据
 	int id = cur_action->data().value<int>();
 	emit menuCopyLeafTriggered(id);
@@ -390,6 +407,7 @@ void P_FlexiblePageTree::menuCopyLeafInAction(){
 		叶子接口 - 粘贴按下
 */
 void P_FlexiblePageTree::menuPasteLeafInAction(){
+	if (this->m_leafOuterControl_PasteActive == false){ return; }
 	QAction* cur_action = qobject_cast<QAction*>(sender());		//从action里面取出数据
 	int id = cur_action->data().value<int>();
 	emit menuPasteLeafTriggered(id);
@@ -398,6 +416,7 @@ void P_FlexiblePageTree::menuPasteLeafInAction(){
 		叶子接口 - 清空按下
 */
 void P_FlexiblePageTree::menuClearLeafInAction(){
+	if (this->m_leafOuterControl_ClearActive == false){ return; }
 	QAction* cur_action = qobject_cast<QAction*>(sender());		//从action里面取出数据
 	int id = cur_action->data().value<int>();
 	emit menuClearLeafTriggered(id);
@@ -619,6 +638,7 @@ void P_FlexiblePageTree::drawMenuMain(){
 		action->setShortcut(QKeySequence::Copy);
 		connect(action, &QAction::triggered, this, &P_FlexiblePageTree::menuCopyLeafInAction);
 		this->m_mainMenu->addAction(action);
+		action->setEnabled(this->m_leafOuterControl_CopyActive);
 		
 		action = new QAction("粘贴", this);
 		action->setIcon(QIcon(this->m_menuIconSrcPath+ "/menu/Common_Paste.png"));
@@ -626,6 +646,7 @@ void P_FlexiblePageTree::drawMenuMain(){
 		action->setShortcut(QKeySequence::Paste);
 		connect(action, &QAction::triggered, this, &P_FlexiblePageTree::menuPasteLeafInAction);
 		this->m_mainMenu->addAction(action);
+		action->setEnabled(this->m_leafOuterControl_PasteActive);
 
 		action = new QAction("清空", this);
 		action->setIcon(QIcon(this->m_menuIconSrcPath+ "/menu/Common_Clear.png"));
@@ -633,6 +654,7 @@ void P_FlexiblePageTree::drawMenuMain(){
 		action->setShortcut(QKeySequence::Delete);
 		connect(action, &QAction::triggered, this, &P_FlexiblePageTree::menuClearLeafInAction);
 		this->m_mainMenu->addAction(action);
+		action->setEnabled(this->m_leafOuterControl_ClearActive);
 
 		this->m_mainMenu->addSeparator();
 	}

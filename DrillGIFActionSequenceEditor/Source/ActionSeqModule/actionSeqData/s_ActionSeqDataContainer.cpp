@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "s_ActionSeqDataContainer.h"
 
+#include "DrillGIFActionSequenceEditor.h"
 #include "Source/ProjectModule/file/s_TempFileManager.h"
 #include "Source/PluginModule/storageData/s_PluginDataContainer.h"
+#include "Source/PluginModule/lengthEditor/s_LEAnnotationReader.h"
 #include "Source/RmmvInteractiveModule/custom/s_RmmvDataContainer.h"
 
 /*
@@ -46,26 +48,32 @@ S_ActionSeqDataContainer* S_ActionSeqDataContainer::getInstance() {
 void S_ActionSeqDataContainer::resetPluginData() {
 	this->clearAllData();
 
+	// > 插件数据
 	QList<C_PluginData*> data_list = S_PluginDataContainer::getInstance()->getPluginData();
 	for (int i = 0; i < data_list.count(); i++){
 		C_PluginData* data = data_list.at(i);
 		if (data->name == "Drill_CoreOfActionSequence"){		//（GIF动作序列核心）
+
+			// > 插件对象
 			this->data_ActionSeqPlugin = data;
+			// > 插件配置的数据
+			this->data_ActionSeqData = this->data_ActionSeqPlugin->parameters;
+			// > 插件的长度数据
+			this->data_ActionSeqLength = this->getActionSeqPluginLength();
 		}
 	}
 
+	// > 工程中没有插件数据
 	if (this->data_ActionSeqPlugin == nullptr){
 		if (QMessageBox::information(nullptr, "提示", "该工程中，没有找到\"GIF动作序列核心\"的插件配置，是否添加？", "添加", "取消", 0, 1) == 0){
 
-			QMessageBox::information(nullptr, "提示", "功能没做完。", QMessageBox::Yes);
+			DrillGIFActionSequenceEditor::getInstance()->rebuildActionSeqData();
 			return;
-
 		}
 	}
 
 	emit dataAllReloaded();
 }
-
 /*-------------------------------------------------
 		插件数据 - 获取（插件数据）
 */
@@ -78,28 +86,58 @@ C_PluginData* S_ActionSeqDataContainer::getActionSeqPlugin() {
 QFileInfo S_ActionSeqDataContainer::getActionSeqPluginFile() {
 	return S_RmmvDataContainer::getInstance()->getRmmvFile_Plugin("Drill_CoreOfActionSequence");
 }
+/*-------------------------------------------------
+		插件数据 - 获取长度
+*/
+C_ActionSeqLength S_ActionSeqDataContainer::getActionSeqPluginLength() {
+	C_ActionSeqLength result = C_ActionSeqLength();
+	QFileInfo plugin_file = this->getActionSeqPluginFile();
+	if (plugin_file.exists() == false){ return result; }
+
+	C_LEAnnotation* c_le = S_LEAnnotationReader::getInstance()->readPlugin(plugin_file);
+	result.realLen_actionSeq = c_le->getParamByKey("动作序列-%d").getRealLen();
+	result.realLen_action = c_le->getParamByKey("动作元-%d").getRealLen();
+	result.realLen_state = c_le->getParamByKey("状态元-%d").getRealLen();
+	return result;
+}
+
+
 
 /*-------------------------------------------------
-		动作序列数据 - 设置
+		数据 - 设置
 */
 void S_ActionSeqDataContainer::setActionSeqData(QJsonObject obj){
 	this->data_ActionSeqData = obj;
 }
 /*-------------------------------------------------
-		动作序列数据 - 获取
+		数据 - 获取
 */
 QJsonObject S_ActionSeqDataContainer::getActionSeqData(){
-
-	// > 如果为从rmmv中读取的数据，则载入
-	if (this->data_ActionSeqData.isEmpty()){
-		if (this->data_ActionSeqPlugin != nullptr){
-			this->data_ActionSeqData = this->data_ActionSeqPlugin->parameters;
-		}
-	}
-
-	// > 默认载入存档内的数据
-	return this->data_ActionSeqData;
+	return this->data_ActionSeqData;	//（注意，从rmmv中读取的数据 和 编辑器配置的数据 不一样）
 }
+/*-------------------------------------------------
+		数据 - 设置长度
+*/
+void S_ActionSeqDataContainer::setActionSeqLength(C_ActionSeqLength data){
+	this->data_ActionSeqLength = data;
+}
+/*-------------------------------------------------
+		数据 - 获取长度
+*/
+C_ActionSeqLength S_ActionSeqDataContainer::getActionSeqLength(){
+	return this->data_ActionSeqLength;	//（注意，插件读取的长度 和 编辑器配置的长度 不一样）
+}
+/*-------------------------------------------------
+		数据 - 根据长度建立一个空白的动作序列列表
+*/
+QJsonObject S_ActionSeqDataContainer::buildEmptyActionSeqData(C_ActionSeqLength data){
+	QJsonObject result = QJsonObject();
+	for (int i = 0; i < data.realLen_actionSeq; i++){
+		result.insert("动作序列-" + QString::number(i + 1), "");
+	}
+	return result;
+}
+
 
 /*-------------------------------------------------
 		常量 - 获取软件保存图片路径
@@ -137,6 +175,7 @@ QString S_ActionSeqDataContainer::getSaveName() {
 void S_ActionSeqDataContainer::clearAllData() {
 	this->data_ActionSeqPlugin = nullptr;
 	this->data_treeConfig = QJsonObject();
+	this->data_ActionSeqLength = C_ActionSeqLength();
 	this->data_ActionSeqData = QJsonObject();
 }
 /*-----------------------------------
@@ -145,8 +184,9 @@ void S_ActionSeqDataContainer::clearAllData() {
 QJsonObject S_ActionSeqDataContainer::getAllDataOfJsonObject(){
 	QJsonObject obj_all = QJsonObject();
 
-	obj_all.insert("data_treeConfig", this->data_treeConfig);			//树配置数据
-	obj_all.insert("data_ActionSeqData", this->data_ActionSeqData);		//动作序列数据
+	obj_all.insert("data_treeConfig", this->data_treeConfig);								//树配置数据
+	obj_all.insert("data_ActionSeqLength", this->data_ActionSeqLength.getJsonObject());		//动作序列长度
+	obj_all.insert("data_ActionSeqData", this->data_ActionSeqData);							//动作序列数据
 	
 	return obj_all;
 }
@@ -157,8 +197,9 @@ QJsonObject S_ActionSeqDataContainer::getAllDataOfJsonObject(){
 void S_ActionSeqDataContainer::setAllDataFromJsonObject(QJsonObject obj_all){
 	this->clearAllData();
 
-	this->data_treeConfig = obj_all.value("data_treeConfig").toObject();		//树配置数据
-	this->data_ActionSeqData = obj_all.value("data_ActionSeqData").toObject();	//动作序列数据
+	this->data_treeConfig = obj_all.value("data_treeConfig").toObject();							//树配置数据
+	this->data_ActionSeqLength.setJsonObject( obj_all.value("data_ActionSeqLength").toObject() );	//动作序列长度
+	this->data_ActionSeqData = obj_all.value("data_ActionSeqData").toObject();						//动作序列数据
 
 	emit dataAllReloaded();
 }

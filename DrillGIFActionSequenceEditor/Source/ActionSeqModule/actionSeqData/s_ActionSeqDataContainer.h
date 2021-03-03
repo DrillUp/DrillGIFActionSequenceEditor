@@ -1,6 +1,7 @@
 #pragma once
 #include "Source/ProjectModule/storage/s_StorageManagerTemplate.h"
 
+#include "lengthData/c_ActionSeqLength.h"
 #include "Source/PluginModule/storageData/c_PluginData.h"
 
 /*
@@ -32,17 +33,29 @@ class S_ActionSeqDataContainer : public QObject, public S_StorageManagerTemplate
 										//读取器 - 获取插件数据
 		C_PluginData* getActionSeqPlugin();
 										//读取器 - 获取插件文件
+										//		【说明】：如果未打开工程文件，则返回的info文件不存在。
 		QFileInfo getActionSeqPluginFile();
+										//读取器 - 获取长度（插件的）
+										//		【说明】：如果未打开工程文件，则返回的为null。
+		C_ActionSeqLength getActionSeqPluginLength();
 		
 	//-----------------------------------
 	//----动作序列数据
 	private:
-		QJsonObject data_ActionSeqData;
+		C_ActionSeqLength data_ActionSeqLength;		//长度
+		QJsonObject data_ActionSeqData;				//动作序列
 	public:
-										//动作序列数据 - 设置
+										//数据 - 设置数据
 		void setActionSeqData(QJsonObject data);
-										//动作序列数据 - 获取
+										//数据 - 获取数据
 		QJsonObject getActionSeqData();
+										//数据 - 设置长度
+		void setActionSeqLength(C_ActionSeqLength data);
+										//数据 - 获取长度
+		C_ActionSeqLength getActionSeqLength();
+										//数据 - 根据长度建立一个空白的动作序列列表
+										//		【说明】：QJsonObject为空 与 有数据列但值为空 是两种情况，这里创建后，数据为后者。
+		QJsonObject buildEmptyActionSeqData(C_ActionSeqLength data);
 
 	//-----------------------------------
 	//----树数据

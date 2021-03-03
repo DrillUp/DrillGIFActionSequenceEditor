@@ -22,7 +22,7 @@ C_RmmvProjectData::~C_RmmvProjectData(){
 		©уеп╤о
 */
 bool C_RmmvProjectData::isNull(){
-	return this->name == "";
+	return this->name == "" || this->path == "";
 }
 /*-------------------------------------------------
 		тккЦ╥Шжьть

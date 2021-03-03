@@ -583,22 +583,49 @@ void P_AnimationListEditor::op_refreshAll(int startAt){
 */
 void P_AnimationListEditor::op_appendInAction(){
 
-	QStringList file_list = this->openWindow_getPicFileList();
+	bool cover_all = false;
+	QStringList file_list = this->openWindow_getPicFileList();	//（打开窗口选择多张图片）
 	for (int i = 0; i < file_list.count(); i++){
 		QFileInfo fileinfo = QFileInfo(file_list.at(i));
 		if (fileinfo.exists() == false){ continue; }
-
-		// > 重复文件
 		QString file_name = fileinfo.completeBaseName();
-		if (this->m_data.hasFileName(file_name) ||						//含有重名文件 
-			this->m_data.getFileRoot() == fileinfo.absolutePath() ){	//在同一个文件夹下
+		
+		// > 在同一个文件夹下
+		if (this->m_data.getFileRoot() == fileinfo.absolutePath()){
 			this->op_append(file_name);
 			continue;
 		}
-		
+
 		// > 不重复文件
-		C_ALEData::copyFile(fileinfo.absoluteFilePath(), this->m_data.getFileRoot() + "/" + fileinfo.fileName());
-		this->op_append(file_name);
+		if ( this->m_data.hasFileName(file_name) == false ){
+			C_ALEData::copyFile(fileinfo.absoluteFilePath(), this->m_data.getFileRoot() + "/" + fileinfo.fileName());
+			this->op_append(file_name);
+			continue;
+		}
+
+		// > 全部覆盖
+		if (cover_all == true){
+			C_ALEData::copyFile(fileinfo.absoluteFilePath(), this->m_data.getFileRoot() + "/" + fileinfo.fileName());
+			this->op_append(file_name);
+			continue;
+		}
+
+		// > 重复文件处理
+		switch (QMessageBox::question(this->m_listWidget, "提示", "导入的图片\"" + file_name + "\"在配置中已存在，是否覆盖原文件？", "全部覆盖", "覆盖", "保持原图添加", 0)) {
+
+			case 0:
+				cover_all = true;
+			case 1:
+				C_ALEData::copyFile(fileinfo.absoluteFilePath(), this->m_data.getFileRoot() + "/" + fileinfo.fileName());
+				this->op_append(file_name);
+				break;
+
+			case 2:
+			default:
+				this->op_append(file_name);
+				break;
+		}
+
 	}
 }
 /*-------------------------------------------------
@@ -608,22 +635,48 @@ void P_AnimationListEditor::op_insertInAction(){
 	QAction* cur_action = qobject_cast<QAction*>(sender());		//从action里面取出数据
 	int pos = cur_action->data().value<int>();
 
-	QStringList file_list = this->openWindow_getPicFileList();
+	bool cover_all = false;
+	QStringList file_list = this->openWindow_getPicFileList();	//（打开窗口选择多张图片）
 	for (int i = 0; i < file_list.count(); i++){
 		QFileInfo fileinfo = QFileInfo(file_list.at(i));
 		if (fileinfo.exists() == false){ continue; }
-
-		// > 重复文件
 		QString file_name = fileinfo.completeBaseName();
-		if (this->m_data.hasFileName(file_name) ||						//含有重名文件 
-			this->m_data.getFileRoot() == fileinfo.absolutePath()){		//在同一个文件夹下
+
+		// > 在同一个文件夹下
+		if (this->m_data.getFileRoot() == fileinfo.absolutePath()){
 			this->op_insert(pos + i, QStringList() << file_name);
 			continue;
 		}
 
 		// > 不重复文件
-		C_ALEData::copyFile(fileinfo.absoluteFilePath(), this->m_data.getFileRoot() + "/" + fileinfo.fileName());
-		this->op_insert(pos + i, QStringList() << file_name);
+		if (this->m_data.hasFileName(file_name) == false){
+			C_ALEData::copyFile(fileinfo.absoluteFilePath(), this->m_data.getFileRoot() + "/" + fileinfo.fileName());
+			this->op_insert(pos + i, QStringList() << file_name);
+			continue;
+		}
+
+		// > 全部覆盖
+		if (cover_all == true){
+			C_ALEData::copyFile(fileinfo.absoluteFilePath(), this->m_data.getFileRoot() + "/" + fileinfo.fileName());
+			this->op_insert(pos + i, QStringList() << file_name);
+			continue;
+		}
+
+		// > 重复文件处理
+		switch (QMessageBox::question(this->m_listWidget, "提示", "导入的图片\"" + file_name + "\"在配置中已存在，是否覆盖原文件？", "全部覆盖", "覆盖", "保持原图添加", 0)) {
+
+			case 0:
+				cover_all = true;
+			case 1:
+				C_ALEData::copyFile(fileinfo.absoluteFilePath(), this->m_data.getFileRoot() + "/" + fileinfo.fileName());
+				this->op_insert(pos + i, QStringList() << file_name);
+				break;
+
+			case 2:
+			default:
+				this->op_insert(pos + i, QStringList() << file_name);
+				break;
+		}
 	}
 }
 /*-------------------------------------------------

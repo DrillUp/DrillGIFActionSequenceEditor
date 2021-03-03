@@ -168,7 +168,7 @@ font-size:16px;</string>
             <property name="minimumSize">
              <size>
               <width>0</width>
-              <height>26</height>
+              <height>28</height>
              </size>
             </property>
             <property name="maximumSize">
@@ -183,12 +183,31 @@ font-size:16px;</string>
            <widget class="QWidget" name="widget_4" native="true"/>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton">
-            <property name="enabled">
-             <bool>false</bool>
+           <widget class="QToolButton" name="toolButton_modifyLength">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>修改最大值</string>
             </property>
             <property name="text">
-             <string> 修改最大值... </string>
+             <string>修改最大值</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../drillgifactionsequenceeditor.qrc">
+              <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/menu/Common_Setting.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/menu/Common_Setting.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
             </property>
            </widget>
           </item>
@@ -274,6 +293,8 @@ font-size:16px;</string>
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../../drillgifactionsequenceeditor.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -28,9 +28,10 @@ class P_RadioTable : public QObject
 	protected:
 		QTableWidget* m_table;						//表格对象
 		QString m_tableStyle;						//表格默认样式
+		QString m_iconSrcPath;						//表格图标路径
 		QList<QTableWidgetItem*> m_itemTank;		//表格项列表
 	public:
-									//控件 - 刷新树
+									//控件 - 刷新表格
 		void refreshTableUi();
 									//控件 - 修改指定位置文本（不发textchange信号）
 		void modifyText(int index, QString text);
@@ -38,6 +39,8 @@ class P_RadioTable : public QObject
 		void modifyText_Selected( QString text );
 									//控件 - 清理全部
 		void clearAll();
+									//控件 - 表格项数量
+		int count();
 	protected:
 									//控件 - 获取文本
 		QString getRealText(QTableWidgetItem* item);
@@ -113,5 +116,35 @@ class P_RadioTable : public QObject
 		void currentTextChanged(QString text);
 									//选中 - 选中选项变化（多选）
 		void currentIndexChanged_Multi(QList<int> index_list);
+
+		
+	//-----------------------------------
+	//----右键菜单
+	protected:
+		bool m_itemOuterControlEnabled;			//菜单编辑 - 开关
+		bool m_itemOuterControl_CopyActive;		//菜单编辑 - 复制激活
+		bool m_itemOuterControl_PasteActive;	//菜单编辑 - 粘贴激活
+		bool m_itemOuterControl_ClearActive;	//菜单编辑 - 清空激活
+	signals:
+									//接口 - 复制按下（信号）
+		void menuCopyItemTriggered(int index);
+									//接口 - 粘贴按下（信号）
+		void menuPasteItemTriggered(int index);
+									//接口 - 清空按下（信号）
+		void menuClearItemTriggered(int index);
+	public slots:
+									//接口 - 开关（默认开启）
+		void setItemOuterControlEnabled(bool enabled);
+									//接口 - 激活控制
+		void setItemOuterControl_CopyActive(bool enabled);
+		void setItemOuterControl_PasteActive(bool enabled);
+		void setItemOuterControl_ClearActive(bool enabled);
+									//接口 - 复制按下
+		void menuCopyItemInAction();
+									//接口 - 粘贴按下
+		void menuPasteItemInAction();
+									//接口 - 清空按下
+		void menuClearItemInAction();
+
 
 };

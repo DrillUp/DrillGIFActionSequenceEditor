@@ -6,6 +6,7 @@
 #include "Source/RmmvInteractiveModule/custom/s_RmmvDataContainer.h"
 #include "Source/ActionSeqModule/actionSeqPart/p_ActionSeqPart.h"
 #include "Source/ActionSeqModule/actionSeqData/s_ActionSeqDataContainer.h"
+#include "Source/ActionSeqModule/actionSeqData/lengthData/w_ActionSeqLength.h"
 #include "Source/ProjectModule/s_ProjectManager.h"
 #include "Source/ProjectModule/file/s_TempFileManager.h"
 #include "Source/ProjectModule/storageGlobal/s_IniManager.h"
@@ -85,8 +86,6 @@ void DrillGIFActionSequenceEditor::_init() {
 	connect(S_RmmvDataContainer::getInstance(), &S_RmmvDataContainer::dataAllReloaded, this, &DrillGIFActionSequenceEditor::rmmvInteractiveDataLoaded);
 	connect(S_ActionSeqDataContainer::getInstance(), &S_ActionSeqDataContainer::dataAllReloaded, this, &DrillGIFActionSequenceEditor::actionSeqDataLoaded);
 
-	S_ProjectManager::getInstance()->newProject();
-
 }
 
 /*-------------------------------------------------
@@ -116,8 +115,9 @@ void DrillGIFActionSequenceEditor::rmmvInteractiveDataLoaded(){
 */
 void DrillGIFActionSequenceEditor::actionSeqDataLoaded(){
 
-	QJsonObject obj_data = S_ActionSeqDataContainer::getInstance()->getActionSeqData();
-	if (obj_data.isEmpty()){
+	QJsonObject data_obj = S_ActionSeqDataContainer::getInstance()->getActionSeqData();
+	C_ActionSeqLength data_length = S_ActionSeqDataContainer::getInstance()->getActionSeqLength();
+	if (data_obj.isEmpty()){
 		ui.main_widget->setEnabled(false);
 		ui.toolButton_save->setEnabled(false);
 		ui.toolButton_saveAs->setEnabled(false);
@@ -125,7 +125,26 @@ void DrillGIFActionSequenceEditor::actionSeqDataLoaded(){
 		ui.main_widget->setEnabled(true);
 		ui.toolButton_save->setEnabled(true);
 		ui.toolButton_saveAs->setEnabled(true);
-		this->m_p_ActionSeqPart->setData(obj_data);
+
+		this->m_p_ActionSeqPart->setData(data_obj, data_length);
+	}
+}
+/*-------------------------------------------------
+		控件 - 动作序列数据重建
+*/
+void DrillGIFActionSequenceEditor::rebuildActionSeqData(){
+	W_ActionSeqLength d(this);
+	d.setDataInModifyMode(S_ActionSeqDataContainer::getInstance()->getActionSeqLength());
+	if (d.exec() == QDialog::Accepted){
+		C_ActionSeqLength result = d.getData();
+		QJsonObject obj = S_ActionSeqDataContainer::getInstance()->buildEmptyActionSeqData(result);
+
+		S_ActionSeqDataContainer::getInstance()->setActionSeqLength(result);
+		S_ActionSeqDataContainer::getInstance()->setActionSeqData(obj);
+
+		// > 读取数据
+		this->actionSeqDataLoaded();
+		this->m_p_ActionSeqPart->setPartGray();
 	}
 }
 /*-------------------------------------------------
@@ -133,6 +152,9 @@ void DrillGIFActionSequenceEditor::actionSeqDataLoaded(){
 */
 void DrillGIFActionSequenceEditor::newProject(){
 	S_ProjectManager::getInstance()->newProject();
+
+	// （新建项目时，数据要重建）
+	this->rebuildActionSeqData();
 }
 /*-------------------------------------------------
 		控件 - 打开项目

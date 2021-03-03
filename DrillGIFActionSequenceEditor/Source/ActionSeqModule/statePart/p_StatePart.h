@@ -55,9 +55,22 @@ class P_StatePart : public QWidget
 		
 	//-----------------------------------
 	//----快捷键
+	protected:
+		QJsonObject m_copyed_data;
+	protected:
+									//操作 - 替换
+		void op_replace(int index, QJsonObject state);
+									//操作 - 清空
+		void op_clear(int index);
 	public:
 									//快捷键 - 事件
 		void keyPressEvent(QKeyEvent *event);
+									//快捷键 - 复制
+		void shortcut_copyData();
+									//快捷键 - 粘贴
+		void shortcut_pasteData();
+									//快捷键 - 清空
+		void shortcut_clearData();
 		
 	//-----------------------------------
 	//----本地数据的索引
@@ -73,7 +86,7 @@ class P_StatePart : public QWidget
 	//----窗口
 	public:
 		bool m_slotBlock_source;
-		QList<QJsonObject> local_stateDataList;
+		QList<QJsonObject> m_stateDataList;
 	public:
 										//窗口 - 设置数据
 										//		【说明】：动作元只编辑数组元素，不改变数组长度。

@@ -12,7 +12,7 @@
 /*
 -----==========================================================-----
 		类：		项目管理.cpp
-		版本：		v1.12
+		版本：		v1.13
 		所属模块：	项目管理模块
 		功能：		项目管理相关数据、相关操作都在这里主要控制。
 					> 基本功能
@@ -152,6 +152,7 @@ bool S_ProjectManager::newProject() {
 
 	this->clearProject();					//清理项目
 	this->changeTitle();					//修改标题
+	emit newProjectFinished();				//项目新建清空后（信号）
 
 	return true;
 }
@@ -330,6 +331,9 @@ void S_ProjectManager::openProjectDirectly(QString open_path) {
 
 	// > 刷新设置树
 	emit S_ProjectWindowManager::getInstance()->reflashAllTree();
+
+	// > 项目打开后（信号）
+	emit openProjectFinished();				
 }
 /* --------------------------------------------------------------
 		#项目 - 保存（目标文件夹）
@@ -347,7 +351,9 @@ void S_ProjectManager::saveAll(QString url) {
 	// > 清理痕迹
 	this->m_isDirty = false;
 	this->changeTitle();
-	
+
+	// > 项目保存后（信号）
+	emit saveProjectFinished();
 }
 /* --------------------------------------------------------------
 		#项目 - 保存（文件）

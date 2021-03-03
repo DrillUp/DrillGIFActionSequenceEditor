@@ -764,6 +764,18 @@
     <ClCompile Include="GeneratedFiles\Release\moc_s_IniManager.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ActionSeqModule\actionSeqData\lengthData\c_ActionSeqLength.cpp">
+      <Filter>源文件\【 动作序列 ActionSeqModule】\数据读取器\数据最大值编辑</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ActionSeqModule\actionSeqData\lengthData\w_ActionSeqLength.cpp">
+      <Filter>源文件\【 动作序列 ActionSeqModule】\数据读取器\数据最大值编辑</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_w_ActionSeqLength.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_w_ActionSeqLength.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="drillgifactionsequenceeditor.qrc">
@@ -1000,6 +1012,12 @@
     <CustomBuild Include="Source\ProjectModule\storageGlobal\s_IniManager.h">
       <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件-全局</Filter>
     </CustomBuild>
+    <CustomBuild Include="Source\ActionSeqModule\actionSeqData\lengthData\w_ActionSeqLength.h">
+      <Filter>源文件\【 动作序列 ActionSeqModule】\数据读取器\数据最大值编辑</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ActionSeqModule\actionSeqData\lengthData\w_ActionSeqLength.ui">
+      <Filter>源文件\【 动作序列 ActionSeqModule】\数据读取器\数据最大值编辑</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DrillGIFActionSequenceEditor.rc" />
@@ -1144,6 +1162,12 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_w_SoftwareFirstTip.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ActionSeqModule\actionSeqData\lengthData\c_ActionSeqLength.h">
+      <Filter>源文件\【 动作序列 ActionSeqModule】\数据读取器\数据最大值编辑</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_w_ActionSeqLength.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -11,7 +11,15 @@
 		所属模块：	工具模块
 		功能：		该部分提供动作元编辑功能。
 		
-		目标：		1.
+		目标：		->控件
+						->单选表格（动作元）
+						->单选表格（状态元）
+						->快速表单
+					->控件（动画帧）
+						->动画帧播放器
+						->图片查看块
+					->本地数据
+						->窗口交互
 
 		使用方法：
 				>初始化
@@ -34,6 +42,8 @@ P_PlayingPart::P_PlayingPart(QWidget *parent)
 	rat_config.rowHeight = 22;
 	this->m_table_action->setConfigParam(rat_config);	//固定参数
 	this->m_table_state->setConfigParam(rat_config);
+	this->m_table_action->setItemOuterControlEnabled(false);
+	this->m_table_state->setItemOuterControlEnabled(false);
 
 	//-----------------------------------
 	//----初始化ui
