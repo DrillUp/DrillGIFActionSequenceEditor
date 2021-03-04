@@ -14,7 +14,7 @@ C_ProjectData::C_ProjectData(){
 	this->path = QCoreApplication::applicationDirPath() + "/workspace/";	//项目路径（含项目名 D:/aaa/vvv/项目名/）
 	this->note = "";							//项目笔记（备注）
 	this->softname = "GIF动作序列编辑器";		//软件名
-	this->version = "v0.90";					//软件版本
+	this->version = "v0.98";					//软件版本
 	this->version_serial = "";					//软件版本号
 }
 

@@ -168,16 +168,24 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 		S_TempFileManager::getInstance()->copy_File(info.absoluteFilePath(), src_path + "/" + info.fileName());
 	}
 
+	// > 插件更新
+
+	// ...
 
 	// > 文件标记（插件说明）
 	QString explain_context = "";
+	explain_context = explain_context + "\n  该文件夹来自插件 Drill_CoreOfActionSequence 系统 - GIF动画序列核心。";
+	explain_context = explain_context + "\n  这里可以放多张图片组成的GIF哦。";
+	explain_context = explain_context + "\n";
+	explain_context = explain_context + "\n  ----------------------------------------------------------------------";
 	explain_context = explain_context + "\n  该文件由 " + S_ProjectManager::getInstance()->data_ProjectData.getSoftname() + " 自动生成；";
 	explain_context = explain_context + "\n";
 	explain_context = explain_context + "\n  项目名：" + S_ProjectManager::getInstance()->data_ProjectData.getName();
 	explain_context = explain_context + "\n  生成时间：" + QDateTime::currentDateTime().toString("yyyy年MM月dd日 hh时mm分ss秒");
 	explain_context = explain_context + "\n  转移文件：" + QString::number(info_list.count()) + "个";
+	explain_context = explain_context + "\n  ----------------------------------------------------------------------";
 	explain_context = explain_context + "\n";
-	
+		
 	QString explain_file_name = src_path + "/_插件说明 " + QDate::currentDate().toString("yyyy-MM-dd") + ".txt";
 	QFile explain_file(explain_file_name);
 	if (!explain_file.open(QIODevice::Truncate | QIODevice::WriteOnly | QIODevice::Text)) {
@@ -191,4 +199,5 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 	write_stream2 << explain_context;
 	plugin_file.close();
 
+	QMessageBox::information(nullptr, "提示", "保存成功。", QMessageBox::Yes);
 }

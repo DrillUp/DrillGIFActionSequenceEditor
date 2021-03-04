@@ -81,7 +81,6 @@ void P_RmmvOperateBoard::saveToRmmv(){
 	// > 要求关闭编辑器才能存
 	S_RmmvCaller_ActionSeq::getInstance()->callRmmvSave_RequestingClose(this->local_rmmvData);
 
-	QMessageBox::information(this, "提示", "保存成功。", QMessageBox::Yes);
 }
 /*-------------------------------------------------
 		控件 - 运行rmmv

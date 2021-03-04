@@ -117,6 +117,20 @@ void P_ActionSeqPart::local_saveCurIndexData(){
 		this->m_cur_actionSeq.insert("状态元-" + QString::number(i + 1), stateTank_str.at(i));
 	}
 
+	// > 自动填充 默认状态元集合
+	QStringList default_list = TTool::_QJsonArrayString_To_QListQString_(this->m_cur_actionSeq.value("默认的状态元集合").toString());
+	if (default_list.count() == 0){
+		for (int i = 0; i < old_stateTank.count(); i++){
+			QJsonObject obj = old_stateTank.at(i);
+			QString state_name = obj.value("状态元名称").toString();
+			if (state_name != ""){
+				default_list.append(state_name);
+				break;
+			}
+		}
+	}
+	this->m_cur_actionSeq.insert("默认的状态元集合", TTool::_QListQString_To_QJsonArrayString_(default_list));
+
 	// > 保存数据（放映区）
 	// ... this->m_cur_actionSeq 赋值操作
 	
@@ -292,7 +306,7 @@ void P_ActionSeqPart::putDataToUi() {
 		if (value.isUndefined() == false){
 			QString data = value.toString();
 			QJsonDocument jsonDocument = QJsonDocument::fromJson(data.toUtf8());
-			QJsonObject obj = jsonDocument.object();
+			QJsonObject obj = jsonDocument.object(); 
 			obj.insert("COAS_id", i + 1);
 			obj.insert("COAS_name", obj.value("标签").toString());
 			this->m_actionSeq_list.append(obj);
