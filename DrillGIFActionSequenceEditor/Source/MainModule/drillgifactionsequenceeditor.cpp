@@ -169,6 +169,11 @@ void DrillGIFActionSequenceEditor::saveProject(){
 	
 	// > 点击保存前，将页面数据全部导出
 	this->m_p_ActionSeqPart->putUiToData();
+
+	// > rmmv配置数据存储
+	if (this->m_w_RmmvOperateBoard != nullptr){
+		S_RmmvDataContainer::getInstance()->modify(this->m_w_RmmvOperateBoard->getData());
+	}
 	
 	// > 保存
 	S_ProjectManager::getInstance()->saveProject();
@@ -231,16 +236,17 @@ void DrillGIFActionSequenceEditor::resizeEvent(QResizeEvent *event){
 */
 void DrillGIFActionSequenceEditor::closeEvent(QCloseEvent *event){
 
+	// > 工程
 	if (S_ProjectManager::getInstance()->dirtyTip() == false) {
 		event->ignore();
 		return;
 	}
 
-	// > UI保存
-	this->ui_saveConfig();
-
 	// > temp文件销毁
 	S_TempFileManager::getInstance()->destroyInstance();
+
+	// > UI保存
+	this->ui_saveConfig();
 
 	event->accept();
 }
@@ -273,21 +279,21 @@ void DrillGIFActionSequenceEditor::dropEvent(QDropEvent *event) {
 void DrillGIFActionSequenceEditor::ui_loadConfig(){
 
 	// > 窗口高宽
-	QString ww = S_IniManager::getInstance()->getConfig("COAS_MainWindowWidth");
-	QString hh = S_IniManager::getInstance()->getConfig("COAS_MainWindowHeight");
+	QString ww = S_IniManager::getInstance()->getConfig("COAS_MainWindow_Width");
+	QString hh = S_IniManager::getInstance()->getConfig("COAS_MainWindow_Height");
 	if (ww != "" && hh != "" && ww.toInt() >0 && hh.toInt() >0){
 		this->resize(ww.toInt(), hh.toInt());
 	}
 
 	// > 窗口位置（暂不用）
-	//QString xx = S_IniManager::getInstance()->getConfig("COAS_MainWindowX");
-	//QString yy = S_IniManager::getInstance()->getConfig("COAS_MainWindowY");
+	//QString xx = S_IniManager::getInstance()->getConfig("COAS_MainWindow_X");
+	//QString yy = S_IniManager::getInstance()->getConfig("COAS_MainWindow_Y");
 	//if (xx != "" && yy != ""){
 	//	this->move(xx.toInt(), yy.toInt());
 	//}
 
 	// > 最大化
-	QString config = S_IniManager::getInstance()->getConfig("COAS_MainWindowMaximized");
+	QString config = S_IniManager::getInstance()->getConfig("COAS_MainWindow_Maximized");
 	if (config == "true"){
 		this->showMaximized();
 	}
@@ -302,18 +308,18 @@ void DrillGIFActionSequenceEditor::ui_loadConfig(){
 void DrillGIFActionSequenceEditor::ui_saveConfig(){
 
 	// > 窗口高宽
-	S_IniManager::getInstance()->setConfig("COAS_MainWindowWidth",QString::number(this->m_last_uiSize.width()));
-	S_IniManager::getInstance()->setConfig("COAS_MainWindowHeight", QString::number(this->m_last_uiSize.height()));
+	S_IniManager::getInstance()->setConfig("COAS_MainWindow_Width",QString::number(this->m_last_uiSize.width()));
+	S_IniManager::getInstance()->setConfig("COAS_MainWindow_Height", QString::number(this->m_last_uiSize.height()));
 
 	// > 窗口位置（暂不用）
-	//S_IniManager::getInstance()->setConfig("COAS_MainWindowX", QString::number(this->x()));
-	//S_IniManager::getInstance()->setConfig("COAS_MainWindowY", QString::number(this->y()));
+	//S_IniManager::getInstance()->setConfig("COAS_MainWindow_X", QString::number(this->x()));
+	//S_IniManager::getInstance()->setConfig("COAS_MainWindow_Y", QString::number(this->y()));
 
 	// > 最大化
 	if (this->isMaximized() == true){
-		S_IniManager::getInstance()->setConfig("COAS_MainWindowMaximized", "true");
+		S_IniManager::getInstance()->setConfig("COAS_MainWindow_Maximized", "true");
 	}else{
-		S_IniManager::getInstance()->setConfig("COAS_MainWindowMaximized", "false");
+		S_IniManager::getInstance()->setConfig("COAS_MainWindow_Maximized", "false");
 	}
 
 	// > 子控件

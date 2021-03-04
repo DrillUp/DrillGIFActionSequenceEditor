@@ -81,6 +81,7 @@ void P_RmmvOperateBoard::saveToRmmv(){
 	// > 要求关闭编辑器才能存
 	S_RmmvCaller_ActionSeq::getInstance()->callRmmvSave_RequestingClose(this->local_rmmvData);
 
+	QMessageBox::information(this, "提示", "保存成功。", QMessageBox::Yes);
 }
 /*-------------------------------------------------
 		控件 - 运行rmmv
@@ -117,11 +118,12 @@ void P_RmmvOperateBoard::putDataToUi() {
 
 	ui.lineEdit_path->setText(this->local_rmmvData.path);
 	ui.lineEdit_name->setText(this->local_rmmvData.name);
+	ui.checkBox->setChecked(this->local_rmmvData.optional_backup);
 }
 /*-------------------------------------------------
 		窗口 - ui数据 -> 本地数据
 */
 void P_RmmvOperateBoard::putUiToData() {
 	
-	//（无）
+	this->local_rmmvData.optional_backup = ui.checkBox->isChecked();
 }

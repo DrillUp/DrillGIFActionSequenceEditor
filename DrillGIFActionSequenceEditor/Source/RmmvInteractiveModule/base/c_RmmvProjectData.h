@@ -22,6 +22,8 @@ class C_RmmvProjectData{
 		QString name;				//工程名
 		QString version;			//工程版本
 		QString path;				//工程根路径
+
+		bool optional_backup;		//备份标记
 	
 	//-----------------------------------
 	//----类属性

@@ -369,7 +369,7 @@ void P_ActionSeqPart::modifyDataLengthInAction(){
 void P_ActionSeqPart::ui_loadConfig(){
 
 	// > 分割条
-	QString data = S_IniManager::getInstance()->getConfig("COAS_MainWindowSpliter");
+	QString data = S_IniManager::getInstance()->getConfig("COAS_MainWindow_Spliter");
 	if (data != ""){
 		ui.splitter->setSizes(TTool::_QList_QStringToInt_(data.split(",")));
 	}
@@ -382,5 +382,5 @@ void P_ActionSeqPart::ui_saveConfig(){
 
 	// > 分割条
 	QStringList data = TTool::_QList_IntToQString_( ui.splitter->sizes() );
-	S_IniManager::getInstance()->setConfig("COAS_MainWindowSpliter", data.join(","));
+	S_IniManager::getInstance()->setConfig("COAS_MainWindow_Spliter", data.join(","));
 }

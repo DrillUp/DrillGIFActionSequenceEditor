@@ -24,19 +24,15 @@ class S_RmmvCaller_ActionSeq : public P_RmmvCaller
 	//-----------------------------------
 	//----工程
 	public:
+										//工程 - 打开rmmv（继承）
+		virtual C_RmmvProjectData callRmmvOpen();
+
 										//工程 - 读取全部相关工程文件
 										//		【说明】：读取失败返回false
 		bool loadAllRmmvFile(C_RmmvProjectData rmmvProjectData);
-										//工程 - 读取文件 - plugin.js
-		void readPluginData(QString context);
-										//工程 - 读取文件 - System.json
-		void readSystemData(QString context);
-		
 										//工程 - 覆盖资源文件
 		void coverSourceFileToTemp(C_RmmvProjectData rmmvProjectData);
 
-										//工程 - 打开rmmv（继承）
-		virtual C_RmmvProjectData callRmmvOpen();
 
 	protected:
 										//工程 - 保存操作（覆盖到rmmv）

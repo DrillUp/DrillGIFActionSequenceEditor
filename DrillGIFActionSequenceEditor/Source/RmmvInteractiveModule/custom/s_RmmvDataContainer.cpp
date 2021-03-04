@@ -46,6 +46,10 @@ QFileInfo S_RmmvDataContainer::getRmmvFile_Plugin(QString plugin_name){
 	QString name = plugin_name.replace(".js","");
 	return QFileInfo(this->data_RmmvProjectData.path + "/js/plugins/" + plugin_name+ ".js");
 }
+QFileInfo S_RmmvDataContainer::getRmmvFile_PluginsData(){
+	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
+	return QFileInfo(this->data_RmmvProjectData.path + "/js/plugins.js");
+}
 //数据 - 获取文件 - 地图
 QFileInfo S_RmmvDataContainer::getRmmvFile_Map(int i){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }

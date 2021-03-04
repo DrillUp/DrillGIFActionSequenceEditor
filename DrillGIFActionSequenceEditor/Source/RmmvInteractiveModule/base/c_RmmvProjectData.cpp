@@ -13,6 +13,8 @@ C_RmmvProjectData::C_RmmvProjectData(){
 	this->name = "";			//工程名
 	this->version = "";			//工程版本
 	this->path = "";			//工程根路径
+
+	this->optional_backup = true;	//备份标记
 }
 C_RmmvProjectData::~C_RmmvProjectData(){
 }
@@ -38,7 +40,7 @@ QJsonObject C_RmmvProjectData::getJsonObject(){
 	obj.insert("name", this->name);
 	obj.insert("version", this->version);
 	obj.insert("path", this->path);
-
+	obj.insert("optional_backup", this->optional_backup);
 	return obj;
 }
 /*-------------------------------------------------
@@ -48,4 +50,5 @@ void C_RmmvProjectData::setJsonObject(QJsonObject obj){
 	this->name = obj.value("name").toString();
 	this->version = obj.value("version").toString();
 	this->path = obj.value("path").toString();
+	this->optional_backup = obj.value("optional_backup").toBool();
 }

@@ -37,6 +37,8 @@ class S_RmmvDataContainer : public QObject, public S_StorageManagerTemplate
 	public:
 										//数据 - 获取文件 - 插件
 		QFileInfo getRmmvFile_Plugin(QString plugin_name);
+										//数据 - 获取文件 - 插件数据
+		QFileInfo getRmmvFile_PluginsData();
 										//数据 - 获取文件 - 地图
 		QFileInfo getRmmvFile_Map(int i);
 		QFileInfo getRmmvFile_MapInfos();

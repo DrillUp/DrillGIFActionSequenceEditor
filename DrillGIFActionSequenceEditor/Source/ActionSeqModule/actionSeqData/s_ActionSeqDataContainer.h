@@ -56,6 +56,8 @@ class S_ActionSeqDataContainer : public QObject, public S_StorageManagerTemplate
 										//数据 - 根据长度建立一个空白的动作序列列表
 										//		【说明】：QJsonObject为空 与 有数据列但值为空 是两种情况，这里创建后，数据为后者。
 		QJsonObject buildEmptyActionSeqData(C_ActionSeqLength data);
+										//数据 - 获取全部关联的文件
+		QList<QFileInfo> getAllRelatedFile();
 
 	//-----------------------------------
 	//----树数据

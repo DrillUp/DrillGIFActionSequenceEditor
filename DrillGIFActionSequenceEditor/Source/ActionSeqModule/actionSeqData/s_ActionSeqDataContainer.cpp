@@ -24,7 +24,7 @@ S_ActionSeqDataContainer::S_ActionSeqDataContainer(){
 
 	//-----------------------------------
 	//----事件绑定
-	connect(S_PluginDataContainer::getInstance(), &S_PluginDataContainer::pluginDataChanged, this, &S_ActionSeqDataContainer::resetPluginData);
+	connect(S_PluginDataContainer::getInstance(), &S_PluginDataContainer::pluginDataReloaded, this, &S_ActionSeqDataContainer::resetPluginData);
 
 }
 S_ActionSeqDataContainer::~S_ActionSeqDataContainer() {
@@ -49,18 +49,15 @@ void S_ActionSeqDataContainer::resetPluginData() {
 	this->clearAllData();
 
 	// > 插件数据
-	QList<C_PluginData*> data_list = S_PluginDataContainer::getInstance()->getPluginData();
-	for (int i = 0; i < data_list.count(); i++){
-		C_PluginData* data = data_list.at(i);
-		if (data->name == "Drill_CoreOfActionSequence"){		//（GIF动作序列核心）
+	this->data_ActionSeqPlugin = S_PluginDataContainer::getInstance()->getPluginData("Drill_CoreOfActionSequence");
 
-			// > 插件对象
-			this->data_ActionSeqPlugin = data;
-			// > 插件配置的数据
-			this->data_ActionSeqData = this->data_ActionSeqPlugin->parameters;
-			// > 插件的长度数据
-			this->data_ActionSeqLength = this->getActionSeqPluginLength();
-		}
+	// > GIF动作序列核心
+	if (this->data_ActionSeqPlugin != nullptr){	
+
+		// > 插件配置的数据
+		this->data_ActionSeqData = this->data_ActionSeqPlugin->parameters;
+		// > 插件的长度数据
+		this->data_ActionSeqLength = this->getActionSeqPluginLength();
 	}
 
 	// > 工程中没有插件数据
@@ -136,6 +133,61 @@ QJsonObject S_ActionSeqDataContainer::buildEmptyActionSeqData(C_ActionSeqLength 
 		result.insert("动作序列-" + QString::number(i + 1), "");
 	}
 	return result;
+}
+/*-------------------------------------------------
+		数据 - 获取全部关联的文件
+*/
+QList<QFileInfo> S_ActionSeqDataContainer::getAllRelatedFile(){
+
+	QStringList fileName_list = QStringList();
+	for (int i = 0; i < this->data_ActionSeqLength.realLen_actionSeq; i++){
+
+		// > 一层字符串解封
+		QString str_actionSeq = this->data_ActionSeqData.value("动作序列-" + QString::number(i + 1)).toString();
+		if (str_actionSeq == ""){ continue; }
+		QJsonObject obj_actionSeq = QJsonDocument::fromJson(str_actionSeq.toUtf8()).object();
+
+		// > 动作元资源
+		for (int j = 0; j < this->data_ActionSeqLength.realLen_action; j++){
+
+			// > 二层字符串解封
+			QString str_action = obj_actionSeq.value("动作元-" + QString::number(j + 1)).toString();
+			if (str_action == ""){ continue; }
+			QJsonObject obj_action = QJsonDocument::fromJson(str_action.toUtf8()).object();
+
+			// > 三层字符串解封
+			QString str_src = obj_action.value("资源-动作元").toString();
+			QStringList src_list = TTool::_QJsonArrayString_To_QListQString_(str_src);
+
+			fileName_list.append(src_list);
+		}
+
+		// > 状态元资源
+		for (int j = 0; j < this->data_ActionSeqLength.realLen_state; j++){
+
+			// > 二层字符串解封
+			QString str_action = obj_actionSeq.value("状态元-" + QString::number(j + 1)).toString();
+			if (str_action == ""){ continue; }
+			QJsonObject obj_action = QJsonDocument::fromJson(str_action.toUtf8()).object();
+
+			// > 三层字符串解封
+			QString str_src = obj_action.value("资源-状态元").toString();
+			QStringList src_list = TTool::_QJsonArrayString_To_QListQString_(str_src);
+
+			fileName_list.append(src_list);
+		}
+	}
+
+	// > 去重
+	fileName_list = fileName_list.toSet().toList();
+
+	// > 列出资源
+	QList<QFileInfo> result_list = QList<QFileInfo>();
+	for (int i = 0; i < fileName_list.count(); i++){
+		QString file_path = this->getActionSeqDir() + "/" + fileName_list.at(i) + ".png";
+		result_list.append(QFileInfo(file_path));
+	}
+	return result_list;
 }
 
 
