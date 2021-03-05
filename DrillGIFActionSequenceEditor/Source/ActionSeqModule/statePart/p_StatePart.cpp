@@ -92,6 +92,7 @@ P_StatePart::P_StatePart(QWidget *parent)
 
 	// > 表单变化绑定
 	connect(this->m_FastForm->getQLineEditByName("状态元名称"), &QLineEdit::textEdited, this->m_table, &P_RadioTable::modifyText_Selected);
+	connect(this->m_FastForm->getQLineEditByName("状态元名称"), &QLineEdit::textChanged, this->m_p_AnimationListEditor, &P_AnimationListEditor::setExportName);
 	connect(this->m_FastForm->getQCheckBoxByName("是否倒放"), &QCheckBox::toggled, this->m_p_AnimationListPlayer, &P_AnimationListPlayer::setPlayBackRun);
 
 	// > 图片查看块 - 连接帧切换

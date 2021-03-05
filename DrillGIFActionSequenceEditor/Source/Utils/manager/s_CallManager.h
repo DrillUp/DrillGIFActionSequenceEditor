@@ -4,7 +4,7 @@
 /*
 -----==========================================================-----
 		类：		窗口调取管理器.h
-		版本：		v1.00
+		版本：		v1.01
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		管理窗口与调取的模块。
@@ -25,16 +25,18 @@ class S_CallManager : public QWidget
 	//-----------------------------------
 	//----窗体
 	public:
-										//窗体 - 获取相同窗体名称的数量
-		int getWindowNum(QString window_name);
 										//窗体 - 获取rmmv窗体
 										//		（没找到窗口，返回的值 == 0）
 		HWND getWindow(QString window_name);
+										//窗体 - 获取相同窗体名称的数量
+		int getWindowNum(QString window_name);
 										//窗体 - 指定窗体是否被置顶
 		bool isWindowOnTop(HWND hWnd);
+		bool isWindowOnTop(QString window_name);
 										//窗体 - 激活/置顶指定窗体
 										//		（如果该窗体有子窗体置顶，那么该窗体是激活却不是置顶的）
 		void activeWindow(HWND hWnd);
+		void activeWindow(QString window_name);
 										//窗体 - 激活/置顶自身窗体
 		void activeLocalWindow(QWidget* widget);
 

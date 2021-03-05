@@ -25,8 +25,12 @@ class P_RmmvOperateBoard : public QWidget
 	//-----------------------------------
 	//----控件
 	public:
-										//控件 - 打开rmmv
-		void openRmmv();
+										//控件 - 选择rmmv
+		void selectRmmv();
+										//控件 - 刷新rmmv操作可用
+		void refreshRmmvEnable();
+										//控件 - 打开rmmv编辑器
+		void openRmmvSoftware();
 										//控件 - 导入rmmv数据
 		void importRmmv();
 										//控件 - 保存到rmmv

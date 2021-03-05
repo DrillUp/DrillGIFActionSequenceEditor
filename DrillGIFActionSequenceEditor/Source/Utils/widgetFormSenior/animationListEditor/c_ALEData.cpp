@@ -136,7 +136,8 @@ QFileInfo C_ALEData::getFile(int index){
 
 	QString path = this->gif_src_file;
 	if (path.at(path.length() - 1) != '/'){ path += "/"; }
-	path +=this->gif_src.at(index);
+	path += this->gif_src.at(index);
+	path += ".png";
 	return QFileInfo(path);
 }
 QList<QFileInfo> C_ALEData::getFile_Multi(QList<int> index_list){
@@ -175,13 +176,23 @@ bool C_ALEData::hasFileName(QString file_name){
 		接口 - 获取帧间隔（含单位转换）
 */
 double C_ALEData::getIntervalDefaultWithUnit(){
-
-	// > 秒单位：0.0100秒
-	if (this->m_unit == DATA_UNIT::SecondUnit){
-		return this->gif_interval*1.000;
+	return this->intervalUnitTransform(this->gif_interval);
+}
+/*-------------------------------------------------
+		访问器 - 获取帧间隔（含单位转换）
+*/
+double C_ALEData::getIntervalWithUnit(int index){
+	if (index < 0){ return this->getIntervalDefaultWithUnit(); }
+	if (index >= this->gif_intervalTank.count()){ return this->getIntervalDefaultWithUnit(); }
+	return this->intervalUnitTransform(this->gif_intervalTank.at(index));
+}
+QList<double> C_ALEData::getIntervalWithUnit_Multi(QList<int> index_list){
+	QList<double> result_list = QList<double>();
+	for (int i = 0; i < index_list.count(); i++){
+		double interval = this->getIntervalWithUnit(index_list.at(i));
+		result_list.append(interval);
 	}
-	// > 帧单位：0.0166秒
-	return this->gif_interval*1.666;
+	return result_list;
 }
 /*-------------------------------------------------
 		接口 - 获取帧间隔明细表（含单位转换）
@@ -189,17 +200,8 @@ double C_ALEData::getIntervalDefaultWithUnit(){
 QList<double> C_ALEData::getIntervalTankWithUnit(){
 	QList<double> result_list = QList<double>();
 	for (int i = 0; i < this->gif_intervalTank.count(); i++){
-		double interval = this->gif_intervalTank.at(i);
-
-		// > 秒单位：0.0100秒
-		if (this->m_unit == DATA_UNIT::SecondUnit){
-			interval = interval*1.000;
-		}
-		// > 帧单位：0.0166秒
-		if (this->m_unit == DATA_UNIT::FrameUnit){
-			interval = interval*1.666;
-		}
-		result_list.append(interval);
+		double interval = this->intervalUnitTransform(this->gif_intervalTank.at(i));
+		result_list.append( interval );
 	}
 	return result_list;
 }
@@ -219,6 +221,22 @@ QString C_ALEData::getIntervalString(int index){
 
 	// > 帧单位：0.0166秒
 	return QString::number(interval) + "帧";
+}
+/*-------------------------------------------------
+		私有 - 单位转换
+*/
+double C_ALEData::intervalUnitTransform(int interval){
+
+	// > 秒单位：0.0100秒
+	if (this->m_unit == DATA_UNIT::SecondUnit){
+		return interval*1.000;
+	}
+	// > 帧单位：0.0166秒
+	if (this->m_unit == DATA_UNIT::FrameUnit){
+		return interval*1.666;
+	}
+
+	return interval;
 }
 
 

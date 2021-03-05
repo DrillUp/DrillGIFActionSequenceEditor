@@ -47,6 +47,8 @@
         <file>Resources/icons/tabWidget/outFrame_disabled.png</file>
         <file>Resources/icons/tabWidget/outFrame_hover.png</file>
         <file>Resources/icons/menu/Common_SelectAll.png</file>
-        <file>Resources/icons/player/Play_ExportGIF.png</file>
+        <file>Resources/icons/menu/ExportGIF.png</file>
+        <file>Resources/icons/menu/ExportImage.png</file>
+        <file>Resources/icons/menu/Common_Export.png</file>
     </qresource>
 </RCC>

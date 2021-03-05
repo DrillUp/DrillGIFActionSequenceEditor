@@ -7,6 +7,7 @@
 
 #include "Source/Utils/widgetForm/pictureSelector/p_PictureSelector.h"
 #include "Source/Utils/manager/GIFManager/s_GIFManager.h"
+#include "Source/Utils/common/p_FileOperater.h"
 #include "Source/Utils/common/TTool.h"
 
 /*
@@ -29,6 +30,14 @@
 						-> 右键菜单
 						-> 添加、替换、删除
 						-> 复制、粘贴
+					-> 导入
+						-> 单图
+						-> 多图
+						-> GIF
+					-> 导出
+						-> 单图
+						-> 多图
+						-> GIF
 					-> 编辑帧
 						-> 单帧编辑：图像、帧数
 						-> 多帧编辑：帧数
@@ -82,6 +91,7 @@ P_AnimationListEditor::P_AnimationListEditor(QListWidget *parent)
 
 	// > 数据
 	this->setConfigParam(C_ALEConfig());
+	this->m_exportName = "动画";
 
 	// > 快捷键过滤器
 	this->m_listWidget->installEventFilter(this);
@@ -183,23 +193,29 @@ void P_AnimationListEditor::event_itemRightClicked(QList<QListWidgetItem*> item_
 
 	/*-------------------------点击空白处-----------------------------*/
 	if (item_list.count() == 0){
+		
+		QMenu* menu_add = new QMenu("添加帧", menu);
+		menu_add->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Add.png"));
 
-		action = new QAction("添加帧", this);
-		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Add.png"));
-		connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_appendInAction);
-		menu->addAction(action);
+			action = new QAction("添加图片", this);
+			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Add.png"));
+			action->setData(0);
+			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_insertInAction);
+			menu_add->addAction(action);
 
-		action = new QAction("添加帧(GIF)", this);
-		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Add.png"));
-		action->setData(0);
-		connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_insertGIFInAction);
-		menu->addAction(action);
+			action = new QAction("添加GIF", this);
+			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Add.png"));
+			action->setData(0);
+			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_insertGIFInAction);
+			menu_add->addAction(action);
+		menu->addMenu(menu_add);
 
-		action = new QAction("全选", this);
-		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_SelectAll.png"));
-		action->setShortcut(QKeySequence::SelectAll);
-		action->setEnabled(false);
-		menu->addAction(action);
+		if (this->m_config_ALE.m_isMultiSelect == true){
+			QMenu* menu_select = new QMenu("选择帧", menu);
+			menu_select->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_SelectAll.png"));
+			menu_select->setEnabled(false);
+			menu->addMenu(menu_select);
+		}
 
 		action = new QAction("复制帧", this);
 		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Copy.png"));
@@ -218,6 +234,15 @@ void P_AnimationListEditor::event_itemRightClicked(QList<QListWidgetItem*> item_
 		action->setShortcut(QKeySequence::Delete);
 		action->setEnabled(false);
 		menu->addAction(action);
+
+		if (this->m_config_ALE.m_isMultiSelect == true){
+			menu->addSeparator();
+
+			QMenu* menu_export = new QMenu("导出", menu);
+			menu_export->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Export.png"));
+			menu_export->setEnabled(false);
+			menu->addMenu(menu_export);
+		}
 
 		menu->exec(QCursor::pos());
 		
@@ -241,25 +266,43 @@ void P_AnimationListEditor::event_itemRightClicked(QList<QListWidgetItem*> item_
 		if (pos + 1 >= this->m_itemTank.count()){ action->setEnabled(false); }
 
 		menu->addSeparator();
+		
+		QMenu* menu_add = new QMenu("添加帧", menu);
+		menu_add->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Add.png"));
 
-		action = new QAction("添加帧", this);
-		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Add.png"));
-		action->setData(pos);
-		connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_insertInAction);
-		menu->addAction(action);
+			action = new QAction("添加图片", this);
+			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Add.png"));
+			action->setData(pos);
+			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_insertInAction);
+			menu_add->addAction(action);
 
-		action = new QAction("添加帧(GIF)", this);
-		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Add.png"));
-		action->setData(pos);
-		connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_insertGIFInAction);
-		menu->addAction(action);
+			action = new QAction("添加GIF", this);
+			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Add.png"));
+			action->setData(pos);
+			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_insertGIFInAction);
+			menu_add->addAction(action);
+		menu->addMenu(menu_add);
 
-		action = new QAction("全选", this);
-		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_SelectAll.png"));
-		action->setShortcut(QKeySequence::SelectAll);
-		connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_selectAllInAction);
-		menu->addAction(action);
-		if (this->m_config_ALE.m_isMultiSelect == false){ action->setEnabled(false); }
+		if (this->m_config_ALE.m_isMultiSelect == true){
+			QMenu* menu_select = new QMenu("选择帧", menu);
+			menu_select->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_SelectAll.png"));
+
+			action = new QAction("全选", this);
+			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_SelectAll.png"));
+			action->setShortcut(QKeySequence::SelectAll);
+			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_selectAllInAction);
+			menu_select->addAction(action);
+			action = new QAction("选择奇数帧", this);
+			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_SelectAll.png"));
+			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_selectOddInAction);
+			menu_select->addAction(action);
+			action = new QAction("选择偶数帧", this);
+			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_SelectAll.png"));
+			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_selectEvenInAction);
+			menu_select->addAction(action);
+
+			menu->addMenu(menu_select);
+		}
 
 		action = new QAction("复制帧", this);
 		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Copy.png"));
@@ -291,6 +334,31 @@ void P_AnimationListEditor::event_itemRightClicked(QList<QListWidgetItem*> item_
 		connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_editOneInAction);
 		menu->addAction(action);
 
+		if (this->m_config_ALE.m_isMultiSelect == true){
+			menu->addSeparator();
+			QMenu* menu_export = new QMenu("导出", menu);
+			menu_export->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Export.png"));
+
+			action = new QAction("生成PNG - 单图", this);
+			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/ExportImage.png"));
+			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_exportSingle_PicInAction);
+			menu_export->addAction(action);
+			action = new QAction("生成PNG - 全部帧", this);
+			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/ExportImage.png"));
+			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_exportAll_PicInAction);
+			menu_export->addAction(action);
+			action = new QAction("生成GIF - 单帧", this);
+			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/ExportGIF.png"));
+			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_exportSelected_GIFInAction);
+			menu_export->addAction(action);
+			action = new QAction("生成GIF - 全部帧", this);
+			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/ExportGIF.png"));
+			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_exportAll_GIFInAction);
+			menu_export->addAction(action);
+
+			menu->addMenu(menu_export);
+		}
+
 		menu->exec(QCursor::pos());
 		
 	/*-------------------------点击多个-----------------------------*/
@@ -310,24 +378,42 @@ void P_AnimationListEditor::event_itemRightClicked(QList<QListWidgetItem*> item_
 			pos_list_str.append(QString::number(pos_list.at(i)));
 		}
 
-		action = new QAction("添加帧", this);
-		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Add.png"));
-		action->setData(front_pos);
-		connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_insertInAction);
-		menu->addAction(action);
+		QMenu* menu_add = new QMenu("添加帧", menu);
+		menu_add->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Add.png"));
 
-		action = new QAction("添加帧(GIF)", this);
-		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Add.png"));
-		action->setData(front_pos);
-		connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_insertGIFInAction);
-		menu->addAction(action);
+			action = new QAction("添加图片", this);
+			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Add.png"));
+			action->setData(front_pos);
+			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_insertInAction);
+			menu_add->addAction(action);
 
-		action = new QAction("全选", this);
-		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_SelectAll.png"));
-		action->setShortcut(QKeySequence::SelectAll);
-		connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_selectAllInAction);
-		menu->addAction(action);
-		if (this->m_config_ALE.m_isMultiSelect == false){ action->setEnabled(false); }
+			action = new QAction("添加GIF", this);
+			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Add.png"));
+			action->setData(front_pos);
+			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_insertGIFInAction);
+			menu_add->addAction(action);
+		menu->addMenu(menu_add);
+
+		if (this->m_config_ALE.m_isMultiSelect == true){
+			QMenu* menu_select = new QMenu("选择帧", menu);
+			menu_select->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_SelectAll.png"));
+
+			action = new QAction("全选", this);
+			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_SelectAll.png"));
+			action->setShortcut(QKeySequence::SelectAll);
+			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_selectAllInAction);
+			menu_select->addAction(action);
+			action = new QAction("选择奇数帧", this);
+			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_SelectAll.png"));
+			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_selectOddInAction);
+			menu_select->addAction(action);
+			action = new QAction("选择偶数帧", this);
+			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_SelectAll.png"));
+			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_selectEvenInAction);
+			menu_select->addAction(action);
+
+			menu->addMenu(menu_select);
+		}
 
 		action = new QAction("复制帧", this);
 		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Copy.png"));
@@ -359,6 +445,31 @@ void P_AnimationListEditor::event_itemRightClicked(QList<QListWidgetItem*> item_
 		action->setShortcut(QKeySequence::Delete);
 		connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_editMultiInAction);
 		menu->addAction(action);
+
+		if (this->m_config_ALE.m_isMultiSelect == true){
+			menu->addSeparator();
+			QMenu* menu_export = new QMenu("导出", menu);
+			menu_export->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Export.png"));
+
+			action = new QAction("生成PNG - 选中帧", this);
+			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/ExportImage.png"));
+			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_exportSelected_PicInAction);
+			menu_export->addAction(action);
+			action = new QAction("生成PNG - 全部帧", this);
+			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/ExportImage.png"));
+			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_exportAll_PicInAction);
+			menu_export->addAction(action);
+			action = new QAction("生成GIF - 选中帧", this);
+			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/ExportGIF.png"));
+			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_exportSelected_GIFInAction);
+			menu_export->addAction(action);
+			action = new QAction("生成GIF - 全部帧", this);
+			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/ExportGIF.png"));
+			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_exportAll_GIFInAction);
+			menu_export->addAction(action);
+
+			menu->addMenu(menu_export);
+		}
 
 		menu->exec(QCursor::pos());
 	}
@@ -727,6 +838,30 @@ void P_AnimationListEditor::op_selectAllInAction(){
 	this->m_listWidget->selectAll();
 }
 /*-------------------------------------------------
+		action - 选奇数
+*/
+void P_AnimationListEditor::op_selectOddInAction(){
+	QList<int> index_list = QList<int>();
+	for (int i = 0; i < this->m_itemTank.count(); i++){
+		if (i%2 == 0){
+			index_list.append(i);
+		}
+	}
+	this->selectIndex_Multi(index_list);
+}
+/*-------------------------------------------------
+		action - 选偶数
+*/
+void P_AnimationListEditor::op_selectEvenInAction(){
+	QList<int> index_list = QList<int>();
+	for (int i = 0; i < this->m_itemTank.count(); i++){
+		if (i % 2 == 1){
+			index_list.append(i);
+		}
+	}
+	this->selectIndex_Multi(index_list);
+}
+/*-------------------------------------------------
 		action - 复制（单个和多个）
 */
 void P_AnimationListEditor::op_copyInAction(){
@@ -826,10 +961,127 @@ void P_AnimationListEditor::op_editMultiInAction(){
 	}
 }
 
+/*-------------------------------------------------
+		导出 - 设置导出名称
+*/
+void P_AnimationListEditor::setExportName(QString name){
+	if (name == ""){ name = "动画"; }
+	this->m_exportName = name;
+}
+/*-------------------------------------------------
+		导出 - 导出单图
+*/
+void P_AnimationListEditor::op_exportPic(int index, QFileInfo target_file){
+	QFileInfo file_from = this->m_data.getFile(index);
+	if (file_from.exists() == false){ return; }
+
+	P_FileOperater op = P_FileOperater();
+	op.copy_File(file_from, target_file);
+}
+/*-------------------------------------------------
+		导出 - 导出多图
+*/
+void P_AnimationListEditor::op_exportPic_Multi(QList<int> index_list, QDir target_dir){
+	if (target_dir.exists() == false){ return; }
+	P_FileOperater op = P_FileOperater();
+
+	for (int i = 0; i < index_list.count(); i++){
+		QFileInfo file_from = this->m_data.getFile(index_list.at(i));
+		if (file_from.exists() == false){ continue; }
+		QString path_to = target_dir.absolutePath()+"/" + this->m_exportName + "_" + QString::number(i + 1) + ".png";
+		op.copy_File(file_from, QFileInfo(path_to));
+	}
+}
+/*-------------------------------------------------
+		导出 - 导出GIF（指定项）
+*/
+void P_AnimationListEditor::op_exportGIF_Multi(QList<int> index_list, QFileInfo target_file){
+
+	// > 文件列表
+	QList<QFileInfo> fileInfo_list = this->m_data.getFile_Multi(index_list);
+
+	// > 帧间隔列表（已转单位）
+	double interval_default = this->m_data.getIntervalDefaultWithUnit();
+	QList<double> interval_list = this->m_data.getIntervalWithUnit_Multi(index_list);
+
+	// > 生成GIF
+	S_GIFManager::getInstance()->generateGIF(
+		fileInfo_list,
+		target_file.absoluteFilePath(),
+		interval_default,
+		TTool::_QList_DoubleToInt_floor_(interval_list)
+	);
+}
+/*-------------------------------------------------
+		action - 导出单图
+*/
+void P_AnimationListEditor::op_exportSingle_PicInAction(){
+	QList<int> selected_list = this->getSelectedIndex_Multi();
+	if (selected_list.count() == 0){ return; }
+	QString path = this->openWindow_exportPNGFile();
+	if (path == ""){ return; }
+
+	this->op_exportPic(selected_list.at(0), QFileInfo(path));
+	QMessageBox::information(this->m_listWidget, "提示", "图片导出成功。", QMessageBox::Yes);
+}
+/*-------------------------------------------------
+		action - 导出多图
+*/
+void P_AnimationListEditor::op_exportSelected_PicInAction(){
+	QList<int> selected_list = this->getSelectedIndex_Multi();
+	if (selected_list.count() == 0){ return; }
+	QString path = this->openWindow_exportDir();
+	if (path == ""){ return; }
+
+	this->op_exportPic_Multi(selected_list, QDir(path));
+	QMessageBox::information(this->m_listWidget, "提示", "图片集导出成功。", QMessageBox::Yes);
+}
+/*-------------------------------------------------
+		action - 导出全部图
+*/
+void P_AnimationListEditor::op_exportAll_PicInAction(){
+	QList<int> selected_list = QList<int>();
+	for (int i = 0; i < this->m_itemTank.count(); i++){
+		selected_list.append(i);
+	}
+	if (selected_list.count() == 0){ return; }
+	QString path = this->openWindow_exportDir();
+	if (path == ""){ return; }
+
+	this->op_exportPic_Multi(selected_list, QDir(path));
+	QMessageBox::information(this->m_listWidget, "提示", "图片集导出成功。", QMessageBox::Yes);
+}
+/*-------------------------------------------------
+		action - 导出GIF - 选中项
+*/
+void P_AnimationListEditor::op_exportSelected_GIFInAction(){
+	QList<int> selected_list = this->getSelectedIndex_Multi();
+	if (selected_list.count() == 0){ QMessageBox::warning(this->m_listWidget, "提示", "需要选择至少一个动画帧才能导出。", QMessageBox::Yes); return; }
+	QString path = this->openWindow_exportGIFFile();
+	if (path == ""){ return; }
+
+	this->op_exportGIF_Multi(selected_list, QFileInfo(path));
+	QMessageBox::information(this->m_listWidget, "提示", "GIF导出成功。", QMessageBox::Yes);
+}
+/*-------------------------------------------------
+		action - 导出GIF - 全部项
+*/
+void P_AnimationListEditor::op_exportAll_GIFInAction(){
+	QList<int> selected_list = QList<int>();
+	for (int i = 0; i < this->m_itemTank.count(); i++){
+		selected_list.append(i);
+	}
+	if (selected_list.count() == 0){ QMessageBox::warning(this->m_listWidget, "提示", "需要选择至少一个动画帧才能导出。", QMessageBox::Yes); return; }
+	QString path = this->openWindow_exportGIFFile();
+	if (path == ""){ return; }
+
+	this->op_exportGIF_Multi(selected_list,QFileInfo(path));
+	QMessageBox::information(this->m_listWidget, "提示", "GIF导出成功。", QMessageBox::Yes);
+}
 
 
 /*-------------------------------------------------
-		编辑窗口 - 选择多张图片
+		编辑窗口 - 选择多张图片（导入）
 */
 QStringList P_AnimationListEditor::openWindow_getPicFileList(){
 	QStringList result_list = QStringList();
@@ -848,7 +1100,7 @@ QStringList P_AnimationListEditor::openWindow_getPicFileList(){
 	}
 }
 /*-------------------------------------------------
-		编辑窗口 - 选择GIF
+		编辑窗口 - 选择GIF（导入）
 */
 QString P_AnimationListEditor::openWindow_getGIFFile(){
 	QString result = "";
@@ -865,6 +1117,57 @@ QString P_AnimationListEditor::openWindow_getGIFFile(){
 	}else {
 		return "";
 	}
+}
+/*-------------------------------------------------
+		编辑窗口 - 选择GIF（导出）
+*/
+QString P_AnimationListEditor::openWindow_exportGIFFile(){
+	QString target_file = "";
+	QFileDialog fd;
+	fd.setWindowTitle("导出GIF");
+	fd.setAcceptMode(QFileDialog::AcceptSave);
+	fd.setDirectory(".");
+	fd.setNameFilters(QStringList() << "动图(*.gif)");
+	fd.setViewMode(QFileDialog::Detail);
+	fd.setFileMode(QFileDialog::ExistingFile);		//单个文件
+	fd.selectFile(this->m_exportName+"_动图.gif");
+	if (fd.exec() == QDialog::Accepted) {
+		if (fd.selectedFiles().empty()){ return ""; }
+		target_file = fd.selectedFiles().at(0);
+	}else {
+		return "";
+	}
+	return target_file;
+}
+/*-------------------------------------------------
+		编辑窗口 - 选择PNG（导出）
+*/
+QString P_AnimationListEditor::openWindow_exportPNGFile(){
+	QString target_file = "";
+	QFileDialog fd;
+	fd.setWindowTitle("导出PNG");
+	fd.setAcceptMode(QFileDialog::AcceptSave);
+	fd.setDirectory(".");
+	fd.setNameFilters(QStringList() << "动画帧(*.png)");
+	fd.setViewMode(QFileDialog::Detail);
+	fd.setFileMode(QFileDialog::ExistingFile);		//单个文件
+	fd.selectFile(this->m_exportName+"_动画帧.png");
+	if (fd.exec() == QDialog::Accepted) {
+		if (fd.selectedFiles().empty()){ return ""; }
+		target_file = fd.selectedFiles().at(0);
+	}else {
+		return "";
+	}
+	return target_file;
+}
+/*-------------------------------------------------
+		编辑窗口 - 选择文件夹（导出）
+*/
+QString P_AnimationListEditor::openWindow_exportDir(){
+	QString target_dir = "";
+	QFileDialog fd;
+	target_dir = fd.getExistingDirectory(this->m_listWidget, "导出到文件夹");
+	return target_dir;
 }
 
 

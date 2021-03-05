@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "p_AnimationListPlayer.h"
 
-#include "Source/Utils/manager/GIFManager/s_GIFManager.h"
 #include "Source/Utils/common/TTool.h"
 
 /*
@@ -69,7 +68,7 @@ P_AnimationListPlayer::P_AnimationListPlayer(QWidget *parent)
 	ui.toolButton_play->setIcon(QIcon(this->m_iconSrcPath + "/player/Play_Run.png"));
 	ui.toolButton_next->setIcon(QIcon(this->m_iconSrcPath + "/player/Play_Next.png"));
 	ui.toolButton_new->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_New.png"));
-	ui.toolButton_ExportGIF->setIcon(QIcon(this->m_iconSrcPath + "/player/Play_ExportGIF.png"));
+	ui.toolButton_ExportGIF->setIcon(QIcon(this->m_iconSrcPath + "/menu/ExportGIF.png"));
 	ui.toolButton_setting->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Setting.png"));
 
 	//-----------------------------------
@@ -270,31 +269,7 @@ void P_AnimationListPlayer::btn_setting(){
 void P_AnimationListPlayer::btn_exportGIF(){
 	if (this->m_animEditor == nullptr){ return; }
 	
-	QString target_file = "";
-	QFileDialog fd;
-	fd.setWindowTitle("导出GIF");
-	fd.setAcceptMode(QFileDialog::AcceptSave);
-	fd.setDirectory(".");
-	fd.setNameFilters(QStringList() << "动图(*.gif)");
-	fd.setViewMode(QFileDialog::Detail);
-	fd.setFileMode(QFileDialog::ExistingFile);		//单个文件
-	fd.selectFile("动图.gif");
-	if (fd.exec() == QDialog::Accepted) {
-		if (fd.selectedFiles().empty()){ return ; }
-		target_file = fd.selectedFiles().at(0);
-	}else {
-		return ;
-	}
-
-	C_ALEData data = this->m_animEditor->getSource();
-
-	// > 生成GIF
-	S_GIFManager::getInstance()->generateGIF(
-		data.getAllFile(), 
-		target_file, 
-		data.getIntervalDefaultWithUnit(), 
-		TTool::_QList_DoubleToInt_floor_( data.getIntervalTankWithUnit() )
-	);
+	this->m_animEditor->op_exportAll_GIFInAction();
 }
 
 

@@ -37,7 +37,7 @@ P_RmmvCaller::~P_RmmvCaller() {
 /*-------------------------------------------------
 		rmmv - 打开rmmv
 */
-C_RmmvProjectData P_RmmvCaller::callRmmvOpen(){
+C_RmmvProjectData P_RmmvCaller::callRmmvSelect(){
 	QFileDialog fd;
 	fd.setWindowTitle("打开rmmv工程");
 	fd.setAcceptMode(QFileDialog::AcceptOpen);		//对话框类型（打开/保存）（保存会有文件覆盖提示）
@@ -86,6 +86,23 @@ C_RmmvProjectData P_RmmvCaller::callRmmvOpen(){
 		//（点击关闭或者取消操作的情况）
 		return C_RmmvProjectData();
 	}
+}
+
+/*-------------------------------------------------
+		打开rmmv编辑器
+*/
+void P_RmmvCaller::callRmmvSoftware(C_RmmvProjectData rmmvProjectData){
+	QString rmmv_window_name = rmmvProjectData.name + " - RPG Maker MV";
+
+	// > 已存在时，激活窗口
+	int num = S_CallManager::getInstance()->getWindowNum(rmmv_window_name);
+	if (num >= 1){
+		S_CallManager::getInstance()->activeWindow(rmmv_window_name);
+		return;
+	}
+	
+	// > 打开路径
+	QDesktopServices::openUrl(QUrl("file:/" + rmmvProjectData.path + "/Game.rpgproject"));
 }
 
 /*-------------------------------------------------

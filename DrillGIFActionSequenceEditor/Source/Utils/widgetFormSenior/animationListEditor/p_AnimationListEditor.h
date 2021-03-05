@@ -109,8 +109,6 @@ class P_AnimationListEditor : public P_PictureSelector
 		void op_insertGIFInAction();
 									//action - 删除帧（单个和多个）
 		void op_removeInAction();
-									//action - 全选
-		void op_selectAllInAction();
 									//action - 复制（单个和多个）
 		void op_copyInAction();
 									//action - 粘贴（单个和多个）
@@ -123,15 +121,52 @@ class P_AnimationListEditor : public P_PictureSelector
 		void op_editOneInAction();
 									//action - 编辑帧时间
 		void op_editMultiInAction();
+									//action - 全选
+		void op_selectAllInAction();
+									//action - 选奇数
+		void op_selectOddInAction();
+									//action - 选偶数
+		void op_selectEvenInAction();
+		
+	//-----------------------------------
+	//----资源数据（导出）
+	protected:
+		QString m_exportName;
+	public:
+									//导出 - 导出单图
+		void op_exportPic(int index, QFileInfo target_file);
+									//导出 - 导出多图
+		void op_exportPic_Multi(QList<int> index_list, QDir target_dir);
+									//导出 - 导出GIF
+		void op_exportGIF_Multi(QList<int> index_list, QFileInfo target_file);
+	public slots:
+									//导出 - 设置导出名称
+		void setExportName(QString name);
+									//action - 导出单图
+		void op_exportSingle_PicInAction();
+									//action - 导出多图
+		void op_exportSelected_PicInAction();
+									//action - 导出全部图
+		void op_exportAll_PicInAction();
+									//action - 导出GIF - 选中项
+		void op_exportSelected_GIFInAction();
+									//action - 导出GIF - 全部项
+		void op_exportAll_GIFInAction();
 
 		
 	//-----------------------------------
 	//----编辑窗口
 	public:
-									//编辑窗口 - 选择多张图片
+									//编辑窗口 - 选择多张图片（导入）
 		QStringList openWindow_getPicFileList();
-									//编辑窗口 - 选择GIF
+									//编辑窗口 - 选择GIF（导入）
 		QString openWindow_getGIFFile();
+									//编辑窗口 - 选择GIF（导出）
+		QString openWindow_exportGIFFile();
+									//编辑窗口 - 选择png（导出）
+		QString openWindow_exportPNGFile();
+									//编辑窗口 - 选择文件夹（导出）
+		QString openWindow_exportDir();
 	
 	//-----------------------------------
 	//----快捷键

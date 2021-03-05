@@ -34,10 +34,12 @@ P_RmmvOperateBoard::P_RmmvOperateBoard(QWidget *parent)
 
 	//-----------------------------------
 	//----事件绑定
-	connect(ui.toolButton_open, &QPushButton::clicked, this, &P_RmmvOperateBoard::openRmmv);
+	connect(ui.toolButton_select, &QPushButton::clicked, this, &P_RmmvOperateBoard::selectRmmv);
 	connect(ui.toolButton_import, &QPushButton::clicked, this, &P_RmmvOperateBoard::importRmmv);
 	connect(ui.toolButton_save, &QPushButton::clicked, this, &P_RmmvOperateBoard::saveToRmmv);
 	connect(ui.toolButton_run, &QPushButton::clicked, this, &P_RmmvOperateBoard::runRmmv);
+	connect(ui.toolButton_software, &QPushButton::clicked, this, &P_RmmvOperateBoard::openRmmvSoftware);
+	connect(ui.lineEdit_name, &QLineEdit::textChanged, this, &P_RmmvOperateBoard::refreshRmmvEnable);
 
 }
 
@@ -47,21 +49,36 @@ P_RmmvOperateBoard::~P_RmmvOperateBoard(){
 
 
 /*-------------------------------------------------
-		控件 - 打开rmmv
+		控件 - 选择rmmv
 */
-void P_RmmvOperateBoard::openRmmv(){
-	this->local_rmmvData = S_RmmvCaller_ActionSeq::getInstance()->callRmmvOpen();
+void P_RmmvOperateBoard::selectRmmv(){
+	this->local_rmmvData = S_RmmvCaller_ActionSeq::getInstance()->callRmmvSelect();
 	ui.lineEdit_path->setText(this->local_rmmvData.path);
 	ui.lineEdit_name->setText(this->local_rmmvData.name);
+}
+/*-------------------------------------------------
+		控件 - 刷新rmmv操作可用
+*/
+void P_RmmvOperateBoard::refreshRmmvEnable(){
+	if (ui.lineEdit_name->text() == ""){
+		ui.groupBox->setEnabled(false);
+	}else{
+		ui.groupBox->setEnabled(true);
+	}
+}
+/*-------------------------------------------------
+		控件 - 打开rmmv编辑器
+*/
+void P_RmmvOperateBoard::openRmmvSoftware(){
+	if (this->local_rmmvData.isNull()){ return; }
+
+	S_RmmvCaller_ActionSeq::getInstance()->callRmmvSoftware(this->local_rmmvData);
 }
 /*-------------------------------------------------
 		控件 - 导入rmmv数据
 */
 void P_RmmvOperateBoard::importRmmv(){
-	if (this->local_rmmvData.isNull()){
-		QMessageBox::warning(this, "提示", "你需要先打开rmmv工程。", QMessageBox::Yes);
-		return;
-	}
+	if (this->local_rmmvData.isNull()){ return; }
 	if (QMessageBox::information(this, "提示", "此操作会从rmmv工程中读取数据，并覆盖到当前数据，当前的动作序列数据将全部丢失，是否继续?", "继续", "取消", 0, 1) == 1){
 		return;
 	}
@@ -73,26 +90,18 @@ void P_RmmvOperateBoard::importRmmv(){
 		控件 - 保存到rmmv
 */
 void P_RmmvOperateBoard::saveToRmmv(){
-	if (this->local_rmmvData.isNull()){
-		QMessageBox::warning(this, "提示", "你需要先打开rmmv工程。", QMessageBox::Yes);
-		return;
-	}
+	if (this->local_rmmvData.isNull()){ return; }
 
 	// > 要求关闭编辑器才能存
 	S_RmmvCaller_ActionSeq::getInstance()->callRmmvSave_RequestingClose(this->local_rmmvData);
-
 }
 /*-------------------------------------------------
 		控件 - 运行rmmv
 */
 void P_RmmvOperateBoard::runRmmv(){
-	if (this->local_rmmvData.isNull()){
-		QMessageBox::warning(this, "提示", "你需要先打开rmmv工程。", QMessageBox::Yes);
-		return;
-	}
+	if (this->local_rmmvData.isNull()){ return; }
 
 	S_RmmvCaller_ActionSeq::getInstance()->callRmmvRun(this->local_rmmvData);
-
 }
 
 

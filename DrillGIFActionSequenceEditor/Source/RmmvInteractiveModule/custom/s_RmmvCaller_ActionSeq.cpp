@@ -97,8 +97,8 @@ void S_RmmvCaller_ActionSeq::coverSourceFileToTemp(C_RmmvProjectData rmmvProject
 /*-------------------------------------------------
 		工程 - 打开rmmv（继承）
 */
-C_RmmvProjectData S_RmmvCaller_ActionSeq::callRmmvOpen(){
-	C_RmmvProjectData result = P_RmmvCaller::callRmmvOpen();
+C_RmmvProjectData S_RmmvCaller_ActionSeq::callRmmvSelect(){
+	C_RmmvProjectData result = P_RmmvCaller::callRmmvSelect();
 	S_RmmvDataContainer::getInstance()->modify(result);		//打开后，立即记录位置
 	return result;
 }

@@ -25,7 +25,7 @@ class S_RmmvCaller_ActionSeq : public P_RmmvCaller
 	//----工程
 	public:
 										//工程 - 打开rmmv（继承）
-		virtual C_RmmvProjectData callRmmvOpen();
+		virtual C_RmmvProjectData callRmmvSelect();
 
 										//工程 - 读取全部相关工程文件
 										//		【说明】：读取失败返回false

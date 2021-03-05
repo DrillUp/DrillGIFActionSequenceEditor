@@ -69,7 +69,7 @@ class C_ALEData {
 	public:
 											//访问器 - 获取标识
 		int getData_Id();
-											//访问器 - 获取帧间隔
+											//访问器 - 获取默认帧间隔
 		int getData_IntervalDefault();
 											//访问器 - 获取帧间隔明细表
 		QList<int> getData_IntervalTank();
@@ -90,13 +90,18 @@ class C_ALEData {
 											//接口 - 检查文件（不带文件后缀）
 		bool hasFileName(QString file_name);
 
-											//接口 - 获取帧间隔（含单位转换）
+											//接口 - 获取默认帧间隔（含单位转换）
 		double getIntervalDefaultWithUnit();
+											//接口 - 获取帧间隔（含单位转换）
+		double getIntervalWithUnit(int index);
+		QList<double> getIntervalWithUnit_Multi(QList<int> index_list);
 											//接口 - 获取帧间隔明细表（含单位转换）
 		QList<double> getIntervalTankWithUnit();
 											//接口 - 获取帧间隔文本（"0.01"，实际帧为 0.01666 * n ）
 		QString getIntervalString(int index);
 
+	protected:
+		double intervalUnitTransform(int interval);
 		
 
 	//-----------------------------------

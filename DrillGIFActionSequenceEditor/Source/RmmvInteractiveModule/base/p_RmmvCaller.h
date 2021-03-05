@@ -22,8 +22,10 @@ class P_RmmvCaller : public QObject
 	//-----------------------------------
 	//----rmmv
 	public:
-									//rmmv - 打开rmmv（注意可能返回空）
-		virtual C_RmmvProjectData callRmmvOpen();
+									//rmmv - 选择rmmv（注意可能返回空）
+		virtual C_RmmvProjectData callRmmvSelect();
+									//rmmv - 打开rmmv编辑器
+		virtual void callRmmvSoftware(C_RmmvProjectData rmmvProjectData);
 									//rmmv - 保存rmmv（让rmmv先保存，然后自己存）
 		virtual void callRmmvSave(C_RmmvProjectData rmmvProjectData);
 									//rmmv - 保存rmmv（要求用户关闭rmmv，才能保存）

@@ -6,7 +6,7 @@
 /*
 -----==========================================================-----
 		类：		窗口调取管理器.cpp
-		版本：		v1.00
+		版本：		v1.01
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		管理窗口与调取的模块。
@@ -96,6 +96,9 @@ int S_CallManager::getWindowNum(QString window_name) {
 /*-------------------------------------------------
 		窗体 - 指定窗体是否被置顶
 */
+bool S_CallManager::isWindowOnTop(QString window_name){
+	return ::GetForegroundWindow() == this->getWindow(window_name);
+}
 bool S_CallManager::isWindowOnTop(HWND hWnd){
 	return ::GetForegroundWindow() == hWnd;
 }
@@ -103,6 +106,9 @@ bool S_CallManager::isWindowOnTop(HWND hWnd){
 /*-------------------------------------------------
 		窗体 - 激活/置顶指定窗体
 */
+void S_CallManager::activeWindow(QString window_name) {
+	this->activeWindow(this->getWindow(window_name));
+}
 void S_CallManager::activeWindow(HWND hWnd) {
 	if (hWnd == 0){ return; };
 	DWORD dwForeID = ::GetWindowThreadProcessId(hWnd, NULL);	//激活rmmv窗口

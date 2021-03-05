@@ -20,6 +20,12 @@
 			c_ALEData.h
 			数据交互类，注意，获取后list中的元素顺序不一样也算作已修改。
 
+	基于：
+		p_PictureSelector.cpp
+		p_PictureSelector.h
+		s_GIFManager.cpp
+		s_GIFManager.h
+	
 	私有类：
 		p_ALEBlock.cpp
 		p_ALEBlock.h
