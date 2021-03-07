@@ -16,12 +16,13 @@
 */
 C_RaTConfig::C_RaTConfig(){
 
-	this->rowHeight = 24;
-	this->zeroFill = true;
-	this->zeroFillCount = 4;
-	this->zeroFillChar = '0';
+	this->showNumber = true;			//显示序号
+	this->zeroFill = true;				//零填充
+	this->zeroFillCount = 4;			//填充位数
+	this->zeroFillChar = '0';			//填充字符
 
-	this->isMultiSelect = false;
+	this->rowHeight = 24;				//行高
+	this->isMultiSelect = false;		//多选开关
 }
 C_RaTConfig::~C_RaTConfig(){
 }
@@ -32,11 +33,12 @@ C_RaTConfig::~C_RaTConfig(){
 */
 QJsonObject C_RaTConfig::getJsonObject(){
 	QJsonObject obj = QJsonObject();
-	obj.insert("rowHeight", this->rowHeight);
+	obj.insert("showNumber", this->showNumber);
 	obj.insert("zeroFill", this->zeroFill);
 	obj.insert("zeroFillCount", this->zeroFillCount);
 	obj.insert("zeroFillChar", QString(this->zeroFillChar));
 
+	obj.insert("rowHeight", this->rowHeight);
 	return obj;
 }
 /*-------------------------------------------------
@@ -44,9 +46,10 @@ QJsonObject C_RaTConfig::getJsonObject(){
 */
 void C_RaTConfig::setJsonObject(QJsonObject obj){
 
-	if (obj.value("rowHeight").isUndefined() == false){ this->rowHeight = obj.value("rowHeight").toInt(); }
+	if (obj.value("showNumber").isUndefined() == false){ this->showNumber = obj.value("showNumber").toBool(); }
 	if (obj.value("zeroFill").isUndefined() == false){ this->zeroFill = obj.value("zeroFill").toBool(); }
 	if (obj.value("zeroFillCount").isUndefined() == false){ this->zeroFillCount = obj.value("zeroFillCount").toInt(); }
 	if (obj.value("zeroFillChar").isUndefined() == false){ this->zeroFillChar = obj.value("zeroFillChar").toString().at(0); }
 
+	if (obj.value("rowHeight").isUndefined() == false){ this->rowHeight = obj.value("rowHeight").toInt(); }
 }

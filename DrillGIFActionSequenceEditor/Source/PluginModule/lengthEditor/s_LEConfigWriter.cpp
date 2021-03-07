@@ -53,9 +53,14 @@ QString S_LEConfigWriter::doOverwritePlugin(QString context, C_LEAnnotation_Para
 		QMessageBox::warning(nullptr, "错误", "插件" + config.getPluginName() + "参数的最大值不能小于4。", QMessageBox::Yes);
 		return "";
 	}
+	if (param.getRealLen() < 4){
+		// （该错误只在单独调用该函数时会出现）
+		QMessageBox::warning(nullptr, "错误", "使用修改器函数时，必须要知道修改的目标插件实际长度。\n（通过读取器中读插件获取）", QMessageBox::Yes);
+		return "";
+	}
 	// > 相同最大值不修改
 	if (config.getConfigLen() == param.getRealLen()){ return context; }
-	
+
 
 	QStringList context_list = context.split(QRegExp("(\n\r)|(\n)|(\r\n)"));
 	// -----------------------------

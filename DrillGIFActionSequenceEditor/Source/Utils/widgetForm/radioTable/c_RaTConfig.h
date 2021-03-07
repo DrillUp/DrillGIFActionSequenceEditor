@@ -19,11 +19,12 @@ class C_RaTConfig{
 	//-----------------------------------
 	//----常规配置
 	public:
-		int rowHeight;				//行高
+		bool showNumber;			//显示序号
 		bool zeroFill;				//零填充
 		int zeroFillCount;			//填充位数
 		QChar zeroFillChar;			//填充字符
-		
+
+		int rowHeight;				//行高
 		bool isMultiSelect;			//多选开关
 
 	//-----------------------------------

@@ -201,6 +201,9 @@
     <Filter Include="源文件\【 插件模块 PluginModule】\存储数据管理器">
       <UniqueIdentifier>{a39775db-bab5-481e-bc55-dc41981ce72c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\【 动作序列 ActionSeqModule】\动作序列块\放映区\默认状态元集合">
+      <UniqueIdentifier>{1ebfb5f8-a24a-49a8-a3f1-37aef24aa4e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -776,6 +779,15 @@
     <ClCompile Include="GeneratedFiles\Release\moc_w_ActionSeqLength.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ActionSeqModule\playingPart\defaultStateGroup\w_DefaultStateGroupEdit.cpp">
+      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块\放映区\默认状态元集合</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_w_DefaultStateGroupEdit.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_w_DefaultStateGroupEdit.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="drillgifactionsequenceeditor.qrc">
@@ -1018,6 +1030,12 @@
     <CustomBuild Include="Source\ActionSeqModule\actionSeqData\lengthData\w_ActionSeqLength.ui">
       <Filter>源文件\【 动作序列 ActionSeqModule】\数据读取器\数据最大值编辑</Filter>
     </CustomBuild>
+    <CustomBuild Include="Source\ActionSeqModule\playingPart\defaultStateGroup\w_DefaultStateGroupEdit.h">
+      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块\放映区\默认状态元集合</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ActionSeqModule\playingPart\defaultStateGroup\w_DefaultStateGroupEdit.ui">
+      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块\放映区\默认状态元集合</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DrillGIFActionSequenceEditor.rc" />
@@ -1168,6 +1186,9 @@
       <Filter>源文件\【 动作序列 ActionSeqModule】\数据读取器\数据最大值编辑</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_w_ActionSeqLength.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_w_DefaultStateGroupEdit.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>

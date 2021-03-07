@@ -4,6 +4,8 @@
 #include "Source/ProjectModule/s_ProjectManager.h"
 #include "Source/ProjectModule/file/s_TempFileManager.h"
 #include "Source/PluginModule/storageData/s_PluginDataContainer.h"
+#include "Source/PluginModule/lengthEditor/s_LEAnnotationReader.h"
+#include "Source/PluginModule/lengthEditor/s_LEConfigWriter.h"
 #include "Source/ActionSeqModule/actionSeqData/s_ActionSeqDataContainer.h"
 #include "s_RmmvDataContainer.h"
 
@@ -109,6 +111,7 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 	//（虚函数直接覆写）
 
 
+	// ---------------------------------------------
 	// > 读取插件文件内容
 	QFileInfo plugin_info = S_RmmvDataContainer::getInstance()->getRmmvFile_PluginsData();
 	QFile plugin_file(plugin_info.absoluteFilePath());
@@ -127,6 +130,7 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 	}
 
 
+	// ---------------------------------------------
 	// > 修改数据
 	C_PluginData* data = S_PluginDataContainer::getInstance()->getPluginData("Drill_CoreOfActionSequence");
 	if (data == nullptr){
@@ -134,13 +138,14 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 		data = new C_PluginData();
 		data->name = "Drill_CoreOfActionSequence";
 		data->status = true;
-		data->description = "[v1.2]        系统 - GIF动画序列核心【编辑器编辑】";
+		data->description = "[v1.1]        系统 - GIF动画序列核心【编辑器编辑】";
 		S_PluginDataContainer::getInstance()->op_add(data);
 	}
 	data->parameters = S_ActionSeqDataContainer::getInstance()->getActionSeqData();	//（从 动作序列数据容器 中，获取到参数数据）
 	S_PluginDataContainer::getInstance()->op_modify(data);
 
 
+	// ---------------------------------------------
 	// > 写入文件
 	if (!plugin_file.open(QIODevice::Truncate | QIODevice::WriteOnly | QIODevice::Text)) {
 		QMessageBox::warning(nullptr, "错误", "未找到plugins.js文件。", QMessageBox::Yes);
@@ -156,6 +161,7 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 	plugin_file.close();
 
 
+	// ---------------------------------------------
 	// > 文件清空
 	QString src_path = rmmvProjectData.path + "/img/Special__actionSeq";
 	S_TempFileManager::getInstance()->remove_Dir(src_path);
@@ -168,10 +174,52 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 		S_TempFileManager::getInstance()->copy_File(info.absoluteFilePath(), src_path + "/" + info.fileName());
 	}
 
+	// ---------------------------------------------
 	// > 插件更新
+	QString script_path = QApplication::applicationDirPath() + "/tools/Drill_CoreOfActionSequence.js";
+	QFileInfo pluginScript_info = S_RmmvDataContainer::getInstance()->getRmmvFile_Plugin("Drill_CoreOfActionSequence");
+	if (pluginScript_info.exists() == false){
+		S_TempFileManager::getInstance()->copy_File(QFileInfo(script_path), pluginScript_info);
+	}
+	
+	// > 获取注解 + 实际长度
+	C_LEAnnotation* le_annotation = S_LEAnnotationReader::getInstance()->readPlugin(pluginScript_info.absoluteFilePath());
 
-	// ...
+	QFile script_file(pluginScript_info.absoluteFilePath());
+	if (!script_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+		//（读取失败时，不操作）
+	}else{
+		QString script_context = script_file.readAll();
+		script_file.close();
+		C_LEConfigData le_data = C_LEConfigData();
+		C_ActionSeqLength as_len = S_ActionSeqDataContainer::getInstance()->getActionSeqLength();
 
+		// > 由于这里专门针对 动作序列核心 ，所以参数都知道
+		le_data.initParam("Drill_CoreOfActionSequence", "动作序列-%d", as_len.realLen_actionSeq);
+		script_context = S_LEConfigWriter::getInstance()->doOverwritePlugin(script_context, le_annotation->getParamByKey("动作序列-%d"), le_data);
+
+		le_data.initParam("Drill_CoreOfActionSequence", "状态元-%d", as_len.realLen_state);
+		script_context = S_LEConfigWriter::getInstance()->doOverwritePlugin(script_context, le_annotation->getParamByKey("状态元-%d"), le_data);
+
+		le_data.initParam("Drill_CoreOfActionSequence", "动作元-%d", as_len.realLen_action);
+		script_context = S_LEConfigWriter::getInstance()->doOverwritePlugin(script_context, le_annotation->getParamByKey("动作元-%d"), le_data);
+
+		// > 写入脚本
+		if (script_context != "" &&
+			script_file.open(QIODevice::Truncate | QIODevice::WriteOnly | QIODevice::Text)) {
+
+			QTextStream write_stream(&script_file);
+			QTextCodec *codec2 = QTextCodec::codecForName("utf-8");
+			write_stream.flush();
+			write_stream.setCodec(codec2);
+			write_stream.seek(0);
+			write_stream << script_context;
+			script_file.close();
+		}
+	}
+
+
+	// ---------------------------------------------
 	// > 文件标记（插件说明）
 	QString explain_context = "";
 	explain_context = explain_context + "\n  该文件夹来自插件 Drill_CoreOfActionSequence 系统 - GIF动画序列核心。";

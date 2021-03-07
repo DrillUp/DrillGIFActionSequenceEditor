@@ -36,9 +36,9 @@ P_ActionSeqPart::P_ActionSeqPart(QWidget *parent)
 	//----初始化ui
 
 	// > 放映区、动作元、状态元
-	this->m_playingPart = new P_PlayingPart(parent);
 	this->m_statePart = new P_StatePart(parent);
 	this->m_actionPart = new P_ActionPart(parent);
+	this->m_playingPart = new P_PlayingPart(this->m_statePart, this->m_actionPart, parent);
 
 	// > 可折叠选项卡
 	this->m_p_FoldableTabRelater = new P_FoldableTabRelater(ui.tabWidget);	//（ui中的只是示意，该工具类会重建tab）
@@ -132,7 +132,10 @@ void P_ActionSeqPart::local_saveCurIndexData(){
 	this->m_cur_actionSeq.insert("默认的状态元集合", TTool::_QListQString_To_QJsonArrayString_(default_list));
 
 	// > 保存数据（放映区）
-	// ... this->m_cur_actionSeq 赋值操作
+	QStringList default_state_list = this->m_playingPart->getDefaultStateData();
+	if (default_state_list.count() != 0){
+		this->m_cur_actionSeq.insert("默认的状态元集合", TTool::_QListQString_To_QJsonArrayString_(default_state_list));
+	}
 	
 	// > 编辑标记
 	S_ProjectManager::getInstance()->setDirty();
@@ -172,7 +175,7 @@ void P_ActionSeqPart::local_loadIndexData(int index){
 	// > 加入数据（放映区）
 	QStringList defaultState = TTool::_QJsonArrayString_To_QListQString_(this->m_cur_actionSeq.value("默认的状态元集合").toString());
 	this->m_playingPart->setDefaultStateData(defaultState);
-	this->m_playingPart->setSource(this->m_cur_stateTank, this->m_cur_actionTank);
+	this->m_playingPart->refreshSource();
 
 	this->m_cur_actionSeqIndex = index;
 }

@@ -339,11 +339,11 @@ void P_AnimationListEditor::event_itemRightClicked(QList<QListWidgetItem*> item_
 			QMenu* menu_export = new QMenu("导出", menu);
 			menu_export->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Export.png"));
 
-			action = new QAction("生成PNG - 单图", this);
+			action = new QAction("导出 - 单图", this);
 			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/ExportImage.png"));
 			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_exportSingle_PicInAction);
 			menu_export->addAction(action);
-			action = new QAction("生成PNG - 全部帧", this);
+			action = new QAction("导出 - 全部帧", this);
 			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/ExportImage.png"));
 			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_exportAll_PicInAction);
 			menu_export->addAction(action);
@@ -451,11 +451,11 @@ void P_AnimationListEditor::event_itemRightClicked(QList<QListWidgetItem*> item_
 			QMenu* menu_export = new QMenu("导出", menu);
 			menu_export->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Export.png"));
 
-			action = new QAction("生成PNG - 选中帧", this);
+			action = new QAction("导出 - 选中帧", this);
 			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/ExportImage.png"));
 			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_exportSelected_PicInAction);
 			menu_export->addAction(action);
-			action = new QAction("生成PNG - 全部帧", this);
+			action = new QAction("导出 - 全部帧", this);
 			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/ExportImage.png"));
 			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_exportAll_PicInAction);
 			menu_export->addAction(action);

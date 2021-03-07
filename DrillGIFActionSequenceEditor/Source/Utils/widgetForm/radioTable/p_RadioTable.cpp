@@ -87,14 +87,10 @@ void P_RadioTable::refreshTableUi() {
 	this->m_itemTank = QList<QTableWidgetItem*>();
 	for (int i = 0; i < local_text.count(); i++){
 		QTableWidgetItem* item = new QTableWidgetItem();
-		if (this->m_config.zeroFill == true){
-			item->setText(TTool::_zeroFill_(i + 1, this->m_config.zeroFillCount, QLatin1Char(this->m_config.zeroFillChar.toLatin1())) + " " + local_text.at(i));
-		}else{
-			item->setText(QString::number(i+1));
-		}
 		item->setData(Qt::UserRole + 1, local_text.at(i));	//名称
 		this->m_table->setItem(i, 0, item);
 		this->m_itemTank.append(item);
+		this->refreshItem(item);		//（刷新项）
 	}
 
 	// > 单选/多选切换
@@ -119,24 +115,6 @@ void P_RadioTable::refreshTableUi() {
 	this->m_selectionSignalBlock_Root = false;
 }
 /*-------------------------------------------------
-		控件 - 修改指定位置文本（不发信号）
-*/
-void P_RadioTable::modifyText(int index, QString text){
-	if (index == -1 ){ return; }
-	if (index < 0){ index = 0; }
-	if (index >= this->m_itemTank.count()){ index = this->m_itemTank.count() - 1; }
-
-	QTableWidgetItem* item = this->m_itemTank.at(index);
-	item->setText(TTool::_zeroFill_(index + 1, this->m_config.zeroFillCount, QLatin1Char(this->m_config.zeroFillChar.toLatin1())) + " " + text);
-	item->setData(Qt::UserRole + 1, text);
-}
-/*-------------------------------------------------
-		控件 - 修改选中项文本（不发信号）
-*/
-void P_RadioTable::modifyText_Selected(QString text){
-	this->modifyText(this->getSelectedIndex(),text);
-}
-/*-------------------------------------------------
 		控件 - 清理全部
 */
 void P_RadioTable::clearAll(){
@@ -157,11 +135,69 @@ int P_RadioTable::count(){
 	return this->m_itemTank.count();
 }
 /*-------------------------------------------------
+		控件 - 修改指定位置文本（不发信号）
+*/
+void P_RadioTable::modifyText(int index, QString text){
+	if (index == -1 ){ return; }
+	if (index < 0){ index = 0; }
+	if (index >= this->m_itemTank.count()){ index = this->m_itemTank.count() - 1; }
+
+	// > 修改本地数据
+	this->local_text.replace(index, text);
+
+	// > 刷新项
+	QTableWidgetItem* item = this->m_itemTank.at(index);
+	item->setData(Qt::UserRole + 1, text);
+	this->refreshItem(item);
+}
+/*-------------------------------------------------
+		控件 - 修改选中项文本（不发信号）
+*/
+void P_RadioTable::modifyText_Selected(QString text){
+	this->modifyText(this->getSelectedIndex(),text);
+}
+/*-------------------------------------------------
+		控件 - 获取名称
+*/
+QString P_RadioTable::getTextByIndex(int index){
+	if (index == -1){ return ""; }
+	if (index < 0){ index = 0; }
+	if (index >= this->m_itemTank.count()){ index = this->m_itemTank.count() - 1; }
+
+	return this->getRealText(this->m_itemTank.at(index));
+}
+QStringList P_RadioTable::getTextByIndex(QList<int> index_list){
+	QStringList result_list = QStringList();
+	for (int i = 0; i < index_list.count(); i++){
+		result_list.append(this->getTextByIndex(index_list.at(i)));
+	}
+	return result_list;
+}
+/*-------------------------------------------------
 		控件 - 获取文本
 */
 QString P_RadioTable::getRealText(QTableWidgetItem* item){
 	if (item == nullptr){ return ""; }
 	return item->data(Qt::UserRole + 1).toString();
+}
+/*-------------------------------------------------
+		控件 - 刷新 项 自身文本
+*/
+void P_RadioTable::refreshItem(QTableWidgetItem* item){
+	int index = this->m_itemTank.indexOf(item);
+	if (index == -1){ return; }
+
+	QString text = this->getRealText(item);
+	if (this->m_config.showNumber == false){
+		item->setText(text);
+	}else{
+		if (this->m_config.zeroFill == true){
+			item->setText(TTool::_zeroFill_(index + 1, this->m_config.zeroFillCount, QLatin1Char(this->m_config.zeroFillChar.toLatin1())) + " " + text);
+		}else{
+			item->setText(QString::number(index + 1) + " " + text);
+		}
+	}
+	
 }
 
 /*-------------------------------------------------
@@ -212,8 +248,8 @@ void P_RadioTable::sltItemSelectionChanged(){
 			this->m_last_index = index;
 			emit currentIndexChanged(index);
 			emit currentTextChanged(this->getSelectedText());
-			emit currentIndexChanged_Multi(this->getSelectedIndex_Multi());
 		}
+		emit currentIndexChanged_Multi(this->getSelectedIndex_Multi());
 
 	}else if (selected_item.count() > 1){
 

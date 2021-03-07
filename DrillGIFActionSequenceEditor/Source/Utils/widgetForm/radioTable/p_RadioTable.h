@@ -33,17 +33,23 @@ class P_RadioTable : public QObject
 	public:
 									//控件 - 刷新表格
 		void refreshTableUi();
-									//控件 - 修改指定位置文本（不发textchange信号）
-		void modifyText(int index, QString text);
-									//控件 - 修改选中项文本（不发textchange信号）
-		void modifyText_Selected( QString text );
 									//控件 - 清理全部
 		void clearAll();
 									//控件 - 表格项数量
 		int count();
+									//控件 - 修改指定位置文本（不发textchange信号）
+		void modifyText(int index, QString text);
+									//控件 - 修改选中项文本（不发textchange信号）
+		void modifyText_Selected( QString text );
+									//控件 - 获取名称
+		QString getTextByIndex(int index);
+		QStringList getTextByIndex(QList<int> index_list);
+
 	protected:
 									//控件 - 获取文本
 		QString getRealText(QTableWidgetItem* item);
+									//控件 - 刷新 项 自身文本
+		void refreshItem(QTableWidgetItem* item);
 		
 	//-----------------------------------
 	//----数据（表格设置）
