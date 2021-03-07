@@ -30,6 +30,14 @@ P_ProjectCreate::P_ProjectCreate(QWidget* parent)
 
 	//-----------------------------------
 	//----参数初始化
+
+	// > 添加历史目录
+	QList<QDir> dir_list = S_ProjectManager::getInstance()->getHistoryDirTank();
+	for (int i = 0; i < dir_list.count(); i++){
+		this->m_pathList.append(dir_list.at(i).absolutePath());
+	}
+
+	// > 添加当前目录
 	QDir dir(this->local_ProjectData.getProjectRootPath());
 	dir.mkdir(this->local_ProjectData.getProjectRootPath());
 	this->addPath(this->local_ProjectData.getProjectRootPath());

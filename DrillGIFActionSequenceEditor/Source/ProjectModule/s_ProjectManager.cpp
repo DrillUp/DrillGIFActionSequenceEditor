@@ -6,13 +6,14 @@
 #include "data/c_ProjectData.h"
 #include "data/w_ProjectCreate.h"
 #include "storage/s_StorageManager.h"
+#include "storageGlobal/s_IniManager.h"
 #include "file/s_TempFileManager.h"
 
 #include "DrillGIFActionSequenceEditor.h"
 /*
 -----==========================================================-----
 		类：		项目管理.cpp
-		版本：		v1.13
+		版本：		v1.14
 		所属模块：	项目管理模块
 		功能：		项目管理相关数据、相关操作都在这里主要控制。
 					> 基本功能
@@ -25,7 +26,7 @@
 							关闭文件时根据是否改动，提示"当前有未保存的修改，是否保存？"。
 						> 非模态锁定：
 							创建非模态框时，执行项目的锁定方法，可以使得窗口在编辑期间，不能执行新建/打开/保存/另存为，也不能关闭窗口。
-						> 最近打开的文件：（未完成）
+						> 最近打开的文件：（history）
 							项目管理将记录最近打开的项目。
 					> temp文件夹
 						> 转移文件：
@@ -48,8 +49,17 @@
 
 S_ProjectManager::S_ProjectManager(){
 	S_TempFileManager::getInstance()->setSkipSuffix(S_TempFileManager::getInstance()->getSkipSuffix() << PROJECT_SUFFIX << "cbf");
+
+	// > 参数初始化
 	this->m_isDirty = false;
 	this->m_lockingWidgets.clear();
+
+	// > 历史记录初始化
+	this->m_historyProjectTank.clear();
+	this->m_historyDirTank.clear();
+	this->m_historyProjectMax = 10;
+	this->m_historyDirMax = 6;
+	this->loadHistory();
 }
 S_ProjectManager::~S_ProjectManager() {
 }
@@ -312,8 +322,12 @@ void S_ProjectManager::openProjectDirectly(QString open_path) {
 	this->clearProject();
 
 	// > 刷新项目路径
-	this->data_ProjectData.setPath(QFileInfo(open_path).absolutePath());
-	this->data_ProjectData.setName(QFileInfo(open_path).completeBaseName());
+	QFileInfo info(open_path);
+	this->data_ProjectData.setPath(info.absolutePath());
+	this->data_ProjectData.setName(info.completeBaseName());
+	this->addHistoryProject(info.absoluteFilePath());
+	this->addHistoryDir(info.absolutePath());
+	this->saveHistory();
 
 	// > 复制文件到temp中
 	bool success = S_TempFileManager::getInstance()->copyResourceToTemp_Dir(this->data_ProjectData.getProjectFilePath());
@@ -361,6 +375,9 @@ void S_ProjectManager::saveAll(QString url) {
 void S_ProjectManager::createSaveFile() {
 	// > 存储管理器
 	S_StorageManager::getInstance()->createSaveFile(this->data_ProjectData.getProjectFile());
+	this->addHistoryProject(this->data_ProjectData.getProjectFile());
+	this->addHistoryDir(this->data_ProjectData.getProjectRootPath());
+	this->saveHistory();
 
 	// > 复制 temp 到 src
 	S_TempFileManager::getInstance()->copyTempToTarget_DirWithAllSubfolders(this->data_ProjectData.getProjectFilePath());
@@ -441,6 +458,116 @@ void S_ProjectManager::setAllDataFromJsonObject(QJsonObject obj_all){
 
 	/*----------------项目路径需要重新刷当前的新路径----------------*/
 	this->data_ProjectData.setPath( this->m_storage_fileInfo.absolutePath());
+}
+
+
+/* --------------------------------------------------------------
+		历史记录 - 获取项目
+*/
+QList<QFileInfo> S_ProjectManager::getHistoryProjectTank(){
+	return this->m_historyProjectTank;
+}
+/* --------------------------------------------------------------
+		历史记录 - 添加项目
+*/
+void S_ProjectManager::addHistoryProject(QFileInfo info){
+	
+	// > 已存在时，前置
+	if (this->m_historyProjectTank.contains(info)){
+		this->m_historyProjectTank.removeOne(info);
+		this->m_historyProjectTank.push_front(info);
+		return; 
+	}
+
+	// > 不存在时，添加
+	this->m_historyProjectTank.insert(0, info);
+	
+	if (this->m_historyProjectTank.count() > this->m_historyProjectMax){
+		this->m_historyProjectTank.removeLast();
+	}
+}
+/* --------------------------------------------------------------
+		历史记录 - 去除项目
+*/
+void S_ProjectManager::removeHistoryProject(int index){
+	if (index < 0){ return; }
+	if (index >= this->m_historyProjectTank.count()){ return; }
+	this->m_historyProjectTank.removeAt(index);
+}
+/* --------------------------------------------------------------
+		历史记录 - 获取根目录
+*/
+QList<QDir> S_ProjectManager::getHistoryDirTank(){
+	return this->m_historyDirTank;
+}
+/* --------------------------------------------------------------
+		历史记录 - 添加根目录
+*/
+void S_ProjectManager::addHistoryDir(QDir dir){
+
+	// > 已存在时，前置
+	if (this->m_historyDirTank.contains(dir)){
+		this->m_historyDirTank.removeOne(dir);
+		this->m_historyDirTank.push_front(dir);
+		return;
+	}
+
+	// > 不存在时，添加
+	this->m_historyDirTank.insert(0, dir);
+
+	if (this->m_historyDirTank.count() > this->m_historyDirMax){
+		this->m_historyDirTank.removeLast();
+	}
+}
+/* --------------------------------------------------------------
+		历史记录 - 去除根目录
+*/
+void S_ProjectManager::removeHistoryDir(int index){
+	if (index < 0){ return; }
+	if (index >= this->m_historyDirTank.count()){ return; }
+	this->m_historyDirTank.removeAt(index);
+}
+/* --------------------------------------------------------------
+		历史记录 - 保存记录（私有）
+*/
+void S_ProjectManager::saveHistory(){
+
+	QStringList project_list = QStringList();
+	for (int i = 0; i < this->m_historyProjectTank.count(); i++){
+		QFileInfo info = this->m_historyProjectTank.at(i);
+		project_list.append(info.absoluteFilePath());
+	}
+	QStringList dir_list = QStringList();
+	for (int i = 0; i < this->m_historyDirTank.count(); i++){
+		QDir dir = this->m_historyDirTank.at(i);
+		dir_list.append(dir.absolutePath());
+	}
+
+	S_IniManager::getInstance()->setConfig("COAS_historyProject", project_list.join("|"));
+	S_IniManager::getInstance()->setConfig("COAS_historyDir", dir_list.join("|"));
+}
+/* --------------------------------------------------------------
+		历史记录 - 读取记录（私有）
+*/
+void S_ProjectManager::loadHistory(){
+	QStringList project_list = S_IniManager::getInstance()->getConfig("COAS_historyProject").split("|");	//（用竖线划分）
+	QStringList dir_list = S_IniManager::getInstance()->getConfig("COAS_historyDir").split("|");	
+
+	this->m_historyProjectTank.clear();
+	for (int i = 0; i < project_list.count(); i++){
+		QString path = project_list.at(i);
+		QFileInfo info(path);
+		if (info.exists() == false){ continue; }
+		this->m_historyProjectTank.append(info);
+	}
+
+	this->m_historyDirTank.clear();
+	for (int i = 0; i < dir_list.count(); i++){
+		QString path = dir_list.at(i);
+		QDir dir(path);
+		if (dir.exists() == false){ continue; }
+		this->m_historyDirTank.append(dir);
+	}
 }
 
 /* --------------------------------------------------------------

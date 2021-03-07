@@ -6,7 +6,7 @@
 /*
 -----==========================================================-----
 		类：		项目管理.h
-		版本：		v1.13
+		版本：		v1.14
 		所属模块：	项目管理模块
 		功能：		项目管理相关数据、相关操作都在这里主要控制。
 					（详细见cpp）
@@ -118,6 +118,32 @@ class S_ProjectManager : public QObject, public S_StorageManagerTemplate
 		QJsonObject getAllDataOfJsonObject();
 										//数据 - QJsonObject -> 全部项目管理数据
 		void setAllDataFromJsonObject(QJsonObject obj);
+		
+	//-----------------------------------
+	//----历史记录
+	protected:
+		QList<QFileInfo> m_historyProjectTank;	//历史项目
+		QList<QDir> m_historyDirTank;			//历史根目录
+		int m_historyProjectMax;				//历史项目存量
+		int m_historyDirMax;					//历史根目录存量
+	public:
+										//历史记录 - 获取项目
+		QList<QFileInfo> getHistoryProjectTank();
+										//历史记录 - 添加项目
+		void addHistoryProject(QFileInfo info);
+										//历史记录 - 去除项目
+		void removeHistoryProject(int index);
+										//历史记录 - 获取根目录
+		QList<QDir> getHistoryDirTank();
+										//历史记录 - 添加根目录
+		void addHistoryDir(QDir dir);
+										//历史记录 - 去除根目录
+		void removeHistoryDir(int index);
+	protected:
+										//历史记录 - 保存记录（私有）
+		void saveHistory();
+										//历史记录 - 读取记录（私有）
+		void loadHistory();
 
 		
 	//-----------------------------------
