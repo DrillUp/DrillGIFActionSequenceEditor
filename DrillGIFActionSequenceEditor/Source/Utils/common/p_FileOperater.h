@@ -4,7 +4,7 @@
 /*
 -----==========================================================-----
 		类：		文件操作器.h
-		版本：		v1.21
+		版本：		v1.22
 		所属模块：	工具模块
 		功能：		提供最基础的文件操作功能。
 					（详细内容见.cpp）
@@ -49,6 +49,7 @@ class P_FileOperater : public QObject
 	//-----------------------------------
 	//----私有
 	protected:
+		virtual bool isSameFile(QFileInfo filePath_from, QFileInfo filePath_to);	//判断重复文件
 		virtual bool copyFilePrivate(QString filePath_from, QString filePath_to);	//复制文件（私有）
 		virtual bool copyDirPrivate(QString dirPath_from, QString dirPath_to);		//复制文件夹（私有，只复制子文件）
 		virtual bool copyDirPrivate_recursion(QString dirPath_tarParent, int tar_depth, QString dirPath_curParent, QString dirPath_cur, int cur_depth);	//递归复制文件夹（私有）

@@ -5,12 +5,13 @@
 /*
 -----==========================================================-----
 		类：		文件操作器.cpp
-		版本：		v1.21
+		版本：		v1.22
 		所属模块：	工具模块
 		功能：		提供最基础的文件操作功能。
 
 		子功能：	->复制文件/文件夹
 					->删除文件/文件夹
+					->重复文件过滤（文件名+大小+修改时间）
 -----==========================================================-----
 */
 
@@ -98,6 +99,15 @@ bool P_FileOperater::remove_FileByNameNoSuffix_WithAllSubfolders(QDir dirPath, Q
 
 
 /*-------------------------------------------------
+		私有 - 判断重复文件
+*/
+bool P_FileOperater::isSameFile(QFileInfo filePath_from, QFileInfo filePath_to){
+	if (filePath_from.fileName() != filePath_to.fileName()){ return false; }			//(不重名跳过)
+	if (filePath_from.size() != filePath_to.size()){ return false; }					//(大小不同跳过)
+	if (filePath_from.lastModified() != filePath_to.lastModified()){ return false; }	//(修改日期不同跳过)
+	return true;
+}
+/*-------------------------------------------------
 		私有 - 复制文件 A -> B （非文件夹）
 */
 bool P_FileOperater::copyFilePrivate(QString filePath_from, QString filePath_to) {
@@ -106,15 +116,21 @@ bool P_FileOperater::copyFilePrivate(QString filePath_from, QString filePath_to)
 	QFile file_from(info_from.absoluteFilePath());
 	QFile file_to(info_to.absoluteFilePath());
 	if (info_from.absoluteFilePath() == info_to.absoluteFilePath()){ return true; }		//（相同路径跳过）
+	if (this->isSameFile(info_from, info_to)){ return true; }							//（文件重复则跳过）
 
-	if (!file_from.open(QIODevice::ReadOnly)) { return false; }
-	if (!file_to.open(QIODevice::WriteOnly | QIODevice::Truncate)) { return false; }
+	file_to.remove();
+	bool success = file_from.copy(info_to.absoluteFilePath());
+	return success;
 
-	QByteArray ba = file_from.readAll();
-	file_to.write(ba);
-	file_from.close();
-	file_to.close();
-	return true;
+	// （该写法会改变修改日期）
+	//if (!file_from.open(QIODevice::ReadOnly)) { return false; }
+	//if (!file_to.open(QIODevice::WriteOnly | QIODevice::Truncate)) { return false; }
+	//
+	//QByteArray ba = file_from.readAll();
+	//file_to.write(ba);
+	//file_from.close();
+	//file_to.close();
+	//return true;
 }
 /*-------------------------------------------------
 		私有 - 复制文件 A -> B （只复制子文件）
