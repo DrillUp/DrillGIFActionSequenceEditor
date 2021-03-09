@@ -46,6 +46,9 @@ P_PlayingPart::P_PlayingPart(P_StatePart* state_part, P_ActionPart* action_part,
 	this->m_timerInterval = 10;					//播放帧间隔
 	connect(this->m_timer, SIGNAL(timeout()), this, SLOT(updateFrame()));
 
+	//-----------------------------------
+	//----初始化ui
+
 	// > 编辑表格
 	this->m_table_action = new P_RadioTable(ui.tableWidget_action);
 	this->m_table_state = new P_RadioTable(ui.tableWidget_state);
@@ -61,9 +64,9 @@ P_PlayingPart::P_PlayingPart(P_StatePart* state_part, P_ActionPart* action_part,
 	this->m_table_state->setConfigParam(rat_config2);
 	this->m_table_state->setItemOuterControlEnabled(false);
 
-
-	//-----------------------------------
-	//----初始化ui
+	// > 图片查看块
+	this->m_p_AnimPictureViewer = new P_AnimPictureViewer(ui.widget_view);
+	this->m_p_AnimPictureViewer->rebuildUI();
 
 
 	//-----------------------------------

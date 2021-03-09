@@ -3,7 +3,7 @@
 /*
 -----==========================================================-----
 		类：		GIF转换器.h
-		版本：		v1.02
+		版本：		v1.03
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		提供GIF文件转换等功能。
@@ -47,6 +47,9 @@ class S_GIFManager : public QObject
 										//		【参数4】：保存的文件名（%1表示数字，如"小爱丽丝%1"）
 		bool dismantlingGIF(QFileInfo gif_path, QDir image_dir_path, char* suffix);
 		bool dismantlingGIF(QFileInfo gif_path, QDir image_dir_path, char* suffix, QString imageName);
+										//拆解 - 获取gif帧数
+										//		【返回】：0表示打开文件失败 或 读取文件失败。
+		int getGIFFrameCount(QFileInfo gif_path);
 
 										//拆解 - 获取拆解后的帧间隔数据
 		QList<int> getLastDismantledGIFIntervalList();

@@ -36,8 +36,8 @@ I_APVScene::~I_APVScene(){
 void I_APVScene::init(){
 
 	// > ÊôÐÔ£¨Ä¬ÈÏ£©
-	this->m_canvasWidth = 400;
-	this->m_canvasHeight = 300;
+	this->m_canvasWidth = 800;
+	this->m_canvasHeight = 600;
 	this->m_canvasThickness = 40;
 	this->m_pixelWidth = 24;
 	this->m_pixelHeight = 24;

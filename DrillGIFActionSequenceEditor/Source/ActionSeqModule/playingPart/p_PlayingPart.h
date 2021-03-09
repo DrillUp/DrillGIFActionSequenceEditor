@@ -32,6 +32,7 @@ class P_PlayingPart : public QWidget
 		P_StatePart* m_statePart;
 		P_RadioTable* m_table_action;
 		P_RadioTable* m_table_state;
+		P_AnimPictureViewer* m_p_AnimPictureViewer;
 	public slots:
 										//控件 - 编辑状态元集合
 		void editDefaultStateGroup();
@@ -74,6 +75,12 @@ class P_PlayingPart : public QWidget
 	signals:
 										//动画帧 - 开始播放（信号）
 		void playStarted();
+
+	//-----------------------------------
+	//----资源列表
+	private:
+		QStringList m_srcTank;
+		QList<QPixmap> m_bitmapTank;
 
 	//-----------------------------------
 	//----窗口

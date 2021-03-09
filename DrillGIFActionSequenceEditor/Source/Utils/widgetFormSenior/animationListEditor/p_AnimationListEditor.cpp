@@ -4,9 +4,12 @@
 #include "private/p_ALEBlock.h"
 #include "private/w_ALEDataEdit.h"
 #include "private/w_ALEConfigEdit.h"
+#include "private/w_ALELoadGIFType.h"
+
+#include "Source/DllModule/cximagecrt_drill/src_header/s_cximageManager.h"
+#include "Source/Utils/manager/GIFManager/s_GIFManager.h"
 
 #include "Source/Utils/widgetForm/pictureSelector/p_PictureSelector.h"
-#include "Source/Utils/manager/GIFManager/s_GIFManager.h"
 #include "Source/Utils/common/p_FileOperater.h"
 #include "Source/Utils/common/TTool.h"
 
@@ -797,20 +800,51 @@ void P_AnimationListEditor::op_insertGIFInAction(){
 	QAction* cur_action = qobject_cast<QAction*>(sender());		//从action里面取出数据
 	int pos = cur_action->data().value<int>();
 
-	// > 拆解GIF到目录
-	QString file = this->openWindow_getGIFFile();
-	bool successed = S_GIFManager::getInstance()->dismantlingGIF(QFileInfo(file), QDir(this->m_data.getFileRoot()+"/"),"png","%2_%1");
-	if (successed == false){
-		QMessageBox::warning(this->m_listWidget, "错误", "GIF解析失败。", QMessageBox::Yes);
-		return;
+	int reader = 0;
+	W_ALELoadGIFType d(this->m_listWidget);
+	if (d.exec() == QDialog::Accepted){
+		reader = d.getData();
 	}
 
-	// > 获取文件名
-	QList<int> interval_list = S_GIFManager::getInstance()->getLastDismantledGIFIntervalList();
-	QList<QFileInfo> file_list = S_GIFManager::getInstance()->getLastDismantledGIFFileList();
 	QStringList file_name_list = QStringList();
-	for (int i = 0; i <file_list.count(); i++){
-		file_name_list.append(file_list.at(i).completeBaseName());
+	QList<int> interval_list = QList<int>();
+
+	// > QImageReader读取
+	if (reader == 0){
+
+		// > 拆解GIF到目录
+		QString file = this->openWindow_getGIFFile();
+		bool successed = S_GIFManager::getInstance()->dismantlingGIF(QFileInfo(file), QDir(this->m_data.getFileRoot() + "/"), "png", "%2_%1");
+		if (successed == false){
+			QMessageBox::warning(this->m_listWidget, "错误", "GIF解析失败。", QMessageBox::Yes);
+			return;
+		}
+
+		// > 获取文件名
+		interval_list = S_GIFManager::getInstance()->getLastDismantledGIFIntervalList();
+		QList<QFileInfo> file_list = S_GIFManager::getInstance()->getLastDismantledGIFFileList();
+		for (int i = 0; i < file_list.count(); i++){
+			file_name_list.append(file_list.at(i).completeBaseName());
+		}
+
+
+	// > cximage读取
+	}else if (reader == 1){
+		
+		// > 拆解GIF到目录
+		QString file = this->openWindow_getGIFFile();
+		bool successed = S_cximageManager::getInstance()->dismantlingGIF(QFileInfo(file), QDir(this->m_data.getFileRoot() + "/"), "png", "%2_%1");
+		if (successed == false){
+			QMessageBox::warning(this->m_listWidget, "错误", "GIF解析失败。", QMessageBox::Yes);
+			return;
+		}
+
+		// > 获取文件名
+		interval_list = S_cximageManager::getInstance()->getLastDismantledGIFIntervalList();
+		QList<QFileInfo> file_list = S_cximageManager::getInstance()->getLastDismantledGIFFileList();
+		for (int i = 0; i < file_list.count(); i++){
+			file_name_list.append(file_list.at(i).completeBaseName());
+		}
 	}
 
 	this->op_insert(pos, file_name_list, interval_list);
@@ -1005,7 +1039,7 @@ void P_AnimationListEditor::op_exportGIF_Multi(QList<int> index_list, QFileInfo 
 	QList<double> interval_list = this->m_data.getIntervalWithUnit_Multi(index_list);
 
 	// > 生成GIF
-	S_GIFManager::getInstance()->generateGIF(
+	S_cximageManager::getInstance()->generateGIF(
 		fileInfo_list,
 		target_file.absoluteFilePath(),
 		interval_default,

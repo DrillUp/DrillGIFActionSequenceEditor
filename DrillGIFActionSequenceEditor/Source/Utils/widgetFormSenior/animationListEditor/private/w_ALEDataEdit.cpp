@@ -46,8 +46,7 @@ W_ALEDataEdit::W_ALEDataEdit(QWidget *parent)
 		<< "0.01秒" << "0.02秒" << "0.03秒" << "0.04秒" << "0.05秒"
 		<< "0.10秒" << "0.20秒" << "0.30秒" << "0.40秒" << "0.50秒"
 		<< "1.00秒" << "5.00秒" << "自定义");
-	if (ui.buttonBox->button(QDialogButtonBox::Ok) != nullptr){ ui.buttonBox->button(QDialogButtonBox::Ok)->setText("确定"); }
-	if (ui.buttonBox->button(QDialogButtonBox::Cancel) != nullptr){ ui.buttonBox->button(QDialogButtonBox::Cancel)->setText("取消"); }
+	TTool::_chinese_(ui.buttonBox);
 
 	//-----------------------------------
 	//----事件绑定

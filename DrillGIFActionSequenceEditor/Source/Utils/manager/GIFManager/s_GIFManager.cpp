@@ -8,7 +8,7 @@
 /*
 -----==========================================================-----
 		类：		GIF转换器.cpp
-		版本：		v1.02
+		版本：		v1.03
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		提供GIF文件转换等功能。
@@ -17,7 +17,7 @@
 		目标：		-> 拆解GIF
 					-> 合成GIF
 
-		大坑：		【透明的gif会有图片重影问题】
+		大坑：		【QImageReader读取 透明的gif 会有图片重影问题】
 						1. 于是我从QMoive找到QImageReader，再找到QGifHandler最底层。
 						2. 为了修改这个底层，我将源码找到，新写了个 p_DrillGIFHandler。（已被删除）
 						3. 这个底层是通过decode【每帧解码】的方式读取的。【无法直接解码指定的一帧】
@@ -164,13 +164,7 @@ bool S_GIFManager::dismantlingGIF(QFileInfo gif_path, QDir image_dir_path, char*
 	
 	// > 数量提示
 	int image_count = reader->imageCount();
-	if (image_count > 100){
-		QMessageBox box(QMessageBox::Question, "提示", "GIF的帧数超过100，速度较慢，是否继续？");
-		box.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-		box.setButtonText(QMessageBox::Ok, QString("继续"));
-		box.setButtonText(QMessageBox::Cancel, QString("取消"));
-		if (box.exec() == QMessageBox::Cancel){ return false; };
-	}
+	if (image_count == 0){ return false; }
 	
 	// > 读取帧
 	bool has_transparentArea = false;
@@ -201,6 +195,16 @@ bool S_GIFManager::dismantlingGIF(QFileInfo gif_path, QDir image_dir_path, char*
 	delete reader;
 
 	return true;
+}
+/*-------------------------------------------------
+		拆解 - 获取gif帧数
+*/
+int S_GIFManager::getGIFFrameCount(QFileInfo gif_path){
+	QImageReader* reader = new QImageReader();
+	reader->setFileName(gif_path.absolutePath());
+	int result = reader->imageCount();
+	delete reader;
+	return result;
 }
 
 /*-------------------------------------------------

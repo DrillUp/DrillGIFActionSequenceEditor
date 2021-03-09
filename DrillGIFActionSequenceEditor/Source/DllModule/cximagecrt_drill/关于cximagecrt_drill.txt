@@ -1,0 +1,5 @@
+15:37 2021/3/9
+
+	该库封装来自 cximagecrt_drill 工程。（该工程进一步封装了cximagecrt）
+	具体工程见： https://github.com/DrillUp/cximagecrt_drill
+
