@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "W_ALELoadGIFType.h"
+#include "w_ALEGIFReaderType.h"
 
 #include "Source/Utils/common/TTool.h"
 
@@ -19,7 +19,7 @@
 -----==========================================================-----
 */
 
-W_ALELoadGIFType::W_ALELoadGIFType(QWidget *parent)
+W_ALEGIFReaderType::W_ALEGIFReaderType(QWidget *parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
@@ -30,33 +30,33 @@ W_ALELoadGIFType::W_ALELoadGIFType(QWidget *parent)
 
 	//-----------------------------------
 	//----初始化ui
-	connect(ui.buttonBox, &QDialogButtonBox::accepted, this, &W_ALELoadGIFType::acceptData);
+	connect(ui.buttonBox, &QDialogButtonBox::accepted, this, &W_ALEGIFReaderType::acceptData);
 	TTool::_chinese_(ui.buttonBox);
 
 }
 
-W_ALELoadGIFType::~W_ALELoadGIFType(){
+W_ALEGIFReaderType::~W_ALEGIFReaderType(){
 }
 
 
 /*-------------------------------------------------
 		窗口 - 设置数据
 */
-void W_ALELoadGIFType::setDataInModifyMode(int index){
+void W_ALEGIFReaderType::setDataInModifyMode(int index){
 	this->local_index = index;
 	this->putDataToUi();
 };
 /*-------------------------------------------------
 		窗口 - 取出数据
 */
-int W_ALELoadGIFType::getData(){
+int W_ALEGIFReaderType::getData(){
 	this->putUiToData();
 	return this->local_index;
 };
 /*-------------------------------------------------
 		窗口 - 本地数据 -> ui数据
 */
-void W_ALELoadGIFType::putDataToUi() {
+void W_ALEGIFReaderType::putDataToUi() {
 
 	if (this->local_index == 0){ ui.radioButton->setChecked(true); }
 	if (this->local_index == 1){ ui.radioButton_2->setChecked(true); }
@@ -64,7 +64,7 @@ void W_ALELoadGIFType::putDataToUi() {
 /*-------------------------------------------------
 		窗口 - ui数据 -> 本地数据
 */
-void W_ALELoadGIFType::putUiToData() {
+void W_ALEGIFReaderType::putUiToData() {
 	
 	if (ui.radioButton->isChecked()){ this->local_index = 0; }
 	if (ui.radioButton_2->isChecked()){ this->local_index = 1; }
@@ -72,7 +72,7 @@ void W_ALELoadGIFType::putUiToData() {
 /*-------------------------------------------------
 		窗口 - 提交数据（校验）
 */
-void W_ALELoadGIFType::acceptData(){
+void W_ALEGIFReaderType::acceptData(){
 	this->putUiToData();
 
 	this->accept();

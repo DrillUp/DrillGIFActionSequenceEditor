@@ -2,7 +2,7 @@
 #define W_ALELoadGIFType_H
 
 #include <QDialog>
-#include "ui_W_ALELoadGIFType.h"
+#include "ui_W_ALEGIFReaderType.h"
 
 /*
 -----==========================================================-----
@@ -13,13 +13,13 @@
 					£¨ÏêÏ¸¼ûcpp£©
 -----==========================================================-----
 */
-class W_ALELoadGIFType : public QDialog
+class W_ALEGIFReaderType : public QDialog
 {
 	Q_OBJECT
 
 	public:
-		W_ALELoadGIFType(QWidget *parent = 0 );
-		~W_ALELoadGIFType();
+		W_ALEGIFReaderType(QWidget *parent = 0 );
+		~W_ALEGIFReaderType();
 
 	//-----------------------------------
 	//----´°¿Ú
@@ -40,7 +40,7 @@ class W_ALELoadGIFType : public QDialog
 		void acceptData();	
 
 	private:
-		Ui::W_ALELoadGIFType ui;
+		Ui::W_ALEGIFReaderType ui;
 	//-----------------------------------
 };
 

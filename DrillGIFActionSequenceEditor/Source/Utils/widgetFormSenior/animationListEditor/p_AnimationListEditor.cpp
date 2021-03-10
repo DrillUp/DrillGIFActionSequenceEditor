@@ -4,7 +4,7 @@
 #include "private/p_ALEBlock.h"
 #include "private/w_ALEDataEdit.h"
 #include "private/w_ALEConfigEdit.h"
-#include "private/w_ALELoadGIFType.h"
+#include "private/w_ALEGIFReaderType.h"
 
 #include "Source/DllModule/cximagecrt_drill/src_header/s_cximageManager.h"
 #include "Source/Utils/manager/GIFManager/s_GIFManager.h"
@@ -801,9 +801,11 @@ void P_AnimationListEditor::op_insertGIFInAction(){
 	int pos = cur_action->data().value<int>();
 
 	int reader = 0;
-	W_ALELoadGIFType d(this->m_listWidget);
+	W_ALEGIFReaderType d(this->m_listWidget);
 	if (d.exec() == QDialog::Accepted){
 		reader = d.getData();
+	}else{
+		return;
 	}
 
 	QStringList file_name_list = QStringList();
@@ -814,8 +816,9 @@ void P_AnimationListEditor::op_insertGIFInAction(){
 
 		// > 拆解GIF到目录
 		QString file = this->openWindow_getGIFFile();
+		if (file == ""){ return; }
 		bool successed = S_GIFManager::getInstance()->dismantlingGIF(QFileInfo(file), QDir(this->m_data.getFileRoot() + "/"), "png", "%2_%1");
-		if (successed == false){
+		if ( successed == false){
 			QMessageBox::warning(this->m_listWidget, "错误", "GIF解析失败。", QMessageBox::Yes);
 			return;
 		}
@@ -833,6 +836,7 @@ void P_AnimationListEditor::op_insertGIFInAction(){
 		
 		// > 拆解GIF到目录
 		QString file = this->openWindow_getGIFFile();
+		if (file == ""){ return; }
 		bool successed = S_cximageManager::getInstance()->dismantlingGIF(QFileInfo(file), QDir(this->m_data.getFileRoot() + "/"), "png", "%2_%1");
 		if (successed == false){
 			QMessageBox::warning(this->m_listWidget, "错误", "GIF解析失败。", QMessageBox::Yes);

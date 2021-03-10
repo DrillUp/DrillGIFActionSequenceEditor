@@ -797,13 +797,22 @@
     <ClCompile Include="GeneratedFiles\Release\moc_s_GIFManager.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Utils\widgetFormSenior\animationListEditor\private\w_ALELoadGIFType.cpp">
+    <ClCompile Include="Source\Utils\widgetFormSenior\animationListEditor\private\w_ALEGIFReaderType.cpp">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块\私有类</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_w_ALELoadGIFType.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_w_ALEGIFReaderType.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_w_ALELoadGIFType.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_w_ALEGIFReaderType.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\animationListEditor\private\w_ALEGIFWriterType.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块\私有类</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_w_ALEGIFWriterType.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_w_ALEGIFWriterType.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1054,10 +1063,16 @@
     <CustomBuild Include="Source\Utils\manager\GIFManager\s_GIFManager.h">
       <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\GIF转换器</Filter>
     </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetFormSenior\animationListEditor\private\w_ALELoadGIFType.h">
+    <CustomBuild Include="Source\Utils\widgetFormSenior\animationListEditor\private\w_ALEGIFReaderType.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块\私有类</Filter>
     </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetFormSenior\animationListEditor\private\w_ALELoadGIFType.ui">
+    <CustomBuild Include="Source\Utils\widgetFormSenior\animationListEditor\private\w_ALEGIFReaderType.ui">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块\私有类</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\animationListEditor\private\w_ALEGIFWriterType.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块\私有类</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\animationListEditor\private\w_ALEGIFWriterType.ui">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块\私有类</Filter>
     </CustomBuild>
   </ItemGroup>
@@ -1218,7 +1233,10 @@
     <ClInclude Include="Source\Utils\manager\GIFManager\gif.h">
       <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\GIF转换器</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_w_ALELoadGIFType.h">
+    <ClInclude Include="GeneratedFiles\ui_w_ALEGIFReaderType.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_w_ALEGIFWriterType.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
