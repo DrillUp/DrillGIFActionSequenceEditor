@@ -154,6 +154,7 @@ bool P_PlayingPart::isPlaying(){
 		放映区 - 播放
 */
 void P_PlayingPart::btn_play(){
+	QMessageBox::information(this, "提示", "放映区功能还未完成，按钮点击没有效果。", QMessageBox::Yes);
 	if (this->isPlaying() == true){
 		this->stopFrame();
 		return;

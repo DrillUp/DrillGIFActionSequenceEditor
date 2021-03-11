@@ -138,7 +138,7 @@ class P_AnimationListEditor : public P_PictureSelector
 									//导出 - 导出多图
 		void op_exportPic_Multi(QList<int> index_list, QDir target_dir);
 									//导出 - 导出GIF
-		void op_exportGIF_Multi(QList<int> index_list, QFileInfo target_file);
+		void op_exportGIF_Multi(QList<int> index_list, QFileInfo target_file, int writerMethod);
 	public slots:
 									//导出 - 设置导出名称
 		void setExportName(QString name);

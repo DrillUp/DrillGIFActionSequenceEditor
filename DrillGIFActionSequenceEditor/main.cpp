@@ -4,6 +4,7 @@
 #include "Source/MainModule/drillgifactionsequenceeditor.h"
 #include "Source/MainModule/firstTip/w_SoftwareFirstTip.h"
 #include "Source/ProjectModule/storageGlobal/s_IniManager.h"
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {

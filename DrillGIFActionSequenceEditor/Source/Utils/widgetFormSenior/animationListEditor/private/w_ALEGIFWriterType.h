@@ -1,5 +1,5 @@
-#ifndef W_ALELoadGIFType_H
-#define W_ALELoadGIFType_H
+#ifndef W_ALEGIFWriterType_H
+#define W_ALEGIFWriterType_H
 
 #include <QDialog>
 #include "ui_W_ALEGIFWriterType.h"
@@ -44,4 +44,4 @@ class W_ALEGIFWriterType : public QDialog
 	//-----------------------------------
 };
 
-#endif // W_ALELoadGIFType_H
+#endif // W_ALEGIFWriterType_H

@@ -5,6 +5,7 @@
 #include "private/w_ALEDataEdit.h"
 #include "private/w_ALEConfigEdit.h"
 #include "private/w_ALEGIFReaderType.h"
+#include "private/w_ALEGIFWriterType.h"
 
 #include "Source/DllModule/cximagecrt_drill/src_header/s_cximageManager.h"
 #include "Source/Utils/manager/GIFManager/s_GIFManager.h"
@@ -800,10 +801,10 @@ void P_AnimationListEditor::op_insertGIFInAction(){
 	QAction* cur_action = qobject_cast<QAction*>(sender());		//从action里面取出数据
 	int pos = cur_action->data().value<int>();
 
-	int reader = 0;
+	int readerMethod = 0;
 	W_ALEGIFReaderType d(this->m_listWidget);
 	if (d.exec() == QDialog::Accepted){
-		reader = d.getData();
+		readerMethod = d.getData();
 	}else{
 		return;
 	}
@@ -812,7 +813,7 @@ void P_AnimationListEditor::op_insertGIFInAction(){
 	QList<int> interval_list = QList<int>();
 
 	// > QImageReader读取
-	if (reader == 0){
+	if (readerMethod == 0){
 
 		// > 拆解GIF到目录
 		QString file = this->openWindow_getGIFFile();
@@ -832,7 +833,7 @@ void P_AnimationListEditor::op_insertGIFInAction(){
 
 
 	// > cximage读取
-	}else if (reader == 1){
+	}else if (readerMethod == 1){
 		
 		// > 拆解GIF到目录
 		QString file = this->openWindow_getGIFFile();
@@ -1033,7 +1034,7 @@ void P_AnimationListEditor::op_exportPic_Multi(QList<int> index_list, QDir targe
 /*-------------------------------------------------
 		导出 - 导出GIF（指定项）
 */
-void P_AnimationListEditor::op_exportGIF_Multi(QList<int> index_list, QFileInfo target_file){
+void P_AnimationListEditor::op_exportGIF_Multi(QList<int> index_list, QFileInfo target_file, int writerMethod){
 
 	// > 文件列表
 	QList<QFileInfo> fileInfo_list = this->m_data.getFile_Multi(index_list);
@@ -1042,13 +1043,28 @@ void P_AnimationListEditor::op_exportGIF_Multi(QList<int> index_list, QFileInfo 
 	double interval_default = this->m_data.getIntervalDefaultWithUnit();
 	QList<double> interval_list = this->m_data.getIntervalWithUnit_Multi(index_list);
 
-	// > 生成GIF
-	S_cximageManager::getInstance()->generateGIF(
-		fileInfo_list,
-		target_file.absoluteFilePath(),
-		interval_default,
-		TTool::_QList_DoubleToInt_floor_(interval_list)
-	);
+	// > gif.h生成
+	if (writerMethod == 0){
+		
+		S_GIFManager::getInstance()->generateGIF(
+			fileInfo_list,
+			target_file.absoluteFilePath(),
+			interval_default,
+			TTool::_QList_DoubleToInt_floor_(interval_list)
+		);
+
+	// > cximage生成
+	}else{
+
+		S_cximageManager::getInstance()->generateGIF(
+			fileInfo_list,
+			target_file.absoluteFilePath(),
+			interval_default,
+			TTool::_QList_DoubleToInt_floor_(interval_list)
+		);
+	}
+
+	QMessageBox::information(this->m_listWidget, "提示", "GIF导出成功。", QMessageBox::Yes);
 }
 /*-------------------------------------------------
 		action - 导出单图
@@ -1093,28 +1109,52 @@ void P_AnimationListEditor::op_exportAll_PicInAction(){
 		action - 导出GIF - 选中项
 */
 void P_AnimationListEditor::op_exportSelected_GIFInAction(){
+
+	// > 选择项
 	QList<int> selected_list = this->getSelectedIndex_Multi();
 	if (selected_list.count() == 0){ QMessageBox::warning(this->m_listWidget, "提示", "需要选择至少一个动画帧才能导出。", QMessageBox::Yes); return; }
+
+	// > 选择方式
+	int writerMethod = 0;
+	W_ALEGIFWriterType d(this->m_listWidget);
+	if (d.exec() == QDialog::Accepted){
+		writerMethod = d.getData();
+	}else{
+		return;
+	}
+
+	// > 选择存储文件
 	QString path = this->openWindow_exportGIFFile();
 	if (path == ""){ return; }
 
-	this->op_exportGIF_Multi(selected_list, QFileInfo(path));
-	QMessageBox::information(this->m_listWidget, "提示", "GIF导出成功。", QMessageBox::Yes);
+	this->op_exportGIF_Multi(selected_list, QFileInfo(path), writerMethod);
 }
 /*-------------------------------------------------
 		action - 导出GIF - 全部项
 */
 void P_AnimationListEditor::op_exportAll_GIFInAction(){
+
+	// > 选择项
 	QList<int> selected_list = QList<int>();
 	for (int i = 0; i < this->m_itemTank.count(); i++){
 		selected_list.append(i);
 	}
 	if (selected_list.count() == 0){ QMessageBox::warning(this->m_listWidget, "提示", "需要选择至少一个动画帧才能导出。", QMessageBox::Yes); return; }
+
+	// > 选择方式
+	int writerMethod = 0;
+	W_ALEGIFWriterType d(this->m_listWidget);
+	if (d.exec() == QDialog::Accepted){
+		writerMethod = d.getData();
+	}else{
+		return;
+	}
+
+	// > 选择存储文件
 	QString path = this->openWindow_exportGIFFile();
 	if (path == ""){ return; }
 
-	this->op_exportGIF_Multi(selected_list,QFileInfo(path));
-	QMessageBox::information(this->m_listWidget, "提示", "GIF导出成功。", QMessageBox::Yes);
+	this->op_exportGIF_Multi(selected_list, QFileInfo(path), writerMethod);
 }
 
 

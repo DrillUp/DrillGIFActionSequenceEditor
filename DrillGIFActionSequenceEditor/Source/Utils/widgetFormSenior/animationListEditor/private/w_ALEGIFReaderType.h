@@ -1,5 +1,5 @@
-#ifndef W_ALELoadGIFType_H
-#define W_ALELoadGIFType_H
+#ifndef W_ALEGIFReaderType_H
+#define W_ALEGIFReaderType_H
 
 #include <QDialog>
 #include "ui_W_ALEGIFReaderType.h"
@@ -44,4 +44,4 @@ class W_ALEGIFReaderType : public QDialog
 	//-----------------------------------
 };
 
-#endif // W_ALELoadGIFType_H
+#endif // W_ALEGIFReaderType_H
