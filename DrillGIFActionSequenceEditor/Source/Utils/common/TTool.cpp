@@ -861,16 +861,83 @@ void TTool::_QJsonObject_put_(QJsonObject *a, QJsonObject b) {
 	}
 }
 
-QList<QJsonObject>  TTool::_QJsonArrayString_To_QListObj_(QString context){
+
+QJsonArray TTool::_QJsonArray_BoolToA_(QList<bool> list){
+	QJsonArray result = QJsonArray();
+	for (int i = 0; i < list.count(); i++){
+		result.append(list.at(i));
+	}
+	return result;
+}
+QJsonArray TTool::_QJsonArray_IntToA_(QList<int> list){
+	QJsonArray result = QJsonArray();
+	for (int i = 0; i < list.count(); i++){
+		result.append(list.at(i));
+	}
+	return result;
+}
+QJsonArray TTool::_QJsonArray_DoubleToA_(QList<double> list){
+	QJsonArray result = QJsonArray();
+	for (int i = 0; i < list.count(); i++){
+		result.append(list.at(i));
+	}
+	return result;
+}
+QJsonArray TTool::_QJsonArray_QStringToA_(QList<QString> list){
+	QJsonArray result = QJsonArray();
+	for (int i = 0; i < list.count(); i++){
+		result.append(list.at(i));
+	}
+	return result;
+}
+QJsonArray TTool::_QJsonArray_QJsonObjectToA_(QList<QJsonObject> list){
+	QJsonArray result = QJsonArray();
+	for (int i = 0; i < list.count(); i++){
+		result.append(list.at(i));
+	}
+	return result;
+}
+
+
+QList<bool> TTool::_QJsonArray_AToBool_(QJsonArray arr){
+	QList<bool> result_list = QList<bool>();
+	for (int i = 0; i < arr.count(); i++){
+		result_list.append(arr.at(i).toBool());
+	}
+	return result_list;
+}
+QList<int> TTool::_QJsonArray_AToInt_(QJsonArray arr){
+	QList<int> result_list = QList<int>();
+	for (int i = 0; i < arr.count(); i++){
+		result_list.append(arr.at(i).toInt());
+	}
+	return result_list;
+}
+QList<double> TTool::_QJsonArray_AToDouble_(QJsonArray arr){
+	QList<double> result_list = QList<double>();
+	for (int i = 0; i < arr.count(); i++){
+		result_list.append(arr.at(i).toDouble());
+	}
+	return result_list;
+}
+QList<QString> TTool::_QJsonArray_AToQString_(QJsonArray arr){
+	QList<QString> result_list = QList<QString>();
+	for (int i = 0; i < arr.count(); i++){
+		result_list.append(arr.at(i).toString());
+	}
+	return result_list;
+}
+QList<QJsonObject> TTool::_QJsonArray_AToQJsonObject_(QJsonArray arr){
 	QList<QJsonObject> result_list = QList<QJsonObject>();
-	QJsonDocument jsonDocument = QJsonDocument::fromJson(context.toUtf8());
-	QJsonArray arr = jsonDocument.array();
 	for (int i = 0; i < arr.count(); i++){
 		result_list.append(arr.at(i).toObject());
 	}
 	return result_list;
 }
-QList<bool>  TTool::_QJsonArrayString_To_QListBool_(QString context){
+
+
+/*========================================================================*/
+QList<bool>  TTool::_JSON_parse_To_QListBool_(QString context){
 	QList<bool> result_list = QList<bool>();
 	QJsonDocument jsonDocument = QJsonDocument::fromJson(context.toUtf8());
 	QJsonArray arr = jsonDocument.array();
@@ -879,7 +946,7 @@ QList<bool>  TTool::_QJsonArrayString_To_QListBool_(QString context){
 	}
 	return result_list;
 }
-QList<int>  TTool::_QJsonArrayString_To_QListInt_(QString context){
+QList<int>  TTool::_JSON_parse_To_QListInt_(QString context){
 	QList<int> result_list = QList<int>();
 	QJsonDocument jsonDocument = QJsonDocument::fromJson(context.toUtf8());
 	QJsonArray arr = jsonDocument.array();
@@ -888,7 +955,7 @@ QList<int>  TTool::_QJsonArrayString_To_QListInt_(QString context){
 	}
 	return result_list;
 }
-QList<double>  TTool::_QJsonArrayString_To_QListDouble_(QString context){
+QList<double>  TTool::_JSON_parse_To_QListDouble_(QString context){
 	QList<double> result_list = QList<double>();
 	QJsonDocument jsonDocument = QJsonDocument::fromJson(context.toUtf8());
 	QJsonArray arr = jsonDocument.array();
@@ -897,7 +964,7 @@ QList<double>  TTool::_QJsonArrayString_To_QListDouble_(QString context){
 	}
 	return result_list;
 }
-QList<QString>  TTool::_QJsonArrayString_To_QListQString_(QString context){
+QList<QString>  TTool::_JSON_parse_To_QListQString_(QString context){
 	QList<QString> result_list = QList<QString>();
 	QJsonDocument jsonDocument = QJsonDocument::fromJson(context.toUtf8());
 	QJsonArray arr = jsonDocument.array();
@@ -906,37 +973,53 @@ QList<QString>  TTool::_QJsonArrayString_To_QListQString_(QString context){
 	}
 	return result_list;
 }
+QJsonObject  TTool::_JSON_parse_To_Obj_(QString context){
+	QJsonDocument jsonDocument = QJsonDocument::fromJson(context.toUtf8());
+	return jsonDocument.object();
+}
+QList<QJsonObject>  TTool::_JSON_parse_To_QListObj_(QString context){
+	QList<QJsonObject> result_list = QList<QJsonObject>();
+	QJsonDocument jsonDocument = QJsonDocument::fromJson(context.toUtf8());
+	QJsonArray arr = jsonDocument.array();
+	for (int i = 0; i < arr.count(); i++){
+		result_list.append(arr.at(i).toObject());
+	}
+	return result_list;
+}
 
 
-QString  TTool::_QListObj_To_QJsonArrayString_(QList<QJsonObject> data){
+QString  TTool::_JSON_stringify_(QList<bool> data){
 	QJsonArray arr = QJsonArray();
 	for (int i = 0; i < data.count(); i++){
 		arr.append(data.at(i));
 	}
 	return QJsonDocument(arr).toJson(QJsonDocument::Compact);
 }
-QString  TTool::_QListBool_To_QJsonArrayString_(QList<bool> data){
+QString  TTool::_JSON_stringify_(QList<int> data){
 	QJsonArray arr = QJsonArray();
 	for (int i = 0; i < data.count(); i++){
 		arr.append(data.at(i));
 	}
 	return QJsonDocument(arr).toJson(QJsonDocument::Compact);
 }
-QString  TTool::_QListInt_To_QJsonArrayString_(QList<int> data){
+QString  TTool::_JSON_stringify_(QList<double> data){
 	QJsonArray arr = QJsonArray();
 	for (int i = 0; i < data.count(); i++){
 		arr.append(data.at(i));
 	}
 	return QJsonDocument(arr).toJson(QJsonDocument::Compact);
 }
-QString  TTool::_QListDouble_To_QJsonArrayString_(QList<double> data){
+QString  TTool::_JSON_stringify_(QList<QString> data){
 	QJsonArray arr = QJsonArray();
 	for (int i = 0; i < data.count(); i++){
 		arr.append(data.at(i));
 	}
 	return QJsonDocument(arr).toJson(QJsonDocument::Compact);
 }
-QString  TTool::_QListQString_To_QJsonArrayString_(QList<QString> data){
+QString  TTool::_JSON_stringify_(QJsonObject data){
+	return QJsonDocument(data).toJson(QJsonDocument::Compact);
+}
+QString  TTool::_JSON_stringify_(QList<QJsonObject> data){
 	QJsonArray arr = QJsonArray();
 	for (int i = 0; i < data.count(); i++){
 		arr.append(data.at(i));

@@ -452,20 +452,81 @@ class TTool
 			【说明】：QJsonObject赋值给另一个，相同的key会被覆盖。*/
 		static void _QJsonObject_put_(QJsonObject *a, QJsonObject b);
 
-		/*Json列表的字符串 --> 列表
-			【说明】：冗余操作的简化，注意是utf8的字符串。*/
-		static QList<QJsonObject> _QJsonArrayString_To_QListObj_(QString context);
-		static QList<bool> _QJsonArrayString_To_QListBool_(QString context);
-		static QList<int> _QJsonArrayString_To_QListInt_(QString context);
-		static QList<double> _QJsonArrayString_To_QListDouble_(QString context);
-		static QList<QString> _QJsonArrayString_To_QListQString_(QString context);
+		/*布尔列表 --> 布尔A列表 */
+		static QJsonArray _QJsonArray_BoolToA_(QList<bool> list);
+		/*数字列表 --> 数字A列表 */
+		static QJsonArray _QJsonArray_IntToA_(QList<int> list);
+		/*小数列表 --> 小数A列表 */
+		static QJsonArray _QJsonArray_DoubleToA_(QList<double> list);
+		/*字符串列表 --> 字符串A列表 */
+		static QJsonArray _QJsonArray_QStringToA_(QList<QString> list);
+		/*obj列表 --> objA列表 */
+		static QJsonArray _QJsonArray_QJsonObjectToA_(QList<QJsonObject> list);
+
+		/*布尔A列表 --> 布尔列表 */
+		static QList<bool> _QJsonArray_AToBool_(QJsonArray arr);
+		/*数字A列表 --> 数字列表 */
+		static QList<int> _QJsonArray_AToInt_(QJsonArray arr);
+		/*小数A列表 --> 小数列表 */
+		static QList<double> _QJsonArray_AToDouble_(QJsonArray arr);
+		/*字符串A列表 --> 字符串列表 */
+		static QList<QString> _QJsonArray_AToQString_(QJsonArray arr);
+		/*objA列表 --> obj列表 */
+		static QList<QJsonObject> _QJsonArray_AToQJsonObject_(QJsonArray arr);
+
+
+	//-----------------------------------------------------
+	//----JSON parse和stringify
+	public:
+		/*Json字符串 --> 列表
+			【说明1】：冗余操作的简化，注意是utf8的字符串。
+			【说明2】：注意，遇到\\"多斜杠时，需要一步步解套。*/
+		static QList<bool> _JSON_parse_To_QListBool_(QString context);
+		/*Json字符串 --> 列表
+			【说明1】：冗余操作的简化，注意是utf8的字符串。
+			【说明2】：注意，遇到\\"多斜杠时，需要一步步解套。*/
+		static QList<int> _JSON_parse_To_QListInt_(QString context);
+		/*Json字符串 --> 列表
+			【说明1】：冗余操作的简化，注意是utf8的字符串。
+			【说明2】：注意，遇到\\"多斜杠时，需要一步步解套。*/
+		static QList<double> _JSON_parse_To_QListDouble_(QString context);
+		/*Json字符串 --> 列表
+			【说明1】：冗余操作的简化，注意是utf8的字符串。
+			【说明2】：注意，遇到\\"多斜杠时，需要一步步解套。*/
+		static QList<QString> _JSON_parse_To_QListQString_(QString context);
+		/*Json字符串 --> 列表
+			【说明1】：冗余操作的简化，注意是utf8的字符串。
+			【说明2】：注意，遇到\\"多斜杠时，需要一步步解套。*/
+		static QJsonObject _JSON_parse_To_Obj_(QString context);
+		/*Json字符串 --> 列表
+			【说明1】：冗余操作的简化，注意是utf8的字符串。
+			【说明2】：注意，遇到\\"多斜杠时，需要一步步解套。*/
+		static QList<QJsonObject> _JSON_parse_To_QListObj_(QString context);
 		
-		/*列表 --> Json列表的字符串 */
-		static QString _QListObj_To_QJsonArrayString_(QList<QJsonObject> data);
-		static QString _QListBool_To_QJsonArrayString_(QList<bool> data);
-		static QString _QListInt_To_QJsonArrayString_(QList<int> data);
-		static QString _QListDouble_To_QJsonArrayString_(QList<double> data);
-		static QString _QListQString_To_QJsonArrayString_(QList<QString> data);
+		/*列表 --> Json列表的字符串
+			【说明1】：冗余操作的简化，注意是utf8的字符串。
+			【说明2】：使用的QJsonDocument转义，层层嵌套会出现\\"多斜杠。 */
+		static QString _JSON_stringify_(QList<bool> data);
+		/*列表 --> Json列表的字符串
+			【说明1】：冗余操作的简化，注意是utf8的字符串。
+			【说明2】：使用的QJsonDocument转义，层层嵌套会出现\\"多斜杠。 */
+		static QString _JSON_stringify_(QList<int> data);
+		/*列表 --> Json列表的字符串
+			【说明1】：冗余操作的简化，注意是utf8的字符串。
+			【说明2】：使用的QJsonDocument转义，层层嵌套会出现\\"多斜杠。 */
+		static QString _JSON_stringify_(QList<double> data);
+		/*列表 --> Json列表的字符串
+			【说明1】：冗余操作的简化，注意是utf8的字符串。
+			【说明2】：使用的QJsonDocument转义，层层嵌套会出现\\"多斜杠。 */
+		static QString _JSON_stringify_(QList<QString> data);
+		/*列表 --> Json列表的字符串
+			【说明1】：冗余操作的简化，注意是utf8的字符串。
+			【说明2】：使用的QJsonDocument转义，层层嵌套会出现\\"多斜杠。 */
+		static QString _JSON_stringify_(QJsonObject data);
+		/*列表 --> Json列表的字符串
+			【说明1】：冗余操作的简化，注意是utf8的字符串。
+			【说明2】：使用的QJsonDocument转义，层层嵌套会出现\\"多斜杠。 */
+		static QString _JSON_stringify_(QList<QJsonObject> data);
 
 };
 

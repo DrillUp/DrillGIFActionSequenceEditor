@@ -118,7 +118,7 @@ void P_ActionSeqPart::local_saveCurIndexData(){
 	}
 
 	// > 自动填充 默认状态元集合
-	QStringList default_list = TTool::_QJsonArrayString_To_QListQString_(this->m_cur_actionSeq.value("默认的状态元集合").toString());
+	QStringList default_list = TTool::_JSON_parse_To_QListQString_(this->m_cur_actionSeq.value("默认的状态元集合").toString());
 	if (default_list.count() == 0){
 		for (int i = 0; i < old_stateTank.count(); i++){
 			QJsonObject obj = old_stateTank.at(i);
@@ -129,12 +129,12 @@ void P_ActionSeqPart::local_saveCurIndexData(){
 			}
 		}
 	}
-	this->m_cur_actionSeq.insert("默认的状态元集合", TTool::_QListQString_To_QJsonArrayString_(default_list));
+	this->m_cur_actionSeq.insert("默认的状态元集合", TTool::_JSON_stringify_(default_list));
 
 	// > 保存数据（放映区）
 	QStringList default_state_list = this->m_playingPart->getDefaultStateData();
 	if (default_state_list.count() != 0){
-		this->m_cur_actionSeq.insert("默认的状态元集合", TTool::_QListQString_To_QJsonArrayString_(default_state_list));
+		this->m_cur_actionSeq.insert("默认的状态元集合", TTool::_JSON_stringify_(default_state_list));
 	}
 	
 	// > 编辑标记
@@ -173,7 +173,7 @@ void P_ActionSeqPart::local_loadIndexData(int index){
 	this->m_statePart->setData(this->m_cur_stateTank);
 
 	// > 加入数据（放映区）
-	QStringList defaultState = TTool::_QJsonArrayString_To_QListQString_(this->m_cur_actionSeq.value("默认的状态元集合").toString());
+	QStringList defaultState = TTool::_JSON_parse_To_QListQString_(this->m_cur_actionSeq.value("默认的状态元集合").toString());
 	this->m_playingPart->setDefaultStateData(defaultState);
 	this->m_playingPart->refreshSource();
 
@@ -307,9 +307,7 @@ void P_ActionSeqPart::putDataToUi() {
 	for (int i = 0; i < data_actionSeqCount; i++){
 		QJsonValue value = data_actionSeq.value("动作序列-" + QString::number(i + 1));
 		if (value.isUndefined() == false){
-			QString data = value.toString();
-			QJsonDocument jsonDocument = QJsonDocument::fromJson(data.toUtf8());
-			QJsonObject obj = jsonDocument.object(); 
+			QJsonObject obj = TTool::_JSON_parse_To_Obj_(value.toString());
 			obj.insert("COAS_id", i + 1);
 			obj.insert("COAS_name", obj.value("标签").toString());
 			this->m_actionSeq_list.append(obj);
@@ -351,7 +349,7 @@ void P_ActionSeqPart::putUiToData() {
 		data_obj.remove("COAS_id");
 		data_obj.remove("COAS_name");	//（去除id和name，type保留）
 
-		QString data_str = QJsonDocument(data_obj).toJson(QJsonDocument::Compact);
+		QString data_str = TTool::_JSON_stringify_(data_obj);
 		data_actionSeq.insert("动作序列-" + QString::number(i + 1), data_str);
 	}
 

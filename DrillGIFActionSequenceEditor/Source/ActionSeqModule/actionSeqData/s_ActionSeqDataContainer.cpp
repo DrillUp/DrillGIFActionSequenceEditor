@@ -145,7 +145,7 @@ QList<QFileInfo> S_ActionSeqDataContainer::getAllRelatedFile(){
 		// > 一层字符串解封
 		QString str_actionSeq = this->data_ActionSeqData.value("动作序列-" + QString::number(i + 1)).toString();
 		if (str_actionSeq == ""){ continue; }
-		QJsonObject obj_actionSeq = QJsonDocument::fromJson(str_actionSeq.toUtf8()).object();
+		QJsonObject obj_actionSeq = TTool::_JSON_parse_To_Obj_(str_actionSeq);
 
 		// > 动作元资源
 		for (int j = 0; j < this->data_ActionSeqLength.realLen_action; j++){
@@ -153,11 +153,11 @@ QList<QFileInfo> S_ActionSeqDataContainer::getAllRelatedFile(){
 			// > 二层字符串解封
 			QString str_action = obj_actionSeq.value("动作元-" + QString::number(j + 1)).toString();
 			if (str_action == ""){ continue; }
-			QJsonObject obj_action = QJsonDocument::fromJson(str_action.toUtf8()).object();
+			QJsonObject obj_action = TTool::_JSON_parse_To_Obj_(str_action);
 
 			// > 三层字符串解封
 			QString str_src = obj_action.value("资源-动作元").toString();
-			QStringList src_list = TTool::_QJsonArrayString_To_QListQString_(str_src);
+			QStringList src_list = TTool::_JSON_parse_To_QListQString_(str_src);
 
 			fileName_list.append(src_list);
 		}
@@ -168,11 +168,11 @@ QList<QFileInfo> S_ActionSeqDataContainer::getAllRelatedFile(){
 			// > 二层字符串解封
 			QString str_action = obj_actionSeq.value("状态元-" + QString::number(j + 1)).toString();
 			if (str_action == ""){ continue; }
-			QJsonObject obj_action = QJsonDocument::fromJson(str_action.toUtf8()).object();
+			QJsonObject obj_action = TTool::_JSON_parse_To_Obj_(str_action);
 
 			// > 三层字符串解封
 			QString str_src = obj_action.value("资源-状态元").toString();
-			QStringList src_list = TTool::_QJsonArrayString_To_QListQString_(str_src);
+			QStringList src_list = TTool::_JSON_parse_To_QListQString_(str_src);
 
 			fileName_list.append(src_list);
 		}

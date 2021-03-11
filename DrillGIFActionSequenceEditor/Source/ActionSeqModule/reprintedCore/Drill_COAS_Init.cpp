@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Drill_COAS_Init.h"
 
+#include "Source/ActionSeqModule/actionSeqData/s_ActionSeqDataContainer.h"
 #include "Source/Utils/common/TTool.h"
 
 /*
@@ -15,51 +16,68 @@
 						->动作元（~struct~DrillCOASAct）
 						->动作序列（~struct~DrillCOASSequence）
 
-		使用方法：
-				>初始化
-
+		使用方法：	直接调用静态方法即可。
 -----==========================================================-----
 */
-Drill_COAS_Init::Drill_COAS_Init(QObject *parent = 0)
-	: QObject(parent)
-{
-	this->_drill_data = data;			//深拷贝数据
-	this->drill_initData();				//初始化数据
+Drill_COAS_Init::Drill_COAS_Init(){
 }
 Drill_COAS_Init::~Drill_COAS_Init(){
 }
 
 /*-------------------------------------------------
-		创建 - 初始化
+		变量获取 - 状态元（~struct~DrillCOASState）
 */
-void Drill_COAS_Init::drill_initData(){
-	QJsonObject data = this->_drill_data;
-	
-	QString state_default_randomSeq_str = data.value("state_default_randomSeq").toString();
-	if (){
+QJsonObject Drill_COAS_Init::drill_COAS_initState(QJsonObject dataFrom){
+	QJsonObject data = QJsonObject();
+	data["name"] = dataFrom["状态元名称"].toString("");
+	data["priority"] = dataFrom["状态元优先级"].toInt(0);
+	data["proportion"] = dataFrom["状态元权重"].toInt(40);
 
-	}
-	QStringList
-
-
-	this->_drill_time = 0;											//持续时间
-	this->_drill_arrayCheck = true;									//检查数组元素
-	this->_drill_bitmapName = "";									//当前的bitmap对象名
-	this->_drill_bitmapPath = "";									//当前的bitmap路径
-	this->_drill_bitmapTint = 0;										//当前的bitmap色调
-	this->_drill_bitmapSmooth = false;								//当前的bitmap模糊
-	this->_drill_state_curCom = "";									//状态元 - 当前状态
-	this->_drill_state_curTime = 0;									//状态元 - 当前时间
-	this->_drill_state_curSeq = data['state_default_randomSeq'];		//状态元 - 当前序列
-	this->_drill_act_curCom = "";									//动作元 - 当前动作
-	this->_drill_act_curTime = 0;									//动作元 - 当前时间
+	QStringList gif_src_list = TTool::_JSON_parse_To_QListQString_(dataFrom["资源-状态元"].toString(""));
+	data["gif_src"] = TTool::_QJsonArray_QStringToA_(gif_src_list);
+	data["gif_src_file"] = "img/Special__actionSeq/";
+	data["gif_interval"] = dataFrom["帧间隔"].toInt(4);
+	data["gif_back_run"] = dataFrom["是否倒放"].toBool(false);
+	return data;
 }
 /*-------------------------------------------------
-		数据 - 帧刷新（需要父类手动执行）
+		变量获取 - 动作元（~struct~DrillCOASAct）
 */
-void Drill_COAS_Init::update(){
-	
+QJsonObject Drill_COAS_Init::drill_COAS_initAct(QJsonObject dataFrom){
+	QJsonObject data = QJsonObject();
+	data["name"] = dataFrom["动作元名称"].toString("");
+	data["priority"] = dataFrom["动作元优先级"].toInt(20);
 
+	QStringList gif_src_list = TTool::_JSON_parse_To_QListQString_(dataFrom["资源-动作元"].toString(""));
+	data["gif_src"] = TTool::_QJsonArray_QStringToA_(gif_src_list);
+	data["gif_src_file"] = "img/Special__actionSeq/";
+	data["gif_interval"] = dataFrom["帧间隔"].toInt(4);
+	data["gif_back_run"] = dataFrom["是否倒放"].toBool(false);
+	return data;
+}
+/*-------------------------------------------------
+		变量获取 - 动作序列（~struct~DrillCOASSequence）
+*/
+QJsonObject Drill_COAS_Init::drill_COAS_initSequence(QJsonObject dataFrom){
+	QJsonObject data = QJsonObject();
+	C_ActionSeqLength len = S_ActionSeqDataContainer::getInstance()->getActionSeqLength();
 
+	QStringList state_default_randomSeq = TTool::_JSON_parse_To_QListQString_(dataFrom["默认的状态元集合"].toString(""));
+	data["state_default_randomSeq"] = TTool::_QJsonArray_QStringToA_(state_default_randomSeq);
 
+	QJsonArray state_tank = QJsonArray();
+	for (int i = 0; i < len.realLen_state; i++){
+		QJsonObject obj = TTool::_JSON_parse_To_Obj_(dataFrom["状态元-"+QString::number(i+1)].toString("{}"));
+		state_tank[i] = Drill_COAS_Init::drill_COAS_initState(obj);
+	}
+	data["state_tank"] = state_tank;
+
+	QJsonArray act_tank = QJsonArray();
+	for (int i = 0; i < len.realLen_action; i++){
+		QJsonObject obj = TTool::_JSON_parse_To_Obj_(dataFrom["动作元-" + QString::number(i+1)].toString("{}"));
+		act_tank[i] = Drill_COAS_Init::drill_COAS_initAct(obj);
+	}
+	data["act_tank"] = act_tank;
+
+	return data;
 }

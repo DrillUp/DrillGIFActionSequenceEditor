@@ -44,6 +44,28 @@ class Drill_COAS_Data : public QObject
 	public:
 									//数据 - 帧刷新（需要父类手动执行）
 		void update();
+									//帧刷新 - 刷新状态元
+		void drill_COAS_updateState();
+									//帧刷新 - 刷新动作元
+		void drill_COAS_updateAct();
+
+	//-----------------------------------
+	//----接口
+	public:
+									//数据 - 状态元 - 设置序列（接口）
+		void drill_COAS_setSequence(QStringList seq);
+									//数据 - 状态元 - 设置序列，立刻改变（接口）
+		void drill_COAS_setSequenceImmediate(QStringList seq);
+									//数据 - 状态元 - 获取数据 根据名称
+		QJsonObject drill_COAS_getDataState(QString state_name);
+									//数据 - 动作元 - 判断播放
+		bool drill_COAS_isPlayingAct();
+									//数据 - 动作元 - 添加动作（接口）
+		void drill_COAS_setAct(QString act_name);
+									//数据 - 动作元 - 立刻终止动作（接口）
+		void drill_COAS_stopAct();
+									//数据 - 动作元 - 获取数据 根据名称
+		QJsonObject drill_COAS_getDataAct(QString act_name);
 
 };
 

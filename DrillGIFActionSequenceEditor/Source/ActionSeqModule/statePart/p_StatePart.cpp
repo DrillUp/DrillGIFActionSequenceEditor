@@ -262,10 +262,10 @@ void P_StatePart::local_saveCurIndexData(){
 		for (int i = 0; i < info_list.count(); i++){
 			gif_src.append(info_list.at(i).completeBaseName());
 		}
-		obj_edit2.insert("资源-状态元", TTool::_QListQString_To_QJsonArrayString_(gif_src));
+		obj_edit2.insert("资源-状态元", TTool::_JSON_stringify_(gif_src));
 		QList<int> gif_intervalTank = data.getData_IntervalTank();
 		QList<QString> gif_intervalTank_strList = TTool::_QList_IntToQString_(gif_intervalTank);
-		obj_edit2.insert("帧间隔-明细表", TTool::_QListQString_To_QJsonArrayString_(gif_intervalTank_strList));
+		obj_edit2.insert("帧间隔-明细表", TTool::_JSON_stringify_(gif_intervalTank_strList));
 		//qDebug() << obj_edit2;
 	TTool::_QJsonObject_put_(&obj_org, obj_edit2);
 
@@ -291,9 +291,9 @@ void P_StatePart::local_loadIndexData(int index){
 		QString gif_src_file = S_ActionSeqDataContainer::getInstance()->getActionSeqDir();			//资源文件夹
 	
 		QString gif_src_str = obj_data.value("资源-状态元").toString();
-		QList<QString> gif_src = TTool::_QJsonArrayString_To_QListQString_(gif_src_str);			//资源文件名
+		QList<QString> gif_src = TTool::_JSON_parse_To_QListQString_(gif_src_str);			//资源文件名
 		QString gif_intervalTank_str = obj_data.value("帧间隔-明细表").toString();
-		QList<QString> gif_intervalTank_strList = TTool::_QJsonArrayString_To_QListQString_(gif_intervalTank_str);	//帧间隔-明细表
+		QList<QString> gif_intervalTank_strList = TTool::_JSON_parse_To_QListQString_(gif_intervalTank_str);	//帧间隔-明细表
 		QList<int> gif_intervalTank = TTool::_QList_QStringToInt_(gif_intervalTank_strList);
 
 	C_ALEData data = C_ALEData();

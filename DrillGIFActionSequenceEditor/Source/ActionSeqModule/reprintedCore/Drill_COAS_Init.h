@@ -1,7 +1,7 @@
 #ifndef Drill_COAS_Init_H
 #define Drill_COAS_Init_H
 
-#include <QtWidgets>
+#include <QJsonObject>
 
 /*
 -----==========================================================-----
@@ -12,38 +12,21 @@
 					（详细见cpp）
 -----==========================================================-----
 */
-class Drill_COAS_Init : public QObject
-{
-	Q_OBJECT
+class Drill_COAS_Init{
 
 	public:
-		Drill_COAS_Init(QObject *parent = 0);
+		Drill_COAS_Init();
 		~Drill_COAS_Init();
-		
-	//-----------------------------------
-	//----数据
-	public:
-		QJsonObject _drill_data;			
-		int			_drill_time;			//持续时间
-		bool		_drill_arrayCheck;		//检查数组元素
-		QString		_drill_bitmapName;		//当前的bitmap对象名
-		QString		_drill_bitmapPath;		//当前的bitmap路径
-		int			_drill_bitmapTint;		//当前的bitmap色调
-		bool		_drill_bitmapSmooth;	//当前的bitmap模糊
-		QString		_drill_state_curCom;	//状态元 - 当前状态
-		int			_drill_state_curTime;	//状态元 - 当前时间
-		QStringList _drill_state_curSeq;	//状态元 - 当前序列
-		QString		_drill_act_curCom;		//动作元 - 当前动作
-		int			_drill_act_curTime;		//动作元 - 当前时间
-	public:
-									//创建 - 初始化
-		void drill_initData();
 
 	//-----------------------------------
-	//----帧刷新
+	//----变量获取
 	public:
-									//数据 - 帧刷新（需要父类手动执行）
-		void update();
+									//变量获取 - 状态元（~struct~DrillCOASState）
+		static QJsonObject drill_COAS_initState(QJsonObject dataFrom);
+									//变量获取 - 动作元（~struct~DrillCOASAct）
+		static QJsonObject drill_COAS_initAct(QJsonObject dataFrom);
+									//变量获取 - 动作序列（~struct~DrillCOASSequence）
+		static QJsonObject drill_COAS_initSequence(QJsonObject dataFrom);
 
 };
 
