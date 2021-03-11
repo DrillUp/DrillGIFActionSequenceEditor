@@ -6,6 +6,8 @@
 
 #include "Source/ActionSeqModule/actionPart/p_ActionPart.h"
 #include "Source/ActionSeqModule/statePart/p_StatePart.h"
+#include "Source/ActionSeqModule/reprintedCore/Drill_COAS_Data.h"
+#include "Source/ActionSeqModule/reprintedCore/Drill_COAS_Init.h"
 #include "Source/Utils/widgetForm/radioTable/p_RadioTable.h"
 
 /*
@@ -80,7 +82,10 @@ class P_PlayingPart : public QWidget
 	//----资源列表
 	private:
 		QStringList m_srcTank;
-		QList<QPixmap> m_bitmapTank;
+		QList<QPixmap> m_bitmapTank;		//贴图数据
+
+		Drill_COAS_Data m_COAS_data;		//主控制数据项
+
 
 	//-----------------------------------
 	//----窗口

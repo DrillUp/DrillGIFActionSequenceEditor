@@ -12,12 +12,11 @@
 					（详细见cpp）
 -----==========================================================-----
 */
-class Drill_COAS_Data : public QObject
-{
-	Q_OBJECT
+class Drill_COAS_Data{
 
 	public:
-		Drill_COAS_Data(QJsonObject data, QObject *parent = 0);
+		Drill_COAS_Data();
+		Drill_COAS_Data(QJsonObject data);
 		~Drill_COAS_Data();
 		
 	//-----------------------------------
@@ -38,6 +37,8 @@ class Drill_COAS_Data : public QObject
 	public:
 									//创建 - 初始化
 		void drill_initData();
+									//数据 - 空判断
+		bool isNull();
 
 	//-----------------------------------
 	//----帧刷新

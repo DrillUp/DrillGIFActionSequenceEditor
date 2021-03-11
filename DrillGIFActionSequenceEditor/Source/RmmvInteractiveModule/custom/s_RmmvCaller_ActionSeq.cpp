@@ -131,6 +131,14 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 
 
 	// ---------------------------------------------
+	// > 获取注解 + 实际长度
+	QString script_path = QApplication::applicationDirPath() + "/tools/Drill_CoreOfActionSequence.js";
+	QFileInfo pluginScript_info = S_RmmvDataContainer::getInstance()->getRmmvFile_Plugin("Drill_CoreOfActionSequence");
+	if (pluginScript_info.exists() == false){
+		S_TempFileManager::getInstance()->copy_File(QFileInfo(script_path), pluginScript_info);
+	}
+	C_LEAnnotation* le_annotation = S_LEAnnotationReader::getInstance()->readPlugin(pluginScript_info.absoluteFilePath());
+	
 	// > 修改数据
 	C_PluginData* data = S_PluginDataContainer::getInstance()->getPluginData("Drill_CoreOfActionSequence");
 	if (data == nullptr){
@@ -138,9 +146,9 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 		data = new C_PluginData();
 		data->name = "Drill_CoreOfActionSequence";
 		data->status = true;
-		data->description = "[v1.1]        系统 - GIF动画序列核心【编辑器编辑】";
 		S_PluginDataContainer::getInstance()->op_add(data);
 	}
+	data->description = le_annotation->pluginDesc + "【编辑器编辑】";
 	data->parameters = S_ActionSeqDataContainer::getInstance()->getActionSeqData();	//（从 动作序列数据容器 中，获取到参数数据）
 	S_PluginDataContainer::getInstance()->op_modify(data);
 
@@ -175,16 +183,7 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 	}
 
 	// ---------------------------------------------
-	// > 插件更新
-	QString script_path = QApplication::applicationDirPath() + "/tools/Drill_CoreOfActionSequence.js";
-	QFileInfo pluginScript_info = S_RmmvDataContainer::getInstance()->getRmmvFile_Plugin("Drill_CoreOfActionSequence");
-	if (pluginScript_info.exists() == false){
-		S_TempFileManager::getInstance()->copy_File(QFileInfo(script_path), pluginScript_info);
-	}
-	
-	// > 获取注解 + 实际长度
-	C_LEAnnotation* le_annotation = S_LEAnnotationReader::getInstance()->readPlugin(pluginScript_info.absoluteFilePath());
-
+	// > 插件最大值更新
 	QFile script_file(pluginScript_info.absoluteFilePath());
 	if (!script_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
 		//（读取失败时，不操作）

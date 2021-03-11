@@ -33,11 +33,31 @@ QJsonObject Drill_COAS_Init::drill_COAS_initState(QJsonObject dataFrom){
 	data["priority"] = dataFrom["状态元优先级"].toInt(0);
 	data["proportion"] = dataFrom["状态元权重"].toInt(40);
 
-	QStringList gif_src_list = TTool::_JSON_parse_To_QListQString_(dataFrom["资源-状态元"].toString(""));
-	data["gif_src"] = TTool::_QJsonArray_QStringToA_(gif_src_list);
+	QStringList gif_src = TTool::_JSON_parse_To_QListQString_(dataFrom["资源-状态元"].toString(""));
+	data["gif_src"] = TTool::_QJsonArray_QStringToA_(gif_src);
+	QStringList gif_intervalTank = TTool::_JSON_parse_To_QListQString_(dataFrom["帧间隔-明细表"].toString(""));
+	QList<int> gif_intervalTank_int = TTool::_QList_QStringToInt_(gif_intervalTank);
+	data["gif_intervalTank"] = TTool::_QJsonArray_IntToA_(gif_intervalTank_int);
+
 	data["gif_src_file"] = "img/Special__actionSeq/";
 	data["gif_interval"] = dataFrom["帧间隔"].toInt(4);
 	data["gif_back_run"] = dataFrom["是否倒放"].toBool(false);
+	data["gif_tint"] = dataFrom["图像-色调值"].toInt(0);
+	data["gif_smooth"] = dataFrom["图像-模糊边缘"].toBool(false);
+
+	// > 帧间隔计算
+	QJsonArray gif_intervalRealTank = QJsonArray();
+	int gif_intervalRealTank_total = 0;
+	for (int i = 0; i < gif_src.count(); i++){
+		int interval = data["gif_interval"].toInt();
+		if (i < gif_intervalTank_int.count()){
+			interval = gif_intervalTank_int[i];
+		}
+		gif_intervalRealTank[i] = interval;
+		gif_intervalRealTank_total += interval;
+	}
+	data["gif_intervalRealTank"] = gif_intervalRealTank;
+	data["gif_intervalRealTank_total"] = gif_intervalRealTank_total;
 	return data;
 }
 /*-------------------------------------------------
@@ -48,11 +68,31 @@ QJsonObject Drill_COAS_Init::drill_COAS_initAct(QJsonObject dataFrom){
 	data["name"] = dataFrom["动作元名称"].toString("");
 	data["priority"] = dataFrom["动作元优先级"].toInt(20);
 
-	QStringList gif_src_list = TTool::_JSON_parse_To_QListQString_(dataFrom["资源-动作元"].toString(""));
-	data["gif_src"] = TTool::_QJsonArray_QStringToA_(gif_src_list);
+	QStringList gif_src = TTool::_JSON_parse_To_QListQString_(dataFrom["资源-动作元"].toString(""));
+	data["gif_src"] = TTool::_QJsonArray_QStringToA_(gif_src);
+	QStringList gif_intervalTank = TTool::_JSON_parse_To_QListQString_(dataFrom["帧间隔-明细表"].toString(""));
+	QList<int> gif_intervalTank_int = TTool::_QList_QStringToInt_(gif_intervalTank);
+	data["gif_intervalTank"] = TTool::_QJsonArray_IntToA_(gif_intervalTank_int);
+
 	data["gif_src_file"] = "img/Special__actionSeq/";
 	data["gif_interval"] = dataFrom["帧间隔"].toInt(4);
 	data["gif_back_run"] = dataFrom["是否倒放"].toBool(false);
+	data["gif_tint"] = dataFrom["图像-色调值"].toInt(0);
+	data["gif_smooth"] = dataFrom["图像-模糊边缘"].toBool(false);
+
+	// > 帧间隔计算
+	QJsonArray gif_intervalRealTank = QJsonArray();
+	int gif_intervalRealTank_total = 0;
+	for (int i = 0; i < gif_src.count(); i++){
+		int interval = data["gif_interval"].toInt();
+		if (i < gif_intervalTank_int.count()){
+			interval = gif_intervalTank_int[i];
+		}
+		gif_intervalRealTank[i] = interval;
+		gif_intervalRealTank_total += interval;
+	}
+	data["gif_intervalRealTank"] = gif_intervalRealTank;
+	data["gif_intervalRealTank_total"] = gif_intervalRealTank_total;
 	return data;
 }
 /*-------------------------------------------------

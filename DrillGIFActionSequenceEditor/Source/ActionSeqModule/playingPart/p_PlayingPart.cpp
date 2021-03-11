@@ -3,6 +3,7 @@
 
 #include "defaultStateGroup/w_DefaultStateGroupEdit.h"
 #include "Source/ProjectModule/s_ProjectManager.h"
+#include "Source/Utils/common/TTool.h"
 
 /*
 -----==========================================================-----
@@ -266,6 +267,22 @@ void P_PlayingPart::putDataToUi() {
 	}
 	if (this->local_defaultStateList.count() == 0){ text = "无"; }
 	ui.label_defaultState->setText(text);
+
+	// > 解析动作序列（直接根据 默认集合+状态元列表+动作元列表 设置动作序列）
+	QJsonObject data = QJsonObject();
+	data["state_default_randomSeq"] = TTool::_QJsonArray_QStringToA_(this->local_defaultStateList);
+	QJsonArray state_tank = QJsonArray();
+	for (int i = 0; i < this->local_stateDataList.count(); i++){
+		state_tank[i] = Drill_COAS_Init::drill_COAS_initState(this->local_stateDataList.at(i));
+	}
+	data["state_tank"] = state_tank;
+	QJsonArray act_tank = QJsonArray();
+	for (int i = 0; i < this->local_actionDataList.count(); i++){
+		act_tank[i] = Drill_COAS_Init::drill_COAS_initState(this->local_actionDataList.at(i));
+	}
+	data["act_tank"] = act_tank;
+
+	this->m_COAS_data = Drill_COAS_Data(data);
 }
 /*-------------------------------------------------
 		窗口 - ui数据 -> 本地数据

@@ -19,15 +19,23 @@
 
 -----==========================================================-----
 */
-Drill_COAS_Data::Drill_COAS_Data(QJsonObject data, QObject *parent)
-	: QObject(parent)
-{
+Drill_COAS_Data::Drill_COAS_Data(){
+	this->_drill_data = QJsonObject();	//深拷贝数据
+	this->drill_initData();				//初始化数据
+}
+Drill_COAS_Data::Drill_COAS_Data(QJsonObject data){
 	this->_drill_data = data;			//深拷贝数据
 	this->drill_initData();				//初始化数据
 }
 Drill_COAS_Data::~Drill_COAS_Data(){
 }
 
+/*-------------------------------------------------
+		数据 - 空判断
+*/
+bool Drill_COAS_Data::isNull(){
+	return this->_drill_data.isEmpty();
+}
 /*-------------------------------------------------
 		创建 - 初始化
 */
@@ -56,6 +64,7 @@ void Drill_COAS_Data::drill_initData(){
 		数据 - 帧刷新（需要父类手动执行）
 */
 void Drill_COAS_Data::update(){
+	if (this->isNull()){ return; }
 	this->_drill_time += 1;				//时间+1
 	this->drill_COAS_updateState();		//刷新状态元
 	this->drill_COAS_updateAct();		//刷新动作元
@@ -96,17 +105,40 @@ void Drill_COAS_Data::drill_COAS_updateState(){
 
 	// > gif播放
 	QJsonArray gif_src = data_state["gif_src"].toArray();
-	//if (gif_src.count() != 0){
-	//	int inter = this->_drill_time;
-	//	inter = inter / data_state["gif_interval"].toInt();
-	//	inter = inter % gif_src.count();
-	//	if (data_state['gif_back_run']){
-	//		inter = data_state['gif_src'].length - 1 - inter;
-	//	}
-	//	inter = Math.floor(inter);
-	//	this._drill_bitmapName = data_state['gif_src'][inter];
-	//	this._drill_bitmapPath = data_state['gif_src_file'];
-	//}
+	if (gif_src.count() != 0){
+		
+		int index = 0;
+		int inter_time = this->_drill_state_curTime;
+		if( data_state["gif_back_run"].toBool() == false){
+
+			// > 正向播放
+			QJsonArray gif_intervalRealTank = data_state["gif_intervalRealTank"].toArray();
+			for (int i = 0; i < gif_intervalRealTank.count(); i++){
+				int i_time = gif_intervalRealTank[i].toInt();
+				if( inter_time < i_time ){
+					index = i;
+					break;
+				}
+				inter_time -= i_time;
+			}
+		}else{
+
+			// > 倒放
+			QJsonArray gif_intervalRealTank = data_state["gif_intervalRealTank"].toArray();
+			for (int i = gif_intervalRealTank.count() - 1; i >= 0; i--){
+				int i_time = gif_intervalRealTank[i].toInt();
+				if( inter_time < i_time ){
+					index = i;
+					break;
+				}
+				inter_time -= i_time;
+			}
+		}
+		this->_drill_bitmapName = gif_src[index].toString();
+		this->_drill_bitmapPath = data_state["gif_src_file"].toString();
+		this->_drill_bitmapTint = data_state["gif_tint"].toInt();
+		this->_drill_bitmapSmooth = data_state["gif_smooth"].toBool();
+	}
 
 	// > 时间+1
 	this->_drill_state_curTime += 1;
@@ -141,7 +173,40 @@ void Drill_COAS_Data::drill_COAS_updateAct(){
 
 	// > gif播放（一次只能播放一种行为）
 	QJsonArray gif_src = data_act["gif_src"].toArray();
-	
+	if (gif_src.count() != 0){
+		
+		int index = 0;
+		int inter_time = this->_drill_state_curTime;
+		if (data_act["gif_back_run"].toBool() == false){
+
+			// > 正向播放
+			QJsonArray gif_intervalRealTank = data_act["gif_intervalRealTank"].toArray();
+			for (int i = 0; i < gif_intervalRealTank.count(); i++){
+				int i_time = gif_intervalRealTank[i].toInt();
+				if( inter_time < i_time ){
+					index = i;
+					break;
+				}
+				inter_time -= i_time;
+			}
+		}else{
+
+			// > 倒放
+			QJsonArray gif_intervalRealTank = data_act["gif_intervalRealTank"].toArray();
+			for (int i = gif_intervalRealTank.count() - 1; i >= 0; i--){
+				int i_time = gif_intervalRealTank[i].toInt();
+				if( inter_time < i_time ){
+					index = i;
+					break;
+				}
+				inter_time -= i_time;
+			}
+		}
+		this->_drill_bitmapName = gif_src[index].toString();
+		this->_drill_bitmapPath = data_act["gif_src_file"].toString();
+		this->_drill_bitmapTint = data_act["gif_tint"].toInt();
+		this->_drill_bitmapSmooth = data_act["gif_smooth"].toBool();
+	}
 
 	// > 时间+1
 	this->_drill_act_curTime += 1;
