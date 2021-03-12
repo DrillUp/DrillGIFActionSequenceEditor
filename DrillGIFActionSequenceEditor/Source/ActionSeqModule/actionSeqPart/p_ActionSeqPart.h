@@ -80,6 +80,8 @@ class P_ActionSeqPart : public QWidget
 										//大控件 - 置灰
 										//		【说明】：选择一个动作序列后，置灰才会被取消。
 		void setPartGray();
+										//大控件 - 停止播放
+		void stopPlaying();
 
 	//-----------------------------------
 	//----窗口

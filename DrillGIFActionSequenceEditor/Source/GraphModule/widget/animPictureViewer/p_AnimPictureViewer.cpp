@@ -114,21 +114,29 @@ void P_AnimPictureViewer::scaleChanged_view(double scale){
 		动画帧 - 设置 图片资源
 */
 void P_AnimPictureViewer::setSource(QList<QFileInfo> file_list){
-	QList<QPixmap> bitmap_list = QList<QPixmap>();
-	for (int i = 0; i < file_list.count(); i++){
-		QFileInfo info = file_list.at(i);
-		QImage image = QImage(info.absoluteFilePath());
-		QPixmap pixmap = QPixmap::fromImage(image);
-		bitmap_list.append(pixmap);
-	}
-	this->m_GraphView->getScene()->setSource(bitmap_list);
-}
-void P_AnimPictureViewer::setSource(QList<QPixmap> bitmap_list){
-	this->m_GraphView->getScene()->setSource(bitmap_list);
+	this->m_GraphView->getScene()->setSource(file_list);
 }
 /*-------------------------------------------------
-		动画帧 - 切换帧
+		动画帧 - 获取 图片资源
+*/
+QList<QFileInfo> P_AnimPictureViewer::getSource(){
+	return this->m_GraphView->getScene()->getSource();
+}
+/*-------------------------------------------------
+		动画帧 - 清除资源
+*/
+void P_AnimPictureViewer::clearSource(){
+	return this->m_GraphView->getScene()->clearSource();
+}
+/*-------------------------------------------------
+		动画帧 - 切换帧（根据索引）
 */
 void P_AnimPictureViewer::setAnimFrame(int index){
 	this->m_GraphView->getScene()->setAnimFrame(index);
+}
+/*-------------------------------------------------
+		动画帧 - 切换帧（根据资源名称）
+*/
+void P_AnimPictureViewer::setAnimFile(QFileInfo file){
+	this->m_GraphView->getScene()->setAnimName(file);
 }

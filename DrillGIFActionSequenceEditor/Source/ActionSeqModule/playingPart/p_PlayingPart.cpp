@@ -2,6 +2,8 @@
 #include "p_PlayingPart.h"
 
 #include "defaultStateGroup/w_DefaultStateGroupEdit.h"
+
+#include "Source/ActionSeqModule/actionSeqData/s_ActionSeqDataContainer.h"
 #include "Source/ProjectModule/s_ProjectManager.h"
 #include "Source/Utils/common/TTool.h"
 
@@ -41,10 +43,6 @@ P_PlayingPart::P_PlayingPart(P_StatePart* state_part, P_ActionPart* action_part,
 	this->m_iconSrcPath = ":/DrillGIFActionSequenceEditor/Resources/icons";
 	this->m_playing = false;					//正在播放
 	this->m_timer = new QTimer();				//计时器
-	this->m_curFrame = 0;						//当前时间帧
-	this->m_IndexFrame = QList<int>();			//动画帧的时间帧数
-	this->m_IndexFrameCount = 0;				//总时间帧数
-	this->m_timerInterval = 10;					//播放帧间隔
 	connect(this->m_timer, SIGNAL(timeout()), this, SLOT(updateFrame()));
 
 	//-----------------------------------
@@ -73,107 +71,21 @@ P_PlayingPart::P_PlayingPart(P_StatePart* state_part, P_ActionPart* action_part,
 	//-----------------------------------
 	//----事件绑定
 	connect(ui.toolButton_open, &QToolButton::clicked, this, &P_PlayingPart::btn_play);
+	connect(ui.toolButton_playDefault, &QToolButton::clicked, this, &P_PlayingPart::btn_playDefault);
+	connect(ui.toolButton_playState, &QToolButton::clicked, this, &P_PlayingPart::btn_playState);
+	connect(ui.toolButton_playAction, &QToolButton::clicked, this, &P_PlayingPart::btn_playAction);
 	connect(ui.toolButton_editGroup, &QToolButton::clicked, this, &P_PlayingPart::editDefaultStateGroup);
+
+	// > 图片查看块 - 缩放
+	connect(ui.toolButton_zoom_in, &QPushButton::clicked, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::zoomIn);
+	connect(ui.toolButton_zoom_out, &QPushButton::clicked, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::zoomOut);
+	connect(ui.toolButton_zoom_regular, &QPushButton::clicked, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::zoomReset);
+	connect(this->m_p_AnimPictureViewer, &P_AnimPictureViewer::scaleChanged, this, &P_PlayingPart::zoomValueChanged);
 
 }
 
 P_PlayingPart::~P_PlayingPart(){
 }
-
-
-/*-------------------------------------------------
-		动画帧 - 帧刷新
-*/
-void P_PlayingPart::updateFrame(){
-	if (this->m_IndexFrameCount == 0){ this->stopFrame(); return; }
-
-	// > 切换选项
-	int index = this->m_curFrame % this->m_IndexFrameCount;
-
-	// > 播放
-	for (int i = 0; i < this->m_IndexFrame.count(); i++){
-		int i_count = this->m_IndexFrame.at(i);
-		if (index < i_count){
-
-			// > 图片变化
-			//...
-
-			break;
-		}
-		index -= i_count;
-	}
-
-	// > 帧数+1
-	this->m_curFrame += 1;
-}
-/*-------------------------------------------------
-		动画帧 - 开始
-*/
-void P_PlayingPart::startFrame(){
-
-	// > 开启计时器
-	this->m_timer->start(this->m_timerInterval);
-	this->m_curFrame = 0; 
-	this->m_playing = true;
-
-	// > 数据初始化
-	this->m_IndexFrameCount = 10;
-	this->refreshSource();
-
-	// > ui变化
-	ui.widget_viewFrame->setEnabled(true);
-	ui.widget_operateFrame->setEnabled(true);
-	ui.toolButton_playDefault->setEnabled(true);
-	this->updateIcon();
-	emit playStarted();
-}
-/*-------------------------------------------------
-		动画帧 - 暂停
-*/
-void P_PlayingPart::stopFrame(){
-	if (this->isPlaying() == false){ return; }
-
-	// > 关闭计时器
-	this->m_timer->stop();
-	this->m_curFrame = 0;
-	this->m_playing = false;
-
-	// > ui变化
-	ui.widget_viewFrame->setEnabled(false);
-	ui.widget_operateFrame->setEnabled(false);
-	ui.toolButton_playDefault->setEnabled(false);
-	this->updateIcon();
-}
-/*-------------------------------------------------
-		动画帧 - 正在播放
-*/
-bool P_PlayingPart::isPlaying(){
-	return this->m_playing;
-}
-
-/*-------------------------------------------------
-		放映区 - 播放
-*/
-void P_PlayingPart::btn_play(){
-	QMessageBox::information(this, "提示", "放映区功能还未完成，按钮点击没有效果。", QMessageBox::Yes);
-	if (this->isPlaying() == true){
-		this->stopFrame();
-		return;
-	}
-	this->startFrame();
-}
-/*-------------------------------------------------
-		放映区 - 刷新播放图标
-*/
-void P_PlayingPart::updateIcon(){
-	
-	if (this->m_playing == true){
-		ui.toolButton_open->setIcon(QIcon(this->m_iconSrcPath + "/player/Play_Pause.png"));
-	}else{
-		ui.toolButton_open->setIcon(QIcon(this->m_iconSrcPath + "/player/Play_Run.png"));
-	}
-}
-
 
 /*-------------------------------------------------
 		控件 - 编辑状态元集合
@@ -194,7 +106,13 @@ void P_PlayingPart::editDefaultStateGroup(){
 
 }
 /*-------------------------------------------------
-		控件 - 获取状态元名称
+		控件 - 根据文件名获取资源文件
+*/
+QFileInfo P_PlayingPart::getSrcFileByName(QString file_name){
+	return QFileInfo(S_ActionSeqDataContainer::getInstance()->getActionSeqDir() + "/" + this->m_COAS_data._drill_bitmapName + ".png");
+}
+/*-------------------------------------------------
+		控件 - 获取名称
 */
 QStringList P_PlayingPart::getStateNameList(){
 	QStringList result = QStringList();
@@ -212,9 +130,6 @@ QStringList P_PlayingPart::getStateNameListWithoutEmpty(){
 	}
 	return result;
 }
-/*-------------------------------------------------
-		控件 - 获取动作元名称
-*/
 QStringList P_PlayingPart::getActionNameList(){
 	QStringList result = QStringList();
 	for (int i = 0; i < this->local_actionDataList.count(); i++){
@@ -222,6 +137,157 @@ QStringList P_PlayingPart::getActionNameList(){
 	}
 	return result;
 }
+/*-------------------------------------------------
+		控件 - 获取全部关联文件名（去重）
+*/
+QStringList P_PlayingPart::getRelatFileNameList(){
+	QStringList result = QStringList();
+
+	// > 动作元资源
+	for (int i = 0; i < this->local_actionDataList.count(); i++){
+		QJsonObject obj_action = this->local_actionDataList.at(i);
+		QString str_src = obj_action.value("资源-动作元").toString();
+		QStringList src_list = TTool::_JSON_parse_To_QListQString_(str_src);
+		result.append(src_list);
+	}
+
+	// > 状态元资源
+	for (int i = 0; i < this->local_stateDataList.count(); i++){
+		QJsonObject obj_state = this->local_stateDataList.at(i);
+		QString str_src = obj_state.value("资源-状态元").toString();
+		QStringList src_list = TTool::_JSON_parse_To_QListQString_(str_src);
+		result.append(src_list);
+	}
+
+	// > 去重
+	result = result.toSet().toList();
+
+	return result;
+}
+/*-------------------------------------------------
+		控件 - 缩放比例切换
+*/
+void P_PlayingPart::zoomValueChanged(double value){
+	ui.label_zoomValue->setText( QString::number(value * 100)+"%" );
+}
+
+
+/*-------------------------------------------------
+		动画帧 - 帧刷新
+*/
+void P_PlayingPart::updateFrame(){
+	if (this->m_playing == false){ return; }
+
+	// > 核心刷新
+	this->m_COAS_data.update();
+
+	// > 播放图片
+	this->m_p_AnimPictureViewer->setAnimFile(this->getSrcFileByName(this->m_COAS_data._drill_bitmapName));
+	
+	QString cur_state = this->m_COAS_data._drill_state_curCom;
+	if (this->m_COAS_data.drill_COAS_isPlayingAct()){
+		ui.label_playingName->setText(QString("动作元【")+this->m_COAS_data._drill_act_curCom+"】");
+	}else{
+		if (cur_state != ""){		//（cur_state为空时不会变化资源图片）
+			ui.label_playingName->setText(QString("状态元【") + cur_state + "】");
+		}
+	}
+	if (cur_state != ""){ ui.label_playingState->setText(cur_state); }
+	ui.label_playingAction->setText(this->m_COAS_data._drill_act_curCom);
+	ui.label_stateSeq->setText(this->m_COAS_data._drill_state_curSeq.join(","));
+
+}
+/*-------------------------------------------------
+		动画帧 - 开始
+*/
+void P_PlayingPart::startFrame(){
+
+	// > 开启计时器
+	this->m_timer->start(16);		//（由于不是生成gif模式，所以这里播放帧速度固定）
+	this->m_playing = true;
+
+	// > 数据初始化
+	this->refreshSource();
+	QStringList src_name = this->getRelatFileNameList();
+	QList<QFileInfo> scr_infoList = QList<QFileInfo>();
+	for (int i = 0; i < src_name.count(); i++){
+		scr_infoList.append(this->getSrcFileByName(src_name.at(i)));
+	}
+	this->m_p_AnimPictureViewer->setSource(scr_infoList);
+
+	// > ui变化
+	ui.groupBox_seq->setEnabled(true);
+	ui.widget_operateFrame->setEnabled(true);
+	ui.toolButton_playDefault->setEnabled(true);
+	this->updateIcon();
+	emit playStarted();
+}
+/*-------------------------------------------------
+		动画帧 - 暂停
+*/
+void P_PlayingPart::stopFrame(){
+	if (this->isPlaying() == false){ return; }
+
+	// > 关闭计时器
+	this->m_timer->stop();
+	this->m_playing = false;
+
+	// > ui变化
+	ui.groupBox_seq->setEnabled(false);
+	ui.widget_operateFrame->setEnabled(false);
+	ui.toolButton_playDefault->setEnabled(false);
+	this->updateIcon();
+}
+/*-------------------------------------------------
+		动画帧 - 正在播放
+*/
+bool P_PlayingPart::isPlaying(){
+	return this->m_playing;
+}
+
+/*-------------------------------------------------
+		放映区 - 播放
+*/
+void P_PlayingPart::btn_play(){
+	if (this->isPlaying() == true){
+		this->stopFrame();
+		return;
+	}
+	this->startFrame();
+}
+/*-------------------------------------------------
+		按钮 - 加入默认状态元
+*/
+void P_PlayingPart::btn_playDefault(){
+	this->m_COAS_data.drill_COAS_setSequence(this->local_defaultStateList);
+}
+/*-------------------------------------------------
+		按钮 - 加入状态元
+*/
+void P_PlayingPart::btn_playState(){
+	QStringList state_list = this->m_table_state->getSelectedText_Multi();
+	this->m_COAS_data.drill_COAS_setSequence(state_list);
+}
+/*-------------------------------------------------
+		按钮 - 加入动作元
+*/
+void P_PlayingPart::btn_playAction(){
+	QString action_name = this->m_table_action->getSelectedText();
+	this->m_COAS_data.drill_COAS_setAct(action_name);
+}
+/*-------------------------------------------------
+		放映区 - 刷新播放图标
+*/
+void P_PlayingPart::updateIcon(){
+	
+	if (this->m_playing == true){
+		ui.toolButton_open->setIcon(QIcon(this->m_iconSrcPath + "/player/Play_Pause.png"));
+	}else{
+		ui.toolButton_open->setIcon(QIcon(this->m_iconSrcPath + "/player/Play_Run.png"));
+	}
+}
+
+
 
 /*-------------------------------------------------
 		窗口 - 设置数据
@@ -273,16 +339,20 @@ void P_PlayingPart::putDataToUi() {
 	data["state_default_randomSeq"] = TTool::_QJsonArray_QStringToA_(this->local_defaultStateList);
 	QJsonArray state_tank = QJsonArray();
 	for (int i = 0; i < this->local_stateDataList.count(); i++){
-		state_tank[i] = Drill_COAS_Init::drill_COAS_initState(this->local_stateDataList.at(i));
+		state_tank.append(Drill_COAS_Init::drill_COAS_initState(this->local_stateDataList.at(i)));
 	}
 	data["state_tank"] = state_tank;
 	QJsonArray act_tank = QJsonArray();
 	for (int i = 0; i < this->local_actionDataList.count(); i++){
-		act_tank[i] = Drill_COAS_Init::drill_COAS_initState(this->local_actionDataList.at(i));
+		act_tank.append(Drill_COAS_Init::drill_COAS_initAct(this->local_actionDataList.at(i)));
 	}
 	data["act_tank"] = act_tank;
 
+	// > 动作序列核心初始化
 	this->m_COAS_data = Drill_COAS_Data(data);
+	this->m_COAS_data.update();
+	this->m_p_AnimPictureViewer->clearSource();
+	this->m_p_AnimPictureViewer->setAnimFile(this->getSrcFileByName(this->m_COAS_data._drill_bitmapName));
 }
 /*-------------------------------------------------
 		窗口 - ui数据 -> 本地数据

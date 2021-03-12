@@ -38,10 +38,16 @@ class P_PlayingPart : public QWidget
 	public slots:
 										//控件 - 编辑状态元集合
 		void editDefaultStateGroup();
+										//控件 - 根据文件名获取资源文件
+		QFileInfo getSrcFileByName(QString file_name);
 										//控件 - 获取名称
 		QStringList getActionNameList();
 		QStringList getStateNameList();
 		QStringList getStateNameListWithoutEmpty();
+										//控件 - 获取全部关联文件名（去重）
+		QStringList getRelatFileNameList();
+										//控件 - 缩放比例变化
+		void zoomValueChanged(double value);
 
 	//-----------------------------------
 	//----按钮
@@ -50,6 +56,12 @@ class P_PlayingPart : public QWidget
 	public slots:
 										//按钮 - 播放
 		void btn_play();
+										//按钮 - 加入默认状态元
+		void btn_playDefault();
+										//按钮 - 加入状态元
+		void btn_playState();
+										//按钮 - 加入动作元
+		void btn_playAction();
 	private:
 										//按钮 - 刷新播放图标
 		void updateIcon();
@@ -59,10 +71,6 @@ class P_PlayingPart : public QWidget
 	private:
 		bool m_playing;					//正在播放
 		QTimer* m_timer;				//计时器
-		int m_curFrame;					//当前时间帧
-		QList<int> m_IndexFrame;		//动画帧的时间帧数
-		int m_IndexFrameCount;			//总时间帧数
-		int m_timerInterval;			//播放间隔
 	public:
 										//动画帧 - 开始
 		void startFrame();
@@ -81,9 +89,6 @@ class P_PlayingPart : public QWidget
 	//-----------------------------------
 	//----资源列表
 	private:
-		QStringList m_srcTank;
-		QList<QPixmap> m_bitmapTank;		//贴图数据
-
 		Drill_COAS_Data m_COAS_data;		//主控制数据项
 
 

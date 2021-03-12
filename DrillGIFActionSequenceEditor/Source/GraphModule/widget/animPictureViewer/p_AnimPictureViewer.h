@@ -67,10 +67,17 @@ class P_AnimPictureViewer : public QObject
 	//----动画帧
 	public slots:
 										//动画帧 - 设置 图片资源
+										//		【说明】：如果你用索引，资源可以重复；如果用资源名称，不建议重复。
 		void setSource(QList<QFileInfo> file_list);
-		void setSource(QList<QPixmap> bitmap_list);
-										//动画帧 - 切换帧
+										//动画帧 - 获取 图片资源
+		QList<QFileInfo> getSource();
+										//动画帧 - 清除资源
+		void clearSource();
+										//动画帧 - 切换帧（根据索引）
 		void setAnimFrame(int index);
+										//动画帧 - 切换帧（根据资源名称）
+										//		【说明】：没有资源会自动添加。添加时会去重。
+		void setAnimFile(QFileInfo file);
 
 };
 

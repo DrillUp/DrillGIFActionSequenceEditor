@@ -174,6 +174,7 @@ void P_ActionSeqPart::local_loadIndexData(int index){
 
 	// > 加入数据（放映区）
 	QStringList defaultState = TTool::_JSON_parse_To_QListQString_(this->m_cur_actionSeq.value("默认的状态元集合").toString());
+	this->m_playingPart->stopFrame();
 	this->m_playingPart->setDefaultStateData(defaultState);
 	this->m_playingPart->refreshSource();
 
@@ -266,6 +267,12 @@ void P_ActionSeqPart::setPartGray(){
 	ui.tabWidget->setCurrentIndex(0);
 	this->m_cur_actionSeqIndex = -1;
 	ui.widget_editPart->setEnabled(false);
+}
+/*-------------------------------------------------
+		大控件 - 停止播放
+*/
+void P_ActionSeqPart::stopPlaying(){
+	this->m_playingPart->stopFrame();
 }
 
 

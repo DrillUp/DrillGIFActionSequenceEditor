@@ -36,8 +36,8 @@ I_APVScene::~I_APVScene(){
 void I_APVScene::init(){
 
 	// > 属性（默认）
-	this->m_canvasWidth = 800;
-	this->m_canvasHeight = 600;
+	this->m_canvasWidth = this->getMaxWidth();
+	this->m_canvasHeight = this->getMaxHeight();
 	this->m_canvasThickness = 40;
 	this->m_pixelWidth = 24;
 	this->m_pixelHeight = 24;
@@ -131,9 +131,41 @@ void I_APVScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent){
 /*-------------------------------------------------
 		资源 - 设置资源
 */
-void I_APVScene::setSource(QList<QPixmap> bitmap_list){
+void I_APVScene::setSource(QList<QFileInfo> file_list){
+	QList<QPixmap> bitmap_list = QList<QPixmap>();
+	for (int i = 0; i < file_list.count(); i++){
+		QFileInfo info = file_list.at(i);
+		QImage image = QImage(info.absoluteFilePath());
+		QPixmap pixmap = QPixmap::fromImage(image);
+		bitmap_list.append(pixmap);
+	}
+	this->m_fileList = file_list;
 	this->m_bitmapList = bitmap_list;
 	this->rebuildScene();
+}
+/*-------------------------------------------------
+		资源 - 设置资源
+*/
+QList<QFileInfo> I_APVScene::getSource(){
+	return this->m_fileList;
+}
+/*-------------------------------------------------
+		资源 - 清除资源
+*/
+void I_APVScene::clearSource(){
+	this->m_fileList.clear();
+	this->m_bitmapList.clear();
+	this->rebuildScene();
+}
+/*-------------------------------------------------
+		资源 - 添加资源（私有）
+*/
+void I_APVScene::addSource(QFileInfo file){
+	this->m_fileList.append(file);
+	QImage image = QImage(file.absoluteFilePath());
+	QPixmap pixmap = QPixmap::fromImage(image);
+	this->m_bitmapList.append(pixmap);
+	this->rebuildScene();		//（重建）
 }
 /*-------------------------------------------------
 		资源 - 重建场景
@@ -172,9 +204,21 @@ void I_APVScene::rebuildScene(){
 }
 
 /*-------------------------------------------------
-		部件 - 切换帧
+		部件 - 切换帧（根据索引）
 */
 void I_APVScene::setAnimFrame(int index){
+	this->m_curFrame = index;
+	this->refreshFrame();
+}
+/*-------------------------------------------------
+		部件 - 切换帧（根据资源名称）
+*/
+void I_APVScene::setAnimName(QFileInfo file){
+	int index = this->m_fileList.indexOf(file);
+	if (index == -1){
+		this->addSource(file);
+		index = this->m_fileList.indexOf(file);
+	}
 	this->m_curFrame = index;
 	this->refreshFrame();
 }
@@ -197,6 +241,7 @@ void I_APVScene::refreshFrame(){
 		部件 - 资源高度
 */
 int I_APVScene::getMaxHeight(){
+	if (this->m_bitmapList.count() == 0){ return 600; }	//（默认）
 	int result = 0;
 	for (int i = 0; i < this->m_bitmapList.count(); i++){
 		int hh = this->m_bitmapList.at(i).height();
@@ -210,6 +255,7 @@ int I_APVScene::getMaxHeight(){
 		部件 - 资源宽度
 */
 int I_APVScene::getMaxWidth(){
+	if (this->m_bitmapList.count() == 0){ return 800; }	//（默认）
 	int result = 0;
 	for (int i = 0; i < this->m_bitmapList.count(); i++){
 		int ww = this->m_bitmapList.at(i).width();

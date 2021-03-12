@@ -236,6 +236,9 @@ void DrillGIFActionSequenceEditor::resizeEvent(QResizeEvent *event){
 */
 void DrillGIFActionSequenceEditor::closeEvent(QCloseEvent *event){
 
+	// > Í£Ö¹²¥·Å
+	this->m_p_ActionSeqPart->stopPlaying();
+
 	// > ¹¤³Ì
 	if (S_ProjectManager::getInstance()->dirtyTip() == false) {
 		event->ignore();

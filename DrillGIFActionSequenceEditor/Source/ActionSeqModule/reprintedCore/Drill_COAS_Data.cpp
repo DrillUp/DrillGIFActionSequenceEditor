@@ -142,7 +142,7 @@ void Drill_COAS_Data::drill_COAS_updateState(){
 
 	// > 时间+1
 	this->_drill_state_curTime += 1;
-	if (this->_drill_state_curTime >= gif_src.count() * data_state["gif_interval"].toInt()){
+	if (this->_drill_state_curTime >= data_state["gif_intervalRealTank_total"].toInt()){
 		this->_drill_state_curCom = "";
 		this->_drill_state_curTime = 0;
 	}
@@ -210,7 +210,7 @@ void Drill_COAS_Data::drill_COAS_updateAct(){
 
 	// > 时间+1
 	this->_drill_act_curTime += 1;
-	if (this->_drill_act_curTime > gif_src.count() * data_act["gif_interval"].toInt()){
+	if (this->_drill_act_curTime > data_act["gif_intervalRealTank_total"].toInt()){
 		this->_drill_act_curCom = "";
 		this->_drill_act_curTime = 0;
 	}

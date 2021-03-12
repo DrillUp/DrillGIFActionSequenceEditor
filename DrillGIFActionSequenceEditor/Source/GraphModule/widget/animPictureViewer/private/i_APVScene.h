@@ -54,12 +54,21 @@ class I_APVScene : public QGraphicsScene
 	//-----------------------------------
 	//----资源
 	private:
+		QList<QFileInfo> m_fileList;
 		QList<QPixmap> m_bitmapList;
 	public:
 									//资源 - 设置资源
-		void setSource(QList<QPixmap> bitmap_list);
+		void setSource(QList<QFileInfo> file_list);
+									//资源 - 获取资源
+		QList<QFileInfo> getSource();
+									//资源 - 清除资源
+		void clearSource();
+
+	protected:
 									//资源 - 重建场景
 		void rebuildScene();
+									//资源 - 添加资源（私有）
+		void addSource(QFileInfo file);
 
 	//-----------------------------------
 	//----部件
@@ -67,8 +76,10 @@ class I_APVScene : public QGraphicsScene
 		QList<QGraphicsPixmapItem*> m_animList;		//动画帧列表
 		int m_curFrame;
 	public:
-									//部件 - 切换帧
+									//部件 - 切换帧（根据索引）
 		void setAnimFrame(int index);
+									//部件 - 切换帧（根据资源名称）
+		void setAnimName(QFileInfo file);
 									//部件 - 刷新帧显示
 		void refreshFrame();
 									//部件 - 资源高度

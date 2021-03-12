@@ -55,6 +55,7 @@ P_RadioTable::P_RadioTable(QTableWidget *parent)
 	this->m_table->setContextMenuPolicy(Qt::CustomContextMenu);									//激活右键
 	this->m_table->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);			//单选
 	this->m_table->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);		//选行
+	this->m_table->setEditTriggers(QAbstractItemView::NoEditTriggers);							//关闭编辑
 
 	this->m_table->setColumnCount(1);
 	this->m_table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);				//列自适应

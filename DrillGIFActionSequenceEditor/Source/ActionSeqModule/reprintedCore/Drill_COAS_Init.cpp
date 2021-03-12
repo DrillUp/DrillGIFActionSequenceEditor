@@ -53,7 +53,7 @@ QJsonObject Drill_COAS_Init::drill_COAS_initState(QJsonObject dataFrom){
 		if (i < gif_intervalTank_int.count()){
 			interval = gif_intervalTank_int[i];
 		}
-		gif_intervalRealTank[i] = interval;
+		gif_intervalRealTank.append(interval);
 		gif_intervalRealTank_total += interval;
 	}
 	data["gif_intervalRealTank"] = gif_intervalRealTank;
@@ -88,7 +88,7 @@ QJsonObject Drill_COAS_Init::drill_COAS_initAct(QJsonObject dataFrom){
 		if (i < gif_intervalTank_int.count()){
 			interval = gif_intervalTank_int[i];
 		}
-		gif_intervalRealTank[i] = interval;
+		gif_intervalRealTank.append(interval);
 		gif_intervalRealTank_total += interval;
 	}
 	data["gif_intervalRealTank"] = gif_intervalRealTank;
@@ -108,14 +108,14 @@ QJsonObject Drill_COAS_Init::drill_COAS_initSequence(QJsonObject dataFrom){
 	QJsonArray state_tank = QJsonArray();
 	for (int i = 0; i < len.realLen_state; i++){
 		QJsonObject obj = TTool::_JSON_parse_To_Obj_(dataFrom["状态元-"+QString::number(i+1)].toString("{}"));
-		state_tank[i] = Drill_COAS_Init::drill_COAS_initState(obj);
+		state_tank.append(Drill_COAS_Init::drill_COAS_initState(obj));
 	}
 	data["state_tank"] = state_tank;
 
 	QJsonArray act_tank = QJsonArray();
 	for (int i = 0; i < len.realLen_action; i++){
 		QJsonObject obj = TTool::_JSON_parse_To_Obj_(dataFrom["动作元-" + QString::number(i+1)].toString("{}"));
-		act_tank[i] = Drill_COAS_Init::drill_COAS_initAct(obj);
+		act_tank.append(Drill_COAS_Init::drill_COAS_initAct(obj));
 	}
 	data["act_tank"] = act_tank;
 
