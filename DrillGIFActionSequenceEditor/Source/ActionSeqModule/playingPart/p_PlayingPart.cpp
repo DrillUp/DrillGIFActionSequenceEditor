@@ -91,12 +91,19 @@ P_PlayingPart::~P_PlayingPart(){
 		控件 - 编辑状态元集合
 */
 void P_PlayingPart::editDefaultStateGroup(){
+	// > 未播放时，刷新资源
+	if (this->isPlaying() == false){
+		this->refreshSource();
+	}
+
+	// > 资源检查
 	QStringList state_list = this->getStateNameListWithoutEmpty();
 	if (state_list.count() == 0){
 		QMessageBox::information(this, "提示", "你需要配置至少一个 状态元 才能编辑。", QMessageBox::Yes);
 		return;
 	}
 
+	// > 窗口
 	W_DefaultStateGroupEdit d(this);
 	d.setData(state_list, this->local_defaultStateList);
 	if (d.exec() == QDialog::Accepted){

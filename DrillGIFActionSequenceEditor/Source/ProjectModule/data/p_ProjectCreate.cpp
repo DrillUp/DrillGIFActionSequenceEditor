@@ -40,7 +40,8 @@ P_ProjectCreate::P_ProjectCreate(QWidget* parent)
 	// > 添加当前目录
 	QDir dir(this->local_ProjectData.getProjectRootPath());
 	dir.mkdir(this->local_ProjectData.getProjectRootPath());
-	this->addPath(this->local_ProjectData.getProjectRootPath());
+	this->insertPath(this->local_ProjectData.getProjectRootPath());
+	this->selectPath(this->local_ProjectData.getProjectRootPath());
 
 	//-----------------------------------
 	//----事件绑定
@@ -79,7 +80,7 @@ void P_ProjectCreate::chooseFiles() {
 	if (path == "") {
 		return;
 	}
-	this->addPath(path);
+	this->insertPath(path);
 	this->selectPath(path);
 	this->refreshOutput();
 }
@@ -106,9 +107,9 @@ void P_ProjectCreate::refreshOutput() {
 }
 
 /*-------------------------------------------------
-		位置 - 添加位置（这里将ui封装了一下，防止路径混乱调用）
+		位置 - 添加位置
 */
-void P_ProjectCreate::addPath(QString path){
+void P_ProjectCreate::insertPath(QString path){
 
 	// > 去掉末尾斜杠
 	if (path.at(path.size() - 1) == '/'){
@@ -117,12 +118,12 @@ void P_ProjectCreate::addPath(QString path){
 
 	// > 重刷列表
 	if (this->m_pathList.contains(path)){ return; }
-	this->m_pathList.append(path);
+	this->m_pathList.insert(0, path);
 	ui.comboBox_path->clear();
 	ui.comboBox_path->addItems(m_pathList);
 }
 /*-------------------------------------------------
-		位置 - 添加位置（这里将ui封装了一下，防止路径混乱调用）
+		位置 - 选择位置
 */
 void P_ProjectCreate::selectPath(QString path){
 
@@ -133,7 +134,7 @@ void P_ProjectCreate::selectPath(QString path){
 	ui.comboBox_path->setCurrentText(path);
 }
 /*-------------------------------------------------
-		位置 - 获取选择的位置（这里将ui封装了一下，防止路径混乱调用）
+		位置 - 获取选择的位置
 */
 QString P_ProjectCreate::getCurrentPath(){
 	return ui.comboBox_path->currentText();
@@ -154,7 +155,7 @@ void P_ProjectCreate::setDataInModifyMode(C_ProjectData p) {
 C_ProjectData P_ProjectCreate::getData(){
 	this->putUiToData();
 
-	//校验
+	// > 校验
 	QString name = ui.lineEdit_name->text();
 	if (name == "") {
 		QMessageBox::warning(this, ("错误"), ("名称不能为空。"));
@@ -173,7 +174,7 @@ C_ProjectData P_ProjectCreate::getData(){
 void P_ProjectCreate::putDataToUi() {
 
 	ui.lineEdit_name->setText(local_ProjectData.getName());
-	this->addPath(local_ProjectData.getProjectRootPath());
+	this->insertPath(local_ProjectData.getProjectRootPath());
 
 	ui.checkBox->setChecked(true);
 };

@@ -108,7 +108,7 @@ void S_ProjectManager::removeLock(QWidget* widget) {
 */
 void S_ProjectManager::changeTitle(){
 	QString title = "";
-	if (this->data_ProjectData.getName() == "") {
+	if (this->data_ProjectData.isNull()) {
 		title = this->data_ProjectData.getSoftname() + " - newProject";
 	}else {
 		title = this->data_ProjectData.getSoftname() + " - " + this->data_ProjectData.getName();
@@ -244,7 +244,7 @@ bool S_ProjectManager::openProjectByDropFile(QDropEvent *event) {
 bool S_ProjectManager::saveProject() {
 
 	// > 项目未打开情况
-	if (this->data_ProjectData.getName() == "") {
+	if (this->data_ProjectData.isNull()) {
 		W_ProjectCreate d(PROJECT_INSTANCE);
 		d.setDataInModifyMode(this->data_ProjectData);
 		bool accepted = d.exec();
@@ -288,7 +288,7 @@ bool S_ProjectManager::saveAs() {
 bool S_ProjectManager::saveInForce() {
 
 	// > 项目未打开情况
-	if (this->data_ProjectData.getName() == "") { return false; }
+	if (this->data_ProjectData.isNull()) { return false; }
 
 	// > 项目已打开情况
 	this->saveAll(this->data_ProjectData.getProjectRootPath());

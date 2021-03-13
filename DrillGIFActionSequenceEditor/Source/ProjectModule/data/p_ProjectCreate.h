@@ -6,10 +6,11 @@
 
 /*
 -----==========================================================-----
-		类：		新建项目块.cpp
+		类：		新建项目块.h
 		所属模块：	项目管理模块
 		功能：		经过该流程后，将新建项目文件夹。
 					比如新建项目、另存为项目。
+					（详细见cpp）
 -----==========================================================-----
 */
 class P_ProjectCreate : public QWidget
@@ -40,17 +41,15 @@ class P_ProjectCreate : public QWidget
 		QStringList m_pathList;
 	public:
 										//位置 - 添加位置
-		void addPath(QString path);
+		void insertPath(QString path);
 										//位置 - 选择位置
 		void selectPath(QString path);
 										//位置 - 获取选择的位置
 		QString getCurrentPath();
 
-
 	//-----------------------------------
 	//----窗口
 	public:
-		//bool isAddMode;
 		C_ProjectData local_ProjectData;
 	public:
 										//窗口 - 设置数据
@@ -61,11 +60,8 @@ class P_ProjectCreate : public QWidget
 		void putDataToUi();							
 										//窗口 - ui数据 -> 本地数据
 		void putUiToData();
-
 	private:
 		Ui::P_ProjectCreate ui;
-	//-----------------------------------
-
 };
 
 #endif 

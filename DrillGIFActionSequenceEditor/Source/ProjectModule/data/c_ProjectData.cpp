@@ -22,6 +22,12 @@ C_ProjectData::~C_ProjectData(){
 }
 
 /*-------------------------------------------------
+		¿ÕÅÐ¶Ï
+*/
+bool C_ProjectData::isNull(){
+	return this->name == "";
+}
+/*-------------------------------------------------
 		ÊµÌåÀà -> QJsonObject
 */
 QJsonObject C_ProjectData::getJsonObject(){
