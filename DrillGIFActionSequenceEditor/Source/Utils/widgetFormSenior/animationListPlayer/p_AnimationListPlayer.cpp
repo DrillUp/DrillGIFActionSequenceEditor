@@ -209,10 +209,18 @@ void P_AnimationListPlayer::updateIcon(){
 	if (this->m_iconPlaying == this->m_playing){ return; }
 	this->m_iconPlaying = this->m_playing;
 	
+	// > 启动播放时
 	if (this->m_iconPlaying == true){
 		ui.toolButton_play->setIcon(QIcon(this->m_iconSrcPath + "/player/Play_Pause.png"));
+		ui.combo->setEnabled(false);
+		//（蓝光效果）
+		ui.widget_controlArea->setStyleSheet("\n #widget_controlArea{ background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(138,255,168,105), stop:0.8 rgba(138,255,168,0), stop:1 rgba(255,255,255,0) ); }");
+		
+	// > 暂停播放时
 	}else{
 		ui.toolButton_play->setIcon(QIcon(this->m_iconSrcPath + "/player/Play_Run.png"));
+		ui.combo->setEnabled(true);
+		ui.widget_controlArea->setStyleSheet("");
 	}
 }
 /*-------------------------------------------------

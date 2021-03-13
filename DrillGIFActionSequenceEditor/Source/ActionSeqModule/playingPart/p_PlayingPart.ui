@@ -27,7 +27,10 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QWidget" name="widget_6" native="true">
+    <widget class="QWidget" name="widget_playingPart" native="true">
+     <property name="styleSheet">
+      <string notr="true">#widget_playingPart{ background-color: rgb(242, 242, 242); }</string>
+     </property>
      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="4,9">
       <property name="leftMargin">
        <number>4</number>
@@ -115,8 +118,11 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #44
             </item>
             <item>
              <widget class="QToolButton" name="toolButton_open">
+              <property name="toolTip">
+               <string>启动放映</string>
+              </property>
               <property name="text">
-               <string>开始</string>
+               <string>启动放映</string>
               </property>
               <property name="icon">
                <iconset resource="../../../drillgifactionsequenceeditor.qrc">
@@ -166,8 +172,11 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #44
             </item>
             <item>
              <widget class="QToolButton" name="toolButton_editGroup">
+              <property name="toolTip">
+               <string>编辑状态元集合</string>
+              </property>
               <property name="text">
-               <string>开始</string>
+               <string>编辑状态元集合</string>
               </property>
               <property name="icon">
                <iconset resource="../../../drillgifactionsequenceeditor.qrc">
@@ -185,6 +194,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #44
              <widget class="QToolButton" name="toolButton_playDefault">
               <property name="enabled">
                <bool>false</bool>
+              </property>
+              <property name="toolTip">
+               <string>加入队列</string>
               </property>
               <property name="text">
                <string>加入队列</string>
@@ -255,6 +267,9 @@ QTableView::item:selected {
                </item>
                <item>
                 <widget class="QToolButton" name="toolButton_playState">
+                 <property name="toolTip">
+                  <string>加入队列</string>
+                 </property>
                  <property name="text">
                   <string>加入队列</string>
                  </property>
@@ -303,6 +318,9 @@ QTableView::item:selected {
                </item>
                <item>
                 <widget class="QToolButton" name="toolButton_playAction">
+                 <property name="toolTip">
+                  <string>加入队列</string>
+                 </property>
                  <property name="text">
                   <string>加入队列</string>
                  </property>
@@ -392,6 +410,9 @@ QToolButton:pressed{
                </property>
                <item>
                 <widget class="QToolButton" name="toolButton_zoom_in">
+                 <property name="toolTip">
+                  <string>放大</string>
+                 </property>
                  <property name="text">
                   <string>放大</string>
                  </property>
@@ -409,6 +430,9 @@ QToolButton:pressed{
                </item>
                <item>
                 <widget class="QToolButton" name="toolButton_zoom_out">
+                 <property name="toolTip">
+                  <string>缩小</string>
+                 </property>
                  <property name="text">
                   <string>缩小</string>
                  </property>
@@ -426,6 +450,9 @@ QToolButton:pressed{
                </item>
                <item>
                 <widget class="QToolButton" name="toolButton_zoom_regular">
+                 <property name="toolTip">
+                  <string>原比例</string>
+                 </property>
                  <property name="text">
                   <string>原比例</string>
                  </property>
@@ -482,28 +509,28 @@ QToolButton:pressed{
             <item row="3" column="1">
              <widget class="QLabel" name="label_stateSeq">
               <property name="text">
-               <string>[]</string>
+               <string/>
               </property>
              </widget>
             </item>
             <item row="2" column="1">
              <widget class="QLabel" name="label_playingAction">
               <property name="text">
-               <string>无</string>
+               <string/>
               </property>
              </widget>
             </item>
             <item row="1" column="1">
              <widget class="QLabel" name="label_playingState">
               <property name="text">
-               <string>无</string>
+               <string/>
               </property>
              </widget>
             </item>
             <item row="0" column="1">
              <widget class="QLabel" name="label_playingName">
               <property name="text">
-               <string>状态元【xxx】</string>
+               <string/>
               </property>
              </widget>
             </item>

@@ -280,10 +280,19 @@ void P_PlayingPart::btn_playAction(){
 */
 void P_PlayingPart::updateIcon(){
 	
+	// > 启动播放时
 	if (this->m_playing == true){
 		ui.toolButton_open->setIcon(QIcon(this->m_iconSrcPath + "/player/Play_Pause.png"));
+		ui.widget_playingPart->setStyleSheet("#widget_playingPart{ background-color: rgb(255, 255, 255); }");
+	
+	// > 暂停播放时
 	}else{
 		ui.toolButton_open->setIcon(QIcon(this->m_iconSrcPath + "/player/Play_Run.png"));
+		ui.widget_playingPart->setStyleSheet("#widget_playingPart{ background-color: rgb(242, 242, 242); }");
+		ui.label_playingAction->setText("");
+		ui.label_playingName->setText("");
+		ui.label_playingState->setText("");
+		ui.label_stateSeq->setText("");
 	}
 }
 

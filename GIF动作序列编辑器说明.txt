@@ -10,3 +10,6 @@
 	
 	如果你对这个编辑器感兴趣，恰好又熟悉qt脚本，那么可以来看看。
 	另外，这里也有一些我自己造的常用轮子工具，都放在工具箱中。
+	
+	该编辑器的GIF生成与拆解部分，部分是基于 cximagecrt_drill.dll 实现的。
+	可见工程：https://github.com/DrillUp/cximagecrt_drill

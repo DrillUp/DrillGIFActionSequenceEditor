@@ -257,6 +257,9 @@ QToolButton:pressed{
                </property>
                <item>
                 <widget class="QToolButton" name="toolButton_zoom_in">
+                 <property name="toolTip">
+                  <string>放大</string>
+                 </property>
                  <property name="text">
                   <string>放大</string>
                  </property>
@@ -274,6 +277,9 @@ QToolButton:pressed{
                </item>
                <item>
                 <widget class="QToolButton" name="toolButton_zoom_out">
+                 <property name="toolTip">
+                  <string>缩小</string>
+                 </property>
                  <property name="text">
                   <string>缩小</string>
                  </property>
@@ -291,6 +297,9 @@ QToolButton:pressed{
                </item>
                <item>
                 <widget class="QToolButton" name="toolButton_zoom_regular">
+                 <property name="toolTip">
+                  <string>原比例</string>
+                 </property>
                  <property name="text">
                   <string>原比例</string>
                  </property>
