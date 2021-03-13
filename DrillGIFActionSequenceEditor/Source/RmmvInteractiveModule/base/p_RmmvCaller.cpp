@@ -144,7 +144,7 @@ void P_RmmvCaller::callRmmvSave_RequestingClose(C_RmmvProjectData rmmvProjectDat
 	// > rmmv数量检查
 	int num = S_CallManager::getInstance()->getWindowNum(rmmv_window_name);
 	if (num >= 1){
-		QMessageBox::information(nullptr, "提示", "由于更新的数据不能同步到已打开的rmmv编辑器中，\n所以必须先关闭工程\"" + rmmvProjectData.name + "\"，再进行保存。", QMessageBox::Yes);
+		QMessageBox::information(nullptr, "提示", "保存失败。\n由于更新的数据不能同步到已打开的rmmv编辑器中，\n所以必须先关闭工程\"" + rmmvProjectData.name + "\"，再进行保存。", QMessageBox::Yes);
 		return;
 	}
 
