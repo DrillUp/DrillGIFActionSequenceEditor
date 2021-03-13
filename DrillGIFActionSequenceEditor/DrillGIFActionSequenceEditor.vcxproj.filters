@@ -42,9 +42,6 @@
       <Extensions>qrc;*</Extensions>
       <ParseFiles>false</ParseFiles>
     </Filter>
-    <Filter Include="源文件\【 动作序列 ActionSeqModule】">
-      <UniqueIdentifier>{f5f343cf-ad4f-47e0-a294-4d22e35b468c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）">
       <UniqueIdentifier>{dd73c86b-1ce5-40f8-b30a-8308407bd13e}</UniqueIdentifier>
     </Filter>
@@ -183,35 +180,38 @@
     <Filter Include="源文件\【 插件模块 PluginModule】\存储数据管理器">
       <UniqueIdentifier>{a39775db-bab5-481e-bc55-dc41981ce72c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 动作序列 ActionSeqModule】\动作序列块">
-      <UniqueIdentifier>{04488223-3081-4fd0-86a0-1dcc57331ec8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\【 动作序列 ActionSeqModule】\动作序列块\放映区">
-      <UniqueIdentifier>{777e3569-1c82-4e26-9135-fc02f0457784}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\【 动作序列 ActionSeqModule】\动作序列块\放映区\默认状态元集合">
-      <UniqueIdentifier>{1ebfb5f8-a24a-49a8-a3f1-37aef24aa4e5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\【 动作序列 ActionSeqModule】\动作序列块\动作元块">
-      <UniqueIdentifier>{098df1bf-d3a8-453e-8625-399216e54aed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\【 动作序列 ActionSeqModule】\动作序列块\状态元块">
-      <UniqueIdentifier>{b9175ef4-c3c3-4830-b481-0136333a709b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\【 动作序列 ActionSeqModule】\核心复刻类">
-      <UniqueIdentifier>{321bb369-30cf-4274-82df-e3b37caeaf62}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\【 动作序列 ActionSeqModule】\数据读取器">
-      <UniqueIdentifier>{34c87558-44ee-4308-b51b-19156d9ad909}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\【 动作序列 ActionSeqModule】\数据读取器\数据最大值编辑">
-      <UniqueIdentifier>{bc9f198c-e495-4c47-83e5-c5fabf56c615}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\【外部库模块 DllModule】">
       <UniqueIdentifier>{8ab2576e-103c-453a-9b3f-cb97a9965233}</UniqueIdentifier>
     </Filter>
     <Filter Include="源文件\【外部库模块 DllModule】\图像操作库（cximagecrt_drill）">
       <UniqueIdentifier>{5a79aa41-bdc5-4e29-b859-33b6b64efd18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 动画序列 ActionSeqModule】">
+      <UniqueIdentifier>{f5f343cf-ad4f-47e0-a294-4d22e35b468c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 动画序列 ActionSeqModule】\核心复刻类">
+      <UniqueIdentifier>{321bb369-30cf-4274-82df-e3b37caeaf62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 动画序列 ActionSeqModule】\数据读取器">
+      <UniqueIdentifier>{34c87558-44ee-4308-b51b-19156d9ad909}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 动画序列 ActionSeqModule】\数据读取器\数据最大值编辑">
+      <UniqueIdentifier>{bc9f198c-e495-4c47-83e5-c5fabf56c615}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 动画序列 ActionSeqModule】\动画序列块">
+      <UniqueIdentifier>{04488223-3081-4fd0-86a0-1dcc57331ec8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 动画序列 ActionSeqModule】\动画序列块\放映区">
+      <UniqueIdentifier>{777e3569-1c82-4e26-9135-fc02f0457784}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 动画序列 ActionSeqModule】\动画序列块\放映区\默认状态元集合">
+      <UniqueIdentifier>{1ebfb5f8-a24a-49a8-a3f1-37aef24aa4e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 动画序列 ActionSeqModule】\动画序列块\动作元块">
+      <UniqueIdentifier>{098df1bf-d3a8-453e-8625-399216e54aed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 动画序列 ActionSeqModule】\动画序列块\状态元块">
+      <UniqueIdentifier>{b9175ef4-c3c3-4830-b481-0136333a709b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -243,7 +243,7 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\actionSeqPart\p_ActionSeqPart.cpp">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_p_ActionSeqPart.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -252,7 +252,7 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\actionPart\p_ActionPart.cpp">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块\动作元块</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\动作元块</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_p_ActionPart.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -261,7 +261,7 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\statePart\p_StatePart.cpp">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块\状态元块</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态元块</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_p_StatePart.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -441,7 +441,7 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\actionSeqData\s_ActionSeqDataContainer.cpp">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\数据读取器</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\数据读取器</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_s_ActionSeqDataContainer.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -573,7 +573,7 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\playingPart\p_PlayingPart.cpp">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块\放映区</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\放映区</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_p_PlayingPart.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -723,7 +723,7 @@
       <Filter>源文件\【 工具箱 Utils】\集合组件-快速表单（widgetFastForm）\快速表单</Filter>
     </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\actionSeqData\s_ActionSeqDataDefiner.cpp">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\数据读取器</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\数据读取器</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_s_ActionSeqDataDefiner.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -768,10 +768,10 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\actionSeqData\lengthData\c_ActionSeqLength.cpp">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\数据读取器\数据最大值编辑</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\数据读取器\数据最大值编辑</Filter>
     </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\actionSeqData\lengthData\w_ActionSeqLength.cpp">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\数据读取器\数据最大值编辑</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\数据读取器\数据最大值编辑</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_w_ActionSeqLength.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -780,7 +780,7 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\playingPart\defaultStateGroup\w_DefaultStateGroupEdit.cpp">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块\放映区\默认状态元集合</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\放映区\默认状态元集合</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_w_DefaultStateGroupEdit.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -816,10 +816,10 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_Data.cpp">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\核心复刻类</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类</Filter>
     </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_Init.cpp">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\核心复刻类</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -836,22 +836,22 @@
       <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\actionSeqPart\p_ActionSeqPart.h">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\actionSeqPart\p_ActionSeqPart.ui">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\actionPart\p_ActionPart.h">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块\动作元块</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\动作元块</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\actionPart\p_ActionPart.ui">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块\动作元块</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\动作元块</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\statePart\p_StatePart.h">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块\状态元块</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态元块</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\statePart\p_StatePart.ui">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块\状态元块</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态元块</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\Utils\widgetForm\radioTable\p_RadioTable.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\单选表格</Filter>
@@ -923,7 +923,7 @@
       <Filter>源文件\【 交互模块 RmmvInteractiveModule】\操作面板</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\actionSeqData\s_ActionSeqDataContainer.h">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\数据读取器</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\数据读取器</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\RmmvInteractiveModule\custom\s_RmmvCaller_ActionSeq.h">
       <Filter>源文件\【 交互模块 RmmvInteractiveModule】\专用交互</Filter>
@@ -971,10 +971,10 @@
       <Filter>源文件\【 项目管理模块 ProjectModule】\temp文件夹</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\playingPart\p_PlayingPart.h">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块\放映区</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\放映区</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\playingPart\p_PlayingPart.ui">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块\放映区</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\放映区</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\Utils\widgetForm\pictureSelector\p_PictureSelector.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块</Filter>
@@ -1034,7 +1034,7 @@
       <Filter>源文件\【 工具箱 Utils】\集合组件-快速表单（widgetFastForm）\快速表单</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\actionSeqData\s_ActionSeqDataDefiner.h">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\数据读取器</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\数据读取器</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\Utils\common\p_FileOperater.h">
       <Filter>源文件\【 工具箱 Utils】\通用工具（common）</Filter>
@@ -1055,16 +1055,16 @@
       <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件-全局</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\actionSeqData\lengthData\w_ActionSeqLength.h">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\数据读取器\数据最大值编辑</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\数据读取器\数据最大值编辑</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\actionSeqData\lengthData\w_ActionSeqLength.ui">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\数据读取器\数据最大值编辑</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\数据读取器\数据最大值编辑</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\playingPart\defaultStateGroup\w_DefaultStateGroupEdit.h">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块\放映区\默认状态元集合</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\放映区\默认状态元集合</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\playingPart\defaultStateGroup\w_DefaultStateGroupEdit.ui">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\动作序列块\放映区\默认状态元集合</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\放映区\默认状态元集合</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\Utils\manager\GIFManager\s_GIFManager.h">
       <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\GIF转换器</Filter>
@@ -1082,10 +1082,10 @@
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块\私有类</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_Data.h">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\核心复刻类</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_Init.h">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\核心复刻类</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -1231,7 +1231,7 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\ActionSeqModule\actionSeqData\lengthData\c_ActionSeqLength.h">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\数据读取器\数据最大值编辑</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\数据读取器\数据最大值编辑</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_w_ActionSeqLength.h">
       <Filter>Generated Files</Filter>
@@ -1284,7 +1284,7 @@
       <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片查看块</Filter>
     </Text>
     <Text Include="Source\ActionSeqModule\reprintedCore\复刻说明.txt">
-      <Filter>源文件\【 动作序列 ActionSeqModule】\核心复刻类</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类</Filter>
     </Text>
     <Text Include="Source\DllModule\Dll模块说明.txt">
       <Filter>源文件\【外部库模块 DllModule】</Filter>

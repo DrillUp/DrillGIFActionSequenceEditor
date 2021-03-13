@@ -111,7 +111,7 @@ void DrillGIFActionSequenceEditor::rmmvInteractiveDataLoaded(){
 
 
 /*-------------------------------------------------
-		控件 - 动作序列已读取
+		控件 - 动画序列已读取
 */
 void DrillGIFActionSequenceEditor::actionSeqDataLoaded(){
 
@@ -130,7 +130,7 @@ void DrillGIFActionSequenceEditor::actionSeqDataLoaded(){
 	}
 }
 /*-------------------------------------------------
-		控件 - 动作序列数据重建
+		控件 - 动画序列数据重建
 */
 void DrillGIFActionSequenceEditor::rebuildActionSeqData(){
 	W_ActionSeqLength d(this);
@@ -201,11 +201,11 @@ void DrillGIFActionSequenceEditor::changeWindowTitle(QString title){
 void DrillGIFActionSequenceEditor::openUserManual() {
 	QString sPath = qApp->applicationDirPath();
 
-	QString docx = sPath + "/help/关于GIF动作序列核心编辑器.docx";
+	QString docx = sPath + "/help/关于GIF动画序列核心编辑器.docx";
 	if (QFileInfo(docx).exists()){
 		QDesktopServices::openUrl(QUrl("file:/" + docx)); 
 	}else{
-		QMessageBox::warning(this, "错误", "文档\"关于GIF动作序列核心编辑器.docx\"不见了。", QMessageBox::Yes);
+		QMessageBox::warning(this, "错误", "文档\"关于GIF动画序列核心编辑器.docx\"不见了。", QMessageBox::Yes);
 	}
 
 }

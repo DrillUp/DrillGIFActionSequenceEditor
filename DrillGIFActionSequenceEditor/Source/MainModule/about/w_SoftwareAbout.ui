@@ -89,7 +89,7 @@ font-weight:bold;
 padding:4px;</string>
         </property>
         <property name="text">
-         <string>GIF动作序列编辑器（vX.XX）</string>
+         <string>GIF动画序列编辑器（vX.XX）</string>
         </property>
        </widget>
       </item>
@@ -173,7 +173,7 @@ padding:4px;</string>
          <item>
           <widget class="QLabel" name="label">
            <property name="text">
-            <string>GIF动作序列编辑器（DrillGIFActionSequenceEditor）
+            <string>GIF动画序列编辑器（DrillGIFActionSequenceEditor）
 作者： Drill_up
 制作时间： 2021.1 - 2021.3
 

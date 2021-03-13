@@ -79,7 +79,7 @@ void P_RmmvOperateBoard::openRmmvSoftware(){
 */
 void P_RmmvOperateBoard::importRmmv(){
 	if (this->local_rmmvData.isNull()){ return; }
-	if (QMessageBox::information(this, "提示", "此操作会从rmmv工程中读取数据，并覆盖到当前数据，当前的动作序列数据将全部丢失，是否继续?", "继续", "取消", 0, 1) == 1){
+	if (QMessageBox::information(this, "提示", "此操作会从rmmv工程中读取数据，并覆盖到当前数据，当前的动画序列数据将全部丢失，是否继续?", "继续", "取消", 0, 1) == 1){
 		return;
 	}
 

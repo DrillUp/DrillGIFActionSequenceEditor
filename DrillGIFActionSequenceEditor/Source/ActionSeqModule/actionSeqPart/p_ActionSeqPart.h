@@ -14,10 +14,10 @@
 
 /*
 -----==========================================================-----
-		类：		动作序列块.h
+		类：		动画序列块.h
 		作者：		drill_up
-		所属模块：	动作序列模块
-		功能：		该部分提供动作序列放映，功能，并嵌套状态元、动作元的块。
+		所属模块：	动画序列模块
+		功能：		该部分提供动画序列放映，功能，并嵌套状态元、动作元的块。
 					（详细见cpp）
 -----==========================================================-----
 */
@@ -30,9 +30,9 @@ class P_ActionSeqPart : public QWidget
 		~P_ActionSeqPart();
 		
 	//-----------------------------------
-	//----动作序列 全数据
+	//----动画序列 全数据
 	protected:
-		P_FlexibleClassificationTree* m_p_tree;		//动作序列显示树
+		P_FlexibleClassificationTree* m_p_tree;		//动画序列显示树
 	public slots:
 										//全数据 - 树选择变化
 		void currentActionSeqChanged(QTreeWidgetItem* item, int id, QString name);
@@ -40,8 +40,8 @@ class P_ActionSeqPart : public QWidget
 	//-----------------------------------
 	//----本地数据的索引
 	protected:
-		int m_cur_actionSeqIndex;				//当前动作序列索引
-		QJsonObject m_cur_actionSeq;			//当前动作序列
+		int m_cur_actionSeqIndex;				//当前动画序列索引
+		QJsonObject m_cur_actionSeq;			//当前动画序列
 		QList<QJsonObject> m_cur_actionTank;	//当前动作元容器
 		QList<QJsonObject> m_cur_stateTank;		//当前状态元容器
 	public:
@@ -78,7 +78,7 @@ class P_ActionSeqPart : public QWidget
 		P_PlayingPart* m_playingPart;					//放映区
 	public:
 										//大控件 - 置灰
-										//		【说明】：选择一个动作序列后，置灰才会被取消。
+										//		【说明】：选择一个动画序列后，置灰才会被取消。
 		void setPartGray();
 										//大控件 - 停止播放
 		void stopPlaying();
@@ -87,7 +87,7 @@ class P_ActionSeqPart : public QWidget
 	//----窗口
 	public:
 		bool m_slotBlock_source;					//加载时阻塞
-		QList<QJsonObject> m_actionSeq_list;		//动作序列列表（临时）
+		QList<QJsonObject> m_actionSeq_list;		//动画序列列表（临时）
 	public:
 										//窗口 - 设置数据
 		void setData(QJsonObject actionSeq, C_ActionSeqLength length);

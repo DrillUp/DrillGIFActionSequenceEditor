@@ -9,10 +9,10 @@
 
 /*
 -----==========================================================-----
-		类：		动作序列块.cpp
+		类：		动画序列块.cpp
 		作者：		drill_up
 		所属模块：	工具模块
-		功能：		该部分提供动作序列放映，功能，并嵌套状态元、动作元的块。
+		功能：		该部分提供动画序列放映，功能，并嵌套状态元、动作元的块。
 		
 		目标：		1.
 
@@ -306,13 +306,13 @@ void P_ActionSeqPart::putDataToUi() {
 	QJsonObject obj_treeData = S_ActionSeqDataContainer::getInstance()->getTreeData();
 	this->m_p_tree->setData(obj_treeData);		//（存储的数据需要在load前完成赋值）
 
-	// > 分解数据（动作序列 --> 动作序列列表）
+	// > 分解数据（动画序列 --> 动画序列列表）
 	int data_actionSeqCount = S_ActionSeqDataContainer::getInstance()->getActionSeqLength().realLen_actionSeq;
 	QJsonObject data_actionSeq = S_ActionSeqDataContainer::getInstance()->getActionSeqData();
 
 	this->m_actionSeq_list = QList<QJsonObject>();
 	for (int i = 0; i < data_actionSeqCount; i++){
-		QJsonValue value = data_actionSeq.value("动作序列-" + QString::number(i + 1));
+		QJsonValue value = data_actionSeq.value("动画序列-" + QString::number(i + 1));
 		if (value.isUndefined() == false){
 			QJsonObject obj = TTool::_JSON_parse_To_Obj_(value.toString());
 			obj.insert("COAS_id", i + 1);
@@ -329,9 +329,9 @@ void P_ActionSeqPart::putDataToUi() {
 	this->m_p_tree->loadSource(this->m_actionSeq_list, "COAS_id", "COAS_name", "COAS_type");
 
 	// > 编辑块置灰
-	this->setPartGray();	//（需要玩家重新选择一个动作序列）
+	this->setPartGray();	//（需要玩家重新选择一个动画序列）
 	
-	// > 载入动作序列数据
+	// > 载入动画序列数据
 	//qDebug() << data_actionSeq;
 
 }
@@ -343,21 +343,21 @@ void P_ActionSeqPart::putUiToData() {
 	// > 保存当前数据
 	this->local_saveCurIndexData();
 
-	// > 合并数据（动作序列列表 --> 动作序列 ）
+	// > 合并数据（动画序列列表 --> 动画序列 ）
 	int data_actionSeqCount = S_ActionSeqDataContainer::getInstance()->getActionSeqLength().realLen_actionSeq;
 	QJsonObject data_actionSeq = S_ActionSeqDataContainer::getInstance()->getActionSeqData();
 
 	for (int i = 0; i < data_actionSeqCount; i++){
 		QJsonObject data_obj = this->m_actionSeq_list.at(i);
 
-		// > 树数据（合并到动作序列）
+		// > 树数据（合并到动画序列）
 		int id = data_obj.value("COAS_id").toInt();
 		data_obj.insert("COAS_type", this->m_p_tree->getLeafType(id));
 		data_obj.remove("COAS_id");
 		data_obj.remove("COAS_name");	//（去除id和name，type保留）
 
 		QString data_str = TTool::_JSON_stringify_(data_obj);
-		data_actionSeq.insert("动作序列-" + QString::number(i + 1), data_str);
+		data_actionSeq.insert("动画序列-" + QString::number(i + 1), data_str);
 	}
 
 	S_ActionSeqDataContainer::getInstance()->setActionSeqData(data_actionSeq);

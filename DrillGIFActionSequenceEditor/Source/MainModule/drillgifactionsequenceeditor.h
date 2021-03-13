@@ -38,13 +38,13 @@ class DrillGIFActionSequenceEditor : public QDialog
 		void rmmvInteractiveDataLoaded();
 
 	//-----------------------------------
-	//----控件（动作序列交互数据）
+	//----控件（动画序列交互数据）
 	public:
 		P_ActionSeqPart* m_p_ActionSeqPart;
 	public slots:
-								//控件 - 动作序列已读取
+								//控件 - 动画序列已读取
 		void actionSeqDataLoaded();
-								//控件 - 动作序列数据重建
+								//控件 - 动画序列数据重建
 		void rebuildActionSeqData();
 								//控件 - 新建项目
 		void newProject();

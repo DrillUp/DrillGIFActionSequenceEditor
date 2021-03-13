@@ -11,9 +11,9 @@
 
 /*
 -----==========================================================-----
-		类：		rmmv交互者（动作序列 专用）.cpp
+		类：		rmmv交互者（动画序列 专用）.cpp
 		所属模块：	交互模块
-		功能：		与rmmv交互的模块，只考虑 动作序列 相关文件。
+		功能：		与rmmv交互的模块，只考虑 动画序列 相关文件。
 
 		子功能：	->文件
 						-> 读取插件文件
@@ -149,7 +149,7 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 		S_PluginDataContainer::getInstance()->op_add(data);
 	}
 	data->description = le_annotation->pluginDesc + "【编辑器编辑】";
-	data->parameters = S_ActionSeqDataContainer::getInstance()->getActionSeqData();	//（从 动作序列数据容器 中，获取到参数数据）
+	data->parameters = S_ActionSeqDataContainer::getInstance()->getActionSeqData();	//（从 动画序列数据容器 中，获取到参数数据）
 	S_PluginDataContainer::getInstance()->op_modify(data);
 
 
@@ -193,9 +193,9 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 		C_LEConfigData le_data = C_LEConfigData();
 		C_ActionSeqLength as_len = S_ActionSeqDataContainer::getInstance()->getActionSeqLength();
 
-		// > 由于这里专门针对 动作序列核心 ，所以参数都知道
-		le_data.initParam("Drill_CoreOfActionSequence", "动作序列-%d", as_len.realLen_actionSeq);
-		script_context = S_LEConfigWriter::getInstance()->doOverwritePlugin(script_context, le_annotation->getParamByKey("动作序列-%d"), le_data);
+		// > 由于这里专门针对 动画序列核心 ，所以参数都知道
+		le_data.initParam("Drill_CoreOfActionSequence", "动画序列-%d", as_len.realLen_actionSeq);
+		script_context = S_LEConfigWriter::getInstance()->doOverwritePlugin(script_context, le_annotation->getParamByKey("动画序列-%d"), le_data);
 
 		le_data.initParam("Drill_CoreOfActionSequence", "状态元-%d", as_len.realLen_state);
 		script_context = S_LEConfigWriter::getInstance()->doOverwritePlugin(script_context, le_annotation->getParamByKey("状态元-%d"), le_data);

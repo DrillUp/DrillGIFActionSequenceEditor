@@ -14,7 +14,7 @@
    <bool>true</bool>
   </property>
   <property name="windowTitle">
-   <string>Drill动作序列编辑器(DrillGIFActionSequenceEditor)</string>
+   <string>Drill动画序列编辑器(DrillGIFActionSequenceEditor)</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
    <property name="spacing">

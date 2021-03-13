@@ -6,9 +6,9 @@
 
 /*
 -----==========================================================-----
-		类：		动作序列 数据容器.h
-		所属模块：	动作序列模块
-		功能：		动作序列的数据容器。
+		类：		动画序列 数据容器.h
+		所属模块：	动画序列模块
+		功能：		动画序列的数据容器。
 					会主动使用插件容器中的数据。
 					（详细见.cpp）
 -----==========================================================-----
@@ -40,10 +40,10 @@ class S_ActionSeqDataContainer : public QObject, public S_StorageManagerTemplate
 		C_ActionSeqLength getActionSeqPluginLength();
 		
 	//-----------------------------------
-	//----动作序列数据
+	//----动画序列数据
 	private:
 		C_ActionSeqLength data_ActionSeqLength;		//长度
-		QJsonObject data_ActionSeqData;				//动作序列
+		QJsonObject data_ActionSeqData;				//动画序列
 	public:
 										//数据 - 设置数据
 		void setActionSeqData(QJsonObject data);
@@ -53,7 +53,7 @@ class S_ActionSeqDataContainer : public QObject, public S_StorageManagerTemplate
 		void setActionSeqLength(C_ActionSeqLength data);
 										//数据 - 获取长度
 		C_ActionSeqLength getActionSeqLength();
-										//数据 - 根据长度建立一个空白的动作序列列表
+										//数据 - 根据长度建立一个空白的动画序列列表
 										//		【说明】：QJsonObject为空 与 有数据列但值为空 是两种情况，这里创建后，数据为后者。
 		QJsonObject buildEmptyActionSeqData(C_ActionSeqLength data);
 										//数据 - 获取全部关联的文件

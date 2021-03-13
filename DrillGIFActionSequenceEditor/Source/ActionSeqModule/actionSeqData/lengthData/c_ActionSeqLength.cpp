@@ -15,7 +15,7 @@
 */
 C_ActionSeqLength::C_ActionSeqLength(){
 
-	this->realLen_actionSeq = 0;			//长度 - 动作序列
+	this->realLen_actionSeq = 0;			//长度 - 动画序列
 	this->realLen_action = 0;				//长度 - 动作元
 	this->realLen_state = 0;				//长度 - 状态元
 }

@@ -19,7 +19,7 @@ class C_ActionSeqLength{
 	//-----------------------------------
 	//----数据
 	public:
-		int realLen_actionSeq;			//长度 - 动作序列
+		int realLen_actionSeq;			//长度 - 动画序列
 		int realLen_action;				//长度 - 动作元
 		int realLen_state;				//长度 - 状态元
 

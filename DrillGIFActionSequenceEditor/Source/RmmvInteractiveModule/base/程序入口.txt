@@ -3,7 +3,7 @@
 	程序入口（单例）：
 		s_RmmvCaller_ActionSeq.cpp
 		s_RmmvCaller_ActionSeq.h
-		该类为该 动作序列项目 特有的定制单例，继承了 p_RmmvCaller 父类。
+		该类为该 动画序列项目 特有的定制单例，继承了 p_RmmvCaller 父类。
 		【注意，基本交互是一套执行的流程方法，不含容器、存储功能。】
 
 	交互对象：

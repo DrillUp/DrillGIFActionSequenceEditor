@@ -110,7 +110,7 @@ QTreeView::branch:!has-children:!has-siblings:adjoins-item {
          </attribute>
          <column>
           <property name="text">
-           <string>动作序列</string>
+           <string>动画序列</string>
           </property>
          </column>
         </widget>

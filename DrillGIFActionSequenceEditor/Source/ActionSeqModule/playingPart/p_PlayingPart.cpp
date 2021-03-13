@@ -350,7 +350,7 @@ void P_PlayingPart::putDataToUi() {
 	if (this->local_defaultStateList.count() == 0){ text = "无"; }
 	ui.label_defaultState->setText(text);
 
-	// > 解析动作序列（直接根据 默认集合+状态元列表+动作元列表 设置动作序列）
+	// > 解析动画序列（直接根据 默认集合+状态元列表+动作元列表 设置动画序列）
 	QJsonObject data = QJsonObject();
 	data["state_default_randomSeq"] = TTool::_QJsonArray_QStringToA_(this->local_defaultStateList);
 	QJsonArray state_tank = QJsonArray();
@@ -364,7 +364,7 @@ void P_PlayingPart::putDataToUi() {
 	}
 	data["act_tank"] = act_tank;
 
-	// > 动作序列核心初始化
+	// > 动画序列核心初始化
 	this->m_COAS_data = Drill_COAS_Data(data);
 	this->m_COAS_data.update();
 	this->m_p_AnimPictureViewer->clearSource();

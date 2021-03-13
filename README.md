@@ -1,6 +1,6 @@
-## GIF动作序列编辑器（DrillGIFActionSequenceEditor）
+## GIF动画序列编辑器（DrillGIFActionSequenceEditor）
 
-小工具，能够识别rmmv插件的GIF动作序列配置，编辑配置状态元与动作元。
+小工具，能够识别rmmv插件的GIF动画序列配置，编辑配置状态元与动作元。
 
 	该编辑器是由 qt5.5 + vs2013 编写而成，能够打包成32位程序，支持xp系统。
 	

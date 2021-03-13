@@ -9,12 +9,12 @@
 		类：		变量获取【复刻类】.cpp
 		作者：		drill_up
 		所属模块：	动画序列数据
-		功能：		动作序列核心插件的复刻类。
+		功能：		动画序列核心插件的复刻类。
 		
 		目标：		->变量获取
 						->状态元（~struct~DrillCOASState）
 						->动作元（~struct~DrillCOASAct）
-						->动作序列（~struct~DrillCOASSequence）
+						->动画序列（~struct~DrillCOASSequence）
 
 		使用方法：	直接调用静态方法即可。
 -----==========================================================-----
@@ -96,7 +96,7 @@ QJsonObject Drill_COAS_Init::drill_COAS_initAct(QJsonObject dataFrom){
 	return data;
 }
 /*-------------------------------------------------
-		变量获取 - 动作序列（~struct~DrillCOASSequence）
+		变量获取 - 动画序列（~struct~DrillCOASSequence）
 */
 QJsonObject Drill_COAS_Init::drill_COAS_initSequence(QJsonObject dataFrom){
 	QJsonObject data = QJsonObject();
