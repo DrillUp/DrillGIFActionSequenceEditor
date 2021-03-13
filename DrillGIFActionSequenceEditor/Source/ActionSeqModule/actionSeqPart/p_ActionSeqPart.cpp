@@ -312,6 +312,15 @@ void P_ActionSeqPart::putDataToUi() {
 
 	this->m_actionSeq_list = QList<QJsonObject>();
 	for (int i = 0; i < data_actionSeqCount; i++){
+
+		// > 旧名字修改（动作序列 -> 动画序列）
+		QJsonValue v = data_actionSeq.value("动作序列-" + QString::number(i + 1));
+		if (v.isUndefined() == false){
+			data_actionSeq.insert("动画序列-" + QString::number(i + 1), v);
+			data_actionSeq.remove("动作序列-" + QString::number(i + 1));
+		}
+
+		// > 添加内容
 		QJsonValue value = data_actionSeq.value("动画序列-" + QString::number(i + 1));
 		if (value.isUndefined() == false){
 			QJsonObject obj = TTool::_JSON_parse_To_Obj_(value.toString());
@@ -358,6 +367,7 @@ void P_ActionSeqPart::putUiToData() {
 
 		QString data_str = TTool::_JSON_stringify_(data_obj);
 		data_actionSeq.insert("动画序列-" + QString::number(i + 1), data_str);
+		data_actionSeq.remove("动作序列-" + QString::number(i + 1));
 	}
 
 	S_ActionSeqDataContainer::getInstance()->setActionSeqData(data_actionSeq);

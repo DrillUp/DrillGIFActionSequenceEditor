@@ -73,8 +73,7 @@ bool S_RmmvCaller_ActionSeq::loadAllRmmvFile(C_RmmvProjectData rmmvProjectData) 
 		QMessageBox::warning(nullptr, "错误", "未找到system.js文件。", QMessageBox::Yes);
 		return false;
 	}
-	QString system_context = system_file.readAll();
-	// （暂无操作）
+	QString system_context = system_file.readAll();// （暂无操作）
 	system_file.close();
 
 	return true;
@@ -111,12 +110,29 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 	//（虚函数直接覆写）
 
 
+	// > 检查插件（强制升级）
+	QFileInfo file_COAS = S_RmmvDataContainer::getInstance()->getRmmvFile_Plugin("Drill_CoreOfActionSequence");
+	if (file_COAS.exists()){
+		QFile file_COAS_file(file_COAS.absoluteFilePath());
+		if (!file_COAS_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+			//（读取失败时，不操作）
+		}
+		QString COAS_context = file_COAS_file.readAll();
+		file_COAS_file.close();
+
+		// > 强制覆盖
+		if (COAS_context.contains("动作序列-%d")){
+			QFileInfo COAS_updateFile = QFileInfo(QApplication::applicationDirPath() + "/tools/Drill_CoreOfActionSequence.js");
+			S_TempFileManager::getInstance()->copy_File(COAS_updateFile, file_COAS_file);
+		}
+	}
+
 	// ---------------------------------------------
 	// > 读取插件文件内容
 	QFileInfo plugin_info = S_RmmvDataContainer::getInstance()->getRmmvFile_PluginsData();
 	QFile plugin_file(plugin_info.absoluteFilePath());
 	if (!plugin_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-		QMessageBox::warning(nullptr, "错误", "未找到plugins.js文件。", QMessageBox::Yes);
+		QMessageBox::warning(nullptr, "错误", "无法打开plugins.js文件。", QMessageBox::Yes);
 		return ;
 	}
 	QString plugin_context = plugin_file.readAll();
@@ -156,7 +172,7 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 	// ---------------------------------------------
 	// > 写入文件
 	if (!plugin_file.open(QIODevice::Truncate | QIODevice::WriteOnly | QIODevice::Text)) {
-		QMessageBox::warning(nullptr, "错误", "未找到plugins.js文件。", QMessageBox::Yes);
+		QMessageBox::warning(nullptr, "错误", "无法打开plugins.js文件。", QMessageBox::Yes);
 		return;
 	}
 	QString new_context = S_PluginDataContainer::getInstance()->writePluginData(); 

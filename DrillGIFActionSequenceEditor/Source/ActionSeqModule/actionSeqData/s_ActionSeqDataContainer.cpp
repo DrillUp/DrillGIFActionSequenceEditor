@@ -93,6 +93,9 @@ C_ActionSeqLength S_ActionSeqDataContainer::getActionSeqPluginLength() {
 
 	C_LEAnnotation* c_le = S_LEAnnotationReader::getInstance()->readPlugin(plugin_file);
 	result.realLen_actionSeq = c_le->getParamByKey("动画序列-%d").getRealLen();
+	if (result.realLen_actionSeq == 0){
+		result.realLen_actionSeq = c_le->getParamByKey("动作序列-%d").getRealLen();
+	}
 	result.realLen_action = c_le->getParamByKey("动作元-%d").getRealLen();
 	result.realLen_state = c_le->getParamByKey("状态元-%d").getRealLen();
 	return result;
