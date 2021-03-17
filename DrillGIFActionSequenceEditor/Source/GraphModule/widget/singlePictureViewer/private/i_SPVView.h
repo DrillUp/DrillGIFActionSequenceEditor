@@ -1,35 +1,36 @@
-#ifndef I_APVView_H
-#define I_APVView_H
+#ifndef I_SPVView_H
+#define I_SPVView_H
 
 #include <QGraphicsView>
-#include "i_APVScene.h"
+#include "i_SPVScene.h"
 
 /*
 -----==========================================================-----
-		类：		图片查看块-动图 视图.h
+		类：		图片查看块-单图 视图.h
+		版本：		v1.00
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		连接控件与场景的中间类，控制滚动条与缩放功能。
 					（详细见.cpp）
 -----==========================================================-----
 */
-class I_APVView : public QGraphicsView
+class I_SPVView : public QGraphicsView
 {
     Q_OBJECT
 	
 	public:
-		I_APVView(QWidget *parent = 0);			//构造函数
-		~I_APVView();							//析构函数
+		I_SPVView(QWidget *parent = 0);			//构造函数
+		~I_SPVView();							//析构函数
 		void init();							//初始化
 		
 		
 	//-----------------------------------
 	//----部件
 	private:
-		I_APVScene* m_scene;
+		I_SPVScene* m_scene;
 	public:
 									//部件 - 获取场景
-		I_APVScene* getScene();
+		I_SPVScene* getScene();
 
 
 	//-----------------------------------
@@ -75,14 +76,14 @@ class I_APVView : public QGraphicsView
 	//----监听事件
 	private:
 										//监听事件 - 鼠标按下（暂未使用）
-		void I_APVView::mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+		void I_SPVView::mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 										//监听事件 - 鼠标抬起（暂未使用）
-		void I_APVView::mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+		void I_SPVView::mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 										//监听事件 - 鼠标移动（暂未使用）
-		void I_APVView::mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+		void I_SPVView::mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 										//监听事件 - 鼠标滚轮
-		void I_APVView::wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
+		void I_SPVView::wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
 
 };
 
-#endif // I_APVView_H
+#endif // I_SPVView_H

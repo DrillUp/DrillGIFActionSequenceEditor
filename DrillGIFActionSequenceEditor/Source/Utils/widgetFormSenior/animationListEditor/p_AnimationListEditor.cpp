@@ -17,7 +17,7 @@
 /*
 -----==========================================================-----
 		类：		动画帧编辑块.cpp
-		版本：		v1.02
+		版本：		v1.03
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		将图片全部显示，并能单选/多选。
@@ -711,8 +711,9 @@ void P_AnimationListEditor::op_appendInAction(){
 			continue;
 		}
 
-		// > 不重复文件
-		if ( this->m_data.hasFileName(file_name) == false ){
+		// > 不重复文件（检查文件夹）
+		QFileInfo repeat_file = QFileInfo(this->m_data.getFileRoot() + "/" + fileinfo.completeBaseName() + ".png");
+		if (repeat_file.exists() == false){
 			C_ALEData::copyFile(fileinfo.absoluteFilePath(), this->m_data.getFileRoot() + "/" + fileinfo.fileName());
 			this->op_append(file_name);
 			continue;
@@ -726,7 +727,7 @@ void P_AnimationListEditor::op_appendInAction(){
 		}
 
 		// > 重复文件处理
-		switch (QMessageBox::question(this->m_listWidget, "提示", "导入的图片\"" + file_name + "\"在配置中已存在，是否覆盖原文件？", "全部覆盖", "覆盖", "保持原图添加", 0)) {
+		switch (QMessageBox::question(this->m_listWidget, "提示", "要导入的图片：\"" + file_name + "\"在配置中已存在，是否覆盖原文件？", "全部覆盖", "覆盖", "保持原图添加", 0)) {
 
 			case 0:
 				cover_all = true;
@@ -763,8 +764,9 @@ void P_AnimationListEditor::op_insertInAction(){
 			continue;
 		}
 
-		// > 不重复文件
-		if (this->m_data.hasFileName(file_name) == false){
+		// > 不重复文件（检查文件夹）
+		QFileInfo repeat_file = QFileInfo(this->m_data.getFileRoot() + "/" + fileinfo.completeBaseName() + ".png");
+		if (repeat_file.exists() == false){
 			C_ALEData::copyFile(fileinfo.absoluteFilePath(), this->m_data.getFileRoot() + "/" + fileinfo.fileName());
 			this->op_insert(pos + i, QStringList() << file_name);
 			continue;
@@ -778,7 +780,7 @@ void P_AnimationListEditor::op_insertInAction(){
 		}
 
 		// > 重复文件处理
-		switch (QMessageBox::question(this->m_listWidget, "提示", "导入的图片\"" + file_name + "\"在配置中已存在，是否覆盖原文件？", "全部覆盖", "覆盖", "保持原图添加", 0)) {
+		switch (QMessageBox::question(this->m_listWidget, "提示", "要导入的图片：\"" + file_name + "\"在配置中已存在，是否覆盖原文件？", "全部覆盖", "覆盖", "保持原图添加", 0)) {
 
 			case 0:
 				cover_all = true;
@@ -811,14 +813,23 @@ void P_AnimationListEditor::op_insertGIFInAction(){
 
 	QStringList file_name_list = QStringList();
 	QList<int> interval_list = QList<int>();
+	QString file_src = this->openWindow_getGIFFile();
+	if (file_src == ""){ return; }
+	QFileInfo fileinfo_src = QFileInfo(file_src);
+
+	// > 重复文件处理
+	QFileInfo repeat_file = QFileInfo(this->m_data.getFileRoot() + "/" + fileinfo_src.completeBaseName() + "_0" + ".png");
+	if (repeat_file.exists() == true){
+		if( QMessageBox::question(this->m_listWidget, "提示", "要导入的GIF：\"" + fileinfo_src.completeBaseName() + "\"在配置中已存在，是否覆盖原文件？", "覆盖", "取消导入", 0) == 1) {
+			return;
+		}
+	}
 
 	// > QImageReader读取
 	if (readerMethod == 0){
 
 		// > 拆解GIF到目录
-		QString file = this->openWindow_getGIFFile();
-		if (file == ""){ return; }
-		bool successed = S_GIFManager::getInstance()->dismantlingGIF(QFileInfo(file), QDir(this->m_data.getFileRoot() + "/"), "png", "%2_%1");
+		bool successed = S_GIFManager::getInstance()->dismantlingGIF(fileinfo_src, QDir(this->m_data.getFileRoot() + "/"), "png", "%2_%1");
 		if ( successed == false){
 			QMessageBox::warning(this->m_listWidget, "错误", "GIF解析失败。", QMessageBox::Yes);
 			return;
@@ -836,9 +847,7 @@ void P_AnimationListEditor::op_insertGIFInAction(){
 	}else if (readerMethod == 1){
 		
 		// > 拆解GIF到目录
-		QString file = this->openWindow_getGIFFile();
-		if (file == ""){ return; }
-		bool successed = S_cximageManager::getInstance()->dismantlingGIF(QFileInfo(file), QDir(this->m_data.getFileRoot() + "/"), "png", "%2_%1");
+		bool successed = S_cximageManager::getInstance()->dismantlingGIF(fileinfo_src, QDir(this->m_data.getFileRoot() + "/"), "png", "%2_%1");
 		if (successed == false){
 			QMessageBox::warning(this->m_listWidget, "错误", "GIF解析失败。", QMessageBox::Yes);
 			return;

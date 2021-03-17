@@ -1,24 +1,24 @@
-#ifndef I_APVScene_H
-#define I_APVScene_H
+#ifndef I_SPVScene_H
+#define I_SPVScene_H
 
 #include <QGraphicsScene>
 
 /*
 -----==========================================================-----
-		类：		图片查看块-动图 场景.h
+		类：		图片查看块-单图 场景.h
 		作者：		drill_up
 		所属模块：	工具模块
-		功能：		查看变化动图的画布。
+		功能：		查看单图的画布。
 					（详细见.cpp）
 -----==========================================================-----
 */
-class I_APVScene : public QGraphicsScene
+class I_SPVScene : public QGraphicsScene
 {
     Q_OBJECT
 	
 	public:
-		I_APVScene(QWidget *parent = 0);		//构造函数
-		~I_APVScene();							//析构函数
+		I_SPVScene(QWidget *parent = 0);		//构造函数
+		~I_SPVScene();							//析构函数
 		void init();							//初始化
 		
 		
@@ -54,39 +54,27 @@ class I_APVScene : public QGraphicsScene
 	//-----------------------------------
 	//----资源
 	private:
-		QList<QFileInfo> m_fileList;
-		QList<QPixmap> m_bitmapList;
+		QPixmap m_bitmap;
 	public:
 									//资源 - 设置资源
-		void setSource(QList<QFileInfo> file_list);
-									//资源 - 获取资源
-		QList<QFileInfo> getSource();
+		void setSource(QPixmap bitmap);
 									//资源 - 清除资源
 		void clearSource();
 
 	protected:
 									//资源 - 重建场景
 		void rebuildScene();
-									//资源 - 添加资源（私有）
-		void addSource(QFileInfo file);
 
 	//-----------------------------------
-	//----动画帧
+	//----图片
 	private:
-		QList<QGraphicsPixmapItem*> m_animList;		//动画帧列表
-		int m_curFrame;
+		QGraphicsPixmapItem* m_bitmapItem;
 	public:
-									//动画帧 - 切换帧（根据索引）
-		void setAnimFrame(int index);
-									//动画帧 - 切换帧（根据资源名称）
-		void setAnimName(QFileInfo file);
-									//动画帧 - 刷新帧显示
-		void refreshFrame();
-									//动画帧 - 最大高度
+									//图片 - 最大高度
 		int getMaxHeight();
-									//动画帧 - 最大宽度
+									//图片 - 最大宽度
 		int getMaxWidth();
 
 };
 
-#endif // I_APVScene_H
+#endif // I_SPVScene_H

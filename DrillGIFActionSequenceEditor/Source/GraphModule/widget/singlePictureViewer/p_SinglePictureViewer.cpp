@@ -1,13 +1,13 @@
 #include "stdafx.h"
-#include "p_AnimPictureViewer.h"
+#include "P_SinglePictureViewer.h"
 
-#include "private/i_APVView.h"
+#include "private/i_SPVView.h"
 #include "Source/Utils/common/TTool.h"
 
 /*
 -----==========================================================-----
-		类：		图片查看块-动图 组装体.cpp
-		版本：		v1.02
+		类：		图片查看块-单图 组装体.cpp
+		版本：		v1.00
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		通过new，自动将一个QWidget，开辟成 图片查看块 的QGraphView。
@@ -18,18 +18,18 @@
 -----==========================================================-----
 */
 
-P_AnimPictureViewer::P_AnimPictureViewer(QWidget* _parent)
+P_SinglePictureViewer::P_SinglePictureViewer(QWidget* _parent)
 {
 	this->initWidgetAndLayout(_parent);			//父控件
 	this->m_GraphView = nullptr;				//视图
 }
-P_AnimPictureViewer::~P_AnimPictureViewer(){
+P_SinglePictureViewer::~P_SinglePictureViewer(){
 }
 
 /*-------------------------------------------------
 		父控件初始化
 */
-void P_AnimPictureViewer::initWidgetAndLayout(QWidget* _parent){
+void P_SinglePictureViewer::initWidgetAndLayout(QWidget* _parent){
 	if (_parent->layout() == nullptr){
 		this->m_layout = new QVBoxLayout(_parent);
 		_parent->setLayout(this->m_layout);
@@ -45,22 +45,22 @@ void P_AnimPictureViewer::initWidgetAndLayout(QWidget* _parent){
 /*-------------------------------------------------
 		控件 - 重建控件
 */
-void P_AnimPictureViewer::rebuildUI(){
+void P_SinglePictureViewer::rebuildUI(){
 
 	// > 内容删除
 	this->clearUI();
 
 	// > 新建
-	this->m_GraphView = new I_APVView(this->m_parent);
+	this->m_GraphView = new I_SPVView(this->m_parent);
 	this->m_GraphView->show();
 	this->m_layout->addWidget(this->m_GraphView);
-	connect(this->m_GraphView, &I_APVView::scaleChanged, this, &P_AnimPictureViewer::scaleChanged_view);
+	connect(this->m_GraphView, &I_SPVView::scaleChanged, this, &P_SinglePictureViewer::scaleChanged_view);
 
 }
 /*-------------------------------------------------
 		控件 - 清理UI
 */
-void P_AnimPictureViewer::clearUI(){
+void P_SinglePictureViewer::clearUI(){
 
 	// > 去掉视图
 	if (this->m_GraphView != nullptr){
@@ -75,68 +75,44 @@ void P_AnimPictureViewer::clearUI(){
 /*-------------------------------------------------
 		缩放 - 缩小
 */
-void P_AnimPictureViewer::zoomIn(){
+void P_SinglePictureViewer::zoomIn(){
 	this->m_GraphView->zoomIn();
 }
 /*-------------------------------------------------
 		缩放 - 放大
 */
-void P_AnimPictureViewer::zoomOut(){
+void P_SinglePictureViewer::zoomOut(){
 	this->m_GraphView->zoomOut();
 }
 /*-------------------------------------------------
 		缩放 - 大小重置
 */
-void P_AnimPictureViewer::zoomReset(){
+void P_SinglePictureViewer::zoomReset(){
 	this->m_GraphView->zoomReset();
 }
 /*-------------------------------------------------
 		缩放 - 获取缩放值
 */
-double P_AnimPictureViewer::getScale(){
+double P_SinglePictureViewer::getScale(){
 	return this->m_GraphView->getScale();
 }
 /*-------------------------------------------------
 		缩放 - 设置滚轮缩放修饰符
 */
-void P_AnimPictureViewer::setScaleWheelModifier(QString charModifier){
+void P_SinglePictureViewer::setScaleWheelModifier(QString charModifier){
 	this->m_GraphView->setScaleWheelModifier(charModifier);
 }
 /*-------------------------------------------------
 		缩放 - 缩放值改变（与view交互）
 */
-void P_AnimPictureViewer::scaleChanged_view(double scale){
+void P_SinglePictureViewer::scaleChanged_view(double scale){
 	emit scaleChanged(scale);
 }
 
 
 /*-------------------------------------------------
-		动画帧 - 设置 图片资源
+		图片 - 设置 图片资源
 */
-void P_AnimPictureViewer::setSource(QList<QFileInfo> file_list){
-	this->m_GraphView->getScene()->setSource(file_list);
-}
-/*-------------------------------------------------
-		动画帧 - 获取 图片资源
-*/
-QList<QFileInfo> P_AnimPictureViewer::getSource(){
-	return this->m_GraphView->getScene()->getSource();
-}
-/*-------------------------------------------------
-		动画帧 - 清除资源
-*/
-void P_AnimPictureViewer::clearSource(){
-	return this->m_GraphView->getScene()->clearSource();
-}
-/*-------------------------------------------------
-		动画帧 - 切换帧（根据索引）
-*/
-void P_AnimPictureViewer::setAnimFrame(int index){
-	this->m_GraphView->getScene()->setAnimFrame(index);
-}
-/*-------------------------------------------------
-		动画帧 - 切换帧（根据资源名称）
-*/
-void P_AnimPictureViewer::setAnimFile(QFileInfo file){
-	this->m_GraphView->getScene()->setAnimName(file);
+void P_SinglePictureViewer::setSource(QPixmap pixmap){
+	this->m_GraphView->getScene()->setSource(pixmap);
 }
