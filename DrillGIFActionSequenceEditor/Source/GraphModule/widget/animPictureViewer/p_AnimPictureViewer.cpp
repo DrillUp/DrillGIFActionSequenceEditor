@@ -140,3 +140,16 @@ void P_AnimPictureViewer::setAnimFrame(int index){
 void P_AnimPictureViewer::setAnimFile(QFileInfo file){
 	this->m_GraphView->getScene()->setAnimName(file);
 }
+
+/*-------------------------------------------------
+		辅助 - 设置网格线
+*/
+void P_AnimPictureViewer::setGridLine(int column, int row){
+	this->m_GraphView->getScene()->setGridLine(column,row);
+}
+/*-------------------------------------------------
+		辅助 - 清空网格线
+*/
+void P_AnimPictureViewer::clearGridLine(){
+	this->m_GraphView->getScene()->clearGridLine();
+}

@@ -40,7 +40,11 @@ void I_SPVScene::init(){
 	this->m_canvasThickness = 40;
 	this->m_pixelWidth = 24;
 	this->m_pixelHeight = 24;
+
+	// > 辅助对象
+	this->m_gridLineColor = QColor(255, 0, 0);
 	this->m_backgroundColor = QColor(255, 255, 255);
+	this->m_P_GridLineItem = new P_GridLineItem(this);
 	this->m_maskBackground = nullptr;
 
 	// > 部件
@@ -55,44 +59,33 @@ void I_SPVScene::init(){
 
 }
 /*-------------------------------------------------
-		属性 - 刷新背景
+		辅助 - 设置网格线
+*/
+void I_SPVScene::setGridLine(int column, int row){
+
+	// > 建立网格线
+	this->m_P_GridLineItem->rebuildGrid(this->m_canvasWidth, this->m_canvasHeight, column, row, this->m_gridLineColor);
+	
+	// > 添加
+	this->m_P_GridLineItem->addItemsToScene();
+}
+/*-------------------------------------------------
+		辅助 - 清空网格线
+*/
+void I_SPVScene::clearGridLine(){
+	this->m_P_GridLineItem->clearAllItem();
+}
+/*-------------------------------------------------
+		辅助 - 刷新背景
 */
 void I_SPVScene::refreshBackground(){
 	if (this->m_maskBackground == nullptr){
-		this->m_maskBackground = new QGraphicsPixmapItem();
+		this->m_maskBackground = new I_MaskBackgroundItem();
 		this->addItem(this->m_maskBackground);
 	}
-	this->m_maskBackground->setPixmap(this->getBitmapMaskBackground());
+	this->m_maskBackground->setBackground_oneColor(this->m_canvasWidth, this->m_canvasHeight, this->m_pixelWidth, this->m_pixelHeight, this->m_backgroundColor);
 	this->m_maskBackground->setPos(0, 0);
 	this->m_maskBackground->setZValue(-10000);
-}
-/*-------------------------------------------------
-		属性 - 获取马赛克贴图
-*/
-QPixmap I_SPVScene::getBitmapMaskBackground(){
-	int ww = this->m_canvasWidth;
-	int hh = this->m_canvasHeight;
-	int pw = this->m_pixelWidth;
-	int ph = this->m_pixelHeight;
-
-	QPixmap img = QPixmap(ww, hh);				//画板
-	QPainter painter(&img);						//画家
-	img.fill(this->m_backgroundColor);			//填充底色
-
-	painter.setPen(QPen(QColor(0, 0, 0, 0)));
-	painter.setBrush(QBrush(QColor(0, 0, 0, 30), Qt::BrushStyle::SolidPattern));
-	int i_count = qCeil(ww / (double)pw);
-	int j_count = qCeil(hh / (double)ph);
-	for (int i = 0; i < i_count; i++){
-		for (int j = 0; j < j_count; j++){
-			painter.drawRect(i*pw + 0, j*ph + 0, pw * 0.5, ph * 0.5);
-			painter.drawRect(i*pw + pw*0.5, j*ph + ph * 0.5, pw * 0.5, ph * 0.5);
-		}
-	}
-	painter.end();
-	//（注意，painter.fillRect函数是无效的！）
-
-	return img;
 }
 
 /*-------------------------------------------------
@@ -157,12 +150,12 @@ void I_SPVScene::rebuildScene(){
 	this->refreshBackground();
 
 	// > 放置图片
-	QGraphicsPixmapItem* item = new QGraphicsPixmapItem();
+	this->m_bitmapItem = new QGraphicsPixmapItem();
 	double xx = (this->m_canvasWidth - this->m_bitmap.width())*0.5;
 	double yy = (this->m_canvasHeight - this->m_bitmap.height())*0.5;
-	item->setPixmap(this->m_bitmap);
-	item->setPos(xx, yy);
-	this->addItem(item);
+	this->m_bitmapItem->setPixmap(this->m_bitmap);
+	this->m_bitmapItem->setPos(xx, yy);
+	this->addItem(this->m_bitmapItem);
 
 }
 
@@ -170,14 +163,14 @@ void I_SPVScene::rebuildScene(){
 		图片 - 最大高度
 */
 int I_SPVScene::getMaxHeight(){
-	if (this->m_bitmap.height() != 0){ return 600; }	//（默认）
+	if (this->m_bitmap.height() == 0){ return 600; }	//（默认）
 	return this->m_bitmap.height();
 }
 /*-------------------------------------------------
 		图片 - 最大宽度
 */
 int I_SPVScene::getMaxWidth(){
-	if (this->m_bitmap.width() != 0){ return 800; }		//（默认）
+	if (this->m_bitmap.width() == 0){ return 800; }		//（默认）
 	return this->m_bitmap.width();
 }
 

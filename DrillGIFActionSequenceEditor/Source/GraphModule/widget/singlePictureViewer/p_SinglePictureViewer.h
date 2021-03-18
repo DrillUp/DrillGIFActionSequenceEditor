@@ -68,6 +68,15 @@ class P_SinglePictureViewer : public QObject
 										//图片 - 设置 图片资源
 		void setSource(QPixmap pixmap);
 
+
+	//-----------------------------------
+	//----辅助
+	public slots:
+										//辅助 - 设置网格线
+		void setGridLine(int column, int row);
+										//辅助 - 清空网格线
+		void clearGridLine();
+
 };
 
 #endif // P_SinglePictureViewer_H

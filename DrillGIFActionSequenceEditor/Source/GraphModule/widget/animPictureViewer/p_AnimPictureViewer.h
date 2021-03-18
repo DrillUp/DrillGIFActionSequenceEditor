@@ -80,7 +80,15 @@ class P_AnimPictureViewer : public QObject
 										//动画帧 - 切换帧（根据资源名称）
 										//		【说明】：没有资源会自动添加。添加时会去重。
 		void setAnimFile(QFileInfo file);
+		
 
+	//-----------------------------------
+	//----辅助
+	public slots:
+										//辅助 - 设置网格线
+		void setGridLine(int column, int row);
+										//辅助 - 清空网格线
+		void clearGridLine();
 };
 
 #endif // P_AnimPictureViewer_H

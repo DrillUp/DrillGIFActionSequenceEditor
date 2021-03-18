@@ -9,6 +9,7 @@
 
 #include "Source/DllModule/cximagecrt_drill/src_header/s_cximageManager.h"
 #include "Source/Utils/manager/GIFManager/s_GIFManager.h"
+#include "Source/GraphModule/widget/pictureCombiner/w_PictureCombiner.h"
 
 #include "Source/Utils/widgetForm/pictureSelector/p_PictureSelector.h"
 #include "Source/Utils/common/p_FileOperater.h"
@@ -38,10 +39,12 @@
 						-> 单图
 						-> 多图
 						-> GIF
+						-> 序列大图
 					-> 导出
 						-> 单图
 						-> 多图
 						-> GIF
+						-> 序列大图
 					-> 编辑帧
 						-> 单帧编辑：图像、帧数
 						-> 多帧编辑：帧数
@@ -359,6 +362,14 @@ void P_AnimationListEditor::event_itemRightClicked(QList<QListWidgetItem*> item_
 			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/ExportGIF.png"));
 			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_exportAll_GIFInAction);
 			menu_export->addAction(action);
+			action = new QAction("生成序列大图 - 选中帧", this);
+			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/ExportImage.png"));
+			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_exportSelected_SeqPicInAction);
+			menu_export->addAction(action);
+			action = new QAction("生成序列大图 - 全部帧", this);
+			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/ExportImage.png"));
+			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_exportAll_SeqPicInAction);
+			menu_export->addAction(action);
 
 			menu->addMenu(menu_export);
 		}
@@ -470,6 +481,14 @@ void P_AnimationListEditor::event_itemRightClicked(QList<QListWidgetItem*> item_
 			action = new QAction("生成GIF - 全部帧", this);
 			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/ExportGIF.png"));
 			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_exportAll_GIFInAction);
+			menu_export->addAction(action);
+			action = new QAction("生成序列大图 - 选中帧", this);
+			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/ExportImage.png"));
+			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_exportSelected_SeqPicInAction);
+			menu_export->addAction(action);
+			action = new QAction("生成序列大图 - 全部帧", this);
+			action->setIcon(QIcon(this->m_iconSrcPath + "/menu/ExportImage.png"));
+			connect(action, &QAction::triggered, this, &P_AnimationListEditor::op_exportAll_SeqPicInAction);
 			menu_export->addAction(action);
 
 			menu->addMenu(menu_export);
@@ -1121,7 +1140,7 @@ void P_AnimationListEditor::op_exportSelected_GIFInAction(){
 
 	// > 选择项
 	QList<int> selected_list = this->getSelectedIndex_Multi();
-	if (selected_list.count() == 0){ QMessageBox::warning(this->m_listWidget, "提示", "需要选择至少一个动画帧才能导出。", QMessageBox::Yes); return; }
+	if (selected_list.count() == 0){ QMessageBox::warning(this->m_listWidget, "提示", "需要选择至少一个动画帧才能生成GIF。", QMessageBox::Yes); return; }
 
 	// > 选择方式
 	int writerMethod = 0;
@@ -1148,7 +1167,7 @@ void P_AnimationListEditor::op_exportAll_GIFInAction(){
 	for (int i = 0; i < this->m_itemTank.count(); i++){
 		selected_list.append(i);
 	}
-	if (selected_list.count() == 0){ QMessageBox::warning(this->m_listWidget, "提示", "需要选择至少一个动画帧才能导出。", QMessageBox::Yes); return; }
+	if (selected_list.count() == 0){ QMessageBox::warning(this->m_listWidget, "提示", "需要至少一个动画帧才能生成GIF。", QMessageBox::Yes); return; }
 
 	// > 选择方式
 	int writerMethod = 0;
@@ -1164,6 +1183,57 @@ void P_AnimationListEditor::op_exportAll_GIFInAction(){
 	if (path == ""){ return; }
 
 	this->op_exportGIF_Multi(selected_list, QFileInfo(path), writerMethod);
+}
+/*-------------------------------------------------
+		action - 导出序列大图 - 选中项
+*/
+void P_AnimationListEditor::op_exportSelected_SeqPicInAction(){
+
+	// > 选择项
+	QList<int> selected_list = this->getSelectedIndex_Multi();
+	if (selected_list.count() < 2){ QMessageBox::warning(this->m_listWidget, "提示", "需要选择至少两个动画帧才能生成序列大图。", QMessageBox::Yes); return; }
+
+	// > 文件列表
+	QList<QFileInfo> fileInfo_list = this->m_data.getFile_Multi(selected_list);
+
+	// > 打开图片合成器
+	W_PictureCombiner d(this->m_listWidget);
+	d.setData(fileInfo_list);
+	if (d.exec() == QDialog::Accepted){
+		QPixmap bitmap = d.getData();
+
+		// > 选择文件存储
+		QString path = this->openWindow_exportPNGFile("序列大图");
+		if (path == ""){ return; }
+		bitmap.toImage().save(path, "png");
+	}
+}
+/*-------------------------------------------------
+		action - 导出序列大图 - 全部项
+*/
+void P_AnimationListEditor::op_exportAll_SeqPicInAction(){
+
+	// > 选择项
+	QList<int> selected_list = QList<int>();
+	for (int i = 0; i < this->m_itemTank.count(); i++){
+		selected_list.append(i);
+	}
+	if (selected_list.count() < 2 ){ QMessageBox::warning(this->m_listWidget, "提示", "需要至少两个动画帧才能生成序列大图。", QMessageBox::Yes); return; }
+
+	// > 文件列表
+	QList<QFileInfo> fileInfo_list = this->m_data.getFile_Multi(selected_list);
+
+	// > 打开图片合成器
+	W_PictureCombiner d(this->m_listWidget);
+	d.setData(fileInfo_list);
+	if (d.exec() == QDialog::Accepted){
+		QPixmap bitmap = d.getData();
+
+		// > 选择文件存储
+		QString path = this->openWindow_exportPNGFile("序列大图");
+		if (path == ""){ return; }
+		bitmap.toImage().save(path, "png");
+	}
 }
 
 
@@ -1229,16 +1299,16 @@ QString P_AnimationListEditor::openWindow_exportGIFFile(){
 /*-------------------------------------------------
 		编辑窗口 - 选择PNG（导出）
 */
-QString P_AnimationListEditor::openWindow_exportPNGFile(){
+QString P_AnimationListEditor::openWindow_exportPNGFile(QString name_suffix){
 	QString target_file = "";
 	QFileDialog fd;
 	fd.setWindowTitle("导出PNG");
 	fd.setAcceptMode(QFileDialog::AcceptSave);
 	fd.setDirectory(".");
-	fd.setNameFilters(QStringList() << "动画帧(*.png)");
+	fd.setNameFilters(QStringList() << name_suffix+"(*.png)");
 	fd.setViewMode(QFileDialog::Detail);
 	fd.setFileMode(QFileDialog::ExistingFile);		//单个文件
-	fd.selectFile(this->m_exportName+"_动画帧.png");
+	fd.selectFile(this->m_exportName + "_" + name_suffix + ".png");
 	if (fd.exec() == QDialog::Accepted) {
 		if (fd.selectedFiles().empty()){ return ""; }
 		target_file = fd.selectedFiles().at(0);

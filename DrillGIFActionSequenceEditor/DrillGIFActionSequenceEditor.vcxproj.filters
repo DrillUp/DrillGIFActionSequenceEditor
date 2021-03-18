@@ -174,12 +174,6 @@
     <Filter Include="源文件\【 插件模块 PluginModule】\存储数据管理器">
       <UniqueIdentifier>{a39775db-bab5-481e-bc55-dc41981ce72c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【外部库模块 DllModule】">
-      <UniqueIdentifier>{8ab2576e-103c-453a-9b3f-cb97a9965233}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\【外部库模块 DllModule】\图像操作库（cximagecrt_drill）">
-      <UniqueIdentifier>{5a79aa41-bdc5-4e29-b859-33b6b64efd18}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\【 动画序列 ActionSeqModule】">
       <UniqueIdentifier>{f5f343cf-ad4f-47e0-a294-4d22e35b468c}</UniqueIdentifier>
     </Filter>
@@ -218,6 +212,24 @@
     </Filter>
     <Filter Include="源文件\【 图形模块 GraphModule】\集合组件（widget）\图片查看块-单图\私有类">
       <UniqueIdentifier>{ecff08fe-e91f-4f81-9a79-4f8dcaee3f92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 外部库模块 DllModule】">
+      <UniqueIdentifier>{8ab2576e-103c-453a-9b3f-cb97a9965233}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 外部库模块 DllModule】\图像操作库（cximagecrt_drill）">
+      <UniqueIdentifier>{5a79aa41-bdc5-4e29-b859-33b6b64efd18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 图形模块 GraphModule】\集合组件（widget）\图片合成器">
+      <UniqueIdentifier>{8de72a1e-0c24-438a-90f2-355bc2ce2e2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 图形模块 GraphModule】\贴图（item）">
+      <UniqueIdentifier>{414f366b-4917-4833-bdcb-65e56f240c23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 图形模块 GraphModule】\贴图（item）\马赛克背景">
+      <UniqueIdentifier>{07a5560e-e8a8-471d-a46f-202237439b10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 图形模块 GraphModule】\贴图（item）\网格线">
+      <UniqueIdentifier>{bb779b05-4038-4c29-a9a7-91079250e6c5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -854,6 +866,36 @@
     <ClCompile Include="GeneratedFiles\Release\moc_i_SPVView.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GraphModule\widget\pictureCombiner\p_PictureCombiner.cpp">
+      <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片合成器</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_p_PictureCombiner.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_p_PictureCombiner.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GraphModule\widget\pictureCombiner\w_PictureCombiner.cpp">
+      <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片合成器</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_w_PictureCombiner.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_w_PictureCombiner.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GraphModule\item\maskBackgroundItem\i_MaskBackgroundItem.cpp">
+      <Filter>源文件\【 图形模块 GraphModule】\贴图（item）\马赛克背景</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GraphModule\item\gridLineItem\p_GridLineItem.cpp">
+      <Filter>源文件\【 图形模块 GraphModule】\贴图（item）\网格线</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_p_GridLineItem.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_p_GridLineItem.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="drillgifactionsequenceeditor.qrc">
@@ -1129,6 +1171,21 @@
     <CustomBuild Include="Source\GraphModule\widget\singlePictureViewer\private\i_SPVView.h">
       <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片查看块-单图\私有类</Filter>
     </CustomBuild>
+    <CustomBuild Include="Source\GraphModule\widget\pictureCombiner\p_PictureCombiner.h">
+      <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片合成器</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\GraphModule\widget\pictureCombiner\p_PictureCombiner.ui">
+      <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片合成器</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\GraphModule\widget\pictureCombiner\w_PictureCombiner.h">
+      <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片合成器</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\GraphModule\widget\pictureCombiner\w_PictureCombiner.ui">
+      <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片合成器</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\GraphModule\item\gridLineItem\p_GridLineItem.h">
+      <Filter>源文件\【 图形模块 GraphModule】\贴图（item）\网格线</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DrillGIFActionSequenceEditor.rc" />
@@ -1279,7 +1336,7 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\DllModule\cximagecrt_drill\src_header\s_cximageManager.h">
-      <Filter>源文件\【外部库模块 DllModule】\图像操作库（cximagecrt_drill）</Filter>
+      <Filter>源文件\【 外部库模块 DllModule】\图像操作库（cximagecrt_drill）</Filter>
     </ClInclude>
     <ClInclude Include="Source\Utils\manager\GIFManager\gif.h">
       <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\GIF转换器</Filter>
@@ -1292,6 +1349,15 @@
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>源文件\【 主窗体 MainModule】</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_p_PictureCombiner.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_w_PictureCombiner.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GraphModule\item\maskBackgroundItem\i_MaskBackgroundItem.h">
+      <Filter>源文件\【 图形模块 GraphModule】\贴图（item）\马赛克背景</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1329,13 +1395,16 @@
       <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类</Filter>
     </Text>
     <Text Include="Source\DllModule\Dll模块说明.txt">
-      <Filter>源文件\【外部库模块 DllModule】</Filter>
+      <Filter>源文件\【 外部库模块 DllModule】</Filter>
     </Text>
     <Text Include="Source\DllModule\cximagecrt_drill\关于cximagecrt_drill.txt">
-      <Filter>源文件\【外部库模块 DllModule】\图像操作库（cximagecrt_drill）</Filter>
+      <Filter>源文件\【 外部库模块 DllModule】\图像操作库（cximagecrt_drill）</Filter>
     </Text>
     <Text Include="Source\GraphModule\widget\singlePictureViewer\程序入口.txt">
       <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片查看块-单图</Filter>
+    </Text>
+    <Text Include="Source\GraphModule\widget\pictureCombiner\程序入口.txt">
+      <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片合成器</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

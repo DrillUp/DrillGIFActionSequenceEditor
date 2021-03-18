@@ -152,6 +152,10 @@ class P_AnimationListEditor : public P_PictureSelector
 		void op_exportSelected_GIFInAction();
 									//action - 导出GIF - 全部项
 		void op_exportAll_GIFInAction();
+									//action - 导出序列大图 - 选中项
+		void op_exportSelected_SeqPicInAction();
+									//action - 导出序列大图 - 全部项
+		void op_exportAll_SeqPicInAction();
 
 		
 	//-----------------------------------
@@ -164,7 +168,7 @@ class P_AnimationListEditor : public P_PictureSelector
 									//编辑窗口 - 选择GIF（导出）
 		QString openWindow_exportGIFFile();
 									//编辑窗口 - 选择png（导出）
-		QString openWindow_exportPNGFile();
+		QString openWindow_exportPNGFile(QString name_suffix = "动画帧");
 									//编辑窗口 - 选择文件夹（导出）
 		QString openWindow_exportDir();
 	

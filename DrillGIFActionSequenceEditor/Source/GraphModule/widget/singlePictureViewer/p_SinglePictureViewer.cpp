@@ -116,3 +116,17 @@ void P_SinglePictureViewer::scaleChanged_view(double scale){
 void P_SinglePictureViewer::setSource(QPixmap pixmap){
 	this->m_GraphView->getScene()->setSource(pixmap);
 }
+
+
+/*-------------------------------------------------
+		辅助 - 设置网格线
+*/
+void P_SinglePictureViewer::setGridLine(int column, int row){
+	this->m_GraphView->getScene()->setGridLine(column,row);
+}
+/*-------------------------------------------------
+		辅助 - 清空网格线
+*/
+void P_SinglePictureViewer::clearGridLine(){
+	this->m_GraphView->getScene()->clearGridLine();
+}

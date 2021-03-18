@@ -2,6 +2,8 @@
 #define I_SPVScene_H
 
 #include <QGraphicsScene>
+#include "Source/GraphModule/item/maskBackgroundItem/i_MaskBackgroundItem.h"
+#include "Source/GraphModule/item/gridLineItem/p_GridLineItem.h"
 
 /*
 -----==========================================================-----
@@ -43,13 +45,22 @@ class I_SPVScene : public QGraphicsScene
 		int m_canvasThickness;		//画布出血线厚度
 		int m_pixelWidth;			//图块宽度
 		int m_pixelHeight;			//图块高度
-		QColor m_backgroundColor;					//底色
-		QGraphicsPixmapItem* m_maskBackground;		//背景
+		
+	//-----------------------------------
+	//----辅助对象
 	private:
-									//属性 - 刷新背景
+		QColor m_gridLineColor;						//网格线底色
+		QColor m_backgroundColor;					//背景底色
+		P_GridLineItem* m_P_GridLineItem;			//网格线
+		I_MaskBackgroundItem* m_maskBackground;		//背景
+	public:
+									//辅助 - 设置网格线
+		void setGridLine(int column, int row);
+									//辅助 - 清空网格线
+		void clearGridLine();
+	private:
+									//辅助 - 刷新背景
 		void refreshBackground();
-									//属性 - 获取马赛克贴图
-		QPixmap getBitmapMaskBackground();
 		
 	//-----------------------------------
 	//----资源
