@@ -52,7 +52,7 @@ P_AnimationListPlayer::P_AnimationListPlayer(QWidget *parent)
 	this->m_timerInterval = 10;					//播放帧间隔
 	connect(this->m_timer, SIGNAL(timeout()), this, SLOT(updateFrame()));	
 
-	this->m_iconSrcPath = ":/DrillGIFActionSequenceEditor/Resources/icons";
+	QRC_IconSrcPath = ":/DrillGIFActionSequenceEditor/Resources/icons";
 	this->m_iconPlaying = false;
 
 	this->m_animEditor = nullptr;
@@ -63,13 +63,13 @@ P_AnimationListPlayer::P_AnimationListPlayer(QWidget *parent)
 	ui.combo->clear();
 	ui.combo->addItems(QStringList() << "播放一次" << "播放二次" << "播放三次" << "播放四次" << "播放五次" << "永久循环");
 
-	ui.toolButton_jumpToStart->setIcon(QIcon(this->m_iconSrcPath + "/player/Play_Start.png"));
-	ui.toolButton_last->setIcon(QIcon(this->m_iconSrcPath + "/player/Play_Last.png"));
-	ui.toolButton_play->setIcon(QIcon(this->m_iconSrcPath + "/player/Play_Run.png"));
-	ui.toolButton_next->setIcon(QIcon(this->m_iconSrcPath + "/player/Play_Next.png"));
-	ui.toolButton_new->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_New.png"));
-	ui.toolButton_ExportGIF->setIcon(QIcon(this->m_iconSrcPath + "/menu/ExportGIF.png"));
-	ui.toolButton_setting->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Setting.png"));
+	ui.toolButton_jumpToStart->setIcon(QIcon(QRC_IconSrcPath + "/player/Play_Start.png"));
+	ui.toolButton_last->setIcon(QIcon(QRC_IconSrcPath + "/player/Play_Last.png"));
+	ui.toolButton_play->setIcon(QIcon(QRC_IconSrcPath + "/player/Play_Run.png"));
+	ui.toolButton_next->setIcon(QIcon(QRC_IconSrcPath + "/player/Play_Next.png"));
+	ui.toolButton_new->setIcon(QIcon(QRC_IconSrcPath + "/menu/Common_New.png"));
+	ui.toolButton_ExportGIF->setIcon(QIcon(QRC_IconSrcPath + "/menu/ExportGIF.png"));
+	ui.toolButton_setting->setIcon(QIcon(QRC_IconSrcPath + "/menu/Common_Setting.png"));
 
 	//-----------------------------------
 	//----事件绑定
@@ -211,14 +211,14 @@ void P_AnimationListPlayer::updateIcon(){
 	
 	// > 启动播放时
 	if (this->m_iconPlaying == true){
-		ui.toolButton_play->setIcon(QIcon(this->m_iconSrcPath + "/player/Play_Pause.png"));
+		ui.toolButton_play->setIcon(QIcon(QRC_IconSrcPath + "/player/Play_Pause.png"));
 		ui.combo->setEnabled(false);
 		//（蓝光效果）
 		ui.widget_controlArea->setStyleSheet("\n #widget_controlArea{ background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(138,255,168,105), stop:0.8 rgba(138,255,168,0), stop:1 rgba(255,255,255,0) ); }");
 		
 	// > 暂停播放时
 	}else{
-		ui.toolButton_play->setIcon(QIcon(this->m_iconSrcPath + "/player/Play_Run.png"));
+		ui.toolButton_play->setIcon(QIcon(QRC_IconSrcPath + "/player/Play_Run.png"));
 		ui.combo->setEnabled(true);
 		ui.widget_controlArea->setStyleSheet("");
 	}

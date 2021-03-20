@@ -1,27 +1,26 @@
-#ifndef P_AnimPictureViewer_H
-#define P_AnimPictureViewer_H
+#ifndef P_PPaViewer_H
+#define P_PPaViewer_H
 
-#include <QFileInfo>
 #include <QtGui/QMouseEvent>
-#include "private/i_APVView.h"
+#include "i_PPaView.h"
 
 /*
 -----==========================================================-----
-		类：		图片查看块-动图 组装体.h
-		版本：		v1.02
+		类：		切割帧选择器 组装体.h
+		版本：		v1.00
 		作者：		drill_up
 		所属模块：	工具模块
-		功能：		通过new，自动将一个QWidget，开辟成 图片查看块 的QGraphView。
+		功能：		通过new，自动将一个QWidget，开辟成 切割帧选择器 的QGraphView。
 					（详细见.cpp）
 -----==========================================================-----
 */
-class P_AnimPictureViewer : public QObject
+class P_PPaViewer : public QObject
 {
 	Q_OBJECT
 
 	public:
-		P_AnimPictureViewer(QWidget* _parent);		//构造函数
-		~P_AnimPictureViewer();						//析构函数
+		P_PPaViewer(QWidget* _parent);		//构造函数
+		~P_PPaViewer();						//析构函数
 		
 	//-----------------------------------
 	//----父控件
@@ -35,7 +34,7 @@ class P_AnimPictureViewer : public QObject
 	//-----------------------------------
 	//----控件
 	private:
-		I_APVView* m_GraphView;			//视图
+		I_PPaView* m_GraphView;			//视图
 	public:
 										//控件 - 重建控件
 		void rebuildUI();
@@ -43,31 +42,22 @@ class P_AnimPictureViewer : public QObject
 		void clearUI();
 
 	//-----------------------------------
-	//----动画帧
+	//----图片
 	public slots:
-										//动画帧 - 设置 图片资源
-										//		【说明1】：由于底层已固化，所以只能输入资源文件，QPixmap不支持。
-										//		【说明2】：如果你用索引切换帧，资源可以重复；如果用资源名称切换帧，不建议重复。
-		void setSource(QList<QFileInfo> file_list);
-										//动画帧 - 获取 图片资源
-		QList<QFileInfo> getSource();
-										//动画帧 - 清除资源
-		void clearSource();
-										//动画帧 - 切换帧（根据索引）
-										//		【说明】：索引如果越界，将不显示任何图像。
-		void setAnimFrame(int index);
-										//动画帧 - 切换帧（根据资源名称）
-										//		【说明】：没有资源会自动添加。添加时会去重。
-		void setAnimFile(QFileInfo file);
-		
+										//图片 - 设置 图片资源
+		void setSource(QFileInfo file);
+		void setSource(QPixmap pixmap);
+
 
 	//-----------------------------------
 	//----辅助
 	public slots:
-										//辅助 - 设置网格线
-		void setGridLine(int column, int row);
+										//辅助 - 设置网格线和方块划分
+		void setGridLineAndBlockMatrix(int column, int row);
 										//辅助 - 清空网格线
 		void clearGridLine();
+										//辅助 - 获取切割的图片
+		QList<QPixmap> getCutBitmap();
 		
 	//-----------------------------------
 	//----缩放【来自 鼠标缩放控制器 功能】
@@ -92,4 +82,4 @@ class P_AnimPictureViewer : public QObject
 
 };
 
-#endif // P_AnimPictureViewer_H
+#endif // P_PPaViewer_H

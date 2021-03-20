@@ -54,7 +54,7 @@ void P_SinglePictureViewer::rebuildUI(){
 	this->m_GraphView = new I_SPVView(this->m_parent);
 	this->m_GraphView->show();
 	this->m_layout->addWidget(this->m_GraphView);
-	connect(this->m_GraphView, &I_SPVView::scaleChanged, this, &P_SinglePictureViewer::scaleChanged_view);
+	connect(this->m_GraphView->getMouseResizeController(), &P_MouseResizeController::scaleChanged, this, &P_SinglePictureViewer::scaleChanged_view);
 
 }
 /*-------------------------------------------------
@@ -73,46 +73,13 @@ void P_SinglePictureViewer::clearUI(){
 
 
 /*-------------------------------------------------
-		缩放 - 缩小
-*/
-void P_SinglePictureViewer::zoomIn(){
-	this->m_GraphView->zoomIn();
-}
-/*-------------------------------------------------
-		缩放 - 放大
-*/
-void P_SinglePictureViewer::zoomOut(){
-	this->m_GraphView->zoomOut();
-}
-/*-------------------------------------------------
-		缩放 - 大小重置
-*/
-void P_SinglePictureViewer::zoomReset(){
-	this->m_GraphView->zoomReset();
-}
-/*-------------------------------------------------
-		缩放 - 获取缩放值
-*/
-double P_SinglePictureViewer::getScale(){
-	return this->m_GraphView->getScale();
-}
-/*-------------------------------------------------
-		缩放 - 设置滚轮缩放修饰符
-*/
-void P_SinglePictureViewer::setScaleWheelModifier(QString charModifier){
-	this->m_GraphView->setScaleWheelModifier(charModifier);
-}
-/*-------------------------------------------------
-		缩放 - 缩放值改变（与view交互）
-*/
-void P_SinglePictureViewer::scaleChanged_view(double scale){
-	emit scaleChanged(scale);
-}
-
-
-/*-------------------------------------------------
 		图片 - 设置 图片资源
 */
+void P_SinglePictureViewer::setSource(QFileInfo file){
+	QImage image = QImage(file.absoluteFilePath());
+	QPixmap pixmap = QPixmap::fromImage(image);
+	this->m_GraphView->getScene()->setSource(pixmap);
+}
 void P_SinglePictureViewer::setSource(QPixmap pixmap){
 	this->m_GraphView->getScene()->setSource(pixmap);
 }
@@ -129,4 +96,42 @@ void P_SinglePictureViewer::setGridLine(int column, int row){
 */
 void P_SinglePictureViewer::clearGridLine(){
 	this->m_GraphView->getScene()->clearGridLine();
+}
+
+
+/*-------------------------------------------------
+		缩放 - 缩小
+*/
+void P_SinglePictureViewer::zoomIn(){
+	this->m_GraphView->getMouseResizeController()->zoomIn();
+}
+/*-------------------------------------------------
+		缩放 - 放大
+*/
+void P_SinglePictureViewer::zoomOut(){
+	this->m_GraphView->getMouseResizeController()->zoomOut();
+}
+/*-------------------------------------------------
+		缩放 - 大小重置
+*/
+void P_SinglePictureViewer::zoomReset(){
+	this->m_GraphView->getMouseResizeController()->zoomReset();
+}
+/*-------------------------------------------------
+		缩放 - 获取缩放值
+*/
+double P_SinglePictureViewer::getScale(){
+	return this->m_GraphView->getMouseResizeController()->getScale();
+}
+/*-------------------------------------------------
+		缩放 - 设置滚轮缩放修饰符
+*/
+void P_SinglePictureViewer::setScaleWheelModifier(QString charModifier){
+	this->m_GraphView->getMouseResizeController()->setScaleWheelModifier(charModifier);
+}
+/*-------------------------------------------------
+		缩放 - 缩放值改变（与view交互）
+*/
+void P_SinglePictureViewer::scaleChanged_view(double scale){
+	emit scaleChanged(scale);
 }

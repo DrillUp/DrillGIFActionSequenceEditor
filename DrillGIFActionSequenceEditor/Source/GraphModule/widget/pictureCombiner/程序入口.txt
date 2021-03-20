@@ -16,7 +16,9 @@
 	
 
 	交互对象：
-		QPixmap
+		输入 QList<QPixmap>、QList<QFileInfo>
+		输出 QPixmap
+
 
 	私有类：
 		无

@@ -526,34 +526,34 @@ void P_FlexibleClassificationTree::drawMenuMain(){
 
 
 		action = new QAction("上移", this);
-		action->setIcon(QIcon(this->m_menuIconSrcPath+ "/menu/Common_Up.png"));
+		action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Up.png"));
 		action->setData(classify_name);
 		connect(action, &QAction::triggered, this, &P_FlexibleClassificationTree::moveUpInAction);
 		this->m_mainMenu->addAction(action);
 		if (this->indexOfClassify(classify_name) <= 0 || this->indexOfClassify(classify_name) == this->m_classifyData.count() - 1){ action->setEnabled(false); }
 
 		action = new QAction("下移", this);
-		action->setIcon(QIcon(this->m_menuIconSrcPath+ "/menu/Common_Down.png"));
+		action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Down.png"));
 		action->setData(classify_name);
 		connect(action, &QAction::triggered, this, &P_FlexibleClassificationTree::moveDownInAction);
 		this->m_mainMenu->addAction(action);
 		if (this->indexOfClassify(classify_name) >= this->m_classifyData.count() - 2 ){ action->setEnabled(false); }
 
 		action = new QAction("添加类型", this);
-		action->setIcon(QIcon(this->m_menuIconSrcPath+ "/menu/Common_Add.png"));
+		action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Add.png"));
 		//（不需要classify_name）
 		connect(action, &QAction::triggered, this, &P_FlexibleClassificationTree::addClassifyInAction);
 		this->m_mainMenu->addAction(action);
 
 		action = new QAction("编辑类型", this);
-		action->setIcon(QIcon(this->m_menuIconSrcPath+ "/menu/Common_Edit.png"));
+		action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Edit.png"));
 		action->setData(classify_name);
 		connect(action, &QAction::triggered, this, &P_FlexibleClassificationTree::modifyClassifyInAction);
 		this->m_mainMenu->addAction(action);
 		if (classify_name == ""){ action->setEnabled(false); }		//（未分类的树枝不能编辑）
 
 		action = new QAction("删除类型", this);
-		action->setIcon(QIcon(this->m_menuIconSrcPath+ "/menu/Common_Delete.png"));
+		action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Delete.png"));
 		action->setData(classify_name);
 		connect(action, &QAction::triggered, this, &P_FlexibleClassificationTree::removeClassifyInAction);
 		this->m_mainMenu->addAction(action);
@@ -573,7 +573,7 @@ void P_FlexibleClassificationTree::drawMenuMain(){
 		}
 		
 		action = new QAction("删除选中的类型", this);
-		action->setIcon(QIcon(this->m_menuIconSrcPath+ "/menu/Common_Delete.png"));
+		action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Delete.png"));
 		action->setData(classify_nameList);
 		connect(action, &QAction::triggered, this, &P_FlexibleClassificationTree::removeClassifyListInAction);
 		this->m_mainMenu->addAction(action);
@@ -592,7 +592,7 @@ void P_FlexibleClassificationTree::drawMenuMain(){
 		}
 
 		action = new QAction("移动到...", this);
-		action->setIcon(QIcon(this->m_menuIconSrcPath+ "/menu/Common_Right.png"));
+		action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Right.png"));
 		action->setData(leaf_idList);
 		connect(action, &QAction::triggered, this, &P_FlexibleClassificationTree::innerModifyLeafTypeInAction);
 		this->m_mainMenu->addAction(action);

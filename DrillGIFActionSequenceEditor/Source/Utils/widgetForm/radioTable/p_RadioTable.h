@@ -28,7 +28,6 @@ class P_RadioTable : public QObject
 	protected:
 		QTableWidget* m_table;						//表格对象
 		QString m_tableStyle;						//表格默认样式
-		QString m_iconSrcPath;						//表格图标路径
 		QList<QTableWidgetItem*> m_itemTank;		//表格项列表
 	public:
 									//控件 - 刷新表格

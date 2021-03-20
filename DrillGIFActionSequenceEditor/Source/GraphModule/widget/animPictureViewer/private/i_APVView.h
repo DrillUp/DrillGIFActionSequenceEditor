@@ -4,6 +4,8 @@
 #include <QGraphicsView>
 #include "i_APVScene.h"
 
+#include "Source/GraphModule/middleware/mouseResizeController/p_MouseResizeController.h"
+
 /*
 -----==========================================================-----
 		类：		图片查看块-动图 视图.h
@@ -27,42 +29,12 @@ class I_APVView : public QGraphicsView
 	//----部件
 	private:
 		I_APVScene* m_scene;
+		P_MouseResizeController* m_p_MouseResizeController;
 	public:
-									//部件 - 获取场景
+										//部件 - 获取场景
 		I_APVScene* getScene();
-
-
-	//-----------------------------------
-	//----缩放
-	private:
-		double m_scale;					//缩放比例
-		double m_lastScale;				//
-		QString m_scaleWheelModifier;	//控制用修饰符
-	public:
-										//缩放 - 缩小
-		void zoomIn();
-										//缩放 - 放大
-		void zoomOut();
-										//缩放 - 大小重置
-		void zoomReset();
-										//缩放 - 获取缩放值
-		double getScale();
-										//缩放 - 设置滚轮缩放修饰符
-										//		【说明】：填"ctrl"、"alt"、"只滚轮"，空字符串表示 关闭 滚轮缩放。
-		void setScaleWheelModifier(QString charModifier);
-	signals:
-										//缩放 - 缩放值改变
-		void scaleChanged(double scale);
-	private:
-										//缩放 - 大小重置
-		void zoomResetPrivate();
-
-	//-----------------------------------
-	//----鼠标拖拽
-	private:
-		bool m_mousePressed;
-		QPoint m_mousePos;
-		QPoint m_mousePosLast;
+										//部件 - 获取鼠标缩放控制器
+		P_MouseResizeController* getMouseResizeController();
 
 
 	//-----------------------------------

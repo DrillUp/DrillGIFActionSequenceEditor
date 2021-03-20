@@ -1,0 +1,18 @@
+	【注意，图形模块的工具全部以 code_piece_qt笔记 为准，所有修改在笔记中强化】
+			
+	程序入口（独立控件块）：
+		p_MatrixBlockSelector.cpp
+		p_MatrixBlockSelector.h
+
+		该控件块用于装饰指定的 QGraphicsView，提供 方块阵列勾选切换 + 颜色块切换/矢量图切换 功能。
+		注意，要留意【event_】前缀的函数，这些函数必须在调用者中连带执行。
+
+		要记得连接 方块添加信号 和 方块清空信号。
+
+	交互对象：
+		QGraphicsView 视图
+		装饰目标对象，提供功能。
+
+
+	私有类：
+		无

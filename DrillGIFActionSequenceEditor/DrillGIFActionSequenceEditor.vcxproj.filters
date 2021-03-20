@@ -231,6 +231,21 @@
     <Filter Include="源文件\【 图形模块 GraphModule】\贴图（item）\网格线">
       <UniqueIdentifier>{bb779b05-4038-4c29-a9a7-91079250e6c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\【 图形模块 GraphModule】\集合组件（widget）\图片分割器">
+      <UniqueIdentifier>{e27bb3ab-cc65-4db0-816d-7946a0ed0c01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 图形模块 GraphModule】\集合组件（widget）\图片分割器\私有类">
+      <UniqueIdentifier>{c2dab1be-9350-4094-8f85-e48eb4bce5f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 图形模块 GraphModule】\中间件（middleware）">
+      <UniqueIdentifier>{85dd517f-9d78-4208-b9f5-277dc0a0bede}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 图形模块 GraphModule】\中间件（middleware）\方块阵列点选器">
+      <UniqueIdentifier>{37db3d49-88dc-4be9-89fc-530d791cb3af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 图形模块 GraphModule】\中间件（middleware）\鼠标缩放控制器">
+      <UniqueIdentifier>{49ca5677-7d0a-4f5d-b21c-8f0eaefe3adc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -896,6 +911,63 @@
     <ClCompile Include="GeneratedFiles\Release\moc_p_GridLineItem.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GraphModule\widget\picturePartitioner\w_PicturePartitioner.cpp">
+      <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片分割器</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_w_PicturePartitioner.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_w_PicturePartitioner.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GraphModule\widget\picturePartitioner\private\i_PPaScene.cpp">
+      <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片分割器\私有类</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_i_PPaScene.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_i_PPaScene.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GraphModule\widget\picturePartitioner\private\i_PPaView.cpp">
+      <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片分割器\私有类</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_i_PPaView.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_i_PPaView.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GraphModule\widget\picturePartitioner\private\p_PPaViewer.cpp">
+      <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片分割器\私有类</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_p_PPaViewer.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_p_PPaViewer.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GraphModule\middleware\matrixBlockSelector\i_MBSBlock.cpp">
+      <Filter>源文件\【 图形模块 GraphModule】\中间件（middleware）\方块阵列点选器</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GraphModule\middleware\matrixBlockSelector\p_MatrixBlockSelector.cpp">
+      <Filter>源文件\【 图形模块 GraphModule】\中间件（middleware）\方块阵列点选器</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_p_MatrixBlockSelector.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_p_MatrixBlockSelector.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GraphModule\middleware\mouseResizeController\p_MouseResizeController.cpp">
+      <Filter>源文件\【 图形模块 GraphModule】\中间件（middleware）\鼠标缩放控制器</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_p_MouseResizeController.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_p_MouseResizeController.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="drillgifactionsequenceeditor.qrc">
@@ -1186,6 +1258,27 @@
     <CustomBuild Include="Source\GraphModule\item\gridLineItem\p_GridLineItem.h">
       <Filter>源文件\【 图形模块 GraphModule】\贴图（item）\网格线</Filter>
     </CustomBuild>
+    <CustomBuild Include="Source\GraphModule\widget\picturePartitioner\w_PicturePartitioner.h">
+      <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片分割器</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\GraphModule\widget\picturePartitioner\w_PicturePartitioner.ui">
+      <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片分割器</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\GraphModule\widget\picturePartitioner\private\i_PPaScene.h">
+      <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片分割器\私有类</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\GraphModule\widget\picturePartitioner\private\i_PPaView.h">
+      <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片分割器\私有类</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\GraphModule\widget\picturePartitioner\private\p_PPaViewer.h">
+      <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片分割器\私有类</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\GraphModule\middleware\matrixBlockSelector\p_MatrixBlockSelector.h">
+      <Filter>源文件\【 图形模块 GraphModule】\中间件（middleware）\方块阵列点选器</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\GraphModule\middleware\mouseResizeController\p_MouseResizeController.h">
+      <Filter>源文件\【 图形模块 GraphModule】\中间件（middleware）\鼠标缩放控制器</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DrillGIFActionSequenceEditor.rc" />
@@ -1359,6 +1452,12 @@
     <ClInclude Include="Source\GraphModule\item\maskBackgroundItem\i_MaskBackgroundItem.h">
       <Filter>源文件\【 图形模块 GraphModule】\贴图（item）\马赛克背景</Filter>
     </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_w_PicturePartitioner.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GraphModule\middleware\matrixBlockSelector\i_MBSBlock.h">
+      <Filter>源文件\【 图形模块 GraphModule】\中间件（middleware）\方块阵列点选器</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Utils\widgetForm\radioTable\程序入口.txt">
@@ -1405,6 +1504,21 @@
     </Text>
     <Text Include="Source\GraphModule\widget\pictureCombiner\程序入口.txt">
       <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片合成器</Filter>
+    </Text>
+    <Text Include="Source\GraphModule\widget\picturePartitioner\程序入口.txt">
+      <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片分割器</Filter>
+    </Text>
+    <Text Include="Source\GraphModule\middleware\matrixBlockSelector\程序入口.txt">
+      <Filter>源文件\【 图形模块 GraphModule】\中间件（middleware）\方块阵列点选器</Filter>
+    </Text>
+    <Text Include="Source\GraphModule\middleware\mouseResizeController\程序入口.txt">
+      <Filter>源文件\【 图形模块 GraphModule】\中间件（middleware）\鼠标缩放控制器</Filter>
+    </Text>
+    <Text Include="Source\GraphModule\item\maskBackgroundItem\程序入口.txt">
+      <Filter>源文件\【 图形模块 GraphModule】\贴图（item）\马赛克背景</Filter>
+    </Text>
+    <Text Include="Source\GraphModule\item\gridLineItem\程序入口.txt">
+      <Filter>源文件\【 图形模块 GraphModule】\贴图（item）\网格线</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

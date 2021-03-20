@@ -19,6 +19,7 @@
 		无
 		【只读图片数据】	
 
+
 	私有类：
 		i_APVView.cpp
 		i_APVView.h

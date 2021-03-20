@@ -51,8 +51,6 @@ class P_PlayingPart : public QWidget
 
 	//-----------------------------------
 	//----°´Å¥
-	protected:
-		QString m_iconSrcPath;
 	public slots:
 										//°´Å¥ - ²¥·Å
 		void btn_play();

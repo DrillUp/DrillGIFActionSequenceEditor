@@ -7,7 +7,7 @@
 /*
 -----==========================================================-----
 		类：		动画帧编辑块.cpp
-		版本：		v1.03
+		版本：		v1.04
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		将图片全部显示，并能单选/多选。
@@ -107,6 +107,8 @@ class P_AnimationListEditor : public P_PictureSelector
 		void op_insertInAction();
 									//action - 添加帧（GIF）
 		void op_insertGIFInAction();
+									//action - 添加帧（序列大图）
+		void op_insertSeqPicInAction();
 									//action - 删除帧（单个和多个）
 		void op_removeInAction();
 									//action - 复制（单个和多个）
@@ -165,6 +167,8 @@ class P_AnimationListEditor : public P_PictureSelector
 		QStringList openWindow_getPicFileList();
 									//编辑窗口 - 选择GIF（导入）
 		QString openWindow_getGIFFile();
+									//编辑窗口 - 选择序列大图（导入）
+		QString openWindow_getSeqPicFile();
 									//编辑窗口 - 选择GIF（导出）
 		QString openWindow_exportGIFFile();
 									//编辑窗口 - 选择png（导出）

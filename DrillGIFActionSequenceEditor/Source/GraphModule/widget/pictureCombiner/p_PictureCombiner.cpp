@@ -46,7 +46,6 @@ P_PictureCombiner::P_PictureCombiner(QWidget *parent)
 	//-----------------------------------
 	//----初始化参数
 	this->m_slotBlock = false;
-	this->m_iconSrcPath = ":/DrillGIFActionSequenceEditor/Resources/icons";
 
 	//-----------------------------------
 	//----初始化ui
@@ -54,9 +53,9 @@ P_PictureCombiner::P_PictureCombiner(QWidget *parent)
 	this->m_p_SinglePictureViewer->rebuildUI();
 
 	ui.label_sizeTip->hide();
-	ui.toolButton_zoom_in->setIcon(QIcon(this->m_iconSrcPath + "/view/Zoom_In.png"));
-	ui.toolButton_zoom_out->setIcon(QIcon(this->m_iconSrcPath + "/view/Zoom_Out.png"));
-	ui.toolButton_zoom_regular->setIcon(QIcon(this->m_iconSrcPath + "/view/Zoom_Regular.png"));
+	ui.toolButton_zoom_in->setIcon(QIcon(QRC_IconSrcPath + "/view/Zoom_In.png"));
+	ui.toolButton_zoom_out->setIcon(QIcon(QRC_IconSrcPath + "/view/Zoom_Out.png"));
+	ui.toolButton_zoom_regular->setIcon(QIcon(QRC_IconSrcPath + "/view/Zoom_Regular.png"));
 
 	//-----------------------------------
 	//----事件绑定

@@ -35,7 +35,6 @@ P_RadioTable::P_RadioTable(QTableWidget *parent)
 
 	//-----------------------------------
 	//----参数初始化
-	this->m_iconSrcPath = ":/DrillGIFActionSequenceEditor/Resources/icons";
 	this->m_table = parent;									//表格对象
 	this->m_tableStyle = this->m_table->styleSheet();		//表格默认样式
 	this->m_itemTank = QList<QTableWidgetItem*>();			//表格项列表
@@ -275,7 +274,7 @@ void P_RadioTable::sltItemRightClicked(QPoint point) {
 		QMenu* menu = new QMenu(this->m_table);
 
 		action = new QAction("复制", this);
-		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Copy.png"));
+		action->setIcon(QIcon(QRC_IconSrcPath + "/menu/Common_Copy.png"));
 		action->setData( this->m_itemTank.indexOf(item) );
 		action->setShortcut(QKeySequence::Copy);
 		connect(action, &QAction::triggered, this, &P_RadioTable::menuCopyItemInAction);
@@ -283,7 +282,7 @@ void P_RadioTable::sltItemRightClicked(QPoint point) {
 		action->setEnabled(this->m_itemOuterControl_CopyActive);
 
 		action = new QAction("粘贴", this);
-		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Paste.png"));
+		action->setIcon(QIcon(QRC_IconSrcPath + "/menu/Common_Paste.png"));
 		action->setData( this->m_itemTank.indexOf(item) );
 		action->setShortcut(QKeySequence::Paste);
 		connect(action, &QAction::triggered, this, &P_RadioTable::menuPasteItemInAction);
@@ -291,7 +290,7 @@ void P_RadioTable::sltItemRightClicked(QPoint point) {
 		action->setEnabled(this->m_itemOuterControl_PasteActive);
 
 		action = new QAction("清空", this);
-		action->setIcon(QIcon(this->m_iconSrcPath + "/menu/Common_Clear.png"));
+		action->setIcon(QIcon(QRC_IconSrcPath + "/menu/Common_Clear.png"));
 		action->setData( this->m_itemTank.indexOf(item) );
 		action->setShortcut(QKeySequence::Delete);
 		connect(action, &QAction::triggered, this, &P_RadioTable::menuClearItemInAction);

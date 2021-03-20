@@ -40,9 +40,25 @@ class P_SinglePictureViewer : public QObject
 		void rebuildUI();
 										//控件 - 清理UI
 		void clearUI();
+
+	//-----------------------------------
+	//----图片
+	public slots:
+										//图片 - 设置 图片资源
+		void setSource(QFileInfo file);
+		void setSource(QPixmap pixmap);
+
+
+	//-----------------------------------
+	//----辅助
+	public slots:
+										//辅助 - 设置网格线
+		void setGridLine(int column, int row);
+										//辅助 - 清空网格线
+		void clearGridLine();
 		
 	//-----------------------------------
-	//----缩放
+	//----缩放【来自 鼠标缩放控制器 功能】
 	public slots:
 										//缩放 - 缩小
 		void zoomIn();
@@ -61,21 +77,6 @@ class P_SinglePictureViewer : public QObject
 	private slots:
 										//缩放 - 缩放值改变（与view交互）
 		void scaleChanged_view(double scale);
-
-	//-----------------------------------
-	//----图片
-	public slots:
-										//图片 - 设置 图片资源
-		void setSource(QPixmap pixmap);
-
-
-	//-----------------------------------
-	//----辅助
-	public slots:
-										//辅助 - 设置网格线
-		void setGridLine(int column, int row);
-										//辅助 - 清空网格线
-		void clearGridLine();
 
 };
 

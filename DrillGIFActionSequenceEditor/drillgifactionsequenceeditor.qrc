@@ -50,5 +50,6 @@
         <file>Resources/icons/menu/ExportGIF.png</file>
         <file>Resources/icons/menu/ExportImage.png</file>
         <file>Resources/icons/menu/Common_Export.png</file>
+        <file>Resources/icons/view/Icon_Selected.svg</file>
     </qresource>
 </RCC>

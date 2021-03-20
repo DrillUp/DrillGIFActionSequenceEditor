@@ -28,7 +28,6 @@ class P_FoldableTabRelater : public QObject
 	protected:
 		QTabWidget* m_tab;				//父控件
 		QString m_tabStyle;				//样式
-		QString m_iconSrcPath;			//图标资源路径
 	public slots:
 								//父控件 - 关闭标签
 		void tabClosed(int index);

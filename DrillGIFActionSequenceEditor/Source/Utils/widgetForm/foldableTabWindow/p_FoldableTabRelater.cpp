@@ -29,7 +29,6 @@ P_FoldableTabRelater::P_FoldableTabRelater(QTabWidget *parent)
 	//----初始化参数
 	this->m_tab = parent;
 	this->m_tabStyle = this->m_tab->styleSheet();
-	this->m_iconSrcPath = ":/DrillGIFActionSequenceEditor/Resources/icons";
 
 	this->m_partList = QList<C_FoldableTabPrivate*>();
 	this->m_childWindowList = QList<W_FoldableTabChildWindow*>();
@@ -40,9 +39,9 @@ P_FoldableTabRelater::P_FoldableTabRelater(QTabWidget *parent)
 	this->m_tab->setMovable(true);				//标签可拖拽
 	this->m_tab->setTabsClosable(true);			//标签可关闭
 	this->m_tab->setStyleSheet(this->m_tabStyle + 
-		"\n QTabBar::close-button { image: url(" + this->m_iconSrcPath + "/tabWidget/outFrame.png) }"+
-		"\n QTabBar::close-button:hover{ image: url(" + this->m_iconSrcPath + "/tabWidget/outFrame_hover.png) }" +
-		"\n QTabBar::close-button:disabled{ image: url(" + this->m_iconSrcPath + "/tabWidget/outFrame_disabled.png) }");
+		"\n QTabBar::close-button { image: url(" + QRC_IconSrcPath + "/tabWidget/outFrame.png) }"+
+		"\n QTabBar::close-button:hover{ image: url(" + QRC_IconSrcPath + "/tabWidget/outFrame_hover.png) }" +
+		"\n QTabBar::close-button:disabled{ image: url(" + QRC_IconSrcPath + "/tabWidget/outFrame_disabled.png) }");
 
 	//-----------------------------------
 	//----事件绑定

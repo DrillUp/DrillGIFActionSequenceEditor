@@ -82,7 +82,6 @@ P_FlexiblePageTree::P_FlexiblePageTree(QTreeWidget *parent)
 	this->m_modeMenu = nullptr;
 	this->m_last_item = nullptr;
 	this->m_last_leaf = nullptr;
-	this->m_menuIconSrcPath = ":/DrillGIFActionSequenceEditor/Resources/icons";
 
 	// > 资源数据
 	this->m_source_ObjectSortController = new P_ObjectSortController();
@@ -633,7 +632,7 @@ void P_FlexiblePageTree::drawMenuMain(){
 		I_FCTLeaf* leaf = dynamic_cast<I_FCTLeaf*>(selected_items.at(0));
 
 		action = new QAction("复制", this);
-		action->setIcon(QIcon(this->m_menuIconSrcPath+ "/menu/Common_Copy.png"));
+		action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Copy.png"));
 		action->setData(leaf->getId());
 		action->setShortcut(QKeySequence::Copy);
 		connect(action, &QAction::triggered, this, &P_FlexiblePageTree::menuCopyLeafInAction);
@@ -641,7 +640,7 @@ void P_FlexiblePageTree::drawMenuMain(){
 		action->setEnabled(this->m_leafOuterControl_CopyActive);
 		
 		action = new QAction("粘贴", this);
-		action->setIcon(QIcon(this->m_menuIconSrcPath+ "/menu/Common_Paste.png"));
+		action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Paste.png"));
 		action->setData(leaf->getId());
 		action->setShortcut(QKeySequence::Paste);
 		connect(action, &QAction::triggered, this, &P_FlexiblePageTree::menuPasteLeafInAction);
@@ -649,7 +648,7 @@ void P_FlexiblePageTree::drawMenuMain(){
 		action->setEnabled(this->m_leafOuterControl_PasteActive);
 
 		action = new QAction("清空", this);
-		action->setIcon(QIcon(this->m_menuIconSrcPath+ "/menu/Common_Clear.png"));
+		action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Clear.png"));
 		action->setData(leaf->getId());
 		action->setShortcut(QKeySequence::Delete);
 		connect(action, &QAction::triggered, this, &P_FlexiblePageTree::menuClearLeafInAction);
@@ -661,12 +660,12 @@ void P_FlexiblePageTree::drawMenuMain(){
 
 	/*------------------------任意情况------------------------*/
 	action = new QAction("展开全部", this);
-	action->setIcon(QIcon(this->m_menuIconSrcPath+ "/menu/Common_Unfold.png"));
+	action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Unfold.png"));
 	connect(action, &QAction::triggered, this->m_tree, &QTreeWidget::expandAll);
 	this->m_mainMenu->addAction(action);
 
 	action = new QAction("收起全部", this);
-	action->setIcon(QIcon(this->m_menuIconSrcPath+ "/menu/Common_Fold.png"));
+	action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Fold.png"));
 	connect(action, &QAction::triggered, this->m_tree, &QTreeWidget::collapseAll);
 	this->m_mainMenu->addAction(action);
 
@@ -682,12 +681,12 @@ void P_FlexiblePageTree::drawMenuMainLast(){
 	this->m_mainMenu->addMenu(this->m_modeMenu);
 
 	action = new QAction("刷新排序", this);
-	action->setIcon(QIcon(this->m_menuIconSrcPath+ "/menu/Common_Refresh.png"));
+	action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Refresh.png"));
 	connect(action, &QAction::triggered, this, &P_FlexiblePageTree::rebuildTreeData);
 	this->m_mainMenu->addAction(action);
 
 	action = new QAction("树设置...", this);
-	action->setIcon(QIcon(this->m_menuIconSrcPath+ "/menu/Common_Setting.png"));
+	action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Setting.png"));
 	connect(action, &QAction::triggered, this, &P_FlexiblePageTree::openConfigParamWindow);
 	this->m_mainMenu->addAction(action);
 

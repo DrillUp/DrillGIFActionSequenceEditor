@@ -29,10 +29,6 @@ I_SPVView::~I_SPVView(){
 */
 void I_SPVView::init(){
 
-	// > 鼠标追踪开启
-	this->setMouseTracking(true);
-	this->setCursor(QCursor(Qt::PointingHandCursor));		//设置手形
-
 	// > 滚动条
 	connect(this->horizontalScrollBar(), &QScrollBar::valueChanged, this, &I_SPVView::scrollValueChanged);
 	connect(this->verticalScrollBar(), &QScrollBar::valueChanged, this, &I_SPVView::scrollValueChanged);
@@ -41,16 +37,9 @@ void I_SPVView::init(){
 	this->m_scene = new I_SPVScene();
 	this->setScene(m_scene);
 
-	// > 缩放
-	this->m_scale = 1.00;
-	this->m_lastScale = 1.00;
-	this->m_scaleWheelModifier = "只滚轮";
-
-	// > 鼠标拖拽
-	this->m_mousePressed = false;
-	this->m_mousePos = QPoint();
-	this->m_mousePosLast = QPoint();
-
+	// > 鼠标缩放控制器
+	this->m_p_MouseResizeController = new P_MouseResizeController();
+	this->m_p_MouseResizeController->initGraphicsView(this);
 }
 
 
@@ -60,62 +49,13 @@ void I_SPVView::init(){
 I_SPVScene* I_SPVView::getScene(){
 	return this->m_scene;
 }
-
-
-
 /*-------------------------------------------------
-		缩放 - 缩小
+		部件 - 获取鼠标缩放控制器
 */
-void I_SPVView::zoomOut(){
-	if (this->m_scale <= 0.05){ return; }
+P_MouseResizeController* I_SPVView::getMouseResizeController(){
+	return this->m_p_MouseResizeController;
+}
 
-	this->m_lastScale = this->m_scale;
-	this->zoomResetPrivate();
-	this->m_scale = this->m_lastScale - this->m_lastScale * 0.1;
-	if (this->m_scale <= 0.05){ this->m_scale = 0.05; }
-
-	scale(this->m_scale, this->m_scale);
-	emit scaleChanged(this->m_scale);
-}
-/*-------------------------------------------------
-		缩放 - 放大
-*/
-void I_SPVView::zoomIn(){
-	if (this->m_scale >= 5.00){ return; }
-		
-	this->m_lastScale = this->m_scale;
-	this->zoomResetPrivate();
-	this->m_scale = this->m_scale + 0.1;
-	if (this->m_scale >= 5.00){ this->m_scale = 5.00; }
-
-	scale(this->m_scale, this->m_scale);
-	emit scaleChanged(this->m_scale);
-}
-/*-------------------------------------------------
-		缩放 - 大小重置
-*/
-void I_SPVView::zoomReset(){
-	this->zoomResetPrivate();
-	this->m_scale = 1;
-	emit scaleChanged(this->m_scale);
-}
-void I_SPVView::zoomResetPrivate(){
-	QMatrix q;
-	q.setMatrix(1, this->matrix().m12(), this->matrix().m21(), 1, this->matrix().dx(), this->matrix().dy());
-	this->setMatrix(q, false);
-}
-/*-------------------------------------------------
-		缩放 - 获取缩放值
-*/
-double I_SPVView::getScale(){
-	return this->m_scale;
-}
-/*-------------------------------------------------
-		缩放 - 设置滚轮缩放修饰符
-*/
-void I_SPVView::setScaleWheelModifier(QString charModifier){
-	this->m_scaleWheelModifier = charModifier;
-}
 
 
 /*-------------------------------------------------
@@ -132,18 +72,17 @@ void I_SPVView::scrollValueChanged(){
 void I_SPVView::mousePressEvent(QMouseEvent *event){
 	QGraphicsView::mousePressEvent(event);	//继承父类函数
 
-	if (event->button() == Qt::LeftButton){
-		this->m_mousePressed = true;
-		this->m_mousePos = event->pos();
-		this->m_mousePosLast = event->pos();
-	}
+	// > 鼠标缩放控制 事件
+	this->m_p_MouseResizeController->event_mousePressEvent(event);
 }
 /*-------------------------------------------------
 		监听事件 - 鼠标抬起
 */
 void I_SPVView::mouseReleaseEvent(QMouseEvent *event){
 	QGraphicsView::mouseReleaseEvent(event);	//继承父类函数
-	this->m_mousePressed = false;
+
+	// > 鼠标缩放控制 事件
+	this->m_p_MouseResizeController->event_mouseReleaseEvent(event);
 }
 /*-------------------------------------------------
 		监听事件 - 鼠标移动
@@ -151,42 +90,17 @@ void I_SPVView::mouseReleaseEvent(QMouseEvent *event){
 void I_SPVView::mouseMoveEvent(QMouseEvent *event){
 	QGraphicsView::mouseMoveEvent(event);	//继承父类函数
 
-	if (this->m_mousePressed == false){ return; }
-	this->m_mousePos = event->pos();
-
-	// > 鼠标拖拽
-	QPointF pf = this->m_mousePos - this->m_mousePosLast;
-	if (this->horizontalScrollBar()->isVisible() || 
-		this->verticalScrollBar()->isVisible()){
-
-		int h_value = this->horizontalScrollBar()->value();
-		int v_value = this->verticalScrollBar()->value();
-		h_value = h_value - pf.x();
-		v_value = v_value - pf.y();
-		this->horizontalScrollBar()->setValue(h_value);
-		this->verticalScrollBar()->setValue(v_value);
-	}
-
-	this->m_mousePosLast = this->m_mousePos;
+	// > 鼠标缩放控制 事件
+	this->m_p_MouseResizeController->event_mouseMoveEvent(event);
 }
 /*-------------------------------------------------
 		监听事件 - 鼠标滚轮
 */
-void I_SPVView::wheelEvent(QWheelEvent *e){
+void I_SPVView::wheelEvent(QWheelEvent *event){
 
-	bool wheel_enabled = false;
-	if (this->m_scaleWheelModifier == "只滚轮"){ wheel_enabled = true; }
-	if (this->m_scaleWheelModifier == "ctrl" && (e->modifiers() & Qt::ControlModifier)){ wheel_enabled = true; }
-	if (this->m_scaleWheelModifier == "alt" && (e->modifiers() & Qt::AltModifier)){ wheel_enabled = true; }
+	// > 鼠标缩放控制 事件
+	bool blocked = this->m_p_MouseResizeController->event_wheelEvent(event);
+	if ( blocked == true){ return; }
 
-	if (wheel_enabled){
-		if (e->delta() > 0){
-			zoomIn();	//滚轮向上 - 缩小
-		}else{
-			zoomOut();	//滚轮向上 - 缩小
-		}
-		e->accept();
-	}else{
-		QGraphicsView::wheelEvent(e);
-	}
+	QGraphicsView::wheelEvent(event);
 }

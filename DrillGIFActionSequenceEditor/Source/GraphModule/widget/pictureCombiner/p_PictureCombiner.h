@@ -26,7 +26,6 @@ class P_PictureCombiner : public QWidget
 	//-----------------------------------
 	//----视图
 	protected:
-		QString m_iconSrcPath;
 		P_SinglePictureViewer* m_p_SinglePictureViewer;
 	public slots:
 										//视图 - 缩放比例切换

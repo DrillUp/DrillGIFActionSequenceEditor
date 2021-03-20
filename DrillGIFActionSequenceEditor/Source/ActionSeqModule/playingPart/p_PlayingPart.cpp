@@ -40,7 +40,6 @@ P_PlayingPart::P_PlayingPart(P_StatePart* state_part, P_ActionPart* action_part,
 	this->m_actionPart = action_part;
 
 	// > 参数值
-	this->m_iconSrcPath = ":/DrillGIFActionSequenceEditor/Resources/icons";
 	this->m_playing = false;					//正在播放
 	this->m_timer = new QTimer();				//计时器
 	connect(this->m_timer, SIGNAL(timeout()), this, SLOT(updateFrame()));
@@ -289,12 +288,12 @@ void P_PlayingPart::updateIcon(){
 	
 	// > 启动播放时
 	if (this->m_playing == true){
-		ui.toolButton_open->setIcon(QIcon(this->m_iconSrcPath + "/player/Play_Pause.png"));
+		ui.toolButton_open->setIcon(QIcon(QRC_IconSrcPath + "/player/Play_Pause.png"));
 		ui.widget_playingPart->setStyleSheet("#widget_playingPart{ background-color: rgb(255, 255, 255); }");
 	
 	// > 暂停播放时
 	}else{
-		ui.toolButton_open->setIcon(QIcon(this->m_iconSrcPath + "/player/Play_Run.png"));
+		ui.toolButton_open->setIcon(QIcon(QRC_IconSrcPath + "/player/Play_Run.png"));
 		ui.widget_playingPart->setStyleSheet("#widget_playingPart{ background-color: rgb(242, 242, 242); }");
 		ui.label_playingAction->setText("");
 		ui.label_playingName->setText("");

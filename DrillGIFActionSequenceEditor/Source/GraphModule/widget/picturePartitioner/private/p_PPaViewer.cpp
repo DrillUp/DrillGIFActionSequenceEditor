@@ -1,16 +1,17 @@
 #include "stdafx.h"
-#include "p_AnimPictureViewer.h"
+#include "P_PPaViewer.h"
 
-#include "private/i_APVView.h"
+#include "i_PPaView.h"
 #include "Source/Utils/common/TTool.h"
+
 
 /*
 -----==========================================================-----
-		类：		图片查看块-动图 组装体.cpp
-		版本：		v1.02
+		类：		切割帧选择器 组装体.cpp
+		版本：		v1.00
 		作者：		drill_up
 		所属模块：	工具模块
-		功能：		通过new，自动将一个QWidget，开辟成 图片查看块 的QGraphView。
+		功能：		通过new，自动将一个QWidget，开辟成 切割帧选择器 的QGraphView。
 					
 		注意：		1.只是一个View的过渡组装体，提供与View视图直接交互的接口。
 					  主要本体是View。
@@ -18,18 +19,18 @@
 -----==========================================================-----
 */
 
-P_AnimPictureViewer::P_AnimPictureViewer(QWidget* _parent)
+P_PPaViewer::P_PPaViewer(QWidget* _parent)
 {
 	this->initWidgetAndLayout(_parent);			//父控件
 	this->m_GraphView = nullptr;				//视图
 }
-P_AnimPictureViewer::~P_AnimPictureViewer(){
+P_PPaViewer::~P_PPaViewer(){
 }
 
 /*-------------------------------------------------
 		父控件初始化
 */
-void P_AnimPictureViewer::initWidgetAndLayout(QWidget* _parent){
+void P_PPaViewer::initWidgetAndLayout(QWidget* _parent){
 	if (_parent->layout() == nullptr){
 		this->m_layout = new QVBoxLayout(_parent);
 		_parent->setLayout(this->m_layout);
@@ -45,22 +46,22 @@ void P_AnimPictureViewer::initWidgetAndLayout(QWidget* _parent){
 /*-------------------------------------------------
 		控件 - 重建控件
 */
-void P_AnimPictureViewer::rebuildUI(){
+void P_PPaViewer::rebuildUI(){
 
 	// > 内容删除
 	this->clearUI();
 
 	// > 新建
-	this->m_GraphView = new I_APVView(this->m_parent);
+	this->m_GraphView = new I_PPaView(this->m_parent);
 	this->m_GraphView->show();
 	this->m_layout->addWidget(this->m_GraphView);
-	connect(this->m_GraphView->getMouseResizeController(), &P_MouseResizeController::scaleChanged, this, &P_AnimPictureViewer::scaleChanged_view);
+	connect(this->m_GraphView->getMouseResizeController(), &P_MouseResizeController::scaleChanged, this, &P_PPaViewer::scaleChanged_view);
 
 }
 /*-------------------------------------------------
 		控件 - 清理UI
 */
-void P_AnimPictureViewer::clearUI(){
+void P_PPaViewer::clearUI(){
 
 	// > 去掉视图
 	if (this->m_GraphView != nullptr){
@@ -72,88 +73,82 @@ void P_AnimPictureViewer::clearUI(){
 }
 
 
-
-
 /*-------------------------------------------------
-		动画帧 - 设置 图片资源
+		图片 - 设置 图片资源
 */
-void P_AnimPictureViewer::setSource(QList<QFileInfo> file_list){
-	this->m_GraphView->getScene()->setSource(file_list);
+void P_PPaViewer::setSource(QFileInfo file){
+	QImage image = QImage(file.absoluteFilePath());
+	QPixmap pixmap = QPixmap::fromImage(image);
+	this->m_GraphView->getScene()->setSource(pixmap);
 }
-/*-------------------------------------------------
-		动画帧 - 获取 图片资源
-*/
-QList<QFileInfo> P_AnimPictureViewer::getSource(){
-	return this->m_GraphView->getScene()->getSource();
-}
-/*-------------------------------------------------
-		动画帧 - 清除资源
-*/
-void P_AnimPictureViewer::clearSource(){
-	return this->m_GraphView->getScene()->clearSource();
-}
-/*-------------------------------------------------
-		动画帧 - 切换帧（根据索引）
-*/
-void P_AnimPictureViewer::setAnimFrame(int index){
-	this->m_GraphView->getScene()->setAnimFrame(index);
-}
-/*-------------------------------------------------
-		动画帧 - 切换帧（根据资源名称）
-*/
-void P_AnimPictureViewer::setAnimFile(QFileInfo file){
-	this->m_GraphView->getScene()->setAnimName(file);
+void P_PPaViewer::setSource(QPixmap pixmap){
+	this->m_GraphView->getScene()->setSource(pixmap);
 }
 
 
-
 /*-------------------------------------------------
-		辅助 - 设置网格线
+		辅助 - 设置网格线和方块划分
 */
-void P_AnimPictureViewer::setGridLine(int column, int row){
+void P_PPaViewer::setGridLineAndBlockMatrix(int column, int row){
 	this->m_GraphView->getScene()->setGridLine(column,row);
+	
+	// > 方块阵列初始化（不规则小数显示，显示的实际情况自动 qFloor）
+	double ww = this->m_GraphView->getScene()->width() / column;
+	double hh = this->m_GraphView->getScene()->height() / row;
+	this->m_GraphView->m_block_width = ww;
+	this->m_GraphView->m_block_height = hh;
+	this->m_GraphView->getMatrixBlockSelector()->rebuildBlock_double(ww,hh);
+
+	// > 填充
+	this->m_GraphView->getMatrixBlockSelector()->fillAll(1);
 }
 /*-------------------------------------------------
 		辅助 - 清空网格线
 */
-void P_AnimPictureViewer::clearGridLine(){
+void P_PPaViewer::clearGridLine(){
 	this->m_GraphView->getScene()->clearGridLine();
+}
+/*-------------------------------------------------
+		辅助 - 获取切割的图片
+*/
+QList<QPixmap> P_PPaViewer::getCutBitmap(){
+	return this->m_GraphView->getCutBitmap();
 }
 
 
 /*-------------------------------------------------
 		缩放 - 缩小
 */
-void P_AnimPictureViewer::zoomIn(){
+void P_PPaViewer::zoomIn(){
 	this->m_GraphView->getMouseResizeController()->zoomIn();
 }
 /*-------------------------------------------------
 		缩放 - 放大
 */
-void P_AnimPictureViewer::zoomOut(){
+void P_PPaViewer::zoomOut(){
 	this->m_GraphView->getMouseResizeController()->zoomOut();
 }
 /*-------------------------------------------------
 		缩放 - 大小重置
 */
-void P_AnimPictureViewer::zoomReset(){
+void P_PPaViewer::zoomReset(){
 	this->m_GraphView->getMouseResizeController()->zoomReset();
 }
 /*-------------------------------------------------
 		缩放 - 获取缩放值
 */
-double P_AnimPictureViewer::getScale(){
+double P_PPaViewer::getScale(){
 	return this->m_GraphView->getMouseResizeController()->getScale();
 }
 /*-------------------------------------------------
 		缩放 - 设置滚轮缩放修饰符
 */
-void P_AnimPictureViewer::setScaleWheelModifier(QString charModifier){
+void P_PPaViewer::setScaleWheelModifier(QString charModifier){
 	this->m_GraphView->getMouseResizeController()->setScaleWheelModifier(charModifier);
 }
 /*-------------------------------------------------
 		缩放 - 缩放值改变（与view交互）
 */
-void P_AnimPictureViewer::scaleChanged_view(double scale){
+void P_PPaViewer::scaleChanged_view(double scale){
 	emit scaleChanged(scale);
 }

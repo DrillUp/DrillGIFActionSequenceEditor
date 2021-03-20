@@ -174,7 +174,6 @@ class P_FlexiblePageTree : public QObject
 	protected:
 		QMenu* m_mainMenu;
 		QMenu* m_modeMenu;
-		QString m_menuIconSrcPath;
 	public:
 											//右键菜单 - 一级菜单
 		virtual void drawMenuMain();
