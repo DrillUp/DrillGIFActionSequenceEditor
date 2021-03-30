@@ -11,7 +11,7 @@
 /*
 -----==========================================================-----
 		类：		Drill_up工具包.h
-		版本：		v1.16
+		版本：		v1.17
 		作者：		drill_up
 		编码：		UTF-8
 		所属模块：	工具模块
@@ -203,6 +203,12 @@ class TTool
 			【说明3】：注意看该方法名，_QString_表示无论什么ui，都赋值QString。*/
 		static void _QString_(QSpinBox *a, QString *b, QString default_ = "");
 
+		/*字符串 - 转义成单行字符
+			【说明】：将\n\r\t转成明面的字符，适合输入的参数字符串。*/
+		static QString _QString_escapeToOneLine_(QString data);
+		/*字符串 - 恢复成多行字符
+			【说明】：将\\n恢复成\n。*/
+		static QString _QString_escapeToRows_(QString data);
 
 		/*b的值赋给a
 			【说明】：如果QObject对象为nullptr，则不操作赋值。*/

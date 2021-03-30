@@ -42,6 +42,8 @@ C_FastClass S_ActionSeqDataDefiner::getTable_Action() {
 	result_class.addInt							("图像-色调值", "0");
 	result_class.setInt_UI_ToQSpinBox			("图像-色调值", 0, 360, 1);
 	result_class.addBoolean						("图像-模糊边缘", "false");
+	result_class.addQString						("备注", "");
+	result_class.setQString_UI_ToQPlainTextEdit ("备注",80,true);
 
 	return result_class;
 }
@@ -64,6 +66,8 @@ C_FastClass S_ActionSeqDataDefiner::getTable_State() {
 	result_class.addInt							("图像-色调值", "0");
 	result_class.setInt_UI_ToQSpinBox			("图像-色调值", 0, 360, 1);
 	result_class.addBoolean						("图像-模糊边缘", "false");
+	result_class.addQString						("备注", "");
+	result_class.setQString_UI_ToQPlainTextEdit ("备注",80,true);
 
 	return result_class;
 }

@@ -7,7 +7,7 @@
 /*
 -----==========================================================-----
 		类：		快速类定义.cpp
-		版本：		v1.13
+		版本：		v1.14
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		定义一个表单填写用的类定义，快速表单、快速窗口通用。
@@ -475,10 +475,14 @@ void C_FastClass::setBoolean_UI_ToQCombox(QString paramNameChinese, QString true
 		三设 - 设置QString类型为文本域
 */
 void C_FastClass::setQString_UI_ToQPlainTextEdit(QString paramNameChinese, int plainTextHeight){
+	this->setQString_UI_ToQPlainTextEdit(paramNameChinese, plainTextHeight, false);
+}
+void C_FastClass::setQString_UI_ToQPlainTextEdit(QString paramNameChinese, int plainTextHeight, bool plainTextEscape){
 	C_FastClassParam c_fp = this->getParamByName(paramNameChinese);
 	if (c_fp.isNull()){ return; }
 	c_fp.widgetType = "QPlainTextEdit";
 	c_fp.plainTextHeight = plainTextHeight;
+	c_fp.plainTextEscape = plainTextEscape;
 	this->paramList.replace(this->getIndexByName(paramNameChinese), c_fp);
 }
 
@@ -872,6 +876,7 @@ C_FastClassParam::C_FastClassParam(){
 	this->num_prefix = "";						//数字控件 - 前缀
 	this->num_suffix = "";						//数字控件 - 后缀
 	this->plainTextHeight = 80;					//文本域 - 高度
+	this->plainTextEscape = false;				//文本域 - 存储转义
 
 	// > 高级
 	this->columnPos = 0;

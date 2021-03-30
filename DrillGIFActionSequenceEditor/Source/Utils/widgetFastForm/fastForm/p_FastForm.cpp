@@ -6,7 +6,7 @@
 /*
 -----==========================================================-----
 		类：		快速表单.cpp
-		版本：		v1.13
+		版本：		v1.14
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		快速绘制出需要填写的表单列。
@@ -340,7 +340,11 @@ void P_FastForm::_initForm(C_FastForm* c_f){
 	if (c_fp.widgetType == "QPlainTextEdit"){
 		c_f->plainTextEdit = new QPlainTextEdit();
 		c_f->plainTextEdit->setObjectName(c_fp.nameEnglish);
-		c_f->plainTextEdit->setPlainText(c_fp.defaultValue);
+		if (c_fp.plainTextEscape == false){
+			c_f->plainTextEdit->setPlainText(c_fp.defaultValue);
+		}else{
+			c_f->plainTextEdit->setPlainText(TTool::_QString_escapeToRows_(c_fp.defaultValue));
+		}
 		c_f->plainTextEdit->setEnabled(c_fp.isEditable);
 		c_f->plainTextEdit->setFixedHeight(c_fp.plainTextHeight);
 		// > 必填项
@@ -722,7 +726,11 @@ QString P_FastForm::getValueByName(QString name){
 		return QString::number( c_f->doubleSpinBox->value() );
 	}
 	if (c_f->params.widgetType == "QPlainTextEdit"){
-		return c_f->plainTextEdit->toPlainText();
+		if (c_f->params.plainTextEscape == false){
+			return c_f->plainTextEdit->toPlainText();
+		}else{
+			return TTool::_QString_escapeToOneLine_(c_f->plainTextEdit->toPlainText());
+		}
 	}
 	return "";
 }
@@ -754,7 +762,11 @@ void P_FastForm::setValueByName(QString name, QString value){
 		c_f->doubleSpinBox->setValue(value.toDouble());
 	}
 	if (c_f->params.widgetType == "QPlainTextEdit"){
-		c_f->plainTextEdit->setPlainText(value);
+		if (c_f->params.plainTextEscape == false){
+			c_f->plainTextEdit->setPlainText(value);
+		}else{
+			c_f->plainTextEdit->setPlainText(TTool::_QString_escapeToRows_(value));
+		}
 	}
 }
 

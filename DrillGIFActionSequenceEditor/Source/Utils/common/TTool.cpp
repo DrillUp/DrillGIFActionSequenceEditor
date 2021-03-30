@@ -4,7 +4,7 @@
 /*
 -----==========================================================-----
 		类：		Drill_up工具包.cpp
-		版本：		v1.16
+		版本：		v1.17
 		作者：		drill_up
 		编码：		UTF-8
 		所属模块：	工具模块
@@ -366,6 +366,24 @@ void TTool::_QString_(QSpinBox *a, QString *b, QString default_){
 	if (a != nullptr){
 		a->setValue(b->toInt());
 	}
+}
+
+QString TTool::_QString_escapeToOneLine_(QString data){
+	data = data.replace("\n", "\\n");
+	data = data.replace("\r", "\\r");
+	data = data.replace("\t", "\\t");
+	data = data.replace("\"", "\\\"");
+	data = "\"" + data + "\"";
+	return data;
+}
+QString TTool::_QString_escapeToRows_(QString data){
+	if (data.length() < 2 ){ return data; }
+	if (data[0] == '\"'){ data = data.mid(1,data.count()-2); }
+	data = data.replace("\\n", "\n");
+	data = data.replace("\\r", "\r");
+	data = data.replace("\\t", "\t");
+	data = data.replace("\\\"", "\"");
+	return data;
 }
 
 /*-----------------获取ui值（double）-------------------*/

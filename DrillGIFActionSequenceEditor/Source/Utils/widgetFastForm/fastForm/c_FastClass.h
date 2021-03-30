@@ -5,7 +5,7 @@
 /*
 -----==========================================================-----
 		类：		快速类定义.h
-		版本：		v1.13
+		版本：		v1.14
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		定义一个表单填写用的类定义，快速表单、快速窗口通用。
@@ -102,6 +102,7 @@ class C_FastClass{
 		void setBoolean_UI_ToQCombox(QString paramNameChinese, QString trueText, QString falseText);
 							//三设 - 设置QString类型为文本域
 		void setQString_UI_ToQPlainTextEdit(QString paramNameChinese, int plainTextHeight);
+		void setQString_UI_ToQPlainTextEdit(QString paramNameChinese, int plainTextHeight, bool plainTextEscape);
 		
 	//-----------------------------------
 	//----四设（临时修改某配置）
@@ -218,6 +219,7 @@ class C_FastClassParam{
 		QString num_prefix;					//数字控件 - 前缀
 		QString num_suffix;					//数字控件 - 后缀
 		int plainTextHeight;				//文本域 - 高度
+		bool plainTextEscape;				//文本域 - 存储转义
 
 		// > 高级
 		int columnPos;						//所在列
