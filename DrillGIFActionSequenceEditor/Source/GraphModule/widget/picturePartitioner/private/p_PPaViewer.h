@@ -14,6 +14,7 @@
 					（详细见.cpp）
 -----==========================================================-----
 */
+class P_MouseResizeController;
 class P_PPaViewer : public QObject
 {
 	Q_OBJECT
@@ -62,6 +63,8 @@ class P_PPaViewer : public QObject
 	//-----------------------------------
 	//----缩放【来自 鼠标缩放控制器 功能】
 	public slots:
+										//缩放 - 获取控制器
+		P_MouseResizeController* getResizeController();
 										//缩放 - 缩小
 		void zoomIn();
 										//缩放 - 放大

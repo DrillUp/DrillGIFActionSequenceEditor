@@ -30,11 +30,28 @@ W_PicturePartitioner::W_PicturePartitioner(QWidget* parent)
 
 	//-----------------------------------
 	//----控件初始化
+
+	// > 切割预览图
 	this->m_p_SinglePictureViewer = new P_SinglePictureViewer(ui.widget_preview);
 	this->m_p_SinglePictureViewer->rebuildUI();
 
+	// > 帧选择图
 	this->m_p_PPaViewer = new P_PPaViewer(ui.widget_selectArea);
 	this->m_p_PPaViewer->rebuildUI();
+
+	// > 缩放按钮块1
+	this->m_p_MouseResizeButtonPart1 = new P_MouseResizeButtonPart();
+	QVBoxLayout* latout = new QVBoxLayout(ui.widget_zoom_btn);
+	latout->setMargin(0);
+	latout->addWidget(this->m_p_MouseResizeButtonPart1);
+	this->m_p_MouseResizeButtonPart1->initWidget(this->m_p_SinglePictureViewer->getResizeController());
+
+	// > 缩放按钮块2
+	this->m_p_MouseResizeButtonPart2 = new P_MouseResizeButtonPart();
+	QVBoxLayout* latout2 = new QVBoxLayout(ui.widget_zoom_btn_2);
+	latout2->setMargin(0);
+	latout2->addWidget(this->m_p_MouseResizeButtonPart2);
+	this->m_p_MouseResizeButtonPart2->initWidget(this->m_p_PPaViewer->getResizeController());
 
 	//-----------------------------------
 	//----事件绑定
@@ -43,18 +60,6 @@ W_PicturePartitioner::W_PicturePartitioner(QWidget* parent)
 	connect(ui.spinBox_column, SIGNAL(valueChanged(int)), this, SLOT(columnChanged(int)));
 	connect(ui.spinBox_row, SIGNAL(valueChanged(int)), this, SLOT(rowChanged(int)));
 
-	// > 视图 - 图片查看块（流程1） - 缩放
-	connect(ui.toolButton_zoom_in, &QPushButton::clicked, this->m_p_SinglePictureViewer, &P_SinglePictureViewer::zoomIn);
-	connect(ui.toolButton_zoom_out, &QPushButton::clicked, this->m_p_SinglePictureViewer, &P_SinglePictureViewer::zoomOut);
-	connect(ui.toolButton_zoom_regular, &QPushButton::clicked, this->m_p_SinglePictureViewer, &P_SinglePictureViewer::zoomReset);
-	connect(this->m_p_SinglePictureViewer, &P_SinglePictureViewer::scaleChanged, this, &W_PicturePartitioner::zoomValueChanged_1);
-
-	// > 视图 - 图片查看块（流程2） - 缩放
-	connect(ui.toolButton_zoom_in_2, &QPushButton::clicked, this->m_p_PPaViewer, &P_PPaViewer::zoomIn);
-	connect(ui.toolButton_zoom_out_2, &QPushButton::clicked, this->m_p_PPaViewer, &P_PPaViewer::zoomOut);
-	connect(ui.toolButton_zoom_regular_2, &QPushButton::clicked, this->m_p_PPaViewer, &P_PPaViewer::zoomReset);
-	connect(this->m_p_PPaViewer, &P_PPaViewer::scaleChanged, this, &W_PicturePartitioner::zoomValueChanged_2);
-
 	// > 流程
 	connect(ui.pushButton_next, &QPushButton::clicked, this, &W_PicturePartitioner::toFlow_2);
 	connect(ui.pushButton_last, &QPushButton::clicked, this, &W_PicturePartitioner::toFlow_1);
@@ -62,27 +67,10 @@ W_PicturePartitioner::W_PicturePartitioner(QWidget* parent)
 
 	//-----------------------------------
 	//----初始化ui
-	ui.toolButton_zoom_in->setIcon(QIcon(QRC_IconSrcPath + "/view/Zoom_In.png"));
-	ui.toolButton_zoom_out->setIcon(QIcon(QRC_IconSrcPath + "/view/Zoom_Out.png"));
-	ui.toolButton_zoom_regular->setIcon(QIcon(QRC_IconSrcPath + "/view/Zoom_Regular.png"));
-	ui.toolButton_zoom_in_2->setIcon(QIcon(QRC_IconSrcPath + "/view/Zoom_In.png"));
-	ui.toolButton_zoom_out_2->setIcon(QIcon(QRC_IconSrcPath + "/view/Zoom_Out.png"));
-	ui.toolButton_zoom_regular_2->setIcon(QIcon(QRC_IconSrcPath + "/view/Zoom_Regular.png"));
-
 	TTool::_chinese_(ui.buttonBox);
 
 }
 W_PicturePartitioner::~W_PicturePartitioner(){
-}
-
-/*-------------------------------------------------
-		视图 - 缩放比例切换
-*/
-void W_PicturePartitioner::zoomValueChanged_1(double value){
-	ui.label_zoomValue->setText( QString::number(value * 100)+"%" );
-}
-void W_PicturePartitioner::zoomValueChanged_2(double value){
-	ui.label_zoomValue_2->setText( QString::number(value * 100)+"%" );
 }
 
 /*-----------------------------------

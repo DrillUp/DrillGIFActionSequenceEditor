@@ -117,6 +117,12 @@ QList<QPixmap> P_PPaViewer::getCutBitmap(){
 
 
 /*-------------------------------------------------
+		缩放 - 获取控制器
+*/
+P_MouseResizeController* P_PPaViewer::getResizeController(){
+	return this->m_GraphView->getMouseResizeController();
+}
+/*-------------------------------------------------
 		缩放 - 缩小
 */
 void P_PPaViewer::zoomIn(){

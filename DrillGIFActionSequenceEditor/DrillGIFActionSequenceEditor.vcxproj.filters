@@ -249,6 +249,9 @@
     <Filter Include="源文件\【 工具箱 Utils】\管理器工具（manager）\句柄调取管理器">
       <UniqueIdentifier>{ada4ffbf-2b5c-4548-96ed-6e07f017dffb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\【 图形模块 GraphModule】\中间件（middleware）\鼠标缩放控制器\扩展块">
+      <UniqueIdentifier>{d0262141-6b74-49d5-ad5d-55349baff6a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -959,6 +962,15 @@
     <ClCompile Include="GeneratedFiles\Release\moc_s_CallManager.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GraphModule\middleware\mouseResizeController\extendPart\p_MouseResizeButtonPart.cpp">
+      <Filter>源文件\【 图形模块 GraphModule】\中间件（middleware）\鼠标缩放控制器\扩展块</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_p_MouseResizeButtonPart.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_p_MouseResizeButtonPart.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="drillgifactionsequenceeditor.qrc">
@@ -1267,6 +1279,12 @@
     <CustomBuild Include="Source\Utils\manager\callManager\s_CallManager.h">
       <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\句柄调取管理器</Filter>
     </CustomBuild>
+    <CustomBuild Include="Source\GraphModule\middleware\mouseResizeController\extendPart\p_MouseResizeButtonPart.h">
+      <Filter>源文件\【 图形模块 GraphModule】\中间件（middleware）\鼠标缩放控制器\扩展块</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\GraphModule\middleware\mouseResizeController\extendPart\p_MouseResizeButtonPart.ui">
+      <Filter>源文件\【 图形模块 GraphModule】\中间件（middleware）\鼠标缩放控制器\扩展块</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DrillGIFActionSequenceEditor.rc" />
@@ -1442,6 +1460,9 @@
     </ClInclude>
     <ClInclude Include="Source\GraphModule\middleware\matrixBlockSelector\i_MBSBlock.h">
       <Filter>源文件\【 图形模块 GraphModule】\中间件（middleware）\方块阵列点选器</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_p_MouseResizeButtonPart.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

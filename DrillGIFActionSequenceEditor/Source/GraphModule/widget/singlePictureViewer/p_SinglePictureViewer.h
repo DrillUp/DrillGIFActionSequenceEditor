@@ -7,7 +7,7 @@
 /*
 -----==========================================================-----
 		类：		图片查看块-单图 组装体.h
-		版本：		v1.00
+		版本：		v1.01
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		通过new，自动将一个QWidget，开辟成 图片查看块 的QGraphView。
@@ -60,6 +60,8 @@ class P_SinglePictureViewer : public QObject
 	//-----------------------------------
 	//----缩放【来自 鼠标缩放控制器 功能】
 	public slots:
+										//缩放 - 获取控制器
+		P_MouseResizeController* getResizeController();
 										//缩放 - 缩小
 		void zoomIn();
 										//缩放 - 放大

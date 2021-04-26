@@ -4,6 +4,7 @@
 #include <QtWidgets>
 #include "ui_P_PictureCombiner.h"
 #include "Source/GraphModule/widget/singlePictureViewer/p_SinglePictureViewer.h"
+#include "Source/GraphModule/middleware/mouseResizeController/extendPart/p_MouseResizeButtonPart.h"
 
 /*
 -----==========================================================-----
@@ -26,10 +27,9 @@ class P_PictureCombiner : public QWidget
 	//-----------------------------------
 	//----视图
 	protected:
-		P_SinglePictureViewer* m_p_SinglePictureViewer;
+		P_SinglePictureViewer* m_p_SinglePictureViewer;			//图片查看块-单图
+		P_MouseResizeButtonPart* m_p_MouseResizeButtonPart;		//缩放按钮块
 	public slots:
-										//视图 - 缩放比例切换
-		void zoomValueChanged(double value);
 										//视图 - 网格勾选变化
 		void gridLineToggled(bool checked);
 

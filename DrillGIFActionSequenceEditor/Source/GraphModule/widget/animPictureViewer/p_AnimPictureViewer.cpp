@@ -7,7 +7,7 @@
 /*
 -----==========================================================-----
 		类：		图片查看块-动图 组装体.cpp
-		版本：		v1.02
+		版本：		v1.03
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		通过new，自动将一个QWidget，开辟成 图片查看块 的QGraphView。
@@ -121,6 +121,12 @@ void P_AnimPictureViewer::clearGridLine(){
 }
 
 
+/*-------------------------------------------------
+		缩放 - 获取控制器
+*/
+P_MouseResizeController* P_AnimPictureViewer::getResizeController(){
+	return this->m_GraphView->getMouseResizeController();
+}
 /*-------------------------------------------------
 		缩放 - 缩小
 */

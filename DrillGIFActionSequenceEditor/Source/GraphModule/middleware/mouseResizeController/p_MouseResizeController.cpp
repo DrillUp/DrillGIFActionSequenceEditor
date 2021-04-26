@@ -7,7 +7,7 @@
 /*
 -----==========================================================-----
 		类：		鼠标缩放控制器.cpp
-		版本：		v1.00
+		版本：		v1.01
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		该控制器用于装饰 QGraphicsView ，使其能够支持 鼠标控制缩放+鼠标拖拽 功能。
@@ -134,6 +134,14 @@ void P_MouseResizeController::event_mouseReleaseEvent(QMouseEvent *event){
 void P_MouseResizeController::event_mouseMoveEvent(QMouseEvent *event){
 	if (this->m_mousePressed == false){ return; }
 	this->m_mousePos = event->pos();
+
+	// > 鼠标拖拽标记
+	bool drag_enabled = false;
+	if (this->m_scaleWheelModifier == "只滚轮"){ drag_enabled = true; }
+	if (this->m_scaleWheelModifier == "ctrl" && (event->modifiers() & Qt::ControlModifier)){ drag_enabled = true; }
+	if (this->m_scaleWheelModifier == "alt" && (event->modifiers() & Qt::AltModifier)){ drag_enabled = true; }
+
+	if (drag_enabled == false){ return; }
 
 	// > 鼠标拖拽
 	QPointF pf = this->m_mousePos - this->m_mousePosLast;

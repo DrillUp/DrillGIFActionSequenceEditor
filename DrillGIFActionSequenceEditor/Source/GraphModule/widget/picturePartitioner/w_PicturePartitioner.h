@@ -4,6 +4,7 @@
 #include "ui_w_PicturePartitioner.h"
 #include "private/p_PPaViewer.h"
 #include "Source/GraphModule/widget/singlePictureViewer/p_SinglePictureViewer.h"
+#include "Source/GraphModule/middleware/mouseResizeController/extendPart/p_MouseResizeButtonPart.h"
 
 /*
 -----==========================================================-----
@@ -19,21 +20,14 @@ class W_PicturePartitioner : public QDialog
 	public:
 		W_PicturePartitioner(QWidget* parent = 0);
 		~W_PicturePartitioner();
-		
-	//-----------------------------------
-	//----øÿº˛
-	public:
 
-		
 	//-----------------------------------
 	//---- ”Õº
 	protected:
-		P_SinglePictureViewer* m_p_SinglePictureViewer;		//£®«–∏Ó‘§¿¿Õº£©
-		P_PPaViewer* m_p_PPaViewer;				//£®÷°—°‘ÒÕº£©
-	public slots:
-										// ”Õº - Àı∑≈±»¿˝«–ªª
-		void zoomValueChanged_1(double value);
-		void zoomValueChanged_2(double value);
+		P_SinglePictureViewer* m_p_SinglePictureViewer;				//£®«–∏Ó‘§¿¿Õº£©
+		P_PPaViewer* m_p_PPaViewer;									//£®÷°—°‘ÒÕº£©
+		P_MouseResizeButtonPart* m_p_MouseResizeButtonPart1;		//Àı∑≈∞¥≈•øÈ1
+		P_MouseResizeButtonPart* m_p_MouseResizeButtonPart2;		//Àı∑≈∞¥≈•øÈ2
 		
 	//-----------------------------------
 	//----––¡–

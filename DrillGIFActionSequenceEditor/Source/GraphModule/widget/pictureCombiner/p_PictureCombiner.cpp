@@ -49,13 +49,19 @@ P_PictureCombiner::P_PictureCombiner(QWidget *parent)
 
 	//-----------------------------------
 	//----初始化ui
+
+	// > 图片查看块-单图
 	this->m_p_SinglePictureViewer = new P_SinglePictureViewer(ui.widget_preview);
 	this->m_p_SinglePictureViewer->rebuildUI();
 
+	// > 缩放按钮块
+	this->m_p_MouseResizeButtonPart = new P_MouseResizeButtonPart();
+	QVBoxLayout* latout = new QVBoxLayout(ui.widget_zoom_btn);
+	latout->setMargin(0);
+	latout->addWidget(this->m_p_MouseResizeButtonPart);
+	this->m_p_MouseResizeButtonPart->initWidget(this->m_p_SinglePictureViewer->getResizeController());
+
 	ui.label_sizeTip->hide();
-	ui.toolButton_zoom_in->setIcon(QIcon(QRC_IconSrcPath + "/view/Zoom_In.png"));
-	ui.toolButton_zoom_out->setIcon(QIcon(QRC_IconSrcPath + "/view/Zoom_Out.png"));
-	ui.toolButton_zoom_regular->setIcon(QIcon(QRC_IconSrcPath + "/view/Zoom_Regular.png"));
 
 	//-----------------------------------
 	//----事件绑定
@@ -67,11 +73,7 @@ P_PictureCombiner::P_PictureCombiner(QWidget *parent)
 	connect(ui.checkBox_row, &QCheckBox::toggled, this, &P_PictureCombiner::rowToggled);
 	connect(ui.comboBox, &QComboBox::currentTextChanged, this, &P_PictureCombiner::comboxChanged);
 
-	// > 视图 - 图片查看块 - 缩放
-	connect(ui.toolButton_zoom_in, &QPushButton::clicked, this->m_p_SinglePictureViewer, &P_SinglePictureViewer::zoomIn);
-	connect(ui.toolButton_zoom_out, &QPushButton::clicked, this->m_p_SinglePictureViewer, &P_SinglePictureViewer::zoomOut);
-	connect(ui.toolButton_zoom_regular, &QPushButton::clicked, this->m_p_SinglePictureViewer, &P_SinglePictureViewer::zoomReset);
-	connect(this->m_p_SinglePictureViewer, &P_SinglePictureViewer::scaleChanged, this, &P_PictureCombiner::zoomValueChanged);
+	// > 网格
 	connect(ui.checkBox_gridLine, &QCheckBox::toggled, this, &P_PictureCombiner::gridLineToggled);
 
 	// > 帧属性
@@ -90,12 +92,6 @@ P_PictureCombiner::~P_PictureCombiner(){
 }
 
 
-/*-------------------------------------------------
-		视图 - 缩放比例切换
-*/
-void P_PictureCombiner::zoomValueChanged(double value){
-	ui.label_zoomValue->setText( QString::number(value * 100)+"%" );
-}
 /*-----------------------------------
 		视图 - 网格勾选变化
 */

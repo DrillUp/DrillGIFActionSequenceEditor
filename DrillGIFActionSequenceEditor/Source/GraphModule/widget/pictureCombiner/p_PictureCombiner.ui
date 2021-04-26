@@ -107,71 +107,7 @@ QToolButton:pressed{
           <number>0</number>
          </property>
          <item>
-          <widget class="QToolButton" name="toolButton_zoom_in">
-           <property name="toolTip">
-            <string>放大</string>
-           </property>
-           <property name="text">
-            <string>放大</string>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/view/Zoom_In.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/view/Zoom_In.png</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>20</width>
-             <height>20</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="toolButton_zoom_out">
-           <property name="toolTip">
-            <string>缩小</string>
-           </property>
-           <property name="text">
-            <string>缩小</string>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/view/Zoom_Out.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/view/Zoom_Out.png</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>20</width>
-             <height>20</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="toolButton_zoom_regular">
-           <property name="toolTip">
-            <string>原比例</string>
-           </property>
-           <property name="text">
-            <string>原比例</string>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/view/Zoom_Regular.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/view/Zoom_Regular.png</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>20</width>
-             <height>20</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_zoomValue">
-           <property name="text">
-            <string>100.0%</string>
-           </property>
-          </widget>
+          <widget class="QWidget" name="widget_zoom_btn" native="true"/>
          </item>
          <item>
           <spacer name="horizontalSpacer">
