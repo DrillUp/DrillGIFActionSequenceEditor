@@ -74,11 +74,7 @@ void Drill_COAS_Data::drill_COAS_updateState(){
 
 	// > 随机抽取
 	if (this->_drill_state_curCom == ""){
-		if (this->_drill_state_curSeq.count() == 1){
-			this->_drill_state_curCom = this->_drill_state_curSeq[0];
-		}
-		int index = rand() % this->_drill_state_curSeq.count();
-		this->_drill_state_curCom = this->_drill_state_curSeq[index];
+		this->drill_COAS_rollCurrentState();
 	}
 
 	QJsonObject data = this->_drill_data;
@@ -139,10 +135,26 @@ void Drill_COAS_Data::drill_COAS_updateState(){
 	// > 时间+1
 	this->_drill_state_curTime += 1;
 	if (this->_drill_state_curTime >= data_state["gif_intervalRealTank_total"].toInt()){
-		this->_drill_state_curCom = "";
+		this->drill_COAS_rollCurrentState();
 		this->_drill_state_curTime = 0;
 	}
 }
+/*-------------------------------------------------
+		操作 - 抽取新的状态元
+*/
+void Drill_COAS_Data::drill_COAS_rollCurrentState(){
+	if (this->_drill_state_curSeq.count() == 0){ return; }		//状态元集合 为空时，不操作
+
+	// > 只有一个就不变
+	if (this->_drill_state_curSeq.count() == 1){
+		this->_drill_state_curCom = this->_drill_state_curSeq[0];
+	}
+
+	// > 随机抽取
+	int index = rand() % this->_drill_state_curSeq.count();
+	this->_drill_state_curCom = this->_drill_state_curSeq[index];
+}
+
 /*-------------------------------------------------
 		帧刷新 - 刷新动作元
 */
@@ -233,7 +245,7 @@ void Drill_COAS_Data::drill_COAS_setSequence(QStringList seq){
 */
 void Drill_COAS_Data::drill_COAS_setSequenceImmediate(QStringList seq){
 	this->drill_COAS_setSequence( seq );
-	this->_drill_state_curCom = "";
+	this->drill_COAS_rollCurrentState();
 	this->_drill_state_curTime = 0;
 }
 /*-------------------------------------------------
@@ -328,7 +340,7 @@ bool Drill_COAS_Data::drill_COAS_setSequenceImmediateByAnnotation(QString annota
 
 	bool success = this->drill_COAS_setSequenceByAnnotation(annotation);
 	if (success){
-		this->_drill_state_curCom = "";
+		this->drill_COAS_rollCurrentState();
 		this->_drill_state_curTime = 0;
 	}
 	return success;
@@ -394,17 +406,23 @@ void Drill_COAS_Data::drill_COAS_setAct(QString act_name){
 	if( this->_drill_act_curCom == act_name ){ return; }
 	
 	// > 检查高优先级状态元
-	if( this->_drill_act_curCom == "" ){
+	if (this->drill_COAS_isPlayingAct() == false){
 		QJsonObject data_act = this->drill_COAS_getDataAct(act_name);
 		QJsonObject cur_state = this->drill_COAS_getDataState(this->_drill_state_curCom);
-		
+
+		//qDebug() << this->_drill_state_curCom;
+		//qDebug() << data_act;
+		//qDebug() << cur_state;
+		//qDebug() << cur_state["priority"].toInt();
+		//qDebug() << data_act["priority"].toInt();
+
 		if (cur_state["priority"].toInt() > data_act["priority"].toInt()){	//（同级的动作元可以覆盖状态元）
 			return;
 		}
 	}
 		
 	// > 动作正在播放时
-	if( this->_drill_act_curCom != "" ){
+	if( this->drill_COAS_isPlayingAct() ){
 		QJsonObject data_act = this->drill_COAS_getDataAct(act_name);
 		QJsonObject cur_act = this->drill_COAS_getDataAct(this->_drill_act_curCom);
 		

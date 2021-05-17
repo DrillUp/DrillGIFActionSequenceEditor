@@ -33,7 +33,7 @@ C_FastClass S_ActionSeqDataDefiner::getTable_Action() {
 	
 	result_class = C_FastClass("动作元");
 	result_class.addQString						("动作元名称", "");
-	result_class.addInt							("动作元优先级", "0");
+	result_class.addInt							("动作元优先级", "20");
 	result_class.setInt_UI_ToQSpinBox			("动作元优先级", 0, 999999, 1);
 	//	资源-状态元 --> 动画帧编辑块
 	//	帧间隔 --> 动画帧编辑块

@@ -7,7 +7,7 @@
 #include "Source/PluginModule/lengthEditor/s_LEAnnotationReader.h"
 #include "Source/PluginModule/lengthEditor/s_LEConfigWriter.h"
 #include "Source/ActionSeqModule/actionSeqData/s_ActionSeqDataContainer.h"
-#include "s_RmmvDataContainer.h"
+#include "../base/s_RmmvDataContainer.h"
 
 /*
 -----==========================================================-----

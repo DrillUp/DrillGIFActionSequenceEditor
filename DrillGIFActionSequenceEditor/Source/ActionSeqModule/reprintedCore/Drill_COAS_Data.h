@@ -48,6 +48,8 @@ class Drill_COAS_Data{
 		void update();
 									//帧刷新 - 刷新状态元
 		void drill_COAS_updateState();
+									//操作 - 抽取新的状态元
+		void drill_COAS_rollCurrentState();
 									//帧刷新 - 刷新动作元
 		void drill_COAS_updateAct();
 
