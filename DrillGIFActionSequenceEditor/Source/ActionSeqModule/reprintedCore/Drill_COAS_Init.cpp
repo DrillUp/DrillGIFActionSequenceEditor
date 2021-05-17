@@ -10,7 +10,8 @@
 		作者：		drill_up
 		所属模块：	动画序列数据
 		功能：		动画序列核心插件的复刻类。
-		
+
+		说明：		当前复刻版本：[v1.3]
 		目标：		->变量获取
 						->状态元（~struct~DrillCOASState）
 						->动作元（~struct~DrillCOASAct）
