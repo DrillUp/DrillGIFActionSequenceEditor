@@ -37,7 +37,7 @@
       </property>
       <item>
        <widget class="QWidget" name="widget" native="true">
-        <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1">
+        <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1,0">
          <property name="leftMargin">
           <number>4</number>
          </property>
@@ -61,6 +61,16 @@
           <widget class="QLabel" name="label_totalPic_wh">
            <property name="text">
             <string>100x100</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_sizeTip_2">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(154, 154, 154);</string>
+           </property>
+           <property name="text">
+            <string>◆ rmmv的动画资源标准为每帧192x192大小，通常为5列。</string>
            </property>
           </widget>
          </item>
@@ -301,7 +311,7 @@ QToolButton:pressed{
   </layout>
  </widget>
  <resources>
-  <include location="../../../../../../../DrillGIFActionSequenceEditor/trunk/DrillGIFActionSequenceEditor/drillgifactionsequenceeditor.qrc"/>
+  <include location="../../../../drillgifactionsequenceeditor.qrc"/>
  </resources>
  <connections/>
 </ui>
