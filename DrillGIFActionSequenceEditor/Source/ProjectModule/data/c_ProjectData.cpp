@@ -14,7 +14,7 @@ C_ProjectData::C_ProjectData(){
 	this->path = QCoreApplication::applicationDirPath() + "/workspace/";	//项目路径（含项目名 D:/aaa/vvv/项目名/）
 	this->note = "";							//项目笔记（备注）
 	this->softname = "GIF动画序列编辑器";		//软件名
-	this->version = "v1.11";					//软件版本
+	this->version = "v1.12";					//软件版本
 	this->version_serial = "";					//软件版本号
 }
 
@@ -35,9 +35,9 @@ QJsonObject C_ProjectData::getJsonObject(){
 	obj.insert("name", this->name);
 	obj.insert("url", this->path);
 	obj.insert("note", this->note);
-	obj.insert("softname", this->softname);
-	obj.insert("version", this->version);
-	obj.insert("version_serial", this->version_serial);
+	//obj.insert("softname", this->softname);	//（这些参数不存）
+	//obj.insert("version", this->version);
+	//obj.insert("version_serial", this->version_serial);
 	return obj;
 }
 /*-------------------------------------------------
@@ -48,9 +48,9 @@ void C_ProjectData::setJsonObject(QJsonObject obj){
 	this->name = obj.value("name").toString();
 	this->path = obj.value("url").toString();
 	this->note = obj.value("note").toString();
-	this->softname = obj.value("softname").toString();
-	this->version = obj.value("version").toString();
-	this->version_serial = obj.value("version_serial").toString();
+	//this->softname = obj.value("softname").toString();	//（这些参数不存）
+	//this->version = obj.value("version").toString();
+	//this->version_serial = obj.value("version_serial").toString();
 
 }
 /*-------------------------------------------------

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>550</width>
-    <height>342</height>
+    <height>371</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -121,7 +121,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>保存数据到rmmv</string>
+         <string>导出数据到rmmv</string>
         </property>
         <property name="icon">
          <iconset resource="../../../drillgifactionsequenceeditor.qrc">
