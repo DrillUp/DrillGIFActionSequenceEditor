@@ -18,12 +18,12 @@ class C_PluginData{
 		~C_PluginData();
 		
 	//-----------------------------------
-	//----数据
+	//----存储数据
 	public:
-		QString name;					//插件名
-		bool status;					//状态
-		QString description;			//插件描述
-		QJsonObject parameters;			//参数
+		QString name;					//存储数据 - 插件名
+		bool status;					//存储数据 - 状态
+		QString description;			//存储数据 - 插件描述
+		QJsonObject parameters;			//存储数据 - 参数
 	
 	//-----------------------------------
 	//----类属性

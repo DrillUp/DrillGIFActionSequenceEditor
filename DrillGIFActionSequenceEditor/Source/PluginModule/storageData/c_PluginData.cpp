@@ -13,10 +13,10 @@
 -----==========================================================-----
 */
 C_PluginData::C_PluginData(){
-	this->name = "";
-	this->status = false;
-	this->description = "";
-	this->parameters = QJsonObject();
+	this->name = "";					//存储数据 - 插件名
+	this->status = false;				//存储数据 - 状态
+	this->description = "";				//存储数据 - 插件描述
+	this->parameters = QJsonObject();	//存储数据 - 参数
 }
 C_PluginData::~C_PluginData(){
 }

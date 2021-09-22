@@ -69,12 +69,6 @@
     <Filter Include="源文件\【 工具箱 Utils】\管理器工具（manager）\文本解析器">
       <UniqueIdentifier>{25e51dd7-a47f-4f22-a0c3-4d90f4cbfc69}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 插件模块 PluginModule】\树列表展示块（无）">
-      <UniqueIdentifier>{5e7c72f2-d76a-4b49-bf23-25b57b089020}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\【 插件模块 PluginModule】\窗口编辑器（无）">
-      <UniqueIdentifier>{a6d14f9e-90bf-434e-9046-16732bd599ed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\【 工具箱 Utils】\管理器工具（manager）\中文管理器">
       <UniqueIdentifier>{6a6fa9fd-b1ee-4912-bf88-b6e58b9ed5b7}</UniqueIdentifier>
     </Filter>
@@ -162,9 +156,6 @@
     <Filter Include="源文件\【 插件模块 PluginModule】\最大值编辑器\修改器">
       <UniqueIdentifier>{ec383764-e654-4cd9-886e-139151a23868}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 插件模块 PluginModule】\存储数据管理器">
-      <UniqueIdentifier>{a39775db-bab5-481e-bc55-dc41981ce72c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\【 动画序列 ActionSeqModule】">
       <UniqueIdentifier>{f5f343cf-ad4f-47e0-a294-4d22e35b468c}</UniqueIdentifier>
     </Filter>
@@ -237,9 +228,6 @@
     <Filter Include="源文件\【 图形模块 GraphModule】\中间件（middleware）\鼠标缩放控制器">
       <UniqueIdentifier>{49ca5677-7d0a-4f5d-b21c-8f0eaefe3adc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 插件模块 PluginModule】\脚本注解解析器（无）">
-      <UniqueIdentifier>{0aa113a6-ba17-4464-bf00-d737bd54718d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\对象选择器（暂未用到）">
       <UniqueIdentifier>{11aa5848-64a3-48b7-8bdd-ee25fc431ced}</UniqueIdentifier>
     </Filter>
@@ -251,6 +239,15 @@
     </Filter>
     <Filter Include="源文件\【 图形模块 GraphModule】\中间件（middleware）\鼠标缩放控制器\扩展块">
       <UniqueIdentifier>{d0262141-6b74-49d5-ad5d-55349baff6a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 插件模块 PluginModule】\插件存储数据管理器">
+      <UniqueIdentifier>{a39775db-bab5-481e-bc55-dc41981ce72c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 插件模块 PluginModule】\插件注解读取器（无）">
+      <UniqueIdentifier>{0aa113a6-ba17-4464-bf00-d737bd54718d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 插件模块 PluginModule】\集合组件（无）">
+      <UniqueIdentifier>{fd703e3d-1956-4d02-b8de-e5fd5b1b73cb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -426,10 +423,10 @@
       <Filter>源文件\【 工具箱 Utils】\通用工具（common）</Filter>
     </ClCompile>
     <ClCompile Include="Source\PluginModule\storageData\c_PluginData.cpp">
-      <Filter>源文件\【 插件模块 PluginModule】\存储数据管理器</Filter>
+      <Filter>源文件\【 插件模块 PluginModule】\插件存储数据管理器</Filter>
     </ClCompile>
     <ClCompile Include="Source\PluginModule\storageData\s_PluginDataContainer.cpp">
-      <Filter>源文件\【 插件模块 PluginModule】\存储数据管理器</Filter>
+      <Filter>源文件\【 插件模块 PluginModule】\插件存储数据管理器</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_s_PluginDataContainer.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -1052,7 +1049,7 @@
       <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\中文管理器</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\PluginModule\storageData\s_PluginDataContainer.h">
-      <Filter>源文件\【 插件模块 PluginModule】\存储数据管理器</Filter>
+      <Filter>源文件\【 插件模块 PluginModule】\插件存储数据管理器</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\RmmvInteractiveModule\base\p_RmmvCaller.h">
       <Filter>源文件\【 交互模块 RmmvInteractiveModule】\基本交互</Filter>
@@ -1351,7 +1348,7 @@
       <Filter>源文件\【 工具箱 Utils】\通用工具（common）</Filter>
     </ClInclude>
     <ClInclude Include="Source\PluginModule\storageData\c_PluginData.h">
-      <Filter>源文件\【 插件模块 PluginModule】\存储数据管理器</Filter>
+      <Filter>源文件\【 插件模块 PluginModule】\插件存储数据管理器</Filter>
     </ClInclude>
     <ClInclude Include="Source\RmmvInteractiveModule\base\c_RmmvProjectData.h">
       <Filter>源文件\【 交互模块 RmmvInteractiveModule】\基本交互</Filter>
