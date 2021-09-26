@@ -53,8 +53,8 @@ P_RmmvOperateBoard::~P_RmmvOperateBoard(){
 */
 void P_RmmvOperateBoard::selectRmmv(){
 	this->local_rmmvData = S_RmmvCaller_ActionSeq::getInstance()->callRmmvSelect();
-	ui.lineEdit_path->setText(this->local_rmmvData.path);
-	ui.lineEdit_name->setText(this->local_rmmvData.name);
+	ui.lineEdit_path->setText(this->local_rmmvData.getRootPath());
+	ui.lineEdit_name->setText(this->local_rmmvData.getName());
 }
 /*-------------------------------------------------
 		控件 - 刷新rmmv操作可用
@@ -124,8 +124,8 @@ C_RmmvProjectData P_RmmvOperateBoard::getData(){
 */
 void P_RmmvOperateBoard::putDataToUi() {
 
-	ui.lineEdit_path->setText(this->local_rmmvData.path);
-	ui.lineEdit_name->setText(this->local_rmmvData.name);
+	ui.lineEdit_path->setText(this->local_rmmvData.getRootPath());
+	ui.lineEdit_name->setText(this->local_rmmvData.getName());
 	ui.checkBox->setChecked(this->local_rmmvData.optional_backup);
 }
 /*-------------------------------------------------

@@ -18,12 +18,25 @@ class C_RmmvProjectData{
 		
 	//-----------------------------------
 	//----数据
-	public:
+	protected:
 		QString name;				//工程名
 		QString version;			//工程版本
 		QString path;				//工程根路径
-
-		bool optional_backup;		//备份标记
+	public:
+		bool optional_backup;
+	public:
+												//数据 - 解析工程文件
+		void initFromFile(QString full_filePath);
+												//数据 - 获取工程名称
+												//		【说明】：index.html中的完整工程名称。
+		QString getName();
+												//数据 - 获取工程版本
+		QString getVersion();
+												//数据 - 获取工程根路径
+												//		【说明】：工程根路径，返回"C:/aaa/插件集合示例"。
+		QString getRootPath();
+												//数据 - 判断工程是否存在
+		bool isProjectExist();
 	
 	//-----------------------------------
 	//----类属性

@@ -46,86 +46,86 @@ C_RmmvProjectData S_RmmvDataContainer::getRmmvProjectData(){
 QFileInfo S_RmmvDataContainer::getRmmvFile_Plugin(QString plugin_name){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
 	QString name = plugin_name.replace(".js","");
-	return QFileInfo(this->data_RmmvProjectData.path + "/js/plugins/" + plugin_name+ ".js");
+	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/js/plugins/" + plugin_name+ ".js");
 }
 QFileInfo S_RmmvDataContainer::getRmmvFile_PluginsData(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
-	return QFileInfo(this->data_RmmvProjectData.path + "/js/plugins.js");
+	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/js/plugins.js");
 }
 //数据 - 获取文件 - 地图
 QFileInfo S_RmmvDataContainer::getRmmvFile_Map(int i){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
 	QString name = QString("Map%1").arg(i, 3, 10, QLatin1Char('0'));
-	return QFileInfo(this->data_RmmvProjectData.path + "/data/" + name + ".json");
+	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/" + name + ".json");
 }
 QFileInfo S_RmmvDataContainer::getRmmvFile_MapInfos(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
-	return QFileInfo(this->data_RmmvProjectData.path + "/data/MapInfos.json");
+	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/MapInfos.json");
 }
 //数据 - 获取文件 - 角色
 QFileInfo S_RmmvDataContainer::getRmmvFile_Actors(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
-	return QFileInfo(this->data_RmmvProjectData.path + "/data/Actors.json");
+	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/Actors.json");
 }
 //数据 - 获取文件 - 职业
 QFileInfo S_RmmvDataContainer::getRmmvFile_Classes(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
-	return QFileInfo(this->data_RmmvProjectData.path + "/data/Classes.json");
+	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/Classes.json");
 }
 //数据 - 获取文件 - 物品
 QFileInfo S_RmmvDataContainer::getRmmvFile_Items(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
-	return QFileInfo(this->data_RmmvProjectData.path + "/data/Items.json");
+	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/Items.json");
 }
 //数据 - 获取文件 - 技能
 QFileInfo S_RmmvDataContainer::getRmmvFile_Skills(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
-	return QFileInfo(this->data_RmmvProjectData.path + "/data/Skills.json");
+	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/Skills.json");
 }
 //数据 - 获取文件 - 武器
 QFileInfo S_RmmvDataContainer::getRmmvFile_Weapons(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
-	return QFileInfo(this->data_RmmvProjectData.path + "/data/Weapons.json");
+	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/Weapons.json");
 }
 //数据 - 获取文件 - 护甲
 QFileInfo S_RmmvDataContainer::getRmmvFile_Armors(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
-	return QFileInfo(this->data_RmmvProjectData.path + "/data/Armors.json");
+	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/Armors.json");
 }
 //数据 - 获取文件 - 状态
 QFileInfo S_RmmvDataContainer::getRmmvFile_States(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
-	return QFileInfo(this->data_RmmvProjectData.path + "/data/States.json");
+	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/States.json");
 }
 //数据 - 获取文件 - 敌人
 QFileInfo S_RmmvDataContainer::getRmmvFile_Enemies(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
-	return QFileInfo(this->data_RmmvProjectData.path + "/data/Enemies.json");
+	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/Enemies.json");
 }
 //数据 - 获取文件 - 敌群
 QFileInfo S_RmmvDataContainer::getRmmvFile_Troops(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
-	return QFileInfo(this->data_RmmvProjectData.path + "/data/Troops.json");
+	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/Troops.json");
 }
 //数据 - 获取文件 - 公共事件
 QFileInfo S_RmmvDataContainer::getRmmvFile_CommonEvents(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
-	return QFileInfo(this->data_RmmvProjectData.path + "/data/CommonEvents.json");
+	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/CommonEvents.json");
 }
 //数据 - 获取文件 - 动画
 QFileInfo S_RmmvDataContainer::getRmmvFile_Animations(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
-	return QFileInfo(this->data_RmmvProjectData.path + "/data/Animations.json");
+	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/Animations.json");
 }
 //数据 - 获取文件 - 图块
 QFileInfo S_RmmvDataContainer::getRmmvFile_Tilesets(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
-	return QFileInfo(this->data_RmmvProjectData.path + "/data/Tilesets.json");
+	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/Tilesets.json");
 }
 //数据 - 获取文件 - 系统
 QFileInfo S_RmmvDataContainer::getRmmvFile_System(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
-	return QFileInfo(this->data_RmmvProjectData.path + "/data/System.json");
+	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/System.json");
 }
 
 

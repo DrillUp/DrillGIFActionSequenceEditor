@@ -219,7 +219,7 @@ void DrillGIFActionSequenceEditor::openAbout() {
 
 
 /* --------------------------------------------------------------
-		控件 - 窗口切换大小事件
+		事件 - 窗口切换大小事件
 */
 void DrillGIFActionSequenceEditor::resizeEvent(QResizeEvent *event){
 
@@ -232,7 +232,7 @@ void DrillGIFActionSequenceEditor::resizeEvent(QResizeEvent *event){
 	event->accept();
 }
 /* --------------------------------------------------------------
-		控件 - 窗口关闭事件（点击关闭按钮）
+		事件 - 窗口关闭事件（点击关闭按钮）
 */
 void DrillGIFActionSequenceEditor::closeEvent(QCloseEvent *event){
 
@@ -254,7 +254,7 @@ void DrillGIFActionSequenceEditor::closeEvent(QCloseEvent *event){
 	event->accept();
 }
 /* --------------------------------------------------------------
-		窗口 - 拖入文件判断
+		事件 - 拖入文件判断
 */
 void DrillGIFActionSequenceEditor::dragEnterEvent(QDragEnterEvent *event) {
 	
@@ -267,7 +267,7 @@ void DrillGIFActionSequenceEditor::dragEnterEvent(QDragEnterEvent *event) {
 	}
 }
 /* --------------------------------------------------------------
-		窗口 - 放置文件动作
+		事件 - 放置文件动作
 */
 void DrillGIFActionSequenceEditor::dropEvent(QDropEvent *event) {
 

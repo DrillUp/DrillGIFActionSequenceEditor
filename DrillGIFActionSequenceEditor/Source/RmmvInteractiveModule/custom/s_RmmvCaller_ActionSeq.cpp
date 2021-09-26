@@ -26,7 +26,7 @@
 -----==========================================================-----
 */
 
-S_RmmvCaller_ActionSeq::S_RmmvCaller_ActionSeq(){
+S_RmmvCaller_ActionSeq::S_RmmvCaller_ActionSeq() : P_RmmvCaller(){
 	this->init();
 }
 S_RmmvCaller_ActionSeq::~S_RmmvCaller_ActionSeq() {
@@ -89,7 +89,7 @@ void S_RmmvCaller_ActionSeq::coverSourceFileToTemp(C_RmmvProjectData rmmvProject
 	// > 资源文件夹img/Special__actionSeq
 	QString temp_path = S_TempFileManager::getInstance()->getTempFileUrl() + "/Special__actionSeq";
 	S_TempFileManager::getInstance()->remove_Dir(QDir(temp_path));
-	S_TempFileManager::getInstance()->copy_Dir(QDir(rmmvProjectData.path + "/img/Special__actionSeq"), QDir(temp_path));
+	S_TempFileManager::getInstance()->copy_Dir(QDir(rmmvProjectData.getRootPath() + "/img/Special__actionSeq"), QDir(temp_path));
 
 }
 
@@ -187,7 +187,7 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 
 	// ---------------------------------------------
 	// > 文件清空
-	QString src_path = rmmvProjectData.path + "/img/Special__actionSeq";
+	QString src_path = rmmvProjectData.getRootPath() + "/img/Special__actionSeq";
 	S_TempFileManager::getInstance()->remove_Dir(src_path);
 
 	// > 文件转移

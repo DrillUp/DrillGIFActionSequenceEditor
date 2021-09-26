@@ -14,11 +14,69 @@ C_RmmvProjectData::C_RmmvProjectData(){
 	this->version = "";			//工程版本
 	this->path = "";			//工程根路径
 
-	this->optional_backup = true;	//备份标记
+	this->optional_backup = true;
 }
 C_RmmvProjectData::~C_RmmvProjectData(){
 }
 
+
+/*-------------------------------------------------
+		数据 - 解析工程文件
+*/
+void C_RmmvProjectData::initFromFile(QString full_filePath){
+	QString dir_path = QFileInfo(full_filePath).absolutePath();		//获取根目录
+
+	// > 读取工程文件
+	QFile project_file(full_filePath);
+	if (!project_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+		QMessageBox::warning(nullptr, "错误", "未找到Game.rpgproject文件。", QMessageBox::Yes);
+		return;
+	}
+	QString version = project_file.readAll();
+	project_file.close();
+
+	// > 读取index文件
+	QFile index_file(dir_path + "/index.html");
+	if (!index_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+		QMessageBox::warning(nullptr, "错误", "未找到index.html文件。", QMessageBox::Yes);
+		return;
+	}
+	QString index_context = index_file.readAll();
+	index_file.close();
+
+	// > 解析出名称
+	int i_a = index_context.indexOf("<title>") + 7;
+	int i_b = index_context.indexOf("</title>", i_a);
+	this->name = index_context.mid(i_a, i_b - i_a);
+	this->version = version;
+	this->path = dir_path;
+}
+/*-------------------------------------------------
+		数据 - 获取工程名称
+*/
+QString C_RmmvProjectData::getName(){
+	return this->name;
+}
+/*-------------------------------------------------
+		数据 - 获取工程版本
+*/
+QString C_RmmvProjectData::getVersion(){
+	return this->version;
+}
+/*-------------------------------------------------
+		数据 - 获取工程根路径
+*/
+QString C_RmmvProjectData::getRootPath(){
+	return this->path;
+}
+/*-------------------------------------------------
+		数据 - 判断工程是否存在
+*/
+bool C_RmmvProjectData::isProjectExist(){
+	if (QFileInfo(this->path).exists() == false){ return false; }
+	if (QFileInfo(this->path + "/index.html").exists() == false){ return false; }
+	return true;
+}
 
 /*-------------------------------------------------
 		空判断
@@ -38,7 +96,7 @@ const bool C_RmmvProjectData::operator== (const C_RmmvProjectData& a)const {
 QJsonObject C_RmmvProjectData::getJsonObject(){
 	QJsonObject obj = QJsonObject();
 	obj.insert("name", this->name);
-	obj.insert("version", this->version);
+	obj.insert("version", this->version); 
 	obj.insert("path", this->path);
 	obj.insert("optional_backup", this->optional_backup);
 	return obj;
