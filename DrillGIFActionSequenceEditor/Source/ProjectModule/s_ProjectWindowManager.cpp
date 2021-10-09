@@ -1,25 +1,22 @@
 #include "stdafx.h"
-
 #include "S_ProjectWindowManager.h"
+
 #include "data/c_ProjectData.h"
 
 #include "DrillGIFActionSequenceEditor.h"
+
 /*
 -----==========================================================-----
 		类：		项目管理 - 窗口管理.cpp
 		所属模块：	项目管理模块
 		功能：		对打开、编辑窗口进行操作，包括响应相关控制。
 					【窗口】
-					
-					对窗口的数据进行相关操作。
 
 		使用方法：
-				直接调用：
+				> 直接调用：
 					S_ProjectWindowManager::getInstance()->newProject();
-
 -----==========================================================-----
 */
-
 S_ProjectWindowManager::S_ProjectWindowManager(){
 }
 S_ProjectWindowManager::~S_ProjectWindowManager(){
@@ -43,8 +40,10 @@ void S_ProjectWindowManager::newProject() {
 
 	bool is_success = S_ProjectManager::getInstance()->newProject();
 
-	//刷新树
-	if (is_success) { emit reflashAllTree(); }
+	// > 工程内容变化时
+	if (is_success) {
+		//...
+	}
 }
 /*-------------------------------------------------
 		流程 - 打开（对话框）
@@ -53,8 +52,10 @@ void S_ProjectWindowManager::openProject() {
 
 	bool is_success = S_ProjectManager::getInstance()->openProject();
 
-	//刷新树
-	//if (is_success){ emit reflashAllTree(); }
+	// > 工程内容变化时
+	if (is_success) {
+		//...
+	}
 }
 /*-------------------------------------------------
 		流程 - 保存（对话框）

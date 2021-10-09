@@ -8,18 +8,21 @@
 		功能：		存储项目的基本内容的数据类。
 -----==========================================================-----
 */
-
 C_ProjectData::C_ProjectData(){
 	this->name = "";														//项目名
 	this->path = QCoreApplication::applicationDirPath() + "/workspace/";	//项目路径（含项目名 D:/aaa/vvv/项目名/）
-	this->note = "";							//项目笔记（备注）
-	this->softname = "GIF动画序列编辑器";		//软件名
-	this->version = "v1.12";					//软件版本
-	this->version_serial = "";					//软件版本号
+
+	this->note = "";									//项目笔记（备注）
+	this->createDate = QDateTime::currentDateTime();	//创建时间
+	this->lastSaveDate = QDateTime::currentDateTime();	//上一次修改时间
 }
 
 C_ProjectData::~C_ProjectData(){
 }
+
+QString C_ProjectData::softname = "GIF动画序列编辑器";	//软件名
+QString C_ProjectData::version = "v1.12";				//软件版本
+QString C_ProjectData::version_serial = "";				//软件版本号
 
 /*-------------------------------------------------
 		空判断
@@ -35,9 +38,8 @@ QJsonObject C_ProjectData::getJsonObject(){
 	obj.insert("name", this->name);
 	obj.insert("url", this->path);
 	obj.insert("note", this->note);
-	//obj.insert("softname", this->softname);	//（这些参数不存）
-	//obj.insert("version", this->version);
-	//obj.insert("version_serial", this->version_serial);
+	obj.insert("createDate", this->createDate.toString("yyyy/MM/dd hh:mm:ss"));
+	obj.insert("lastSaveDate", this->lastSaveDate.toString("yyyy/MM/dd hh:mm:ss"));
 	return obj;
 }
 /*-------------------------------------------------
@@ -47,10 +49,9 @@ void C_ProjectData::setJsonObject(QJsonObject obj){
 
 	this->name = obj.value("name").toString();
 	this->path = obj.value("url").toString();
-	this->note = obj.value("note").toString();
-	//this->softname = obj.value("softname").toString();	//（这些参数不存）
-	//this->version = obj.value("version").toString();
-	//this->version_serial = obj.value("version_serial").toString();
+	if (obj.value("note").isUndefined() == false){ this->note = obj.value("note").toString(); }
+	if (obj.value("createDate").isUndefined() == false){ this->createDate = QDateTime::fromString( obj.value("createDate").toString(), "yyyy/MM/dd hh:mm:ss"); }
+	if (obj.value("lastSaveDate").isUndefined() == false){ this->lastSaveDate = QDateTime::fromString(obj.value("lastSaveDate").toString(), "yyyy/MM/dd hh:mm:ss"); }
 
 }
 /*-------------------------------------------------

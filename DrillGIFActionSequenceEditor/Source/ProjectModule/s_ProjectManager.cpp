@@ -13,7 +13,7 @@
 /*
 -----==========================================================-----
 		类：		项目管理.cpp
-		版本：		v1.14
+		版本：		v1.15
 		所属模块：	项目管理模块
 		功能：		项目管理相关数据、相关操作都在这里主要控制。
 					> 基本功能
@@ -49,11 +49,11 @@
 
 S_ProjectManager::S_ProjectManager(){
 	S_TempFileManager::getInstance()->setSkipSuffix(S_TempFileManager::getInstance()->getSkipSuffix() << PROJECT_SUFFIX << "cbf");
-
+	
 	// > 参数初始化
 	this->m_isDirty = false;
 	this->m_lockingWidgets.clear();
-
+	
 	// > 历史记录初始化
 	this->m_historyProjectTank.clear();
 	this->m_historyDirTank.clear();
@@ -308,9 +308,6 @@ void S_ProjectManager::clearProject() {
 	// > 清除缓存数据
 	S_TempFileManager::getInstance()->removeAllTempFile();
 
-	// > 清理输出窗口
-	//S_ConsoleManager::getInstance()->clearContents();
-	//S_ConsoleManager::getInstance()->append("----开始新工程----");
 }
 
 /* --------------------------------------------------------------
@@ -343,11 +340,8 @@ void S_ProjectManager::openProjectDirectly(QString open_path) {
 	// > 修改窗口项目名
 	emit changeWindowTitle(this->data_ProjectData.getSoftname() + " - " + this->data_ProjectData.getName());
 
-	// > 刷新设置树
-	emit S_ProjectWindowManager::getInstance()->reflashAllTree();
-
 	// > 项目打开后（信号）
-	emit openProjectFinished();				
+	emit openProjectFinished();
 }
 /* --------------------------------------------------------------
 		#项目 - 保存（目标文件夹）
@@ -356,8 +350,11 @@ void S_ProjectManager::saveAll(QString url) {
 
 	// > 创建文件夹
 	if (url.at(url.size() - 1) != '/') { url += "/"; }
-	QDir temp_dir;
+	QDir temp_dir(url);
 	temp_dir.mkpath(url);
+
+	// > 保存记录
+	this->data_ProjectData.lastSaveDate = QDateTime::currentDateTime();
 
 	// > 生成存储文件
 	this->createSaveFile();

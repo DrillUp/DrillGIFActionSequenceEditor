@@ -2,7 +2,7 @@
 #include <QList>
 #include <QMap>
 
-#define PROJECT_SUFFIX		"drillas"								//项目文件后缀
+#define PROJECT_SUFFIX		"drillas"										//项目文件后缀
 #define PROJECT_INSTANCE	DrillGIFActionSequenceEditor::getInstance()		//父窗口关联
 
 /*
@@ -44,10 +44,12 @@ class C_ProjectData{
 	//-----------------------------------
 	//----软件数据
 	public:
-		QString note;					//项目笔记（备注）
-		QString softname;				//软件名
-		QString version;				//软件版本
-		QString version_serial;			//软件版本号
+		static QString softname;				//软件名
+		static QString version;					//软件版本
+		static QString version_serial;			//软件版本号
+		QString note;							//项目笔记（备注）
+		QDateTime createDate;					//创建时间
+		QDateTime lastSaveDate;					//上一次修改时间
 	public:
 										//获取软件全名
 		QString getSoftname();
