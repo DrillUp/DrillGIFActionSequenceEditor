@@ -906,6 +906,10 @@ void P_FlexiblePageTree::rebuildTreeData_name_inc(){
 		QList<int> index_list = QList<int>();
 		if (symbol == "¿ÕÃû³Æ"){
 			index_list = this->m_source_ObjectSortController->get_Name_IndexListByEmptyName();
+
+		}else if (symbol == "ÆäËû·ûºÅ"){
+			index_list = this->m_source_ObjectSortController->get_Name_IndexListByNonAlphabetic();
+
 		}else{
 			index_list = this->m_source_ObjectSortController->get_Name_IndexListByCharacter(symbol.at(0));
 		}

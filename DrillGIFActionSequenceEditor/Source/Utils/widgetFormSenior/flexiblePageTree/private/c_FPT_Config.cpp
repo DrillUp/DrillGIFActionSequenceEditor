@@ -20,7 +20,7 @@
 C_FPT_Config::C_FPT_Config(){
 
 	// > 显示设置
-	this->rowHeight = 24;
+	this->rowHeight = 30;
 	this->zeroFill = true;
 	this->zeroFillCount = 4;
 	this->zeroFillChar = '0';
@@ -37,10 +37,13 @@ C_FPT_Config::C_FPT_Config(){
 
 	// > 私有临时对象
 	this->m_id_maxCount = -1;
+
+	//  （名称列表 - s_ChineseManager首字母定义）
 	this->m_name_textList = QStringList() << "- A -" << "- B -" << "- C -" << "- D -" << "- E -" << "- F -" << "- G -" << "- H -" << "- I -" << "- J -" << "- K -" << "- L -" << "- M -" << "- N -" << "- O -" << "- P -" << "- Q -" << "- R -" << "- S -" << "- T -" << "- U -" << "- V -" << "- W -" << "- X -" << "- Y -" << "- Z -" << "生僻字";
 	this->m_name_symbolList = QStringList() << "A" << "B" << "C" << "D" << "E" << "F" << "G" << "H" << "I" << "J" << "K" << "L" << "M" << "N" << "O" << "P" << "Q" << "R" << "S" << "T" << "U" << "V" << "W" << "X" << "Y" << "Z" << "@";
-	this->m_name_textList << "空名称";
-	this->m_name_symbolList << "空名称";
+	//  （名称列表 - 特殊符号情况）
+	this->m_name_textList << "其他符号" << "空名称";
+	this->m_name_symbolList << "其他符号" << "空名称";
 }
 C_FPT_Config::~C_FPT_Config(){
 }

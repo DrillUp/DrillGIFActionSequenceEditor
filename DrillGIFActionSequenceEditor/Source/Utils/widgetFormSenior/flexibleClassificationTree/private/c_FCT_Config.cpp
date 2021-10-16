@@ -19,6 +19,7 @@
 C_FCT_Config::C_FCT_Config() : C_FPT_Config(){
 
 	// > 分支模式
+	this->m_mode = "种类分支（按id递增排序）";
 	this->m_modeList << "种类分支（按id递增排序）" << "种类分支（按名称递增排序）";
 
 	// > 种类页

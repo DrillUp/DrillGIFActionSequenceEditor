@@ -6,7 +6,7 @@
 /*
 -----==========================================================-----
 		类：		对象排序 控制器.cpp
-		版本：		v1.01
+		版本：		v1.02
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		能将指定输入的列表进行排序，返回排序坐标、也可提供分页功能。
@@ -450,13 +450,53 @@ QList<int> P_ObjectSortController::get_Name_IndexListByCharacter(QChar ch){
 	ch = ch.toLower();
 
 	int bottom = this->m_firstCharSeq.indexOf(ch);		//（首字母序列是递增的，与递增名称序列对应）
-	int top = this->m_firstCharSeq.lastIndexOf(ch);
+	int top = this->m_firstCharSeq.lastIndexOf(ch);		//（比如排序为："aaaabbffzz@@"， @为生僻字）
 	if (bottom == -1){ return QList<int>(); }
 	if (top == -1){ return QList<int>(); }
 	for (int i = bottom; i <= top; i++){
 		int arr_index = this->local_dataList_orderBy_NameInc.at(i)->arrIndex;
 		result_list.append(arr_index);
 	}
+	return result_list;
+}
+/*-------------------------------------------------
+		名称 - 获取非字母的索引序列
+*/
+QList<int> P_ObjectSortController::get_Name_IndexListByNonAlphabetic(){
+	this->initSort_Name_IfRequire();
+	QList<int> result_list = QList<int>();
+	
+	// > 字母前面的符号
+	int index = this->m_firstCharSeq.indexOf(QRegExp("[a-z@]"));	//其他符号都会排在字母的前面
+	if (index > 0){
+		for (int i = 0; i < index; i++){
+			int arr_index = this->local_dataList_orderBy_NameInc.at(i)->arrIndex;
+			result_list.append(arr_index);
+		}
+	}
+
+	// > 后面的符号（z后面的符号： 123{  124|  125}  126~ ）
+	{
+		int bottom = this->m_firstCharSeq.indexOf('|');
+		int top = this->m_firstCharSeq.lastIndexOf('|');
+		if (bottom != -1 && top != -1){
+			for (int i = bottom; i <= top; i++){
+				int arr_index = this->local_dataList_orderBy_NameInc.at(i)->arrIndex;
+				result_list.append(arr_index);
+			}
+		}
+	}
+	{
+		int bottom = this->m_firstCharSeq.indexOf('~');
+		int top = this->m_firstCharSeq.lastIndexOf('~');
+		if (bottom != -1 && top != -1){
+			for (int i = bottom; i <= top; i++){
+				int arr_index = this->local_dataList_orderBy_NameInc.at(i)->arrIndex;
+				result_list.append(arr_index);
+			}
+		}
+	}
+
 	return result_list;
 }
 /*-------------------------------------------------

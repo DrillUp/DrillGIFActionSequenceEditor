@@ -225,9 +225,6 @@
     <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\对象选择器（暂未用到）">
       <UniqueIdentifier>{11aa5848-64a3-48b7-8bdd-ee25fc431ced}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\对象选择器（暂未用到）\私有类">
-      <UniqueIdentifier>{9e352193-6c45-49e4-b907-83ebc437b49e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\【 工具箱 Utils】\管理器工具（manager）\句柄调取管理器">
       <UniqueIdentifier>{ada4ffbf-2b5c-4548-96ed-6e07f017dffb}</UniqueIdentifier>
     </Filter>
@@ -327,27 +324,6 @@
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_w_RaTConfig.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\widgetFormSenior\ObjectSelector\w_ObjectSelector.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\对象选择器（暂未用到）</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_w_ObjectSelector.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_w_ObjectSelector.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\widgetFormSenior\ObjectSelector\private\c_ObjectSelectorConfig.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\对象选择器（暂未用到）\私有类</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\widgetFormSenior\ObjectSelector\private\w_ObjectSelectorConfig.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\对象选择器（暂未用到）\私有类</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_w_ObjectSelectorConfig.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_w_ObjectSelectorConfig.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utils\widgetFormSenior\ObjectSortController\c_ObjectSortData.cpp">
@@ -1024,18 +1000,6 @@
     <CustomBuild Include="Source\Utils\widgetForm\radioTable\private\w_RaTConfig.ui">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\单选表格\私有类</Filter>
     </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetFormSenior\ObjectSelector\w_ObjectSelector.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\对象选择器（暂未用到）</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetFormSenior\ObjectSelector\w_ObjectSelector.ui">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\对象选择器（暂未用到）</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetFormSenior\ObjectSelector\private\w_ObjectSelectorConfig.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\对象选择器（暂未用到）\私有类</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetFormSenior\ObjectSelector\private\w_ObjectSelectorConfig.ui">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\对象选择器（暂未用到）\私有类</Filter>
-    </CustomBuild>
     <CustomBuild Include="Source\Utils\widgetFormSenior\ObjectSortController\p_ObjectSortController.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\排序控制器</Filter>
     </CustomBuild>
@@ -1323,15 +1287,6 @@
     <ClInclude Include="GeneratedFiles\ui_w_RaTConfig.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_w_ObjectSelector.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\widgetFormSenior\ObjectSelector\private\c_ObjectSelectorConfig.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\对象选择器（暂未用到）\私有类</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_w_ObjectSelectorConfig.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Utils\widgetFormSenior\ObjectSortController\c_ObjectSortData.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\排序控制器</Filter>
     </ClInclude>
@@ -1486,9 +1441,6 @@
   <ItemGroup>
     <Text Include="Source\Utils\widgetForm\radioTable\程序入口.txt">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\单选表格</Filter>
-    </Text>
-    <Text Include="Source\Utils\widgetFormSenior\ObjectSelector\程序入口.txt">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\对象选择器（暂未用到）</Filter>
     </Text>
     <Text Include="Source\Utils\widgetFormSenior\ObjectSortController\程序入口.txt">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\排序控制器</Filter>

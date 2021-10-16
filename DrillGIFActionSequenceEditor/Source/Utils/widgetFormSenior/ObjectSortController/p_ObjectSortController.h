@@ -6,7 +6,7 @@
 /*
 -----==========================================================-----
 		类：		对象排序 控制器.h
-		版本：		v1.01
+		版本：		v1.02
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		能将指定输入的列表进行排序，返回排序坐标、也可提供分页功能。
@@ -112,7 +112,11 @@ class P_ObjectSortController : public QObject
 												//名称 - 判断是否含指定首字母的数据
 		bool hasAnyData_Name_ByCharacter(QChar ch);
 												//名称 - 获取指定首字母的索引序列
+												//		【说明】：包含 a-z 首字母，@为生僻字情况。（s_ChineseManager的定义）
 		QList<int> get_Name_IndexListByCharacter(QChar ch);
+												//名称 - 获取非字母的索引序列
+												//		【说明】：除了 a-z 和 @ 以外的字符。
+		QList<int> get_Name_IndexListByNonAlphabetic();
 												//名称 - 获取名称为空的索引序列
 		QList<int> get_Name_IndexListByEmptyName();
 		
