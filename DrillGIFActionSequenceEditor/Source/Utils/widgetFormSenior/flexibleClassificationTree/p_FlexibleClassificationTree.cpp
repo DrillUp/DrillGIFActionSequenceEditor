@@ -35,18 +35,29 @@
 							-> 叶子右键可以添加分类/移动到分类（可去除所有分类）
 							-> 同一个对象可以在多个分类中出现（功能与后期对象选择器排序 冲突）
 					-> 树配置
-						-> 设置行高
-						-> 设置叶子显示文本
-
-		说明：		由于这棵树直接包裹了一个container数据存储结构，
-					所以里面会夹杂Container、WindowManager的处理模式。
+						-> 显示
+							> 设置行高
+							> 设置叶子显示文本
+						-> 分支模式
+							> 修改模式
+							> ID分支条数
 					
 		使用方法：
-				>初始化
-					this->m_p_FlexibleClassificationTree = new P_FlexibleClassificationTree(ui.treeWidget_2);
-					this->m_p_FlexibleClassificationTree->setData(obj);		//（存储的数据需要在load前完成赋值）
-					this->m_p_FlexibleClassificationTree->loadSource(data_list, "id", "name", "type");
+				> 初始化
+					this->m_p_tree = new P_FlexibleClassificationTree(ui.treeWidget_2);	//（创建对象）
+				> 数据初始化
+					C_FCT_Config* config = dynamic_cast<C_FCT_Config*>(this->m_p_tree->createConfigData());		//（从工厂中获取 树配置 ，需要强转）
+					config->setJsonObject(obj_treeData, this->m_p_tree);										//（树配置初始化）
+					this->m_p_tree->setConfigEx(config);														//
+					this->m_p_tree->loadSource(data_list, "id", "name", "type");								//（读取资源数据）
+				> 获取树配置
+					C_FCT_Config* config = this->m_p_tree->getConfigEx();
+				> 获取 内部修改 种类数据（刷新用）
+					QList<C_ObjectSortData> changeed_data = this->m_p_tree->getChangedSource();
 
+		使用注意：	【主要有两个交互对象：树配置 和 资源数据 】
+					config传入的是指针，修改会立即生效，但不会刷新数据，所以仍然需要调用setConfig()函数。
+					内部修改会直接改变 资源数据 的数据内容，如果外部需要同步刷新，可以获取变化的数据，然后刷新。
 -----==========================================================-----
 */
 P_FlexibleClassificationTree::P_FlexibleClassificationTree(QTreeWidget *parent)

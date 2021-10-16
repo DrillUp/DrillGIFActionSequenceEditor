@@ -3,7 +3,7 @@
 #include "s_ProjectManager.h"
 
 #include "data/w_ProjectCreate.h"
-#include "data/w_ProjectNote.h"
+#include "data/extendPart/w_ProjectNote.h"
 
 /*
 -----==========================================================-----
@@ -14,7 +14,6 @@
 -----==========================================================-----
 */
 
-
 class S_ProjectWindowManager : public QObject
 {
 	Q_OBJECT
@@ -24,12 +23,6 @@ class S_ProjectWindowManager : public QObject
 		~S_ProjectWindowManager();
 		static S_ProjectWindowManager* project_manager;		//单例
 		static S_ProjectWindowManager* getInstance();		//单例，获取自己（必须要拿到全局配置才能进行计算）
-		
-	//-----------------------------------
-	//----全局交互
-	signals:
-										//全局交互 - 刷新全部设置树
-		void reflashAllTree();
 
 	//-----------------------------------
 	//----流程
@@ -46,10 +39,10 @@ class S_ProjectWindowManager : public QObject
 	//-----------------------------------
 	//----窗口
 	public slots:
-										//窗口 - 工程笔记
-		void openModifyWindowNote();
 										//窗口 - 新建项目
 										//		（这个窗口比较特殊，这里直接嵌套到s_ProjectManager中了。）
 		//void openModifyWindowCreate();
+										//窗口 - 工程笔记
+		void openModifyWindowNote();
 };
 

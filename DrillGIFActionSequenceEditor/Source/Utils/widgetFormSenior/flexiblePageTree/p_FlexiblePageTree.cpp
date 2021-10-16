@@ -29,29 +29,33 @@
 						-> ID分支
 						-> 名称分支
 						x-> 种类分支（该类不含种类分支功能）
-							x-> 树枝右键可以添加分类
-							x-> 叶子右键可以添加分类/移动到分类（可去除所有分类）
-							x-> 同一个对象可以在多个分类中出现（功能与后期对象选择器排序 冲突）
 					-> 树配置
-						-> 设置行高
-						-> 设置叶子显示文本
+						-> 显示
+							> 设置行高
+							> 设置叶子显示文本
+						-> 分支模式
+							> 修改模式
+							> ID分支条数
 
-		说明：		考虑到树叶可能会非常多，所以只有在rebuildTreeData时，才会重新排序。
-					如果只是简单修改树ui，添加分类，是不会刷新的。
+		说明：		所有叶子在loadSource后不再增减。
+						rebuildTreeData：可以使得叶子重新排序、刷新叶子显示
+						refreshTreeData：刷新叶子显示
+					树中反复改变的是树枝，树枝的数据，都在 树配置 中存储，与 资源数据 无关。
 					
 		使用方法：
 				> 初始化
-					this->m_p_FlexiblePageTree = new P_FlexiblePageTree(ui.treeWidget);
-					this->m_p_FlexiblePageTree->setData(obj);		//（存储的数据需要在load前完成赋值）
-					this->m_p_FlexiblePageTree->loadSource(data_list, "id", "name", "type");
-				> 设置默认值
-					QJsonObject obj_config = QJsonObject();		//由于交互只能通过QJsonObject，所以，默认值也需要对应到object中。
-					QJsonObject obj_tree = QJsonObject();
-					obj_tree.insert("rowHeight", 32);
-					obj_config.insert("sortMode", "种类分支（按id递增排序）");
-					obj_config.insert("FCTConfig", obj_tree);
-					this->m_p_tree->setData(obj_config);
+					this->m_p_tree = new P_FlexiblePageTree(ui.treeWidget_2);	//（创建对象）
+				> 数据初始化
+					C_FPT_Config* config = this->m_p_tree->createConfigData();				//（从工厂中获取 树配置 ，需要强转）
+					config->setJsonObject(obj_treeData, this->m_p_tree);					//（树配置初始化）
+					this->m_p_tree->setConfigEx(config);									//
+					this->m_p_tree->loadSource(data_list, "id", "name", "type");			//（读取资源数据）
+				> 获取树配置
+					C_FPT_Config* config = this->m_p_tree->getConfig();
 					
+		使用注意：	【主要有两个交互对象：树配置 和 资源数据 】
+					config传入的是指针，修改会立即生效，但不会刷新数据，所以仍然需要调用setConfig()函数。
+					内部修改会直接改变 资源数据 的数据内容，如果外部需要同步刷新，可以获取变化的数据，然后刷新。
 -----==========================================================-----
 */
 P_FlexiblePageTree::P_FlexiblePageTree(QTreeWidget *parent)

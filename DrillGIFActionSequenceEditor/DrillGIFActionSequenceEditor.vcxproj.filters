@@ -243,23 +243,26 @@
     <Filter Include="源文件\【 插件模块 PluginModule】\集合组件（无）">
       <UniqueIdentifier>{fd703e3d-1956-4d02-b8de-e5fd5b1b73cb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规）">
-      <UniqueIdentifier>{28219431-f7bf-41a6-896b-3af9d5ef37fb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规）\树设置">
-      <UniqueIdentifier>{cef7a208-a45e-4628-b647-044e7ace3e4e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规）\树控件">
-      <UniqueIdentifier>{adebef4a-e594-4a20-8a54-6010f74c8020}</UniqueIdentifier>
+    <Filter Include="源文件\【 项目管理模块 ProjectModule】\项目数据\扩展块">
+      <UniqueIdentifier>{33781442-7407-4895-8eeb-d65b1f622dfb}</UniqueIdentifier>
     </Filter>
     <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）">
-      <UniqueIdentifier>{26bfadbc-b817-40e4-9996-6fd7c0ae828c}</UniqueIdentifier>
+      <UniqueIdentifier>{28219431-f7bf-41a6-896b-3af9d5ef37fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规）">
+      <UniqueIdentifier>{a9dd714a-72e1-4adc-865e-ffc52c9c0e81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规）\树设置">
+      <UniqueIdentifier>{a2d9ed8f-a834-4503-9e83-a4b16a981212}</UniqueIdentifier>
     </Filter>
     <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）\树设置">
-      <UniqueIdentifier>{ad2f1d8b-734a-4344-88d3-89ac9cdaee13}</UniqueIdentifier>
+      <UniqueIdentifier>{cef7a208-a45e-4628-b647-044e7ace3e4e}</UniqueIdentifier>
     </Filter>
     <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）\种类分支">
-      <UniqueIdentifier>{08e3fad1-3830-42eb-976c-670688f89fbd}</UniqueIdentifier>
+      <UniqueIdentifier>{ad24d528-0507-4a1c-9d9f-0cafd3f2ca33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规）\树控件">
+      <UniqueIdentifier>{5caec8a3-5fe4-4492-b9a7-9f7858963d52}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -501,15 +504,6 @@
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_w_ProjectCreate.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ProjectModule\data\w_ProjectNote.cpp">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_w_ProjectNote.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_w_ProjectNote.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\ProjectModule\file\s_TempFileManager.cpp">
@@ -923,47 +917,23 @@
     <ClCompile Include="GeneratedFiles\Release\moc_p_RmmvCaller.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_p_FlexibleClassificationTree.cpp">
+    <ClCompile Include="Source\ProjectModule\data\extendPart\w_ProjectNote.cpp">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据\扩展块</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_w_ProjectNote.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_p_FlexibleClassificationTree.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_w_ProjectNote.cpp">
       <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_w_FCT_Classify.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_w_FCT_Classify.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_w_FCT_ClassifySelector.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_w_FCT_ClassifySelector.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\p_FlexibleClassificationTree.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\private\c_FCT_Config.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）\种类分支</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\private\c_FCT_Classify.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）\树设置</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\private\w_FCT_Classify.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）\树设置</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\private\w_FCT_ClassifySelector.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）\树设置</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\widgetFormSenior\flexiblePageTree\p_FlexiblePageTree.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规）</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_p_FlexiblePageTree.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_p_FlexiblePageTree.cpp">
       <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\flexiblePageTree\p_FlexiblePageTree.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规）</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utils\widgetFormSenior\flexiblePageTree\private\i_FPT_Branch.cpp">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规）\树控件</Filter>
@@ -982,6 +952,39 @@
     </ClCompile>
     <ClCompile Include="Source\Utils\widgetFormSenior\flexiblePageTree\private\w_FPT_Config.cpp">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规）\树设置</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_p_FlexibleClassificationTree.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_p_FlexibleClassificationTree.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\p_FlexibleClassificationTree.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\private\c_FCT_Classify.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）\种类分支</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\private\w_FCT_Classify.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）\种类分支</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_w_FCT_Classify.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_w_FCT_Classify.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\private\w_FCT_ClassifySelector.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）\种类分支</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_w_FCT_ClassifySelector.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_w_FCT_ClassifySelector.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\private\c_FCT_Config.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）\树设置</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1085,12 +1088,6 @@
       <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ProjectModule\data\w_ProjectCreate.ui">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\ProjectModule\data\w_ProjectNote.h">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\ProjectModule\data\w_ProjectNote.ui">
       <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ProjectModule\file\s_TempFileManager.h">
@@ -1273,20 +1270,11 @@
     <CustomBuild Include="Source\RmmvInteractiveModule\custom\p_RmmvCaller.h">
       <Filter>源文件\【 交互模块 RmmvInteractiveModule】\专用交互</Filter>
     </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\p_FlexibleClassificationTree.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）</Filter>
+    <CustomBuild Include="Source\ProjectModule\data\extendPart\w_ProjectNote.h">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据\扩展块</Filter>
     </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\private\w_FCT_Classify.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）\树设置</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\private\w_FCT_Classify.ui">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）\树设置</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\private\w_FCT_ClassifySelector.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）\树设置</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\private\w_FCT_ClassifySelector.ui">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）\树设置</Filter>
+    <CustomBuild Include="Source\ProjectModule\data\extendPart\w_ProjectNote.ui">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据\扩展块</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\Utils\widgetFormSenior\flexiblePageTree\p_FlexiblePageTree.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规）</Filter>
@@ -1296,6 +1284,21 @@
     </CustomBuild>
     <CustomBuild Include="Source\Utils\widgetFormSenior\flexiblePageTree\private\w_FPT_Config.ui">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规）\树设置</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\p_FlexibleClassificationTree.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\private\w_FCT_Classify.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）\种类分支</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\private\w_FCT_Classify.ui">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）\种类分支</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\private\w_FCT_ClassifySelector.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）\种类分支</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\private\w_FCT_ClassifySelector.ui">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）\种类分支</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -1369,9 +1372,6 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_w_ProjectCreate.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_w_ProjectNote.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_p_PlayingPart.h">
@@ -1455,17 +1455,8 @@
     <ClInclude Include="GeneratedFiles\ui_p_MouseResizeButtonPart.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_w_FCT_Classify.h">
+    <ClInclude Include="GeneratedFiles\ui_w_ProjectNote.h">
       <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_w_FCT_ClassifySelector.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\private\c_FCT_Config.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）\种类分支</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\private\c_FCT_Classify.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）\树设置</Filter>
     </ClInclude>
     <ClInclude Include="Source\Utils\widgetFormSenior\flexiblePageTree\private\i_FPT_Branch.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规）\树控件</Filter>
@@ -1478,6 +1469,18 @@
     </ClInclude>
     <ClInclude Include="Source\Utils\widgetFormSenior\flexiblePageTree\private\c_FPT_Config.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规）\树设置</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\private\c_FCT_Classify.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）\种类分支</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_w_FCT_Classify.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_w_FCT_ClassifySelector.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\private\c_FCT_Config.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）\树设置</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1538,10 +1541,22 @@
     <Text Include="Source\GraphModule\item\gridLineItem\程序入口.txt">
       <Filter>源文件\【 图形模块 GraphModule】\贴图（item）\网格线</Filter>
     </Text>
+    <Text Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\程序入口.txt">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）</Filter>
+    </Text>
+    <Text Include="Source\Utils\widgetFormSenior\flexiblePageTree\程序入口.txt">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规）</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\ProjectModule\项目管理模块结构.vsdx">
       <Filter>源文件\【 项目管理模块 ProjectModule】</Filter>
+    </None>
+    <None Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\关于灵活分类树.docx">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）</Filter>
+    </None>
+    <None Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\关于灵活分类树.vsdx">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）</Filter>
     </None>
   </ItemGroup>
 </Project>

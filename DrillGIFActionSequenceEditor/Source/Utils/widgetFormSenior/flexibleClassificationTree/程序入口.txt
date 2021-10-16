@@ -1,16 +1,12 @@
 	【注意，对象选择器的全部以 code_piece_qt笔记 为准，所有修改在笔记中强化】
 			
 	程序入口（独立控件块）：
-		1.	p_FlexiblePageTree.cpp
-			p_FlexiblePageTree.h
-			不含自定义分支，交互对象为 1,2 。
-
-		2.	p_FlexibleClassificationTree.cpp
-			p_FlexibleClassificationTree.h
-			含自定义分支，交互对象为 1,2,3 。
+		p_FlexibleClassificationTree.cpp	（可继承，继承于P_FlexiblePageTree）
+		p_FlexibleClassificationTree.h
+		包含 ID分支、名称分支、种类分支 。
 
 		注意，该树被装饰后，需要对该控件块进行交互，不要对树进行直接交互。
-		该树的【图标路径】见变量：this->m_menuIconSrcPath
+		该树的【图标路径】基于常量：QRC_IconSrcPath
 		
 
 	交互对象：
@@ -18,30 +14,39 @@
 		1.	资源数据（QList<QJsonObject>）
 			只读。获取 id、name、type 。
 			树内部会缓存3个数据，不输出。根据载入的数据进行全重建。
+			
+		2.	树配置（C_FCT_Config）
+			注意，C_FCT_Config 继承于 C_FPT_Config
+			树自己的变化，会进行保存，下次打开后，树的种类数据不变。
+			
+		3.	发射信号（复制、粘贴、清空）
+			你也可以关闭右键菜单的这三个功能。见"右键菜单"。
 
-		2.	树数据/树存储数据（QJsonObject）
-			树自己的变化，会进行保存，下次打开后，树的分类不变。
-
-		3.	修改的资源数据片段（自定义分支， QList<C_ObjectSortData>）
+		4.	修改的资源数据片段（自定义分支， QList<C_ObjectSortData>）
 			列表中显示改变的type。只改type。
 			由于树中会修改分类，这部分修改片段被单独划分出来，由父类自己选择是否接受并保存。
-			
-		4.	发射信号（复制、粘贴、清空）
-			你也可以关闭右键菜单的这三个功能。见"叶子接口"。
-
-		说明：	2的功能，能保证 树自己的改变 能存，重复打开时树配置不变，
-				3的功能，能保证 资源的改变 能存，会影响资源数据，需要进行交互处理。
-				两者并不冲突，可以合并使用。
 
 	私有类：
-		
+		1.	c_FCT_Config.cpp	（可继承，继承于C_FPT_Config）
+			c_FCT_Config.h
 
-		c_ObjectSortData.cpp
-		c_ObjectSortData.h
-		p_ObjectSortController.cpp
-		p_ObjectSortController.h
-		（选择器中调用了 排序控制器 的功能。）
+		2.	c_FCT_Classify.cpp	（可继承）
+			c_FCT_Classify.h
+			w_FCT_Classify.cpp	（可继承）
+			w_FCT_Classify.h
+			w_FCT_Classify.ui
+
+			w_FCT_ClassifySelector.cpp
+			w_FCT_ClassifySelector.h
+			w_FCT_ClassifySelector.ui
+
+		3.	c_ObjectSortData.cpp
+			c_ObjectSortData.h
+			p_ObjectSortController.cpp
+			p_ObjectSortController.h
+			（选择器中调用了 排序控制器 的功能。）
 
 	编写所用时间：
-		花了1星期进行类细节起草，顺带优化 对象选择器。
-		在有 对象选择器、排序控制器 的基础上，还是花了 整整3天 的时间才架构完成。
+		> 花了1星期进行类细节起草，顺带优化 对象选择器。
+		> 在有 对象选择器、排序控制器 的基础上，还是花了 整整3天 的时间才架构完成。
+		> 2021-10-16 又用掉了整整3天，成功分离出 工厂 和 可继承对象。

@@ -1,0 +1,40 @@
+	【注意，对象选择器的全部以 code_piece_qt笔记 为准，所有修改在笔记中强化】
+			
+	程序入口（独立控件块）：
+		p_FlexiblePageTree.cpp	（可继承）
+		p_FlexiblePageTree.h
+		包含 ID分支、名称分支 。
+
+		注意，该树被装饰后，需要对该控件块进行交互，不要对树进行直接交互。
+		该树的【图标路径】基于常量：QRC_IconSrcPath
+		
+
+	交互对象：
+		【可以看看图 关于灵活分类树.vsdx 的 树输入输出关系】
+		1.	资源数据（QList<QJsonObject>）
+			只读。获取 id、name、type 。
+			树内部会缓存3个数据，不输出。根据载入的数据进行全重建。
+
+		2.	树配置（C_FPT_Config）
+			树自己的变化，会进行保存，下次打开后，树的种类数据不变。
+			
+		3.	发射信号（复制、粘贴、清空）
+			你也可以关闭右键菜单的这三个功能。见"右键菜单"。
+
+	私有类：
+		1.	i_FPT_Branch.cpp	（可继承）
+			i_FPT_Branch.h
+			i_FPT_Leaf.cpp		（可继承）
+			i_FPT_Leaf.h
+
+		2.	c_FPT_Config.cpp	（可继承）
+			c_FPT_Config.h
+			w_FPT_Config.cpp	（可继承）
+			w_FPT_Config.h
+			w_FPT_Config.ui
+
+		3.	c_ObjectSortData.cpp
+			c_ObjectSortData.h
+			p_ObjectSortController.cpp
+			p_ObjectSortController.h
+			（选择器中调用了 排序控制器 的功能。）
