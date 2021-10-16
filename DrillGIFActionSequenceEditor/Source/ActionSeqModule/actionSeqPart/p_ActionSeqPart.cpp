@@ -6,6 +6,7 @@
 
 #include "../actionSeqData/lengthData/w_ActionSeqLength.h"
 #include "../actionSeqData/s_ActionSeqDataContainer.h"
+#include "Source/Utils/widgetFormSenior/flexibleClassificationTree/private/c_FCT_Config.h"
 
 /*
 -----==========================================================-----
@@ -49,12 +50,10 @@ P_ActionSeqPart::P_ActionSeqPart(QWidget *parent)
 
 	// > 树
 	this->m_p_tree = new P_FlexibleClassificationTree(ui.treeWidget_ActionSeq);
-	QJsonObject obj_config = QJsonObject();		//默认配置
-	QJsonObject obj_tree = QJsonObject();
-	obj_tree.insert("rowHeight", 32);
-	obj_config.insert("sortMode", "自定义分支（按id递增排序）");
-	obj_config.insert("FCTConfig", obj_tree);
-	this->m_p_tree->setData(obj_config);
+	C_FCT_Config* config = this->m_p_tree->getConfigEx();
+	config->rowHeight = 32;
+	config->setCurrentMode("自定义分支（按id递增排序）");
+	this->m_p_tree->setConfigEx(config);
 	connect(this->m_p_tree, &P_FlexibleClassificationTree::currentLeafChanged, this, &P_ActionSeqPart::currentActionSeqChanged);
 	connect(this->m_p_tree, &P_FlexibleClassificationTree::menuCopyLeafTriggered, this, &P_ActionSeqPart::shortcut_copyData);
 	connect(this->m_p_tree, &P_FlexibleClassificationTree::menuPasteLeafTriggered, this, &P_ActionSeqPart::shortcut_pasteData);
@@ -304,7 +303,9 @@ void P_ActionSeqPart::putDataToUi() {
 
 	// > 树结构初始化
 	QJsonObject obj_treeData = S_ActionSeqDataContainer::getInstance()->getTreeData();
-	this->m_p_tree->setData(obj_treeData);		//（存储的数据需要在load前完成赋值）
+	C_FCT_Config* config = dynamic_cast<C_FCT_Config*>(this->m_p_tree->createConfigData());
+	config->setJsonObject(obj_treeData, this->m_p_tree);		//（存储的数据需要在load前完成赋值）
+	this->m_p_tree->setConfigEx(config);
 
 	// > 分解数据（动画序列 --> 动画序列列表）
 	int data_actionSeqCount = S_ActionSeqDataContainer::getInstance()->getActionSeqLength().realLen_actionSeq;
@@ -371,7 +372,7 @@ void P_ActionSeqPart::putUiToData() {
 	}
 
 	S_ActionSeqDataContainer::getInstance()->setActionSeqData(data_actionSeq);
-	S_ActionSeqDataContainer::getInstance()->modifyTreeData(this->m_p_tree->getData());
+	S_ActionSeqDataContainer::getInstance()->modifyTreeData(this->m_p_tree->getConfigEx()->getJsonObject());
 }
 
 

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "P_FlexiblePageTree.h"
+#include "../flexiblePageTree/P_FlexiblePageTree.h"
 
 /*
 -----==========================================================-----
 		类：		灵活分类树（含自定义分支）.cpp
-		版本：		v1.02
+		版本：		v1.04
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		能够显示一堆数据，并且将这些数据分类或转移到不同的树枝中，便于查询。
@@ -13,6 +13,9 @@
 					（详细见cpp）
 -----==========================================================-----
 */
+class C_FCT_Config;
+class C_FCT_Classify;
+class W_FCT_Classify;
 class P_FlexibleClassificationTree : public P_FlexiblePageTree
 {
 	Q_OBJECT
@@ -21,24 +24,37 @@ class P_FlexibleClassificationTree : public P_FlexiblePageTree
 		P_FlexibleClassificationTree(QTreeWidget *parent);		//构造函数
 		~P_FlexibleClassificationTree();						//析构函数
 		
+
 	//-----------------------------------
-	//----控件
+	//----工厂（子类继承覆写用接口）
 	public:
-									//控件 - 刷新树
-		virtual void refreshTreeUi_special();
-									//控件 - 刷新树_自定义分支_id递增
-		void refreshTreeUi_classify_idInc();
-									//控件 - 刷新树_自定义分支_名称递增
-		void refreshTreeUi_classify_nameInc();
-									//控件 - 清理全部
-		virtual void clearAll();
+											//工厂 - 创建 树设置 数据（覆写父类）
+		virtual C_FPT_Config* createConfigData();
+											//工厂 - 创建 种类 数据（可覆写）
+		virtual C_FCT_Classify* createClassifyData();
+											//工厂 - 创建 种类 编辑窗口（可覆写）
+		virtual W_FCT_Classify* createClassifyWindow();
 		
 	//-----------------------------------
-	//----控件（叶子）
+	//----树对象
 	public:
-									//叶子 - 获取 - 根据类型获取
-		QList<I_FCTLeaf*> getLeafByType(QString type);
-									//叶子 - 获取 - 类型
+									//树对象 - 清理全部
+		virtual void clearAll() override;
+	protected:
+									//树对象 - 刷新树 - 分支
+		virtual void refreshTreeUi_special() override;
+									//树对象 - 刷新树 - 分支 - 自定义分支_id递增
+		virtual void refreshTreeUi_classify_idInc();
+									//树对象 - 刷新树 - 分支 - 自定义分支_名称递增
+		virtual void refreshTreeUi_classify_nameInc();
+		
+
+	//-----------------------------------
+	//----叶子
+	public:
+									//叶子 - 获取 - 根据种类获取
+		QList<I_FPT_Leaf*> getLeafByType(QString type);
+									//叶子 - 获取 - 种类
 		QString getLeafType(int id);
 	public slots:
 									//叶子 - 【外部修改】叶子名称
@@ -52,48 +68,40 @@ class P_FlexibleClassificationTree : public P_FlexiblePageTree
 		
 		
 	//-----------------------------------
-	//----控件（树枝）
+	//----树枝
 	public:
 									//树枝 - 获取树枝（自定义分支专用）
-		I_FCTBranch* getBranchByTypeName(QString classify_name);
-		
-	//-----------------------------------
-	//----数据
-	public:
-									//数据 - 本地数据 -> ui数据
-		virtual void putDataToUi();
-									//数据 - ui数据 -> 本地数据
-		virtual void putUiToData();
+		I_FPT_Branch* getBranchByTypeName(QString classify_name);
+
 
 	//-----------------------------------
-	//----数据（自定义分支）
-	protected:
-		QList<C_FCTClassify> m_classifyData;		//自定义分支（只在putDataToUi时初始化）
+	//----数据（种类分支）
 	public slots:
-									//类型 - 添加
-		void addClassify(C_FCTClassify classify);
+									//种类 - 添加
+		void addClassify(C_FCT_Classify* classify);
+									//种类 - 添加（action）
 		void addClassifyInAction();
-									//类型 - 修改
-		void modifyClassify(QString classify_name, C_FCTClassify classify);
+									//种类 - 添加 - 验证新种类
+		void addClassifyDistinguishedList(QStringList new_classify_nameList);
+									//种类 - 修改
+		void modifyClassify(QString classify_name, C_FCT_Classify* classify);
+									//种类 - 修改（action）
 		void modifyClassifyInAction();
-									//类型 - 去除
+									//种类 - 去除
 		void removeClassify(QString classify_name);
+									//种类 - 去除（action）
 		void removeClassifyInAction();
 		void removeClassifyListInAction();
-									//类型 - 上移
+									//种类 - 上移
 		void moveUpInAction();
-									//类型 - 下移
+									//种类 - 下移
 		void moveDownInAction();
-									//类型 - 获取 - 全部类型
-		QStringList getAllClassify();
-									//类型 - 获取 - 获取类型索引
-		int indexOfClassify(QString classify_name);
-									//类型 - 获取 - 判断类型存在
-		bool hasClassify(QString classify_name);
-									//类型 - 当前为自定义分支模式
+									//种类 - 获取 - 是否为自定义分支
 		bool isClassifyMode();
+									//种类 - 获取 - 全部种类名
+		QStringList getAllClassifyName();
 	protected:
-									//类型 - 从本地数据中，读取类型列表
+									//种类 - 从本地数据中，读取种类列表
 		void appendClassifyData_FromLocalObj();
 	
 	//-----------------------------------
@@ -116,16 +124,31 @@ class P_FlexibleClassificationTree : public P_FlexiblePageTree
 	//----右键菜单
 	public:
 											//右键菜单 - 一级菜单
-		virtual void drawMenuMain();
-		virtual void drawMenuMainLast();
+		virtual void drawMenuMain() override;
+		virtual void drawMenuMainLast() override;
 											//右键菜单 - 二级菜单（模式）
-		virtual void drawMenuMode();
+		virtual void drawMenuMode() override;
+		
 		
 	//-----------------------------------
-	//----资源数据
+	//----数据（树设置）
+	protected:
+										//树设置 - 设置参数
+		virtual void setConfig(C_FPT_Config* config) override;
+										//树设置 - 取出参数
+		virtual C_FPT_Config* getConfig() override;
+	public:
+										//树设置 - 设置参数Ex
+		virtual void setConfigEx(C_FCT_Config* config);
+										//树设置 - 取出参数Ex
+		virtual C_FCT_Config* getConfigEx();
+
+
+	//-----------------------------------
+	//----数据（资源数据）
 	protected slots:
 										//资源数据 - 重建数据（私有）
-		virtual void rebuildTreeData();
+		virtual void rebuildTreeData() override;
 										//资源数据 - 重建数据_自定义分支_id递增（私有）
 		void rebuildTreeData_classify_idInc();
 										//资源数据 - 重建数据_自定义分支_名称递增（私有）

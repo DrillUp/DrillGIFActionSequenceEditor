@@ -4,7 +4,7 @@
 /*
 -----==========================================================-----
 		类：		Drill_up工具包.cpp
-		版本：		v1.17
+		版本：		v1.20
 		作者：		drill_up
 		编码：		UTF-8
 		所属模块：	工具模块
@@ -23,6 +23,7 @@
 					正则：
 						-> 正则获取					【索引：关键字"QRegExp"】
 						-> 判断中文
+						-> 字符串后缀数字+1
 					文件名操作：
 						-> 获取后缀
 						-> 换后缀
@@ -43,6 +44,13 @@
 					QJson：
 						-> 将QJsonObject放到另一个里面
 						-> 列表字符串QJson转换
+					QStringList：
+						-> 清理空行
+						-> 去除注释行（根据前缀）
+						-> 全部行保留小数位
+						-> 全部行添加前缀/后缀
+					QWidget：
+						-> 快速创建样式QLabel
 
 		说明：		1._QString_函数用于消除很多修改情况，比如 lineedit与doublespinbox 相互改的情况。
 					2._QString_函数用于消除很多麻烦，QTableWidgetItem等各种编辑框赋值情况。
@@ -693,20 +701,20 @@ QString TTool::_get_re_double_e_(){
 QString TTool::_get_re_double_SI_(){
 	return "(-?\\d+\\.\\d*|-?\\d*\\.\\d+|-?\\d+)([eE][-+]?\\d+)?([munpkMGT]?)";
 }
-QRegExpValidator* TTool::_getValidator_re_int_() {
-	return new QRegExpValidator(QRegExp(_get_re_int_()));
+QRegExpValidator* TTool::_getValidator_re_int_(QWidget* parent) {
+	return new QRegExpValidator(QRegExp(_get_re_int_()), parent);
 }
-QRegExpValidator* TTool::_getValidator_re_int_SI_() {
-	return new QRegExpValidator(QRegExp(_get_re_int_SI_()));
+QRegExpValidator* TTool::_getValidator_re_int_SI_(QWidget* parent) {
+	return new QRegExpValidator(QRegExp(_get_re_int_SI_()), parent);
 }
-QRegExpValidator* TTool::_getValidator_re_double_(){
-	return new QRegExpValidator(QRegExp(_get_re_double_()));
+QRegExpValidator* TTool::_getValidator_re_double_(QWidget* parent){
+	return new QRegExpValidator(QRegExp(_get_re_double_()), parent);
 }
-QRegExpValidator* TTool::_getValidator_re_double_e_(){
-	return new QRegExpValidator(QRegExp(_get_re_double_e_()));
+QRegExpValidator* TTool::_getValidator_re_double_e_(QWidget* parent){
+	return new QRegExpValidator(QRegExp(_get_re_double_e_()), parent);
 }
-QRegExpValidator* TTool::_getValidator_re_double_SI_(){
-	return new QRegExpValidator(QRegExp(_get_re_double_SI_()));
+QRegExpValidator* TTool::_getValidator_re_double_SI_(QWidget* parent){
+	return new QRegExpValidator(QRegExp(_get_re_double_SI_()), parent);
 }
 bool TTool::_match_re_int_(QString test_str) {
 	QRegExp re(_get_re_int_());
@@ -750,6 +758,21 @@ bool TTool::_match_re_double_SI_(QString test_str) {
 }
 bool TTool::_has_any_chineseCharacter_(QString test_str) {
 	return test_str.contains(QRegExp("[\\x4e00-\\x9fa5]+"));
+}
+QString TTool::_QString_suffix_addOne_(QString modify_str) {
+	if (modify_str == ""){ return ""; }
+
+	QRegExp re("(\\d+)$");	//（末尾，不含负数）
+	re.setMinimal(false);
+	int index = re.indexIn(modify_str);
+	if (index == -1){
+		return modify_str + "2";
+	}
+
+	int value = re.cap(0).toInt() + 1;
+	modify_str = modify_str.mid(0, index);
+	modify_str = modify_str + QString::number(value);
+	return modify_str;
 }
 
 
@@ -1043,4 +1066,69 @@ QString  TTool::_JSON_stringify_(QList<QJsonObject> data){
 		arr.append(data.at(i));
 	}
 	return QJsonDocument(arr).toJson(QJsonDocument::Compact);
+}
+
+void  TTool::_QStringList_clearEmptyRows_(QStringList* data_list){
+	for (int i = data_list->count()-1; i >=0; i--) {
+		QString str = data_list->at(i).trimmed();
+		if (str.isEmpty()) {
+			data_list->removeAt(i);
+		}
+	}
+}
+void  TTool::_QStringList_clearComment_(QStringList* data_list, QString prefix){
+	for (int i = data_list->count() - 1; i >= 0; i--) {
+		QString str = data_list->at(i).trimmed();
+		if (str.mid(0, prefix.length()) == prefix) {
+			data_list->removeAt(i);
+		}
+	}
+}
+QStringList  TTool::_QStringList_decimalChange_(QStringList data_list, int decimal){
+	QStringList result_list = QStringList();
+	for (int i = 0; i < data_list.count(); i++) {
+		QString str = data_list.at(i);
+		str = QString::number(str.toDouble(), 'f', decimal);
+		result_list.push_back(str);
+	}
+	return result_list;
+}
+QStringList TTool::_QStringList_addPrefix_(QStringList data_list, QString prefix){
+	QStringList result_list = QStringList();
+	for (int i = 0; i < data_list.count(); i++) {
+		QString str = prefix;
+		str.append(data_list.at(i));
+		result_list.push_back(str);
+	}
+	return result_list;
+}
+QStringList TTool::_QStringList_addSuffix_(QStringList data_list, QString suffix){
+	QStringList result_list = QStringList();
+	for (int i = 0; i < data_list.count(); i++) {
+		QString str = data_list.at(i);
+		str.append(suffix);
+		result_list.push_back(str);
+	}
+	return result_list;
+}
+
+QLabel* TTool::_CreateQWidget_headerLabel_(QString text, int fontsize, int padding, QWidget* parent){
+	QLabel* q_label = new QLabel(parent);
+	q_label->setText(text);
+	q_label->setStyleSheet("padding:" + QString::number(padding) + "px;font-size:" + QString::number(fontsize) + "px;font-weight:700;");
+	return q_label;
+}
+QWidget* TTool::_CreateQWidget_containsTarget_(QWidget* target, int padding){
+	QWidget* q_w = new QWidget();
+	QVBoxLayout* q_layout = new QVBoxLayout(q_w);
+	q_w->setLayout(q_layout);
+	q_layout->setMargin(padding);
+	q_layout->addWidget(target);
+	return q_w;
+}
+QStyledItemDelegate* TTool::_ChangeCombox_itemHeight_(QComboBox* target, int item_height){
+	QStyledItemDelegate* delegate = new QStyledItemDelegate(target);
+	target->setItemDelegate(delegate);
+	target->setStyleSheet("QComboBox QAbstractItemView::item {min-height: " + QString::number(item_height) + "px;}");
+	return delegate;
 }

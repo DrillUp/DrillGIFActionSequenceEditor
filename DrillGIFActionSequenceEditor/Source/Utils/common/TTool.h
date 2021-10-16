@@ -11,7 +11,7 @@
 /*
 -----==========================================================-----
 		类：		Drill_up工具包.h
-		版本：		v1.17
+		版本：		v1.20
 		作者：		drill_up
 		编码：		UTF-8
 		所属模块：	工具模块
@@ -370,19 +370,19 @@ class TTool
 		static QString _get_re_double_SI_();
 		/*获取整数正则校验器
 			【说明】：获取只识别int的正则公式。*/
-		static QRegExpValidator* _getValidator_re_int_();
+		static QRegExpValidator* _getValidator_re_int_(QWidget* parent = nullptr);
 		/*获取整数正则校验器（SI）
 			【说明】：获取只识别int的正则公式，包含SI写法的识别。*/
-		static QRegExpValidator* _getValidator_re_int_SI_();
+		static QRegExpValidator* _getValidator_re_int_SI_(QWidget* parent = nullptr);
 		/*获取小数正则校验器（不含e）
 			【说明】：获取识别double的正则公式，不含科学计数法。*/
-		static QRegExpValidator* _getValidator_re_double_();
+		static QRegExpValidator* _getValidator_re_double_(QWidget* parent = nullptr);
 		/*获取小数正则校验器（含e）
 			【说明】：获取识别double的正则公式，包含科学计数法识别。*/
-		static QRegExpValidator* _getValidator_re_double_e_();
+		static QRegExpValidator* _getValidator_re_double_e_(QWidget* parent = nullptr);
 		/*获取小数正则校验器（SI）
 			【说明】：获取识别double的正则公式，包含SI写法的识别。*/
-		static QRegExpValidator* _getValidator_re_double_SI_();
+		static QRegExpValidator* _getValidator_re_double_SI_(QWidget* parent = nullptr);
 		/*判断整数
 			【说明】：只识别int。*/
 		static bool _match_re_int_(QString test_str);
@@ -401,6 +401,9 @@ class TTool
 		/*判断中文
 			【说明】：如果字符串中存在中文字符则返回true。*/
 		static bool _has_any_chineseCharacter_(QString test_str);
+		/*字符串后缀数字+1
+			【说明】：将字符串末尾的数字+1并返回，没有数字则返回"字符串2"。*/
+		static QString _QString_suffix_addOne_(QString modify_str);
 		
 	//-----------------------------------------------------
 	//----快速操作
@@ -533,6 +536,38 @@ class TTool
 			【说明1】：冗余操作的简化，注意是utf8的字符串。
 			【说明2】：使用的QJsonDocument转义，层层嵌套会出现\\"多斜杠。 */
 		static QString _JSON_stringify_(QList<QJsonObject> data);
+		
+	//-----------------------------------------------------
+	//----QStringList
+	public:
+		/*字符串列表 - 去除空行
+			【说明】：简易操作，如果有更复杂操作，去用p_TxtFastReader。 */
+		static void _QStringList_clearEmptyRows_(QStringList* data_list);
+		/*字符串列表 - 去除注释行（根据前缀）
+			【说明】：简易操作，如果有更复杂操作，去用p_TxtFastReader。 */
+		static void _QStringList_clearComment_(QStringList* data_list, QString prefix);
+		/*字符串列表 - 保留小数位
+			【说明】：简易操作。 */
+		static QStringList _QStringList_decimalChange_(QStringList data, int decimal);
+		/*字符串列表 - 全部行添加前缀
+			【说明】：简易操作。 */
+		static QStringList _QStringList_addPrefix_(QStringList data_list, QString prefix);
+		/*字符串列表 - 全部行添加后缀
+			【说明】：简易操作。 */
+		static QStringList _QStringList_addSuffix_(QStringList data_list, QString suffix);
+		
+	//-----------------------------------------------------
+	//----QWidget
+	public:
+		/*控件块 - 创建加粗字体块
+			【说明】：快速创建一个加粗的字体文本（主要给表格控件、树控件用）。 */
+		static QLabel* _CreateQWidget_headerLabel_(QString text, int fontsize, int padding, QWidget* parent = nullptr);
+		/*控件块 - 创建外部包裹块
+			【说明】：快速创建包裹块，将目标QWidget包裹起来。 */
+		static QWidget* _CreateQWidget_containsTarget_(QWidget* target, int padding);
+		/*控件块 - 修改下拉框项高度
+			【说明】：快速修改下拉框子项的高度。 */
+		static QStyledItemDelegate* _ChangeCombox_itemHeight_(QComboBox* target, int item_height);
 
 };
 

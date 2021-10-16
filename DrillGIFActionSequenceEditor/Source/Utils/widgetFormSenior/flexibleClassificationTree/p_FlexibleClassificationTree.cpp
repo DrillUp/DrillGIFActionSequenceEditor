@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "p_FlexibleClassificationTree.h"
 
-#include "private/w_FCTConfig.h"
-#include "private/w_FCTClassify.h"
-#include "private/w_FCTClassifySelector.h"
+#include "private/c_FCT_Config.h"
+#include "private/c_FCT_Classify.h"
+#include "private/w_FCT_Classify.h"
+#include "private/w_FCT_ClassifySelector.h"
 
 #include "Source/Utils/common/TTool.h"
 #include "Source/Utils/widgetFormSenior/ObjectSortController/c_ObjectSortData.h"
@@ -12,11 +13,11 @@
 
 /*
 -----==========================================================-----
-		类：		灵活类型树（含自定义分支）.cpp
-		版本：		v1.02
+		类：		灵活分类树（含种类分支）.cpp
+		版本：		v1.04
 		作者：		drill_up
 		所属模块：	工具模块
-		功能：		能够显示一堆数据，并且将这些数据类型或转移到不同的树枝中，便于查询。
+		功能：		能够显示一堆数据，并且将这些数据分类或转移到不同的树枝中，便于查询。
 					注意，该树被装饰后，需要对该控件块进行交互，不要对树进行直接交互。
 
 		子功能：	-> 树结构
@@ -29,7 +30,7 @@
 					-> 分支
 						-> ID分支
 						-> 名称分支
-						-> 自定义分支（该类不含自定义分支功能）
+						-> 种类分支（该类不含种类分支功能）
 							-> 树枝右键可以添加分类
 							-> 叶子右键可以添加分类/移动到分类（可去除所有分类）
 							-> 同一个对象可以在多个分类中出现（功能与后期对象选择器排序 冲突）
@@ -52,12 +53,8 @@ P_FlexibleClassificationTree::P_FlexibleClassificationTree(QTreeWidget *parent)
 	: P_FlexiblePageTree(parent)
 {
 
-	//-----------------------------------
-	//----ui初始化
-
-	// > 数据
-	this->m_sortModeList << "自定义分支（按id递增排序）" << "自定义分支（按名称递增排序）";
-	this->m_classifyData = QList<C_FCTClassify>();
+	// > 树设置
+	this->m_config = this->createConfigData();
 
 }
 P_FlexibleClassificationTree::~P_FlexibleClassificationTree(){
@@ -65,31 +62,60 @@ P_FlexibleClassificationTree::~P_FlexibleClassificationTree(){
 
 
 /*-------------------------------------------------
-		控件 - 刷新树
+		工厂 - 创建 树设置 数据（覆写父类）
+*/
+C_FPT_Config* P_FlexibleClassificationTree::createConfigData(){
+	return new C_FCT_Config();
+}
+/*-------------------------------------------------
+		工厂 - 创建 种类 数据（可覆写）
+*/
+C_FCT_Classify* P_FlexibleClassificationTree::createClassifyData(){
+	return new C_FCT_Classify();
+}
+/*-------------------------------------------------
+		工厂 - 创建 种类 编辑窗口（可覆写）
+*/
+W_FCT_Classify* P_FlexibleClassificationTree::createClassifyWindow(){
+	return new W_FCT_Classify(this);
+}
+
+
+/*-------------------------------------------------
+		树对象 - 清理全部
+*/
+void P_FlexibleClassificationTree::clearAll(){
+	P_FlexiblePageTree::clearAll();
+
+	// > 树设置（树设置与资源读取无关，不清理）
+
+}
+/*-------------------------------------------------
+		树对象 - 刷新树 - 分支
 */
 void P_FlexibleClassificationTree::refreshTreeUi_special() {
 	P_FlexiblePageTree::refreshTreeUi_special();
 
 	// > 叶子位置转移
-	if (this->m_sortMode == "自定义分支（按id递增排序）"){ this->refreshTreeUi_classify_idInc(); }
-	if (this->m_sortMode == "自定义分支（按名称递增排序）"){ this->refreshTreeUi_classify_nameInc(); }
+	if (this->getConfigEx()->is_classify_idInc_Mode()){ this->refreshTreeUi_classify_idInc(); }
+	if (this->getConfigEx()->is_classify_nameInc_Mode()){ this->refreshTreeUi_classify_nameInc(); }
 }
 /*-------------------------------------------------
-		控件 - 刷新树_自定义分支_id递增
+		树对象 - 刷新树 - 分支 - 种类分支_id递增
 */
 void P_FlexibleClassificationTree::refreshTreeUi_classify_idInc() {
 
-	// > 类型修改后，修改的叶子可能会跑到新树枝下
+	// > 种类修改后，修改的叶子可能会跑到新树枝下
 	for (int i = 0; i < this->m_leafItem.count(); i++){
-		I_FCTLeaf* leaf = this->m_leafItem.at(i);
-		I_FCTBranch* parent_branch = dynamic_cast<I_FCTBranch*>(leaf->parent());
+		I_FPT_Leaf* leaf = this->m_leafItem.at(i);
+		I_FPT_Branch* parent_branch = dynamic_cast<I_FPT_Branch*>(leaf->parent());
 
 		QString classify_name = leaf->getType();
 		QString p_classify_name = parent_branch->getBranch_type_Name();
 		if (classify_name != p_classify_name){
 			leaf->parent()->removeChild(leaf);
 
-			I_FCTBranch* n_branch = this->getBranchByTypeName(classify_name);
+			I_FPT_Branch* n_branch = this->getBranchByTypeName(classify_name);
 			if (n_branch == nullptr){ continue; }
 			n_branch->addChild(leaf);
 		}
@@ -97,22 +123,13 @@ void P_FlexibleClassificationTree::refreshTreeUi_classify_idInc() {
 
 }
 /*-------------------------------------------------
-		控件 - 刷新树_自定义分支_名称递增
+		树对象 - 刷新树 - 分支 - 种类分支_名称递增
 */
 void P_FlexibleClassificationTree::refreshTreeUi_classify_nameInc() {
 
-	// > 类型修改后，修改的叶子可能会跑到新树枝下
+	// > 种类修改后，修改的叶子可能会跑到新树枝下
 	this->refreshTreeUi_classify_idInc();	//（与id一模一样）
 
-}
-/*-------------------------------------------------
-		控件 - 清理全部
-*/
-void P_FlexibleClassificationTree::clearAll(){
-	P_FlexiblePageTree::clearAll();
-
-	// > 数据清理
-	this->m_classifyData.clear();
 }
 
 
@@ -145,10 +162,10 @@ void P_FlexibleClassificationTree::outerModifySelectedLeafType( QString name){
 	// （无变化）
 }
 /*-------------------------------------------------
-		叶子 - 获取 - 根据类型获取
+		叶子 - 获取 - 根据种类获取
 */
-QList<I_FCTLeaf*> P_FlexibleClassificationTree::getLeafByType(QString type){
-	QList<I_FCTLeaf*> result_list = QList<I_FCTLeaf*>();
+QList<I_FPT_Leaf*> P_FlexibleClassificationTree::getLeafByType(QString type){
+	QList<I_FPT_Leaf*> result_list = QList<I_FPT_Leaf*>();
 	for (int i = 0; i < this->m_leafItem.count(); i++){
 		if (this->m_leafItem.at(i)->getType() == type){
 			result_list.append( this->m_leafItem.at(i) );
@@ -157,17 +174,17 @@ QList<I_FCTLeaf*> P_FlexibleClassificationTree::getLeafByType(QString type){
 	return result_list;
 }
 /*-------------------------------------------------
-		叶子 - 获取 - 类型
+		叶子 - 获取 - 种类
 */
 QString P_FlexibleClassificationTree::getLeafType(int id){
-	I_FCTLeaf* leaf = this->getLeafById(id);
+	I_FPT_Leaf* leaf = this->getLeafById(id);
 	if (leaf == nullptr){ return ""; }
 	return leaf->getType();
 }
 /*-------------------------------------------------
-		树枝 - 获取树枝（自定义分支专用）
+		树枝 - 获取树枝（种类分支专用）
 */
-I_FCTBranch* P_FlexibleClassificationTree::getBranchByTypeName(QString classify_name){
+I_FPT_Branch* P_FlexibleClassificationTree::getBranchByTypeName(QString classify_name){
 	for (int i = 0; i < this->m_branchItem.count(); i++){
 		if (this->m_branchItem.at(i)->getBranch_type_Name() == classify_name){
 			return this->m_branchItem.at(i);
@@ -177,211 +194,133 @@ I_FCTBranch* P_FlexibleClassificationTree::getBranchByTypeName(QString classify_
 }
 
 
-
 /*-------------------------------------------------
-		数据 - 本地数据 -> ui数据
+		种类 - 获取 - 是否为种类分支
 */
-void P_FlexibleClassificationTree::putDataToUi(){
-	P_FlexiblePageTree::putDataToUi();
-
-	// > 类型 
-	this->m_classifyData.clear();
-
-	// > 类型 - 存储的数据
-	if (this->local_treeData.value("FCTClassifyList").isUndefined() == false){
-		QJsonArray arr = this->local_treeData.value("FCTClassifyList").toArray();
-		QList<C_FCTClassify> classify_list = QList<C_FCTClassify>();
-		for (int i = 0; i < arr.count(); i++){
-			C_FCTClassify c_c = C_FCTClassify();
-			c_c.setJsonObject(arr.at(i).toObject());
-			classify_list.append(c_c);
-		}
-		this->m_classifyData.append(classify_list);
-	}
-
-	// > 类型 - 检查新的类型
-	QStringList other_classify_list = this->m_source_ObjectSortController->get_Type_DistinguishedList();
-	for (int i = 0; i < other_classify_list.count(); i++){
-		QString classify_name = other_classify_list.at(i);
-		if (classify_name != "" && this->hasClassify(classify_name) == false){
-
-			C_FCTClassify c_c = C_FCTClassify();	//（这里的类型来自外部的修改，而非树的修改）
-			c_c.name = classify_name;
-			c_c.description = "";
-			this->m_classifyData.append(c_c);
-		}
-	}
-
-	// > 类型 - 未分类（特殊添加）
-	this->m_classifyData.append(C_FCTClassify());
-
-}
-/*-------------------------------------------------
-		数据 - ui数据 -> 本地数据
-*/
-void P_FlexibleClassificationTree::putUiToData(){
-	P_FlexiblePageTree::putUiToData();
-
-	// > 类型数据（自定义分支）
-	QJsonArray arr = QJsonArray();
-	for (int i = 0; i < this->m_classifyData.count(); i++){
-		C_FCTClassify c_c = this->m_classifyData.at(i);
-		if (c_c.isNull() == false){		//（排除"未分类"）
-			arr.append(c_c.getJsonObject());
-		}
-	}
-	this->local_treeData.insert("FCTClassifyList", arr);
-
-}
-
-
-/*-------------------------------------------------
-		类型 - 获取 - 全部类型
-*/
-QStringList P_FlexibleClassificationTree::getAllClassify(){
-	QStringList result_list = QStringList();
-	for (int i = 0; i < this->m_classifyData.count(); i++){
-		result_list.append(this->m_classifyData.at(i).name);
-	}
-	return result_list;
-}
-/*-------------------------------------------------
-		类型 - 获取 - 判断类型存在
-*/
-int P_FlexibleClassificationTree::indexOfClassify(QString classify_name){
-	for (int i = 0; i < this->m_classifyData.count(); i++){
-		if (this->m_classifyData.at(i).name == classify_name){
-			return i;
-		}
-	}
-	return -1;
-}
-/*-------------------------------------------------
-		类型 - 获取 - 判断类型存在
-*/
-bool P_FlexibleClassificationTree::hasClassify(QString classify_name){
-	for (int i = 0; i < this->m_classifyData.count(); i++){
-		if (this->m_classifyData.at(i).name == classify_name){
-			return true;
-		}
-	}
+bool P_FlexibleClassificationTree::isClassifyMode(){
+	if (this->getConfigEx()->is_classify_idInc_Mode()){ return true; }
+	if (this->getConfigEx()->is_classify_nameInc_Mode()){ return true; }
 	return false;
 }
 /*-------------------------------------------------
-		类型 - 当前为自定义分支模式
+		种类 - 获取 - 全部种类名
 */
-bool P_FlexibleClassificationTree::isClassifyMode(){
-	return this->m_sortMode.contains("自定义分支");
+QStringList P_FlexibleClassificationTree::getAllClassifyName(){
+	return this->getConfigEx()->getAll_classify_NameList();
 }
-/*-------------------------------------------------
-		类型 - 添加
-*/
-void P_FlexibleClassificationTree::addClassify(C_FCTClassify classify){
-	if (this->hasClassify(classify.name) == true){ return; }
 
-	// > 添加对象
-	int index = this->m_classifyData.count() - 1;
-	this->m_classifyData.insert(index, classify);
+/*-------------------------------------------------
+		种类 - 添加
+*/
+void P_FlexibleClassificationTree::addClassify(C_FCT_Classify* classify){
+
+	// > 添加到数据
+	if (this->getConfigEx()->has_classify(classify->getName()) == true){ return; }
+	this->getConfigEx()->add_classify(classify);
 
 	// > 树枝变化
-	I_FCTBranch* branch = new I_FCTBranch();
-	branch->setId(index);										//序号
-	branch->setBranch_type_Name(classify.name);					//自定义分支 - 类型名称
-	branch->setBranch_type_Description(classify.description);	//自定义分支 - 类型描述
+	int index = this->getConfigEx()->get_classify_Index(classify->getName());
+	I_FPT_Branch* branch = this->createFCTBranch();
+	branch->setId(index);											//序号
+	branch->setBranch_type_Name(classify->getName());				//种类分支 - 种类名称
+	branch->setBranch_type_Description(classify->getDescription());	//种类分支 - 种类描述
 	this->m_branchItem.insert(index, branch);
 
 	this->refreshTreeUi();
 }
 /*-------------------------------------------------
-		类型 - 修改
+		种类 - 添加（action）
 */
-void P_FlexibleClassificationTree::modifyClassify(QString classify_name, C_FCTClassify classify){
-	if (this->hasClassify(classify_name) == false){ return; }
-
-	// > 修改对象
-	for (int i = 0; i < this->m_classifyData.count(); i++){
-		C_FCTClassify c_c = this->m_classifyData.at(i);
-		if (c_c.name == classify_name){
-			this->m_classifyData.replace(i, classify);
-			break;
-		}
+void P_FlexibleClassificationTree::addClassifyInAction(){
+	W_FCT_Classify* d = this->createClassifyWindow();
+	d->setDataInAddMode();
+	if (d->exec() == QDialog::Accepted){
+		this->addClassify(d->getData());
 	}
+	d->deleteLater();
+}
+/*-------------------------------------------------
+		种类 - 添加 - 验证新种类
+*/
+void P_FlexibleClassificationTree::addClassifyDistinguishedList(QStringList new_classify_nameList){
+	C_FCT_Config* config = this->getConfigEx();
+
+	// > 种类 - 检查新的种类
+	for (int i = 0; i < new_classify_nameList.count(); i++){
+		QString classify_name = new_classify_nameList.at(i);
+		if (classify_name == ""){ continue; }
+		if (config->has_classify(classify_name)){ continue; }
+
+		C_FCT_Classify* c_c = this->createClassifyData();	//（这里的种类来自外部的修改，而非树的修改）
+		c_c->setName(classify_name);
+		c_c->setDescription("");
+		config->add_classify(c_c);
+	}
+}
+/*-------------------------------------------------
+		种类 - 修改
+*/
+void P_FlexibleClassificationTree::modifyClassify(QString classify_name, C_FCT_Classify* classify){
+	if (this->getConfigEx()->has_classify(classify_name) == true){ return; }
+
+	// > 修改数据
+	//（指针，直接修改）
 
 	// > 树枝变化
-	I_FCTBranch* branch = this->getBranchByTypeName(classify_name);
-	branch->setBranch_type_Name(classify.name);					//自定义分支 - 类型名称
-	branch->setBranch_type_Description(classify.description);	//自定义分支 - 类型描述
+	I_FPT_Branch* branch = this->getBranchByTypeName(classify_name);
+	branch->setBranch_type_Name(classify->getName());				//种类分支 - 种类名称
+	branch->setBranch_type_Description(classify->getDescription());	//种类分支 - 种类描述
 
 	// > 叶子变化
-	QList<I_FCTLeaf*> leaf_list = this->getLeafByType(classify_name);
+	QList<I_FPT_Leaf*> leaf_list = this->getLeafByType(classify_name);
 	for (int i = 0; i < leaf_list.count(); i++){
-		I_FCTLeaf* leaf = leaf_list.at(i);
-		this->innerModifyLeafType(leaf->getId(), classify.name);
+		I_FPT_Leaf* leaf = leaf_list.at(i);
+		this->innerModifyLeafType(leaf->getId(), classify->getName());
 	}
 
 	this->refreshTreeUi();
 }
 /*-------------------------------------------------
-		类型 - 去除
+		种类 - 修改（action）
+*/
+void P_FlexibleClassificationTree::modifyClassifyInAction(){
+	QAction* cur_action = qobject_cast<QAction*>(sender());		//从action里面取出数据
+	QString classify_name = cur_action->data().value<QString>();
+
+	C_FCT_Classify* c_c = this->getConfigEx()->get_classify(classify_name);
+
+	// > 修改窗口
+	W_FCT_Classify* d = this->createClassifyWindow();
+	d->setDataInModifyMode(c_c);
+	if (d->exec() == QDialog::Accepted){
+		this->modifyClassify(classify_name, d->getData());
+	}
+	d->deleteLater();
+}
+/*-------------------------------------------------
+		种类 - 去除
 */
 void P_FlexibleClassificationTree::removeClassify(QString classify_name){
-	if (this->hasClassify(classify_name) == false){ return; }
-	if ( classify_name == ""){ return; }
+	if (classify_name == ""){ return; }
+	if (this->getConfigEx()->has_classify(classify_name) == false){ return; }
 
-	// > 去除对象
-	for (int i = 0; i < this->m_classifyData.count(); i++){
-		C_FCTClassify c_c = this->m_classifyData.at(i);
-		if (c_c.name == classify_name){
-			this->m_classifyData.removeAt(i);
-			break;
-		}
-	}
+	// > 去除数据
+	this->getConfigEx()->remove_classify(classify_name);
 
 	// > 树枝变化
 	this->m_branchItem.removeOne(this->getBranchByTypeName(classify_name));
 
 	// > 叶子变化
-	QList<I_FCTLeaf*> leaf_list = this->getLeafByType(classify_name);
+	QList<I_FPT_Leaf*> leaf_list = this->getLeafByType(classify_name);
 	for (int i = 0; i < leaf_list.count(); i++){
-		I_FCTLeaf* leaf = leaf_list.at(i);
+		I_FPT_Leaf* leaf = leaf_list.at(i);
 		this->innerModifyLeafType(leaf->getId(), "");
 	}
 
 	this->refreshTreeUi();
 }
 /*-------------------------------------------------
-		类型 - 添加（action）
-*/
-void P_FlexibleClassificationTree::addClassifyInAction(){
-	W_FCTClassify d(this->m_tree);
-	d.setDataInAddMode( &this->m_classifyData );
-	if (d.exec() == QDialog::Accepted){
-		this->addClassify(d.getData());
-	}
-}
-/*-------------------------------------------------
-		类型 - 修改（action）
-*/
-void P_FlexibleClassificationTree::modifyClassifyInAction(){
-	QAction* cur_action = qobject_cast<QAction*>(sender());		//从action里面取出数据
-	QString classify_name = cur_action->data().value<QString>();
-
-	C_FCTClassify c_c = C_FCTClassify();
-	for (int i = 0; i < this->m_classifyData.count(); i++){
-		C_FCTClassify temp_c = this->m_classifyData.at(i);
-		if (temp_c.name == classify_name){
-			c_c = temp_c;
-		}
-	}
-
-	W_FCTClassify d(this->m_tree);
-	d.setDataInModifyMode(c_c, &this->m_classifyData);
-	if (d.exec() == QDialog::Accepted){
-		this->modifyClassify(c_c.name, d.getData());
-	}
-}
-/*-------------------------------------------------
-		类型 - 去除（action）
+		种类 - 去除（action）
 */
 void P_FlexibleClassificationTree::removeClassifyInAction(){
 	QAction* cur_action = qobject_cast<QAction*>(sender());		//从action里面取出数据
@@ -390,50 +329,45 @@ void P_FlexibleClassificationTree::removeClassifyInAction(){
 	this->removeClassify(classify_name);
 }
 /*-------------------------------------------------
-		类型 - 去除（action）
+		种类 - 去除（action）
 */
 void P_FlexibleClassificationTree::removeClassifyListInAction(){
 	QAction* cur_action = qobject_cast<QAction*>(sender());		//从action里面取出数据
 	QStringList classify_list = cur_action->data().value<QStringList>();
 
-	for (int i = 0; i < classify_list.count(); i++){
+	for (int i = classify_list.count()-1; i >=0; i--){
 		this->removeClassify(classify_list.at(i));
 	}
 }
 /*-------------------------------------------------
-		类型 - 上移
+		种类 - 上移
 */
 void P_FlexibleClassificationTree::moveUpInAction(){
 	QAction* cur_action = qobject_cast<QAction*>(sender());		//从action里面取出数据
 	QString classify_name = cur_action->data().value<QString>();
 
 	// > 数据变化
-	int index = this->indexOfClassify(classify_name);
-	if (index == -1){ return; }
-	if (index == 0){ return; }
-	if (index == this->m_classifyData.count() - 1){ return; }
-	this->m_classifyData.swap(index, index - 1);
+	this->getConfigEx()->set_classify_moveUp(classify_name);
 
 	// > 树枝变化
-	this->m_branchItem.swap(index, index - 1);
+	int index = this->getConfigEx()->get_classify_Index(classify_name);
+	this->m_branchItem.swap(index, index + 1);
 
 	this->refreshTreeUi();
 }
 /*-------------------------------------------------
-		类型 - 下移
+		种类 - 下移
 */
 void P_FlexibleClassificationTree::moveDownInAction(){
 	QAction* cur_action = qobject_cast<QAction*>(sender());		//从action里面取出数据
 	QString classify_name = cur_action->data().value<QString>();
 
 	// > 数据变化
-	int index = this->indexOfClassify(classify_name);
-	if (index == -1){ return; }
-	if (index >= this->m_classifyData.count() - 2){ return; }
-	this->m_classifyData.swap(index, index + 1);
+	this->getConfigEx()->set_classify_moveDown(classify_name);
 
 	// > 树枝变化
-	this->m_branchItem.swap(index, index + 1);
+	int index = this->getConfigEx()->get_classify_Index(classify_name);
+	this->m_branchItem.swap(index, index - 1);
 
 	this->refreshTreeUi();
 
@@ -444,7 +378,7 @@ void P_FlexibleClassificationTree::moveDownInAction(){
 		修改的数据 - 【内部修改】叶子的类型
 */
 void P_FlexibleClassificationTree::innerModifyLeafType(int id, QString type){
-	I_FCTLeaf* leaf = this->getLeafById(id);
+	I_FPT_Leaf* leaf = this->getLeafById(id);
 	if (leaf == nullptr){ return; }
 
 	// > 叶子变化
@@ -478,16 +412,15 @@ void P_FlexibleClassificationTree::innerModifyLeafTypeInAction(){
 	QString id_str = leaf_idList.at(0);
 	QString classify = this->getLeafById(id_str.toInt())->getType();
 
-	// > 选择类型
-	W_FCTClassifySelector d(this->m_tree);
-	d.setDataInModifyMode(classify, &this->m_classifyData);
-	connect(&d, &W_FCTClassifySelector::classifyAdded, this, &P_FlexibleClassificationTree::addClassify);
+	// > 选择种类
+	W_FCT_ClassifySelector d(this);
+	d.setData(this->getConfigEx(), classify);
 	if (d.exec() == QDialog::Accepted){
-		C_FCTClassify c_c = d.getSelectedData();
+		QString name = d.getSelectedData();
 		
 		// > 批量修改
 		for (int i = 0; i < leaf_idList.count(); i++){
-			this->innerModifyLeafType(leaf_idList.at(i).toInt(), c_c.name);
+			this->innerModifyLeafType(leaf_idList.at(i).toInt(), name);
 		}
 		this->refreshTreeUi();
 	}
@@ -520,39 +453,41 @@ void P_FlexibleClassificationTree::drawMenuMain(){
 	QList<QTreeWidgetItem*> selected_items = this->m_tree->selectedItems();
 
 	/*------------------------右键点击单个树枝------------------------*/
-	if (this->isBranchList(selected_items) == true && selected_items.count() == 1 && this->isClassifyMode() == true){
-		I_FCTBranch* branch = dynamic_cast<I_FCTBranch*>(selected_items.at(0));
+	if (this->isBranchList(selected_items) == true && selected_items.count() == 1 && this->isClassifyMode() == true ){
+		I_FPT_Branch* branch = dynamic_cast<I_FPT_Branch*>(selected_items.at(0));
 		QString classify_name = branch->getBranch_type_Name();
 
+		int index = this->getConfigEx()->get_classify_Index(classify_name);
+		int count = this->getConfigEx()->get_classify_Count();
 
 		action = new QAction("上移", this);
 		action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Up.png"));
 		action->setData(classify_name);
 		connect(action, &QAction::triggered, this, &P_FlexibleClassificationTree::moveUpInAction);
 		this->m_mainMenu->addAction(action);
-		if (this->indexOfClassify(classify_name) <= 0 || this->indexOfClassify(classify_name) == this->m_classifyData.count() - 1){ action->setEnabled(false); }
+		if (index <= 0 || index == count - 1){ action->setEnabled(false); }
 
 		action = new QAction("下移", this);
 		action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Down.png"));
 		action->setData(classify_name);
 		connect(action, &QAction::triggered, this, &P_FlexibleClassificationTree::moveDownInAction);
 		this->m_mainMenu->addAction(action);
-		if (this->indexOfClassify(classify_name) >= this->m_classifyData.count() - 2 ){ action->setEnabled(false); }
+		if (index >= count - 2){ action->setEnabled(false); }
 
-		action = new QAction("添加类型", this);
+		action = new QAction("添加种类", this);
 		action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Add.png"));
 		//（不需要classify_name）
 		connect(action, &QAction::triggered, this, &P_FlexibleClassificationTree::addClassifyInAction);
 		this->m_mainMenu->addAction(action);
 
-		action = new QAction("编辑类型", this);
+		action = new QAction("编辑种类", this);
 		action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Edit.png"));
 		action->setData(classify_name);
 		connect(action, &QAction::triggered, this, &P_FlexibleClassificationTree::modifyClassifyInAction);
 		this->m_mainMenu->addAction(action);
 		if (classify_name == ""){ action->setEnabled(false); }		//（未分类的树枝不能编辑）
 
-		action = new QAction("删除类型", this);
+		action = new QAction("删除种类", this);
 		action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Delete.png"));
 		action->setData(classify_name);
 		connect(action, &QAction::triggered, this, &P_FlexibleClassificationTree::removeClassifyInAction);
@@ -566,13 +501,13 @@ void P_FlexibleClassificationTree::drawMenuMain(){
 	if (this->isBranchList(selected_items) == true && selected_items.count() > 1 && this->isClassifyMode() == true){
 		QStringList classify_nameList = QStringList();
 		for (int i = 0; i < selected_items.count(); i++){
-			I_FCTBranch* branch = dynamic_cast<I_FCTBranch*>(selected_items.at(i));
+			I_FPT_Branch* branch = dynamic_cast<I_FPT_Branch*>(selected_items.at(i));
 			QString classify_name = branch->getBranch_type_Name();
 			if (classify_name == ""){ continue; }
 			classify_nameList.append(classify_name);
 		}
 		
-		action = new QAction("删除选中的类型", this);
+		action = new QAction("删除选中的种类", this);
 		action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Delete.png"));
 		action->setData(classify_nameList);
 		connect(action, &QAction::triggered, this, &P_FlexibleClassificationTree::removeClassifyListInAction);
@@ -586,7 +521,7 @@ void P_FlexibleClassificationTree::drawMenuMain(){
 		QTreeWidgetItem *item = selected_items.at(0);
 		QStringList leaf_idList = QStringList();
 		for (int i = 0; i < selected_items.count(); i++){
-			I_FCTLeaf* leaf = dynamic_cast<I_FCTLeaf*>(selected_items.at(i));
+			I_FPT_Leaf* leaf = dynamic_cast<I_FPT_Leaf*>(selected_items.at(i));
 			QString id_str = QString::number( leaf->getId() );
 			leaf_idList.append(id_str);
 		}
@@ -614,6 +549,30 @@ void P_FlexibleClassificationTree::drawMenuMode(){
 	
 }
 
+/*-------------------------------------------------
+		树设置 - 设置参数
+*/
+void P_FlexibleClassificationTree::setConfig(C_FPT_Config* config){
+	P_FlexiblePageTree::setConfig(config);
+}
+/*-------------------------------------------------
+		树设置 - 取出参数
+*/
+C_FPT_Config* P_FlexibleClassificationTree::getConfig(){
+	return P_FlexiblePageTree::getConfig();
+}
+/*-------------------------------------------------
+		树设置 - 设置参数Ex
+*/
+void P_FlexibleClassificationTree::setConfigEx(C_FCT_Config* config){
+	P_FlexiblePageTree::setConfig(config);
+}
+/*-------------------------------------------------
+		树设置 - 取出参数Ex
+*/
+C_FCT_Config* P_FlexibleClassificationTree::getConfigEx(){
+	return dynamic_cast<C_FCT_Config*>(P_FlexiblePageTree::getConfig());
+}
 
 /*-------------------------------------------------
 		资源数据 - 重建数据（私有）
@@ -621,17 +580,22 @@ void P_FlexibleClassificationTree::drawMenuMode(){
 void P_FlexibleClassificationTree::rebuildTreeData(){
 	P_FlexiblePageTree::rebuildTreeData();
 
-	if (this->m_sortMode == "自定义分支（按id递增排序）"){
+	// > 添加新种类数据
+	QStringList new_classify_list = this->m_source_ObjectSortController->get_Type_DistinguishedList();
+	this->addClassifyDistinguishedList(new_classify_list);
+
+	// > 重建叶子和树枝
+	if (this->getConfigEx()->is_classify_idInc_Mode() ){
 		this->rebuildTreeData_classify_idInc();
 		this->refreshTreeUi();
 	}
-	if (this->m_sortMode == "自定义分支（按名称递增排序）"){
+	if (this->getConfigEx()->is_classify_nameInc_Mode() ){
 		this->rebuildTreeData_classify_nameInc();
 		this->refreshTreeUi();
 	}
 }
 /*-------------------------------------------------
-		资源数据 - 重建数据_自定义分支_id递增（私有）
+		资源数据 - 重建数据_种类分支_id递增（私有）
 */
 void P_FlexibleClassificationTree::rebuildTreeData_classify_idInc(){
 
@@ -642,32 +606,33 @@ void P_FlexibleClassificationTree::rebuildTreeData_classify_idInc(){
 	this->m_branchItem.clear();
 
 	// > 添加树枝
-	for (int i = 0; i < this->m_classifyData.count(); i++){
-		C_FCTClassify c_c = this->m_classifyData.at(i);
+	QList<C_FCT_Classify*> classify_list = this->getConfigEx()->get_classify_DataList();
+	for (int i = 0; i < classify_list.count(); i++){
+		C_FCT_Classify* c_c = classify_list.at(i);
 
-		I_FCTBranch* branch = new I_FCTBranch();
+		I_FPT_Branch* branch = this->createFCTBranch();
 		branch->setId(i);										//序号
-		if (c_c.name == ""){
-			branch->setBranch_type_Name("");					//自定义分支 - 类型名称
+		if (c_c->getName() == ""){
+			branch->setBranch_type_Name("");					//种类分支 - 种类名称
 		}else{
-			branch->setBranch_type_Name(c_c.name);				//自定义分支 - 类型名称
+			branch->setBranch_type_Name(c_c->getName());		//种类分支 - 种类名称
 		}
-		branch->setBranch_type_Description(c_c.description);	//自定义分支 - 类型描述
+		branch->setBranch_type_Description(c_c->getDescription());	//种类分支 - 种类描述
 		this->m_branchItem.append(branch);
 	}
 
 	// > 重刷所有叶子
 	this->m_leafItem.clear();
-	QStringList classify_list = this->getAllClassify();
-	for (int i = 0; i < classify_list.count(); i++){
-		QString classify_name = classify_list.at(i);
+	QStringList name_list = this->getAllClassifyName();
+	for (int i = 0; i < name_list.count(); i++){
+		QString classify_name = name_list.at(i);
 		QList<int> index_list = this->m_source_ObjectSortController->get_TypeAndId_IndexListByType(classify_name);
 		QList<C_ObjectSortData*> data_list = this->m_source_ObjectSortController->getSortDataList_ByIndex(index_list);
 		for (int j = 0; j < data_list.count(); j++){
 			C_ObjectSortData* data = data_list.at(j);
 
 			// > 在叶子中填入数据
-			I_FCTLeaf* leaf = new I_FCTLeaf(&this->m_config);
+			I_FPT_Leaf* leaf = this->createFCTLeaf();
 			leaf->setId(data->id);					//标识
 			leaf->setName(data->name);				//名称
 			leaf->setType(data->type);				//分类
@@ -680,7 +645,7 @@ void P_FlexibleClassificationTree::rebuildTreeData_classify_idInc(){
 
 }
 /*-------------------------------------------------
-		资源数据 - 重建数据_自定义分支_名称递增（私有）
+		资源数据 - 重建数据_种类分支_名称递增（私有）
 */
 void P_FlexibleClassificationTree::rebuildTreeData_classify_nameInc(){
 	//（与上面的函数一模一样，不同的是Controller调了get_TypeAndName_IndexListByType）
@@ -689,32 +654,32 @@ void P_FlexibleClassificationTree::rebuildTreeData_classify_nameInc(){
 	for (int i = 0; i < this->m_branchItem.count(); i++){this->m_branchItem.at(i)->takeChildren();}
 	this->m_branchItem.clear();
 	// > 添加树枝
-	for (int i = 0; i < this->m_classifyData.count(); i++){
-		C_FCTClassify c_c = this->m_classifyData.at(i);
+	QList<C_FCT_Classify*> classify_list = this->getConfigEx()->get_classify_DataList();
+	for (int i = 0; i < classify_list.count(); i++){
+		C_FCT_Classify* c_c = classify_list.at(i);
 	
-		I_FCTBranch* branch = new I_FCTBranch();
+		I_FPT_Branch* branch = this->createFCTBranch();
 		branch->setId(i);										//序号
-		if (c_c.name == ""){
-			branch->setBranch_type_Name("");					//自定义分支 - 类型名称
+		if (c_c->getName() == ""){
+			branch->setBranch_type_Name("");					//种类分支 - 种类名称
+		}else{
+			branch->setBranch_type_Name(c_c->getName());		//种类分支 - 种类名称
 		}
-		else{
-			branch->setBranch_type_Name(c_c.name);				//自定义分支 - 类型名称
-		}
-		branch->setBranch_type_Description(c_c.description);	//自定义分支 - 类型描述
+		branch->setBranch_type_Description(c_c->getDescription());	//种类分支 - 种类描述
 		this->m_branchItem.append(branch);
 	}
 	// > 重刷所有叶子
 	this->m_leafItem.clear();
-	QStringList classify_list = this->getAllClassify();
-	for (int i = 0; i < classify_list.count(); i++){
-		QString classify_name = classify_list.at(i);
+	QStringList name_list = this->getAllClassifyName();
+	for (int i = 0; i < name_list.count(); i++){
+		QString classify_name = name_list.at(i);
 		QList<int> index_list = this->m_source_ObjectSortController->get_TypeAndName_IndexListByType(classify_name);
 		QList<C_ObjectSortData*> data_list = this->m_source_ObjectSortController->getSortDataList_ByIndex(index_list);
 		for (int j = 0; j < data_list.count(); j++){
 			C_ObjectSortData* data = data_list.at(j);
 
 			// > 在叶子中填入数据
-			I_FCTLeaf* leaf = new I_FCTLeaf(&this->m_config);
+			I_FPT_Leaf* leaf = this->createFCTLeaf();
 			leaf->setId(data->id);					//标识
 			leaf->setName(data->name);				//名称
 			leaf->setType(data->type);				//分类
