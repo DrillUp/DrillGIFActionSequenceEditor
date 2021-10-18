@@ -117,7 +117,7 @@ int C_FPT_Config::get_id_Top(int page_index){
 	if (this->m_id_maxCount < 0){ return -1; }
 
 	if (top >= this->m_id_maxCount){
-		top = this->m_id_maxCount - 1;
+		top = this->m_id_maxCount;
 	}
 	return top;
 }
