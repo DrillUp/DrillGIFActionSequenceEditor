@@ -225,9 +225,6 @@
     <Filter Include="源文件\【 插件模块 PluginModule】\插件注解读取器（无）">
       <UniqueIdentifier>{0aa113a6-ba17-4464-bf00-d737bd54718d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 插件模块 PluginModule】\集合组件（无）">
-      <UniqueIdentifier>{fd703e3d-1956-4d02-b8de-e5fd5b1b73cb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\【 项目管理模块 ProjectModule】\项目数据\扩展块">
       <UniqueIdentifier>{33781442-7407-4895-8eeb-d65b1f622dfb}</UniqueIdentifier>
     </Filter>
@@ -1498,6 +1495,9 @@
     </Text>
     <Text Include="Source\Utils\widgetFormSenior\flexiblePageTree\程序入口.txt">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规）</Filter>
+    </Text>
+    <Text Include="Source\PluginModule\【插件模块 PluginModule】说明.txt">
+      <Filter>源文件\【 插件模块 PluginModule】</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

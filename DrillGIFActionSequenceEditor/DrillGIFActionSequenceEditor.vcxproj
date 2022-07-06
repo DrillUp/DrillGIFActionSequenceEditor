@@ -2254,6 +2254,7 @@
     <Text Include="Source\GraphModule\widget\pictureCombiner\程序入口.txt" />
     <Text Include="Source\GraphModule\widget\picturePartitioner\程序入口.txt" />
     <Text Include="Source\GraphModule\widget\singlePictureViewer\程序入口.txt" />
+    <Text Include="Source\PluginModule\【插件模块 PluginModule】说明.txt" />
     <Text Include="Source\RmmvInteractiveModule\base\程序入口.txt" />
     <Text Include="Source\Utils\widgetFormSenior\animationListEditor\程序入口.txt" />
     <Text Include="Source\Utils\widgetFormSenior\animationListPlayer\程序入口.txt" />
