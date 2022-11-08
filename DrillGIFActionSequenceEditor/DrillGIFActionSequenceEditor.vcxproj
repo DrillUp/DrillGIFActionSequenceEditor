@@ -712,8 +712,11 @@
     <ClCompile Include="Source\ActionSeqModule\actionSeqPart\p_ActionSeqPart.cpp" />
     <ClCompile Include="Source\ActionSeqModule\playingPart\defaultStateGroup\w_DefaultStateGroupEdit.cpp" />
     <ClCompile Include="Source\ActionSeqModule\playingPart\p_PlayingPart.cpp" />
+    <ClCompile Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_ActController.cpp" />
     <ClCompile Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_Data.cpp" />
     <ClCompile Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_Init.cpp" />
+    <ClCompile Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_StateController.cpp" />
+    <ClCompile Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_StateNodeController.cpp" />
     <ClCompile Include="Source\ActionSeqModule\statePart\p_StatePart.cpp" />
     <ClCompile Include="Source\GraphModule\item\gridLineItem\p_GridLineItem.cpp" />
     <ClCompile Include="Source\GraphModule\item\maskBackgroundItem\i_MaskBackgroundItem.cpp" />
@@ -1140,6 +1143,9 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </Command>
     </CustomBuild>
+    <ClInclude Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_ActController.h" />
+    <ClInclude Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_StateController.h" />
+    <ClInclude Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_StateNodeController.h" />
     <ClInclude Include="Source\DllModule\cximagecrt_drill\src_header\s_cximageManager.h" />
     <CustomBuild Include="Source\GraphModule\widget\singlePictureViewer\p_SinglePictureViewer.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

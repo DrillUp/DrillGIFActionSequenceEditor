@@ -258,6 +258,15 @@
     <Filter Include="源文件\【 插件模块 PluginModule】\插件存储数据容器  [plugins.js，读写]">
       <UniqueIdentifier>{a39775db-bab5-481e-bc55-dc41981ce72c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\【 动画序列 ActionSeqModule】\核心复刻类\状态元控制器">
+      <UniqueIdentifier>{be6e4244-6038-47f9-afed-90673a32cd0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 动画序列 ActionSeqModule】\核心复刻类\动作元控制器">
+      <UniqueIdentifier>{667dcd8f-28f1-4890-b840-5087b727c855}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 动画序列 ActionSeqModule】\核心复刻类\状态节点控制器">
+      <UniqueIdentifier>{1b9aa6e3-a475-4082-9c82-431e984a9974}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -959,6 +968,15 @@
     <ClCompile Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\private\c_FCT_Config.cpp">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）\树设置</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_StateController.cpp">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类\状态元控制器</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_ActController.cpp">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类\动作元控制器</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_StateNodeController.cpp">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类\状态节点控制器</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="drillgifactionsequenceeditor.qrc">
@@ -1433,6 +1451,15 @@
     </ClInclude>
     <ClInclude Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\private\c_FCT_Config.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）\树设置</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_StateController.h">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类\状态元控制器</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_ActController.h">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类\动作元控制器</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_StateNodeController.h">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类\状态节点控制器</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
