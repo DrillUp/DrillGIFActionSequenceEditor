@@ -1,15 +1,16 @@
-#ifndef Drill_COAS_ActController_H
+ï»¿#ifndef Drill_COAS_ActController_H
 #define Drill_COAS_ActController_H
 
 #include <QtWidgets>
 
 /*
 -----==========================================================-----
-		Àà£º		¶¯»­ĞòÁĞÊı¾İ¡¾¸´¿ÌÀà¡¿.h
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¶¯»­ĞòÁĞÄ£¿é
-		¹¦ÄÜ£º		¶¯»­ĞòÁĞºËĞÄ²å¼şµÄ¸´¿ÌÀà¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		åŠ¨ä½œå…ƒæ§åˆ¶å™¨ã€å¤åˆ»ç±»ã€‘.h
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	åŠ¨ç”»åºåˆ—æ¨¡å—
+		åŠŸèƒ½ï¼š		> å®šä¹‰ä¸€ä¸ªä¸“é—¨æ§åˆ¶ åŠ¨ä½œå…ƒ çš„æ•°æ®ç±»ã€‚
+					> è¯¥ç±»å¯è¢«å­˜åˆ°å­˜æ¡£ä¸­ã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 class Drill_COAS_ActController{
@@ -20,73 +21,61 @@ class Drill_COAS_ActController{
 		~Drill_COAS_ActController();
 		
 	//-----------------------------------
-	//----Êı¾İ
+	//----æ•°æ®
 	public:
 		QJsonObject _drill_data;			
-		int			_drill_time;					//³ÖĞøÊ±¼ä
-		bool		_drill_arrayCheck;				//¼ì²éÊı×éÔªËØ
-		QString		_drill_bitmapName;				//µ±Ç°µÄbitmap¶ÔÏóÃû
-		QString		_drill_bitmapPath;				//µ±Ç°µÄbitmapÂ·¾¶
-		int			_drill_bitmapTint;				//µ±Ç°µÄbitmapÉ«µ÷
-		bool		_drill_bitmapSmooth;			//µ±Ç°µÄbitmapÄ£ºı
-		QString		_drill_state_curCom;			//×´Ì¬Ôª - µ±Ç°×´Ì¬
-		int			_drill_state_curTime;			//×´Ì¬Ôª - µ±Ç°Ê±¼ä
-		QStringList _drill_state_curSeq;			//×´Ì¬Ôª - µ±Ç°ĞòÁĞ
-		QString		_drill_state_lastAnnotation;	//×´Ì¬Ôª - ÉÏÒ»¸ö×¢½âÃû
-		QString		_drill_act_curCom;				//¶¯×÷Ôª - µ±Ç°¶¯×÷
-		int			_drill_act_curTime;				//¶¯×÷Ôª - µ±Ç°Ê±¼ä
+		QString		_drill_controllerSerial;
+
+		int			_drill_curTime;					//å¸¸è§„ - å½“å‰æ—¶é—´
+		bool		_drill_needDestroy;				//å¸¸è§„ - é”€æ¯
+
+		QString		_drill_curBitmapName;			//è¾“å‡ºæ•°æ® - å½“å‰çš„å¯¹è±¡å
+		QString		_drill_curBitmapPath;			//è¾“å‡ºæ•°æ® - å½“å‰çš„è·¯å¾„
+		int			_drill_curBitmapTint;			//è¾“å‡ºæ•°æ® - å½“å‰çš„è‰²è°ƒ
+		bool		_drill_curBitmapSmooth;			//è¾“å‡ºæ•°æ® - å½“å‰çš„æ¨¡ç³Š
+		
+		int			_drill_curTickTime;				//æ’­æ”¾ - å½“å‰ç´¯è®¡æ—¶é—´
+		int			_drill_curIndex;				//æ’­æ”¾ - å½“å‰ç´¢å¼•
+		int			_drill_tarIndex;				//æ’­æ”¾ - ç´¢å¼•ç»“æŸä½ç½®
+
+		QJsonArray	_drill_curIntervalTank;			//å¸§é—´éš”åˆ—è¡¨
+
 	public:
-									//´´½¨ - ³õÊ¼»¯
-		void drill_initData();
-									//Êı¾İ - ¿ÕÅĞ¶Ï
+									//æ•°æ® - åˆå§‹åŒ–æ•°æ®ã€æ ‡å‡†é»˜è®¤å€¼ã€‘
+		void drill_initData_Act();
+									//æ•°æ® - ç§æœ‰æ•°æ®åˆå§‹åŒ–
+		void drill_initPrivateData_Act();
+									//æ•°æ® - ç©ºåˆ¤æ–­
 		bool isNull();
 
 	//-----------------------------------
-	//----Ö¡Ë¢ĞÂ
+	//----æ ‡å‡†å‡½æ•°
 	public:
-									//Êı¾İ - Ö¡Ë¢ĞÂ£¨ĞèÒª¸¸ÀàÊÖ¶¯Ö´ĞĞ£©
-		void update();
-									//Ö¡Ë¢ĞÂ - Ë¢ĞÂ×´Ì¬Ôª
-		void drill_COAS_updateState();
-									//²Ù×÷ - ³éÈ¡ĞÂµÄ×´Ì¬Ôª
-		void drill_COAS_rollCurrentState();
-									//Ö¡Ë¢ĞÂ - Ë¢ĞÂ¶¯×÷Ôª
-		void drill_COAS_updateAct();
+									//åŠ¨ä½œå…ƒ - å¸§åˆ·æ–°ã€æ ‡å‡†å‡½æ•°ã€‘
+									//		ã€è¯´æ˜ã€‘ï¼šéœ€è¦çˆ¶ç±»æ‰‹åŠ¨æ‰§è¡Œã€‚
+		void drill_COAS_update();
+									//åŠ¨ä½œå…ƒ - é‡è®¾æ•°æ®ã€æ ‡å‡†å‡½æ•°ã€‘
+		void drill_COAS_resetData_Act(QJsonObject data);
 
 	//-----------------------------------
-	//----½Ó¿Ú
+	//----å¼€æ”¾å‡½æ•°
 	public:
-									//Êı¾İ - ×´Ì¬Ôª - ÉèÖÃĞòÁĞ£¨½Ó¿Ú£©
-		void drill_COAS_setSequence(QStringList seq);
-									//Êı¾İ - ×´Ì¬Ôª - ÉèÖÃĞòÁĞ£¬Á¢¿Ì¸Ä±ä£¨½Ó¿Ú£©
-		void drill_COAS_setSequenceImmediate(QStringList seq);
-									//Êı¾İ - ×´Ì¬Ôª - ÉèÖÃ×´Ì¬ÔªĞòÁĞ[×¢½âÄ£Ê½]£¨½Ó¿Ú£©
-		bool drill_COAS_setSequenceByAnnotation(QString annotation);
-									//Êı¾İ - ×´Ì¬Ôª - ÉèÖÃ×´Ì¬ÔªĞòÁĞ[×¢½âÄ£Ê½]-Á¢¿Ì¸Ä±ä£¨½Ó¿Ú£©
-		bool drill_COAS_setSequenceImmediateByAnnotation(QString annotation);
-									//Êı¾İ - ×´Ì¬Ôª - »ñÈ¡Ä¬ÈÏ×´Ì¬Ôª¼¯ºÏ£¨½Ó¿Ú£©
-		QStringList drill_COAS_getDefaultStateGroup();
-									//Êı¾İ - ×´Ì¬Ôª - »ñÈ¡µ±Ç°×´Ì¬ÔªÃû³Æ£¨½Ó¿Ú£©
-		QString drill_COAS_getCurrentStateName();
-									//Êı¾İ - ×´Ì¬Ôª - »ñÈ¡µ±Ç°×´Ì¬Ôª¼¯ºÏÃû³Æ£¨½Ó¿Ú£©
-		QStringList drill_COAS_getCurrentStateSeqName();
-									//Êı¾İ - ×´Ì¬Ôª - »ñÈ¡È«²¿×´Ì¬ÔªÃû³Æ£¨½Ó¿Ú£©
-		QStringList drill_COAS_getAllStateName();
-									//Êı¾İ - ×´Ì¬Ôª - »ñÈ¡Êı¾İ ¸ù¾İÃû³Æ
-		QJsonObject drill_COAS_getDataState(QString state_name);
+									//åŠ¨ä½œå…ƒ - è¾“å‡ºæ•°æ® - å½“å‰çš„å¯¹è±¡åã€å¼€æ”¾å‡½æ•°ã€‘
+		QString drill_COAS_curBitmapName();
+									//åŠ¨ä½œå…ƒ - è¾“å‡ºæ•°æ® - å½“å‰çš„å¯¹è±¡åã€å¼€æ”¾å‡½æ•°ã€‘
+		QString drill_COAS_curBitmapPath();
+									//åŠ¨ä½œå…ƒ - è¾“å‡ºæ•°æ® - å½“å‰çš„è‰²è°ƒã€å¼€æ”¾å‡½æ•°ã€‘
+		int drill_COAS_curBitmapTint();
+									//åŠ¨ä½œå…ƒ - è¾“å‡ºæ•°æ® - å½“å‰çš„æ¨¡ç³Šã€å¼€æ”¾å‡½æ•°ã€‘
+		bool drill_COAS_curBitmapSmooth();
+									//åŠ¨ä½œå…ƒ - èŠ‚ç‚¹ - æ˜¯å¦ç»“æŸæ’­æ”¾ã€å¼€æ”¾å‡½æ•°ã€‘
+		bool drill_COAS_isActEnd();
 
-									//Êı¾İ - ¶¯×÷Ôª - ÅĞ¶Ï²¥·Å
-		bool drill_COAS_isPlayingAct();
-									//Êı¾İ - ¶¯×÷Ôª - Ìí¼Ó¶¯×÷£¨½Ó¿Ú£©
-		void drill_COAS_setAct(QString act_name);
-									//Êı¾İ - ¶¯×÷Ôª - Á¢¿ÌÖÕÖ¹¶¯×÷£¨½Ó¿Ú£©
-		void drill_COAS_stopAct();
-									//Êı¾İ - ¶¯×÷Ôª - »ñÈ¡µ±Ç°¶¯×÷ÔªÃû³Æ£¨½Ó¿Ú£©
-		QString drill_COAS_getCurrentActName();
-									//Êı¾İ - ¶¯×÷Ôª - »ñÈ¡È«²¿¶¯×÷ÔªÃû³Æ£¨½Ó¿Ú£©
-		QStringList drill_COAS_getAllActName();
-									//Êı¾İ - ¶¯×÷Ôª - »ñÈ¡Êı¾İ ¸ù¾İÃû³Æ
-		QJsonObject drill_COAS_getDataAct(QString act_name);
+	//-----------------------------------
+	//----åŠ¨ä½œå…ƒ
+	public:
+									//åŠ¨ä½œå…ƒ - å¸§åˆ·æ–°åŠ¨ä½œå…ƒ
+		void drill_COAS_updateAct();
 
 };
 

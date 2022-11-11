@@ -1,85 +1,107 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "Drill_COAS_StateController.h"
 
 #include "Source/Utils/common/TTool.h"
 
 /*
 -----==========================================================-----
-		Àà£º		×´Ì¬Ôª¿ØÖÆÆ÷¡¾¸´¿ÌÀà¡¿.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¶¯»­ÐòÁÐÊý¾Ý
-		¹¦ÄÜ£º		> ¶¨ÒåÒ»¸ö×¨ÃÅ¿ØÖÆ ×´Ì¬Ôª µÄÊý¾ÝÀà¡£
-					> ¸ÃÀà¿É±»´æµ½´æµµÖÐ¡£
+		ç±»ï¼š		çŠ¶æ€å…ƒæŽ§åˆ¶å™¨ã€å¤åˆ»ç±»ã€‘.cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±žæ¨¡å—ï¼š	åŠ¨ç”»åºåˆ—æ•°æ®
+		åŠŸèƒ½ï¼š		> å®šä¹‰ä¸€ä¸ªä¸“é—¨æŽ§åˆ¶ çŠ¶æ€å…ƒ çš„æ•°æ®ç±»ã€‚
+					> è¯¥ç±»å¯è¢«å­˜åˆ°å­˜æ¡£ä¸­ã€‚
 					
-		ËµÃ÷£º		µ±Ç°¸´¿Ì°æ±¾£º[v1.3]
+		è¯´æ˜Žï¼š		å½“å‰å¤åˆ»ç‰ˆæœ¬ï¼š[v1.3]
 -----==========================================================-----
 */
 Drill_COAS_StateController::Drill_COAS_StateController(){
-	this->_drill_data = QJsonObject();		//Éî¿½±´Êý¾Ý
-	this->drill_initData_State();			//³õÊ¼»¯Êý¾Ý
-	this->drill_initPrivateData_State();	//Ë½ÓÐÊý¾Ý³õÊ¼»¯
+	this->_drill_data = QJsonObject();									//æ·±æ‹·è´æ•°æ®
+	this->_drill_controllerSerial = QUuid::createUuid().toString();		//ï¼ˆç”Ÿæˆä¸€ä¸ªä¸é‡å¤çš„åºåˆ—å·ï¼‰
+	this->_drill_controllerSerial = this->_drill_controllerSerial.replace("{", "");
+	this->_drill_controllerSerial = this->_drill_controllerSerial.replace("}", "");
+	this->_drill_controllerSerial = this->_drill_controllerSerial.replace("-", "");
+	this->drill_initData_State();										//åˆå§‹åŒ–æ•°æ®
+	this->drill_initPrivateData_State();								//ç§æœ‰æ•°æ®åˆå§‹åŒ–
+	this->drill_COAS_resetData_State(this->_drill_data);
 }
 Drill_COAS_StateController::Drill_COAS_StateController(QJsonObject data){
-	this->_drill_data = data;				//Éî¿½±´Êý¾Ý
-	this->drill_initData_State();			//³õÊ¼»¯Êý¾Ý
-	this->drill_initPrivateData_State();	//Ë½ÓÐÊý¾Ý³õÊ¼»¯
+	this->_drill_data = data;											//æ·±æ‹·è´æ•°æ®
+	this->_drill_controllerSerial = QUuid::createUuid().toString();		//ï¼ˆç”Ÿæˆä¸€ä¸ªä¸é‡å¤çš„åºåˆ—å·ï¼‰
+	this->_drill_controllerSerial = this->_drill_controllerSerial.replace("{", "");
+	this->_drill_controllerSerial = this->_drill_controllerSerial.replace("}", "");
+	this->_drill_controllerSerial = this->_drill_controllerSerial.replace("-", "");
+	this->drill_initData_State();										//åˆå§‹åŒ–æ•°æ®
+	this->drill_initPrivateData_State();								//ç§æœ‰æ•°æ®åˆå§‹åŒ–
+	this->drill_COAS_resetData_State(this->_drill_data);
 }
 Drill_COAS_StateController::~Drill_COAS_StateController(){
 }
 
+
 /*-------------------------------------------------
-		Êý¾Ý - ¿ÕÅÐ¶Ï
+		çŠ¶æ€å…ƒ - å¸§åˆ·æ–°ã€æ ‡å‡†å‡½æ•°ã€‘
+*/
+void Drill_COAS_StateController::drill_COAS_update(){
+	if (this->isNull()){ return; }
+	this->_drill_curTime += 1;				//æ—¶é—´+1
+	this->drill_COAS_updateState();			//åˆ·æ–°çŠ¶æ€å…ƒ
+}
+/*-------------------------------------------------
+		çŠ¶æ€å…ƒ - ç©ºåˆ¤æ–­
 */
 bool Drill_COAS_StateController::isNull(){
 	return this->_drill_data.isEmpty();
 }
+
+
 /*-------------------------------------------------
-		Êý¾Ý - ³õÊ¼»¯Êý¾Ý
+		çŠ¶æ€å…ƒ - åˆå§‹åŒ–æ•°æ®ã€æ ‡å‡†é»˜è®¤å€¼ã€‘
 */
 void Drill_COAS_StateController::drill_initData_State(){
 	QJsonObject data = this->_drill_data;
 
-	// > ³£¹æ
-	if (data["name"].isUndefined() == true){ data["name"] = ""; }					//×´Ì¬ÔªÃû³Æ
-	if (data["priority"].isUndefined() == true){ data["priority"] = 0; }			//×´Ì¬ÔªÓÅÏÈ¼¶
-	if (data["proportion"].isUndefined() == true){ data["proportion"] = 40; }		//×´Ì¬ÔªÈ¨ÖØ
+	// > å¸¸è§„
+	if (data["name"].isUndefined() == true){ data["name"] = ""; }					//çŠ¶æ€å…ƒåç§°
+	if (data["priority"].isUndefined() == true){ data["priority"] = 0; }			//çŠ¶æ€å…ƒä¼˜å…ˆçº§
+	if (data["proportion"].isUndefined() == true){ data["proportion"] = 40; }		//çŠ¶æ€å…ƒæƒé‡
 
 	// > GIF
-	if (data["gif_src"].isUndefined() == true){ data["gif_src"] = QJsonArray(); }							//GIF - ×ÊÔ´
-	if (data["gif_src_file"].isUndefined() == true){ data["gif_src_file"] = "img/Special__actionSeq/"; }	//GIF - ×ÊÔ´
-	if (data["gif_intervalTank"].isUndefined() == true){ data["gif_intervalTank"] = QJsonArray(); }			//GIF - Ö¡¼ä¸ô-Ã÷Ï¸±í
-	if (data["gif_interval"].isUndefined() == true){ data["gif_interval"] = 4; }							//GIF - Ö¡¼ä¸ô
-	if (data["gif_back_run"].isUndefined() == true){ data["gif_back_run"] = false; }						//GIF - ÊÇ·ñµ¹·Å
+	if (data["gif_src"].isUndefined() == true){ data["gif_src"] = QJsonArray(); }							//GIF - èµ„æº
+	if (data["gif_src_file"].isUndefined() == true){ data["gif_src_file"] = "img/Special__actionSeq/"; }	//GIF - èµ„æºæ–‡ä»¶å¤¹
+	if (data["gif_intervalTank"].isUndefined() == true){ data["gif_intervalTank"] = QJsonArray(); }			//GIF - å¸§é—´éš”-æ˜Žç»†è¡¨
+	if (data["gif_interval"].isUndefined() == true){ data["gif_interval"] = 4; }							//GIF - å¸§é—´éš”
+	if (data["gif_back_run"].isUndefined() == true){ data["gif_back_run"] = false; }						//GIF - æ˜¯å¦å€’æ”¾
+	if (data["gif_preload"].isUndefined() == true){ data["gif_preload"] = false; }							//GIF - æ˜¯å¦é¢„åŠ è½½
 
-	// > Í¼Ïñ
-	if (data["tint"].isUndefined() == true){ data["tint"] = 0; }					//Í¼Ïñ - É«µ÷Öµ
-	if (data["smooth"].isUndefined() == true){ data["smooth"] = false; }			//Í¼Ïñ - Ä£ºý±ßÔµ
+	// > å›¾åƒ
+	if (data["tint"].isUndefined() == true){ data["tint"] = 0; }					//å›¾åƒ - è‰²è°ƒå€¼
+	if (data["smooth"].isUndefined() == true){ data["smooth"] = false; }			//å›¾åƒ - æ¨¡ç³Šè¾¹ç¼˜
 
-	// > ÔÓÏî
-	if (data["note"].isUndefined() == true){ data["note"] = ""; }					//ÔÓÏî - ±¸×¢
+	// > æ‚é¡¹
+	if (data["note"].isUndefined() == true){ data["note"] = ""; }					//æ‚é¡¹ - å¤‡æ³¨
 }
 /*-------------------------------------------------
-		Êý¾Ý - Ë½ÓÐÊý¾Ý³õÊ¼»¯
+		çŠ¶æ€å…ƒ - ç§æœ‰æ•°æ®åˆå§‹åŒ–
 */
 void Drill_COAS_StateController::drill_initPrivateData_State(){
 	QJsonObject data = this->_drill_data;
 
-	// > ³£¹æ
-	this->_drill_curTime = 0;										//³£¹æ - µ±Ç°Ê±¼ä
-	this->_drill_needDestroy = false;								//³£¹æ - Ïú»Ù
+	// > å¸¸è§„
+	this->_drill_curTime = 0;										//å¸¸è§„ - å½“å‰æ—¶é—´
+	this->_drill_needDestroy = false;								//å¸¸è§„ - é”€æ¯
 
-	// > GIF - Êä³öÊý¾Ý
-	this->_drill_curBitmapName = "";								//Êä³öÊý¾Ý - µ±Ç°µÄ¶ÔÏóÃû
-	this->_drill_curBitmapPath = data["gif_src_file"].toString();	//Êä³öÊý¾Ý - µ±Ç°µÄÂ·¾¶
-	this->_drill_curBitmapTint = data["tint"].toInt();				//Êä³öÊý¾Ý - µ±Ç°µÄÉ«µ÷
-	this->_drill_curBitmapSmooth = data["smooth"].toBool();			//Êä³öÊý¾Ý - µ±Ç°µÄÄ£ºý
+	// > GIF - è¾“å‡ºæ•°æ®
+	this->_drill_curBitmapName = "";								//è¾“å‡ºæ•°æ® - å½“å‰çš„å¯¹è±¡å
+	this->_drill_curBitmapPath = data["gif_src_file"].toString();	//è¾“å‡ºæ•°æ® - å½“å‰çš„è·¯å¾„
+	this->_drill_curBitmapTint = data["tint"].toInt();				//è¾“å‡ºæ•°æ® - å½“å‰çš„è‰²è°ƒ
+	this->_drill_curBitmapSmooth = data["smooth"].toBool();			//è¾“å‡ºæ•°æ® - å½“å‰çš„æ¨¡ç³Š
 
-	// > GIF - ²¥·Å
-	this->_drill_curTickTime = 0;									//²¥·Å - µ±Ç°ÀÛ¼ÆÊ±¼ä
-	this->_drill_curIndex = 0;										//²¥·Å - µ±Ç°Ë÷Òý
-	this->_drill_tarIndex = 0;										//²¥·Å - Ë÷Òý½áÊøÎ»ÖÃ
+	// > GIF - æ’­æ”¾
+	this->_drill_curTickTime = 0;									//æ’­æ”¾ - å½“å‰ç´¯è®¡æ—¶é—´
+	this->_drill_curIndex = 0;										//æ’­æ”¾ - å½“å‰ç´¢å¼•
+	this->_drill_tarIndex = 0;										//æ’­æ”¾ - ç´¢å¼•ç»“æŸä½ç½®
 
-	// > GIF - Ö¡¼ä¸ôÁÐ±í ¼ÆËã
+	// > GIF - å¸§é—´éš”åˆ—è¡¨ è®¡ç®—
 	this->_drill_curIntervalTank = QJsonArray();
 	for (int i = 0; i < data["gif_src"].toArray().count(); i++){
 		int interval = data["gif_interval"].toInt();
@@ -90,29 +112,114 @@ void Drill_COAS_StateController::drill_initPrivateData_State(){
 		this->_drill_curIntervalTank[i] = interval;
 	}
 }
-
 /*-------------------------------------------------
-		Ö¡Ë¢ÐÂ£¨ÐèÒª¸¸ÀàÊÖ¶¯Ö´ÐÐ£©
+		çŠ¶æ€å…ƒ - é‡è®¾æ•°æ®ï¼ˆç§æœ‰ï¼‰
 */
-void Drill_COAS_StateController::drill_COAS_update(){
-	if (this->isNull()){ return; }
-	this->_drill_curTime += 1;				//Ê±¼ä+1
-	this->drill_COAS_updateState();			//Ë¢ÐÂ×´Ì¬Ôª
+void Drill_COAS_StateController::drill_COAS_resetData_State(QJsonObject data){
+
+	// > åˆ¤æ–­æ•°æ®é‡å¤æƒ…å†µ
+	if (this->_drill_data.isEmpty() == false){
+		QStringList keys = data.keys();
+		bool is_same = true;
+		for (int i = 0; i < keys.length(); i++){
+			QString key = keys[i];
+			if (this->_drill_data[key] != data[key]){
+				is_same = false;
+			}
+		}
+		if (is_same == true){ return; }
+	}
+	// > è¡¥å……æœªè®¾ç½®çš„æ•°æ®
+	QStringList keys = this->_drill_data.keys();
+	for (int i = 0; i < keys.length(); i++){
+		QString key = keys[i];
+		if (data[key].isUndefined()){
+			data[key] = this->_drill_data[key];
+		}
+	}
+
+	// > æ‰§è¡Œé‡ç½®
+	this->_drill_data = data;												//æ·±æ‹·è´
+	this->_drill_controllerSerial = QUuid::createUuid().toString();			//ï¼ˆç”Ÿæˆä¸€ä¸ªä¸é‡å¤çš„åºåˆ—å·ï¼‰
+	this->_drill_controllerSerial = this->_drill_controllerSerial.replace("{", "");
+	this->_drill_controllerSerial = this->_drill_controllerSerial.replace("}", "");
+	this->_drill_controllerSerial = this->_drill_controllerSerial.replace("-", "");
+	this->drill_initData_State();											//åˆå§‹åŒ–æ•°æ®
+	this->drill_initPrivateData_State();									//ç§æœ‰æ•°æ®åˆå§‹åŒ–
 }
 /*-------------------------------------------------
-		Ö¡Ë¢ÐÂ - Ë¢ÐÂ×´Ì¬Ôª
+		çŠ¶æ€å…ƒ - å¸§åˆ·æ–°çŠ¶æ€å…ƒ
 */
 void Drill_COAS_StateController::drill_COAS_updateState(){
-	
+	QJsonObject data = this->_drill_data;
 
+	// > å½“å‰ç´¢å¼•
+	int cur_index = this->_drill_curIndex;
+	if (data["gif_back_run"].toBool() == true){		//ï¼ˆå€’æ”¾æƒ…å†µï¼‰
+		cur_index = this->_drill_curIntervalTank.count() - 1 - this->_drill_curIndex;
+	}
+	if (cur_index < 0){ cur_index = 0; }	//ã€çŠ¶æ€å…ƒ æ’­æ”¾å®Œæ¯•åŽï¼Œä¿æŒåœ¨æœ€åŽä¸€å¸§ï¼Œç­‰å¾… çŠ¶æ€èŠ‚ç‚¹ æŽ§åˆ¶æ–°çš„ä¸€è½®ã€‚ã€‘
+	if (cur_index >= this->_drill_curIntervalTank.count()){ cur_index = this->_drill_curIntervalTank.count() - 1; }
+
+	// > å¸§é—´éš”åˆ—è¡¨
+	int cur_time = this->_drill_curTickTime;
+	int tar_time = this->_drill_curIntervalTank[cur_index].toInt();
+	if (cur_time >= tar_time){
+		// > å½“å‰ç´¢å¼•+1
+		this->_drill_curIndex += 1;		//ï¼ˆè¾¾åˆ°å¸§é—´éš”åŽï¼Œç´¢å¼•+1ï¼‰
+		this->_drill_curTickTime = 0;
+	}
+
+	// > è¾“å‡ºæ•°æ®
+	this->_drill_curBitmapName = data["gif_src"].toArray()[cur_index].toString();
+	this->_drill_curBitmapPath = data["gif_src_file"].toString();
+	this->_drill_curBitmapTint = data["tint"].toInt();
+	this->_drill_curBitmapSmooth = data["smooth"].toBool();
+
+	// > å½“å‰ç´¯è®¡æ—¶é—´+1
+	this->_drill_curTickTime += 1;
 }
 
 
 /*-------------------------------------------------
-		Êý¾Ý - ×´Ì¬Ôª - ÉèÖÃÐòÁÐ£¨½Ó¿Ú£©
-
-				ËµÃ÷£º	ÐòÁÐÖÐ´æ·Å ×´Ì¬Ãû³Æ µÄÊý×é£¬×´Ì¬Ôª»áÌø¹ý²»Ê¶±ðµÄ¶ÔÏó¡£
+		çŠ¶æ€å…ƒ - è¾“å‡ºæ•°æ® - å½“å‰çš„å¯¹è±¡åã€å¼€æ”¾å‡½æ•°ã€‘
 */
-void Drill_COAS_StateController::drill_COAS_setSequence(QStringList seq){
-	
+QString Drill_COAS_StateController::drill_COAS_curBitmapName(){
+	return this->_drill_curBitmapName;
+}
+/*-------------------------------------------------
+		çŠ¶æ€å…ƒ - è¾“å‡ºæ•°æ® - å½“å‰çš„å¯¹è±¡åã€å¼€æ”¾å‡½æ•°ã€‘
+*/
+QString Drill_COAS_StateController::drill_COAS_curBitmapPath(){
+	return this->_drill_curBitmapPath;
+}
+/*-------------------------------------------------
+		çŠ¶æ€å…ƒ - è¾“å‡ºæ•°æ® - å½“å‰çš„è‰²è°ƒã€å¼€æ”¾å‡½æ•°ã€‘
+*/
+int Drill_COAS_StateController::drill_COAS_curBitmapTint(){
+	return this->_drill_curBitmapTint;
+}
+/*-------------------------------------------------
+		çŠ¶æ€å…ƒ - è¾“å‡ºæ•°æ® - å½“å‰çš„æ¨¡ç³Šã€å¼€æ”¾å‡½æ•°ã€‘
+*/
+bool Drill_COAS_StateController::drill_COAS_curBitmapSmooth(){
+	return this->_drill_curBitmapSmooth;
+}
+/*-------------------------------------------------
+		çŠ¶æ€å…ƒ - èŠ‚ç‚¹ - å½“å‰çŠ¶æ€å…ƒåç§°ã€å¼€æ”¾å‡½æ•°ã€‘
+*/
+QString Drill_COAS_StateController::drill_COAS_getCurStateName(){
+	return this->_drill_data["name"].toString();
+}
+/*-------------------------------------------------
+		çŠ¶æ€å…ƒ - èŠ‚ç‚¹ - å½“å‰çŠ¶æ€å…ƒä¼˜å…ˆçº§ã€å¼€æ”¾å‡½æ•°ã€‘
+*/
+int Drill_COAS_StateController::drill_COAS_getCurStatePriority(){
+	return this->_drill_data["priority"].toInt();
+}
+/*-------------------------------------------------
+		çŠ¶æ€å…ƒ - èŠ‚ç‚¹ - æ˜¯å¦ç»“æŸæ’­æ”¾ã€å¼€æ”¾å‡½æ•°ã€‘
+*/
+bool Drill_COAS_StateController::drill_COAS_isStateEnd(){
+	return this->_drill_curIndex >= this->_drill_tarIndex;
 }
