@@ -1,4 +1,4 @@
-#ifndef P_PlayingPart_H
+ï»¿#ifndef P_PlayingPart_H
 #define P_PlayingPart_H
 
 #include <QtWidgets>
@@ -6,17 +6,17 @@
 
 #include "Source/ActionSeqModule/actionPart/p_ActionPart.h"
 #include "Source/ActionSeqModule/statePart/p_StatePart.h"
-#include "Source/ActionSeqModule/reprintedCore/Drill_COAS_Data.h"
+#include "Source/ActionSeqModule/reprintedCore/Drill_COAS_MainController.h"
 #include "Source/ActionSeqModule/reprintedCore/Drill_COAS_Init.h"
 #include "Source/Utils/widgetForm/radioTable/p_RadioTable.h"
 
 /*
 -----==========================================================-----
-		Àà£º		·ÅÓ³Çø.h
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¶¯»­ĞòÁĞÄ£¿é
-		¹¦ÄÜ£º		¸Ã²¿·ÖÌá¹©¶¯»­ĞòÁĞµÄ·ÅÓ³¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		æ”¾æ˜ åŒº.h
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	åŠ¨ç”»åºåˆ—æ¨¡å—
+		åŠŸèƒ½ï¼š		è¯¥éƒ¨åˆ†æä¾›åŠ¨ç”»åºåˆ—çš„æ”¾æ˜ ã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 class P_PlayingPart : public QWidget
@@ -28,7 +28,7 @@ class P_PlayingPart : public QWidget
 		~P_PlayingPart();
 		
 	//-----------------------------------
-	//----¿Ø¼ş
+	//----æ§ä»¶
 	public:
 		P_ActionPart* m_actionPart;
 		P_StatePart* m_statePart;
@@ -36,76 +36,76 @@ class P_PlayingPart : public QWidget
 		P_RadioTable* m_table_state;
 		P_AnimPictureViewer* m_p_AnimPictureViewer;
 	public slots:
-										//¿Ø¼ş - ±à¼­×´Ì¬Ôª¼¯ºÏ
+										//æ§ä»¶ - ç¼–è¾‘çŠ¶æ€å…ƒé›†åˆ
 		void editDefaultStateGroup();
-										//¿Ø¼ş - ¸ù¾İÎÄ¼şÃû»ñÈ¡×ÊÔ´ÎÄ¼ş
+										//æ§ä»¶ - æ ¹æ®æ–‡ä»¶åè·å–èµ„æºæ–‡ä»¶
 		QFileInfo getSrcFileByName(QString file_name);
-										//¿Ø¼ş - »ñÈ¡Ãû³Æ
+										//æ§ä»¶ - è·å–åç§°
 		QStringList getActionNameList();
 		QStringList getStateNameList();
 		QStringList getStateNameListWithoutEmpty();
-										//¿Ø¼ş - »ñÈ¡È«²¿¹ØÁªÎÄ¼şÃû£¨È¥ÖØ£©
+										//æ§ä»¶ - è·å–å…¨éƒ¨å…³è”æ–‡ä»¶åï¼ˆå»é‡ï¼‰
 		QStringList getRelatFileNameList();
-										//¿Ø¼ş - Ëõ·Å±ÈÀı±ä»¯
+										//æ§ä»¶ - ç¼©æ”¾æ¯”ä¾‹å˜åŒ–
 		void zoomValueChanged(double value);
 
 	//-----------------------------------
-	//----°´Å¥
+	//----æŒ‰é’®
 	public slots:
-										//°´Å¥ - ²¥·Å
+										//æŒ‰é’® - æ’­æ”¾
 		void btn_play();
-										//°´Å¥ - ¼ÓÈëÄ¬ÈÏ×´Ì¬Ôª
+										//æŒ‰é’® - åŠ å…¥é»˜è®¤çŠ¶æ€å…ƒ
 		void btn_playDefault();
-										//°´Å¥ - ¼ÓÈë×´Ì¬Ôª
+										//æŒ‰é’® - åŠ å…¥çŠ¶æ€å…ƒ
 		void btn_playState();
-										//°´Å¥ - ¼ÓÈë¶¯×÷Ôª
+										//æŒ‰é’® - åŠ å…¥åŠ¨ä½œå…ƒ
 		void btn_playAction();
 	private:
-										//°´Å¥ - Ë¢ĞÂ²¥·ÅÍ¼±ê
+										//æŒ‰é’® - åˆ·æ–°æ’­æ”¾å›¾æ ‡
 		void updateIcon();
 		
 	//-----------------------------------
-	//----¶¯»­Ö¡
+	//----åŠ¨ç”»å¸§
 	private:
-		bool m_playing;					//ÕıÔÚ²¥·Å
-		QTimer* m_timer;				//¼ÆÊ±Æ÷
+		bool m_playing;					//æ­£åœ¨æ’­æ”¾
+		QTimer* m_timer;				//è®¡æ—¶å™¨
 	public:
-										//¶¯»­Ö¡ - ¿ªÊ¼
+										//åŠ¨ç”»å¸§ - å¼€å§‹
 		void startFrame();
-										//¶¯»­Ö¡ - ÔİÍ£
+										//åŠ¨ç”»å¸§ - æš‚åœ
 		void stopFrame();
-										//¶¯»­Ö¡ - ÕıÔÚ²¥·Å
+										//åŠ¨ç”»å¸§ - æ­£åœ¨æ’­æ”¾
 		bool isPlaying();
 
 	private slots:
-										//¶¯»­Ö¡ - Ö¡Ë¢ĞÂ
+										//åŠ¨ç”»å¸§ - å¸§åˆ·æ–°
 		void updateFrame();
 	signals:
-										//¶¯»­Ö¡ - ¿ªÊ¼²¥·Å£¨ĞÅºÅ£©
+										//åŠ¨ç”»å¸§ - å¼€å§‹æ’­æ”¾ï¼ˆä¿¡å·ï¼‰
 		void playStarted();
 
 	//-----------------------------------
-	//----×ÊÔ´ÁĞ±í
+	//----èµ„æºåˆ—è¡¨
 	private:
-		Drill_COAS_Data m_COAS_data;		//Ö÷¿ØÖÆÊı¾İÏî
+		Drill_COAS_MainController m_COAS_mainController;		//ä¸»æ§åˆ¶æ•°æ®é¡¹
 
 
 	//-----------------------------------
-	//----´°¿Ú
+	//----çª—å£
 	public:
 		QStringList local_defaultStateList;
 		QList<QJsonObject> local_stateDataList;
 		QList<QJsonObject> local_actionDataList;
 	public:
-										//´°¿Ú - Ë¢ĞÂ»ùÓÚµÄÊı¾İ
+										//çª—å£ - åˆ·æ–°åŸºäºçš„æ•°æ®
 		void refreshSource();
-										//´°¿Ú - ÉèÖÃÊı¾İ
+										//çª—å£ - è®¾ç½®æ•°æ®
 		void setDefaultStateData(QStringList defaultStateList);
-										//´°¿Ú - È¡³öÊı¾İ
+										//çª—å£ - å–å‡ºæ•°æ®
 		QStringList getDefaultStateData();
-										//´°¿Ú - ±¾µØÊı¾İ -> uiÊı¾İ
+										//çª—å£ - æœ¬åœ°æ•°æ® -> uiæ•°æ®
 		void putDataToUi();							
-										//´°¿Ú - uiÊı¾İ -> ±¾µØÊı¾İ
+										//çª—å£ - uiæ•°æ® -> æœ¬åœ°æ•°æ®
 		void putUiToData();
 
 	private:

@@ -713,8 +713,8 @@
     <ClCompile Include="Source\ActionSeqModule\playingPart\defaultStateGroup\w_DefaultStateGroupEdit.cpp" />
     <ClCompile Include="Source\ActionSeqModule\playingPart\p_PlayingPart.cpp" />
     <ClCompile Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_ActController.cpp" />
-    <ClCompile Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_Data.cpp" />
     <ClCompile Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_Init.cpp" />
+    <ClCompile Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_MainController.cpp" />
     <ClCompile Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_StateController.cpp" />
     <ClCompile Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_StateNodeController.cpp" />
     <ClCompile Include="Source\ActionSeqModule\statePart\p_StatePart.cpp" />
@@ -1091,32 +1091,6 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_SVG_LIB  "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtSvg" "-fstdafx.h" "-f../../Source/ActionSeqModule/playingPart/defaultStateGroup/w_DefaultStateGroupEdit.h"</Command>
     </CustomBuild>
-    <CustomBuild Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_Data.h">
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </Command>
-    </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_Init.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </Message>
@@ -1144,6 +1118,7 @@
       </Command>
     </CustomBuild>
     <ClInclude Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_ActController.h" />
+    <ClInclude Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_MainController.h" />
     <ClInclude Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_StateController.h" />
     <ClInclude Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_StateNodeController.h" />
     <ClInclude Include="Source\DllModule\cximagecrt_drill\src_header\s_cximageManager.h" />

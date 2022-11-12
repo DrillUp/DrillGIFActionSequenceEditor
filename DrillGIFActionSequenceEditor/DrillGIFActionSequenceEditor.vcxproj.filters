@@ -144,9 +144,6 @@
     <Filter Include="源文件\【 动画序列 ActionSeqModule】">
       <UniqueIdentifier>{f5f343cf-ad4f-47e0-a294-4d22e35b468c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 动画序列 ActionSeqModule】\核心复刻类">
-      <UniqueIdentifier>{321bb369-30cf-4274-82df-e3b37caeaf62}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\【 动画序列 ActionSeqModule】\数据读取器">
       <UniqueIdentifier>{34c87558-44ee-4308-b51b-19156d9ad909}</UniqueIdentifier>
     </Filter>
@@ -158,9 +155,6 @@
     </Filter>
     <Filter Include="源文件\【 动画序列 ActionSeqModule】\动画序列块\放映区">
       <UniqueIdentifier>{777e3569-1c82-4e26-9135-fc02f0457784}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\【 动画序列 ActionSeqModule】\动画序列块\放映区\默认状态元集合">
-      <UniqueIdentifier>{1ebfb5f8-a24a-49a8-a3f1-37aef24aa4e5}</UniqueIdentifier>
     </Filter>
     <Filter Include="源文件\【 动画序列 ActionSeqModule】\动画序列块\动作元块">
       <UniqueIdentifier>{098df1bf-d3a8-453e-8625-399216e54aed}</UniqueIdentifier>
@@ -258,17 +252,26 @@
     <Filter Include="源文件\【 插件模块 PluginModule】\插件存储数据容器  [plugins.js，读写]">
       <UniqueIdentifier>{a39775db-bab5-481e-bc55-dc41981ce72c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 动画序列 ActionSeqModule】\核心复刻类\状态元控制器">
+    <Filter Include="源文件\【 动画序列 ActionSeqModule】\核心复刻类（只放映区用）">
+      <UniqueIdentifier>{321bb369-30cf-4274-82df-e3b37caeaf62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 动画序列 ActionSeqModule】\核心复刻类（只放映区用）\状态元控制器">
       <UniqueIdentifier>{be6e4244-6038-47f9-afed-90673a32cd0b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 动画序列 ActionSeqModule】\核心复刻类\动作元控制器">
+    <Filter Include="源文件\【 动画序列 ActionSeqModule】\核心复刻类（只放映区用）\动作元控制器">
       <UniqueIdentifier>{667dcd8f-28f1-4890-b840-5087b727c855}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 动画序列 ActionSeqModule】\核心复刻类\状态节点控制器">
+    <Filter Include="源文件\【 动画序列 ActionSeqModule】\核心复刻类（只放映区用）\状态节点控制器">
       <UniqueIdentifier>{1b9aa6e3-a475-4082-9c82-431e984a9974}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 动画序列 ActionSeqModule】\核心复刻类\动画序列主控制器">
+    <Filter Include="源文件\【 动画序列 ActionSeqModule】\核心复刻类（只放映区用）\动画序列主控制器">
       <UniqueIdentifier>{c15e95bc-8d04-495a-836c-c3deba17f242}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块">
+      <UniqueIdentifier>{18548a2d-43b3-4d31-b7fa-1cfa351485cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\默认状态元集合">
+      <UniqueIdentifier>{1ebfb5f8-a24a-49a8-a3f1-37aef24aa4e5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -708,7 +711,7 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\playingPart\defaultStateGroup\w_DefaultStateGroupEdit.cpp">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\放映区\默认状态元集合</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\默认状态元集合</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_w_DefaultStateGroupEdit.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -743,11 +746,8 @@
     <ClCompile Include="GeneratedFiles\Release\moc_w_ALEGIFWriterType.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_Data.cpp">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类</Filter>
-    </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_Init.cpp">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类（只放映区用）</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件\【 主窗体 MainModule】</Filter>
@@ -972,13 +972,16 @@
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）\树设置</Filter>
     </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_StateController.cpp">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类\状态元控制器</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类（只放映区用）\状态元控制器</Filter>
     </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_ActController.cpp">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类\动作元控制器</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类（只放映区用）\动作元控制器</Filter>
     </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_StateNodeController.cpp">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类\状态节点控制器</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类（只放映区用）\状态节点控制器</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_MainController.cpp">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类（只放映区用）\动画序列主控制器</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1166,10 +1169,10 @@
       <Filter>源文件\【 动画序列 ActionSeqModule】\数据读取器\数据最大值编辑</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\playingPart\defaultStateGroup\w_DefaultStateGroupEdit.h">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\放映区\默认状态元集合</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\默认状态元集合</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\playingPart\defaultStateGroup\w_DefaultStateGroupEdit.ui">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\放映区\默认状态元集合</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\默认状态元集合</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\Utils\manager\GIFManager\s_GIFManager.h">
       <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\GIF转换器</Filter>
@@ -1186,11 +1189,8 @@
     <CustomBuild Include="Source\Utils\widgetFormSenior\animationListEditor\private\w_ALEGIFWriterType.ui">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块\私有类</Filter>
     </CustomBuild>
-    <CustomBuild Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_Data.h">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类</Filter>
-    </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_Init.h">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类（只放映区用）</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\GraphModule\widget\singlePictureViewer\p_SinglePictureViewer.h">
       <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片查看块-单图</Filter>
@@ -1456,13 +1456,16 @@
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）\树设置</Filter>
     </ClInclude>
     <ClInclude Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_StateController.h">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类\状态元控制器</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类（只放映区用）\状态元控制器</Filter>
     </ClInclude>
     <ClInclude Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_ActController.h">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类\动作元控制器</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类（只放映区用）\动作元控制器</Filter>
     </ClInclude>
     <ClInclude Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_StateNodeController.h">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类\状态节点控制器</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类（只放映区用）\状态节点控制器</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_MainController.h">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类（只放映区用）\动画序列主控制器</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1491,7 +1494,7 @@
       <Filter>源文件\【 图形模块 GraphModule】\集合组件（widget）\图片查看块-动图</Filter>
     </Text>
     <Text Include="Source\ActionSeqModule\reprintedCore\复刻说明.txt">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类（只放映区用）</Filter>
     </Text>
     <Text Include="Source\DllModule\Dll模块说明.txt">
       <Filter>源文件\【 外部库模块 DllModule】</Filter>
