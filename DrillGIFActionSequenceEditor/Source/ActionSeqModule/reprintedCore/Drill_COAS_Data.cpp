@@ -1,78 +1,78 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "Drill_COAS_Data.h"
 
 #include "Source/Utils/common/TTool.h"
 
 /*
 -----==========================================================-----
-		Àà£º		¶¯»­ĞòÁĞÊı¾İ¡¾¸´¿ÌÀà¡¿.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¶¯»­ĞòÁĞÊı¾İ
-		¹¦ÄÜ£º		¶¯»­ĞòÁĞºËĞÄ²å¼şµÄ¸´¿ÌÀà¡£
+		ç±»ï¼š		åŠ¨ç”»åºåˆ—æ•°æ®ã€å¤åˆ»ç±»ã€‘.cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	åŠ¨ç”»åºåˆ—æ•°æ®
+		åŠŸèƒ½ï¼š		åŠ¨ç”»åºåˆ—æ ¸å¿ƒæ’ä»¶çš„å¤åˆ»ç±»ã€‚
 					
-		ËµÃ÷£º		µ±Ç°¸´¿Ì°æ±¾£º[v1.3]
+		è¯´æ˜ï¼š		å½“å‰å¤åˆ»ç‰ˆæœ¬ï¼š[v1.3]
 -----==========================================================-----
 */
 Drill_COAS_Data::Drill_COAS_Data(){
-	this->_drill_data = QJsonObject();	//Éî¿½±´Êı¾İ
-	this->drill_initData();				//³õÊ¼»¯Êı¾İ
+	this->_drill_data = QJsonObject();	//æ·±æ‹·è´æ•°æ®
+	this->drill_initData();				//åˆå§‹åŒ–æ•°æ®
 }
 Drill_COAS_Data::Drill_COAS_Data(QJsonObject data){
-	this->_drill_data = data;			//Éî¿½±´Êı¾İ
-	this->drill_initData();				//³õÊ¼»¯Êı¾İ
+	this->_drill_data = data;			//æ·±æ‹·è´æ•°æ®
+	this->drill_initData();				//åˆå§‹åŒ–æ•°æ®
 }
 Drill_COAS_Data::~Drill_COAS_Data(){
 }
 
 /*-------------------------------------------------
-		Êı¾İ - ¿ÕÅĞ¶Ï
+		æ•°æ® - ç©ºåˆ¤æ–­
 */
 bool Drill_COAS_Data::isNull(){
 	return this->_drill_data.isEmpty();
 }
 /*-------------------------------------------------
-		´´½¨ - ³õÊ¼»¯
+		åˆ›å»º - åˆå§‹åŒ–
 */
 void Drill_COAS_Data::drill_initData(){
 	QJsonObject data = this->_drill_data;
 	
-	// > Ä¬ÈÏÖµ
-	if (data["waitForPreload"].isUndefined() == true){ data["waitForPreload"] = false; }							//Ô¤¼ÓÔØµÈ´ı£¨×Ó²å¼şÓÃ²ÎÊı£©
-	if (data["state_default_randomSeq"].isUndefined() == true){ data["state_default_randomSeq"] = QJsonArray(); }	//Ä¬ÈÏ×´Ì¬Ôª¼¯ºÏ
-	if (data["state_tank"].isUndefined() == true){ data["state_tank"] = QJsonArray(); }								//×´Ì¬Ôª ÈİÆ÷
-	if (data["act_tank"].isUndefined() == true){ data["act_tank"] = QJsonArray(); }									//¶¯×÷Ôª ÈİÆ÷
+	// > é»˜è®¤å€¼
+	if (data["waitForPreload"].isUndefined() == true){ data["waitForPreload"] = false; }							//é¢„åŠ è½½ç­‰å¾…ï¼ˆå­æ’ä»¶ç”¨å‚æ•°ï¼‰
+	if (data["state_default_randomSeq"].isUndefined() == true){ data["state_default_randomSeq"] = QJsonArray(); }	//é»˜è®¤çŠ¶æ€å…ƒé›†åˆ
+	if (data["state_tank"].isUndefined() == true){ data["state_tank"] = QJsonArray(); }								//çŠ¶æ€å…ƒ å®¹å™¨
+	if (data["act_tank"].isUndefined() == true){ data["act_tank"] = QJsonArray(); }									//åŠ¨ä½œå…ƒ å®¹å™¨
 	
-	// > Ë½ÓĞ±äÁ¿³õÊ¼»¯
-	this->_drill_time = 0;											//³ÖĞøÊ±¼ä
-	this->_drill_arrayCheck = true;									//¼ì²éÊı×éÔªËØ
-	this->_drill_bitmapName = "";									//µ±Ç°µÄbitmap¶ÔÏóÃû
-	this->_drill_bitmapPath = "";									//µ±Ç°µÄbitmapÂ·¾¶
-	this->_drill_bitmapTint = 0;									//µ±Ç°µÄbitmapÉ«µ÷
-	this->_drill_bitmapSmooth = false;								//µ±Ç°µÄbitmapÄ£ºı
-	this->_drill_state_curCom = "";									//×´Ì¬Ôª - µ±Ç°×´Ì¬
-	this->_drill_state_curTime = 0;									//×´Ì¬Ôª - µ±Ç°Ê±¼ä
-	this->_drill_state_curSeq = TTool::_QJsonArray_AToQString_(data["state_default_randomSeq"].toArray());		//×´Ì¬Ôª - µ±Ç°ĞòÁĞ
-	this->_drill_state_lastAnnotation = "";							//×´Ì¬Ôª - ÉÏÒ»¸ö×¢½âÃû
-	this->_drill_act_curCom = "";									//¶¯×÷Ôª - µ±Ç°¶¯×÷
-	this->_drill_act_curTime = 0;									//¶¯×÷Ôª - µ±Ç°Ê±¼ä
+	// > ç§æœ‰å˜é‡åˆå§‹åŒ–
+	this->_drill_time = 0;											//æŒç»­æ—¶é—´
+	this->_drill_arrayCheck = true;									//æ£€æŸ¥æ•°ç»„å…ƒç´ 
+	this->_drill_bitmapName = "";									//å½“å‰çš„bitmapå¯¹è±¡å
+	this->_drill_bitmapPath = "";									//å½“å‰çš„bitmapè·¯å¾„
+	this->_drill_bitmapTint = 0;									//å½“å‰çš„bitmapè‰²è°ƒ
+	this->_drill_bitmapSmooth = false;								//å½“å‰çš„bitmapæ¨¡ç³Š
+	this->_drill_state_curCom = "";									//çŠ¶æ€å…ƒ - å½“å‰çŠ¶æ€
+	this->_drill_state_curTime = 0;									//çŠ¶æ€å…ƒ - å½“å‰æ—¶é—´
+	this->_drill_state_curSeq = TTool::_QJsonArray_AToQString_(data["state_default_randomSeq"].toArray());		//çŠ¶æ€å…ƒ - å½“å‰åºåˆ—
+	this->_drill_state_lastAnnotation = "";							//çŠ¶æ€å…ƒ - ä¸Šä¸€ä¸ªæ³¨è§£å
+	this->_drill_act_curCom = "";									//åŠ¨ä½œå…ƒ - å½“å‰åŠ¨ä½œ
+	this->_drill_act_curTime = 0;									//åŠ¨ä½œå…ƒ - å½“å‰æ—¶é—´
 }
 /*-------------------------------------------------
-		Êı¾İ - Ö¡Ë¢ĞÂ£¨ĞèÒª¸¸ÀàÊÖ¶¯Ö´ĞĞ£©
+		æ•°æ® - å¸§åˆ·æ–°ï¼ˆéœ€è¦çˆ¶ç±»æ‰‹åŠ¨æ‰§è¡Œï¼‰
 */
 void Drill_COAS_Data::update(){
 	if (this->isNull()){ return; }
-	this->_drill_time += 1;				//Ê±¼ä+1
-	this->drill_COAS_updateState();		//Ë¢ĞÂ×´Ì¬Ôª
-	this->drill_COAS_updateAct();		//Ë¢ĞÂ¶¯×÷Ôª
+	this->_drill_time += 1;				//æ—¶é—´+1
+	this->drill_COAS_updateState();		//åˆ·æ–°çŠ¶æ€å…ƒ
+	this->drill_COAS_updateAct();		//åˆ·æ–°åŠ¨ä½œå…ƒ
 }
 /*-------------------------------------------------
-		Ö¡Ë¢ĞÂ - Ë¢ĞÂ×´Ì¬Ôª
+		å¸§åˆ·æ–° - åˆ·æ–°çŠ¶æ€å…ƒ
 */
 void Drill_COAS_Data::drill_COAS_updateState(){
-	if (this->drill_COAS_isPlayingAct() == true){ return; }		//¶¯×÷²¥·ÅÊ±£¬²»²Ù×÷×´Ì¬Ôª
-	if (this->_drill_state_curSeq.count() == 0){ return; }		//×´Ì¬Ôª¼¯ºÏ Îª¿ÕÊ±£¬²»²Ù×÷
+	if (this->drill_COAS_isPlayingAct() == true){ return; }		//åŠ¨ä½œæ’­æ”¾æ—¶ï¼Œä¸æ“ä½œçŠ¶æ€å…ƒ
+	if (this->_drill_state_curSeq.count() == 0){ return; }		//çŠ¶æ€å…ƒé›†åˆ ä¸ºç©ºæ—¶ï¼Œä¸æ“ä½œ
 
-	// > Ëæ»ú³éÈ¡
+	// > éšæœºæŠ½å–
 	if (this->_drill_state_curCom == ""){
 		this->drill_COAS_rollCurrentState();
 	}
@@ -80,13 +80,13 @@ void Drill_COAS_Data::drill_COAS_updateState(){
 	QJsonObject data = this->_drill_data;
 	QJsonObject data_state = this->drill_COAS_getDataState(this->_drill_state_curCom);
 
-	// > Ã»ÓĞ¸Ã×´Ì¬ÔªÊ±
+	// > æ²¡æœ‰è¯¥çŠ¶æ€å…ƒæ—¶
 	if (data_state["gif_src"].isUndefined() == true){
 		this->_drill_state_curCom = "";
 		return;
 	}
 
-	// > ×´Ì¬ÉùÒô
+	// > çŠ¶æ€å£°éŸ³
 	//if (this->_drill_state_curTime == 0){
 	//	QJsonObject se = {};
 	//	se["name"] = data_state["se"];
@@ -95,7 +95,7 @@ void Drill_COAS_Data::drill_COAS_updateState(){
 	//	AudioManager.playSe(se);
 	//}
 
-	// > gif²¥·Å
+	// > gifæ’­æ”¾
 	QJsonArray gif_src = data_state["gif_src"].toArray();
 	if (gif_src.count() != 0){
 		
@@ -103,7 +103,7 @@ void Drill_COAS_Data::drill_COAS_updateState(){
 		int inter_time = this->_drill_state_curTime;
 		if( data_state["gif_back_run"].toBool() == false){
 
-			// > ÕıÏò²¥·Å
+			// > æ­£å‘æ’­æ”¾
 			QJsonArray gif_intervalRealTank = data_state["gif_intervalRealTank"].toArray();
 			for (int i = 0; i < gif_intervalRealTank.count(); i++){
 				int i_time = gif_intervalRealTank[i].toInt();
@@ -115,7 +115,7 @@ void Drill_COAS_Data::drill_COAS_updateState(){
 			}
 		}else{
 
-			// > µ¹·Å
+			// > å€’æ”¾
 			QJsonArray gif_intervalRealTank = data_state["gif_intervalRealTank"].toArray();
 			for (int i = gif_intervalRealTank.count() - 1; i >= 0; i--){
 				int i_time = gif_intervalRealTank[i].toInt();
@@ -132,45 +132,45 @@ void Drill_COAS_Data::drill_COAS_updateState(){
 		this->_drill_bitmapSmooth = data_state["gif_smooth"].toBool();
 	}
 
-	// > Ê±¼ä+1
+	// > æ—¶é—´+1
 	this->_drill_state_curTime += 1;
-	if (this->_drill_state_curTime >= data_state["gif_intervalRealTank_total"].toInt()){
-		this->drill_COAS_rollCurrentState();
-		this->_drill_state_curTime = 0;
-	}
+	//if (this->_drill_state_curTime >= data_state["gif_intervalRealTank_total"].toInt()){
+	//	this->drill_COAS_rollCurrentState();
+	//	this->_drill_state_curTime = 0;
+	//}
 }
 /*-------------------------------------------------
-		²Ù×÷ - ³éÈ¡ĞÂµÄ×´Ì¬Ôª
+		æ“ä½œ - æŠ½å–æ–°çš„çŠ¶æ€å…ƒ
 */
 void Drill_COAS_Data::drill_COAS_rollCurrentState(){
-	if (this->_drill_state_curSeq.count() == 0){ return; }		//×´Ì¬Ôª¼¯ºÏ Îª¿ÕÊ±£¬²»²Ù×÷
+	if (this->_drill_state_curSeq.count() == 0){ return; }		//çŠ¶æ€å…ƒé›†åˆ ä¸ºç©ºæ—¶ï¼Œä¸æ“ä½œ
 
-	// > Ö»ÓĞÒ»¸ö¾Í²»±ä
+	// > åªæœ‰ä¸€ä¸ªå°±ä¸å˜
 	if (this->_drill_state_curSeq.count() == 1){
 		this->_drill_state_curCom = this->_drill_state_curSeq[0];
 	}
 
-	// > Ëæ»ú³éÈ¡
+	// > éšæœºæŠ½å–
 	int index = rand() % this->_drill_state_curSeq.count();
 	this->_drill_state_curCom = this->_drill_state_curSeq[index];
 }
 
 /*-------------------------------------------------
-		Ö¡Ë¢ĞÂ - Ë¢ĞÂ¶¯×÷Ôª
+		å¸§åˆ·æ–° - åˆ·æ–°åŠ¨ä½œå…ƒ
 */
 void Drill_COAS_Data::drill_COAS_updateAct(){
-	if (this->drill_COAS_isPlayingAct() == false){ return; }		//¶¯×÷Î´²¥·ÅÊ±£¬²»²Ù×÷
+	if (this->drill_COAS_isPlayingAct() == false){ return; }		//åŠ¨ä½œæœªæ’­æ”¾æ—¶ï¼Œä¸æ“ä½œ
 
 	QJsonObject data = this->_drill_data;
 	QJsonObject data_act = this->drill_COAS_getDataAct(this->_drill_act_curCom);
 
-	// > Ã»ÓĞ¸Ã¶¯×÷ÔªÊ±
+	// > æ²¡æœ‰è¯¥åŠ¨ä½œå…ƒæ—¶
 	if (data_act["gif_src"].isUndefined() == true){
 		this->_drill_act_curCom = "";
 		return;
 	}
 
-	// > ¶¯×÷ÉùÒô
+	// > åŠ¨ä½œå£°éŸ³
 	//if (this->_drill_state_curTime == 0){
 	//	QJsonObject se = {};
 	//	se["name"] = data_state["se"];
@@ -179,7 +179,7 @@ void Drill_COAS_Data::drill_COAS_updateAct(){
 	//	AudioManager.playSe(se);
 	//}
 
-	// > gif²¥·Å£¨Ò»´ÎÖ»ÄÜ²¥·ÅÒ»ÖÖĞĞÎª£©
+	// > gifæ’­æ”¾ï¼ˆä¸€æ¬¡åªèƒ½æ’­æ”¾ä¸€ç§è¡Œä¸ºï¼‰
 	QJsonArray gif_src = data_act["gif_src"].toArray();
 	if (gif_src.count() != 0){
 		
@@ -187,7 +187,7 @@ void Drill_COAS_Data::drill_COAS_updateAct(){
 		int inter_time = this->_drill_state_curTime;
 		if (data_act["gif_back_run"].toBool() == false){
 
-			// > ÕıÏò²¥·Å
+			// > æ­£å‘æ’­æ”¾
 			QJsonArray gif_intervalRealTank = data_act["gif_intervalRealTank"].toArray();
 			for (int i = 0; i < gif_intervalRealTank.count(); i++){
 				int i_time = gif_intervalRealTank[i].toInt();
@@ -199,7 +199,7 @@ void Drill_COAS_Data::drill_COAS_updateAct(){
 			}
 		}else{
 
-			// > µ¹·Å
+			// > å€’æ”¾
 			QJsonArray gif_intervalRealTank = data_act["gif_intervalRealTank"].toArray();
 			for (int i = gif_intervalRealTank.count() - 1; i >= 0; i--){
 				int i_time = gif_intervalRealTank[i].toInt();
@@ -216,32 +216,32 @@ void Drill_COAS_Data::drill_COAS_updateAct(){
 		this->_drill_bitmapSmooth = data_act["gif_smooth"].toBool();
 	}
 
-	// > Ê±¼ä+1
+	// > æ—¶é—´+1
 	this->_drill_act_curTime += 1;
-	if (this->_drill_act_curTime > data_act["gif_intervalRealTank_total"].toInt()){
-		this->_drill_act_curCom = "";
-		this->_drill_act_curTime = 0;
-	}
+	//if (this->_drill_act_curTime > data_act["gif_intervalRealTank_total"].toInt()){
+	//	this->_drill_act_curCom = "";
+	//	this->_drill_act_curTime = 0;
+	//}
 
 }
 
 
 /*-------------------------------------------------
-		Êı¾İ - ¼ì²éÊı×éÔªËØ
+		æ•°æ® - æ£€æŸ¥æ•°ç»„å…ƒç´ 
 
-		£¨c++ÖĞÒÑ×Ô¶¯¼ì²é£©
+		ï¼ˆc++ä¸­å·²è‡ªåŠ¨æ£€æŸ¥ï¼‰
 */
 
 /*-------------------------------------------------
-		Êı¾İ - ×´Ì¬Ôª - ÉèÖÃĞòÁĞ£¨½Ó¿Ú£©
+		æ•°æ® - çŠ¶æ€å…ƒ - è®¾ç½®åºåˆ—ï¼ˆæ¥å£ï¼‰
 
-				ËµÃ÷£º	ĞòÁĞÖĞ´æ·Å ×´Ì¬Ãû³Æ µÄÊı×é£¬×´Ì¬Ôª»áÌø¹ı²»Ê¶±ğµÄ¶ÔÏó¡£
+				è¯´æ˜ï¼š	åºåˆ—ä¸­å­˜æ”¾ çŠ¶æ€åç§° çš„æ•°ç»„ï¼ŒçŠ¶æ€å…ƒä¼šè·³è¿‡ä¸è¯†åˆ«çš„å¯¹è±¡ã€‚
 */
 void Drill_COAS_Data::drill_COAS_setSequence(QStringList seq){
 	this->_drill_state_curSeq = seq;
 }
 /*-------------------------------------------------
-		Êı¾İ - ×´Ì¬Ôª - ÉèÖÃĞòÁĞ£¬Á¢¿Ì¸Ä±ä£¨½Ó¿Ú£©
+		æ•°æ® - çŠ¶æ€å…ƒ - è®¾ç½®åºåˆ—ï¼Œç«‹åˆ»æ”¹å˜ï¼ˆæ¥å£ï¼‰
 */
 void Drill_COAS_Data::drill_COAS_setSequenceImmediate(QStringList seq){
 	this->drill_COAS_setSequence( seq );
@@ -249,15 +249,15 @@ void Drill_COAS_Data::drill_COAS_setSequenceImmediate(QStringList seq){
 	this->_drill_state_curTime = 0;
 }
 /*-------------------------------------------------
-		Êı¾İ - ×´Ì¬Ôª - ÉèÖÃ×´Ì¬ÔªĞòÁĞ[×¢½âÄ£Ê½]£¨½Ó¿Ú£©
+		æ•°æ® - çŠ¶æ€å…ƒ - è®¾ç½®çŠ¶æ€å…ƒåºåˆ—[æ³¨è§£æ¨¡å¼]ï¼ˆæ¥å£ï¼‰
 
-				ËµÃ÷£º	×´Ì¬ÔªÃû³ÆÖĞº¬ÓĞÌØ¶¨×¢½âµÄ£¬»á±»²¶»ñ¡£Èç¹û¶¼Ã»²¶»ñµ½£¬·µ»ØÊ§°Ü£¨false£©¡£
+				è¯´æ˜ï¼š	çŠ¶æ€å…ƒåç§°ä¸­å«æœ‰ç‰¹å®šæ³¨è§£çš„ï¼Œä¼šè¢«æ•è·ã€‚å¦‚æœéƒ½æ²¡æ•è·åˆ°ï¼Œè¿”å›å¤±è´¥ï¼ˆfalseï¼‰ã€‚
 */
 bool Drill_COAS_Data::drill_COAS_setSequenceByAnnotation(QString annotation){
-	if (this->_drill_state_lastAnnotation == annotation){ return true; }	//£¨ÖØ¸´×¢½âÊ±Ìø¹ı£©
+	if (this->_drill_state_lastAnnotation == annotation){ return true; }	//ï¼ˆé‡å¤æ³¨è§£æ—¶è·³è¿‡ï¼‰
 	this->_drill_state_lastAnnotation = annotation;
 
-	// > »ñÈ¡×¢½âÁĞ±í
+	// > è·å–æ³¨è§£åˆ—è¡¨
 	QStringList annotation_list = QStringList();
 	QStringList temp_list = annotation.split("@");
 	for (int i = 0; i < temp_list.count(); i++){
@@ -266,14 +266,14 @@ bool Drill_COAS_Data::drill_COAS_setSequenceByAnnotation(QString annotation){
 		annotation_list.push_back("@" + temp);
 	}
 
-	// > ÕÒµ½·ûºÏ×¢½âÊıÁ¿×î¶àµÄ×´Ì¬ÔªÃû
+	// > æ‰¾åˆ°ç¬¦åˆæ³¨è§£æ•°é‡æœ€å¤šçš„çŠ¶æ€å…ƒå
 	QStringList name_list = this->drill_COAS_getAllStateName();
-	int max_fit_count = 0;									//£¨×î´ó·ûºÏÊıÁ¿£©
-	QList<QJsonObject> tag_seq = QList<QJsonObject>();		//£¨×î´ó·ûºÏµÄË÷ÒıÁĞ±í£©
+	int max_fit_count = 0;									//ï¼ˆæœ€å¤§ç¬¦åˆæ•°é‡ï¼‰
+	QList<QJsonObject> tag_seq = QList<QJsonObject>();		//ï¼ˆæœ€å¤§ç¬¦åˆçš„ç´¢å¼•åˆ—è¡¨ï¼‰
 	for (int i = 0; i < name_list.count(); i++){
 		QString name = name_list[i];
 
-		// > »ñÈ¡@·ûºÅÊıÁ¿
+		// > è·å–@ç¬¦å·æ•°é‡
 		int char_count = 0;
 		for (int j = 0; j < name.count(); j++){
 			if (name[j] == '@'){
@@ -282,7 +282,7 @@ bool Drill_COAS_Data::drill_COAS_setSequenceByAnnotation(QString annotation){
 		}
 		if (char_count == 0){ continue; }
 
-		// > ¼ÇÂ¼×¢½â·ûºÏÊıÁ¿
+		// > è®°å½•æ³¨è§£ç¬¦åˆæ•°é‡
 		int fit_count = 0;
 		for (int j = 0; j < annotation_list.count(); j++){
 			QString annotation = annotation_list[j];
@@ -291,12 +291,12 @@ bool Drill_COAS_Data::drill_COAS_setSequenceByAnnotation(QString annotation){
 			}
 		}
 
-		// > º¬ÓĞ²»Æ¥ÅäµÄ@·ûºÅÊ±£¬Ìø¹ı
+		// > å«æœ‰ä¸åŒ¹é…çš„@ç¬¦å·æ—¶ï¼Œè·³è¿‡
 		if (char_count > fit_count){
 			continue;
 		}
 
-		// > ·ûºÏÊıÁ¿¸ü´óÊ±£¬Çå¿ÕĞòÁĞ£¬ÖØĞÂÌí¼Ó
+		// > ç¬¦åˆæ•°é‡æ›´å¤§æ—¶ï¼Œæ¸…ç©ºåºåˆ—ï¼Œé‡æ–°æ·»åŠ 
 		if (fit_count > max_fit_count){
 			tag_seq = QList<QJsonObject>();
 			max_fit_count = fit_count;
@@ -307,7 +307,7 @@ bool Drill_COAS_Data::drill_COAS_setSequenceByAnnotation(QString annotation){
 			tag["name"] = name;
 			tag_seq.push_back(tag);
 
-		// > ·ûºÏÊıÁ¿ÏàµÈ£¬ÀÛ¼Æ
+		// > ç¬¦åˆæ•°é‡ç›¸ç­‰ï¼Œç´¯è®¡
 		}else if (fit_count == max_fit_count){
 			QJsonObject tag = QJsonObject();
 			tag["index"] = i;
@@ -315,14 +315,14 @@ bool Drill_COAS_Data::drill_COAS_setSequenceByAnnotation(QString annotation){
 			tag["name"] = name;
 			tag_seq.push_back(tag);
 
-		// > ·ûºÏÊıÁ¿ÉÙÁË£¬Ìø¹ı
+		// > ç¬¦åˆæ•°é‡å°‘äº†ï¼Œè·³è¿‡
 		}else{
 			continue;
 		}
 	}
 	if (tag_seq.count() == 0){ return false; }
 
-	// > ¸ù¾İ×î´óÖµµÄÏÂ±êÈ¡³ö·ûºÏµÄÃû³Æ
+	// > æ ¹æ®æœ€å¤§å€¼çš„ä¸‹æ ‡å–å‡ºç¬¦åˆçš„åç§°
 	QStringList seq = QStringList();
 	for (int i = 0; i < tag_seq.count(); i++){
 		seq.push_back(tag_seq[i]["name"].toString());
@@ -333,10 +333,10 @@ bool Drill_COAS_Data::drill_COAS_setSequenceByAnnotation(QString annotation){
 }
 
 /*-------------------------------------------------
-		Êı¾İ - ×´Ì¬Ôª - ÉèÖÃ×´Ì¬ÔªĞòÁĞ[×¢½âÄ£Ê½]-Á¢¿Ì¸Ä±ä£¨½Ó¿Ú£©
+		æ•°æ® - çŠ¶æ€å…ƒ - è®¾ç½®çŠ¶æ€å…ƒåºåˆ—[æ³¨è§£æ¨¡å¼]-ç«‹åˆ»æ”¹å˜ï¼ˆæ¥å£ï¼‰
 */
 bool Drill_COAS_Data::drill_COAS_setSequenceImmediateByAnnotation(QString annotation){
-	if (this->_drill_state_lastAnnotation == annotation){ return true; }	//£¨ÖØ¸´×¢½âÊ±Ìø¹ı£©
+	if (this->_drill_state_lastAnnotation == annotation){ return true; }	//ï¼ˆé‡å¤æ³¨è§£æ—¶è·³è¿‡ï¼‰
 
 	bool success = this->drill_COAS_setSequenceByAnnotation(annotation);
 	if (success){
@@ -346,25 +346,25 @@ bool Drill_COAS_Data::drill_COAS_setSequenceImmediateByAnnotation(QString annota
 	return success;
 }
 /*-------------------------------------------------
-		Êı¾İ - ×´Ì¬Ôª - »ñÈ¡Ä¬ÈÏ×´Ì¬Ôª¼¯ºÏ£¨½Ó¿Ú£©
+		æ•°æ® - çŠ¶æ€å…ƒ - è·å–é»˜è®¤çŠ¶æ€å…ƒé›†åˆï¼ˆæ¥å£ï¼‰
 */
 QStringList Drill_COAS_Data::drill_COAS_getDefaultStateGroup(){
 	return TTool::_QJsonArray_AToQString_(this->_drill_data["state_default_randomSeq"].toArray());
 }
 /*-------------------------------------------------
-		Êı¾İ - ×´Ì¬Ôª - »ñÈ¡µ±Ç°×´Ì¬ÔªÃû³Æ£¨½Ó¿Ú£©
+		æ•°æ® - çŠ¶æ€å…ƒ - è·å–å½“å‰çŠ¶æ€å…ƒåç§°ï¼ˆæ¥å£ï¼‰
 */
 QString Drill_COAS_Data::drill_COAS_getCurrentStateName(){
 	return this->_drill_state_curCom;
 }
 /*-------------------------------------------------
-		Êı¾İ - ×´Ì¬Ôª - »ñÈ¡µ±Ç°×´Ì¬Ôª¼¯ºÏÃû³Æ£¨½Ó¿Ú£©
+		æ•°æ® - çŠ¶æ€å…ƒ - è·å–å½“å‰çŠ¶æ€å…ƒé›†åˆåç§°ï¼ˆæ¥å£ï¼‰
 */
 QStringList Drill_COAS_Data::drill_COAS_getCurrentStateSeqName(){
 	return this->_drill_state_curSeq;
 }
 /*-------------------------------------------------
-		Êı¾İ - ×´Ì¬Ôª - »ñÈ¡È«²¿×´Ì¬ÔªÃû³Æ£¨½Ó¿Ú£©
+		æ•°æ® - çŠ¶æ€å…ƒ - è·å–å…¨éƒ¨çŠ¶æ€å…ƒåç§°ï¼ˆæ¥å£ï¼‰
 */
 QStringList Drill_COAS_Data::drill_COAS_getAllStateName(){
 	QJsonObject data = this->_drill_data;
@@ -379,7 +379,7 @@ QStringList Drill_COAS_Data::drill_COAS_getAllStateName(){
 	return result_list;
 }
 /*-------------------------------------------------
-		Êı¾İ - ×´Ì¬Ôª - »ñÈ¡Êı¾İ ¸ù¾İÃû³Æ
+		æ•°æ® - çŠ¶æ€å…ƒ - è·å–æ•°æ® æ ¹æ®åç§°
 */
 QJsonObject Drill_COAS_Data::drill_COAS_getDataState(QString state_name){
 	QJsonObject data = this->_drill_data;
@@ -394,18 +394,18 @@ QJsonObject Drill_COAS_Data::drill_COAS_getDataState(QString state_name){
 }
 
 /*-------------------------------------------------
-		Êı¾İ - ¶¯×÷Ôª - ÅĞ¶Ï²¥·Å
+		æ•°æ® - åŠ¨ä½œå…ƒ - åˆ¤æ–­æ’­æ”¾
 */
 bool Drill_COAS_Data::drill_COAS_isPlayingAct(){
 	return this->_drill_act_curCom != "";
 }
 /*-------------------------------------------------
-		Êı¾İ - ¶¯×÷Ôª - Ìí¼Ó¶¯×÷£¨½Ó¿Ú£©
+		æ•°æ® - åŠ¨ä½œå…ƒ - æ·»åŠ åŠ¨ä½œï¼ˆæ¥å£ï¼‰
 */
 void Drill_COAS_Data::drill_COAS_setAct(QString act_name){
 	if( this->_drill_act_curCom == act_name ){ return; }
 	
-	// > ¼ì²é¸ßÓÅÏÈ¼¶×´Ì¬Ôª
+	// > æ£€æŸ¥é«˜ä¼˜å…ˆçº§çŠ¶æ€å…ƒ
 	if (this->drill_COAS_isPlayingAct() == false){
 		QJsonObject data_act = this->drill_COAS_getDataAct(act_name);
 		QJsonObject cur_state = this->drill_COAS_getDataState(this->_drill_state_curCom);
@@ -416,17 +416,17 @@ void Drill_COAS_Data::drill_COAS_setAct(QString act_name){
 		//qDebug() << cur_state["priority"].toInt();
 		//qDebug() << data_act["priority"].toInt();
 
-		if (cur_state["priority"].toInt() > data_act["priority"].toInt()){	//£¨Í¬¼¶µÄ¶¯×÷Ôª¿ÉÒÔ¸²¸Ç×´Ì¬Ôª£©
+		if (cur_state["priority"].toInt() > data_act["priority"].toInt()){	//ï¼ˆåŒçº§çš„åŠ¨ä½œå…ƒå¯ä»¥è¦†ç›–çŠ¶æ€å…ƒï¼‰
 			return;
 		}
 	}
 		
-	// > ¶¯×÷ÕıÔÚ²¥·ÅÊ±
+	// > åŠ¨ä½œæ­£åœ¨æ’­æ”¾æ—¶
 	if( this->drill_COAS_isPlayingAct() ){
 		QJsonObject data_act = this->drill_COAS_getDataAct(act_name);
 		QJsonObject cur_act = this->drill_COAS_getDataAct(this->_drill_act_curCom);
 		
-		if (cur_act["priority"].toInt() >= data_act["priority"].toInt()){	//£¨Ö»ÄÜ¸²¸ÇĞ¡µÄÓÅÏÈ¼¶£¬²»°üÀ¨Í¬¼¶£©
+		if (cur_act["priority"].toInt() >= data_act["priority"].toInt()){	//ï¼ˆåªèƒ½è¦†ç›–å°çš„ä¼˜å…ˆçº§ï¼Œä¸åŒ…æ‹¬åŒçº§ï¼‰
 			return;
 		}
 	}
@@ -434,20 +434,20 @@ void Drill_COAS_Data::drill_COAS_setAct(QString act_name){
 	this->_drill_act_curCom = act_name;
 }
 /*-------------------------------------------------
-		Êı¾İ - ¶¯×÷Ôª - Á¢¿ÌÖÕÖ¹¶¯×÷£¨½Ó¿Ú£©
+		æ•°æ® - åŠ¨ä½œå…ƒ - ç«‹åˆ»ç»ˆæ­¢åŠ¨ä½œï¼ˆæ¥å£ï¼‰
 */
 void Drill_COAS_Data::drill_COAS_stopAct(){
 	this->_drill_act_curCom = "";
 	this->_drill_act_curTime = 0;
 }
 /*-------------------------------------------------
-		Êı¾İ - ¶¯×÷Ôª - »ñÈ¡µ±Ç°¶¯×÷ÔªÃû³Æ£¨½Ó¿Ú£©
+		æ•°æ® - åŠ¨ä½œå…ƒ - è·å–å½“å‰åŠ¨ä½œå…ƒåç§°ï¼ˆæ¥å£ï¼‰
 */
 QString Drill_COAS_Data::drill_COAS_getCurrentActName(){
 	return this->_drill_act_curCom;
 }
 /*-------------------------------------------------
-		Êı¾İ - ¶¯×÷Ôª - »ñÈ¡È«²¿¶¯×÷ÔªÃû³Æ£¨½Ó¿Ú£©
+		æ•°æ® - åŠ¨ä½œå…ƒ - è·å–å…¨éƒ¨åŠ¨ä½œå…ƒåç§°ï¼ˆæ¥å£ï¼‰
 */
 QStringList Drill_COAS_Data::drill_COAS_getAllActName(){
 	QJsonObject data = this->_drill_data;
@@ -462,7 +462,7 @@ QStringList Drill_COAS_Data::drill_COAS_getAllActName(){
 	return result_list;
 }
 /*-------------------------------------------------
-		Êı¾İ - ¶¯×÷Ôª - »ñÈ¡Êı¾İ ¸ù¾İÃû³Æ
+		æ•°æ® - åŠ¨ä½œå…ƒ - è·å–æ•°æ® æ ¹æ®åç§°
 */
 QJsonObject Drill_COAS_Data::drill_COAS_getDataAct(QString act_name){
 	QJsonObject data = this->_drill_data;

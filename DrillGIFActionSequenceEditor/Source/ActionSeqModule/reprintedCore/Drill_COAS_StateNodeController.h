@@ -94,7 +94,7 @@ class Drill_COAS_StateNodeController{
 									//状态节点 - 子节点 - 刷新子节点
 		void drill_COAS_refreshNext_Private();
 									//状态节点 - 子节点 - 根据权重随机抽取
-		void drill_COAS_rollObjData(QJsonObject objData_list);
+		QJsonObject drill_COAS_rollObjData(QJsonArray objData_list);
 									//状态节点 - 子节点 - 重设数据 状态元
 		void drill_COAS_refreshNextState(QJsonObject next_data);
 									//状态节点 - 子节点 - 重设数据 状态节点

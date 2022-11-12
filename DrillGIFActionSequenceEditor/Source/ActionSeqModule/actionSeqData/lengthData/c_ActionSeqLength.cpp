@@ -1,61 +1,66 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "c_ActionSeqLength.h"
 
 /*
 -----==========================================================-----
-		Àà£º		×î´óÖµ Êý¾ÝÀà.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		×î´óÖµ µÄÊý¾ÝÀà¡£
+		ç±»ï¼š		æœ€å¤§å€¼ æ•°æ®ç±».cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±žæ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		æœ€å¤§å€¼ çš„æ•°æ®ç±»ã€‚
 					
-		×Ó¹¦ÄÜ£º
-					->¿Õ¶ÔÏó
+		å­åŠŸèƒ½ï¼š
+					->ç©ºå¯¹è±¡
 					
 -----==========================================================-----
 */
 C_ActionSeqLength::C_ActionSeqLength(){
 
-	this->realLen_actionSeq = 0;			//³¤¶È - ¶¯»­ÐòÁÐ
-	this->realLen_action = 0;				//³¤¶È - ¶¯×÷Ôª
-	this->realLen_state = 0;				//³¤¶È - ×´Ì¬Ôª
+	this->realLen_actionSeq = 0;			//é•¿åº¦ - åŠ¨ç”»åºåˆ—
+	this->realLen_action = 0;				//é•¿åº¦ - åŠ¨ä½œå…ƒ
+	this->realLen_state = 0;				//é•¿åº¦ - çŠ¶æ€å…ƒ
+	this->realLen_stateNode = 0;			//é•¿åº¦ - çŠ¶æ€èŠ‚ç‚¹
 }
 C_ActionSeqLength::~C_ActionSeqLength(){
 }
 
 
 /*-------------------------------------------------
-		¿ÕÅÐ¶Ï
+		ç©ºåˆ¤æ–­
 */
 bool C_ActionSeqLength::isNull(){
 	if (this->realLen_actionSeq < 4){ return true; }
 	if (this->realLen_action < 4){ return true; }
 	if (this->realLen_state < 4){ return true; }
+	//ï¼ˆçŠ¶æ€èŠ‚ç‚¹ä¸ºç‰¹æ®Šæƒ…å†µï¼‰
 	return false;
 }
 /*-------------------------------------------------
-		ÊµÌåÀà -> QJsonObject
+		å®žä½“ç±» -> QJsonObject
 */
 QJsonObject C_ActionSeqLength::getJsonObject(){
 	QJsonObject obj = QJsonObject();
 	obj.insert("realLen_actionSeq", this->realLen_actionSeq);
 	obj.insert("realLen_action", this->realLen_action);
 	obj.insert("realLen_state", this->realLen_state);
+	obj.insert("realLen_stateNode", this->realLen_stateNode);
 
 	return obj;
 }
 /*-------------------------------------------------
-		QJsonObject -> ÊµÌåÀà
+		QJsonObject -> å®žä½“ç±»
 */
 void C_ActionSeqLength::setJsonObject(QJsonObject obj){
 
 	if (obj.value("realLen_actionSeq").isUndefined() == false){ this->realLen_actionSeq = obj.value("realLen_actionSeq").toInt(); }
 	if (obj.value("realLen_action").isUndefined() == false){ this->realLen_action = obj.value("realLen_action").toInt(); }
 	if (obj.value("realLen_state").isUndefined() == false){ this->realLen_state = obj.value("realLen_state").toInt(); }
+	if (obj.value("realLen_stateNode").isUndefined() == false){ this->realLen_stateNode = obj.value("realLen_stateNode").toInt(); }
 	
-	// > Ä¬ÈÏÖµ
+	// > é»˜è®¤å€¼
 	if (this->isNull()){
 		this->realLen_actionSeq = 40;
 		this->realLen_action = 10;
 		this->realLen_state = 10;
+		this->realLen_stateNode = 10;
 	}
 }

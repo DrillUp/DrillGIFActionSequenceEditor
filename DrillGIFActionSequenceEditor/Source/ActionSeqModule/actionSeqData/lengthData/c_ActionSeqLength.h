@@ -1,13 +1,13 @@
-#pragma once
+ï»¿#pragma once
 
 
 /*
 -----==========================================================-----
-		Àà£º		×î´óÖµ Êý¾ÝÀà.h
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		×î´óÖµ µÄÊý¾ÝÀà¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		æœ€å¤§å€¼ æ•°æ®ç±».h
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±žæ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		æœ€å¤§å€¼ çš„æ•°æ®ç±»ã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 class C_ActionSeqLength{
@@ -17,19 +17,20 @@ class C_ActionSeqLength{
 		~C_ActionSeqLength();
 		
 	//-----------------------------------
-	//----Êý¾Ý
+	//----æ•°æ®
 	public:
-		int realLen_actionSeq;			//³¤¶È - ¶¯»­ÐòÁÐ
-		int realLen_action;				//³¤¶È - ¶¯×÷Ôª
-		int realLen_state;				//³¤¶È - ×´Ì¬Ôª
+		int realLen_actionSeq;			//é•¿åº¦ - åŠ¨ç”»åºåˆ—
+		int realLen_action;				//é•¿åº¦ - åŠ¨ä½œå…ƒ
+		int realLen_state;				//é•¿åº¦ - çŠ¶æ€å…ƒ
+		int realLen_stateNode;			//é•¿åº¦ - çŠ¶æ€èŠ‚ç‚¹
 
 	//-----------------------------------
-	//----ÀàÊôÐÔ
+	//----ç±»å±žæ€§
 	public:
-									//¿ÕÅÐ¶Ï
+									//ç©ºåˆ¤æ–­
 		bool isNull();
-									//ÊµÌåÀà -> QJsonObject
+									//å®žä½“ç±» -> QJsonObject
 		QJsonObject getJsonObject();
-									//QJsonObject -> ÊµÌåÀà
+									//QJsonObject -> å®žä½“ç±»
 		void setJsonObject(QJsonObject obj);
 };

@@ -267,6 +267,9 @@
     <Filter Include="源文件\【 动画序列 ActionSeqModule】\核心复刻类\状态节点控制器">
       <UniqueIdentifier>{1b9aa6e3-a475-4082-9c82-431e984a9974}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\【 动画序列 ActionSeqModule】\核心复刻类\动画序列主控制器">
+      <UniqueIdentifier>{c15e95bc-8d04-495a-836c-c3deba17f242}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
