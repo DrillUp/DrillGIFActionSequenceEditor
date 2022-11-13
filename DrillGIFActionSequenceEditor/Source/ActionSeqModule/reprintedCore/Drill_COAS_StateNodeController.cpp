@@ -350,6 +350,7 @@ bool Drill_COAS_StateNodeController::drill_COAS_curBitmapSmooth(){
 		状态节点 - 节点 - 当前是否为 状态元类型【开放函数】
 */
 bool Drill_COAS_StateNodeController::drill_COAS_isTypeState(){
+	if (this->_drill_curState == nullptr){ return false; }
 	return this->_drill_data["play_type"].toString() == "随机播放状态元" ||
 		this->_drill_data["play_type"].toString() == "顺序播放状态元";
 }
@@ -357,6 +358,7 @@ bool Drill_COAS_StateNodeController::drill_COAS_isTypeState(){
 		状态节点 - 节点 - 当前是否为 集合类型【开放函数】
 */
 bool Drill_COAS_StateNodeController::drill_COAS_isTypeNode(){
+	if (this->_drill_curNode == nullptr){ return false; }
 	return this->_drill_data["play_type"].toString() == "随机播放嵌套集合" ||
 		this->_drill_data["play_type"].toString() == "顺序播放嵌套集合";
 }

@@ -1,11 +1,11 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "s_ActionSeqDataDefiner.h"
 
 /*
 -----==========================================================-----
-		Àà£º		¶¯»­ĞòÁĞ ¿ìËÙÀà¶¨ÒåÆ÷.cpp
-		ËùÊôÄ£¿é£º	¶¯»­ĞòÁĞÄ£¿é
-		¹¦ÄÜ£º		¶¯»­ĞòÁĞµÄ¿ìËÙÀà¶¨Òå¡£
+		ç±»ï¼š		åŠ¨ç”»åºåˆ— å¿«é€Ÿç±»å®šä¹‰å™¨.cpp
+		æ‰€å±æ¨¡å—ï¼š	åŠ¨ç”»åºåˆ—æ¨¡å—
+		åŠŸèƒ½ï¼š		åŠ¨ç”»åºåˆ—çš„å¿«é€Ÿç±»å®šä¹‰ã€‚
 -----==========================================================-----
 */
 S_ActionSeqDataDefiner::S_ActionSeqDataDefiner(){
@@ -14,7 +14,7 @@ S_ActionSeqDataDefiner::~S_ActionSeqDataDefiner() {
 }
 
 /* --------------------------------------------------------------
-----------XDS_DatabaseDataDefiner µ¥Àı
+----------XDS_DatabaseDataDefiner å•ä¾‹
 */
 S_ActionSeqDataDefiner* S_ActionSeqDataDefiner::cur_manager = NULL;
 S_ActionSeqDataDefiner* S_ActionSeqDataDefiner::getInstance() {
@@ -26,48 +26,50 @@ S_ActionSeqDataDefiner* S_ActionSeqDataDefiner::getInstance() {
 
 
 /*-----------------------------------
-		¶¨Òå - ¶¯×÷Ôª Êı¾İ±í
+		å®šä¹‰ - åŠ¨ä½œå…ƒ æ•°æ®è¡¨
 */
 C_FastClass S_ActionSeqDataDefiner::getTable_Action() {
 	C_FastClass result_class;
 	
-	result_class = C_FastClass("¶¯×÷Ôª");
-	result_class.addQString						("¶¯×÷ÔªÃû³Æ", "");
-	result_class.addInt							("¶¯×÷ÔªÓÅÏÈ¼¶", "20");
-	result_class.setInt_UI_ToQSpinBox			("¶¯×÷ÔªÓÅÏÈ¼¶", 0, 999999, 1);
-	//	×ÊÔ´-×´Ì¬Ôª --> ¶¯»­Ö¡±à¼­¿é
-	//	Ö¡¼ä¸ô --> ¶¯»­Ö¡±à¼­¿é
-	//	Ö¡¼ä¸ô-Ã÷Ï¸±í --> ¶¯»­Ö¡±à¼­¿é
-	result_class.addBoolean						("ÊÇ·ñµ¹·Å", "false");
-	result_class.addInt							("Í¼Ïñ-É«µ÷Öµ", "0");
-	result_class.setInt_UI_ToQSpinBox			("Í¼Ïñ-É«µ÷Öµ", 0, 360, 1);
-	result_class.addBoolean						("Í¼Ïñ-Ä£ºı±ßÔµ", "false");
-	result_class.addQString						("±¸×¢", "");
-	result_class.setQString_UI_ToQPlainTextEdit ("±¸×¢",80,true);
+	result_class = C_FastClass("åŠ¨ä½œå…ƒ");
+	result_class.addQString						("åŠ¨ä½œå…ƒåç§°", "");
+	result_class.addInt							("åŠ¨ä½œå…ƒä¼˜å…ˆçº§", "20");
+	result_class.setInt_UI_ToQSpinBox			("åŠ¨ä½œå…ƒä¼˜å…ˆçº§", 0, 999999, 1);
+	//	èµ„æº-çŠ¶æ€å…ƒ --> åŠ¨ç”»å¸§ç¼–è¾‘å—
+	//	å¸§é—´éš” --> åŠ¨ç”»å¸§ç¼–è¾‘å—
+	//	å¸§é—´éš”-æ˜ç»†è¡¨ --> åŠ¨ç”»å¸§ç¼–è¾‘å—
+	result_class.addBoolean						("æ˜¯å¦å€’æ”¾", "false");
+	result_class.addInt							("å›¾åƒ-è‰²è°ƒå€¼", "0");
+	result_class.setInt_UI_ToQSpinBox			("å›¾åƒ-è‰²è°ƒå€¼", 0, 360, 1);
+	result_class.addBoolean						("å›¾åƒ-æ¨¡ç³Šè¾¹ç¼˜", "false");
+	result_class.addQString						("å¤‡æ³¨", "");
+	result_class.setQString_UI_ToQPlainTextEdit ("å¤‡æ³¨",80,true);
 
 	return result_class;
 }
 /*-----------------------------------
-		¶¨Òå - ×´Ì¬Ôª Êı¾İ±í
+		å®šä¹‰ - çŠ¶æ€å…ƒ æ•°æ®è¡¨
 */
 C_FastClass S_ActionSeqDataDefiner::getTable_State() {
 	C_FastClass result_class;
 
-	result_class = C_FastClass("×´Ì¬Ôª");
-	result_class.addQString						("×´Ì¬ÔªÃû³Æ", "");
-	result_class.addInt							("×´Ì¬ÔªÈ¨ÖØ", "40");
-	result_class.setInt_UI_ToQSpinBox			("×´Ì¬ÔªÈ¨ÖØ", 1, 999999, 1);
-	result_class.addInt							("×´Ì¬ÔªÓÅÏÈ¼¶", "0");
-	result_class.setInt_UI_ToQSpinBox			("×´Ì¬ÔªÓÅÏÈ¼¶", 0, 999999, 1);
-	//	×ÊÔ´-×´Ì¬Ôª --> ¶¯»­Ö¡±à¼­¿é
-	//	Ö¡¼ä¸ô --> ¶¯»­Ö¡±à¼­¿é
-	//	Ö¡¼ä¸ôÁĞ±í --> ¶¯»­Ö¡±à¼­¿é
-	result_class.addBoolean						("ÊÇ·ñµ¹·Å", "false");
-	result_class.addInt							("Í¼Ïñ-É«µ÷Öµ", "0");
-	result_class.setInt_UI_ToQSpinBox			("Í¼Ïñ-É«µ÷Öµ", 0, 360, 1);
-	result_class.addBoolean						("Í¼Ïñ-Ä£ºı±ßÔµ", "false");
-	result_class.addQString						("±¸×¢", "");
-	result_class.setQString_UI_ToQPlainTextEdit ("±¸×¢",80,true);
+	result_class = C_FastClass("çŠ¶æ€å…ƒ");
+	result_class.addQString						("çŠ¶æ€å…ƒåç§°", "");
+	result_class.addInt							("çŠ¶æ€å…ƒæƒé‡", "40");
+	result_class.setInt_UI_ToQSpinBox			("çŠ¶æ€å…ƒæƒé‡", 1, 999999, 1);
+	result_class.addInt							("çŠ¶æ€å…ƒä¼˜å…ˆçº§", "0");
+	result_class.setInt_UI_ToQSpinBox			("çŠ¶æ€å…ƒä¼˜å…ˆçº§", 0, 999999, 1);
+	result_class.addBoolean						("å¯è¢«åŠ¨ä½œå…ƒæ‰“æ–­", "false");
+	//	èµ„æº-çŠ¶æ€å…ƒ --> åŠ¨ç”»å¸§ç¼–è¾‘å—
+	//	å¸§é—´éš” --> åŠ¨ç”»å¸§ç¼–è¾‘å—
+	//	å¸§é—´éš”åˆ—è¡¨ --> åŠ¨ç”»å¸§ç¼–è¾‘å—
+	result_class.addBoolean						("æ˜¯å¦å€’æ”¾", "false");
+	result_class.addBoolean						("æ˜¯å¦é¢„åŠ è½½", "false");
+	result_class.addInt							("å›¾åƒ-è‰²è°ƒå€¼", "0");
+	result_class.setInt_UI_ToQSpinBox			("å›¾åƒ-è‰²è°ƒå€¼", 0, 360, 1);
+	result_class.addBoolean						("å›¾åƒ-æ¨¡ç³Šè¾¹ç¼˜", "false");
+	result_class.addQString						("å¤‡æ³¨", "");
+	result_class.setQString_UI_ToQPlainTextEdit ("å¤‡æ³¨",80,true);
 
 	return result_class;
 }
