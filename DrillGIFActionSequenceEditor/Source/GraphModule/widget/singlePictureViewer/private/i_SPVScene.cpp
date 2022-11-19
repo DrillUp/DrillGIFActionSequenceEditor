@@ -1,23 +1,23 @@
-#include "stdafx.h"
-#include "i_SPVScene.h"
+ï»¿#include "stdafx.h"
+#include "I_SPVScene.h"
 
 #include <QPixmap>
 
 /*
 -----==========================================================-----
-		Àà£º		Í¼Æ¬²é¿´¿é-µ¥Í¼ ³¡¾°.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		²é¿´µ¥Í¼µÄ»­²¼¡£
+		ç±»ï¼š		å›¾ç‰‡æŸ¥çœ‹å—-å•å›¾ åœºæ™¯.cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		æŸ¥çœ‹å•å›¾çš„ç”»å¸ƒã€‚
 
-		×Ó¹¦ÄÜ£º	->³¡¾°³õÊ¼»¯
-						->¿í¶È¡¢¸ß¶È¡¢³öÑªÏß
-						->ÑÕÉ«
-						->±³¾°
-					->µ¥Í¼
-						->ÉèÖÃÍ¼Æ¬×ÊÔ´
-					->Ëõ·Å£¨ÊÓÍ¼¹¦ÄÜ£©
-					->Êó±êÍÏÒÆ£¨ÊÓÍ¼¹¦ÄÜ£©
+		å­åŠŸèƒ½ï¼š	->åœºæ™¯åˆå§‹åŒ–
+						->å®½åº¦ã€é«˜åº¦ã€å‡ºè¡€çº¿
+						->é¢œè‰²
+						->èƒŒæ™¯
+					->å•å›¾
+						->è®¾ç½®å›¾ç‰‡èµ„æº
+					->ç¼©æ”¾ï¼ˆè§†å›¾åŠŸèƒ½ï¼‰
+					->é¼ æ ‡æ‹–ç§»ï¼ˆè§†å›¾åŠŸèƒ½ï¼‰
 
 -----==========================================================-----
 */
@@ -30,27 +30,28 @@ I_SPVScene::~I_SPVScene(){
 }
 
 /*-------------------------------------------------
-		³õÊ¼»¯
+		åˆå§‹åŒ–
 */
 void I_SPVScene::init(){
 
-	// > ÊôĞÔ£¨Ä¬ÈÏ£©
+	// > å±æ€§ï¼ˆé»˜è®¤ï¼‰
 	this->m_canvasWidth = this->getMaxWidth();
 	this->m_canvasHeight = this->getMaxHeight();
 	this->m_canvasThickness = 40;
 	this->m_pixelWidth = 24;
 	this->m_pixelHeight = 24;
 
-	// > ¸¨Öú¶ÔÏó
+	// > è¾…åŠ©å¯¹è±¡
 	this->m_gridLineColor = QColor(255, 0, 0);
 	this->m_backgroundColor = QColor(255, 255, 255);
 	this->m_P_GridLineItem = new P_GridLineItem(this);
 	this->m_maskBackground = nullptr;
 
-	// > ²¿¼ş
+	// > éƒ¨ä»¶
 	this->m_bitmapItem = nullptr;
 
-	// > ³¡¾°³õÊ¼»¯
+	// > åœºæ™¯åˆå§‹åŒ–
+	this->m_rebuildBlock = false;
 	int ww = this->m_pixelWidth;
 	int hh = this->m_pixelHeight;
 	this->setSceneRect(-1 * this->m_canvasThickness, -1 * this->m_canvasThickness, this->m_canvasWidth + this->m_canvasThickness * 2, this->m_canvasHeight + this->m_canvasThickness * 2);
@@ -59,24 +60,24 @@ void I_SPVScene::init(){
 
 }
 /*-------------------------------------------------
-		¸¨Öú - ÉèÖÃÍø¸ñÏß
+		è¾…åŠ© - è®¾ç½®ç½‘æ ¼çº¿
 */
 void I_SPVScene::setGridLine(int column, int row){
 
-	// > ½¨Á¢Íø¸ñÏß
+	// > å»ºç«‹ç½‘æ ¼çº¿
 	this->m_P_GridLineItem->rebuildGrid(this->m_canvasWidth, this->m_canvasHeight, column, row, this->m_gridLineColor);
 	
-	// > Ìí¼Ó
+	// > æ·»åŠ 
 	this->m_P_GridLineItem->addItemsToScene();
 }
 /*-------------------------------------------------
-		¸¨Öú - Çå¿ÕÍø¸ñÏß
+		è¾…åŠ© - æ¸…ç©ºç½‘æ ¼çº¿
 */
 void I_SPVScene::clearGridLine(){
 	this->m_P_GridLineItem->clearAllItem();
 }
 /*-------------------------------------------------
-		¸¨Öú - Ë¢ĞÂ±³¾°
+		è¾…åŠ© - åˆ·æ–°èƒŒæ™¯
 */
 void I_SPVScene::refreshBackground(){
 	if (this->m_maskBackground == nullptr){
@@ -89,88 +90,235 @@ void I_SPVScene::refreshBackground(){
 }
 
 /*-------------------------------------------------
-		¼àÌıÊÂ¼ş - Êó±ê°´ÏÂ
+		ç›‘å¬äº‹ä»¶ - é¼ æ ‡æŒ‰ä¸‹
 */
 void I_SPVScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent){
 	QGraphicsScene::mousePressEvent(mouseEvent);
-	//£¨ÎŞ²Ù×÷º¯Êı£©
+	//ï¼ˆæ— æ“ä½œå‡½æ•°ï¼‰
 }
 /*-------------------------------------------------
-		¼àÌıÊÂ¼ş - Êó±êÌ§Æğ
+		ç›‘å¬äº‹ä»¶ - é¼ æ ‡æŠ¬èµ·
 */
 void I_SPVScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent){
 	QGraphicsScene::mouseReleaseEvent(mouseEvent);
-	//£¨ÎŞ²Ù×÷º¯Êı£©
+	//ï¼ˆæ— æ“ä½œå‡½æ•°ï¼‰
 }
 /*-------------------------------------------------
-		¼àÌıÊÂ¼ş - Êó±êÒÆ¶¯
+		ç›‘å¬äº‹ä»¶ - é¼ æ ‡ç§»åŠ¨
 */
 void I_SPVScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent){
 	QGraphicsScene::mouseMoveEvent(mouseEvent);
-	//£¨ÎŞ²Ù×÷º¯Êı£©
+	//ï¼ˆæ— æ“ä½œå‡½æ•°ï¼‰
 }
 /*-------------------------------------------------
-		¼àÌıÊÂ¼ş - Êó±êË«»÷
+		ç›‘å¬äº‹ä»¶ - é¼ æ ‡åŒå‡»
 */
 void I_SPVScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent){
 	QGraphicsScene::mouseDoubleClickEvent(mouseEvent);
-	//£¨ÎŞ²Ù×÷º¯Êı£©
+	//ï¼ˆæ— æ“ä½œå‡½æ•°ï¼‰
 }
 
 
 
 /*-------------------------------------------------
-		×ÊÔ´ - ÉèÖÃ×ÊÔ´
+		èµ„æº - è®¾ç½®èµ„æº
 */
 void I_SPVScene::setSource(QPixmap bitmap){
 	this->m_bitmap = bitmap;
 	this->rebuildScene();
 }
 /*-------------------------------------------------
-		×ÊÔ´ - Çå³ı×ÊÔ´
+		èµ„æº - æ¸…é™¤èµ„æº
 */
 void I_SPVScene::clearSource(){
 	this->m_bitmap = QPixmap();
 	this->rebuildScene();
 }
 /*-------------------------------------------------
-		×ÊÔ´ - ÖØ½¨³¡¾°
+		èµ„æº - é‡å»ºåœºæ™¯
 */
 void I_SPVScene::rebuildScene(){
+	if (this->m_rebuildBlock == true){ return; }
+	this->m_rebuildBlock = true;
 	
-	// > È¥³ı¾ÉÍ¼Æ¬
+	// > å»é™¤æ—§å›¾ç‰‡
 	if (this->m_bitmapItem != nullptr){
 		this->removeItem(this->m_bitmapItem);
 	}
 
-	// > ¸ß¿íÊÊÅä
+	// > é«˜å®½é€‚é…
 	this->m_canvasWidth = this->getMaxWidth();
 	this->m_canvasHeight = this->getMaxHeight();
 	this->setSceneRect(-1 * this->m_canvasThickness, -1 * this->m_canvasThickness, this->m_canvasWidth + this->m_canvasThickness * 2, this->m_canvasHeight + this->m_canvasThickness * 2);
 	this->refreshBackground();
 
-	// > ·ÅÖÃÍ¼Æ¬
+	// > æ”¾ç½®å›¾ç‰‡
 	this->m_bitmapItem = new QGraphicsPixmapItem();
-	double xx = (this->m_canvasWidth - this->m_bitmap.width())*0.5;
-	double yy = (this->m_canvasHeight - this->m_bitmap.height())*0.5;
-	this->m_bitmapItem->setPixmap(this->m_bitmap);
+	QPixmap result_pixmap = this->rotateColor(this->m_bitmap, 0);
+
+	double xx = (this->m_canvasWidth - result_pixmap.width())*0.5;
+	double yy = (this->m_canvasHeight - result_pixmap.height())*0.5;
+	this->m_bitmapItem->setPixmap(result_pixmap);
 	this->m_bitmapItem->setPos(xx, yy);
 	this->addItem(this->m_bitmapItem);
 
+	this->m_rebuildBlock = false;
 }
 
+
 /*-------------------------------------------------
-		Í¼Æ¬ - ×î´ó¸ß¶È
+		ç€è‰²å™¨ - ä¿®æ”¹è‰²è°ƒ
+*/
+void I_SPVScene::setTint(int rotate_offset){
+	if (this->m_rebuildBlock == true){ return; }
+	if (this->m_curTint == rotate_offset){ return; }
+	this->m_curTint = rotate_offset;
+	this->rebuildScene();
+}
+/*-------------------------------------------------
+		ç€è‰²å™¨ - è·å–è‰²è°ƒ
+*/
+int I_SPVScene::getTint(){
+	return this->m_curTint;
+}
+/*-------------------------------------------------
+		ç€è‰²å™¨ - æ—‹è½¬è‰²å½©
+*/
+QPixmap I_SPVScene::rotateColor(QPixmap pixmap, int rotate_offset){
+	if (pixmap.isNull()){ return pixmap; }
+	if (rotate_offset == 0){ return pixmap; }
+	rotate_offset = ((rotate_offset % 360) + 360) % 360;
+
+	// > æ ¼å¼è½¬æ¢ï¼ˆå›ºå®šä¸ºrgbaï¼‰
+	QImage img = pixmap.toImage();
+	if (img.format() != QImage::Format_RGBA8888){
+		img = img.convertToFormat(QImage::Format_RGBA8888);
+	}
+
+	// > å›¾ç‰‡é¢œè‰²çŸ©é˜µè½¬æ¢
+	//		å‚è€ƒï¼šhttps://blog.csdn.net/qq_43081702/article/details/110656227 
+	uint8_t* rgba = img.bits();
+	double* temp_arr = new double[3];
+	int size = img.width()*img.height() * 4;
+	for (int i = 0; i < size; i += 4){
+		this->rgbToHsl(rgba[i + 0], rgba[i + 1], rgba[i + 2], temp_arr);
+		double h = (int)(temp_arr[0] + rotate_offset) % 360;
+		double s = temp_arr[1];
+		double l = temp_arr[2];
+		this->hslToRgb(h, s, l, temp_arr);
+		rgba[i + 0] = temp_arr[0];
+		rgba[i + 1] = temp_arr[1];
+		rgba[i + 2] = temp_arr[2];
+	}
+	delete temp_arr;
+	//ï¼ˆåŸå‡½æ•°ï¼šBitmap.prototype.rotateHueï¼‰
+	//var context = this._context;
+	//var imageData = context.getImageData(0, 0, this.width, this.height);
+	//var pixels = imageData.data;
+	//for (var i = 0; i < pixels.length; i += 4){
+	//	var hsl = rgbToHsl(pixels[i + 0], pixels[i + 1], pixels[i + 2]);
+	//	var h = (hsl[0] + offset) % 360;
+	//	var s = hsl[1];
+	//	var l = hsl[2];
+	//	var rgb = hslToRgb(h, s, l);
+	//	pixels[i + 0] = rgb[0];
+	//	pixels[i + 1] = rgb[1];
+	//	pixels[i + 2] = rgb[2];
+	//}
+	//context.putImageData(imageData, 0, 0);
+
+	// > æ”¾ç½®å›¾ç‰‡
+	QPixmap result_pixmap = QPixmap::fromImage(img);
+	return result_pixmap;
+}
+/*-------------------------------------------------
+		ç€è‰²å™¨ - rgbæ¨¡å¼è½¬hslæ¨¡å¼
+*/
+void I_SPVScene::rgbToHsl(int r, int g, int b, double* result_arr){
+	double cmin = qMin(r, qMin(g, b));
+	double cmax = qMax(r, qMax(g, b));
+	double h = 0;
+	double s = 0;
+	double l = (cmin + cmax) * 0.5;
+	double delta = cmax - cmin;
+
+	if (delta > 0){
+		if (r == cmax){
+			h = 60 * ((int)((g - b) / delta + 6) % 6);
+		}
+		else if (g == cmax){
+			h = 60 * ((b - r) / delta + 2);
+		}
+		else{
+			h = 60 * ((r - g) / delta + 4);
+		}
+		s = delta / (255 - qAbs(2 * l - 255));
+	}
+	result_arr[0] = h; 
+	result_arr[1] = s; 
+	result_arr[2] = l;
+}
+/*-------------------------------------------------
+		ç€è‰²å™¨ - hslæ¨¡å¼è½¬rgbæ¨¡å¼
+*/
+void I_SPVScene::hslToRgb(double h, double s, double l, double* result_arr){
+	int c = (255 - qAbs(2 * l - 255)) * s;
+	int x = c * (1 - qAbs((int)(h / 60) % 2 - 1));
+	int m = l - c / 2;
+	int cm = c + m;
+	int xm = x + m;
+
+	if (h < 60){
+		result_arr[0] = cm;
+		result_arr[1] = xm;
+		result_arr[2] = m;
+		return;
+	}
+	else if (h < 120){
+		result_arr[0] = xm; 
+		result_arr[1] = cm; 
+		result_arr[2] = m;
+		return;
+	}
+	else if (h < 180){
+		result_arr[0] = m; 
+		result_arr[1] = cm; 
+		result_arr[2] = xm;
+		return;
+	}
+	else if (h < 240){
+		result_arr[0] = m; 
+		result_arr[1] = xm; 
+		result_arr[2] = cm;
+		return;
+	}
+	else if (h < 300){
+		result_arr[0] = xm; 
+		result_arr[1] = m; 
+		result_arr[2] = cm;
+		return;
+	}
+	else{
+		result_arr[0] = cm; 
+		result_arr[1] = m; 
+		result_arr[2] = xm;
+		return;
+	}
+}
+
+
+/*-------------------------------------------------
+		å›¾ç‰‡ - æœ€å¤§é«˜åº¦
 */
 int I_SPVScene::getMaxHeight(){
-	if (this->m_bitmap.height() == 0){ return 600; }	//£¨Ä¬ÈÏ£©
+	if (this->m_bitmap.height() == 0){ return 600; }	//ï¼ˆé»˜è®¤ï¼‰
 	return this->m_bitmap.height();
 }
 /*-------------------------------------------------
-		Í¼Æ¬ - ×î´ó¿í¶È
+		å›¾ç‰‡ - æœ€å¤§å®½åº¦
 */
 int I_SPVScene::getMaxWidth(){
-	if (this->m_bitmap.width() == 0){ return 800; }		//£¨Ä¬ÈÏ£©
+	if (this->m_bitmap.width() == 0){ return 800; }		//ï¼ˆé»˜è®¤ï¼‰
 	return this->m_bitmap.width();
 }
 

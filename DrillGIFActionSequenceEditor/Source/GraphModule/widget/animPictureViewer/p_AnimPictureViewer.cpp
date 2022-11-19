@@ -1,33 +1,33 @@
-#include "stdafx.h"
-#include "p_AnimPictureViewer.h"
+ï»¿#include "stdafx.h"
+#include "P_AnimPictureViewer.h"
 
-#include "private/i_APVView.h"
-#include "Source/Utils/common/TTool.h"
+#include "Private/I_APVView.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Í¼Æ¬²é¿´¿é-¶¯Í¼ ×é×°Ìå.cpp
-		°æ±¾£º		v1.03
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		Í¨¹ınew£¬×Ô¶¯½«Ò»¸öQWidget£¬¿ª±Ù³É Í¼Æ¬²é¿´¿é µÄQGraphView¡£
+		ç±»ï¼š		å›¾ç‰‡æŸ¥çœ‹å—-åŠ¨å›¾ ç»„è£…ä½“.cpp
+		ç‰ˆæœ¬ï¼š		v1.04
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		é€šè¿‡newï¼Œè‡ªåŠ¨å°†ä¸€ä¸ªQWidgetï¼Œå¼€è¾Ÿæˆ å›¾ç‰‡æŸ¥çœ‹å— çš„QGraphViewã€‚
 					
-		×¢Òâ£º		1.Ö»ÊÇÒ»¸öViewµÄ¹ı¶É×é×°Ìå£¬Ìá¹©ÓëViewÊÓÍ¼Ö±½Ó½»»¥µÄ½Ó¿Ú¡£
-					  Ö÷Òª±¾ÌåÊÇView¡£
+		æ³¨æ„ï¼š		1.åªæ˜¯ä¸€ä¸ªViewçš„è¿‡æ¸¡ç»„è£…ä½“ï¼Œæä¾›ä¸Viewè§†å›¾ç›´æ¥äº¤äº’çš„æ¥å£ã€‚
+					  ä¸»è¦æœ¬ä½“æ˜¯Viewã€‚
 
 -----==========================================================-----
 */
 
 P_AnimPictureViewer::P_AnimPictureViewer(QWidget* _parent)
 {
-	this->initWidgetAndLayout(_parent);			//¸¸¿Ø¼ş
-	this->m_GraphView = nullptr;				//ÊÓÍ¼
+	this->initWidgetAndLayout(_parent);			//çˆ¶æ§ä»¶
+	this->m_GraphView = nullptr;				//è§†å›¾
 }
 P_AnimPictureViewer::~P_AnimPictureViewer(){
 }
 
 /*-------------------------------------------------
-		¸¸¿Ø¼ş³õÊ¼»¯
+		çˆ¶æ§ä»¶åˆå§‹åŒ–
 */
 void P_AnimPictureViewer::initWidgetAndLayout(QWidget* _parent){
 	if (_parent->layout() == nullptr){
@@ -35,7 +35,7 @@ void P_AnimPictureViewer::initWidgetAndLayout(QWidget* _parent){
 		_parent->setLayout(this->m_layout);
 	}
 	QString layout_name = _parent->layout()->metaObject()->className();
-	Q_ASSERT(layout_name == "QVBoxLayout");		//±ØĞëÊÇQVBoxLayout
+	Q_ASSERT(layout_name == "QVBoxLayout");		//å¿…é¡»æ˜¯QVBoxLayout
 	this->m_parent = _parent;
 	this->m_layout = qobject_cast<QVBoxLayout*>(_parent->layout());
 	this->m_layout->setMargin(0);
@@ -43,26 +43,26 @@ void P_AnimPictureViewer::initWidgetAndLayout(QWidget* _parent){
 
 
 /*-------------------------------------------------
-		¿Ø¼ş - ÖØ½¨¿Ø¼ş
+		æ§ä»¶ - é‡å»ºæ§ä»¶
 */
 void P_AnimPictureViewer::rebuildUI(){
 
-	// > ÄÚÈİÉ¾³ı
+	// > å†…å®¹åˆ é™¤
 	this->clearUI();
 
-	// > ĞÂ½¨
+	// > æ–°å»º
 	this->m_GraphView = new I_APVView(this->m_parent);
 	this->m_GraphView->show();
 	this->m_layout->addWidget(this->m_GraphView);
-	connect(this->m_GraphView->getMouseResizeController(), &P_MouseResizeController::scaleChanged, this, &P_AnimPictureViewer::scaleChanged_view);
+	connect(this->m_GraphView->getMouseResizeController(), &P_MRe_Controller::scaleChanged, this, &P_AnimPictureViewer::scaleChanged_view);
 
 }
 /*-------------------------------------------------
-		¿Ø¼ş - ÇåÀíUI
+		æ§ä»¶ - æ¸…ç†UI
 */
 void P_AnimPictureViewer::clearUI(){
 
-	// > È¥µôÊÓÍ¼
+	// > å»æ‰è§†å›¾
 	if (this->m_GraphView != nullptr){
 		m_layout->removeWidget(this->m_GraphView);
 		this->m_GraphView->setParent(nullptr);
@@ -75,31 +75,31 @@ void P_AnimPictureViewer::clearUI(){
 
 
 /*-------------------------------------------------
-		¶¯»­Ö¡ - ÉèÖÃ Í¼Æ¬×ÊÔ´
+		åŠ¨ç”»å¸§ - è®¾ç½® å›¾ç‰‡èµ„æº
 */
 void P_AnimPictureViewer::setSource(QList<QFileInfo> file_list){
 	this->m_GraphView->getScene()->setSource(file_list);
 }
 /*-------------------------------------------------
-		¶¯»­Ö¡ - »ñÈ¡ Í¼Æ¬×ÊÔ´
+		åŠ¨ç”»å¸§ - è·å– å›¾ç‰‡èµ„æº
 */
 QList<QFileInfo> P_AnimPictureViewer::getSource(){
 	return this->m_GraphView->getScene()->getSource();
 }
 /*-------------------------------------------------
-		¶¯»­Ö¡ - Çå³ı×ÊÔ´
+		åŠ¨ç”»å¸§ - æ¸…é™¤èµ„æº
 */
 void P_AnimPictureViewer::clearSource(){
 	return this->m_GraphView->getScene()->clearSource();
 }
 /*-------------------------------------------------
-		¶¯»­Ö¡ - ÇĞ»»Ö¡£¨¸ù¾İË÷Òı£©
+		åŠ¨ç”»å¸§ - åˆ‡æ¢å¸§ï¼ˆæ ¹æ®ç´¢å¼•ï¼‰
 */
 void P_AnimPictureViewer::setAnimFrame(int index){
 	this->m_GraphView->getScene()->setAnimFrame(index);
 }
 /*-------------------------------------------------
-		¶¯»­Ö¡ - ÇĞ»»Ö¡£¨¸ù¾İ×ÊÔ´Ãû³Æ£©
+		åŠ¨ç”»å¸§ - åˆ‡æ¢å¸§ï¼ˆæ ¹æ®èµ„æºåç§°ï¼‰
 */
 void P_AnimPictureViewer::setAnimFile(QFileInfo file){
 	this->m_GraphView->getScene()->setAnimName(file);
@@ -108,13 +108,13 @@ void P_AnimPictureViewer::setAnimFile(QFileInfo file){
 
 
 /*-------------------------------------------------
-		¸¨Öú - ÉèÖÃÍø¸ñÏß
+		è¾…åŠ© - è®¾ç½®ç½‘æ ¼çº¿
 */
 void P_AnimPictureViewer::setGridLine(int column, int row){
 	this->m_GraphView->getScene()->setGridLine(column,row);
 }
 /*-------------------------------------------------
-		¸¨Öú - Çå¿ÕÍø¸ñÏß
+		è¾…åŠ© - æ¸…ç©ºç½‘æ ¼çº¿
 */
 void P_AnimPictureViewer::clearGridLine(){
 	this->m_GraphView->getScene()->clearGridLine();
@@ -122,43 +122,57 @@ void P_AnimPictureViewer::clearGridLine(){
 
 
 /*-------------------------------------------------
-		Ëõ·Å - »ñÈ¡¿ØÖÆÆ÷
+		ç€è‰²å™¨ - ä¿®æ”¹è‰²è°ƒ
 */
-P_MouseResizeController* P_AnimPictureViewer::getResizeController(){
+void P_AnimPictureViewer::setTint(int rotate_offset){
+	this->m_GraphView->getScene()->setTint(rotate_offset);
+}
+/*-------------------------------------------------
+		ç€è‰²å™¨ - è·å–è‰²è°ƒ
+*/
+int P_AnimPictureViewer::getTint(){
+	return this->m_GraphView->getScene()->getTint();
+}
+
+
+/*-------------------------------------------------
+		ç¼©æ”¾ - è·å–æ§åˆ¶å™¨
+*/
+P_MRe_Controller* P_AnimPictureViewer::getResizeController(){
 	return this->m_GraphView->getMouseResizeController();
 }
 /*-------------------------------------------------
-		Ëõ·Å - ËõĞ¡
+		ç¼©æ”¾ - ç¼©å°
 */
 void P_AnimPictureViewer::zoomIn(){
 	this->m_GraphView->getMouseResizeController()->zoomIn();
 }
 /*-------------------------------------------------
-		Ëõ·Å - ·Å´ó
+		ç¼©æ”¾ - æ”¾å¤§
 */
 void P_AnimPictureViewer::zoomOut(){
 	this->m_GraphView->getMouseResizeController()->zoomOut();
 }
 /*-------------------------------------------------
-		Ëõ·Å - ´óĞ¡ÖØÖÃ
+		ç¼©æ”¾ - å¤§å°é‡ç½®
 */
 void P_AnimPictureViewer::zoomReset(){
 	this->m_GraphView->getMouseResizeController()->zoomReset();
 }
 /*-------------------------------------------------
-		Ëõ·Å - »ñÈ¡Ëõ·ÅÖµ
+		ç¼©æ”¾ - è·å–ç¼©æ”¾å€¼
 */
 double P_AnimPictureViewer::getScale(){
 	return this->m_GraphView->getMouseResizeController()->getScale();
 }
 /*-------------------------------------------------
-		Ëõ·Å - ÉèÖÃ¹öÂÖËõ·ÅĞŞÊÎ·û
+		ç¼©æ”¾ - è®¾ç½®æ»šè½®ç¼©æ”¾ä¿®é¥°ç¬¦
 */
 void P_AnimPictureViewer::setScaleWheelModifier(QString charModifier){
 	this->m_GraphView->getMouseResizeController()->setScaleWheelModifier(charModifier);
 }
 /*-------------------------------------------------
-		Ëõ·Å - Ëõ·ÅÖµ¸Ä±ä£¨Óëview½»»¥£©
+		ç¼©æ”¾ - ç¼©æ”¾å€¼æ”¹å˜ï¼ˆä¸viewäº¤äº’ï¼‰
 */
 void P_AnimPictureViewer::scaleChanged_view(double scale){
 	emit scaleChanged(scale);

@@ -1,18 +1,18 @@
-#include "stdafx.h"
-#include "i_PPaView.h"
+ï»¿#include "stdafx.h"
+#include "I_PPaView.h"
 
 /*
 -----==========================================================-----
-		Àà£º		ÇĞ¸îÖ¡Ñ¡ÔñÆ÷ ÊÓÍ¼.cpp
-		°æ±¾£º		v1.00
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		Á¬½Ó¿Ø¼şÓë³¡¾°µÄÖĞ¼äÀà£¬¿ØÖÆ¹ö¶¯ÌõÓëËõ·Å¹¦ÄÜ¡£
+		ç±»ï¼š		åˆ‡å‰²å¸§é€‰æ‹©å™¨ è§†å›¾.cpp
+		ç‰ˆæœ¬ï¼š		v1.00
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		è¿æ¥æ§ä»¶ä¸åœºæ™¯çš„ä¸­é—´ç±»ï¼Œæ§åˆ¶æ»šåŠ¨æ¡ä¸ç¼©æ”¾åŠŸèƒ½ã€‚
 					
-		×Ó¹¦ÄÜ£º	->³¡¾°³õÊ¼»¯£¨³¡¾°¹¦ÄÜ£©
-					->¶¯»­Ö¡£¨³¡¾°¹¦ÄÜ£©
-					->Êó±êËõ·Å¿ØÖÆÆ÷
-					->·½¿éÕóÁĞµãÑ¡Æ÷
+		å­åŠŸèƒ½ï¼š	->åœºæ™¯åˆå§‹åŒ–ï¼ˆåœºæ™¯åŠŸèƒ½ï¼‰
+					->åŠ¨ç”»å¸§ï¼ˆåœºæ™¯åŠŸèƒ½ï¼‰
+					->é¼ æ ‡ç¼©æ”¾æ§åˆ¶å™¨
+					->æ–¹å—é˜µåˆ—ç‚¹é€‰å™¨
 
 -----==========================================================-----
 */
@@ -24,64 +24,64 @@ I_PPaView::I_PPaView(QWidget *parent)
 I_PPaView::~I_PPaView(){
 }
 /*-------------------------------------------------
-		³õÊ¼»¯
+		åˆå§‹åŒ–
 */
 void I_PPaView::init(){
 
-	// > ¹ö¶¯Ìõ
+	// > æ»šåŠ¨æ¡
 	connect(this->horizontalScrollBar(), &QScrollBar::valueChanged, this, &I_PPaView::scrollValueChanged);
 	connect(this->verticalScrollBar(), &QScrollBar::valueChanged, this, &I_PPaView::scrollValueChanged);
 
-	// > ³¡¾°½¨Á¢
+	// > åœºæ™¯å»ºç«‹
 	this->m_scene = new I_PPaScene();
 	this->setScene(m_scene);
 
-	// > Êó±êËõ·Å¿ØÖÆÆ÷
-	this->m_p_MouseResizeController = new P_MouseResizeController();
+	// > é¼ æ ‡ç¼©æ”¾æ§åˆ¶å™¨
+	this->m_p_MouseResizeController = new P_MRe_Controller();
 	this->m_p_MouseResizeController->initGraphicsView(this);
 
-	// > ·½¿éµãÑ¡Æ÷
-	this->m_p_MatrixBlockSelector = new P_MatrixBlockSelector();
+	// > æ–¹å—ç‚¹é€‰å™¨
+	this->m_p_MatrixBlockSelector = new P_MBS_Selector();
 	this->m_p_MatrixBlockSelector->initBlockColor(QList<QColor>() << QColor(255, 255, 255, 0) << QColor(0, 0, 0, 120) );
 	this->m_p_MatrixBlockSelector->initBlockSvgIcon(
 		QList<QFileInfo>() << QFileInfo("") << QFileInfo(QRC_IconSrcPath + "/view/Icon_Selected.svg")
 	);
 	this->m_p_MatrixBlockSelector->initGraphicsView(this);
-	connect(this->m_p_MatrixBlockSelector, &P_MatrixBlockSelector::newBlockAdded, this, &I_PPaView::blockAdded);
-	connect(this->m_p_MatrixBlockSelector, &P_MatrixBlockSelector::oldBlockClearBefore, this, &I_PPaView::blockClear);
+	connect(this->m_p_MatrixBlockSelector, &P_MBS_Selector::newBlockAdded, this, &I_PPaView::blockAdded);
+	connect(this->m_p_MatrixBlockSelector, &P_MBS_Selector::oldBlockClearBefore, this, &I_PPaView::blockClear);
 }
 
 
 /*-------------------------------------------------
-		²¿¼ş - »ñÈ¡³¡¾°
+		éƒ¨ä»¶ - è·å–åœºæ™¯
 */
 I_PPaScene* I_PPaView::getScene(){
 	return this->m_scene;
 }
 /*-------------------------------------------------
-		²¿¼ş - »ñÈ¡Êó±êËõ·Å¿ØÖÆÆ÷
+		éƒ¨ä»¶ - è·å–é¼ æ ‡ç¼©æ”¾æ§åˆ¶å™¨
 */
-P_MouseResizeController* I_PPaView::getMouseResizeController(){
+P_MRe_Controller* I_PPaView::getMouseResizeController(){
 	return this->m_p_MouseResizeController;
 }
 /*-------------------------------------------------
-		²¿¼ş - ·½¿éÕóÁĞµãÑ¡Æ÷
+		éƒ¨ä»¶ - æ–¹å—é˜µåˆ—ç‚¹é€‰å™¨
 */
-P_MatrixBlockSelector* I_PPaView::getMatrixBlockSelector(){
+P_MBS_Selector* I_PPaView::getMatrixBlockSelector(){
 	return this->m_p_MatrixBlockSelector;
 }
 
 
 /*-------------------------------------------------
-		µãÑ¡Æ÷ - »ñÈ¡ÇĞ¸î¶¼Í¼Æ¬
+		ç‚¹é€‰å™¨ - è·å–åˆ‡å‰²éƒ½å›¾ç‰‡
 */
 QList<QPixmap> I_PPaView::getCutBitmap(){
 	QList<QPixmap> result_list = QList<QPixmap>();
 	QPixmap src_bitmap = this->m_scene->m_bitmap;
-	QList<QPoint> p_list = this->m_p_MatrixBlockSelector->getPointList(1);	//»ñÈ¡¹´Ñ¡µÄ×´Ì¬Î»
+	QList<QPoint> p_list = this->m_p_MatrixBlockSelector->getPointList(1);	//è·å–å‹¾é€‰çš„çŠ¶æ€ä½
 	for (int i = 0; i < p_list.count(); i++){
 		QPoint p = p_list.at(i);
-		int xx = qFloor(p.x()*this->m_block_width);		//£¨¼ÆËãÊ±ÓÃĞ¡Êı£¬¼ÆËãºóÈ«²¿È¡Õû£©
+		int xx = qFloor(p.x()*this->m_block_width);		//ï¼ˆè®¡ç®—æ—¶ç”¨å°æ•°ï¼Œè®¡ç®—åå…¨éƒ¨å–æ•´ï¼‰
 		int yy = qFloor(p.y()*this->m_block_height);
 		int ww = qFloor(this->m_block_width);
 		int hh = qFloor(this->m_block_height);
@@ -91,25 +91,25 @@ QList<QPixmap> I_PPaView::getCutBitmap(){
 	return result_list;
 }
 /*-------------------------------------------------
-		²¿¼ş - ·½¿éÌí¼Ó
+		éƒ¨ä»¶ - æ–¹å—æ·»åŠ 
 */
-void I_PPaView::blockAdded(I_MBSBlock* block, QGraphicsSvgItem* item){
+void I_PPaView::blockAdded(I_MBS_Block* block, QGraphicsSvgItem* item){
 	this->scene()->addItem(block);
 	this->scene()->addItem(item);
 
-	// > ¼ÆËã¹´Ñ¡±ê¼ÇËõ·Å
+	// > è®¡ç®—å‹¾é€‰æ ‡è®°ç¼©æ”¾
 	double size = 24;
 	if (this->m_block_height > this->m_block_width){
-		size = this->m_block_width /24 / 2;	//£¨24ÊÇÍ¼±êµÄ´óĞ¡£©
+		size = this->m_block_width /24 / 2;	//ï¼ˆ24æ˜¯å›¾æ ‡çš„å¤§å°ï¼‰
 	}else{
-		size = this->m_block_height / 24 / 2;	//£¨24ÊÇÍ¼±êµÄ´óĞ¡£©
+		size = this->m_block_height / 24 / 2;	//ï¼ˆ24æ˜¯å›¾æ ‡çš„å¤§å°ï¼‰
 	}
 	item->setScale(size);
 }
 /*-------------------------------------------------
-		²¿¼ş - ·½¿éÇå³ı
+		éƒ¨ä»¶ - æ–¹å—æ¸…é™¤
 */
-void I_PPaView::blockClear(QList<I_MBSBlock*> block_list, QList<QGraphicsSvgItem*> item_list){
+void I_PPaView::blockClear(QList<I_MBS_Block*> block_list, QList<QGraphicsSvgItem*> item_list){
 	for (int i = 0; i < block_list.count(); i++ ){
 		this->scene()->removeItem(block_list.at(i));
 	}
@@ -121,55 +121,55 @@ void I_PPaView::blockClear(QList<I_MBSBlock*> block_list, QList<QGraphicsSvgItem
 
 
 /*-------------------------------------------------
-		¹ö¶¯Ìõ - ¹ö¶¯Ìõ¹ö¶¯
+		æ»šåŠ¨æ¡ - æ»šåŠ¨æ¡æ»šåŠ¨
 */
 void I_PPaView::scrollValueChanged(){
-	this->update();		//³¡¾°ÖØË¢
+	this->update();		//åœºæ™¯é‡åˆ·
 }
 
 
 /*-------------------------------------------------
-		¼àÌıÊÂ¼ş - Êó±ê°´ÏÂ
+		ç›‘å¬äº‹ä»¶ - é¼ æ ‡æŒ‰ä¸‹
 */
 void I_PPaView::mousePressEvent(QMouseEvent *event){
-	QGraphicsView::mousePressEvent(event);	//¼Ì³Ğ¸¸Ààº¯Êı
+	QGraphicsView::mousePressEvent(event);	//ç»§æ‰¿çˆ¶ç±»å‡½æ•°
 
-	// > Êó±êËõ·Å¿ØÖÆ ÊÂ¼ş
+	// > é¼ æ ‡ç¼©æ”¾æ§åˆ¶ äº‹ä»¶
 	this->m_p_MouseResizeController->event_mousePressEvent(event);
 
-	// > ·½¿éµãÑ¡Æ÷ ÊÂ¼ş
+	// > æ–¹å—ç‚¹é€‰å™¨ äº‹ä»¶
 	this->m_p_MatrixBlockSelector->event_mousePressEvent(event);
 }
 /*-------------------------------------------------
-		¼àÌıÊÂ¼ş - Êó±êÌ§Æğ
+		ç›‘å¬äº‹ä»¶ - é¼ æ ‡æŠ¬èµ·
 */
 void I_PPaView::mouseReleaseEvent(QMouseEvent *event){
-	QGraphicsView::mouseReleaseEvent(event);	//¼Ì³Ğ¸¸Ààº¯Êı
+	QGraphicsView::mouseReleaseEvent(event);	//ç»§æ‰¿çˆ¶ç±»å‡½æ•°
 
-	// > Êó±êËõ·Å¿ØÖÆ ÊÂ¼ş
+	// > é¼ æ ‡ç¼©æ”¾æ§åˆ¶ äº‹ä»¶
 	this->m_p_MouseResizeController->event_mouseReleaseEvent(event);
 
-	// > ·½¿éµãÑ¡Æ÷ ÊÂ¼ş
+	// > æ–¹å—ç‚¹é€‰å™¨ äº‹ä»¶
 	this->m_p_MatrixBlockSelector->event_mouseReleaseEvent(event);
 }
 /*-------------------------------------------------
-		¼àÌıÊÂ¼ş - Êó±êÒÆ¶¯
+		ç›‘å¬äº‹ä»¶ - é¼ æ ‡ç§»åŠ¨
 */
 void I_PPaView::mouseMoveEvent(QMouseEvent *event){
-	QGraphicsView::mouseMoveEvent(event);	//¼Ì³Ğ¸¸Ààº¯Êı
+	QGraphicsView::mouseMoveEvent(event);	//ç»§æ‰¿çˆ¶ç±»å‡½æ•°
 
-	// > Êó±êËõ·Å¿ØÖÆ ÊÂ¼ş
+	// > é¼ æ ‡ç¼©æ”¾æ§åˆ¶ äº‹ä»¶
 	this->m_p_MouseResizeController->event_mouseMoveEvent(event);
 
-	// > ·½¿éµãÑ¡Æ÷ ÊÂ¼ş
+	// > æ–¹å—ç‚¹é€‰å™¨ äº‹ä»¶
 	this->m_p_MatrixBlockSelector->event_mouseMoveEvent(event);
 }
 /*-------------------------------------------------
-		¼àÌıÊÂ¼ş - Êó±ê¹öÂÖ
+		ç›‘å¬äº‹ä»¶ - é¼ æ ‡æ»šè½®
 */
 void I_PPaView::wheelEvent(QWheelEvent *event){
 
-	// > Êó±êËõ·Å¿ØÖÆ ÊÂ¼ş
+	// > é¼ æ ‡ç¼©æ”¾æ§åˆ¶ äº‹ä»¶
 	bool blocked = this->m_p_MouseResizeController->event_wheelEvent(event);
 	if ( blocked == true){ return; }
 

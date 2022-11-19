@@ -1,20 +1,21 @@
-#ifndef I_PPaView_H
+ï»¿#ifndef I_PPaView_H
 #define I_PPaView_H
+#include "stdafx.h"
 
 #include <QGraphicsView>
-#include "i_PPaScene.h"
+#include "I_PPaScene.h"
 
-#include "Source/GraphModule/middleware/mouseResizeController/p_MouseResizeController.h"
-#include "Source/GraphModule/middleware/matrixBlockSelector/p_MatrixBlockSelector.h"
+#include "Source/GraphModule/Middleware/MouseResizeController/P_MRe_Controller.h"
+#include "Source/GraphModule/Middleware/MatrixBlockSelector/P_MBS_Selector.h"
 
 /*
 -----==========================================================-----
-		Àà£º		ÇĞ¸îÖ¡Ñ¡ÔñÆ÷ ÊÓÍ¼.h
-		°æ±¾£º		v1.00
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		Á¬½Ó¿Ø¼şÓë³¡¾°µÄÖĞ¼äÀà£¬¿ØÖÆ¹ö¶¯ÌõÓëËõ·Å¹¦ÄÜ¡£
-					£¨ÏêÏ¸¼û.cpp£©
+		ç±»ï¼š		åˆ‡å‰²å¸§é€‰æ‹©å™¨ è§†å›¾.h
+		ç‰ˆæœ¬ï¼š		v1.00
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		è¿æ¥æ§ä»¶ä¸åœºæ™¯çš„ä¸­é—´ç±»ï¼Œæ§åˆ¶æ»šåŠ¨æ¡ä¸ç¼©æ”¾åŠŸèƒ½ã€‚
+					ï¼ˆè¯¦ç»†è§.cppï¼‰
 -----==========================================================-----
 */
 class I_PPaView : public QGraphicsView
@@ -22,56 +23,56 @@ class I_PPaView : public QGraphicsView
     Q_OBJECT
 	
 	public:
-		I_PPaView(QWidget *parent = 0);			//¹¹Ôìº¯Êı
-		~I_PPaView();							//Îö¹¹º¯Êı
-		void init();							//³õÊ¼»¯
+		I_PPaView(QWidget *parent = 0);			//æ„é€ å‡½æ•°
+		~I_PPaView();							//ææ„å‡½æ•°
+		void init();							//åˆå§‹åŒ–
 		
 		
 	//-----------------------------------
-	//----²¿¼ş
+	//----éƒ¨ä»¶
 	private:
 		I_PPaScene* m_scene;
-		P_MouseResizeController* m_p_MouseResizeController;
-		P_MatrixBlockSelector* m_p_MatrixBlockSelector;		//·½¿éÕóÁĞµãÑ¡Æ÷
+		P_MRe_Controller* m_p_MouseResizeController;
+		P_MBS_Selector* m_p_MatrixBlockSelector;		//æ–¹å—é˜µåˆ—ç‚¹é€‰å™¨
 	public:
-										//²¿¼ş - »ñÈ¡³¡¾°
+										//éƒ¨ä»¶ - è·å–åœºæ™¯
 		I_PPaScene* getScene();
-										//²¿¼ş - »ñÈ¡Êó±êËõ·Å¿ØÖÆÆ÷
-		P_MouseResizeController* getMouseResizeController();
-										//²¿¼ş - ·½¿éÕóÁĞµãÑ¡Æ÷
-		P_MatrixBlockSelector* getMatrixBlockSelector();
+										//éƒ¨ä»¶ - è·å–é¼ æ ‡ç¼©æ”¾æ§åˆ¶å™¨
+		P_MRe_Controller* getMouseResizeController();
+										//éƒ¨ä»¶ - æ–¹å—é˜µåˆ—ç‚¹é€‰å™¨
+		P_MBS_Selector* getMatrixBlockSelector();
 		
 	//-----------------------------------
-	//----µãÑ¡Æ÷
+	//----ç‚¹é€‰å™¨
 	public:
-		int m_block_width;	//£¨¸¸¿Ø¼ş¸³Öµ£©
+		int m_block_width;	//ï¼ˆçˆ¶æ§ä»¶èµ‹å€¼ï¼‰
 		int m_block_height;
 	public:
-										//µãÑ¡Æ÷ - »ñÈ¡ÇĞ¸î¶¼Í¼Æ¬
+										//ç‚¹é€‰å™¨ - è·å–åˆ‡å‰²éƒ½å›¾ç‰‡
 		QList<QPixmap> getCutBitmap();
 	private slots:
-										//µãÑ¡Æ÷ - ·½¿éµãÑ¡Æ÷Ìí¼Ó
-		void blockAdded(I_MBSBlock* block, QGraphicsSvgItem* item);
-										//µãÑ¡Æ÷ - ·½¿éµãÑ¡Æ÷Çå³ı
-		void blockClear(QList<I_MBSBlock*> block_list, QList<QGraphicsSvgItem*> item_list);
+										//ç‚¹é€‰å™¨ - æ–¹å—ç‚¹é€‰å™¨æ·»åŠ 
+		void blockAdded(I_MBS_Block* block, QGraphicsSvgItem* item);
+										//ç‚¹é€‰å™¨ - æ–¹å—ç‚¹é€‰å™¨æ¸…é™¤
+		void blockClear(QList<I_MBS_Block*> block_list, QList<QGraphicsSvgItem*> item_list);
 
 
 	//-----------------------------------
-	//----¹ö¶¯Ìõ
+	//----æ»šåŠ¨æ¡
 	private slots:
-										//¹ö¶¯Ìõ - ¹ö¶¯Ìõ¹ö¶¯
+										//æ»šåŠ¨æ¡ - æ»šåŠ¨æ¡æ»šåŠ¨
 		void scrollValueChanged();
 
 	//-----------------------------------
-	//----¼àÌıÊÂ¼ş
+	//----ç›‘å¬äº‹ä»¶
 	private:
-										//¼àÌıÊÂ¼ş - Êó±ê°´ÏÂ
+										//ç›‘å¬äº‹ä»¶ - é¼ æ ‡æŒ‰ä¸‹
 		void I_PPaView::mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-										//¼àÌıÊÂ¼ş - Êó±êÌ§Æğ
+										//ç›‘å¬äº‹ä»¶ - é¼ æ ‡æŠ¬èµ·
 		void I_PPaView::mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-										//¼àÌıÊÂ¼ş - Êó±êÒÆ¶¯
+										//ç›‘å¬äº‹ä»¶ - é¼ æ ‡ç§»åŠ¨
 		void I_PPaView::mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-										//¼àÌıÊÂ¼ş - Êó±ê¹öÂÖ
+										//ç›‘å¬äº‹ä»¶ - é¼ æ ‡æ»šè½®
 		void I_PPaView::wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
 
 };

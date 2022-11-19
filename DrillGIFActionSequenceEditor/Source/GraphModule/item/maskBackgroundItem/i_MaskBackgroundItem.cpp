@@ -1,17 +1,17 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "I_MaskBackgroundItem.h"
 
 
 /*
 -----==========================================================-----
-		Àà£º		ÂíÈü¿Ë±³¾°.cpp
-		°æ±¾£º		v1.04
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	Í¼ĞÎÄ£¿é
-		¹¦ÄÜ£º		Ìá¹©Ò»¸öÖ±½ÓÉú³É±³¾°µÄitem¶ÔÏó¡£
+		ç±»ï¼š		é©¬èµ›å…‹èƒŒæ™¯.cpp
+		ç‰ˆæœ¬ï¼š		v1.04
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å›¾å½¢æ¨¡å—
+		åŠŸèƒ½ï¼š		æä¾›ä¸€ä¸ªç›´æ¥ç”ŸæˆèƒŒæ™¯çš„itemå¯¹è±¡ã€‚
 
-		Ê¹ÓÃ·½·¨£º	
-				> ³õÊ¼»¯£º
+		ä½¿ç”¨æ–¹æ³•ï¼š	
+				> åˆå§‹åŒ–ï¼š
 					this->m_MaskBackgroundItem = new I_MaskBackgroundItem(this);
 					this->m_MaskBackgroundItem->setPixelGrid(m_pixelWidth, m_pixelHeight);
 
@@ -26,22 +26,22 @@ I_MaskBackgroundItem::~I_MaskBackgroundItem(){
 }
 
 /*-------------------------------------------------
-		³õÊ¼»¯
+		åˆå§‹åŒ–
 */
 void I_MaskBackgroundItem::init(){
 
-	// > ²ÎÊı³õÊ¼»¯
+	// > å‚æ•°åˆå§‹åŒ–
 	this->m_blockWidth = 24;
 	this->m_blockHeight = 24;
 
-	// > ×ÔÉíÊôĞÔ³õÊ¼»¯
+	// > è‡ªèº«å±æ€§åˆå§‹åŒ–
 	this->setFlag(QGraphicsItem::ItemIsMovable, false);
 	this->setFlag(QGraphicsItem::ItemIsSelectable, false);
 	this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, false);
 }
 
 /*-------------------------------------------------
-		±³¾° - ÉèÖÃ±³¾°£¨µ¥É«£©
+		èƒŒæ™¯ - è®¾ç½®èƒŒæ™¯ï¼ˆå•è‰²ï¼‰
 */
 void I_MaskBackgroundItem::setBackground_oneColor(int width, int height, int block_width, int block_height, QColor color, int opacity){
 	this->m_blockWidth = block_width;
@@ -50,7 +50,7 @@ void I_MaskBackgroundItem::setBackground_oneColor(int width, int height, int blo
 	this->setPixmap(bitmap);
 }
 /*-------------------------------------------------
-		±³¾° - ÉèÖÃ±³¾°£¨Ë«É«£©
+		èƒŒæ™¯ - è®¾ç½®èƒŒæ™¯ï¼ˆåŒè‰²ï¼‰
 */
 void I_MaskBackgroundItem::setBackground_twoColor(int width, int height, int block_width, int block_height, QColor color1, QColor color2){
 	this->m_blockWidth = block_width;
@@ -60,13 +60,13 @@ void I_MaskBackgroundItem::setBackground_twoColor(int width, int height, int blo
 }
 
 /*-------------------------------------------------
-		±³¾° - »ñÈ¡Í¼Ïñ£¨µ¥É«£©
+		èƒŒæ™¯ - è·å–å›¾åƒï¼ˆå•è‰²ï¼‰
 */
 QPixmap I_MaskBackgroundItem::getBackgroundPixmap_oneColor(int ww, int hh, int pw, int ph, QColor color, int opacity){
 
-	QPixmap bitmap = QPixmap(ww, hh);				//»­°å
-	QPainter painter(&bitmap);						//»­¼Ò
-	bitmap.fill(color);								//Ìî³äµ×É«
+	QPixmap bitmap = QPixmap(ww, hh);				//ç”»æ¿
+	QPainter painter(&bitmap);						//ç”»å®¶
+	bitmap.fill(color);								//å¡«å……åº•è‰²
 
 	painter.setPen(QPen(QColor(0, 0, 0, 0)));
 	painter.setBrush(QBrush(QColor(0, 0, 0, opacity), Qt::BrushStyle::SolidPattern));
@@ -79,19 +79,19 @@ QPixmap I_MaskBackgroundItem::getBackgroundPixmap_oneColor(int ww, int hh, int p
 		}
 	}
 	painter.end();
-	//£¨×¢Òâ£¬painter.fillRectº¯ÊıÊÇÎŞĞ§µÄ£¡£©
+	//ï¼ˆæ³¨æ„ï¼Œpainter.fillRectå‡½æ•°æ˜¯æ— æ•ˆçš„ï¼ï¼‰
 
 	return bitmap;
 }
 /*-------------------------------------------------
-		±³¾° - »ñÈ¡Í¼Ïñ£¨Ë«É«£©
+		èƒŒæ™¯ - è·å–å›¾åƒï¼ˆåŒè‰²ï¼‰
 */
 QPixmap I_MaskBackgroundItem::getBackgroundPixmap_twoColor(int ww, int hh, int pw, int ph, QColor color1, QColor color2){
 
 	QPixmap bitmap = QPixmap(ww, hh);
-	bitmap.setMask(QBitmap(bitmap));				//´ò¿ªalpha²ã
-	bitmap.fill(Qt::transparent);					//Í¸Ã÷±³¾°
-	QPainter painter(&bitmap);						//»­¼Ò
+	bitmap.setMask(QBitmap(bitmap));				//æ‰“å¼€alphaå±‚
+	bitmap.fill(Qt::transparent);					//é€æ˜èƒŒæ™¯
+	QPainter painter(&bitmap);						//ç”»å®¶
 
 	int i_count = qCeil(ww / (double)pw);
 	int j_count = qCeil(hh / (double)ph);

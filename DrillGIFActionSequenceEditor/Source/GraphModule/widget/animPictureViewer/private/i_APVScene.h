@@ -1,17 +1,17 @@
-#ifndef I_APVScene_H
+ï»¿#ifndef I_APVScene_H
 #define I_APVScene_H
 
 #include <QGraphicsScene>
-#include "Source/GraphModule/item/maskBackgroundItem/i_MaskBackgroundItem.h"
-#include "Source/GraphModule/item/gridLineItem/p_GridLineItem.h"
+#include "Source/GraphModule/Item/MaskBackgroundItem/I_MaskBackgroundItem.h"
+#include "Source/GraphModule/Item/GridLineItem/P_GridLineItem.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Í¼Æ¬²é¿´¿é-¶¯Í¼ ³¡¾°.h
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		²é¿´±ä»¯¶¯Í¼µÄ»­²¼¡£
-					£¨ÏêÏ¸¼û.cpp£©
+		ç±»ï¼š		å›¾ç‰‡æŸ¥çœ‹å—-åŠ¨å›¾ åœºæ™¯.h
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		æŸ¥çœ‹å˜åŒ–åŠ¨å›¾çš„ç”»å¸ƒã€‚
+					ï¼ˆè¯¦ç»†è§.cppï¼‰
 -----==========================================================-----
 */
 class I_APVScene : public QGraphicsScene
@@ -19,83 +19,101 @@ class I_APVScene : public QGraphicsScene
     Q_OBJECT
 	
 	public:
-		I_APVScene(QWidget *parent = 0);		//¹¹Ôìº¯Êı
-		~I_APVScene();							//Îö¹¹º¯Êı
-		void init();							//³õÊ¼»¯
+		I_APVScene(QWidget *parent = 0);		//æ„é€ å‡½æ•°
+		~I_APVScene();							//ææ„å‡½æ•°
+		void init();							//åˆå§‹åŒ–
 		
 		
 	//-----------------------------------
-	//----Êó±êÊÂ¼ş
+	//----é¼ æ ‡äº‹ä»¶
 	private:
-										//¼àÌıÊÂ¼ş - Êó±ê°´ÏÂ
+										//ç›‘å¬äº‹ä»¶ - é¼ æ ‡æŒ‰ä¸‹
 		void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
-										//¼àÌıÊÂ¼ş - Êó±êÌ§Æğ
+										//ç›‘å¬äº‹ä»¶ - é¼ æ ‡æŠ¬èµ·
 		void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
-										//¼àÌıÊÂ¼ş - Êó±êÒÆ¶¯
+										//ç›‘å¬äº‹ä»¶ - é¼ æ ‡ç§»åŠ¨
 		void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
-										//¼àÌıÊÂ¼ş - Êó±êË«»÷
+										//ç›‘å¬äº‹ä»¶ - é¼ æ ‡åŒå‡»
 		void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
 
 
 	//-----------------------------------
-	//----ÊôĞÔ
+	//----å±æ€§
 	private:
-		int m_canvasWidth;			//»­²¼¿í¶È
-		int m_canvasHeight;			//»­²¼¸ß¶È
-		int m_canvasThickness;		//»­²¼³öÑªÏßºñ¶È
-		int m_pixelWidth;			//Í¼¿é¿í¶È
-		int m_pixelHeight;			//Í¼¿é¸ß¶È
+		int m_canvasWidth;			//ç”»å¸ƒå®½åº¦
+		int m_canvasHeight;			//ç”»å¸ƒé«˜åº¦
+		int m_canvasThickness;		//ç”»å¸ƒå‡ºè¡€çº¿åšåº¦
+		int m_pixelWidth;			//å›¾å—å®½åº¦
+		int m_pixelHeight;			//å›¾å—é«˜åº¦
 		
 	//-----------------------------------
-	//----¸¨Öú¶ÔÏó
+	//----è¾…åŠ©å¯¹è±¡
 	private:
-		QColor m_gridLineColor;						//Íø¸ñÏßµ×É«
-		QColor m_backgroundColor;					//±³¾°µ×É«
-		P_GridLineItem* m_P_GridLineItem;			//Íø¸ñÏß
-		I_MaskBackgroundItem* m_maskBackground;		//±³¾°
+		QColor m_gridLineColor;						//ç½‘æ ¼çº¿åº•è‰²
+		QColor m_backgroundColor;					//èƒŒæ™¯åº•è‰²
+		P_GridLineItem* m_P_GridLineItem;			//ç½‘æ ¼çº¿
+		I_MaskBackgroundItem* m_maskBackground;		//èƒŒæ™¯
 	public:
-									//¸¨Öú - ÉèÖÃÍø¸ñÏß
+									//è¾…åŠ© - è®¾ç½®ç½‘æ ¼çº¿
 		void setGridLine(int column, int row);
-									//¸¨Öú - Çå¿ÕÍø¸ñÏß
+									//è¾…åŠ© - æ¸…ç©ºç½‘æ ¼çº¿
 		void clearGridLine();
 	private:
-									//¸¨Öú - Ë¢ĞÂ±³¾°
+									//è¾…åŠ© - åˆ·æ–°èƒŒæ™¯
 		void refreshBackground();
+
+	//-----------------------------------
+	//----ç€è‰²å™¨
+	protected:
+		int m_curTint;
+	public:
+									//ç€è‰²å™¨ - ä¿®æ”¹è‰²è°ƒ
+		void setTint(int rotate_offset);
+									//ç€è‰²å™¨ - è·å–è‰²è°ƒ
+		int getTint();
+	protected:
+									//ç€è‰²å™¨ - æ—‹è½¬è‰²å½©
+		QPixmap rotateColor(QPixmap pixmap,int rotate_offset);
+									//ç€è‰²å™¨ - rgbæ¨¡å¼è½¬hslæ¨¡å¼
+		void rgbToHsl(int r, int g, int b, double* result_arr);
+									//ç€è‰²å™¨ - hslæ¨¡å¼è½¬rgbæ¨¡å¼
+		void hslToRgb(double h, double s, double l, double* result_arr);
 		
 	//-----------------------------------
-	//----×ÊÔ´
+	//----èµ„æº
 	private:
+		bool m_rebuildBlock;
 		QList<QFileInfo> m_fileList;
 		QList<QPixmap> m_bitmapList;
 	public:
-									//×ÊÔ´ - ÉèÖÃ×ÊÔ´
+									//èµ„æº - è®¾ç½®èµ„æº
 		void setSource(QList<QFileInfo> file_list);
-									//×ÊÔ´ - »ñÈ¡×ÊÔ´
+									//èµ„æº - è·å–èµ„æº
 		QList<QFileInfo> getSource();
-									//×ÊÔ´ - Çå³ı×ÊÔ´
+									//èµ„æº - æ¸…é™¤èµ„æº
 		void clearSource();
 
 	protected:
-									//×ÊÔ´ - ÖØ½¨³¡¾°
+									//èµ„æº - é‡å»ºåœºæ™¯
 		void rebuildScene();
-									//×ÊÔ´ - Ìí¼Ó×ÊÔ´£¨Ë½ÓĞ£©
+									//èµ„æº - æ·»åŠ èµ„æºï¼ˆç§æœ‰ï¼‰
 		void addSource(QFileInfo file);
 
 	//-----------------------------------
-	//----¶¯»­Ö¡
+	//----åŠ¨ç”»å¸§
 	private:
-		QList<QGraphicsPixmapItem*> m_animList;		//¶¯»­Ö¡ÁĞ±í
+		QList<QGraphicsPixmapItem*> m_animList;		//åŠ¨ç”»å¸§åˆ—è¡¨
 		int m_curFrame;
 	public:
-									//¶¯»­Ö¡ - ÇĞ»»Ö¡£¨¸ù¾İË÷Òı£©
+									//åŠ¨ç”»å¸§ - åˆ‡æ¢å¸§ï¼ˆæ ¹æ®ç´¢å¼•ï¼‰
 		void setAnimFrame(int index);
-									//¶¯»­Ö¡ - ÇĞ»»Ö¡£¨¸ù¾İ×ÊÔ´Ãû³Æ£©
+									//åŠ¨ç”»å¸§ - åˆ‡æ¢å¸§ï¼ˆæ ¹æ®èµ„æºåç§°ï¼‰
 		void setAnimName(QFileInfo file);
-									//¶¯»­Ö¡ - Ë¢ĞÂÖ¡ÏÔÊ¾
+									//åŠ¨ç”»å¸§ - åˆ·æ–°å¸§æ˜¾ç¤º
 		void refreshFrame();
-									//¶¯»­Ö¡ - ×î´ó¸ß¶È
+									//åŠ¨ç”»å¸§ - æœ€å¤§é«˜åº¦
 		int getMaxHeight();
-									//¶¯»­Ö¡ - ×î´ó¿í¶È
+									//åŠ¨ç”»å¸§ - æœ€å¤§å®½åº¦
 		int getMaxWidth();
 
 };

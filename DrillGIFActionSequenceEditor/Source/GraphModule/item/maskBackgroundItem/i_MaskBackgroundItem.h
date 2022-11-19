@@ -1,45 +1,46 @@
-#ifndef I_MaskBackgroundItem_H
+ï»¿#ifndef I_MaskBackgroundItem_H
 #define I_MaskBackgroundItem_H
+#include "stdafx.h"
 
 #include <QGraphicsPixmapItem>
 
 /*
 -----==========================================================-----
-		Àà£º		ÂíÈü¿Ë±³¾°.h
-		°æ±¾£º		v1.04
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	Í¼ĞÎÄ£¿é
-		¹¦ÄÜ£º		Ìá¹©Ò»¸öÖ±½ÓÉú³É±³¾°µÄitem¶ÔÏó¡£
-					£¨ÏêÏ¸¼û.cpp£©
+		ç±»ï¼š		é©¬èµ›å…‹èƒŒæ™¯.h
+		ç‰ˆæœ¬ï¼š		v1.04
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å›¾å½¢æ¨¡å—
+		åŠŸèƒ½ï¼š		æä¾›ä¸€ä¸ªç›´æ¥ç”ŸæˆèƒŒæ™¯çš„itemå¯¹è±¡ã€‚
+					ï¼ˆè¯¦ç»†è§.cppï¼‰
 -----==========================================================-----
 */
 class I_MaskBackgroundItem : public QGraphicsPixmapItem
 {
 	
 	public:
-		I_MaskBackgroundItem();				//¹¹Ôìº¯Êı
-		~I_MaskBackgroundItem();			//Îö¹¹º¯Êı
-		void init();						//³õÊ¼»¯
+		I_MaskBackgroundItem();				//æ„é€ å‡½æ•°
+		~I_MaskBackgroundItem();			//ææ„å‡½æ•°
+		void init();						//åˆå§‹åŒ–
 
 	//-----------------------------------
-	//----±³¾°
+	//----èƒŒæ™¯
 	protected:
 		int m_blockWidth;
 		int m_blockHeight;
 	public:
-											//±³¾° - ÉèÖÃ±³¾°£¨µ¥É«£©
+											//èƒŒæ™¯ - è®¾ç½®èƒŒæ™¯ï¼ˆå•è‰²ï¼‰
 		void setBackground_oneColor(int width, int height, int block_width, int block_height, QColor color = QColor(255, 255, 255), int opacity = 30);
-											//±³¾° - ÉèÖÃ±³¾°£¨Ë«É«£©
+											//èƒŒæ™¯ - è®¾ç½®èƒŒæ™¯ï¼ˆåŒè‰²ï¼‰
 		void setBackground_twoColor(int width, int height, int block_width, int block_height, QColor color1, QColor color2);
 
-											//±³¾° - »ñÈ¡Í¼Ïñ£¨µ¥É«£©
+											//èƒŒæ™¯ - è·å–å›¾åƒï¼ˆå•è‰²ï¼‰
 		QPixmap getBackgroundPixmap_oneColor(int width, int height, int block_width, int block_height, QColor color, int opacity = 30);
-											//±³¾° - »ñÈ¡Í¼Ïñ£¨Ë«É«£©
+											//èƒŒæ™¯ - è·å–å›¾åƒï¼ˆåŒè‰²ï¼‰
 		QPixmap getBackgroundPixmap_twoColor(int width, int height, int block_width, int block_height, QColor color1, QColor color2);
 		
-											//±³¾° - »ñÈ¡µ¥¸ñ¿í¶È
+											//èƒŒæ™¯ - è·å–å•æ ¼å®½åº¦
 		int getBlockWidth();
-											//±³¾° - »ñÈ¡µ¥¸ñ¸ß¶È
+											//èƒŒæ™¯ - è·å–å•æ ¼é«˜åº¦
 		int getBlockHeight();
 
 };

@@ -1,9 +1,9 @@
-	【注意，图形模块的工具全部以 code_piece_qt笔记 为准，所有修改在笔记中强化】
+	【注意，图形模块的工具全部以 CodePieceQT笔记 为准，所有修改在笔记中强化】
 			
 	程序入口（独立控件块）：
-		w_PicturePartitioner.cpp
-		w_PicturePartitioner.h
-		w_PicturePartitioner.ui
+		W_PicturePartitioner.cpp
+		W_PicturePartitioner.h
+		W_PicturePartitioner.ui
 
 		单独的对话框，进行切割选择。
 	
@@ -14,11 +14,11 @@
 
 
 	私有类：
-		i_PPaScene.cpp
-		i_PPaScene.h
-		i_PPaView.cpp
-		i_PPaView.h
-		p_PPaViewer.cpp
-		p_PPaViewer.h
+		I_PPaScene.cpp
+		I_PPaScene.h
+		I_PPaView.cpp
+		I_PPaView.h
+		P_PPaViewer.cpp
+		P_PPaViewer.h
 
 		图片分割器自用的勾选帧的功能，装备了 方块阵列点选器 + 鼠标缩放控制器。

@@ -1,23 +1,23 @@
-#include "stdafx.h"
-#include "i_PPaScene.h"
+ï»¿#include "stdafx.h"
+#include "I_PPaScene.h"
 
 #include <QPixmap>
 
 /*
 -----==========================================================-----
-		Àà£º		ÇÐ¸îÖ¡Ñ¡ÔñÆ÷ ³¡¾°.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		Ê¹µÃ¿ÉÒÔÔÚ³¡¾°ÖÐµã»÷¹´Ñ¡ÇÐ¸îÖ¡¡£
+		ç±»ï¼š		åˆ‡å‰²å¸§é€‰æ‹©å™¨ åœºæ™¯.cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±žæ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		ä½¿å¾—å¯ä»¥åœ¨åœºæ™¯ä¸­ç‚¹å‡»å‹¾é€‰åˆ‡å‰²å¸§ã€‚
 
-		×Ó¹¦ÄÜ£º	->³¡¾°³õÊ¼»¯
-						->¿í¶È¡¢¸ß¶È¡¢³öÑªÏß
-						->ÑÕÉ«
-						->±³¾°
-					->µ¥Í¼
-						->ÉèÖÃÍ¼Æ¬×ÊÔ´
-					->Ëõ·Å£¨ÊÓÍ¼¹¦ÄÜ£©
-					->Êó±êÍÏÒÆ£¨ÊÓÍ¼¹¦ÄÜ£©
+		å­åŠŸèƒ½ï¼š	->åœºæ™¯åˆå§‹åŒ–
+						->å®½åº¦ã€é«˜åº¦ã€å‡ºè¡€çº¿
+						->é¢œè‰²
+						->èƒŒæ™¯
+					->å•å›¾
+						->è®¾ç½®å›¾ç‰‡èµ„æº
+					->ç¼©æ”¾ï¼ˆè§†å›¾åŠŸèƒ½ï¼‰
+					->é¼ æ ‡æ‹–ç§»ï¼ˆè§†å›¾åŠŸèƒ½ï¼‰
 
 -----==========================================================-----
 */
@@ -30,27 +30,27 @@ I_PPaScene::~I_PPaScene(){
 }
 
 /*-------------------------------------------------
-		³õÊ¼»¯
+		åˆå§‹åŒ–
 */
 void I_PPaScene::init(){
 
-	// > ÊôÐÔ£¨Ä¬ÈÏ£©
+	// > å±žæ€§ï¼ˆé»˜è®¤ï¼‰
 	this->m_canvasWidth = this->getMaxWidth();
 	this->m_canvasHeight = this->getMaxHeight();
-	this->m_canvasThickness = 0;		//£¨²»ÔÊÐí³öÏÖ±ßÔµÏß£©
+	this->m_canvasThickness = 0;		//ï¼ˆä¸å…è®¸å‡ºçŽ°è¾¹ç¼˜çº¿ï¼‰
 	this->m_pixelWidth = 24;
 	this->m_pixelHeight = 24;
 
-	// > ¸¨Öú¶ÔÏó
+	// > è¾…åŠ©å¯¹è±¡
 	this->m_gridLineColor = QColor(255, 0, 0);
 	this->m_backgroundColor = QColor(255, 255, 255);
 	this->m_P_GridLineItem = new P_GridLineItem(this);
 	this->m_maskBackground = nullptr;
 
-	// > ²¿¼þ
+	// > éƒ¨ä»¶
 	this->m_bitmapItem = nullptr;
 
-	// > ³¡¾°³õÊ¼»¯
+	// > åœºæ™¯åˆå§‹åŒ–
 	int ww = this->m_pixelWidth;
 	int hh = this->m_pixelHeight;
 	this->setSceneRect(-1 * this->m_canvasThickness, -1 * this->m_canvasThickness, this->m_canvasWidth + this->m_canvasThickness * 2, this->m_canvasHeight + this->m_canvasThickness * 2);
@@ -59,24 +59,24 @@ void I_PPaScene::init(){
 
 }
 /*-------------------------------------------------
-		¸¨Öú - ÉèÖÃÍø¸ñÏß
+		è¾…åŠ© - è®¾ç½®ç½‘æ ¼çº¿
 */
 void I_PPaScene::setGridLine(int column, int row){
 
-	// > ½¨Á¢Íø¸ñÏß
+	// > å»ºç«‹ç½‘æ ¼çº¿
 	this->m_P_GridLineItem->rebuildGrid(this->m_canvasWidth, this->m_canvasHeight, column, row, this->m_gridLineColor);
 	
-	// > Ìí¼Ó
+	// > æ·»åŠ 
 	this->m_P_GridLineItem->addItemsToScene();
 }
 /*-------------------------------------------------
-		¸¨Öú - Çå¿ÕÍø¸ñÏß
+		è¾…åŠ© - æ¸…ç©ºç½‘æ ¼çº¿
 */
 void I_PPaScene::clearGridLine(){
 	this->m_P_GridLineItem->clearAllItem();
 }
 /*-------------------------------------------------
-		¸¨Öú - Ë¢ÐÂ±³¾°
+		è¾…åŠ© - åˆ·æ–°èƒŒæ™¯
 */
 void I_PPaScene::refreshBackground(){
 	if (this->m_maskBackground == nullptr){
@@ -89,67 +89,67 @@ void I_PPaScene::refreshBackground(){
 }
 
 /*-------------------------------------------------
-		¼àÌýÊÂ¼þ - Êó±ê°´ÏÂ
+		ç›‘å¬äº‹ä»¶ - é¼ æ ‡æŒ‰ä¸‹
 */
 void I_PPaScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent){
 	QGraphicsScene::mousePressEvent(mouseEvent);
-	//£¨ÎÞ²Ù×÷º¯Êý£©
+	//ï¼ˆæ— æ“ä½œå‡½æ•°ï¼‰
 }
 /*-------------------------------------------------
-		¼àÌýÊÂ¼þ - Êó±êÌ§Æð
+		ç›‘å¬äº‹ä»¶ - é¼ æ ‡æŠ¬èµ·
 */
 void I_PPaScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent){
 	QGraphicsScene::mouseReleaseEvent(mouseEvent);
-	//£¨ÎÞ²Ù×÷º¯Êý£©
+	//ï¼ˆæ— æ“ä½œå‡½æ•°ï¼‰
 }
 /*-------------------------------------------------
-		¼àÌýÊÂ¼þ - Êó±êÒÆ¶¯
+		ç›‘å¬äº‹ä»¶ - é¼ æ ‡ç§»åŠ¨
 */
 void I_PPaScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent){
 	QGraphicsScene::mouseMoveEvent(mouseEvent);
-	//£¨ÎÞ²Ù×÷º¯Êý£©
+	//ï¼ˆæ— æ“ä½œå‡½æ•°ï¼‰
 }
 /*-------------------------------------------------
-		¼àÌýÊÂ¼þ - Êó±êË«»÷
+		ç›‘å¬äº‹ä»¶ - é¼ æ ‡åŒå‡»
 */
 void I_PPaScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent){
 	QGraphicsScene::mouseDoubleClickEvent(mouseEvent);
-	//£¨ÎÞ²Ù×÷º¯Êý£©
+	//ï¼ˆæ— æ“ä½œå‡½æ•°ï¼‰
 }
 
 
 
 /*-------------------------------------------------
-		×ÊÔ´ - ÉèÖÃ×ÊÔ´
+		èµ„æº - è®¾ç½®èµ„æº
 */
 void I_PPaScene::setSource(QPixmap bitmap){
 	this->m_bitmap = bitmap;
 	this->rebuildScene();
 }
 /*-------------------------------------------------
-		×ÊÔ´ - Çå³ý×ÊÔ´
+		èµ„æº - æ¸…é™¤èµ„æº
 */
 void I_PPaScene::clearSource(){
 	this->m_bitmap = QPixmap();
 	this->rebuildScene();
 }
 /*-------------------------------------------------
-		×ÊÔ´ - ÖØ½¨³¡¾°
+		èµ„æº - é‡å»ºåœºæ™¯
 */
 void I_PPaScene::rebuildScene(){
 	
-	// > È¥³ý¾ÉÍ¼Æ¬
+	// > åŽ»é™¤æ—§å›¾ç‰‡
 	if (this->m_bitmapItem != nullptr){
 		this->removeItem(this->m_bitmapItem);
 	}
 
-	// > ¸ß¿íÊÊÅä
+	// > é«˜å®½é€‚é…
 	this->m_canvasWidth = this->getMaxWidth();
 	this->m_canvasHeight = this->getMaxHeight();
 	this->setSceneRect(-1 * this->m_canvasThickness, -1 * this->m_canvasThickness, this->m_canvasWidth + this->m_canvasThickness * 2, this->m_canvasHeight + this->m_canvasThickness * 2);
 	this->refreshBackground();
 
-	// > ·ÅÖÃÍ¼Æ¬
+	// > æ”¾ç½®å›¾ç‰‡
 	this->m_bitmapItem = new QGraphicsPixmapItem();
 	double xx = (this->m_canvasWidth - this->m_bitmap.width())*0.5;
 	double yy = (this->m_canvasHeight - this->m_bitmap.height())*0.5;
@@ -160,17 +160,17 @@ void I_PPaScene::rebuildScene(){
 }
 
 /*-------------------------------------------------
-		Í¼Æ¬ - ×î´ó¸ß¶È
+		å›¾ç‰‡ - æœ€å¤§é«˜åº¦
 */
 int I_PPaScene::getMaxHeight(){
-	if (this->m_bitmap.height() == 0){ return 600; }	//£¨Ä¬ÈÏ£©
+	if (this->m_bitmap.height() == 0){ return 600; }	//ï¼ˆé»˜è®¤ï¼‰
 	return this->m_bitmap.height();
 }
 /*-------------------------------------------------
-		Í¼Æ¬ - ×î´ó¿í¶È
+		å›¾ç‰‡ - æœ€å¤§å®½åº¦
 */
 int I_PPaScene::getMaxWidth(){
-	if (this->m_bitmap.width() == 0){ return 800; }		//£¨Ä¬ÈÏ£©
+	if (this->m_bitmap.width() == 0){ return 800; }		//ï¼ˆé»˜è®¤ï¼‰
 	return this->m_bitmap.width();
 }
 

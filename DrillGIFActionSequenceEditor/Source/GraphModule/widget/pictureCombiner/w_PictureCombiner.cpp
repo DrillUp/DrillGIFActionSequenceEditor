@@ -1,11 +1,11 @@
-#include "stdafx.h"
-#include "w_PictureCombiner.h"
+ï»¿#include "stdafx.h"
+#include "W_PictureCombiner.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Í¼Æ¬ºÏ³ÉÆ÷ ´°¿Ú.cpp
-		ËùÊôÄ£¿é£º	Í¼ĞÎÄ£¿é
-		¹¦ÄÜ£º		¿ÉÒÔ½«¶àÕÅÍ¼Æ¬ÒÔ¾ØÕóµÄĞÎÊ½ºÏ²¢µ½Ò»Æğ¡£
+		ç±»ï¼š		å›¾ç‰‡åˆæˆå™¨ çª—å£.cpp
+		æ‰€å±æ¨¡å—ï¼š	å›¾å½¢æ¨¡å—
+		åŠŸèƒ½ï¼š		å¯ä»¥å°†å¤šå¼ å›¾ç‰‡ä»¥çŸ©é˜µçš„å½¢å¼åˆå¹¶åˆ°ä¸€èµ·ã€‚
 -----==========================================================-----
 */
 
@@ -15,7 +15,7 @@ W_PictureCombiner::W_PictureCombiner(QWidget* parent)
 	ui.setupUi(this);
 	
 	//-----------------------------------
-	//----×î´ó»¯/×îĞ¡»¯
+	//----æœ€å¤§åŒ–/æœ€å°åŒ–
 	Qt::WindowFlags flags = Qt::Dialog;
 	flags |= Qt::WindowCloseButtonHint;
 	flags |= Qt::WindowMaximizeButtonHint;
@@ -23,7 +23,7 @@ W_PictureCombiner::W_PictureCombiner(QWidget* parent)
 	this->setWindowFlags(flags);
 
 	//-----------------------------------
-	//----¿Ø¼ş³õÊ¼»¯
+	//----æ§ä»¶åˆå§‹åŒ–
 	this->m_P_PictureCombiner = new P_PictureCombiner();
 	QVBoxLayout* l = new QVBoxLayout(ui.widget);
 	ui.widget->setLayout(l);
@@ -31,20 +31,20 @@ W_PictureCombiner::W_PictureCombiner(QWidget* parent)
 	l->addWidget(this->m_P_PictureCombiner);
 
 	//-----------------------------------
-	//----ÊÂ¼ş°ó¶¨
+	//----äº‹ä»¶ç»‘å®š
 	connect(ui.buttonBox, SIGNAL(accepted()), this, SLOT(acceptData()));
 
 	//-----------------------------------
-	//----ui³õÊ¼»¯
-	ui.buttonBox->button(QDialogButtonBox::Ok)->setText( ("È·¶¨"));
-	ui.buttonBox->button(QDialogButtonBox::Cancel)->setText( ("È¡Ïû"));
+	//----uiåˆå§‹åŒ–
+	ui.buttonBox->button(QDialogButtonBox::Ok)->setText( ("ç¡®å®š"));
+	ui.buttonBox->button(QDialogButtonBox::Cancel)->setText( ("å–æ¶ˆ"));
 }
 W_PictureCombiner::~W_PictureCombiner(){
 }
 
 
 /*-------------------------------------------------
-		´°¿Ú - ÉèÖÃÊı¾İ
+		çª—å£ - è®¾ç½®æ•°æ®
 */
 void W_PictureCombiner::setData(QList<QFileInfo> file_list) {
 	this->m_P_PictureCombiner->setData(file_list);
@@ -54,13 +54,13 @@ void W_PictureCombiner::setData(QList<QPixmap> bitmap_list) {
 }
 
 /*-------------------------------------------------
-		´°¿Ú - È¡³öÊı¾İ
+		çª—å£ - å–å‡ºæ•°æ®
 */
 QPixmap W_PictureCombiner::getData(){
 	return this->m_P_PictureCombiner->getData();
 };
 /*-------------------------------------------------
-		´°¿Ú - Ìá½»Êı¾İ£¨Ğ£Ñé£©
+		çª—å£ - æäº¤æ•°æ®ï¼ˆæ ¡éªŒï¼‰
 */
 void W_PictureCombiner::acceptData(){
 	this->accept();

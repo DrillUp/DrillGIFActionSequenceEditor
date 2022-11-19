@@ -1,14 +1,14 @@
-	【注意，图形模块的工具全部以 code_piece_qt笔记 为准，所有修改在笔记中强化】
+	【注意，图形模块的工具全部以 CodePieceQT笔记 为准，所有修改在笔记中强化】
 			
 	程序入口（独立控件块）：
-		1.	p_MouseResizeController.cpp
-			p_MouseResizeController.h
+		1.	P_MRe_Controller.cpp
+			P_MRe_Controller.h
 			该控件块用于装饰指定的 QGraphicsView，提供鼠标拖拽+缩放功能。
 			注意，要留意【event_】前缀的函数，这些函数必须在调用者中连带执行。
 
-		2.	p_MouseResizeButtonPart.cpp
-			p_MouseResizeButtonPart.h
-			p_MouseResizeButtonPart.ui
+		2.	P_MRe_ButtonPart.cpp
+			P_MRe_ButtonPart.h
+			P_MRe_ButtonPart.ui
 			按钮组块用于ui块的建立，简化ui各个事件连接。
 
 

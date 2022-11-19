@@ -1,0 +1,15 @@
+﻿	【注意，图形模块的工具全部以 CodePieceQT笔记 为准，所有修改在笔记中强化】
+			
+	程序入口（贴图）：
+		I_MaskBackgroundItem.cpp
+		I_MaskBackgroundItem.h
+		
+		一个封装好的I_MaskBackgroundItem，在scene中随时使用。
+
+
+	交互对象：
+		自身
+
+
+	私有类：
+		无

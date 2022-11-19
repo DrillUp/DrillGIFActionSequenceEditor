@@ -1,18 +1,19 @@
-#ifndef I_APVView_H
+ï»¿#ifndef I_APVView_H
 #define I_APVView_H
+#include "stdafx.h"
 
 #include <QGraphicsView>
-#include "i_APVScene.h"
+#include "I_APVScene.h"
 
-#include "Source/GraphModule/middleware/mouseResizeController/p_MouseResizeController.h"
+#include "Source/GraphModule/Middleware/MouseResizeController/P_MRe_Controller.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Í¼Æ¬²é¿´¿é-¶¯Í¼ ÊÓÍ¼.h
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		Á¬½Ó¿Ø¼şÓë³¡¾°µÄÖĞ¼äÀà£¬¿ØÖÆ¹ö¶¯ÌõÓëËõ·Å¹¦ÄÜ¡£
-					£¨ÏêÏ¸¼û.cpp£©
+		ç±»ï¼š		å›¾ç‰‡æŸ¥çœ‹å—-åŠ¨å›¾ è§†å›¾.h
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		è¿æ¥æ§ä»¶ä¸åœºæ™¯çš„ä¸­é—´ç±»ï¼Œæ§åˆ¶æ»šåŠ¨æ¡ä¸ç¼©æ”¾åŠŸèƒ½ã€‚
+					ï¼ˆè¯¦ç»†è§.cppï¼‰
 -----==========================================================-----
 */
 class I_APVView : public QGraphicsView
@@ -20,39 +21,39 @@ class I_APVView : public QGraphicsView
     Q_OBJECT
 	
 	public:
-		I_APVView(QWidget *parent = 0);			//¹¹Ôìº¯Êı
-		~I_APVView();							//Îö¹¹º¯Êı
-		void init();							//³õÊ¼»¯
+		I_APVView(QWidget *parent = 0);			//æ„é€ å‡½æ•°
+		~I_APVView();							//ææ„å‡½æ•°
+		void init();							//åˆå§‹åŒ–
 		
 		
 	//-----------------------------------
-	//----²¿¼ş
+	//----éƒ¨ä»¶
 	private:
 		I_APVScene* m_scene;
-		P_MouseResizeController* m_p_MouseResizeController;
+		P_MRe_Controller* m_p_MouseResizeController;
 	public:
-										//²¿¼ş - »ñÈ¡³¡¾°
+										//éƒ¨ä»¶ - è·å–åœºæ™¯
 		I_APVScene* getScene();
-										//²¿¼ş - »ñÈ¡Êó±êËõ·Å¿ØÖÆÆ÷
-		P_MouseResizeController* getMouseResizeController();
+										//éƒ¨ä»¶ - è·å–é¼ æ ‡ç¼©æ”¾æ§åˆ¶å™¨
+		P_MRe_Controller* getMouseResizeController();
 
 
 	//-----------------------------------
-	//----¹ö¶¯Ìõ
+	//----æ»šåŠ¨æ¡
 	private slots:
-										//¹ö¶¯Ìõ - ¹ö¶¯Ìõ¹ö¶¯
+										//æ»šåŠ¨æ¡ - æ»šåŠ¨æ¡æ»šåŠ¨
 		void scrollValueChanged();
 
 	//-----------------------------------
-	//----¼àÌıÊÂ¼ş
+	//----ç›‘å¬äº‹ä»¶
 	private:
-										//¼àÌıÊÂ¼ş - Êó±ê°´ÏÂ£¨ÔİÎ´Ê¹ÓÃ£©
+										//ç›‘å¬äº‹ä»¶ - é¼ æ ‡æŒ‰ä¸‹ï¼ˆæš‚æœªä½¿ç”¨ï¼‰
 		void I_APVView::mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-										//¼àÌıÊÂ¼ş - Êó±êÌ§Æğ£¨ÔİÎ´Ê¹ÓÃ£©
+										//ç›‘å¬äº‹ä»¶ - é¼ æ ‡æŠ¬èµ·ï¼ˆæš‚æœªä½¿ç”¨ï¼‰
 		void I_APVView::mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-										//¼àÌıÊÂ¼ş - Êó±êÒÆ¶¯£¨ÔİÎ´Ê¹ÓÃ£©
+										//ç›‘å¬äº‹ä»¶ - é¼ æ ‡ç§»åŠ¨ï¼ˆæš‚æœªä½¿ç”¨ï¼‰
 		void I_APVView::mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-										//¼àÌıÊÂ¼ş - Êó±ê¹öÂÖ
+										//ç›‘å¬äº‹ä»¶ - é¼ æ ‡æ»šè½®
 		void I_APVView::wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
 
 };

@@ -1,34 +1,34 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "P_PPaViewer.h"
 
-#include "i_PPaView.h"
-#include "Source/Utils/common/TTool.h"
+#include "I_PPaView.h"
+#include "Source/Utils/Common/TTool.h"
 
 
 /*
 -----==========================================================-----
-		Àà£º		ÇĞ¸îÖ¡Ñ¡ÔñÆ÷ ×é×°Ìå.cpp
-		°æ±¾£º		v1.00
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		Í¨¹ınew£¬×Ô¶¯½«Ò»¸öQWidget£¬¿ª±Ù³É ÇĞ¸îÖ¡Ñ¡ÔñÆ÷ µÄQGraphView¡£
+		ç±»ï¼š		åˆ‡å‰²å¸§é€‰æ‹©å™¨ ç»„è£…ä½“.cpp
+		ç‰ˆæœ¬ï¼š		v1.00
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		é€šè¿‡newï¼Œè‡ªåŠ¨å°†ä¸€ä¸ªQWidgetï¼Œå¼€è¾Ÿæˆ åˆ‡å‰²å¸§é€‰æ‹©å™¨ çš„QGraphViewã€‚
 					
-		×¢Òâ£º		1.Ö»ÊÇÒ»¸öViewµÄ¹ı¶É×é×°Ìå£¬Ìá¹©ÓëViewÊÓÍ¼Ö±½Ó½»»¥µÄ½Ó¿Ú¡£
-					  Ö÷Òª±¾ÌåÊÇView¡£
+		æ³¨æ„ï¼š		1.åªæ˜¯ä¸€ä¸ªViewçš„è¿‡æ¸¡ç»„è£…ä½“ï¼Œæä¾›ä¸Viewè§†å›¾ç›´æ¥äº¤äº’çš„æ¥å£ã€‚
+					  ä¸»è¦æœ¬ä½“æ˜¯Viewã€‚
 
 -----==========================================================-----
 */
 
 P_PPaViewer::P_PPaViewer(QWidget* _parent)
 {
-	this->initWidgetAndLayout(_parent);			//¸¸¿Ø¼ş
-	this->m_GraphView = nullptr;				//ÊÓÍ¼
+	this->initWidgetAndLayout(_parent);			//çˆ¶æ§ä»¶
+	this->m_GraphView = nullptr;				//è§†å›¾
 }
 P_PPaViewer::~P_PPaViewer(){
 }
 
 /*-------------------------------------------------
-		¸¸¿Ø¼ş³õÊ¼»¯
+		çˆ¶æ§ä»¶åˆå§‹åŒ–
 */
 void P_PPaViewer::initWidgetAndLayout(QWidget* _parent){
 	if (_parent->layout() == nullptr){
@@ -36,7 +36,7 @@ void P_PPaViewer::initWidgetAndLayout(QWidget* _parent){
 		_parent->setLayout(this->m_layout);
 	}
 	QString layout_name = _parent->layout()->metaObject()->className();
-	Q_ASSERT(layout_name == "QVBoxLayout");		//±ØĞëÊÇQVBoxLayout
+	Q_ASSERT(layout_name == "QVBoxLayout");		//å¿…é¡»æ˜¯QVBoxLayout
 	this->m_parent = _parent;
 	this->m_layout = qobject_cast<QVBoxLayout*>(_parent->layout());
 	this->m_layout->setMargin(0);
@@ -44,26 +44,26 @@ void P_PPaViewer::initWidgetAndLayout(QWidget* _parent){
 
 
 /*-------------------------------------------------
-		¿Ø¼ş - ÖØ½¨¿Ø¼ş
+		æ§ä»¶ - é‡å»ºæ§ä»¶
 */
 void P_PPaViewer::rebuildUI(){
 
-	// > ÄÚÈİÉ¾³ı
+	// > å†…å®¹åˆ é™¤
 	this->clearUI();
 
-	// > ĞÂ½¨
+	// > æ–°å»º
 	this->m_GraphView = new I_PPaView(this->m_parent);
 	this->m_GraphView->show();
 	this->m_layout->addWidget(this->m_GraphView);
-	connect(this->m_GraphView->getMouseResizeController(), &P_MouseResizeController::scaleChanged, this, &P_PPaViewer::scaleChanged_view);
+	connect(this->m_GraphView->getMouseResizeController(), &P_MRe_Controller::scaleChanged, this, &P_PPaViewer::scaleChanged_view);
 
 }
 /*-------------------------------------------------
-		¿Ø¼ş - ÇåÀíUI
+		æ§ä»¶ - æ¸…ç†UI
 */
 void P_PPaViewer::clearUI(){
 
-	// > È¥µôÊÓÍ¼
+	// > å»æ‰è§†å›¾
 	if (this->m_GraphView != nullptr){
 		m_layout->removeWidget(this->m_GraphView);
 		this->m_GraphView->setParent(nullptr);
@@ -74,7 +74,7 @@ void P_PPaViewer::clearUI(){
 
 
 /*-------------------------------------------------
-		Í¼Æ¬ - ÉèÖÃ Í¼Æ¬×ÊÔ´
+		å›¾ç‰‡ - è®¾ç½® å›¾ç‰‡èµ„æº
 */
 void P_PPaViewer::setSource(QFileInfo file){
 	QImage image = QImage(file.absoluteFilePath());
@@ -87,29 +87,29 @@ void P_PPaViewer::setSource(QPixmap pixmap){
 
 
 /*-------------------------------------------------
-		¸¨Öú - ÉèÖÃÍø¸ñÏßºÍ·½¿é»®·Ö
+		è¾…åŠ© - è®¾ç½®ç½‘æ ¼çº¿å’Œæ–¹å—åˆ’åˆ†
 */
 void P_PPaViewer::setGridLineAndBlockMatrix(int column, int row){
 	this->m_GraphView->getScene()->setGridLine(column,row);
 	
-	// > ·½¿éÕóÁĞ³õÊ¼»¯£¨²»¹æÔòĞ¡ÊıÏÔÊ¾£¬ÏÔÊ¾µÄÊµ¼ÊÇé¿ö×Ô¶¯ qFloor£©
+	// > æ–¹å—é˜µåˆ—åˆå§‹åŒ–ï¼ˆä¸è§„åˆ™å°æ•°æ˜¾ç¤ºï¼Œæ˜¾ç¤ºçš„å®é™…æƒ…å†µè‡ªåŠ¨ qFloorï¼‰
 	double ww = this->m_GraphView->getScene()->width() / column;
 	double hh = this->m_GraphView->getScene()->height() / row;
 	this->m_GraphView->m_block_width = ww;
 	this->m_GraphView->m_block_height = hh;
 	this->m_GraphView->getMatrixBlockSelector()->rebuildBlock_double(ww,hh);
 
-	// > Ìî³ä
+	// > å¡«å……
 	this->m_GraphView->getMatrixBlockSelector()->fillAll(1);
 }
 /*-------------------------------------------------
-		¸¨Öú - Çå¿ÕÍø¸ñÏß
+		è¾…åŠ© - æ¸…ç©ºç½‘æ ¼çº¿
 */
 void P_PPaViewer::clearGridLine(){
 	this->m_GraphView->getScene()->clearGridLine();
 }
 /*-------------------------------------------------
-		¸¨Öú - »ñÈ¡ÇĞ¸îµÄÍ¼Æ¬
+		è¾…åŠ© - è·å–åˆ‡å‰²çš„å›¾ç‰‡
 */
 QList<QPixmap> P_PPaViewer::getCutBitmap(){
 	return this->m_GraphView->getCutBitmap();
@@ -117,43 +117,43 @@ QList<QPixmap> P_PPaViewer::getCutBitmap(){
 
 
 /*-------------------------------------------------
-		Ëõ·Å - »ñÈ¡¿ØÖÆÆ÷
+		ç¼©æ”¾ - è·å–æ§åˆ¶å™¨
 */
-P_MouseResizeController* P_PPaViewer::getResizeController(){
+P_MRe_Controller* P_PPaViewer::getResizeController(){
 	return this->m_GraphView->getMouseResizeController();
 }
 /*-------------------------------------------------
-		Ëõ·Å - ËõĞ¡
+		ç¼©æ”¾ - ç¼©å°
 */
 void P_PPaViewer::zoomIn(){
 	this->m_GraphView->getMouseResizeController()->zoomIn();
 }
 /*-------------------------------------------------
-		Ëõ·Å - ·Å´ó
+		ç¼©æ”¾ - æ”¾å¤§
 */
 void P_PPaViewer::zoomOut(){
 	this->m_GraphView->getMouseResizeController()->zoomOut();
 }
 /*-------------------------------------------------
-		Ëõ·Å - ´óĞ¡ÖØÖÃ
+		ç¼©æ”¾ - å¤§å°é‡ç½®
 */
 void P_PPaViewer::zoomReset(){
 	this->m_GraphView->getMouseResizeController()->zoomReset();
 }
 /*-------------------------------------------------
-		Ëõ·Å - »ñÈ¡Ëõ·ÅÖµ
+		ç¼©æ”¾ - è·å–ç¼©æ”¾å€¼
 */
 double P_PPaViewer::getScale(){
 	return this->m_GraphView->getMouseResizeController()->getScale();
 }
 /*-------------------------------------------------
-		Ëõ·Å - ÉèÖÃ¹öÂÖËõ·ÅĞŞÊÎ·û
+		ç¼©æ”¾ - è®¾ç½®æ»šè½®ç¼©æ”¾ä¿®é¥°ç¬¦
 */
 void P_PPaViewer::setScaleWheelModifier(QString charModifier){
 	this->m_GraphView->getMouseResizeController()->setScaleWheelModifier(charModifier);
 }
 /*-------------------------------------------------
-		Ëõ·Å - Ëõ·ÅÖµ¸Ä±ä£¨Óëview½»»¥£©
+		ç¼©æ”¾ - ç¼©æ”¾å€¼æ”¹å˜ï¼ˆä¸viewäº¤äº’ï¼‰
 */
 void P_PPaViewer::scaleChanged_view(double scale){
 	emit scaleChanged(scale);

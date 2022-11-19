@@ -1,40 +1,40 @@
-#include "stdafx.h"
-#include "p_PictureCombiner.h"
+ï»¿#include "stdafx.h"
+#include "P_PictureCombiner.h"
 
 #include <QSpinBox>
-#include "Source/Utils/common/TTool.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Í¼Æ¬ºÏ³ÉÆ÷.cpp
-		°æ±¾£º		v1.00
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	Í¼ĞÎÄ£¿é
-		¹¦ÄÜ£º		¿ÉÒÔ½«¶àÕÅÍ¼Æ¬ÒÔ¾ØÕóµÄĞÎÊ½ºÏ²¢µ½Ò»Æğ¡£
+		ç±»ï¼š		å›¾ç‰‡åˆæˆå™¨.cpp
+		ç‰ˆæœ¬ï¼š		v1.00
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å›¾å½¢æ¨¡å—
+		åŠŸèƒ½ï¼š		å¯ä»¥å°†å¤šå¼ å›¾ç‰‡ä»¥çŸ©é˜µçš„å½¢å¼åˆå¹¶åˆ°ä¸€èµ·ã€‚
 		
-		×Ó¹¦ÄÜ£º	->¿Ø¼ş
-						->ÊäÈë¿ò
-						->ä¯ÀÀÎÄ¼ş
-						->ÎÄ¼şÀàĞÍÑ¡Ôñ
-					->¿Ø¼şÔ¼Êø
-						->ä¯ÀÀÎÄ¼şÖ»ÓÃÓÚ¸¨Öú ÊäÈë¿ò ÌîĞ´
-						->ÊäÈë¿òÓĞÖµÊ±£¬µãä¯ÀÀÎÄ¼şÑ¡µ½Ö¸¶¨ÎÄ¼ş
-						->ÊäÈë¿ò±à¼­£¬×Ô¶¯Ñ¡ÔñÏÂÀ­¿ò
-						->ÏÂÀ­¿ò±à¼­£¬×Ô¶¯Ìîºó×º
-					->Ô´ÎÄ¼şÔ¼Êø
-						->Ô´ÀàĞÍ±ä»¯ Êä³öÀàĞÍË¢ĞÂ£¨Êä³öµÄÈ«²¿×Ó¿Ø¼ş¶¼»áÊÜµ½·´Ó¦£¬µ«²»»áËÀÑ­»·£©
-						->Ô´ÎÄ¼şä¯ÀÀÌîÈëºó£¬×Ô¶¯Ìî Êä³öÎÄ¼ş
+		å­åŠŸèƒ½ï¼š	->æ§ä»¶
+						->è¾“å…¥æ¡†
+						->æµè§ˆæ–‡ä»¶
+						->æ–‡ä»¶ç±»å‹é€‰æ‹©
+					->æ§ä»¶çº¦æŸ
+						->æµè§ˆæ–‡ä»¶åªç”¨äºè¾…åŠ© è¾“å…¥æ¡† å¡«å†™
+						->è¾“å…¥æ¡†æœ‰å€¼æ—¶ï¼Œç‚¹æµè§ˆæ–‡ä»¶é€‰åˆ°æŒ‡å®šæ–‡ä»¶
+						->è¾“å…¥æ¡†ç¼–è¾‘ï¼Œè‡ªåŠ¨é€‰æ‹©ä¸‹æ‹‰æ¡†
+						->ä¸‹æ‹‰æ¡†ç¼–è¾‘ï¼Œè‡ªåŠ¨å¡«åç¼€
+					->æºæ–‡ä»¶çº¦æŸ
+						->æºç±»å‹å˜åŒ– è¾“å‡ºç±»å‹åˆ·æ–°ï¼ˆè¾“å‡ºçš„å…¨éƒ¨å­æ§ä»¶éƒ½ä¼šå—åˆ°ååº”ï¼Œä½†ä¸ä¼šæ­»å¾ªç¯ï¼‰
+						->æºæ–‡ä»¶æµè§ˆå¡«å…¥åï¼Œè‡ªåŠ¨å¡« è¾“å‡ºæ–‡ä»¶
 
-		Ê¹ÓÃ·½·¨£º
-				>³õÊ¼»¯Ìí¼ÓÀàĞÍ
+		ä½¿ç”¨æ–¹æ³•ï¼š
+				>åˆå§‹åŒ–æ·»åŠ ç±»å‹
 					this->m_p_PictureCombiner = new P_PictureCombiner();
 					QVBoxLayout* latout = new QVBoxLayout(ui.widget);
 					latout->setMargin(0);
 					latout->addWidget(this->m_p_PictureCombiner);
 
-					this->m_p_PictureCombiner->addConvert("facet", "stl", "ÃæÍø¸ñ", "Èı½ÇÃæ");
-					this->m_p_PictureCombiner->addConvert("facet", "nas", "ÃæÍø¸ñ", "Íø¸ñÎÄ¼ş");
-					this->m_p_PictureCombiner->addConvert("stl", "facet", "Èı½ÇÃæ", "ÃæÍø¸ñ");
+					this->m_p_PictureCombiner->addConvert("facet", "stl", "é¢ç½‘æ ¼", "ä¸‰è§’é¢");
+					this->m_p_PictureCombiner->addConvert("facet", "nas", "é¢ç½‘æ ¼", "ç½‘æ ¼æ–‡ä»¶");
+					this->m_p_PictureCombiner->addConvert("stl", "facet", "ä¸‰è§’é¢", "é¢ç½‘æ ¼");
 
 -----==========================================================-----
 */
@@ -44,18 +44,18 @@ P_PictureCombiner::P_PictureCombiner(QWidget *parent)
 	ui.setupUi(this);
 
 	//-----------------------------------
-	//----³õÊ¼»¯²ÎÊı
+	//----åˆå§‹åŒ–å‚æ•°
 	this->m_slotBlock = false;
 
 	//-----------------------------------
-	//----³õÊ¼»¯ui
+	//----åˆå§‹åŒ–ui
 
-	// > Í¼Æ¬²é¿´¿é-µ¥Í¼
+	// > å›¾ç‰‡æŸ¥çœ‹å—-å•å›¾
 	this->m_p_SinglePictureViewer = new P_SinglePictureViewer(ui.widget_preview);
 	this->m_p_SinglePictureViewer->rebuildUI();
 
-	// > Ëõ·Å°´Å¥¿é
-	this->m_p_MouseResizeButtonPart = new P_MouseResizeButtonPart();
+	// > ç¼©æ”¾æŒ‰é’®å—
+	this->m_p_MouseResizeButtonPart = new P_MRe_ButtonPart();
 	QVBoxLayout* latout = new QVBoxLayout(ui.widget_zoom_btn);
 	latout->setMargin(0);
 	latout->addWidget(this->m_p_MouseResizeButtonPart);
@@ -64,19 +64,19 @@ P_PictureCombiner::P_PictureCombiner(QWidget *parent)
 	ui.label_sizeTip->hide();
 
 	//-----------------------------------
-	//----ÊÂ¼ş°ó¶¨
+	//----äº‹ä»¶ç»‘å®š
 
-	// > ĞĞÁĞ
+	// > è¡Œåˆ—
 	connect(ui.spinBox_column, SIGNAL(valueChanged(int)), this, SLOT(columnChanged(int)));
 	connect(ui.spinBox_row, SIGNAL(valueChanged(int)), this, SLOT(rowChanged(int)));
 	connect(ui.checkBox_column, &QCheckBox::toggled, this, &P_PictureCombiner::columnToggled);
 	connect(ui.checkBox_row, &QCheckBox::toggled, this, &P_PictureCombiner::rowToggled);
 	connect(ui.comboBox, &QComboBox::currentTextChanged, this, &P_PictureCombiner::comboxChanged);
 
-	// > Íø¸ñ
+	// > ç½‘æ ¼
 	connect(ui.checkBox_gridLine, &QCheckBox::toggled, this, &P_PictureCombiner::gridLineToggled);
 
-	// > Ö¡ÊôĞÔ
+	// > å¸§å±æ€§
 	connect(ui.checkBox_frameHeightDefault, &QCheckBox::toggled, this, &P_PictureCombiner::frameHeightDefaultToggled);
 	connect(ui.checkBox_frameWidthDefault, &QCheckBox::toggled, this, &P_PictureCombiner::frameWidthDefaultToggled);
 	connect(ui.spinBox_frameHeight, SIGNAL(valueChanged(int)), this, SLOT(frameHeightChanged(int)));
@@ -93,14 +93,14 @@ P_PictureCombiner::~P_PictureCombiner(){
 
 
 /*-----------------------------------
-		ÊÓÍ¼ - Íø¸ñ¹´Ñ¡±ä»¯
+		è§†å›¾ - ç½‘æ ¼å‹¾é€‰å˜åŒ–
 */
 void P_PictureCombiner::gridLineToggled(bool checked){
 	this->redrawBitmap();
 }
 
 /*-----------------------------------
-		ĞĞÁĞ - ÊäÈë¿ò±ä»¯
+		è¡Œåˆ— - è¾“å…¥æ¡†å˜åŒ–
 */
 void P_PictureCombiner::rowChanged(int value){
 	if (this->m_slotBlock == true){ return; }
@@ -114,13 +114,13 @@ void P_PictureCombiner::columnChanged(int value){
 }
 
 /*-----------------------------------
-		ĞĞÁĞ - ¹´Ñ¡±ä»¯£¨×ÔÊÊÓ¦£©
+		è¡Œåˆ— - å‹¾é€‰å˜åŒ–ï¼ˆè‡ªé€‚åº”ï¼‰
 */
 void P_PictureCombiner::rowToggled(bool checked){
 	if (checked == true){
 		ui.spinBox_row->setEnabled(false);
 
-		// > Á½¸ö×Ô¶¯²»ÄÜÍ¬Ê±¹´Ñ¡
+		// > ä¸¤ä¸ªè‡ªåŠ¨ä¸èƒ½åŒæ—¶å‹¾é€‰
 		if (ui.checkBox_column->isChecked()){
 			ui.checkBox_column->setChecked(false);
 		}
@@ -134,7 +134,7 @@ void P_PictureCombiner::columnToggled(bool checked){
 	if (checked == true){
 		ui.spinBox_column->setEnabled(false);
 
-		// > Á½¸ö×Ô¶¯²»ÄÜÍ¬Ê±¹´Ñ¡
+		// > ä¸¤ä¸ªè‡ªåŠ¨ä¸èƒ½åŒæ—¶å‹¾é€‰
 		if (ui.checkBox_row->isChecked()){
 			ui.checkBox_row->setChecked(false);
 		}
@@ -145,13 +145,13 @@ void P_PictureCombiner::columnToggled(bool checked){
 	this->redrawBitmap();
 }
 /*-----------------------------------
-		ĞĞÁĞ - ÏÂÀ­¿ò±ä»¯
+		è¡Œåˆ— - ä¸‹æ‹‰æ¡†å˜åŒ–
 */
 void P_PictureCombiner::comboxChanged(QString text){
 	this->redrawBitmap();
 }
 /*-----------------------------------
-		ĞĞÁĞ - ¼ÆËãĞĞÁĞ
+		è¡Œåˆ— - è®¡ç®—è¡Œåˆ—
 */
 void P_PictureCombiner::autoFillNum(){
 	this->m_slotBlock = true;
@@ -169,7 +169,7 @@ void P_PictureCombiner::autoFillNum(){
 }
 
 /*-----------------------------------
-		Ö¡ÊôĞÔ - ÊäÈë¿ò±ä»¯
+		å¸§å±æ€§ - è¾“å…¥æ¡†å˜åŒ–
 */
 void P_PictureCombiner::frameWidthChanged(int value){
 	this->redrawBitmap();
@@ -178,7 +178,7 @@ void P_PictureCombiner::frameHeightChanged(int value){
 	this->redrawBitmap();
 }
 /*-----------------------------------
-		Ö¡ÊôĞÔ - ¹´Ñ¡±ä»¯£¨Ä¬ÈÏÖµ£©
+		å¸§å±æ€§ - å‹¾é€‰å˜åŒ–ï¼ˆé»˜è®¤å€¼ï¼‰
 */
 void P_PictureCombiner::frameWidthDefaultToggled(bool checked){
 	ui.spinBox_frameWidth->setDisabled(checked);
@@ -195,7 +195,7 @@ void P_PictureCombiner::frameHeightDefaultToggled(bool checked){
 
 
 /*-----------------------------------
-		»æÖÆ - ÖØ»æÍ¼Æ¬
+		ç»˜åˆ¶ - é‡ç»˜å›¾ç‰‡
 */
 void P_PictureCombiner::redrawBitmap(){
 	int row = ui.spinBox_row->value();
@@ -205,11 +205,11 @@ void P_PictureCombiner::redrawBitmap(){
 	if (ui.checkBox_frameWidthDefault->isChecked() == false ){ ww = ui.spinBox_frameWidth->value(); }
 	if (ui.checkBox_frameHeightDefault->isChecked() == false){ hh = ui.spinBox_frameHeight->value(); }
 
-	// > Éú³ÉµÄÍ¼Æ¬
+	// > ç”Ÿæˆçš„å›¾ç‰‡
 	QPixmap bitmap = this->getDrawedBitmap(ww,hh);
 	this->m_p_SinglePictureViewer->setSource(bitmap);
 
-	// > ¸¨ÖúÏß
+	// > è¾…åŠ©çº¿
 	if (ui.checkBox_gridLine->isChecked()){
 		this->m_p_SinglePictureViewer->setGridLine(column, row);
 	}else{
@@ -217,11 +217,11 @@ void P_PictureCombiner::redrawBitmap(){
 	}
 }
 /*-----------------------------------
-		»æÖÆ - »ñÈ¡»æÖÆµÄÍ¼Æ¬
+		ç»˜åˆ¶ - è·å–ç»˜åˆ¶çš„å›¾ç‰‡
 */
 QPixmap P_PictureCombiner::getDrawedBitmap(int p_width, int p_height){
 
-	// > ¸ß¿í¸üĞÂ
+	// > é«˜å®½æ›´æ–°
 	int ww = p_width;
 	int hh = p_height;
 	int row = ui.spinBox_row->value();
@@ -230,14 +230,14 @@ QPixmap P_PictureCombiner::getDrawedBitmap(int p_width, int p_height){
 	int total_height = row * hh;
 	ui.label_totalPic_wh->setText(QString::number(total_width) + "x" + QString::number(total_height));
 
-	// > ¿ªÊ¼»æÖÆ
+	// > å¼€å§‹ç»˜åˆ¶
 	QPixmap bitmap = QPixmap(total_width, total_height);
-	bitmap.setMask(QBitmap(bitmap));				//´ò¿ªalpha²ã
-	bitmap.fill(Qt::transparent);					//Í¸Ã÷±³¾°
+	bitmap.setMask(QBitmap(bitmap));				//æ‰“å¼€alphaå±‚
+	bitmap.fill(Qt::transparent);					//é€æ˜èƒŒæ™¯
 
-	// > »æÖÆÍ¼Æ¬
-	QPainter painter(&bitmap);						//»­¼Ò
-	if (ui.comboBox->currentText() == "´ÓÉÏÍùÏÂ"){
+	// > ç»˜åˆ¶å›¾ç‰‡
+	QPainter painter(&bitmap);						//ç”»å®¶
+	if (ui.comboBox->currentText() == "ä»ä¸Šå¾€ä¸‹"){
 		for (int i = 0; i < column; i++){
 			for (int j = 0; j < row; j++){
 				int index = j + i*row;
@@ -268,7 +268,7 @@ QPixmap P_PictureCombiner::getDrawedBitmap(int p_width, int p_height){
 	return bitmap;
 }
 /*-------------------------------------------------
-		»æÖÆ - ÔÚÖ¸¶¨µÄ·¶Î§ÄÚ»æÖÆÍ¼Ïñ£¬×Ô¶¯¾ÓÖĞ£¬×Ô¶¯¼ôÇĞ
+		ç»˜åˆ¶ - åœ¨æŒ‡å®šçš„èŒƒå›´å†…ç»˜åˆ¶å›¾åƒï¼Œè‡ªåŠ¨å±…ä¸­ï¼Œè‡ªåŠ¨å‰ªåˆ‡
 */
 void P_PictureCombiner::drawBitmap_CenterAndCut(QPainter* painter, QPixmap bitmap, QRect frame){
 	int xx = frame.x();
@@ -280,13 +280,13 @@ void P_PictureCombiner::drawBitmap_CenterAndCut(QPainter* painter, QPixmap bitma
 	int bw = bitmap.width();
 	int bh = bitmap.height();
 
-	int wwww = bw;		//£¨ÕæÊµÇĞ¸î¸ß¿í£©
+	int wwww = bw;		//ï¼ˆçœŸå®åˆ‡å‰²é«˜å®½ï¼‰
 	int hhhh = bh;
 	
-	if (bw > ww){		//£¨Í¼Ïñ¿í ±È ÉèÖÃ¿í ´óÊ±£¬ÇĞ¸î£©
+	if (bw > ww){		//ï¼ˆå›¾åƒå®½ æ¯” è®¾ç½®å®½ å¤§æ—¶ï¼Œåˆ‡å‰²ï¼‰
 		bx = ((bw - ww) >> 1);
 		wwww = ww;
-	}else{				//£¨ÉèÖÃ¿í ±È Í¼Ïñ¿í Ğ¡Ê±£¬¼Ó¿Õ°×£©
+	}else{				//ï¼ˆè®¾ç½®å®½ æ¯” å›¾åƒå®½ å°æ—¶ï¼ŒåŠ ç©ºç™½ï¼‰
 		xx = xx + ((ww - bw) >> 1);
 	}
 	if (bh > hh){
@@ -297,15 +297,15 @@ void P_PictureCombiner::drawBitmap_CenterAndCut(QPainter* painter, QPixmap bitma
 		yy = yy + ((hh - bh) >> 1);
 	}
 
-	QRect r1 = QRect(xx, yy, wwww, hhhh);		//£¨µÈ¸ß¿íÇĞ¸î£©
+	QRect r1 = QRect(xx, yy, wwww, hhhh);		//ï¼ˆç­‰é«˜å®½åˆ‡å‰²ï¼‰
 	QRect r2 = QRect(bx, by, wwww, hhhh);
 	painter->drawPixmap(r1, bitmap, r2);
 }
 /*-------------------------------------------------
-		»æÖÆ - »ñÈ¡×î´ó¿í¶È
+		ç»˜åˆ¶ - è·å–æœ€å¤§å®½åº¦
 */
 int P_PictureCombiner::getMaxWidth(){
-	if (this->local_bitmapTank.count() == 0){ return 150; }	//£¨Ä¬ÈÏ£©
+	if (this->local_bitmapTank.count() == 0){ return 150; }	//ï¼ˆé»˜è®¤ï¼‰
 	int result = 0;
 	for (int i = 0; i < this->local_bitmapTank.count(); i++){
 		int ww = this->local_bitmapTank.at(i).width();
@@ -316,10 +316,10 @@ int P_PictureCombiner::getMaxWidth(){
 	return result;
 }
 /*-------------------------------------------------
-		»æÖÆ - »ñÈ¡×î´ó¸ß¶È
+		ç»˜åˆ¶ - è·å–æœ€å¤§é«˜åº¦
 */
 int P_PictureCombiner::getMaxHeight(){
-	if (this->local_bitmapTank.count() == 0){ return 100; }	//£¨Ä¬ÈÏ£©
+	if (this->local_bitmapTank.count() == 0){ return 100; }	//ï¼ˆé»˜è®¤ï¼‰
 	int result = 0;
 	for (int i = 0; i < this->local_bitmapTank.count(); i++){
 		int hh = this->local_bitmapTank.at(i).height();
@@ -330,7 +330,7 @@ int P_PictureCombiner::getMaxHeight(){
 	return result;
 }
 /*-----------------------------------
-		»æÖÆ - ÅĞ¶Ï¸ß¿íÒ»ÖÂ
+		ç»˜åˆ¶ - åˆ¤æ–­é«˜å®½ä¸€è‡´
 */
 bool P_PictureCombiner::isSizeFit(){
 	if (this->local_bitmapTank.count() == 0){ return true; }
@@ -349,7 +349,7 @@ bool P_PictureCombiner::isSizeFit(){
 
 
 /*-----------------------------------
-		¿é - ÉèÖÃÊı¾İ
+		å— - è®¾ç½®æ•°æ®
 */
 void P_PictureCombiner::setData(QList<QFileInfo> file_tank){
 	this->local_bitmapTank = QList<QPixmap>();
@@ -366,14 +366,14 @@ void P_PictureCombiner::setData(QList<QPixmap> bitmap_tank){
 	this->putDataToUi();
 }
 /*-----------------------------------
-		¿é - È¡³öÊı¾İ
+		å— - å–å‡ºæ•°æ®
 */
 QPixmap P_PictureCombiner::getData(){
 	this->putUiToData();
 	return this->local_draw;
 }
 /*-----------------------------------
-		¿é - ±¾µØÊı¾İ -> uiÊı¾İ
+		å— - æœ¬åœ°æ•°æ® -> uiæ•°æ®
 */
 void P_PictureCombiner::putDataToUi(){
 	ui.label_sizeTip->setVisible( !this->isSizeFit() );
@@ -383,7 +383,7 @@ void P_PictureCombiner::putDataToUi(){
 	this->redrawBitmap();
 }
 /*-----------------------------------
-		¿é - uiÊı¾İ -> ±¾µØÊı¾İ
+		å— - uiæ•°æ® -> æœ¬åœ°æ•°æ®
 */
 void P_PictureCombiner::putUiToData(){
 	int ww = this->getMaxWidth();

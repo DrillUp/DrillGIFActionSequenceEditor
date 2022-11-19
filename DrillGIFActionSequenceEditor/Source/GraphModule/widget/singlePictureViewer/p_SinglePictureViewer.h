@@ -1,17 +1,17 @@
-#ifndef P_SinglePictureViewer_H
+ï»¿#ifndef P_SinglePictureViewer_H
 #define P_SinglePictureViewer_H
 
 #include <QtGui/QMouseEvent>
-#include "private/i_SPVView.h"
+#include "Private/I_SPVView.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Í¼Æ¬²é¿´¿é-µ¥Í¼ ×é×°Ìå.h
-		°æ±¾£º		v1.01
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		Í¨¹ınew£¬×Ô¶¯½«Ò»¸öQWidget£¬¿ª±Ù³É Í¼Æ¬²é¿´¿é µÄQGraphView¡£
-					£¨ÏêÏ¸¼û.cpp£©
+		ç±»ï¼š		å›¾ç‰‡æŸ¥çœ‹å—-å•å›¾ ç»„è£…ä½“.h
+		ç‰ˆæœ¬ï¼š		v1.02
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		é€šè¿‡newï¼Œè‡ªåŠ¨å°†ä¸€ä¸ªQWidgetï¼Œå¼€è¾Ÿæˆ å›¾ç‰‡æŸ¥çœ‹å— çš„QGraphViewã€‚
+					ï¼ˆè¯¦ç»†è§.cppï¼‰
 -----==========================================================-----
 */
 class P_SinglePictureViewer : public QObject
@@ -19,65 +19,73 @@ class P_SinglePictureViewer : public QObject
 	Q_OBJECT
 
 	public:
-		P_SinglePictureViewer(QWidget* _parent);		//¹¹Ôìº¯Êı
-		~P_SinglePictureViewer();						//Îö¹¹º¯Êı
+		P_SinglePictureViewer(QWidget* _parent);		//æ„é€ å‡½æ•°
+		~P_SinglePictureViewer();						//ææ„å‡½æ•°
 		
 	//-----------------------------------
-	//----¸¸¿Ø¼ş
+	//----çˆ¶æ§ä»¶
 	private:
-		QWidget* m_parent;				//¸¸¿é
-		QVBoxLayout* m_layout;			//¸¸²¼¾Ö
+		QWidget* m_parent;				//çˆ¶å—
+		QVBoxLayout* m_layout;			//çˆ¶å¸ƒå±€
 	private:
-										//¸¸¿Ø¼ş³õÊ¼»¯
+										//çˆ¶æ§ä»¶åˆå§‹åŒ–
 		void initWidgetAndLayout(QWidget* _parent);
 
 	//-----------------------------------
-	//----¿Ø¼ş
+	//----æ§ä»¶
 	private:
-		I_SPVView* m_GraphView;			//ÊÓÍ¼
+		I_SPVView* m_GraphView;			//è§†å›¾
 	public:
-										//¿Ø¼ş - ÖØ½¨¿Ø¼ş
+										//æ§ä»¶ - é‡å»ºæ§ä»¶
 		void rebuildUI();
-										//¿Ø¼ş - ÇåÀíUI
+										//æ§ä»¶ - æ¸…ç†UI
 		void clearUI();
 
 	//-----------------------------------
-	//----Í¼Æ¬
+	//----å›¾ç‰‡
 	public slots:
-										//Í¼Æ¬ - ÉèÖÃ Í¼Æ¬×ÊÔ´
+										//å›¾ç‰‡ - è®¾ç½® å›¾ç‰‡èµ„æº
 		void setSource(QFileInfo file);
 		void setSource(QPixmap pixmap);
 
 
 	//-----------------------------------
-	//----¸¨Öú
+	//----è¾…åŠ©
 	public slots:
-										//¸¨Öú - ÉèÖÃÍø¸ñÏß
+										//è¾…åŠ© - è®¾ç½®ç½‘æ ¼çº¿
 		void setGridLine(int column, int row);
-										//¸¨Öú - Çå¿ÕÍø¸ñÏß
+										//è¾…åŠ© - æ¸…ç©ºç½‘æ ¼çº¿
 		void clearGridLine();
 		
 	//-----------------------------------
-	//----Ëõ·Å¡¾À´×Ô Êó±êËõ·Å¿ØÖÆÆ÷ ¹¦ÄÜ¡¿
+	//----ç€è‰²å™¨
 	public slots:
-										//Ëõ·Å - »ñÈ¡¿ØÖÆÆ÷
-		P_MouseResizeController* getResizeController();
-										//Ëõ·Å - ËõĞ¡
+									//ç€è‰²å™¨ - ä¿®æ”¹è‰²è°ƒ
+		void setTint(int rotate_offset);
+									//ç€è‰²å™¨ - è·å–è‰²è°ƒ
+		int getTint();
+
+	//-----------------------------------
+	//----ç¼©æ”¾ã€æ¥è‡ª é¼ æ ‡ç¼©æ”¾æ§åˆ¶å™¨ åŠŸèƒ½ã€‘
+	public slots:
+										//ç¼©æ”¾ - è·å–æ§åˆ¶å™¨
+		P_MRe_Controller* getResizeController();
+										//ç¼©æ”¾ - ç¼©å°
 		void zoomIn();
-										//Ëõ·Å - ·Å´ó
+										//ç¼©æ”¾ - æ”¾å¤§
 		void zoomOut();
-										//Ëõ·Å - ´óĞ¡ÖØÖÃ
+										//ç¼©æ”¾ - å¤§å°é‡ç½®
 		void zoomReset();
-										//Ëõ·Å - »ñÈ¡Ëõ·ÅÖµ
+										//ç¼©æ”¾ - è·å–ç¼©æ”¾å€¼
 		double getScale();
-										//Ëõ·Å - ÉèÖÃ¹öÂÖËõ·ÅĞŞÊÎ·û
-										//		¡¾ËµÃ÷¡¿£ºÌî"ctrl"¡¢"alt"£¬¿Õ×Ö·û´®±íÊ¾Êó±ê¹öÂÖÖ±½ÓËõ·Å¡£
+										//ç¼©æ”¾ - è®¾ç½®æ»šè½®ç¼©æ”¾ä¿®é¥°ç¬¦
+										//		ã€è¯´æ˜ã€‘ï¼šå¡«"ctrl"ã€"alt"ï¼Œç©ºå­—ç¬¦ä¸²è¡¨ç¤ºé¼ æ ‡æ»šè½®ç›´æ¥ç¼©æ”¾ã€‚
 		void setScaleWheelModifier(QString charModifier);
 	signals:
-										//Ëõ·Å - Ëõ·ÅÖµ¸Ä±ä
+										//ç¼©æ”¾ - ç¼©æ”¾å€¼æ”¹å˜
 		void scaleChanged(double scale);
 	private slots:
-										//Ëõ·Å - Ëõ·ÅÖµ¸Ä±ä£¨Óëview½»»¥£©
+										//ç¼©æ”¾ - ç¼©æ”¾å€¼æ”¹å˜ï¼ˆä¸viewäº¤äº’ï¼‰
 		void scaleChanged_view(double scale);
 
 };

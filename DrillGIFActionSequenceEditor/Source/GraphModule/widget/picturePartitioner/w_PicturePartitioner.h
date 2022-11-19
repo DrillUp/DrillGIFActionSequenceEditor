@@ -1,16 +1,17 @@
-#ifndef W_PicturePartitioner_H
+ï»¿#ifndef W_PicturePartitioner_H
 #define W_PicturePartitioner_H
+#include "stdafx.h"
 
-#include "ui_w_PicturePartitioner.h"
-#include "private/p_PPaViewer.h"
-#include "Source/GraphModule/widget/singlePictureViewer/p_SinglePictureViewer.h"
-#include "Source/GraphModule/middleware/mouseResizeController/extendPart/p_MouseResizeButtonPart.h"
+#include "ui_W_PicturePartitioner.h"
+#include "Private/P_PPaViewer.h"
+#include "Source/GraphModule/Widget/SinglePictureViewer/P_SinglePictureViewer.h"
+#include "Source/GraphModule/Middleware/MouseResizeController/ExtendPart/P_MRe_ButtonPart.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Í¼Æ¬·Ö¸îÆ÷ ´°¿Ú.cpp
-		ËùÊôÄ£¿é£º	Í¼ĞÎÄ£¿é
-		¹¦ÄÜ£º		¿ÉÒÔ½«Í¼Æ¬·Ö¸î³É¶à¸öÍ¼Æ¬¡£
+		ç±»ï¼š		å›¾ç‰‡åˆ†å‰²å™¨ çª—å£.cpp
+		æ‰€å±æ¨¡å—ï¼š	å›¾å½¢æ¨¡å—
+		åŠŸèƒ½ï¼š		å¯ä»¥å°†å›¾ç‰‡åˆ†å‰²æˆå¤šä¸ªå›¾ç‰‡ã€‚
 -----==========================================================-----
 */
 class W_PicturePartitioner : public QDialog
@@ -22,48 +23,48 @@ class W_PicturePartitioner : public QDialog
 		~W_PicturePartitioner();
 
 	//-----------------------------------
-	//----ÊÓÍ¼
+	//----è§†å›¾
 	protected:
-		P_SinglePictureViewer* m_p_SinglePictureViewer;				//£¨ÇĞ¸îÔ¤ÀÀÍ¼£©
-		P_PPaViewer* m_p_PPaViewer;									//£¨Ö¡Ñ¡ÔñÍ¼£©
-		P_MouseResizeButtonPart* m_p_MouseResizeButtonPart1;		//Ëõ·Å°´Å¥¿é1
-		P_MouseResizeButtonPart* m_p_MouseResizeButtonPart2;		//Ëõ·Å°´Å¥¿é2
+		P_SinglePictureViewer* m_p_SinglePictureViewer;				//ï¼ˆåˆ‡å‰²é¢„è§ˆå›¾ï¼‰
+		P_PPaViewer* m_p_PPaViewer;									//ï¼ˆå¸§é€‰æ‹©å›¾ï¼‰
+		P_MRe_ButtonPart* m_p_MouseResizeButtonPart1;		//ç¼©æ”¾æŒ‰é’®å—1
+		P_MRe_ButtonPart* m_p_MouseResizeButtonPart2;		//ç¼©æ”¾æŒ‰é’®å—2
 		
 	//-----------------------------------
-	//----ĞĞÁĞ
+	//----è¡Œåˆ—
 	public slots:
-										//ĞĞÁĞ - ÊäÈë¿ò±ä»¯
+										//è¡Œåˆ— - è¾“å…¥æ¡†å˜åŒ–
 		void rowChanged(int value);
 		void columnChanged(int value);
-										//ĞĞÁĞ - Ë¢ĞÂÍø¸ñÏß
+										//è¡Œåˆ— - åˆ·æ–°ç½‘æ ¼çº¿
 		void refreshGridLine();
 
 	//-----------------------------------
-	//----Á÷³Ì
+	//----æµç¨‹
 	public slots:
-										//Á÷³Ì - ½øÈëÁ÷³Ì1
+										//æµç¨‹ - è¿›å…¥æµç¨‹1
 		void toFlow_1();
-										//Á÷³Ì - ½øÈëÁ÷³Ì2
+										//æµç¨‹ - è¿›å…¥æµç¨‹2
 		void toFlow_2();
 
 	//-----------------------------------
-	//----´°¿Ú
+	//----çª—å£
 	protected:
 		bool m_slotBlock;
-		QPixmap local_bitmap;				//µ±Ç°Í¼Æ¬
-		QList<QPixmap> local_bitmapTank;	//ÇĞ¸îµÄÁĞ±í
+		QPixmap local_bitmap;				//å½“å‰å›¾ç‰‡
+		QList<QPixmap> local_bitmapTank;	//åˆ‡å‰²çš„åˆ—è¡¨
 	public:
-										//´°¿Ú - ÉèÖÃÊı¾İ
+										//çª—å£ - è®¾ç½®æ•°æ®
 		void setData(QFileInfo file);
 		void setData(QPixmap bitmap);
-										//´°¿Ú - È¡³öÊı¾İ
+										//çª—å£ - å–å‡ºæ•°æ®
 		QList<QPixmap> getData();
-										//´°¿Ú - ±¾µØÊı¾İ -> uiÊı¾İ
+										//çª—å£ - æœ¬åœ°æ•°æ® -> uiæ•°æ®
 		void putDataToUi();							
-										//´°¿Ú - uiÊı¾İ -> ±¾µØÊı¾İ
+										//çª—å£ - uiæ•°æ® -> æœ¬åœ°æ•°æ®
 		void putUiToData();
 	public slots:
-										//´°¿Ú - Ìá½»Êı¾İ£¨Ğ£Ñé£©
+										//çª—å£ - æäº¤æ•°æ®ï¼ˆæ ¡éªŒï¼‰
 		void acceptData();	
 
 	private:

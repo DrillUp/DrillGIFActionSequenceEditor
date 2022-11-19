@@ -1,16 +1,17 @@
-#ifndef P_GridLineItem_H
+ï»¿#ifndef P_GridLineItem_H
 #define P_GridLineItem_H
+#include "stdafx.h"
 
 #include <QGraphicsLineItem>
 
 /*
 -----==========================================================-----
-		Àà£º		Íø¸ñÏß.h
-		°æ±¾£º		v1.00
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	Í¼ĞÎÄ£¿é
-		¹¦ÄÜ£º		ÄÜ¹»¸ù¾İĞĞÁĞÉèÖÃ£¬Éú³ÉÏß¶ÔÏó×é¡£
-					£¨ÏêÏ¸¼û.cpp£©
+		ç±»ï¼š		ç½‘æ ¼çº¿.h
+		ç‰ˆæœ¬ï¼š		v1.00
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å›¾å½¢æ¨¡å—
+		åŠŸèƒ½ï¼š		èƒ½å¤Ÿæ ¹æ®è¡Œåˆ—è®¾ç½®ï¼Œç”Ÿæˆçº¿å¯¹è±¡ç»„ã€‚
+					ï¼ˆè¯¦ç»†è§.cppï¼‰
 -----==========================================================-----
 */
 class P_GridLineItem : public QObject
@@ -18,22 +19,22 @@ class P_GridLineItem : public QObject
 	Q_OBJECT
 
 	public:
-		P_GridLineItem(QGraphicsScene* scene);		//¹¹Ôìº¯Êı
-		~P_GridLineItem();							//Îö¹¹º¯Êı
+		P_GridLineItem(QGraphicsScene* scene);		//æ„é€ å‡½æ•°
+		~P_GridLineItem();							//ææ„å‡½æ•°
 		
 	//-----------------------------------
-	//----Íø¸ñÏß
+	//----ç½‘æ ¼çº¿
 	private:
-		QGraphicsScene* m_scene;				//¸¸¿Ø¼ş
-		QList<QGraphicsLineItem*> m_itemTank;	//Íø¸ñÁĞ±í
+		QGraphicsScene* m_scene;				//çˆ¶æ§ä»¶
+		QList<QGraphicsLineItem*> m_itemTank;	//ç½‘æ ¼åˆ—è¡¨
 	public:
-										//Íø¸ñÏß - ½¨Á¢Íø¸ñ
+										//ç½‘æ ¼çº¿ - å»ºç«‹ç½‘æ ¼
 		void rebuildGrid(int width, int height, int column, int row, QColor color);
-										//Íø¸ñÏß - »ñÈ¡¶ÔÏó×é
+										//ç½‘æ ¼çº¿ - è·å–å¯¹è±¡ç»„
 		QList<QGraphicsLineItem*> getItems();
-										//Íø¸ñÏß - Ìí¼Óµ½³¡¾°
+										//ç½‘æ ¼çº¿ - æ·»åŠ åˆ°åœºæ™¯
 		void addItemsToScene();
-										//Íø¸ñÏß - Çå¿Õ¶ÔÏó
+										//ç½‘æ ¼çº¿ - æ¸…ç©ºå¯¹è±¡
 		void clearAllItem();
 
 };

@@ -1,13 +1,13 @@
-#include "stdafx.h"
-#include "w_PicturePartitioner.h"
+ï»¿#include "stdafx.h"
+#include "W_PicturePartitioner.h"
 
-#include "Source/Utils/common/TTool.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Í¼Æ¬·Ö¸îÆ÷ ´°¿Ú.cpp
-		ËùÊôÄ£¿é£º	Í¼ĞÎÄ£¿é
-		¹¦ÄÜ£º		¿ÉÒÔ½«Í¼Æ¬·Ö¸î³É¶à¸öÍ¼Æ¬¡£
+		ç±»ï¼š		å›¾ç‰‡åˆ†å‰²å™¨ çª—å£.cpp
+		æ‰€å±æ¨¡å—ï¼š	å›¾å½¢æ¨¡å—
+		åŠŸèƒ½ï¼š		å¯ä»¥å°†å›¾ç‰‡åˆ†å‰²æˆå¤šä¸ªå›¾ç‰‡ã€‚
 -----==========================================================-----
 */
 
@@ -17,7 +17,7 @@ W_PicturePartitioner::W_PicturePartitioner(QWidget* parent)
 	ui.setupUi(this);
 	
 	//-----------------------------------
-	//----×î´ó»¯/×îĞ¡»¯
+	//----æœ€å¤§åŒ–/æœ€å°åŒ–
 	Qt::WindowFlags flags = Qt::Dialog;
 	flags |= Qt::WindowCloseButtonHint;
 	flags |= Qt::WindowMaximizeButtonHint;
@@ -25,48 +25,48 @@ W_PicturePartitioner::W_PicturePartitioner(QWidget* parent)
 	this->setWindowFlags(flags);
 
 	//-----------------------------------
-	//----³õÊ¼»¯²ÎÊı
+	//----åˆå§‹åŒ–å‚æ•°
 	this->m_slotBlock = false;
 
 	//-----------------------------------
-	//----¿Ø¼ş³õÊ¼»¯
+	//----æ§ä»¶åˆå§‹åŒ–
 
-	// > ÇĞ¸îÔ¤ÀÀÍ¼
+	// > åˆ‡å‰²é¢„è§ˆå›¾
 	this->m_p_SinglePictureViewer = new P_SinglePictureViewer(ui.widget_preview);
 	this->m_p_SinglePictureViewer->rebuildUI();
 
-	// > Ö¡Ñ¡ÔñÍ¼
+	// > å¸§é€‰æ‹©å›¾
 	this->m_p_PPaViewer = new P_PPaViewer(ui.widget_selectArea);
 	this->m_p_PPaViewer->rebuildUI();
 
-	// > Ëõ·Å°´Å¥¿é1
-	this->m_p_MouseResizeButtonPart1 = new P_MouseResizeButtonPart();
+	// > ç¼©æ”¾æŒ‰é’®å—1
+	this->m_p_MouseResizeButtonPart1 = new P_MRe_ButtonPart();
 	QVBoxLayout* latout = new QVBoxLayout(ui.widget_zoom_btn);
 	latout->setMargin(0);
 	latout->addWidget(this->m_p_MouseResizeButtonPart1);
 	this->m_p_MouseResizeButtonPart1->initWidget(this->m_p_SinglePictureViewer->getResizeController());
 
-	// > Ëõ·Å°´Å¥¿é2
-	this->m_p_MouseResizeButtonPart2 = new P_MouseResizeButtonPart();
+	// > ç¼©æ”¾æŒ‰é’®å—2
+	this->m_p_MouseResizeButtonPart2 = new P_MRe_ButtonPart();
 	QVBoxLayout* latout2 = new QVBoxLayout(ui.widget_zoom_btn_2);
 	latout2->setMargin(0);
 	latout2->addWidget(this->m_p_MouseResizeButtonPart2);
 	this->m_p_MouseResizeButtonPart2->initWidget(this->m_p_PPaViewer->getResizeController());
 
 	//-----------------------------------
-	//----ÊÂ¼ş°ó¶¨
+	//----äº‹ä»¶ç»‘å®š
 
-	// > ĞĞÁĞ
+	// > è¡Œåˆ—
 	connect(ui.spinBox_column, SIGNAL(valueChanged(int)), this, SLOT(columnChanged(int)));
 	connect(ui.spinBox_row, SIGNAL(valueChanged(int)), this, SLOT(rowChanged(int)));
 
-	// > Á÷³Ì
+	// > æµç¨‹
 	connect(ui.pushButton_next, &QPushButton::clicked, this, &W_PicturePartitioner::toFlow_2);
 	connect(ui.pushButton_last, &QPushButton::clicked, this, &W_PicturePartitioner::toFlow_1);
 	connect(ui.pushButton_finish, &QPushButton::clicked, this, &W_PicturePartitioner::acceptData);
 
 	//-----------------------------------
-	//----³õÊ¼»¯ui
+	//----åˆå§‹åŒ–ui
 	TTool::_chinese_(ui.buttonBox);
 
 }
@@ -74,7 +74,7 @@ W_PicturePartitioner::~W_PicturePartitioner(){
 }
 
 /*-----------------------------------
-		ĞĞÁĞ - ÊäÈë¿ò±ä»¯
+		è¡Œåˆ— - è¾“å…¥æ¡†å˜åŒ–
 */
 void W_PicturePartitioner::rowChanged(int value){
 	this->refreshGridLine();
@@ -83,7 +83,7 @@ void W_PicturePartitioner::columnChanged(int value){
 	this->refreshGridLine();
 }
 /*-----------------------------------
-		ĞĞÁĞ - Ë¢ĞÂÍø¸ñÏß
+		è¡Œåˆ— - åˆ·æ–°ç½‘æ ¼çº¿
 */
 void W_PicturePartitioner::refreshGridLine(){
 
@@ -94,27 +94,27 @@ void W_PicturePartitioner::refreshGridLine(){
 	int f_width = qFloor( width / column );
 	int f_height = qFloor( height / row );
 
-	this->m_p_SinglePictureViewer->setGridLine(column, row);	//£¨Ë¢ĞÂÍø¸ñ£¬Ö»Á÷³ÌÒ³1ÖĞË¢ĞÂ£©
+	this->m_p_SinglePictureViewer->setGridLine(column, row);	//ï¼ˆåˆ·æ–°ç½‘æ ¼ï¼Œåªæµç¨‹é¡µ1ä¸­åˆ·æ–°ï¼‰
 
 	if (f_width * column != width || f_height * row != height){
 		ui.label_cutTip->setVisible(true);
 	}else{
 		ui.label_cutTip->setVisible(false);
 	}
-	QString text = QString::number(f_width) + "x" + QString::number(f_height) + "  (" + QString::number(row*column) + "¸ö)";
+	QString text = QString::number(f_width) + "x" + QString::number(f_height) + "  (" + QString::number(row*column) + "ä¸ª)";
 	ui.label_framePic_wh->setText(text);
 
 }
 
 
 /*-------------------------------------------------
-		Á÷³Ì - ½øÈëÁ÷³Ì1
+		æµç¨‹ - è¿›å…¥æµç¨‹1
 */
 void W_PicturePartitioner::toFlow_1(){
 	ui.stackedWidget->setCurrentIndex(0);
 }
 /*-------------------------------------------------
-		Á÷³Ì - ½øÈëÁ÷³Ì2
+		æµç¨‹ - è¿›å…¥æµç¨‹2
 */
 void W_PicturePartitioner::toFlow_2(){
 	
@@ -126,7 +126,7 @@ void W_PicturePartitioner::toFlow_2(){
 }
 
 /*-------------------------------------------------
-		´°¿Ú - ÉèÖÃÊı¾İ
+		çª—å£ - è®¾ç½®æ•°æ®
 */
 void W_PicturePartitioner::setData(QFileInfo file) {
 	QImage image = QImage(file.absoluteFilePath());
@@ -139,7 +139,7 @@ void W_PicturePartitioner::setData(QPixmap bitmap) {
 	this->putDataToUi();
 }
 /*-----------------------------------
-		´°¿Ú - ±¾µØÊı¾İ -> uiÊı¾İ
+		çª—å£ - æœ¬åœ°æ•°æ® -> uiæ•°æ®
 */
 void W_PicturePartitioner::putDataToUi(){
 
@@ -147,23 +147,23 @@ void W_PicturePartitioner::putDataToUi(){
 	this->m_p_PPaViewer->setSource(this->local_bitmap);
 	ui.label_totalPic_wh->setText(QString::number(this->local_bitmap.width()) + "x" + QString::number(this->local_bitmap.height()));
 
-	this->refreshGridLine();		//£¨Ë¢ĞÂÁ÷³ÌÒ³1£¬Á÷³Ì2ÔÚÏÂÒ»²½Ê±²ÅË¢£©
+	this->refreshGridLine();		//ï¼ˆåˆ·æ–°æµç¨‹é¡µ1ï¼Œæµç¨‹2åœ¨ä¸‹ä¸€æ­¥æ—¶æ‰åˆ·ï¼‰
 }
 /*-----------------------------------
-		´°¿Ú - uiÊı¾İ -> ±¾µØÊı¾İ
+		çª—å£ - uiæ•°æ® -> æœ¬åœ°æ•°æ®
 */
 void W_PicturePartitioner::putUiToData(){
 	this->local_bitmapTank = this->m_p_PPaViewer->getCutBitmap();
 }
 
 /*-------------------------------------------------
-		´°¿Ú - È¡³öÊı¾İ
+		çª—å£ - å–å‡ºæ•°æ®
 */
 QList<QPixmap> W_PicturePartitioner::getData(){
 	return this->local_bitmapTank;
 };
 /*-------------------------------------------------
-		´°¿Ú - Ìá½»Êı¾İ£¨Ğ£Ñé£©
+		çª—å£ - æäº¤æ•°æ®ï¼ˆæ ¡éªŒï¼‰
 */
 void W_PicturePartitioner::acceptData(){
 	this->putUiToData();

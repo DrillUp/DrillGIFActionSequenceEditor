@@ -1,14 +1,15 @@
-#ifndef W_PictureCombiner_H
+ï»¿#ifndef W_PictureCombiner_H
 #define W_PictureCombiner_H
+#include "stdafx.h"
 
-#include "ui_w_PictureCombiner.h"
-#include "p_PictureCombiner.h"
+#include "ui_W_PictureCombiner.h"
+#include "P_PictureCombiner.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Í¼Æ¬ºÏ³ÉÆ÷ ´°¿Ú.cpp
-		ËùÊôÄ£¿é£º	Í¼ĞÎÄ£¿é
-		¹¦ÄÜ£º		¿ÉÒÔ½«¶àÕÅÍ¼Æ¬ÒÔ¾ØÕóµÄĞÎÊ½ºÏ²¢µ½Ò»Æğ¡£
+		ç±»ï¼š		å›¾ç‰‡åˆæˆå™¨ çª—å£.cpp
+		æ‰€å±æ¨¡å—ï¼š	å›¾å½¢æ¨¡å—
+		åŠŸèƒ½ï¼š		å¯ä»¥å°†å¤šå¼ å›¾ç‰‡ä»¥çŸ©é˜µçš„å½¢å¼åˆå¹¶åˆ°ä¸€èµ·ã€‚
 -----==========================================================-----
 */
 class W_PictureCombiner : public QDialog
@@ -20,20 +21,20 @@ class W_PictureCombiner : public QDialog
 		~W_PictureCombiner();
 		
 	//-----------------------------------
-	//----¿Ø¼ş
+	//----æ§ä»¶
 	public:
 		P_PictureCombiner* m_P_PictureCombiner;
 
 	//-----------------------------------
-	//----´°¿Ú
+	//----çª—å£
 	public:
-										//´°¿Ú - ÉèÖÃÊı¾İ
+										//çª—å£ - è®¾ç½®æ•°æ®
 		void setData(QList<QFileInfo> file_list);
 		void setData(QList<QPixmap> bitmap_list);
-										//´°¿Ú - È¡³öÊı¾İ
+										//çª—å£ - å–å‡ºæ•°æ®
 		QPixmap getData();
 	public slots:
-										//´°¿Ú - Ìá½»Êı¾İ£¨Ğ£Ñé£©
+										//çª—å£ - æäº¤æ•°æ®ï¼ˆæ ¡éªŒï¼‰
 		void acceptData();	
 
 	private:

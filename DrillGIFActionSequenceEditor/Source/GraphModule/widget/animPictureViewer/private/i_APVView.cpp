@@ -1,18 +1,18 @@
-#include "stdafx.h"
-#include "i_APVView.h"
+ï»¿#include "stdafx.h"
+#include "I_APVView.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Í¼Æ¬²é¿´¿é-¶¯Í¼ ÊÓÍ¼.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		Á¬½Ó¿Ø¼şÓë³¡¾°µÄÖĞ¼äÀà£¬¿ØÖÆ¹ö¶¯ÌõÓëËõ·Å¹¦ÄÜ¡£
+		ç±»ï¼š		å›¾ç‰‡æŸ¥çœ‹å—-åŠ¨å›¾ è§†å›¾.cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		è¿æ¥æ§ä»¶ä¸åœºæ™¯çš„ä¸­é—´ç±»ï¼Œæ§åˆ¶æ»šåŠ¨æ¡ä¸ç¼©æ”¾åŠŸèƒ½ã€‚
 					
-		×Ó¹¦ÄÜ£º	->³¡¾°³õÊ¼»¯£¨³¡¾°¹¦ÄÜ£©
-					->¶¯»­Ö¡£¨³¡¾°¹¦ÄÜ£©
-					->Ëõ·Å
-						->ËõĞ¡/·Å´ó
-					->Êó±êÍÏ×§
+		å­åŠŸèƒ½ï¼š	->åœºæ™¯åˆå§‹åŒ–ï¼ˆåœºæ™¯åŠŸèƒ½ï¼‰
+					->åŠ¨ç”»å¸§ï¼ˆåœºæ™¯åŠŸèƒ½ï¼‰
+					->ç¼©æ”¾
+						->ç¼©å°/æ”¾å¤§
+					->é¼ æ ‡æ‹–æ‹½
 
 -----==========================================================-----
 */
@@ -24,79 +24,79 @@ I_APVView::I_APVView(QWidget *parent)
 I_APVView::~I_APVView(){
 }
 /*-------------------------------------------------
-		³õÊ¼»¯
+		åˆå§‹åŒ–
 */
 void I_APVView::init(){
 
-	// > ¹ö¶¯Ìõ
+	// > æ»šåŠ¨æ¡
 	connect(this->horizontalScrollBar(), &QScrollBar::valueChanged, this, &I_APVView::scrollValueChanged);
 	connect(this->verticalScrollBar(), &QScrollBar::valueChanged, this, &I_APVView::scrollValueChanged);
 
-	// > ³¡¾°½¨Á¢
+	// > åœºæ™¯å»ºç«‹
 	this->m_scene = new I_APVScene();
 	this->setScene(m_scene);
 
-	// > Êó±êËõ·Å¿ØÖÆÆ÷
-	this->m_p_MouseResizeController = new P_MouseResizeController();
+	// > é¼ æ ‡ç¼©æ”¾æ§åˆ¶å™¨
+	this->m_p_MouseResizeController = new P_MRe_Controller();
 	this->m_p_MouseResizeController->initGraphicsView(this);
 }
 
 
 /*-------------------------------------------------
-		²¿¼ş - »ñÈ¡³¡¾°
+		éƒ¨ä»¶ - è·å–åœºæ™¯
 */
 I_APVScene* I_APVView::getScene(){
 	return this->m_scene;
 }
 /*-------------------------------------------------
-		²¿¼ş - »ñÈ¡Êó±êËõ·Å¿ØÖÆÆ÷
+		éƒ¨ä»¶ - è·å–é¼ æ ‡ç¼©æ”¾æ§åˆ¶å™¨
 */
-P_MouseResizeController* I_APVView::getMouseResizeController(){
+P_MRe_Controller* I_APVView::getMouseResizeController(){
 	return this->m_p_MouseResizeController;
 }
 
 
 /*-------------------------------------------------
-		¹ö¶¯Ìõ - ¹ö¶¯Ìõ¹ö¶¯
+		æ»šåŠ¨æ¡ - æ»šåŠ¨æ¡æ»šåŠ¨
 */
 void I_APVView::scrollValueChanged(){
-	this->update();		//³¡¾°ÖØË¢
+	this->update();		//åœºæ™¯é‡åˆ·
 }
 
 
 /*-------------------------------------------------
-		¼àÌıÊÂ¼ş - Êó±ê°´ÏÂ
+		ç›‘å¬äº‹ä»¶ - é¼ æ ‡æŒ‰ä¸‹
 */
 void I_APVView::mousePressEvent(QMouseEvent *event){
-	QGraphicsView::mousePressEvent(event);	//¼Ì³Ğ¸¸Ààº¯Êı
+	QGraphicsView::mousePressEvent(event);	//ç»§æ‰¿çˆ¶ç±»å‡½æ•°
 
-	// > Êó±êËõ·Å¿ØÖÆ ÊÂ¼ş
+	// > é¼ æ ‡ç¼©æ”¾æ§åˆ¶ äº‹ä»¶
 	this->m_p_MouseResizeController->event_mousePressEvent(event);
 }
 /*-------------------------------------------------
-		¼àÌıÊÂ¼ş - Êó±êÌ§Æğ
+		ç›‘å¬äº‹ä»¶ - é¼ æ ‡æŠ¬èµ·
 */
 void I_APVView::mouseReleaseEvent(QMouseEvent *event){
-	QGraphicsView::mouseReleaseEvent(event);	//¼Ì³Ğ¸¸Ààº¯Êı
+	QGraphicsView::mouseReleaseEvent(event);	//ç»§æ‰¿çˆ¶ç±»å‡½æ•°
 
-	// > Êó±êËõ·Å¿ØÖÆ ÊÂ¼ş
+	// > é¼ æ ‡ç¼©æ”¾æ§åˆ¶ äº‹ä»¶
 	this->m_p_MouseResizeController->event_mouseReleaseEvent(event);
 }
 /*-------------------------------------------------
-		¼àÌıÊÂ¼ş - Êó±êÒÆ¶¯
+		ç›‘å¬äº‹ä»¶ - é¼ æ ‡ç§»åŠ¨
 */
 void I_APVView::mouseMoveEvent(QMouseEvent *event){
-	QGraphicsView::mouseMoveEvent(event);	//¼Ì³Ğ¸¸Ààº¯Êı
+	QGraphicsView::mouseMoveEvent(event);	//ç»§æ‰¿çˆ¶ç±»å‡½æ•°
 
-	// > Êó±êËõ·Å¿ØÖÆ ÊÂ¼ş
+	// > é¼ æ ‡ç¼©æ”¾æ§åˆ¶ äº‹ä»¶
 	this->m_p_MouseResizeController->event_mouseMoveEvent(event);
 }
 /*-------------------------------------------------
-		¼àÌıÊÂ¼ş - Êó±ê¹öÂÖ
+		ç›‘å¬äº‹ä»¶ - é¼ æ ‡æ»šè½®
 */
 void I_APVView::wheelEvent(QWheelEvent *event){
 
-	// > Êó±êËõ·Å¿ØÖÆ ÊÂ¼ş
+	// > é¼ æ ‡ç¼©æ”¾æ§åˆ¶ äº‹ä»¶
 	bool blocked = this->m_p_MouseResizeController->event_wheelEvent(event);
 	if (blocked == true){ return; }
 

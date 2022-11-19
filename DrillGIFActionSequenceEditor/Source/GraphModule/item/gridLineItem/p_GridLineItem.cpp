@@ -1,23 +1,23 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "P_GridLineItem.h"
 
-#include "Source/Utils/common/TTool.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Íø¸ñÏß.cpp
-		°æ±¾£º		v1.00
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	Í¼ĞÎÄ£¿é
-		¹¦ÄÜ£º		ÄÜ¹»¸ù¾İĞĞÁĞÉèÖÃ£¬Éú³ÉÏß¶ÔÏó×é¡£
+		ç±»ï¼š		ç½‘æ ¼çº¿.cpp
+		ç‰ˆæœ¬ï¼š		v1.00
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å›¾å½¢æ¨¡å—
+		åŠŸèƒ½ï¼š		èƒ½å¤Ÿæ ¹æ®è¡Œåˆ—è®¾ç½®ï¼Œç”Ÿæˆçº¿å¯¹è±¡ç»„ã€‚
 					
-		×¢Òâ£º		Ö»ÊÇÒ»¸öÉú³ÉÆ÷£¨Ò²¿ÉÒÔµ±ÈİÆ÷ÓÃ£©£¬Éú³Éºó£¬¿ÉÒÔÊÖ¶¯»ñÈ¡£¬Ò²¿ÉÒÔÖ±½ÓÖ´ĞĞÆäÖĞµÄ¿ì½İº¯Êı¡£
+		æ³¨æ„ï¼š		åªæ˜¯ä¸€ä¸ªç”Ÿæˆå™¨ï¼ˆä¹Ÿå¯ä»¥å½“å®¹å™¨ç”¨ï¼‰ï¼Œç”Ÿæˆåï¼Œå¯ä»¥æ‰‹åŠ¨è·å–ï¼Œä¹Ÿå¯ä»¥ç›´æ¥æ‰§è¡Œå…¶ä¸­çš„å¿«æ·å‡½æ•°ã€‚
 
-		Ê¹ÓÃ·½·¨£º
-				> ½¨Á¢Íø¸ñÏß
+		ä½¿ç”¨æ–¹æ³•ï¼š
+				> å»ºç«‹ç½‘æ ¼çº¿
 					this->m_P_GridLineItem = new P_GridLineItem(this);
 					this->m_P_GridLineItem->rebuildGrid(this->m_canvasWidth, this->m_canvasHeight, column, row, this->m_gridLineColor);
-				> Ìí¼Óµ½³¡¾°
+				> æ·»åŠ åˆ°åœºæ™¯
 					this->m_P_GridLineItem->addItemsToScene();
 
 -----==========================================================-----
@@ -30,7 +30,7 @@ P_GridLineItem::~P_GridLineItem(){
 }
 
 /*-------------------------------------------------
-		Íø¸ñÏß - ½¨Á¢Íø¸ñ
+		ç½‘æ ¼çº¿ - å»ºç«‹ç½‘æ ¼
 */
 void P_GridLineItem::rebuildGrid(int width, int height, int column, int row, QColor color){
 	double ww = width / (double)column;
@@ -38,14 +38,14 @@ void P_GridLineItem::rebuildGrid(int width, int height, int column, int row, QCo
 
 	this->clearAllItem();
 
-	// > ÊúÏß
+	// > ç«–çº¿
 	for (int i = 0; i <= column; i++){
 		QGraphicsLineItem* line = new QGraphicsLineItem();
 		line->setLine(QLineF(ww*i, 0, ww*i, height));
 		line->setPen(color);
 		this->m_itemTank.append(line);
 	}
-	// > ºáÏß
+	// > æ¨ªçº¿
 	for (int i = 0; i <= row; i++){
 		QGraphicsLineItem* line = new QGraphicsLineItem();
 		line->setLine(QLineF(0, hh*i, width, hh*i));
@@ -56,14 +56,14 @@ void P_GridLineItem::rebuildGrid(int width, int height, int column, int row, QCo
 }
 
 /*-------------------------------------------------
-		Íø¸ñÏß - »ñÈ¡¶ÔÏó×é
+		ç½‘æ ¼çº¿ - è·å–å¯¹è±¡ç»„
 */
 QList<QGraphicsLineItem*> P_GridLineItem::getItems(){
 	return this->m_itemTank;
 }
 
 /*-------------------------------------------------
-		Íø¸ñÏß - Çå¿Õ¶ÔÏó
+		ç½‘æ ¼çº¿ - æ¸…ç©ºå¯¹è±¡
 */
 void P_GridLineItem::addItemsToScene(){
 	for (int i = 0; i < this->m_itemTank.count(); i++){
@@ -71,15 +71,15 @@ void P_GridLineItem::addItemsToScene(){
 	}
 }
 /*-------------------------------------------------
-		Íø¸ñÏß - Çå¿Õ¶ÔÏó
+		ç½‘æ ¼çº¿ - æ¸…ç©ºå¯¹è±¡
 */
 void P_GridLineItem::clearAllItem(){
 
-	// > ´Ó³¡¾°ÖĞÒÆ³ı
+	// > ä»åœºæ™¯ä¸­ç§»é™¤
 	for (int i = 0; i < this->m_itemTank.count(); i++){
 		this->m_scene->removeItem(this->m_itemTank.at(i));
 	}
 
-	// > Çå¿ÕÈİÆ÷
+	// > æ¸…ç©ºå®¹å™¨
 	this->m_itemTank.clear();
 }

@@ -1,0 +1,24 @@
+	【注意，图形模块的工具全部以 CodePieceQT笔记 为准，所有修改在笔记中强化】
+			
+	程序入口（独立控件块）：
+		1.	P_PictureCombiner.cpp
+			P_PictureCombiner.h
+			P_PictureCombiner.ui
+
+		直接将widget嵌套即可，通过该类的接口进行相关数据交互。
+		通过new，会自动将一个QWidget，开辟成合成器用的控件。
+		
+		2.	W_PictureCombiner.cpp
+			W_PictureCombiner.h
+			W_PictureCombiner.ui
+			
+		作为单独的对话框调用也可以。
+	
+
+	交互对象：
+		输入 QList<QPixmap>、QList<QFileInfo>
+		输出 QPixmap
+
+
+	私有类：
+		无

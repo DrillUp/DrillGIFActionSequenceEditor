@@ -1,8 +1,8 @@
-	【注意，图形模块的工具全部以 code_piece_qt笔记 为准，所有修改在笔记中强化】
+	【注意，图形模块的工具全部以 CodePieceQT笔记 为准，所有修改在笔记中强化】
 			
 	程序入口（独立控件块）：
-		p_SinglePictureViewer.cpp
-		p_SinglePictureViewer.h
+		P_SinglePictureViewer.cpp
+		P_SinglePictureViewer.h
 
 		直接将widget嵌套即可，通过该类的接口进行相关数据交互。
 		通过new，自动将一个QWidget，开辟成QGraphView。
@@ -14,7 +14,7 @@
 		【只读图片数据】	
 
 	私有类：
-		i_SPVView.cpp
-		i_SPVView.h
-		i_SPVScene.cpp
-		i_SPVScene.h
+		I_SPVView.cpp
+		I_SPVView.h
+		I_SPVScene.cpp
+		I_SPVScene.h

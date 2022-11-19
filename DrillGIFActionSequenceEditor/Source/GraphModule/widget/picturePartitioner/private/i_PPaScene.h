@@ -1,17 +1,18 @@
-#ifndef I_PPaScene_H
+ï»¿#ifndef I_PPaScene_H
 #define I_PPaScene_H
+#include "stdafx.h"
 
 #include <QGraphicsScene>
-#include "Source/GraphModule/item/maskBackgroundItem/i_MaskBackgroundItem.h"
-#include "Source/GraphModule/item/gridLineItem/p_GridLineItem.h"
+#include "Source/GraphModule/Item/MaskBackgroundItem/I_MaskBackgroundItem.h"
+#include "Source/GraphModule/Item/GridLineItem/P_GridLineItem.h"
 
 /*
 -----==========================================================-----
-		Àà£º		ÇĞ¸îÖ¡Ñ¡ÔñÆ÷ ³¡¾°.h
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		Ê¹µÃ¿ÉÒÔÔÚ³¡¾°ÖĞµã»÷¹´Ñ¡ÇĞ¸îÖ¡¡£
-					£¨ÏêÏ¸¼û.cpp£©
+		ç±»ï¼š		åˆ‡å‰²å¸§é€‰æ‹©å™¨ åœºæ™¯.h
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		ä½¿å¾—å¯ä»¥åœ¨åœºæ™¯ä¸­ç‚¹å‡»å‹¾é€‰åˆ‡å‰²å¸§ã€‚
+					ï¼ˆè¯¦ç»†è§.cppï¼‰
 -----==========================================================-----
 */
 class I_PPaScene : public QGraphicsScene
@@ -19,71 +20,71 @@ class I_PPaScene : public QGraphicsScene
     Q_OBJECT
 	
 	public:
-		I_PPaScene(QWidget *parent = 0);		//¹¹Ôìº¯Êı
-		~I_PPaScene();							//Îö¹¹º¯Êı
-		void init();							//³õÊ¼»¯
+		I_PPaScene(QWidget *parent = 0);		//æ„é€ å‡½æ•°
+		~I_PPaScene();							//ææ„å‡½æ•°
+		void init();							//åˆå§‹åŒ–
 		
 		
 	//-----------------------------------
-	//----Êó±êÊÂ¼ş
+	//----é¼ æ ‡äº‹ä»¶
 	private:
-										//¼àÌıÊÂ¼ş - Êó±ê°´ÏÂ
+										//ç›‘å¬äº‹ä»¶ - é¼ æ ‡æŒ‰ä¸‹
 		void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
-										//¼àÌıÊÂ¼ş - Êó±êÌ§Æğ
+										//ç›‘å¬äº‹ä»¶ - é¼ æ ‡æŠ¬èµ·
 		void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
-										//¼àÌıÊÂ¼ş - Êó±êÒÆ¶¯
+										//ç›‘å¬äº‹ä»¶ - é¼ æ ‡ç§»åŠ¨
 		void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
-										//¼àÌıÊÂ¼ş - Êó±êË«»÷
+										//ç›‘å¬äº‹ä»¶ - é¼ æ ‡åŒå‡»
 		void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
 
 
 	//-----------------------------------
-	//----ÊôĞÔ
+	//----å±æ€§
 	private:
-		int m_canvasWidth;			//»­²¼¿í¶È
-		int m_canvasHeight;			//»­²¼¸ß¶È
-		int m_canvasThickness;		//»­²¼³öÑªÏßºñ¶È
-		int m_pixelWidth;			//Í¼¿é¿í¶È
-		int m_pixelHeight;			//Í¼¿é¸ß¶È
+		int m_canvasWidth;			//ç”»å¸ƒå®½åº¦
+		int m_canvasHeight;			//ç”»å¸ƒé«˜åº¦
+		int m_canvasThickness;		//ç”»å¸ƒå‡ºè¡€çº¿åšåº¦
+		int m_pixelWidth;			//å›¾å—å®½åº¦
+		int m_pixelHeight;			//å›¾å—é«˜åº¦
 		
 	//-----------------------------------
-	//----¸¨Öú¶ÔÏó
+	//----è¾…åŠ©å¯¹è±¡
 	private:
-		QColor m_gridLineColor;						//Íø¸ñÏßµ×É«
-		QColor m_backgroundColor;					//±³¾°µ×É«
-		P_GridLineItem* m_P_GridLineItem;			//Íø¸ñÏß
-		I_MaskBackgroundItem* m_maskBackground;		//±³¾°
+		QColor m_gridLineColor;						//ç½‘æ ¼çº¿åº•è‰²
+		QColor m_backgroundColor;					//èƒŒæ™¯åº•è‰²
+		P_GridLineItem* m_P_GridLineItem;			//ç½‘æ ¼çº¿
+		I_MaskBackgroundItem* m_maskBackground;		//èƒŒæ™¯
 	public:
-									//¸¨Öú - ÉèÖÃÍø¸ñÏß
+									//è¾…åŠ© - è®¾ç½®ç½‘æ ¼çº¿
 		void setGridLine(int column, int row);
-									//¸¨Öú - Çå¿ÕÍø¸ñÏß
+									//è¾…åŠ© - æ¸…ç©ºç½‘æ ¼çº¿
 		void clearGridLine();
 	private:
-									//¸¨Öú - Ë¢ĞÂ±³¾°
+									//è¾…åŠ© - åˆ·æ–°èƒŒæ™¯
 		void refreshBackground();
 		
 	//-----------------------------------
-	//----×ÊÔ´
+	//----èµ„æº
 	public:
 		QPixmap m_bitmap;
 	public:
-									//×ÊÔ´ - ÉèÖÃ×ÊÔ´
+									//èµ„æº - è®¾ç½®èµ„æº
 		void setSource(QPixmap bitmap);
-									//×ÊÔ´ - Çå³ı×ÊÔ´
+									//èµ„æº - æ¸…é™¤èµ„æº
 		void clearSource();
 
 	protected:
-									//×ÊÔ´ - ÖØ½¨³¡¾°
+									//èµ„æº - é‡å»ºåœºæ™¯
 		void rebuildScene();
 
 	//-----------------------------------
-	//----Í¼Æ¬
+	//----å›¾ç‰‡
 	private:
 		QGraphicsPixmapItem* m_bitmapItem;
 	public:
-									//Í¼Æ¬ - ×î´ó¸ß¶È
+									//å›¾ç‰‡ - æœ€å¤§é«˜åº¦
 		int getMaxHeight();
-									//Í¼Æ¬ - ×î´ó¿í¶È
+									//å›¾ç‰‡ - æœ€å¤§å®½åº¦
 		int getMaxWidth();
 
 };

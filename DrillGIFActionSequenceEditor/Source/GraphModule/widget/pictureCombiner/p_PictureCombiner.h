@@ -1,19 +1,20 @@
-#ifndef P_PictureCombiner_H
+ï»¿#ifndef P_PictureCombiner_H
 #define P_PictureCombiner_H
+#include "stdafx.h"
 
 #include <QtWidgets>
 #include "ui_P_PictureCombiner.h"
-#include "Source/GraphModule/widget/singlePictureViewer/p_SinglePictureViewer.h"
-#include "Source/GraphModule/middleware/mouseResizeController/extendPart/p_MouseResizeButtonPart.h"
+#include "Source/GraphModule/Widget/SinglePictureViewer/P_SinglePictureViewer.h"
+#include "Source/GraphModule/Middleware/MouseResizeController/ExtendPart/P_MRe_ButtonPart.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Í¼Æ¬ºÏ³ÉÆ÷.h
-		°æ±¾£º		v1.00
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	Í¼ĞÎÄ£¿é
-		¹¦ÄÜ£º		¿ÉÒÔ½«¶àÕÅÍ¼Æ¬ÒÔ¾ØÕóµÄĞÎÊ½ºÏ²¢µ½Ò»Æğ¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		å›¾ç‰‡åˆæˆå™¨.h
+		ç‰ˆæœ¬ï¼š		v1.00
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å›¾å½¢æ¨¡å—
+		åŠŸèƒ½ï¼š		å¯ä»¥å°†å¤šå¼ å›¾ç‰‡ä»¥çŸ©é˜µçš„å½¢å¼åˆå¹¶åˆ°ä¸€èµ·ã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 class P_PictureCombiner : public QWidget
@@ -25,72 +26,72 @@ class P_PictureCombiner : public QWidget
 		~P_PictureCombiner();
 		
 	//-----------------------------------
-	//----ÊÓÍ¼
+	//----è§†å›¾
 	protected:
-		P_SinglePictureViewer* m_p_SinglePictureViewer;			//Í¼Æ¬²é¿´¿é-µ¥Í¼
-		P_MouseResizeButtonPart* m_p_MouseResizeButtonPart;		//Ëõ·Å°´Å¥¿é
+		P_SinglePictureViewer* m_p_SinglePictureViewer;			//å›¾ç‰‡æŸ¥çœ‹å—-å•å›¾
+		P_MRe_ButtonPart* m_p_MouseResizeButtonPart;		//ç¼©æ”¾æŒ‰é’®å—
 	public slots:
-										//ÊÓÍ¼ - Íø¸ñ¹´Ñ¡±ä»¯
+										//è§†å›¾ - ç½‘æ ¼å‹¾é€‰å˜åŒ–
 		void gridLineToggled(bool checked);
 
 	//-----------------------------------
-	//----ĞĞÁĞ
+	//----è¡Œåˆ—
 	public slots:
-										//ĞĞÁĞ - ÊäÈë¿ò±ä»¯
+										//è¡Œåˆ— - è¾“å…¥æ¡†å˜åŒ–
 		void rowChanged(int value);
 		void columnChanged(int value);
-										//ĞĞÁĞ - ¹´Ñ¡±ä»¯£¨×ÔÊÊÓ¦£©
+										//è¡Œåˆ— - å‹¾é€‰å˜åŒ–ï¼ˆè‡ªé€‚åº”ï¼‰
 		void rowToggled(bool checked);
 		void columnToggled(bool checked);
-										//ĞĞÁĞ - ÏÂÀ­¿ò±ä»¯
+										//è¡Œåˆ— - ä¸‹æ‹‰æ¡†å˜åŒ–
 		void comboxChanged(QString text);
 	protected:
-										//¿Ø¼ş - ¼ÆËãĞĞÁĞ
+										//æ§ä»¶ - è®¡ç®—è¡Œåˆ—
 		void autoFillNum();
 	
 	//-----------------------------------
-	//----Ö¡ÊôĞÔ
+	//----å¸§å±æ€§
 	public slots:
-										//Ö¡ÊôĞÔ - ÊäÈë¿ò±ä»¯
+										//å¸§å±æ€§ - è¾“å…¥æ¡†å˜åŒ–
 		void frameWidthChanged(int value);
 		void frameHeightChanged(int value);
-										//Ö¡ÊôĞÔ - ¹´Ñ¡±ä»¯£¨Ä¬ÈÏÖµ£©
+										//å¸§å±æ€§ - å‹¾é€‰å˜åŒ–ï¼ˆé»˜è®¤å€¼ï¼‰
 		void frameWidthDefaultToggled(bool checked);
 		void frameHeightDefaultToggled(bool checked);
 
 		
 	//-----------------------------------
-	//----»æÖÆ
+	//----ç»˜åˆ¶
 	public:
-										//»æÖÆ - ÖØ»æÍ¼Æ¬
+										//ç»˜åˆ¶ - é‡ç»˜å›¾ç‰‡
 		void redrawBitmap();
-										//»æÖÆ - »ñÈ¡×î´ó¿í¶È
+										//ç»˜åˆ¶ - è·å–æœ€å¤§å®½åº¦
 		int getMaxWidth();
-										//»æÖÆ - »ñÈ¡×î´ó¸ß¶È
+										//ç»˜åˆ¶ - è·å–æœ€å¤§é«˜åº¦
 		int getMaxHeight();
-										//»æÖÆ - ÅĞ¶Ï¸ß¿íÒ»ÖÂ
+										//ç»˜åˆ¶ - åˆ¤æ–­é«˜å®½ä¸€è‡´
 		bool isSizeFit();
 	protected:
-										//»æÖÆ - ÔÚÖ¸¶¨µÄ·¶Î§ÄÚ»æÖÆÍ¼Ïñ£¬×Ô¶¯¾ÓÖĞ£¬×Ô¶¯¼ôÇĞ
+										//ç»˜åˆ¶ - åœ¨æŒ‡å®šçš„èŒƒå›´å†…ç»˜åˆ¶å›¾åƒï¼Œè‡ªåŠ¨å±…ä¸­ï¼Œè‡ªåŠ¨å‰ªåˆ‡
 		void drawBitmap_CenterAndCut(QPainter* painter, QPixmap bitmap, QRect frame);
-										//»æÖÆ - »ñÈ¡»æÖÆµÄÍ¼Æ¬
+										//ç»˜åˆ¶ - è·å–ç»˜åˆ¶çš„å›¾ç‰‡
 		QPixmap getDrawedBitmap(int p_width,int p_height);
 		
 	//-----------------------------------
-	//----¿é
+	//----å—
 	protected:
 		bool m_slotBlock;
 		QPixmap local_draw;
 		QList<QPixmap> local_bitmapTank;
 	public:
-										//¿é - ÉèÖÃÊı¾İ
+										//å— - è®¾ç½®æ•°æ®
 		void setData(QList<QFileInfo> file_tank);
 		void setData(QList<QPixmap> bitmap_tank);
-										//¿é - È¡³öÊı¾İ
+										//å— - å–å‡ºæ•°æ®
 		QPixmap getData();
-										//¿é - ±¾µØÊı¾İ -> uiÊı¾İ
+										//å— - æœ¬åœ°æ•°æ® -> uiæ•°æ®
 		void putDataToUi();							
-										//¿é - uiÊı¾İ -> ±¾µØÊı¾İ
+										//å— - uiæ•°æ® -> æœ¬åœ°æ•°æ®
 		void putUiToData();
 
 	private:

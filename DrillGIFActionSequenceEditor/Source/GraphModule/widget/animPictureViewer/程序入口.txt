@@ -1,8 +1,8 @@
-	【注意，图形模块的工具全部以 code_piece_qt笔记 为准，所有修改在笔记中强化】
+	【注意，图形模块的工具全部以 CodePieceQT笔记 为准，所有修改在笔记中强化】
 			
 	程序入口（独立控件块）：
-		p_AnimPictureViewer.cpp
-		p_AnimPictureViewer.h
+		P_AnimPictureViewer.cpp
+		P_AnimPictureViewer.h
 
 		直接将widget嵌套即可，通过该类的接口进行相关数据交互。
 		通过new，自动将一个QWidget，开辟成QGraphView。
@@ -21,7 +21,7 @@
 
 
 	私有类：
-		i_APVView.cpp
-		i_APVView.h
-		i_APVScene.cpp
-		i_APVScene.h
+		I_APVView.cpp
+		I_APVView.h
+		I_APVScene.cpp
+		I_APVScene.h

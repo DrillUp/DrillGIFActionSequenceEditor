@@ -92,6 +92,8 @@ P_ActionPart::P_ActionPart(QWidget *parent)
 	connect(this->m_p_AnimationListEditor, &P_AnimationListEditor::currentIndexChanged, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::setAnimFrame);
 	// > 图片查看块 - 连接资源切换
 	connect(this->m_p_AnimationListEditor, &P_AnimationListEditor::animBitmapChanged, this, &P_ActionPart::bitmapChanged);
+	// > 图片查看块 - 着色器
+	connect(this->m_p_AnimPictureViewer, &P_AnimPictureViewer::setTint, ui.horizontalSlider_tint, &QAbstractSlider::valueChanged);
 	// > 图片查看块 - 缩放
 	connect(ui.toolButton_zoom_in, &QPushButton::clicked, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::zoomIn);
 	connect(ui.toolButton_zoom_out, &QPushButton::clicked, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::zoomOut);
