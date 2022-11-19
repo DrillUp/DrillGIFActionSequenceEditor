@@ -1,15 +1,14 @@
-#pragma once
+ï»¿#pragma once
 
 #include <QJsonObject>
-#include "Source/Utils/widgetFastForm/fastForm/c_FastClass.h"
 
 /*
 -----==========================================================-----
-		Àà£º		ÖÖÀà Êý¾ÝÀà.h
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		Áé»î·ÖÀàÊ÷µÄ ÖÖÀà Êý¾ÝÀà¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		ç§ç±» æ•°æ®ç±».h
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±žæ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		çµæ´»åˆ†ç±»æ ‘çš„ ç§ç±» æ•°æ®ç±»ã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 class C_FCT_Classify{
@@ -19,41 +18,39 @@ class C_FCT_Classify{
 		~C_FCT_Classify();
 		
 	//-----------------------------------
-	//----»ù±¾Êý¾Ý
+	//----åŸºæœ¬æ•°æ®
 	protected:
-		QString name;			//Ãû³Æ£¨²»ÄÜÖØ¸´£©
-		QString description;	//ÃèÊö
+		QString name;			//åç§°ï¼ˆä¸èƒ½é‡å¤ï¼‰
+		QString description;	//æè¿°
 	public:
-									//»ù±¾Êý¾Ý - ·ÃÎÊÆ÷
+									//åŸºæœ¬æ•°æ® - è®¿é—®å™¨
 		QString getName();
 		void setName(QString name);
 		QString getDescription();
 		void setDescription(QString description);
 
 	//-----------------------------------
-	//----×Ô¶¨ÒåÊý¾Ý
+	//----è‡ªå®šä¹‰æ•°æ®
 	public:
 		QJsonObject data;
 	public:
-									//×Ô¶¨ÒåÊý¾Ý - »ñÈ¡Êý¾Ý
+									//è‡ªå®šä¹‰æ•°æ® - èŽ·å–æ•°æ®
 		QJsonObject getCustomData();
-									//×Ô¶¨ÒåÊý¾Ý - »ñÈ¡Ä£°å
-		virtual C_FastClass getCustomClass();	
-									//×Ô¶¨ÒåÊý¾Ý - »ñÈ¡ÀàÃû
+									//è‡ªå®šä¹‰æ•°æ® - èŽ·å–ç±»å
 		virtual QString getCustomClassName();	
-									//×Ô¶¨ÒåÊý¾Ý - »ñÈ¡¶ÔÏóÃû³Æ
+									//è‡ªå®šä¹‰æ•°æ® - èŽ·å–å¯¹è±¡åç§°
 		virtual QString getCustomObjectName();	
 
 	//-----------------------------------
-	//----ÀàÊôÐÔ
+	//----ç±»å±žæ€§
 	public:
-									//Ä£°å¸´ÖÆ
+									//æ¨¡æ¿å¤åˆ¶
 		void copyBaseDataFrom(C_FCT_Classify* base);
-									//ÊµÌåÀà -> QJsonObject
+									//å®žä½“ç±» -> QJsonObject
 		virtual QJsonObject getJsonObject();
-									//QJsonObject -> ÊµÌåÀà
+									//QJsonObject -> å®žä½“ç±»
 		virtual void setJsonObject(QJsonObject obj);
-									//¿ÕÅÐ¶Ï
+									//ç©ºåˆ¤æ–­
 		virtual bool isNull();
 
 };

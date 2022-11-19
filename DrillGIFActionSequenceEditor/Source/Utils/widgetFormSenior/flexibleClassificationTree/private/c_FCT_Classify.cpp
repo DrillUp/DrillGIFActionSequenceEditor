@@ -1,15 +1,15 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "c_FCT_Classify.h"
 
 /*
 -----==========================================================-----
-		Àà£º		ÖÖÀà Êý¾ÝÀà.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		Áé»î·ÖÀàÊ÷µÄ ÖÖÀà Êý¾ÝÀà¡£
+		ç±»ï¼š		ç§ç±» æ•°æ®ç±».cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±žæ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		çµæ´»åˆ†ç±»æ ‘çš„ ç§ç±» æ•°æ®ç±»ã€‚
 					
-		×Ó¹¦ÄÜ£º
-					->¿Õ¶ÔÏó
+		å­åŠŸèƒ½ï¼š
+					->ç©ºå¯¹è±¡
 					
 -----==========================================================-----
 */
@@ -22,7 +22,7 @@ C_FCT_Classify::~C_FCT_Classify(){
 
 
 /*-------------------------------------------------
-		ÔËËã·ûÖØÔØ
+		è¿ç®—ç¬¦é‡è½½
 */
 QString C_FCT_Classify::getName(){
 	return this->name;
@@ -39,68 +39,62 @@ void C_FCT_Classify::setDescription(QString description){
 
 
 /*-------------------------------------------------
-		×Ô¶¨ÒåÊý¾Ý - »ñÈ¡Êý¾Ý
+		è‡ªå®šä¹‰æ•°æ® - èŽ·å–æ•°æ®
 */
 QJsonObject C_FCT_Classify::getCustomData(){
 	return this->data;
 }
 /*-------------------------------------------------
-		×Ô¶¨ÒåÊý¾Ý - »ñÈ¡Ä£°å
-*/
-C_FastClass C_FCT_Classify::getCustomClass(){
-	return C_FastClass();
-}
-/*-------------------------------------------------
-		×Ô¶¨ÒåÊý¾Ý - »ñÈ¡ÀàÃû
+		è‡ªå®šä¹‰æ•°æ® - èŽ·å–ç±»å
 */
 QString C_FCT_Classify::getCustomClassName(){
-	return "ÖÖÀà";
+	return "ç§ç±»";
 }
 /*-------------------------------------------------
-		×Ô¶¨ÒåÊý¾Ý - »ñÈ¡¶ÔÏóÃû³Æ
+		è‡ªå®šä¹‰æ•°æ® - èŽ·å–å¯¹è±¡åç§°
 */
 QString C_FCT_Classify::getCustomObjectName(){
-	if (this->name == ""){ return "Î´·ÖÀà"; }
+	if (this->name == ""){ return "æœªåˆ†ç±»"; }
 	return this->name;
 }
 
 
 /*-------------------------------------------------
-		Ä£°å¸´ÖÆ
+		æ¨¡æ¿å¤åˆ¶
 */
 void C_FCT_Classify::copyBaseDataFrom(C_FCT_Classify* base){
 	this->description = base->description;
 	this->data = base->data;
 }
 /*-------------------------------------------------
-		ÊµÌåÀà -> QJsonObject
+		å®žä½“ç±» -> QJsonObject
 */
 QJsonObject C_FCT_Classify::getJsonObject(){
 	QJsonObject obj = QJsonObject();
 
-	// > »ù±¾Êý¾Ý
+	// > åŸºæœ¬æ•°æ®
 	obj.insert("name", this->name);
 	obj.insert("description", this->description);
 
-	// > ×Ô¶¨ÒåÊý¾Ý
+	// > è‡ªå®šä¹‰æ•°æ®
 	obj.insert("data", this->data);
 
 	return obj;
 }
 /*-------------------------------------------------
-		QJsonObject -> ÊµÌåÀà
+		QJsonObject -> å®žä½“ç±»
 */
 void C_FCT_Classify::setJsonObject(QJsonObject obj){
 
-	// > »ù±¾Êý¾Ý
+	// > åŸºæœ¬æ•°æ®
 	this->name = obj.value("name").toString();
 	this->description = obj.value("description").toString();
 
-	// > ×Ô¶¨ÒåÊý¾Ý
+	// > è‡ªå®šä¹‰æ•°æ®
 	this->data = obj.value("data").toObject();
 }
 /*-------------------------------------------------
-		¿ÕÅÐ¶Ï
+		ç©ºåˆ¤æ–­
 */
 bool C_FCT_Classify::isNull(){
 	return this->name == "" ;

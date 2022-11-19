@@ -1,37 +1,36 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "p_ActionPart.h"
 
-#include "../actionSeqData/s_ActionSeqDataDefiner.h"
 #include "../actionSeqData/s_ActionSeqDataContainer.h"
 #include "Source/ProjectModule/s_ProjectManager.h"
 #include "Source/Utils/common/TTool.h"
 
 /*
 -----==========================================================-----
-		Àà£º		¶¯×÷Ôª¿é.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		¸Ã²¿·ÖÌá¹©¶¯×÷Ôª±à¼­¹¦ÄÜ¡£
-					¡¾¸Ã¹¦ÄÜ¿éÊÇÒ»¸ö´ó¼¯ºÏ×é¼ş£¬¹¦ÄÜ½»Ö¯¸´ÔÓ£¬¶à×¢Òâ×¢ÊÍ²¿·Ö¡¿
+		ç±»ï¼š		åŠ¨ä½œå…ƒå—.cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		è¯¥éƒ¨åˆ†æä¾›åŠ¨ä½œå…ƒç¼–è¾‘åŠŸèƒ½ã€‚
+					ã€è¯¥åŠŸèƒ½å—æ˜¯ä¸€ä¸ªå¤§é›†åˆç»„ä»¶ï¼ŒåŠŸèƒ½äº¤ç»‡å¤æ‚ï¼Œå¤šæ³¨æ„æ³¨é‡Šéƒ¨åˆ†ã€‘
 		
-		×Ó¹¦ÄÜ£º	->¿Ø¼ş
-						->µ¥Ñ¡±í¸ñ
-						->¿ìËÙ±íµ¥
-					->¿Ø¼ş£¨¶¯»­Ö¡£©
-						->¶¯»­Ö¡±à¼­¿é
-						->¶¯»­Ö¡²¥·ÅÆ÷
-						->Í¼Æ¬²é¿´¿é
-					->¿ì½İ¼ü
-						->¸´ÖÆ
-						->Õ³Ìù
-						->Çå¿Õ
-					->±¾µØÊı¾İ
-						->ÁĞ±í
-						->Ë÷Òı
-						->´°¿Ú½»»¥
+		å­åŠŸèƒ½ï¼š	->æ§ä»¶
+						->å•é€‰è¡¨æ ¼
+						->å¿«é€Ÿè¡¨å•
+					->æ§ä»¶ï¼ˆåŠ¨ç”»å¸§ï¼‰
+						->åŠ¨ç”»å¸§ç¼–è¾‘å—
+						->åŠ¨ç”»å¸§æ’­æ”¾å™¨
+						->å›¾ç‰‡æŸ¥çœ‹å—
+					->å¿«æ·é”®
+						->å¤åˆ¶
+						->ç²˜è´´
+						->æ¸…ç©º
+					->æœ¬åœ°æ•°æ®
+						->åˆ—è¡¨
+						->ç´¢å¼•
+						->çª—å£äº¤äº’
 
-		Ê¹ÓÃ·½·¨£º
-				>³õÊ¼»¯
+		ä½¿ç”¨æ–¹æ³•ï¼š
+				>åˆå§‹åŒ–
 
 -----==========================================================-----
 */
@@ -41,65 +40,59 @@ P_ActionPart::P_ActionPart(QWidget *parent)
 	ui.setupUi(this);
 
 	//-----------------------------------
-	//----³õÊ¼»¯²ÎÊı
+	//----åˆå§‹åŒ–å‚æ•°
 	this->m_last_index = -1;
 	this->m_slotBlock_source = false;
 
 	//-----------------------------------
-	//----³õÊ¼»¯ui
+	//----åˆå§‹åŒ–ui
 
-	// > ±à¼­±í¸ñ
+	// > ç¼–è¾‘è¡¨æ ¼
 	this->m_table = new P_RadioTable(ui.tableWidget);
 	C_RaTConfig rat_config = C_RaTConfig();
 	rat_config.zeroFillCount = 2;
 	rat_config.rowHeight = 22;
-	this->m_table->setConfigParam(rat_config);			//¹Ì¶¨²ÎÊı
-	this->m_table->setItemOuterControlEnabled(true);	//¿ªÆôÓÒ¼ü²Ëµ¥
+	this->m_table->setConfigParam(rat_config);			//å›ºå®šå‚æ•°
+	this->m_table->setItemOuterControlEnabled(true);	//å¼€å¯å³é”®èœå•
 
-	// > ¿ìËÙ±íµ¥
-	C_FastClass c_class = S_ActionSeqDataDefiner::getInstance()->getTable_Action();
-	this->m_FastForm = new P_FastForm(ui.widget_form);
-	this->m_FastForm->prepareFastClass(c_class);
-	this->m_FastForm->rebuildUI();
-
-	// > ¶¯»­Ö¡
+	// > åŠ¨ç”»å¸§
 	this->m_p_AnimationListEditor = new P_AnimationListEditor(ui.listWidget);
 	this->m_p_AnimationListEditor->setSource(C_ALEData());
 
 	C_ALEConfig config = C_ALEConfig();
 	this->m_p_AnimationListEditor->setConfigParam_ALE(config);
 
-	// > ¶¯»­Ö¡²¥·ÅÆ÷
+	// > åŠ¨ç”»å¸§æ’­æ”¾å™¨
 	this->m_p_AnimationListPlayer = new P_AnimationListPlayer();
 	this->m_p_AnimationListPlayer->setAnimationListEditor(m_p_AnimationListEditor);
-	this->m_p_AnimationListPlayer->setPlayType(QStringList() << "²¥·ÅÒ»´Î" << "²¥·ÅÁ½´Î" << "²¥·ÅÈı´Î");
+	this->m_p_AnimationListPlayer->setPlayType(QStringList() << "æ’­æ”¾ä¸€æ¬¡" << "æ’­æ”¾ä¸¤æ¬¡" << "æ’­æ”¾ä¸‰æ¬¡");
 	QHBoxLayout* layout = new QHBoxLayout(ui.groupBox_animPlayer);
 	ui.groupBox_animPlayer->setLayout(layout);
 	layout->setMargin(3);
 	layout->addWidget(this->m_p_AnimationListPlayer);
 
-	// > Í¼Æ¬²é¿´¿é
+	// > å›¾ç‰‡æŸ¥çœ‹å—
 	this->m_p_AnimPictureViewer = new P_AnimPictureViewer(ui.widget_view);
 	this->m_p_AnimPictureViewer->rebuildUI();
 
 	//-----------------------------------
-	//----ÊÂ¼ş°ó¶¨
+	//----äº‹ä»¶ç»‘å®š
 	connect(this->m_table, &P_RadioTable::currentIndexChanged, this, &P_ActionPart::currentIndexChanged);
 	connect(this->m_table, &P_RadioTable::menuPasteItemTriggered, this, &P_ActionPart::shortcut_pasteData);
 	connect(this->m_table, &P_RadioTable::menuCopyItemTriggered, this, &P_ActionPart::shortcut_copyData);
 	connect(this->m_table, &P_RadioTable::menuClearItemTriggered, this, &P_ActionPart::shortcut_clearData);
 	connect(this->m_p_AnimationListEditor, &P_AnimationListEditor::selectedIndexChanged_Multi, this, &P_ActionPart::tableChanged_Multi);
 
-	// > ±íµ¥±ä»¯°ó¶¨
-	connect(this->m_FastForm->getQLineEditByName("¶¯×÷ÔªÃû³Æ"), &QLineEdit::textEdited, this->m_table, &P_RadioTable::modifyText_Selected);
-	connect(this->m_FastForm->getQLineEditByName("¶¯×÷ÔªÃû³Æ"), &QLineEdit::textChanged, this->m_p_AnimationListEditor, &P_AnimationListEditor::setExportName);
-	connect(this->m_FastForm->getQCheckBoxByName("ÊÇ·ñµ¹·Å"), &QCheckBox::toggled, this->m_p_AnimationListPlayer, &P_AnimationListPlayer::setPlayBackRun);
+	// > è¡¨å•å˜åŒ–ç»‘å®š
+	connect(ui.lineEdit_name, &QLineEdit::textEdited, this->m_table, &P_RadioTable::modifyText_Selected);
+	connect(ui.lineEdit_name, &QLineEdit::textChanged, this->m_p_AnimationListEditor, &P_AnimationListEditor::setExportName);
+	connect(ui.checkBox_gif_back_run, &QCheckBox::toggled, this->m_p_AnimationListPlayer, &P_AnimationListPlayer::setPlayBackRun);
 
-	// > Í¼Æ¬²é¿´¿é - Á¬½ÓÖ¡ÇĞ»»
+	// > å›¾ç‰‡æŸ¥çœ‹å— - è¿æ¥å¸§åˆ‡æ¢
 	connect(this->m_p_AnimationListEditor, &P_AnimationListEditor::currentIndexChanged, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::setAnimFrame);
-	// > Í¼Æ¬²é¿´¿é - Á¬½Ó×ÊÔ´ÇĞ»»
+	// > å›¾ç‰‡æŸ¥çœ‹å— - è¿æ¥èµ„æºåˆ‡æ¢
 	connect(this->m_p_AnimationListEditor, &P_AnimationListEditor::animBitmapChanged, this, &P_ActionPart::bitmapChanged);
-	// > Í¼Æ¬²é¿´¿é - Ëõ·Å
+	// > å›¾ç‰‡æŸ¥çœ‹å— - ç¼©æ”¾
 	connect(ui.toolButton_zoom_in, &QPushButton::clicked, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::zoomIn);
 	connect(ui.toolButton_zoom_out, &QPushButton::clicked, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::zoomOut);
 	connect(ui.toolButton_zoom_regular, &QPushButton::clicked, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::zoomReset);
@@ -111,52 +104,52 @@ P_ActionPart::~P_ActionPart(){
 }
 
 /*-------------------------------------------------
-		¶¯»­Ö¡ - Ñ¡Ïî±ä»¯
+		åŠ¨ç”»å¸§ - é€‰é¡¹å˜åŒ–
 */
 void P_ActionPart::tableChanged_Multi(QList<int> index_list){
-	//£¨ÔİÎŞ²Ù×÷£©
+	//ï¼ˆæš‚æ— æ“ä½œï¼‰
 }
 /*-------------------------------------------------
-		¶¯»­Ö¡ - ×ÊÔ´ÇĞ»»
+		åŠ¨ç”»å¸§ - èµ„æºåˆ‡æ¢
 */
 void P_ActionPart::bitmapChanged(){
 	C_ALEData data = this->m_p_AnimationListEditor->getSource();
 	this->m_p_AnimPictureViewer->setSource(data.getAllFile());
 }
 /*-------------------------------------------------
-		¶¯»­Ö¡ - Ëõ·Å±ÈÀıÇĞ»»
+		åŠ¨ç”»å¸§ - ç¼©æ”¾æ¯”ä¾‹åˆ‡æ¢
 */
 void P_ActionPart::zoomValueChanged(double value){
 	ui.label_zoomValue->setText( QString::number(value * 100)+"%" );
 }
 
 /*-------------------------------------------------
-		¿Ø¼ş - »ñÈ¡¶¯×÷ÔªÃû³Æ
+		æ§ä»¶ - è·å–åŠ¨ä½œå…ƒåç§°
 */
 QStringList P_ActionPart::getNameList(){
 	QStringList result = QStringList();
 	for (int i = 0; i < this->m_actionDataList.count(); i++){
-		result.append(this->m_actionDataList.at(i).value("¶¯×÷ÔªÃû³Æ").toString());
+		result.append(this->m_actionDataList.at(i).value("åŠ¨ä½œå…ƒåç§°").toString());
 	}
 	return result;
 }
 
 /*-------------------------------------------------
-		¿Ø¼ş - ¶¯×÷ÔªÇĞ»»
+		æ§ä»¶ - åŠ¨ä½œå…ƒåˆ‡æ¢
 */
 void P_ActionPart::currentIndexChanged(int index){
 	if (this->m_slotBlock_source == true){ return; }
 
-	// > ¾ÉµÄÄÚÈİ´æ´¢
+	// > æ—§çš„å†…å®¹å­˜å‚¨
 	this->local_saveCurIndexData();
 
-	// > ÌîÈëĞÂµÄÄÚÈİ
+	// > å¡«å…¥æ–°çš„å†…å®¹
 	this->local_loadIndexData(index);
 }
 
 
 /*-------------------------------------------------
-		¿ì½İ¼ü - ÊÂ¼ş
+		å¿«æ·é”® - äº‹ä»¶
 */
 void P_ActionPart::keyPressEvent(QKeyEvent *event){
 	if (event->modifiers() & Qt::ControlModifier){
@@ -178,51 +171,51 @@ void P_ActionPart::keyPressEvent(QKeyEvent *event){
 	}
 }
 /*-------------------------------------------------
-		²Ù×÷ - Ìæ»»
+		æ“ä½œ - æ›¿æ¢
 */
 void P_ActionPart::op_replace(int index, QJsonObject action_data){
 	if (index < 0){ return; }
 	if (index >= this->m_table->count()){ return; }
 	if (action_data.isEmpty()){ return; }
 
-	// > ±à¼­±ê¼Ç
+	// > ç¼–è¾‘æ ‡è®°
 	S_ProjectManager::getInstance()->setDirty();
 
-	// > Ö´ĞĞÌæ»»
+	// > æ‰§è¡Œæ›¿æ¢
 	this->m_actionDataList.replace(index, action_data);
 	this->local_loadIndexData(index);
 
-	// > ¸üĞÂ±í¸ñµÄÃû³Æ
-	this->m_table->modifyText_Selected(this->m_FastForm->getQLineEditByName("¶¯×÷ÔªÃû³Æ")->text());
+	// > æ›´æ–°è¡¨æ ¼çš„åç§°
+	this->m_table->modifyText_Selected(ui.lineEdit_name->text());
 }
 /*-------------------------------------------------
-		²Ù×÷ - Çå¿Õ
+		æ“ä½œ - æ¸…ç©º
 */
 void P_ActionPart::op_clear(int index){
 	if (index < 0){ return; }
 	if (index >= this->m_table->count()){ return; }
 
-	// > ±à¼­±ê¼Ç
+	// > ç¼–è¾‘æ ‡è®°
 	S_ProjectManager::getInstance()->setDirty();
 
-	// > Ö´ĞĞÌæ»»
+	// > æ‰§è¡Œæ›¿æ¢
 	this->m_actionDataList.replace(index, QJsonObject());
 	this->local_loadIndexData(index);
 
-	// > ¸üĞÂ±í¸ñµÄÃû³Æ
-	this->m_table->modifyText_Selected(this->m_FastForm->getQLineEditByName("¶¯×÷ÔªÃû³Æ")->text());
+	// > æ›´æ–°è¡¨æ ¼çš„åç§°
+	this->m_table->modifyText_Selected(ui.lineEdit_name->text());
 }
 /*-------------------------------------------------
-		¿ì½İ¼ü - ¸´ÖÆ
+		å¿«æ·é”® - å¤åˆ¶
 */
 void P_ActionPart::shortcut_copyData(){
 	if (ui.tableWidget->hasFocus() == false){ return; }
 	if (this->m_last_index == -1 ){ return; }
 	this->m_copyed_data = this->m_actionDataList.at(m_last_index);
-	this->m_table->setItemOuterControl_PasteActive(true);		//¼¤»îÕ³Ìù
+	this->m_table->setItemOuterControl_PasteActive(true);		//æ¿€æ´»ç²˜è´´
 }
 /*-------------------------------------------------
-		¿ì½İ¼ü - Õ³Ìù
+		å¿«æ·é”® - ç²˜è´´
 */
 void P_ActionPart::shortcut_pasteData(){
 	if (ui.tableWidget->hasFocus() == false){ return; }
@@ -230,7 +223,7 @@ void P_ActionPart::shortcut_pasteData(){
 	this->op_replace(this->m_last_index, this->m_copyed_data);
 }
 /*-------------------------------------------------
-		¿ì½İ¼ü - Çå¿Õ
+		å¿«æ·é”® - æ¸…ç©º
 */
 void P_ActionPart::shortcut_clearData(){
 	if (ui.tableWidget->hasFocus() == false){ return; }
@@ -240,59 +233,72 @@ void P_ActionPart::shortcut_clearData(){
 
 
 /*-------------------------------------------------
-		Êı¾İ - ±£´æ±¾µØÊı¾İ
+		æ•°æ® - ä¿å­˜æœ¬åœ°æ•°æ®
 */
 void P_ActionPart::local_saveCurIndexData(){
 	if (this->m_last_index < 0){ return; }
 	if (this->m_last_index >= this->m_actionDataList.count()){ return; }
 
-	// > ±íµ¥Êı¾İ
-	QJsonObject obj_edit = this->m_FastForm->getJsonObject();
+	// > è¡¨å•æ•°æ®
+		QJsonObject obj_edit;
+		obj_edit.insert("åŠ¨ä½œå…ƒåç§°", ui.lineEdit_name->text());
+		obj_edit.insert("åŠ¨ä½œå…ƒä¼˜å…ˆçº§", QString::number(ui.spinBox_priority->value()));
+		obj_edit.insert("æ˜¯å¦å€’æ”¾", ui.checkBox_gif_back_run->isChecked() ? "true" : "false");
+		obj_edit.insert("æ˜¯å¦é¢„åŠ è½½", ui.checkBox_gif_preload->isChecked() ? "true" : "false");
+		obj_edit.insert("å›¾åƒ-è‰²è°ƒå€¼", QString::number(ui.horizontalSlider_tint->value()));
+		obj_edit.insert("å›¾åƒ-æ¨¡ç³Šè¾¹ç¼˜", ui.checkBox_smooth->isChecked() ? "true" : "false");
+		obj_edit.insert("å¤‡æ³¨", ui.plainTextEdit_note->toPlainText());
 	QJsonObject obj_org = this->m_actionDataList.at(this->m_last_index);
 	TTool::_QJsonObject_put_(&obj_org, obj_edit);
 
-	// > Í¼Æ¬Êı¾İ
+	// > å›¾ç‰‡æ•°æ®
 		C_ALEData data = this->m_p_AnimationListEditor->getSource();
 		QJsonObject obj_edit2 = QJsonObject();
-		obj_edit2.insert("Ö¡¼ä¸ô", QString::number( data.getData_IntervalDefault() ));
-		//£¨×ÊÔ´ÎÄ¼ş¼Ğ²»ĞèÒª£©
+		obj_edit2.insert("å¸§é—´éš”", QString::number( data.getData_IntervalDefault() ));
+		//ï¼ˆèµ„æºæ–‡ä»¶å¤¹ä¸éœ€è¦ï¼‰
 		QList<QString> gif_src = QList<QString>();
 		QList<QFileInfo> info_list = data.getAllFile();
 		for (int i = 0; i < info_list.count(); i++){
 			gif_src.append(info_list.at(i).completeBaseName());
 		}
-		obj_edit2.insert("×ÊÔ´-¶¯×÷Ôª", TTool::_JSON_stringify_(gif_src));
+		obj_edit2.insert("èµ„æº-åŠ¨ä½œå…ƒ", TTool::_JSON_stringify_(gif_src));
 		QList<int> gif_intervalTank = data.getData_IntervalTank();
 		QList<QString> gif_intervalTank_strList = TTool::_QList_IntToQString_(gif_intervalTank);
-		obj_edit2.insert("Ö¡¼ä¸ô-Ã÷Ï¸±í", TTool::_JSON_stringify_(gif_intervalTank_strList));
+		obj_edit2.insert("å¸§é—´éš”-æ˜ç»†è¡¨", TTool::_JSON_stringify_(gif_intervalTank_strList));
 		//qDebug() << obj_edit2;
 	TTool::_QJsonObject_put_(&obj_org, obj_edit2);
 
-	// > ±à¼­±ê¼Ç
+	// > ç¼–è¾‘æ ‡è®°
 	S_ProjectManager::getInstance()->setDirty();
 
 	this->m_actionDataList.replace(this->m_last_index, obj_org);
 }
 /*-------------------------------------------------
-		Êı¾İ - ¶ÁÈ¡±¾µØÊı¾İ
+		æ•°æ® - è¯»å–æœ¬åœ°æ•°æ®
 */
 void P_ActionPart::local_loadIndexData(int index){
 	if (index < 0){ return; }
 	if (index >= this->m_actionDataList.count()){ return; }
 
-	// > ±íµ¥Êı¾İ
+	// > è¡¨å•æ•°æ®
 	QJsonObject obj_data = this->m_actionDataList.at(index);
-	this->m_FastForm->setJsonObjectAutoDefault(obj_data);
 	//qDebug() << obj_data;
+		ui.lineEdit_name->setText(obj_data.value("åŠ¨ä½œå…ƒåç§°").toString());
+		ui.spinBox_priority->setValue(obj_data.value("åŠ¨ä½œå…ƒä¼˜å…ˆçº§").toString().toInt());
+		ui.checkBox_gif_back_run->setChecked(obj_data.value("æ˜¯å¦å€’æ”¾").toString() == "true");
+		ui.checkBox_gif_preload->setChecked(obj_data.value("æ˜¯å¦é¢„åŠ è½½").toString() == "true");
+		ui.horizontalSlider_tint->setValue(obj_data.value("å›¾åƒ-è‰²è°ƒå€¼").toString().toInt());
+		ui.checkBox_smooth->setChecked(obj_data.value("å›¾åƒ-æ¨¡ç³Šè¾¹ç¼˜").toString() == "true");
+		ui.plainTextEdit_note->setPlainText(obj_data.value("å¤‡æ³¨").toString());
 
-	// > Í¼Æ¬Êı¾İ
-		int gif_interval = obj_data.value("Ö¡¼ä¸ô").toString().toInt();								//Ö¡¼ä¸ô
-		QString gif_src_file = S_ActionSeqDataContainer::getInstance()->getActionSeqDir();			//×ÊÔ´ÎÄ¼ş¼Ğ
+	// > å›¾ç‰‡æ•°æ®
+		int gif_interval = obj_data.value("å¸§é—´éš”").toString().toInt();								//å¸§é—´éš”
+		QString gif_src_file = S_ActionSeqDataContainer::getInstance()->getActionSeqDir();			//èµ„æºæ–‡ä»¶å¤¹
 	
-		QString gif_src_str = obj_data.value("×ÊÔ´-¶¯×÷Ôª").toString();
-		QList<QString> gif_src = TTool::_JSON_parse_To_QListQString_(gif_src_str);			//×ÊÔ´ÎÄ¼şÃû
-		QString gif_intervalTank_str = obj_data.value("Ö¡¼ä¸ô-Ã÷Ï¸±í").toString();
-		QList<QString> gif_intervalTank_strList = TTool::_JSON_parse_To_QListQString_(gif_intervalTank_str);	//Ö¡¼ä¸ô-Ã÷Ï¸±í
+		QString gif_src_str = obj_data.value("èµ„æº-åŠ¨ä½œå…ƒ").toString();
+		QList<QString> gif_src = TTool::_JSON_parse_To_QListQString_(gif_src_str);			//èµ„æºæ–‡ä»¶å
+		QString gif_intervalTank_str = obj_data.value("å¸§é—´éš”-æ˜ç»†è¡¨").toString();
+		QList<QString> gif_intervalTank_strList = TTool::_JSON_parse_To_QListQString_(gif_intervalTank_str);	//å¸§é—´éš”-æ˜ç»†è¡¨
 		QList<int> gif_intervalTank = TTool::_QList_QStringToInt_(gif_intervalTank_strList);
 
 	C_ALEData data = C_ALEData();
@@ -306,40 +312,40 @@ void P_ActionPart::local_loadIndexData(int index){
 }
 
 /*-------------------------------------------------
-		´°¿Ú - ÉèÖÃÊı¾İ
+		çª—å£ - è®¾ç½®æ•°æ®
 */
 void P_ActionPart::setData(QList<QJsonObject> actionData) {
 	this->m_slotBlock_source = true;
 	this->m_actionDataList = actionData;
-	this->m_p_AnimationListPlayer->stopFrame();		//£¨ÉèÖÃÊı¾İÊ±£¬ÔİÍ£²¥·Å£©
+	this->m_p_AnimationListPlayer->stopFrame();		//ï¼ˆè®¾ç½®æ•°æ®æ—¶ï¼Œæš‚åœæ’­æ”¾ï¼‰
 	this->putDataToUi();
 	this->m_slotBlock_source = false;
 	this->m_table->selectStart();
 }
 /*-------------------------------------------------
-		´°¿Ú - È¡³öÊı¾İ
+		çª—å£ - å–å‡ºæ•°æ®
 */
 QList<QJsonObject> P_ActionPart::getData(){
 	this->putUiToData();
 	return this->m_actionDataList;
 }
 /*-------------------------------------------------
-		´°¿Ú - ±¾µØÊı¾İ -> uiÊı¾İ
+		çª—å£ - æœ¬åœ°æ•°æ® -> uiæ•°æ®
 */
 void P_ActionPart::putDataToUi() {
 
-	// > Ãû³ÆÁĞ±í
+	// > åç§°åˆ—è¡¨
 	this->m_table->setSource(this->getNameList());
 
-	// > µ±Ç°Ñ¡ÖĞµÄÊı¾İ
+	// > å½“å‰é€‰ä¸­çš„æ•°æ®
 	this->local_loadIndexData(this->m_last_index);
 }
 /*-------------------------------------------------
-		´°¿Ú - uiÊı¾İ -> ±¾µØÊı¾İ
+		çª—å£ - uiæ•°æ® -> æœ¬åœ°æ•°æ®
 */
 void P_ActionPart::putUiToData() {
 
-	// > ±£´æµ±Ç°Êı¾İ
+	// > ä¿å­˜å½“å‰æ•°æ®
 	this->local_saveCurIndexData();
 
 }

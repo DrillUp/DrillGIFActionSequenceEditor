@@ -1,4 +1,4 @@
-#ifndef P_StatePart_H
+ï»¿#ifndef P_StatePart_H
 #define P_StatePart_H
 
 #include <QtWidgets>
@@ -7,17 +7,16 @@
 #include "Source/GraphModule/widget/animPictureViewer/p_AnimPictureViewer.h"
 
 #include "Source/Utils/widgetForm/radioTable/p_RadioTable.h"
-#include "Source/Utils/widgetFastForm/fastForm/p_FastForm.h"
 #include "Source/Utils/widgetFormSenior/AnimationListEditor/p_AnimationListEditor.h"
 #include "Source/Utils/widgetFormSenior/AnimationListPlayer/p_AnimationListPlayer.h"
 
 /*
 -----==========================================================-----
-		Àà£º		×´Ì¬Ôª¿é.h
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	×´Ì¬ÔªÄ£¿é
-		¹¦ÄÜ£º		¸Ã²¿·ÖÌá¹©×´Ì¬Ôª±à¼­¹¦ÄÜ¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		çŠ¶æ€å…ƒå—.h
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	çŠ¶æ€å…ƒæ¨¡å—
+		åŠŸèƒ½ï¼š		è¯¥éƒ¨åˆ†æä¾›çŠ¶æ€å…ƒç¼–è¾‘åŠŸèƒ½ã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 class P_StatePart : public QWidget
@@ -29,74 +28,73 @@ class P_StatePart : public QWidget
 		~P_StatePart();
 		
 	//-----------------------------------
-	//----¿Ø¼ş
+	//----æ§ä»¶
 	public:
 		P_RadioTable* m_table;
-		P_FastForm* m_FastForm;
 	public slots:
-										//¿Ø¼ş - »ñÈ¡¶¯×÷ÔªÃû³Æ
+										//æ§ä»¶ - è·å–åŠ¨ä½œå…ƒåç§°
 		QStringList getNameList();
-										//¿Ø¼ş - ¶¯×÷ÔªÇĞ»»
+										//æ§ä»¶ - åŠ¨ä½œå…ƒåˆ‡æ¢
 		void currentIndexChanged(int index);
 		
 	//-----------------------------------
-	//----¶¯»­Ö¡
+	//----åŠ¨ç”»å¸§
 	public:
 		P_AnimationListEditor* m_p_AnimationListEditor;
 		P_AnimationListPlayer* m_p_AnimationListPlayer;
 		P_AnimPictureViewer* m_p_AnimPictureViewer;
 	public:
-									//¶¯»­Ö¡ - Ñ¡Ïî±ä»¯
+									//åŠ¨ç”»å¸§ - é€‰é¡¹å˜åŒ–
 		void tableChanged_Multi(QList<int> index);
-									//¶¯»­Ö¡ - ×ÊÔ´ÇĞ»»
+									//åŠ¨ç”»å¸§ - èµ„æºåˆ‡æ¢
 		void bitmapChanged();
-									//¶¯»­Ö¡ - Ëõ·Å±ÈÀıÇĞ»»
+									//åŠ¨ç”»å¸§ - ç¼©æ”¾æ¯”ä¾‹åˆ‡æ¢
 		void zoomValueChanged(double value);
 		
 	//-----------------------------------
-	//----¿ì½İ¼ü
+	//----å¿«æ·é”®
 	protected:
 		QJsonObject m_copyed_data;
 	protected:
-									//²Ù×÷ - Ìæ»»
+									//æ“ä½œ - æ›¿æ¢
 		void op_replace(int index, QJsonObject state);
-									//²Ù×÷ - Çå¿Õ
+									//æ“ä½œ - æ¸…ç©º
 		void op_clear(int index);
 	public:
-									//¿ì½İ¼ü - ÊÂ¼ş
+									//å¿«æ·é”® - äº‹ä»¶
 		void keyPressEvent(QKeyEvent *event);
-									//¿ì½İ¼ü - ¸´ÖÆ
+									//å¿«æ·é”® - å¤åˆ¶
 		void shortcut_copyData();
-									//¿ì½İ¼ü - Õ³Ìù
+									//å¿«æ·é”® - ç²˜è´´
 		void shortcut_pasteData();
-									//¿ì½İ¼ü - Çå¿Õ
+									//å¿«æ·é”® - æ¸…ç©º
 		void shortcut_clearData();
 		
 	//-----------------------------------
-	//----±¾µØÊı¾İµÄË÷Òı
+	//----æœ¬åœ°æ•°æ®çš„ç´¢å¼•
 	protected:
 		int m_last_index;
 	public:
-									//Êı¾İ - ±£´æ±¾µØÊı¾İ
+									//æ•°æ® - ä¿å­˜æœ¬åœ°æ•°æ®
 		void local_saveCurIndexData();
-									//Êı¾İ - ¶ÁÈ¡±¾µØÊı¾İ
+									//æ•°æ® - è¯»å–æœ¬åœ°æ•°æ®
 		void local_loadIndexData(int index);
 
 	//-----------------------------------
-	//----´°¿Ú
+	//----çª—å£
 	public:
 		bool m_slotBlock_source;
 		QList<QJsonObject> m_stateDataList;
 	public:
-										//´°¿Ú - ÉèÖÃÊı¾İ
-										//		¡¾ËµÃ÷¡¿£º¶¯×÷ÔªÖ»±à¼­Êı×éÔªËØ£¬²»¸Ä±äÊı×é³¤¶È¡£
+										//çª—å£ - è®¾ç½®æ•°æ®
+										//		ã€è¯´æ˜ã€‘ï¼šåŠ¨ä½œå…ƒåªç¼–è¾‘æ•°ç»„å…ƒç´ ï¼Œä¸æ”¹å˜æ•°ç»„é•¿åº¦ã€‚
 		void setData(QList<QJsonObject> stateDataList);
-										//´°¿Ú - È¡³öÊı¾İ
-										//		¡¾ËµÃ÷¡¿£ºÍâ²¿½ÓÊÕºó£¬»¹ĞèÒªÊÖ¶¯´ò°üÄÚÈİ¡£
+										//çª—å£ - å–å‡ºæ•°æ®
+										//		ã€è¯´æ˜ã€‘ï¼šå¤–éƒ¨æ¥æ”¶åï¼Œè¿˜éœ€è¦æ‰‹åŠ¨æ‰“åŒ…å†…å®¹ã€‚
 		QList<QJsonObject> getData();
-										//´°¿Ú - ±¾µØÊı¾İ -> uiÊı¾İ
+										//çª—å£ - æœ¬åœ°æ•°æ® -> uiæ•°æ®
 		void putDataToUi();							
-										//´°¿Ú - uiÊı¾İ -> ±¾µØÊı¾İ
+										//çª—å£ - uiæ•°æ® -> æœ¬åœ°æ•°æ®
 		void putUiToData();
 
 	private:
