@@ -1,12 +1,12 @@
-#include "stdafx.h"
-#include "c_FoldableTabPrivate.h"
+ï»¿#include "stdafx.h"
+#include "C_FoldableTabPrivate.h"
 
 /*
 -----==========================================================-----
-		Àà£º		ÕÛµşÑ¡Ïî¿¨ ¿Ø¼şÀà£¨Ë½ÓĞ£©.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		ÕÛµş¹¦ÄÜÊ¹ÓÃµÄË½ÓĞÀà¡£
+		ç±»ï¼š		æŠ˜å é€‰é¡¹å¡ æ§ä»¶ç±»ï¼ˆç§æœ‰ï¼‰.cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		æŠ˜å åŠŸèƒ½ä½¿ç”¨çš„ç§æœ‰ç±»ã€‚
 -----==========================================================-----
 */
 C_FoldableTabPrivate::C_FoldableTabPrivate(){
@@ -19,7 +19,7 @@ C_FoldableTabPrivate::~C_FoldableTabPrivate(){
 }
 
 /*-------------------------------------------------
-		¿ÕÅĞ¶Ï
+		ç©ºåˆ¤æ–­
 */
 bool C_FoldableTabPrivate::isEmpty(){
 	if (this->name == ""){ return true; }

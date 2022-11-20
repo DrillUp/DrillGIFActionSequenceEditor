@@ -267,6 +267,9 @@
     <Filter Include="源文件\【 图形模块 GraphModule】\集合组件（Widget）\图片分割器\私有类">
       <UniqueIdentifier>{c2dab1be-9350-4094-8f85-e48eb4bce5f4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\字符串列表编辑器">
+      <UniqueIdentifier>{b6b126b4-5d32-43a4-9231-7c8c784db4b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -309,27 +312,6 @@
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_p_StatePart.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\widgetForm\radioTable\c_RaTConfig.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\单选表格</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\widgetForm\radioTable\p_RadioTable.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\单选表格</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_p_RadioTable.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_p_RadioTable.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\widgetForm\radioTable\private\w_RaTConfig.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\单选表格\私有类</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_w_RaTConfig.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_w_RaTConfig.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utils\widgetFormSenior\ObjectSortController\c_ObjectSortData.cpp">
@@ -506,36 +488,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_p_PlayingPart.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Utils\widgetForm\pictureSelector\c_PiSConfig.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\widgetForm\pictureSelector\p_PictureSelector.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_p_PictureSelector.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_p_PictureSelector.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\widgetForm\pictureSelector\private\i_PiSPicture.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块\私有类</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_i_PiSPicture.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_i_PiSPicture.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\widgetForm\pictureSelector\private\p_PiSBlock.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块\私有类</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_p_PiSBlock.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_p_PiSBlock.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Utils\widgetFormSenior\animationListEditor\c_ALEConfig.cpp">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块</Filter>
     </ClCompile>
@@ -567,27 +519,6 @@
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_w_ALEDataEdit.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\widgetForm\foldableTabWindow\p_FoldableTabRelater.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\可折叠选项卡</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_p_FoldableTabRelater.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_p_FoldableTabRelater.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\widgetForm\foldableTabWindow\private\c_FoldableTabPrivate.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\可折叠选项卡\私有类</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\widgetForm\foldableTabWindow\private\w_FoldableTabChildWindow.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\可折叠选项卡\私有类</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_w_FoldableTabChildWindow.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_w_FoldableTabChildWindow.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utils\widgetFormSenior\animationListEditor\private\w_ALEConfigEdit.cpp">
@@ -956,6 +887,96 @@
     <ClCompile Include="GeneratedFiles\Release\moc_I_SPVView.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Utils\widgetForm\PictureSelector\C_PiSConfig.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetForm\PictureSelector\P_PictureSelector.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_P_PictureSelector.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_P_PictureSelector.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetForm\PictureSelector\Private\I_PiSPicture.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块\私有类</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_I_PiSPicture.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_I_PiSPicture.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetForm\PictureSelector\Private\P_PiSBlock.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块\私有类</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_P_PiSBlock.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_P_PiSBlock.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_P_FoldableTabRelater.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_P_FoldableTabRelater.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetForm\FoldableTabWindow\P_FoldableTabRelater.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\可折叠选项卡</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetForm\FoldableTabWindow\Private\C_FoldableTabPrivate.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\可折叠选项卡\私有类</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetForm\FoldableTabWindow\Private\W_FoldableTabChildWindow.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\可折叠选项卡\私有类</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_W_FoldableTabChildWindow.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_W_FoldableTabChildWindow.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetForm\RadioTable\C_RaTConfig.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\单选表格</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetForm\RadioTable\P_RadioTable.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\单选表格</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_P_RadioTable.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_P_RadioTable.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetForm\RadioTable\Private\W_RaTConfig.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\单选表格\私有类</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_W_RaTConfig.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_W_RaTConfig.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetForm\QStringListEditor\W_QStringEditor.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\字符串列表编辑器</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_W_QStringEditor.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_W_QStringEditor.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetForm\QStringListEditor\W_QStringListEditor.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\字符串列表编辑器</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_W_QStringListEditor.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_W_QStringListEditor.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="drillgifactionsequenceeditor.qrc">
@@ -984,15 +1005,6 @@
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\statePart\p_StatePart.ui">
       <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态元块</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetForm\radioTable\p_RadioTable.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\单选表格</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetForm\radioTable\private\w_RaTConfig.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\单选表格\私有类</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetForm\radioTable\private\w_RaTConfig.ui">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\单选表格\私有类</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\Utils\widgetFormSenior\ObjectSortController\p_ObjectSortController.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\排序控制器</Filter>
@@ -1057,18 +1069,6 @@
     <CustomBuild Include="Source\ActionSeqModule\playingPart\p_PlayingPart.ui">
       <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\放映区</Filter>
     </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetForm\pictureSelector\p_PictureSelector.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetForm\pictureSelector\private\i_PiSPicture.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块\私有类</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetForm\pictureSelector\private\p_PiSBlock.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块\私有类</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetForm\pictureSelector\private\p_PiSBlock.ui">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块\私有类</Filter>
-    </CustomBuild>
     <CustomBuild Include="Source\Utils\widgetFormSenior\animationListEditor\p_AnimationListEditor.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块</Filter>
     </CustomBuild>
@@ -1080,15 +1080,6 @@
     </CustomBuild>
     <CustomBuild Include="Source\Utils\widgetFormSenior\animationListEditor\private\w_ALEDataEdit.ui">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块\私有类</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetForm\foldableTabWindow\p_FoldableTabRelater.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\可折叠选项卡</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetForm\foldableTabWindow\private\w_FoldableTabChildWindow.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\可折叠选项卡\私有类</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetForm\foldableTabWindow\private\w_FoldableTabChildWindow.ui">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\可折叠选项卡\私有类</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\Utils\widgetFormSenior\animationListEditor\private\w_ALEConfigEdit.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块\私有类</Filter>
@@ -1249,6 +1240,48 @@
     <CustomBuild Include="Source\GraphModule\Widget\SinglePictureViewer\Private\I_SPVView.h">
       <Filter>源文件\【 图形模块 GraphModule】\集合组件（Widget）\图片查看块-单图\私有类</Filter>
     </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetForm\PictureSelector\P_PictureSelector.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetForm\PictureSelector\Private\I_PiSPicture.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块\私有类</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetForm\PictureSelector\Private\P_PiSBlock.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块\私有类</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetForm\PictureSelector\Private\P_PiSBlock.ui">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块\私有类</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetForm\FoldableTabWindow\P_FoldableTabRelater.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\可折叠选项卡</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetForm\FoldableTabWindow\Private\W_FoldableTabChildWindow.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\可折叠选项卡\私有类</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetForm\FoldableTabWindow\Private\W_FoldableTabChildWindow.ui">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\可折叠选项卡\私有类</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetForm\RadioTable\P_RadioTable.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\单选表格</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetForm\RadioTable\Private\W_RaTConfig.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\单选表格\私有类</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetForm\RadioTable\Private\W_RaTConfig.ui">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\单选表格\私有类</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetForm\QStringListEditor\W_QStringEditor.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\字符串列表编辑器</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetForm\QStringListEditor\W_QStringEditor.ui">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\字符串列表编辑器</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetForm\QStringListEditor\W_QStringListEditor.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\字符串列表编辑器</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetForm\QStringListEditor\W_QStringListEditor.ui">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\字符串列表编辑器</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DrillGIFActionSequenceEditor.rc" />
@@ -1264,12 +1297,6 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_p_StatePart.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\widgetForm\radioTable\c_RaTConfig.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\单选表格</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_w_RaTConfig.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Utils\widgetFormSenior\ObjectSortController\c_ObjectSortData.h">
@@ -1317,12 +1344,6 @@
     <ClInclude Include="GeneratedFiles\ui_p_PlayingPart.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Utils\widgetForm\pictureSelector\c_PiSConfig.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_p_PiSBlock.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Utils\widgetFormSenior\animationListEditor\c_ALEConfig.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块</Filter>
     </ClInclude>
@@ -1330,12 +1351,6 @@
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_w_ALEDataEdit.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\widgetForm\foldableTabWindow\private\c_FoldableTabPrivate.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\可折叠选项卡\私有类</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_w_FoldableTabChildWindow.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_w_ALEConfigEdit.h">
@@ -1431,25 +1446,40 @@
     <ClInclude Include="GeneratedFiles\ui_W_PicturePartitioner.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Utils\widgetForm\PictureSelector\C_PiSConfig.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_P_PiSBlock.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\widgetForm\FoldableTabWindow\Private\C_FoldableTabPrivate.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\可折叠选项卡\私有类</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_W_FoldableTabChildWindow.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\widgetForm\RadioTable\C_RaTConfig.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\单选表格</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_W_RaTConfig.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_W_QStringEditor.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_W_QStringListEditor.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Source\Utils\widgetForm\radioTable\程序入口.txt">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\单选表格</Filter>
-    </Text>
     <Text Include="Source\Utils\widgetFormSenior\ObjectSortController\程序入口.txt">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\排序控制器</Filter>
     </Text>
     <Text Include="Source\RmmvInteractiveModule\base\程序入口.txt">
       <Filter>源文件\【 交互模块 RmmvInteractiveModule】\基本交互</Filter>
     </Text>
-    <Text Include="Source\Utils\widgetForm\pictureSelector\程序入口.txt">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块</Filter>
-    </Text>
     <Text Include="Source\Utils\widgetFormSenior\animationListEditor\程序入口.txt">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块</Filter>
-    </Text>
-    <Text Include="Source\Utils\widgetForm\foldableTabWindow\程序入口.txt">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\可折叠选项卡</Filter>
     </Text>
     <Text Include="Source\Utils\widgetFormSenior\animationListPlayer\程序入口.txt">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧播放器</Filter>
@@ -1495,6 +1525,15 @@
     </Text>
     <Text Include="Source\GraphModule\Widget\SinglePictureViewer\程序入口.txt">
       <Filter>源文件\【 图形模块 GraphModule】\集合组件（Widget）\图片查看块-单图</Filter>
+    </Text>
+    <Text Include="Source\Utils\widgetForm\PictureSelector\程序入口.txt">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块</Filter>
+    </Text>
+    <Text Include="Source\Utils\widgetForm\FoldableTabWindow\程序入口.txt">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\可折叠选项卡</Filter>
+    </Text>
+    <Text Include="Source\Utils\widgetForm\RadioTable\程序入口.txt">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\单选表格</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

@@ -1,18 +1,18 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "W_RaTConfig.h"
 
-#include "Source/Utils/common/TTool.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
-		Àà£º		µ¥Ñ¡±í¸ñÅäÖÃ ´°¿Ú.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		±à¼­ µ¥Ñ¡±í¸ñÅäÖÃ ´°¿ÚµÄÒ»Ð©ÅäÖÃ¡£
-					×¢Òâ£¬ÕâÊÇË½ÓÐÅäÖÃ´°¿Ú¡£Ò»°ã²»ÍâÓÃ¡£
+		ç±»ï¼š		å•é€‰è¡¨æ ¼é…ç½® çª—å£.cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±žæ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		ç¼–è¾‘ å•é€‰è¡¨æ ¼é…ç½® çª—å£çš„ä¸€äº›é…ç½®ã€‚
+					æ³¨æ„ï¼Œè¿™æ˜¯ç§æœ‰é…ç½®çª—å£ã€‚ä¸€èˆ¬ä¸å¤–ç”¨ã€‚
 
-		Ê¹ÓÃ·½·¨£º
-				>´ò¿ª´°¿Ú
+		ä½¿ç”¨æ–¹æ³•ï¼š
+				>æ‰“å¼€çª—å£
 					W_RaTConfig d;
 					d.setDataInModifyMode(this->getConfigParam());
 					if (d.exec() == QDialog::Accepted){
@@ -27,24 +27,24 @@ W_RaTConfig::W_RaTConfig(QWidget *parent)
 	ui.setupUi(this);
 
 	//-----------------------------------
-	//----³õÊ¼»¯²ÎÊý
+	//----åˆå§‹åŒ–å‚æ•°
 
 	//-----------------------------------
-	//----ÊÂ¼þ°ó¶¨
+	//----äº‹ä»¶ç»‘å®š
 	connect(ui.checkBox_zeroFill, &QCheckBox::toggled, this, &W_RaTConfig::zeroFillChanged);
 	connect(ui.buttonBox, &QDialogButtonBox::accepted, this, &W_RaTConfig::acceptData);
 	
 	//-----------------------------------
-	//----³õÊ¼»¯ui
-	if (ui.buttonBox->button(QDialogButtonBox::Ok) != nullptr){ ui.buttonBox->button(QDialogButtonBox::Ok)->setText("È·¶¨"); }
-	if (ui.buttonBox->button(QDialogButtonBox::Cancel) != nullptr){ ui.buttonBox->button(QDialogButtonBox::Cancel)->setText("È¡Ïû"); }
+	//----åˆå§‹åŒ–ui
+	if (ui.buttonBox->button(QDialogButtonBox::Ok) != nullptr){ ui.buttonBox->button(QDialogButtonBox::Ok)->setText("ç¡®å®š"); }
+	if (ui.buttonBox->button(QDialogButtonBox::Cancel) != nullptr){ ui.buttonBox->button(QDialogButtonBox::Cancel)->setText("å–æ¶ˆ"); }
 }
 
 W_RaTConfig::~W_RaTConfig(){
 }
 
 /*-------------------------------------------------
-		»Ø³µÊÂ¼þ¹ýÂË
+		å›žè½¦äº‹ä»¶è¿‡æ»¤
 */
 void W_RaTConfig::keyPressEvent(QKeyEvent *event) {
 	if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
@@ -56,7 +56,7 @@ void W_RaTConfig::keyPressEvent(QKeyEvent *event) {
 
 
 /*-------------------------------------------------
-		ÁãÌî³ä¹´Ñ¡±ä»¯
+		é›¶å¡«å……å‹¾é€‰å˜åŒ–
 */
 void W_RaTConfig::zeroFillChanged(bool enable) {
 
@@ -69,20 +69,20 @@ void W_RaTConfig::zeroFillChanged(bool enable) {
 
 
 /*-------------------------------------------------
-		´°¿Ú - ÉèÖÃÊý¾Ý£¨ÐÞ¸Ä£©
+		çª—å£ - è®¾ç½®æ•°æ®ï¼ˆä¿®æ”¹ï¼‰
 */
 void W_RaTConfig::setDataInModifyMode(C_RaTConfig data) {
 	this->local_data = data;
 	this->putDataToUi();
 }
 /*-------------------------------------------------
-		´°¿Ú - È¡³öÊý¾Ý
+		çª—å£ - å–å‡ºæ•°æ®
 */
 C_RaTConfig W_RaTConfig::getData(){
 	return this->local_data;
 };
 /*-------------------------------------------------
-		´°¿Ú - ±¾µØÊý¾Ý -> uiÊý¾Ý
+		çª—å£ - æœ¬åœ°æ•°æ® -> uiæ•°æ®
 */
 void W_RaTConfig::putDataToUi() {
 	TTool::_int_(ui.spinBox_rowHeight, &this->local_data.rowHeight);
@@ -93,7 +93,7 @@ void W_RaTConfig::putDataToUi() {
 
 };
 /*-------------------------------------------------
-		´°¿Ú - uiÊý¾Ý -> ±¾µØÊý¾Ý
+		çª—å£ - uiæ•°æ® -> æœ¬åœ°æ•°æ®
 */
 void W_RaTConfig::putUiToData() {
 	TTool::_int_(&this->local_data.rowHeight, ui.spinBox_rowHeight);
@@ -105,7 +105,7 @@ void W_RaTConfig::putUiToData() {
 
 };
 /*-------------------------------------------------
-		´°¿Ú - Ìá½»Êý¾Ý£¨Ð£Ñé£©
+		çª—å£ - æäº¤æ•°æ®ï¼ˆæ ¡éªŒï¼‰
 */
 void W_RaTConfig::acceptData(){
 	this->putUiToData();

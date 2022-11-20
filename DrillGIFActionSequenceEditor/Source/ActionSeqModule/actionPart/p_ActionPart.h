@@ -29,13 +29,13 @@ class P_ActionPart : public QWidget
 		
 	//-----------------------------------
 	//----控件
-	public:
-		P_RadioTable* m_table;
+	protected:
+		QStringList m_curTagTank;
 	public slots:
-										//控件 - 获取动作元名称
-		QStringList getNameList();
-										//控件 - 动作元切换
-		void currentIndexChanged(int index);
+									//控件 - 修改标签列表
+		void btn_editTagTank();
+									//控件 - 刷新标签显示
+		void refreshTagTank();
 
 	//-----------------------------------
 	//----动画帧
@@ -71,13 +71,18 @@ class P_ActionPart : public QWidget
 		void shortcut_clearData();
 		
 	//-----------------------------------
-	//----本地数据的索引
+	//----本地索引
 	protected:
+		P_RadioTable* m_table;
 		int m_last_index;
 	public:
-									//数据 - 保存本地数据
+									//本地索引 - 获取全部动作元名称
+		QStringList getNameList();
+									//本地索引 - 动作元切换
+		void currentIndexChanged(int index);
+									//本地索引 - 保存本地数据
 		void local_saveCurIndexData();
-									//数据 - 读取本地数据
+									//本地索引 - 读取本地数据
 		void local_loadIndexData(int index);
 
 

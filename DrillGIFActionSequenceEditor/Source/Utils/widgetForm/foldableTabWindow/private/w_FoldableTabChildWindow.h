@@ -1,16 +1,17 @@
-#ifndef W_FoldableTabChildWindow_H
+ï»¿#ifndef W_FoldableTabChildWindow_H
 #define W_FoldableTabChildWindow_H
+#include "stdafx.h"
 
 #include "ui_W_FoldableTabChildWindow.h"
-#include "c_FoldableTabPrivate.h"
+#include "C_FoldableTabPrivate.h"
 
 /*
 -----==========================================================-----
-		Àà£º		ÕÛµş×Ó´°¿Ú.h
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		¿ìËÙÌîĞ´±íµ¥²ÎÊıµÄ´°¿Ú¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		æŠ˜å å­çª—å£.h
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		å¿«é€Ÿå¡«å†™è¡¨å•å‚æ•°çš„çª—å£ã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 
@@ -24,26 +25,26 @@ class W_FoldableTabChildWindow : public QDialog
 		~W_FoldableTabChildWindow();
 		
 	//-----------------------------------
-	//----¿Ø¼ş
+	//----æ§ä»¶
 	private:
 		P_FoldableTabRelater* m_parentManager;
 		C_FoldableTabPrivate* m_part;
 		QHBoxLayout* m_layout;
 	public slots:
-										//¿Ø¼ş - Ë¢ĞÂ×Ó¿é¿Ø¼ş
+										//æ§ä»¶ - åˆ·æ–°å­å—æ§ä»¶
 		void refreshPart();
-										//¿Ø¼ş - ÇåÀí¿Ø¼ş
+										//æ§ä»¶ - æ¸…ç†æ§ä»¶
 		void clearPart();
 		
 	//-----------------------------------
-	//----´°¿Ú
+	//----çª—å£
 	private:
-										//´°¿Ú - ´°¿ÚÏÔÊ¾ÊÂ¼ş
+										//çª—å£ - çª—å£æ˜¾ç¤ºäº‹ä»¶
 		void showEvent(QShowEvent *event);
-										//´°¿Ú - ¹Ø±ÕÊÂ¼ş£¨µã»÷¹Ø±Õ°´Å¥£©
+										//çª—å£ - å…³é—­äº‹ä»¶ï¼ˆç‚¹å‡»å…³é—­æŒ‰é’®ï¼‰
 		void closeEvent(QCloseEvent *event);
 	private slots:
-										//´°¿Ú - Ìá½»Êı¾İ
+										//çª—å£ - æäº¤æ•°æ®
 		void acceptData();
 		void rejectData();
 

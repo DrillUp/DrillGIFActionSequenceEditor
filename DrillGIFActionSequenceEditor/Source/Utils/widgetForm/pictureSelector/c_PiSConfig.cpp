@@ -1,18 +1,18 @@
-#include "stdafx.h"
-#include "c_PiSConfig.h"
+ï»¿#include "stdafx.h"
+#include "C_PiSConfig.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Í¼Æ¬ÅäÖÃ Êı¾İÀà.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		Í¼Æ¬ÅäÖÃ µÄÊı¾İÀà¡£
+		ç±»ï¼š		å›¾ç‰‡é…ç½® æ•°æ®ç±».cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		å›¾ç‰‡é…ç½® çš„æ•°æ®ç±»ã€‚
 					
-		×Ó¹¦ÄÜ£º
-					->¿Õ¶ÔÏó
+		å­åŠŸèƒ½ï¼š
+					->ç©ºå¯¹è±¡
 					
-		ËµÃ÷£º		height¸ß¶ÈÊÇ¿ÉÒÔµ÷ÕûµÄ£¬
-					µ«ÊÇÓÉÓÚÃ¿´ÎĞŞ¸Äconfig£¬¶¼ĞèÒªÖØ½¨ÌùÍ¼ºÍbitmap£¬ÏµÍ³ËÙ¶È»á±äÂı¡£
+		è¯´æ˜ï¼š		heighté«˜åº¦æ˜¯å¯ä»¥è°ƒæ•´çš„ï¼Œ
+					ä½†æ˜¯ç”±äºæ¯æ¬¡ä¿®æ”¹configï¼Œéƒ½éœ€è¦é‡å»ºè´´å›¾å’Œbitmapï¼Œç³»ç»Ÿé€Ÿåº¦ä¼šå˜æ…¢ã€‚
 					
 -----==========================================================-----
 */
@@ -23,32 +23,32 @@ C_PiSConfig::C_PiSConfig(){
 	this->m_zeroFillChar = '0';
 	this->m_isMaskEnabled = true;
 
-	this->m_height = 140;				//¸ß¶È£¨¿Ø¼şÉèÖÃ£©
-	this->m_isMultiSelect = false;		//¶àÑ¡¿ª¹Ø
+	this->m_height = 140;				//é«˜åº¦ï¼ˆæ§ä»¶è®¾ç½®ï¼‰
+	this->m_isMultiSelect = false;		//å¤šé€‰å¼€å…³
 }
 C_PiSConfig::~C_PiSConfig(){
 }
 
 
 /*-------------------------------------------------
-		»ñÈ¡Í¼Æ¬¸ß¶È
+		è·å–å›¾ç‰‡é«˜åº¦
 */
 int C_PiSConfig::getItemHeight(){
-	return this->m_height - 28;		//£¨¹Ì¶¨28ÏñËØµÄ¾àÀë£©
+	return this->m_height - 28;		//ï¼ˆå›ºå®š28åƒç´ çš„è·ç¦»ï¼‰
 }
 /*-------------------------------------------------
-		»ñÈ¡»»ĞĞ×Ö·û´®£¨\n ³Å¿ªÑ¡ÖĞµÄ À¶É«·½¿é£©
+		è·å–æ¢è¡Œå­—ç¬¦ä¸²ï¼ˆ\n æ’‘å¼€é€‰ä¸­çš„ è“è‰²æ–¹å—ï¼‰
 */
 QString C_PiSConfig::getLineExpand(){
-	QString result = "¡¡";
+	QString result = "ã€€";
 	int count = qFloor(this->getItemHeight() / 16);
 	for (int i = 0; i < count; i++){
-		result += "\n¡¡";
+		result += "\nã€€";
 	}
 	return result;
 }
 /*-------------------------------------------------
-		ÊµÌåÀà -> QJsonObject
+		å®ä½“ç±» -> QJsonObject
 */
 QJsonObject C_PiSConfig::getJsonObject(){
 	QJsonObject obj = QJsonObject();
@@ -56,11 +56,11 @@ QJsonObject C_PiSConfig::getJsonObject(){
 	obj.insert("m_zeroFillCount", this->m_zeroFillCount);
 	obj.insert("m_zeroFillChar", QString(this->m_zeroFillChar));
 	obj.insert("m_isMaskEnabled", this->m_isMaskEnabled);
-	//£¨²»º¬ ¸ß¶È ºÍ ¶àÑ¡¿ª¹Ø£©
+	//ï¼ˆä¸å« é«˜åº¦ å’Œ å¤šé€‰å¼€å…³ï¼‰
 	return obj;
 }
 /*-------------------------------------------------
-		QJsonObject -> ÊµÌåÀà
+		QJsonObject -> å®ä½“ç±»
 */
 void C_PiSConfig::setJsonObject(QJsonObject obj){
 
@@ -68,5 +68,5 @@ void C_PiSConfig::setJsonObject(QJsonObject obj){
 	if (obj.value("m_zeroFillCount").isUndefined() == false){ this->m_zeroFillCount = obj.value("m_zeroFillCount").toInt(); }
 	if (obj.value("m_zeroFillChar").isUndefined() == false){ this->m_zeroFillChar = obj.value("m_zeroFillChar").toString().at(0); }
 	if (obj.value("m_isMaskEnabled").isUndefined() == false){ this->m_isMaskEnabled = obj.value("m_isMaskEnabled").toBool(); }
-	//£¨²»º¬ ¸ß¶È ºÍ ¶àÑ¡¿ª¹Ø£©
+	//ï¼ˆä¸å« é«˜åº¦ å’Œ å¤šé€‰å¼€å…³ï¼‰
 }

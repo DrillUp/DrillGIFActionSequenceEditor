@@ -248,6 +248,12 @@ QTableView::item:selected {
                  <property name="text">
                   <string>[]</string>
                  </property>
+                 <property name="scaledContents">
+                  <bool>true</bool>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
                 </widget>
                </item>
                <item row="3" column="0">
@@ -311,7 +317,6 @@ QTableView::item:selected {
               <property name="title">
                <string>动画帧</string>
               </property>
-              <zorder>groupBox</zorder>
              </widget>
             </item>
            </layout>

@@ -1,27 +1,27 @@
-#include "stdafx.h"
-#include "p_PictureSelector.h"
+ï»¿#include "stdafx.h"
+#include "P_PictureSelector.h"
 
-#include "private/p_PiSBlock.h"
-#include "Source/Utils/common/TTool.h"
+#include "Private/P_PiSBlock.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
-		Àà£º		µ¥Ñ¡/¶àÑ¡ Í¼Æ¬ÁĞ.cpp
-		°æ±¾£º		v1.01
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		½«Í¼Æ¬È«²¿ÏÔÊ¾£¬²¢ÄÜµ¥Ñ¡/¶àÑ¡¡£
+		ç±»ï¼š		å•é€‰/å¤šé€‰ å›¾ç‰‡åˆ—.cpp
+		ç‰ˆæœ¬ï¼š		v1.01
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		å°†å›¾ç‰‡å…¨éƒ¨æ˜¾ç¤ºï¼Œå¹¶èƒ½å•é€‰/å¤šé€‰ã€‚
 
-		×Ó¹¦ÄÜ£º	-> ÎÄ±¾Ñ¡Ôñ
-						-> µ¥Ñ¡
-						-> ¶àÑ¡
-						-> ×Ô¶¯±àºÅ
-					-> Í¼Æ¬ÁĞÅäÖÃ
-						-> ÉèÖÃĞĞ¸ß
-						-> ÉèÖÃÒ¶×ÓÏÔÊ¾ÎÄ±¾
+		å­åŠŸèƒ½ï¼š	-> æ–‡æœ¬é€‰æ‹©
+						-> å•é€‰
+						-> å¤šé€‰
+						-> è‡ªåŠ¨ç¼–å·
+					-> å›¾ç‰‡åˆ—é…ç½®
+						-> è®¾ç½®è¡Œé«˜
+						-> è®¾ç½®å¶å­æ˜¾ç¤ºæ–‡æœ¬
 					
-		Ê¹ÓÃ·½·¨£º
-				>³õÊ¼»¯
+		ä½¿ç”¨æ–¹æ³•ï¼š
+				>åˆå§‹åŒ–
 					this->m_p_PictureSelector = new P_PictureSelector(ui.treeWidget);
 					this->m_p_PictureSelector->setSource(bitmap_list);		
 					
@@ -32,22 +32,22 @@ P_PictureSelector::P_PictureSelector(QListWidget *parent)
 {
 
 	//-----------------------------------
-	//----²ÎÊı³õÊ¼»¯
-	this->m_listWidget = parent;									//Í¼Æ¬ÁĞ¶ÔÏó
-	this->m_listWidgetStyle = this->m_listWidget->styleSheet();		//Í¼Æ¬ÁĞÄ¬ÈÏÑùÊ½
-	this->m_itemTank = QList<QListWidgetItem*>();					//¿Ø¼şÁĞ±í
-	this->m_widgetTank = QList<QWidget*>();							//¿Ø¼şÁĞ±í
-	this->m_last_index = -1;										//ÉÏÒ»¸öÑ¡ÖĞµÄË÷ÒıÏî
+	//----å‚æ•°åˆå§‹åŒ–
+	this->m_listWidget = parent;									//å›¾ç‰‡åˆ—å¯¹è±¡
+	this->m_listWidgetStyle = this->m_listWidget->styleSheet();		//å›¾ç‰‡åˆ—é»˜è®¤æ ·å¼
+	this->m_itemTank = QList<QListWidgetItem*>();					//æ§ä»¶åˆ—è¡¨
+	this->m_widgetTank = QList<QWidget*>();							//æ§ä»¶åˆ—è¡¨
+	this->m_last_index = -1;										//ä¸Šä¸€ä¸ªé€‰ä¸­çš„ç´¢å¼•é¡¹
 
-	// > Êı¾İ
+	// > æ•°æ®
 	this->m_config = C_PiSConfig();
 
 	//-----------------------------------
-	//----ui³õÊ¼»¯
-	this->m_listWidget->setContextMenuPolicy(Qt::CustomContextMenu);									//¼¤»îÓÒ¼ü
-	this->m_listWidget->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);			//µ¥Ñ¡
-	this->m_listWidget->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);			//Ñ¡ĞĞ
-	this->m_listWidget->setEditTriggers(QAbstractItemView::EditTrigger::NoEditTriggers);				//¹Ø±ÕË«»÷±à¼­
+	//----uiåˆå§‹åŒ–
+	this->m_listWidget->setContextMenuPolicy(Qt::CustomContextMenu);									//æ¿€æ´»å³é”®
+	this->m_listWidget->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);			//å•é€‰
+	this->m_listWidget->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);			//é€‰è¡Œ
+	this->m_listWidget->setEditTriggers(QAbstractItemView::EditTrigger::NoEditTriggers);				//å…³é—­åŒå‡»ç¼–è¾‘
 
 	this->m_listWidget->setFlow(QListView::LeftToRight);
 	this->m_listWidget->setMovement(QListView::Static);
@@ -57,8 +57,8 @@ P_PictureSelector::P_PictureSelector(QListWidget *parent)
 	this->m_listWidget->setDragDropMode(QListView::NoDragDrop);
 
 	//-----------------------------------
-	//----ÊÂ¼ş°ó¶¨
-	this->m_selectionSignalBlock_Root = false;				//²Û×èÈû
+	//----äº‹ä»¶ç»‘å®š
+	this->m_selectionSignalBlock_Root = false;				//æ§½é˜»å¡
 	connect(this->m_listWidget, &QListWidget::customContextMenuRequested, this, &P_PictureSelector::itemRightClicked);
 	connect(this->m_listWidget, &QListWidget::itemSelectionChanged, this, &P_PictureSelector::itemSelectionChanged);
 
@@ -68,18 +68,18 @@ P_PictureSelector::~P_PictureSelector(){
 
 
 /*-------------------------------------------------
-		¿Ø¼ş - ÖØ½¨Í¼Æ¬ÁĞ£¨Èç¹ûÍ¼Æ¬¶à£¬²»½¨Òé·´¸´µ÷ÓÃ£©
+		æ§ä»¶ - é‡å»ºå›¾ç‰‡åˆ—ï¼ˆå¦‚æœå›¾ç‰‡å¤šï¼Œä¸å»ºè®®åå¤è°ƒç”¨ï¼‰
 */
 void P_PictureSelector::rebuildListUi() {
 	QList<int> last_selected_item = this->getSelectedIndex_Multi();
 	int item_height = this->m_config.getItemHeight();
 
-	// > ÇåÀí
+	// > æ¸…ç†
 	this->m_itemTank.clear();
 	this->m_widgetTank.clear();
 	this->m_listWidget->clear();
 
-	// > µ¥Ñ¡/¶àÑ¡ÇĞ»»
+	// > å•é€‰/å¤šé€‰åˆ‡æ¢
 	if (this->m_config.m_isMultiSelect == true && this->m_listWidget->selectionMode() == QAbstractItemView::SelectionMode::SingleSelection){
 		this->m_listWidget->setSelectionMode(QAbstractItemView::SelectionMode::ExtendedSelection);
 	}
@@ -87,32 +87,32 @@ void P_PictureSelector::rebuildListUi() {
 		this->m_listWidget->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
 	}
 
-	// > ĞĞ¸ßË¢ĞÂ
+	// > è¡Œé«˜åˆ·æ–°
 	this->m_listWidget->setFixedHeight(this->m_config.m_height);
 	this->m_listWidget->setMinimumHeight(this->m_config.m_height);
 	this->m_listWidget->setMaximumHeight(this->m_config.m_height);
 	this->m_listWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
-	// > Ë¢ĞÂÄÚÈİ
-	this->m_listWidget->setIconSize(QSize(item_height, 1));	//£¨Í¼±ê´óĞ¡£©
+	// > åˆ·æ–°å†…å®¹
+	this->m_listWidget->setIconSize(QSize(item_height, 1));	//ï¼ˆå›¾æ ‡å¤§å°ï¼‰
 	for (int i = 0; i < this->m_org_bitmapList.count(); i++){
 
-		// > ½¨Á¢Ïî
+		// > å»ºç«‹é¡¹
 		QListWidgetItem* item = this->createPictureItem();
 
-		// > Ã¿ÏîÌí¼Ó
+		// > æ¯é¡¹æ·»åŠ 
 		this->m_listWidget->addItem(item);
 		this->m_itemTank.append(item);
 
-		// > ½¨Á¢¿Ø¼ş£¨±ØĞëÔÚaddItemºóÃæ£©
+		// > å»ºç«‹æ§ä»¶ï¼ˆå¿…é¡»åœ¨addItemåé¢ï¼‰
 		QWidget* widget = this->createPictureWidget(i, this->m_org_bitmapList.at(i));
 
-		// > Ìí¼Óµ½ ÁĞ±í¿Ø¼ş
+		// > æ·»åŠ åˆ° åˆ—è¡¨æ§ä»¶
 		this->m_listWidget->setItemWidget(item, widget);
 		this->m_widgetTank.append(widget);
 	}
 
-	// > Ñ¡ÖĞ±ä»¯Ïî
+	// > é€‰ä¸­å˜åŒ–é¡¹
 	if (this->m_config.m_isMultiSelect){
 		this->selectIndex_Multi(last_selected_item);
 	}else{
@@ -123,28 +123,28 @@ void P_PictureSelector::rebuildListUi() {
 }
 
 /*-------------------------------------------------
-		¿Ø¼ş - ½¨Á¢Í¼Æ¬Ïî
+		æ§ä»¶ - å»ºç«‹å›¾ç‰‡é¡¹
 */
 QListWidgetItem* P_PictureSelector::createPictureItem(){
 	QListWidgetItem* item = new QListWidgetItem(this->m_listWidget);
 	int item_height = this->m_config.getItemHeight();
 
-	// > ³Å¿ªÃ¿Ïî
-	//QPixmap temp_bitmap(item_height, 1);				//£¨iconModeÖĞ£¬ÓÃÍ¼±ê³Å¿ªºáÏò£¬Í¼±ê²»ÄÜ³Å¿ª×İÏò£©
-	//temp_bitmap.fill(Qt::white);						//£¨ÏÖÔÚÊÇlistModeÁË£¬ËùÒÔ²»ĞèÒªÁË¡££©
+	// > æ’‘å¼€æ¯é¡¹
+	//QPixmap temp_bitmap(item_height, 1);				//ï¼ˆiconModeä¸­ï¼Œç”¨å›¾æ ‡æ’‘å¼€æ¨ªå‘ï¼Œå›¾æ ‡ä¸èƒ½æ’‘å¼€çºµå‘ï¼‰
+	//temp_bitmap.fill(Qt::white);						//ï¼ˆç°åœ¨æ˜¯listModeäº†ï¼Œæ‰€ä»¥ä¸éœ€è¦äº†ã€‚ï¼‰
 	//item->setIcon(QIcon(temp_bitmap));				//
-	item->setText(this->m_config.getLineExpand());		//£¨ÓÃ»»ĞĞ·û³Å¿ª×İÏò£©
-	item->setSizeHint(QSize(this->m_config.getItemHeight(), this->m_config.getItemHeight()));	//£¨Èç¹û²»³Å¿ª£¬Ñ¡ÖĞµÄ À¶É«·½¿é »áÎÉÂÒ£©
+	item->setText(this->m_config.getLineExpand());		//ï¼ˆç”¨æ¢è¡Œç¬¦æ’‘å¼€çºµå‘ï¼‰
+	item->setSizeHint(QSize(this->m_config.getItemHeight(), this->m_config.getItemHeight()));	//ï¼ˆå¦‚æœä¸æ’‘å¼€ï¼Œé€‰ä¸­çš„ è“è‰²æ–¹å— ä¼šç´Šä¹±ï¼‰
 
 	return item;
 }
 /*-------------------------------------------------
-		¿Ø¼ş - Ã¿Ïî½¨Á¢¿Ø¼ş
+		æ§ä»¶ - æ¯é¡¹å»ºç«‹æ§ä»¶
 */
 QWidget* P_PictureSelector::createPictureWidget(int i, QPixmap pixmap){
 	int item_height = this->m_config.getItemHeight();
 
-	// > ½¨Á¢Í¼Æ¬¿é
+	// > å»ºç«‹å›¾ç‰‡å—
 	P_PiSBlock* widget = new P_PiSBlock(item_height, item_height, this->m_listWidget);
 	if (this->m_config.m_zeroFill == true){
 		widget->setCountText(TTool::_zeroFill_(i + 1, this->m_config.m_zeroFillCount, QLatin1Char(this->m_config.m_zeroFillChar.toLatin1())));
@@ -152,37 +152,37 @@ QWidget* P_PictureSelector::createPictureWidget(int i, QPixmap pixmap){
 		widget->setCountText(QString::number(i + 1));
 	}
 
-	// > »æÖÆÍ¼Æ¬
+	// > ç»˜åˆ¶å›¾ç‰‡
 	widget->setPixmap(pixmap);
 	widget->setMaskEnabled(this->m_config.m_isMaskEnabled);
 	
 	return widget;
 }
 /*-------------------------------------------------
-		¿Ø¼ş - ÇåÀíÈ«²¿
+		æ§ä»¶ - æ¸…ç†å…¨éƒ¨
 */
 void P_PictureSelector::clearAll(){
 
-	// > ¿Ø¼şÇåÀí
+	// > æ§ä»¶æ¸…ç†
 	this->m_itemTank.clear();
 	this->m_widgetTank.clear();
 	this->m_listWidget->clear();
 	this->m_last_index = -1;
 
-	// > Í¼Æ¬ÁĞÉèÖÃ
+	// > å›¾ç‰‡åˆ—è®¾ç½®
 	this->m_config = C_PiSConfig();
 
 }
 
 /*-------------------------------------------------
-		Í¼Æ¬ÁĞÉèÖÃ - ÉèÖÃ²ÎÊı
+		å›¾ç‰‡åˆ—è®¾ç½® - è®¾ç½®å‚æ•°
 */
 void P_PictureSelector::setConfigParam(C_PiSConfig config){
 	this->m_config = config;
 	this->rebuildListUi();
 }
 /*-------------------------------------------------
-		Í¼Æ¬ÁĞÉèÖÃ - È¡³ö²ÎÊı
+		å›¾ç‰‡åˆ—è®¾ç½® - å–å‡ºå‚æ•°
 */
 C_PiSConfig P_PictureSelector::getConfigParam(){
 	return this->m_config;
@@ -190,34 +190,34 @@ C_PiSConfig P_PictureSelector::getConfigParam(){
 
 
 /*-------------------------------------------------
-		ÊÂ¼ş - ÓÒ¼üÊÂ¼ş
+		äº‹ä»¶ - å³é”®äº‹ä»¶
 */
 void P_PictureSelector::itemRightClicked(QPoint point) {
 	if (this->m_selectionSignalBlock_Root == true){ return; }
 	this->m_selectionSignalBlock_Root = true;
 
-	QListWidgetItem *item = this->m_listWidget->itemAt(point);	//£¨µ±Ç°ÓÒ¼üÑ¡ÖĞµÄÏî£©
+	QListWidgetItem *item = this->m_listWidget->itemAt(point);	//ï¼ˆå½“å‰å³é”®é€‰ä¸­çš„é¡¹ï¼‰
 	if (item == nullptr){
 
-		// > µãµ½¿Õ°×´¦
+		// > ç‚¹åˆ°ç©ºç™½å¤„
 		this->event_itemRightClicked(QList<QListWidgetItem*>());
 	}else{
 
-		// > µãµ½Ïî
+		// > ç‚¹åˆ°é¡¹
 		this->event_itemRightClicked(this->m_listWidget->selectedItems());
 	}
 
 	this->m_selectionSignalBlock_Root = false;
 }
 /*-------------------------------------------------
-		ÊÂ¼ş - ÓÒ¼üÊÂ¼ş£¨Áã¸ö¡¢µ¥¸ö¡¢¶à¸ö£©
+		äº‹ä»¶ - å³é”®äº‹ä»¶ï¼ˆé›¶ä¸ªã€å•ä¸ªã€å¤šä¸ªï¼‰
 */
 void P_PictureSelector::event_itemRightClicked(QList<QListWidgetItem*> item_list){
-	//£¨ÔİÎŞ£©
+	//ï¼ˆæš‚æ— ï¼‰
 }
 
 /*-------------------------------------------------
-		ÊÂ¼ş -  È¦Ñ¡±ä»¯ÊÂ¼ş
+		äº‹ä»¶ -  åœˆé€‰å˜åŒ–äº‹ä»¶
 */
 void P_PictureSelector::itemSelectionChanged(){
 	if (this->m_selectionSignalBlock_Root == true){ return; }
@@ -230,11 +230,11 @@ void P_PictureSelector::itemSelectionChanged(){
 	this->m_selectionSignalBlock_Root = false;
 }
 /*-------------------------------------------------
-		ÊÂ¼ş - È¦Ñ¡±ä»¯ÊÂ¼ş£¨µ¥¸ö¡¢¶à¸ö£©
+		äº‹ä»¶ - åœˆé€‰å˜åŒ–äº‹ä»¶ï¼ˆå•ä¸ªã€å¤šä¸ªï¼‰
 */
 void P_PictureSelector::event_itemSelectionChanged(QList<QListWidgetItem*> selected_item_list){
 
-	// > ·¢ĞÅºÅ
+	// > å‘ä¿¡å·
 	if (selected_item_list.count() == 1){
 
 		int index = this->getSelectedIndex();
@@ -252,7 +252,7 @@ void P_PictureSelector::event_itemSelectionChanged(QList<QListWidgetItem*> selec
 
 
 /*-------------------------------------------------
-		×ÊÔ´Êı¾İ - ÉèÖÃÊı¾İ
+		èµ„æºæ•°æ® - è®¾ç½®æ•°æ®
 */
 void P_PictureSelector::setSource(QList<QFileInfo> file_list) {
 	this->m_org_bitmapList = QList<QPixmap>();
@@ -275,7 +275,7 @@ void P_PictureSelector::setSource(QList<QPixmap> bitmap_list) {
 
 
 /*-------------------------------------------------
-		Ñ¡ÖĞ - ÉèÖÃÑ¡ÖĞ
+		é€‰ä¸­ - è®¾ç½®é€‰ä¸­
 */
 void P_PictureSelector::selectIndex(int index){
 	if (index < 0){ index = 0; }
@@ -292,7 +292,7 @@ void P_PictureSelector::selectIndex(int index){
 	}
 }
 /*-------------------------------------------------
-		Ñ¡ÖĞ - »ñÈ¡Ñ¡ÖĞÊı¾İ
+		é€‰ä¸­ - è·å–é€‰ä¸­æ•°æ®
 */
 int P_PictureSelector::getSelectedIndex(){
 	for (int i = 0; i < this->m_itemTank.count(); i++){
@@ -304,7 +304,7 @@ int P_PictureSelector::getSelectedIndex(){
 }
 
 /*-------------------------------------------------
-		Ñ¡ÖĞ - ÉèÖÃÑ¡ÖĞ£¨¶àÑ¡Ê±£©
+		é€‰ä¸­ - è®¾ç½®é€‰ä¸­ï¼ˆå¤šé€‰æ—¶ï¼‰
 */
 void P_PictureSelector::selectIndex_Multi(QList<int> index_list){
 	for (int i = 0; i < this->m_itemTank.count(); i++){
@@ -318,7 +318,7 @@ void P_PictureSelector::selectIndex_Multi(QList<int> index_list){
 	}
 }
 /*-------------------------------------------------
-		Ñ¡ÖĞ - »ñÈ¡Ñ¡ÖĞÊı¾İ£¨¶àÑ¡Ê±£©
+		é€‰ä¸­ - è·å–é€‰ä¸­æ•°æ®ï¼ˆå¤šé€‰æ—¶ï¼‰
 */
 QList<int> P_PictureSelector::getSelectedIndex_Multi(){
 	QList<int> result_list = QList<int>();
@@ -330,25 +330,25 @@ QList<int> P_PictureSelector::getSelectedIndex_Multi(){
 	return result_list;
 }
 /*-------------------------------------------------
-		Ñ¡ÖĞ - Ñ¡ÖĞÉÏÒ»Ïî
+		é€‰ä¸­ - é€‰ä¸­ä¸Šä¸€é¡¹
 */
 void P_PictureSelector::selectLast(){
 	this->selectIndex(this->getSelectedIndex() - 1);
 }
 /*-------------------------------------------------
-		Ñ¡ÖĞ - Ñ¡ÖĞÏÂÒ»Ïî
+		é€‰ä¸­ - é€‰ä¸­ä¸‹ä¸€é¡¹
 */
 void P_PictureSelector::selectNext(){
 	this->selectIndex(this->getSelectedIndex() + 1);
 }
 /*-------------------------------------------------
-		Ñ¡ÖĞ - Ñ¡ÖĞÊ×Ïî
+		é€‰ä¸­ - é€‰ä¸­é¦–é¡¹
 */
 void P_PictureSelector::selectStart(){
 	this->selectIndex(0);
 }
 /*-------------------------------------------------
-		Ñ¡ÖĞ - Ñ¡ÖĞÎ²Ïî
+		é€‰ä¸­ - é€‰ä¸­å°¾é¡¹
 */
 void P_PictureSelector::selectEnd(){
 	this->selectIndex(this->m_itemTank.count()-1);

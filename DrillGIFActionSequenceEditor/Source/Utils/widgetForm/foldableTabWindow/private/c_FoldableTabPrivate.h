@@ -1,13 +1,14 @@
-#pragma once
+ï»¿#pragma once
+#include "stdafx.h"
 
 #include <QWidget>
 
 /*
 -----==========================================================-----
-		Àà£º		ÕÛµşÑ¡Ïî¿¨ ¿Ø¼şÀà£¨Ë½ÓĞ£©.h
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		ÕÛµş¹¦ÄÜÊ¹ÓÃµÄË½ÓĞÀà¡£
+		ç±»ï¼š		æŠ˜å é€‰é¡¹å¡ æ§ä»¶ç±»ï¼ˆç§æœ‰ï¼‰.h
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		æŠ˜å åŠŸèƒ½ä½¿ç”¨çš„ç§æœ‰ç±»ã€‚
 -----==========================================================-----
 */
 class C_FoldableTabPrivate{
@@ -17,13 +18,13 @@ class C_FoldableTabPrivate{
 		~C_FoldableTabPrivate();
 
 	public:
-		QString name;				//¿Ø¼ş¿é Ãû³Æ
-		QWidget* partWidget;		//¿Ø¼ş¿é ¶ÔÏó
-		bool isInChildWindow;		//ÔÚ×Ó´°¿Ú±ê¼Ç
+		QString name;				//æ§ä»¶å— åç§°
+		QWidget* partWidget;		//æ§ä»¶å— å¯¹è±¡
+		bool isInChildWindow;		//åœ¨å­çª—å£æ ‡è®°
 
-		QJsonObject param;			//ÆäËû²ÎÊı£¨ÔİÊ±ÎŞÓÃ£©
+		QJsonObject param;			//å…¶ä»–å‚æ•°ï¼ˆæš‚æ—¶æ— ç”¨ï¼‰
 		
 	public:
-									//¿ÕÅĞ¶Ï
+									//ç©ºåˆ¤æ–­
 		bool isEmpty();
 };

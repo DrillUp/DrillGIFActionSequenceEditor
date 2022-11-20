@@ -1,23 +1,23 @@
-#include "stdafx.h"
-#include "p_FoldableTabRelater.h"
+ï»¿#include "stdafx.h"
+#include "P_FoldableTabRelater.h"
 
-#include "Source/Utils/common/TTool.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
-		Àà£º		¿ÉÕÛµşÑ¡Ïî¿¨ ¹ÜÀíÆ÷.cpp
-		°æ±¾£º		v1.02
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		ÕÛµşÑ¡Ïî¿¨´°¿ÚµÄ¹ÜÀíÆ÷¡£
+		ç±»ï¼š		å¯æŠ˜å é€‰é¡¹å¡ ç®¡ç†å™¨.cpp
+		ç‰ˆæœ¬ï¼š		v1.02
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		æŠ˜å é€‰é¡¹å¡çª—å£çš„ç®¡ç†å™¨ã€‚
 
-		Ê¹ÓÃ·½·¨£º
-				>×¼±¸×Ó¿é
+		ä½¿ç”¨æ–¹æ³•ï¼š
+				>å‡†å¤‡å­å—
 					this->m_p_FoldableTabRelater = new P_FoldableTabRelater(ui.tabWidget);
-					this->m_p_FoldableTabRelater->addPart("ÎïÆ·", this->m_p_DatabaseItem);
-					this->m_p_FoldableTabRelater->addPart("×°±¸", this->m_p_DatabaseEquip);
-					// ×Ó¿éÖĞ²»ÒªÓĞaccept£¬ÒòÎª´°¿Ú»á±»ËæÊ±ÒÆ³ö»òÕßÍÏÒÆ£¬²»ÊÊÓÃÓÚÌá½»µÄ¶Ô»°¿ò
-					//¡¾Èç¹ûui.tabWidget±»Ïú»Ù£¬ÄÇÃ´×Ó´°¿Ú»á±»Ò»ÆğÏú»Ù£¬²»»á²ĞÁô¡£¡¿
+					this->m_p_FoldableTabRelater->addPart("ç‰©å“", this->m_p_DatabaseItem);
+					this->m_p_FoldableTabRelater->addPart("è£…å¤‡", this->m_p_DatabaseEquip);
+					// å­å—ä¸­ä¸è¦æœ‰acceptï¼Œå› ä¸ºçª—å£ä¼šè¢«éšæ—¶ç§»å‡ºæˆ–è€…æ‹–ç§»ï¼Œä¸é€‚ç”¨äºæäº¤çš„å¯¹è¯æ¡†
+					//ã€å¦‚æœui.tabWidgetè¢«é”€æ¯ï¼Œé‚£ä¹ˆå­çª—å£ä¼šè¢«ä¸€èµ·é”€æ¯ï¼Œä¸ä¼šæ®‹ç•™ã€‚ã€‘
 					
 -----==========================================================-----
 */
@@ -26,7 +26,7 @@ P_FoldableTabRelater::P_FoldableTabRelater(QTabWidget *parent)
 {
 
 	//-----------------------------------
-	//----³õÊ¼»¯²ÎÊı
+	//----åˆå§‹åŒ–å‚æ•°
 	this->m_tab = parent;
 	this->m_tabStyle = this->m_tab->styleSheet();
 
@@ -34,17 +34,17 @@ P_FoldableTabRelater::P_FoldableTabRelater(QTabWidget *parent)
 	this->m_childWindowList = QList<W_FoldableTabChildWindow*>();
 
 	//-----------------------------------
-	//----³õÊ¼»¯ui
+	//----åˆå§‹åŒ–ui
 	this->m_tab->clear();
-	this->m_tab->setMovable(true);				//±êÇ©¿ÉÍÏ×§
-	this->m_tab->setTabsClosable(true);			//±êÇ©¿É¹Ø±Õ
+	this->m_tab->setMovable(true);				//æ ‡ç­¾å¯æ‹–æ‹½
+	this->m_tab->setTabsClosable(true);			//æ ‡ç­¾å¯å…³é—­
 	this->m_tab->setStyleSheet(this->m_tabStyle + 
 		"\n QTabBar::close-button { image: url(" + QRC_IconSrcPath + "/tabWidget/outFrame.png) }"+
 		"\n QTabBar::close-button:hover{ image: url(" + QRC_IconSrcPath + "/tabWidget/outFrame_hover.png) }" +
 		"\n QTabBar::close-button:disabled{ image: url(" + QRC_IconSrcPath + "/tabWidget/outFrame_disabled.png) }");
 
 	//-----------------------------------
-	//----ÊÂ¼ş°ó¶¨
+	//----äº‹ä»¶ç»‘å®š
 	connect(this->m_tab, &QTabWidget::tabCloseRequested, this, &P_FoldableTabRelater::tabClosed);
 
 }
@@ -54,43 +54,56 @@ P_FoldableTabRelater::~P_FoldableTabRelater(){
 
 
 /*-------------------------------------------------
-		¸¸¿Ø¼ş - ¹Ø±Õ±êÇ©
+		çˆ¶æ§ä»¶ - å…³é—­æ ‡ç­¾
 */
 void P_FoldableTabRelater::tabClosed(int index){
+	if (index >= this->m_tab->tabBar()->count()){ return; }		//ï¼ˆç´¢å¼•è¶…å‡ºæ—¶ï¼Œä¸æ“ä½œï¼‰
 	QString text = this->m_tab->tabText(index);
 	this->showChildWindow(text);
 }
 /*-------------------------------------------------
-		¸¸¿Ø¼ş - ±êÇ©È«¹éÎ»
+		çˆ¶æ§ä»¶ - åˆ‡æ¢åˆ°æŒ‡å®šæ ‡ç­¾
+*/
+void P_FoldableTabRelater::selectTab(QString tab_name){
+	QTabBar* tabBar = this->m_tab->tabBar();
+	for (int i = 0; i < tabBar->count(); i++){
+		if (tabBar->tabText(i) == tab_name){
+			this->m_tab->setCurrentIndex(i);
+			return;
+		}
+	}
+}
+/*-------------------------------------------------
+		çˆ¶æ§ä»¶ - æ ‡ç­¾å…¨å½’ä½
 */
 void P_FoldableTabRelater::homingAllTab(){
-	this->hideAllChildWindow();		//£¨Òş²Ø×Ó´°¿Ú == ¹éÎ»£©
+	this->hideAllChildWindow();		//ï¼ˆéšè—å­çª—å£ == å½’ä½ï¼‰
 }
 
 /*-------------------------------------------------
-		×Ó¿é - Ìí¼Ó×Ó¿é
+		å­å— - æ·»åŠ å­å—
 */
 void P_FoldableTabRelater::addPart(QString name, QWidget* partWidget){
 	this->addPart(name, partWidget, QJsonObject());
 }
 void P_FoldableTabRelater::addPart(QString name, QWidget* partWidget, QJsonObject param){
 	
-	// > ×Ó¿éÌí¼Ó
+	// > å­å—æ·»åŠ 
 	C_FoldableTabPrivate* c_f = new C_FoldableTabPrivate();
 	c_f->name = name;
 	c_f->partWidget = partWidget;
 	c_f->param = param;
 	this->m_partList.append(c_f);
 	
-	// > ×Ó´°¿ÚÌí¼Ó
+	// > å­çª—å£æ·»åŠ 
 	W_FoldableTabChildWindow* child_window = new W_FoldableTabChildWindow(this, c_f, this->m_tab);
 	this->m_childWindowList.append(child_window);
 
-	// > Ë¢ĞÂ
+	// > åˆ·æ–°
 	this->refreshAllPart();
 }
 /*-------------------------------------------------
-		×Ó¿é - »ñÈ¡×Ó¿é£¨¸ù¾İÃû³Æ£©
+		å­å— - è·å–å­å—ï¼ˆæ ¹æ®åç§°ï¼‰
 */
 C_FoldableTabPrivate* P_FoldableTabRelater::getPartByName(QString name){
 	for (int i = 0; i < this->m_partList.count();i++){
@@ -102,17 +115,17 @@ C_FoldableTabPrivate* P_FoldableTabRelater::getPartByName(QString name){
 	return nullptr;
 }
 /*-------------------------------------------------
-		×Ó¿é - »ñÈ¡È«²¿×Ó¿é
+		å­å— - è·å–å…¨éƒ¨å­å—
 */
 QList<C_FoldableTabPrivate*> P_FoldableTabRelater::getAllPart(){
 	return this->m_partList;
 }
 /*-------------------------------------------------
-		×Ó¿é - Ë¢ĞÂ×Ó¿é´°¿Ú·Ö²¼Çé¿ö
+		å­å— - åˆ·æ–°å­å—çª—å£åˆ†å¸ƒæƒ…å†µ
 */
 void P_FoldableTabRelater::refreshAllPart(){
 
-	// > Ë¢ĞÂ¸¸¿Ø¼ş
+	// > åˆ·æ–°çˆ¶æ§ä»¶
 	this->m_tab->clear();
 	for (int i = 0; i < this->m_partList.count(); i++){
 		C_FoldableTabPrivate* part = this->m_partList.at(i);
@@ -126,7 +139,7 @@ void P_FoldableTabRelater::refreshAllPart(){
 		}
 	}
 
-	// > Ë¢ĞÂ×Ó´°¿Ú
+	// > åˆ·æ–°å­çª—å£
 	for (int i = 0; i < this->m_childWindowList.count(); i++){
 		W_FoldableTabChildWindow* window = this->m_childWindowList.at(i);
 		if (window == nullptr){ continue; }
@@ -136,7 +149,7 @@ void P_FoldableTabRelater::refreshAllPart(){
 
 
 /*-------------------------------------------------
-		×Ó´°¿Ú - ÏÔÊ¾
+		å­çª—å£ - æ˜¾ç¤º
 */
 void P_FoldableTabRelater::showChildWindow(QString name){
 	W_FoldableTabChildWindow* window = this->getChildWindow(name);
@@ -144,7 +157,7 @@ void P_FoldableTabRelater::showChildWindow(QString name){
 	window->show();
 }
 /*-------------------------------------------------
-		×Ó´°¿Ú - Òş²Ø
+		å­çª—å£ - éšè—
 */
 void P_FoldableTabRelater::hideChildWindow(QString name){
 	W_FoldableTabChildWindow* window = this->getChildWindow(name);
@@ -152,7 +165,7 @@ void P_FoldableTabRelater::hideChildWindow(QString name){
 	window->hide();
 }
 /*-------------------------------------------------
-		×Ó´°¿Ú - È«²¿Òş²Ø
+		å­çª—å£ - å…¨éƒ¨éšè—
 */
 void P_FoldableTabRelater::hideAllChildWindow(){
 	for (int i = 0; i < this->m_childWindowList.count(); i++){
@@ -161,7 +174,7 @@ void P_FoldableTabRelater::hideAllChildWindow(){
 	}
 }
 /*-------------------------------------------------
-		×Ó´°¿Ú - »ñÈ¡
+		å­çª—å£ - è·å–
 */
 W_FoldableTabChildWindow* P_FoldableTabRelater::getChildWindow(QString name){
 	for (int i = 0; i < this->m_partList.count(); i++){

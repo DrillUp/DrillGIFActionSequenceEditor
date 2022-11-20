@@ -1,29 +1,29 @@
-#include "stdafx.h"
-#include "p_RadioTable.h"
+ï»¿#include "stdafx.h"
+#include "P_RadioTable.h"
 
-#include "private/w_RaTConfig.h"
-#include "Source/Utils/common/TTool.h"
+#include "Private/W_RaTConfig.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
-		Àà£º		µ¥Ñ¡±í¸ñ.cpp
-		°æ±¾£º		v1.02
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		½«Êı¾İÈ«²¿ÏÔÊ¾£¬²¢ÄÜµ¥Ñ¡¡££¨²»º¬ÅÅĞò¹¦ÄÜ£©
+		ç±»ï¼š		å•é€‰è¡¨æ ¼.cpp
+		ç‰ˆæœ¬ï¼š		v1.02
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		å°†æ•°æ®å…¨éƒ¨æ˜¾ç¤ºï¼Œå¹¶èƒ½å•é€‰ã€‚ï¼ˆä¸å«æ’åºåŠŸèƒ½ï¼‰
 
-		×Ó¹¦ÄÜ£º	-> ÎÄ±¾Ñ¡Ôñ
-						-> µ¥Ñ¡
-						-> ¶àÑ¡
-						-> ×Ô¶¯±àºÅ
-					-> ±í¸ñÅäÖÃ
-						-> ÉèÖÃĞĞ¸ß
-						-> ÉèÖÃÒ¶×ÓÏÔÊ¾ÎÄ±¾
-					-> ÓÒ¼ü²Ëµ¥
-						-> Ö»µ¥Ñ¡Ê±ÓĞĞ§
+		å­åŠŸèƒ½ï¼š	-> æ–‡æœ¬é€‰æ‹©
+						-> å•é€‰
+						-> å¤šé€‰
+						-> è‡ªåŠ¨ç¼–å·
+					-> è¡¨æ ¼é…ç½®
+						-> è®¾ç½®è¡Œé«˜
+						-> è®¾ç½®å¶å­æ˜¾ç¤ºæ–‡æœ¬
+					-> å³é”®èœå•
+						-> åªå•é€‰æ—¶æœ‰æ•ˆ
 					
-		Ê¹ÓÃ·½·¨£º
-				>³õÊ¼»¯
+		ä½¿ç”¨æ–¹æ³•ï¼š
+				>åˆå§‹åŒ–
 					this->m_p_RadioTable = new P_RadioTable(ui.treeWidget);
 					this->m_p_RadioTable->setData(obj);		
 					
@@ -34,36 +34,36 @@ P_RadioTable::P_RadioTable(QTableWidget *parent)
 {
 
 	//-----------------------------------
-	//----²ÎÊı³õÊ¼»¯
-	this->m_table = parent;									//±í¸ñ¶ÔÏó
-	this->m_tableStyle = this->m_table->styleSheet();		//±í¸ñÄ¬ÈÏÑùÊ½
-	this->m_itemTank = QList<QTableWidgetItem*>();			//±í¸ñÏîÁĞ±í
-	this->m_last_index = -1;								//ÉÏÒ»¸öÑ¡ÖĞµÄË÷ÒıÏî
+	//----å‚æ•°åˆå§‹åŒ–
+	this->m_table = parent;									//è¡¨æ ¼å¯¹è±¡
+	this->m_tableStyle = this->m_table->styleSheet();		//è¡¨æ ¼é»˜è®¤æ ·å¼
+	this->m_itemTank = QList<QTableWidgetItem*>();			//è¡¨æ ¼é¡¹åˆ—è¡¨
+	this->m_last_index = -1;								//ä¸Šä¸€ä¸ªé€‰ä¸­çš„ç´¢å¼•é¡¹
 
-	// > Êı¾İ
+	// > æ•°æ®
 	this->m_config = C_RaTConfig();
 
-	// > ÓÒ¼ü²Ëµ¥
-	this->m_itemOuterControlEnabled = false;				//±à¼­ - ¿ª¹Ø£¨Ä¬ÈÏ¹Ø±Õ£©
-	this->m_itemOuterControl_CopyActive = true;				//±à¼­ - ¸´ÖÆ¼¤»î
-	this->m_itemOuterControl_PasteActive = false;			//±à¼­ - Õ³Ìù¼¤»î
-	this->m_itemOuterControl_ClearActive = true;			//±à¼­ - Çå¿Õ¼¤»î
+	// > å³é”®èœå•
+	this->m_itemOuterControlEnabled = false;				//ç¼–è¾‘ - å¼€å…³ï¼ˆé»˜è®¤å…³é—­ï¼‰
+	this->m_itemOuterControl_CopyActive = true;				//ç¼–è¾‘ - å¤åˆ¶æ¿€æ´»
+	this->m_itemOuterControl_PasteActive = false;			//ç¼–è¾‘ - ç²˜è´´æ¿€æ´»
+	this->m_itemOuterControl_ClearActive = true;			//ç¼–è¾‘ - æ¸…ç©ºæ¿€æ´»
 
 	//-----------------------------------
-	//----ui³õÊ¼»¯
-	this->m_table->setContextMenuPolicy(Qt::CustomContextMenu);									//¼¤»îÓÒ¼ü
-	this->m_table->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);			//µ¥Ñ¡
-	this->m_table->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);		//Ñ¡ĞĞ
-	this->m_table->setEditTriggers(QAbstractItemView::NoEditTriggers);							//¹Ø±Õ±à¼­
+	//----uiåˆå§‹åŒ–
+	this->m_table->setContextMenuPolicy(Qt::CustomContextMenu);									//æ¿€æ´»å³é”®
+	this->m_table->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);			//å•é€‰
+	this->m_table->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);		//é€‰è¡Œ
+	this->m_table->setEditTriggers(QAbstractItemView::NoEditTriggers);							//å…³é—­ç¼–è¾‘
 
 	this->m_table->setColumnCount(1);
-	this->m_table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);				//ÁĞ×ÔÊÊÓ¦
+	this->m_table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);				//åˆ—è‡ªé€‚åº”
 	this->m_table->horizontalHeader()->setVisible(false);
 	this->m_table->verticalHeader()->setVisible(false);
 
 	//-----------------------------------
-	//----ÊÂ¼ş°ó¶¨
-	this->m_selectionSignalBlock_Root = false;				//²Û×èÈû
+	//----äº‹ä»¶ç»‘å®š
+	this->m_selectionSignalBlock_Root = false;				//æ§½é˜»å¡
 	connect(this->m_table, &QTableWidget::customContextMenuRequested, this, &P_RadioTable::sltItemRightClicked);
 	connect(this->m_table, &QTableWidget::itemSelectionChanged, this, &P_RadioTable::sltItemSelectionChanged);
 
@@ -73,27 +73,27 @@ P_RadioTable::~P_RadioTable(){
 
 
 /*-------------------------------------------------
-		¿Ø¼ş - Ë¢ĞÂ±í¸ñ
+		æ§ä»¶ - åˆ·æ–°è¡¨æ ¼
 */
 void P_RadioTable::refreshTableUi() {
 	this->m_selectionSignalBlock_Root = true;
 	QList<int> last_selected_index = this->getSelectedIndex_Multi();
 
-	// > ÇåÀí
+	// > æ¸…ç†
 	this->m_table->clearContents();
 	this->m_table->setRowCount(local_text.count());
 
-	// > Ë¢ĞÂÄÚÈİ
+	// > åˆ·æ–°å†…å®¹
 	this->m_itemTank = QList<QTableWidgetItem*>();
 	for (int i = 0; i < local_text.count(); i++){
 		QTableWidgetItem* item = new QTableWidgetItem();
-		item->setData(Qt::UserRole + 1, local_text.at(i));	//Ãû³Æ
+		item->setData(Qt::UserRole + 1, local_text.at(i));	//åç§°
 		this->m_table->setItem(i, 0, item);
 		this->m_itemTank.append(item);
-		this->refreshItem(item);		//£¨Ë¢ĞÂÏî£©
+		this->refreshItem(item);		//ï¼ˆåˆ·æ–°é¡¹ï¼‰
 	}
 
-	// > µ¥Ñ¡/¶àÑ¡ÇĞ»»
+	// > å•é€‰/å¤šé€‰åˆ‡æ¢
 	if (this->m_config.isMultiSelect == true && this->m_table->selectionMode() == QAbstractItemView::SelectionMode::SingleSelection){
 		this->m_table->setSelectionMode(QAbstractItemView::SelectionMode::ExtendedSelection);
 	}
@@ -101,10 +101,10 @@ void P_RadioTable::refreshTableUi() {
 		this->m_table->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);	
 	}
 
-	// > ĞĞ¸ßË¢ĞÂ
+	// > è¡Œé«˜åˆ·æ–°
 	this->m_table->setStyleSheet(this->m_tableStyle + "\n QTableView::item { height: " + QString::number(this->m_config.rowHeight) + "px;}");
 
-	// > Ñ¡ÖĞ±ä»¯Ïî
+	// > é€‰ä¸­å˜åŒ–é¡¹
 	if (this->m_config.isMultiSelect){
 		this->selectIndex_Multi(last_selected_index);
 	}else{
@@ -115,49 +115,49 @@ void P_RadioTable::refreshTableUi() {
 	this->m_selectionSignalBlock_Root = false;
 }
 /*-------------------------------------------------
-		¿Ø¼ş - ÇåÀíÈ«²¿
+		æ§ä»¶ - æ¸…ç†å…¨éƒ¨
 */
 void P_RadioTable::clearAll(){
 
-	// > ¿Ø¼şÇåÀí
+	// > æ§ä»¶æ¸…ç†
 	this->m_itemTank.clear();
 	this->m_table->clearContents();
 	this->m_table->setRowCount(0);
 
-	// > ±í¸ñÉèÖÃ
+	// > è¡¨æ ¼è®¾ç½®
 	this->m_config = C_RaTConfig();
 	this->m_itemOuterControl_PasteActive = false;
 }
 /*-------------------------------------------------
-		¿Ø¼ş - ±í¸ñÏîÊıÁ¿
+		æ§ä»¶ - è¡¨æ ¼é¡¹æ•°é‡
 */
 int P_RadioTable::count(){
 	return this->m_itemTank.count();
 }
 /*-------------------------------------------------
-		¿Ø¼ş - ĞŞ¸ÄÖ¸¶¨Î»ÖÃÎÄ±¾£¨²»·¢ĞÅºÅ£©
+		æ§ä»¶ - ä¿®æ”¹æŒ‡å®šä½ç½®æ–‡æœ¬ï¼ˆä¸å‘ä¿¡å·ï¼‰
 */
 void P_RadioTable::modifyText(int index, QString text){
 	if (index == -1 ){ return; }
 	if (index < 0){ index = 0; }
 	if (index >= this->m_itemTank.count()){ index = this->m_itemTank.count() - 1; }
 
-	// > ĞŞ¸Ä±¾µØÊı¾İ
+	// > ä¿®æ”¹æœ¬åœ°æ•°æ®
 	this->local_text.replace(index, text);
 
-	// > Ë¢ĞÂÏî
+	// > åˆ·æ–°é¡¹
 	QTableWidgetItem* item = this->m_itemTank.at(index);
 	item->setData(Qt::UserRole + 1, text);
 	this->refreshItem(item);
 }
 /*-------------------------------------------------
-		¿Ø¼ş - ĞŞ¸ÄÑ¡ÖĞÏîÎÄ±¾£¨²»·¢ĞÅºÅ£©
+		æ§ä»¶ - ä¿®æ”¹é€‰ä¸­é¡¹æ–‡æœ¬ï¼ˆä¸å‘ä¿¡å·ï¼‰
 */
 void P_RadioTable::modifyText_Selected(QString text){
 	this->modifyText(this->getSelectedIndex(),text);
 }
 /*-------------------------------------------------
-		¿Ø¼ş - »ñÈ¡Ãû³Æ
+		æ§ä»¶ - è·å–åç§°
 */
 QString P_RadioTable::getTextByIndex(int index){
 	if (index == -1){ return ""; }
@@ -174,14 +174,14 @@ QStringList P_RadioTable::getTextByIndex(QList<int> index_list){
 	return result_list;
 }
 /*-------------------------------------------------
-		¿Ø¼ş - »ñÈ¡ÎÄ±¾
+		æ§ä»¶ - è·å–æ–‡æœ¬
 */
 QString P_RadioTable::getRealText(QTableWidgetItem* item){
 	if (item == nullptr){ return ""; }
 	return item->data(Qt::UserRole + 1).toString();
 }
 /*-------------------------------------------------
-		¿Ø¼ş - Ë¢ĞÂ Ïî ×ÔÉíÎÄ±¾
+		æ§ä»¶ - åˆ·æ–° é¡¹ è‡ªèº«æ–‡æœ¬
 */
 void P_RadioTable::refreshItem(QTableWidgetItem* item){
 	int index = this->m_itemTank.indexOf(item);
@@ -201,7 +201,7 @@ void P_RadioTable::refreshItem(QTableWidgetItem* item){
 }
 
 /*-------------------------------------------------
-		±í¸ñÉèÖÃ - ÉèÖÃ²ÎÊı
+		è¡¨æ ¼è®¾ç½® - è®¾ç½®å‚æ•°
 */
 void P_RadioTable::setConfigParam(C_RaTConfig config){
 	this->m_config = config;
@@ -211,7 +211,7 @@ C_RaTConfig P_RadioTable::setConfigParam(){
 	return this->m_config;
 }
 /*-------------------------------------------------
-		±í¸ñÉèÖÃ - ÉèÖÃ²ÎÊı
+		è¡¨æ ¼è®¾ç½® - è®¾ç½®å‚æ•°
 */
 void P_RadioTable::setConfigParam_obj(QJsonObject config){
 	this->m_config.setJsonObject(config);
@@ -221,7 +221,7 @@ QJsonObject P_RadioTable::getConfigParam_obj(){
 	return this->m_config.getJsonObject();
 }
 /*-------------------------------------------------
-		±í¸ñÉèÖÃ - ±à¼­´°¿Ú
+		è¡¨æ ¼è®¾ç½® - ç¼–è¾‘çª—å£
 */
 void P_RadioTable::openConfigParamWindow(){
 	W_RaTConfig d(this->m_table);
@@ -234,7 +234,7 @@ void P_RadioTable::openConfigParamWindow(){
 
 
 /*-------------------------------------------------
-		±í¸ñÊÂ¼ş -  È¦Ñ¡±ä»¯ÊÂ¼ş
+		è¡¨æ ¼äº‹ä»¶ -  åœˆé€‰å˜åŒ–äº‹ä»¶
 */
 void P_RadioTable::sltItemSelectionChanged(){
 	if (this->m_selectionSignalBlock_Root == true){ return; }
@@ -259,21 +259,21 @@ void P_RadioTable::sltItemSelectionChanged(){
 	this->m_selectionSignalBlock_Root = false;
 }
 /*-------------------------------------------------
-		±í¸ñÊÂ¼ş - ÓÒ¼üÊÂ¼ş
+		è¡¨æ ¼äº‹ä»¶ - å³é”®äº‹ä»¶
 */
 void P_RadioTable::sltItemRightClicked(QPoint point) {
 	if (this->m_selectionSignalBlock_Root == true){ return; }
 	this->m_selectionSignalBlock_Root = true;
-	QTableWidgetItem *item = this->m_table->itemAt(point);	//£¨µ±Ç°ÓÒ¼üÑ¡ÖĞµÄÏî£©
+	QTableWidgetItem *item = this->m_table->itemAt(point);	//ï¼ˆå½“å‰å³é”®é€‰ä¸­çš„é¡¹ï¼‰
 	if (item == nullptr){ return; }
 	if (this->m_table->selectedItems().count() == 0){ return; }
 
-	/*------------------------ÓÒ¼üµã»÷µ¥¸öÒ¶×Ó------------------------*/
+	/*------------------------å³é”®ç‚¹å‡»å•ä¸ªå¶å­------------------------*/
 	if (this->m_table->selectedItems().count() == 1 && this->m_itemOuterControlEnabled == true ){
 		QAction* action;
 		QMenu* menu = new QMenu(this->m_table);
 
-		action = new QAction("¸´ÖÆ", this);
+		action = new QAction("å¤åˆ¶", this);
 		action->setIcon(QIcon(QRC_IconSrcPath + "/menu/Common_Copy.png"));
 		action->setData( this->m_itemTank.indexOf(item) );
 		action->setShortcut(QKeySequence::Copy);
@@ -281,7 +281,7 @@ void P_RadioTable::sltItemRightClicked(QPoint point) {
 		menu->addAction(action);
 		action->setEnabled(this->m_itemOuterControl_CopyActive);
 
-		action = new QAction("Õ³Ìù", this);
+		action = new QAction("ç²˜è´´", this);
 		action->setIcon(QIcon(QRC_IconSrcPath + "/menu/Common_Paste.png"));
 		action->setData( this->m_itemTank.indexOf(item) );
 		action->setShortcut(QKeySequence::Paste);
@@ -289,7 +289,7 @@ void P_RadioTable::sltItemRightClicked(QPoint point) {
 		menu->addAction(action);
 		action->setEnabled(this->m_itemOuterControl_PasteActive);
 
-		action = new QAction("Çå¿Õ", this);
+		action = new QAction("æ¸…ç©º", this);
 		action->setIcon(QIcon(QRC_IconSrcPath + "/menu/Common_Clear.png"));
 		action->setData( this->m_itemTank.indexOf(item) );
 		action->setShortcut(QKeySequence::Delete);
@@ -306,14 +306,14 @@ void P_RadioTable::sltItemRightClicked(QPoint point) {
 
 
 /*-------------------------------------------------
-		×ÊÔ´Êı¾İ - ÉèÖÃÊı¾İ
+		èµ„æºæ•°æ® - è®¾ç½®æ•°æ®
 */
 void P_RadioTable::setSource(QStringList text_list) {
 	this->local_text = text_list;
 	this->refreshTableUi();
 }
 /*-------------------------------------------------
-		×ÊÔ´Êı¾İ - È¡³öÊı¾İ
+		èµ„æºæ•°æ® - å–å‡ºæ•°æ®
 */
 int P_RadioTable::getSelectedIndex(){
 	for (int i = 0; i < this->m_itemTank.count(); i++){
@@ -333,7 +333,7 @@ QString P_RadioTable::getSelectedText(){
 	return "";
 }
 /*-------------------------------------------------
-		×ÊÔ´Êı¾İ - È¡³öÊı¾İ£¨¶àÑ¡£©
+		èµ„æºæ•°æ® - å–å‡ºæ•°æ®ï¼ˆå¤šé€‰ï¼‰
 */
 QList<int> P_RadioTable::getSelectedIndex_Multi(){
 	QList<int> result_list = QList<int>();
@@ -357,7 +357,7 @@ QList<QString> P_RadioTable::getSelectedText_Multi(){
 
 
 /*-------------------------------------------------
-		Ñ¡ÖĞ - ÉèÖÃÑ¡ÖĞ
+		é€‰ä¸­ - è®¾ç½®é€‰ä¸­
 */
 void  P_RadioTable::selectIndex(int index){
 	if (index < 0){ index = 0; }
@@ -403,7 +403,7 @@ void  P_RadioTable::selectText(QString text){
 	}
 }
 /*-------------------------------------------------
-		Ñ¡ÖĞ - ÉèÖÃÑ¡ÖĞ£¨¶àÑ¡£©
+		é€‰ä¸­ - è®¾ç½®é€‰ä¸­ï¼ˆå¤šé€‰ï¼‰
 */
 void  P_RadioTable::selectIndex_Multi(QList<int> index_list){
 	for (int i = 0; i < this->m_itemTank.count(); i++){
@@ -434,25 +434,25 @@ void  P_RadioTable::selectText_Multi(QList<QString> text_list){
 	}
 }
 /*-------------------------------------------------
-		Ñ¡ÖĞ - Ñ¡ÖĞÉÏÒ»Ïî
+		é€‰ä¸­ - é€‰ä¸­ä¸Šä¸€é¡¹
 */
 void  P_RadioTable::selectLast(){
 	this->selectIndex(this->getSelectedIndex() - 1);
 }
 /*-------------------------------------------------
-		Ñ¡ÖĞ - Ñ¡ÖĞÏÂÒ»Ïî
+		é€‰ä¸­ - é€‰ä¸­ä¸‹ä¸€é¡¹
 */
 void  P_RadioTable::selectNext(){
 	this->selectIndex(this->getSelectedIndex() + 1);
 }
 /*-------------------------------------------------
-		Ñ¡ÖĞ - Ñ¡ÖĞÊ×Ïî
+		é€‰ä¸­ - é€‰ä¸­é¦–é¡¹
 */
 void  P_RadioTable::selectStart(){
 	this->selectIndex(0);
 }
 /*-------------------------------------------------
-		Ñ¡ÖĞ - Ñ¡ÖĞÎ²Ïî
+		é€‰ä¸­ - é€‰ä¸­å°¾é¡¹
 */
 void  P_RadioTable::selectEnd(){
 	this->selectIndex(this->m_itemTank.count() - 1);
@@ -460,13 +460,13 @@ void  P_RadioTable::selectEnd(){
 
 
 /*-------------------------------------------------
-		½Ó¿Ú - ¿ª¹Ø£¨Ä¬ÈÏ¹Ø±Õ£©
+		æ¥å£ - å¼€å…³ï¼ˆé»˜è®¤å…³é—­ï¼‰
 */
 void P_RadioTable::setItemOuterControlEnabled(bool enabled){
 	this->m_itemOuterControlEnabled = enabled;
 }
 /*-------------------------------------------------
-		½Ó¿Ú - ¼¤»î¿ØÖÆ
+		æ¥å£ - æ¿€æ´»æ§åˆ¶
 */
 void P_RadioTable::setItemOuterControl_CopyActive(bool enabled){
 	this->m_itemOuterControl_CopyActive = enabled;
@@ -478,29 +478,29 @@ void P_RadioTable::setItemOuterControl_ClearActive(bool enabled){
 	this->m_itemOuterControl_ClearActive = enabled;
 }
 /*-------------------------------------------------
-		½Ó¿Ú - ¸´ÖÆ°´ÏÂ
+		æ¥å£ - å¤åˆ¶æŒ‰ä¸‹
 */
 void P_RadioTable::menuCopyItemInAction(){
 	if (this->m_itemOuterControl_CopyActive == false){ return; }
-	QAction* cur_action = qobject_cast<QAction*>(sender());		//´ÓactionÀïÃæÈ¡³öÊı¾İ
+	QAction* cur_action = qobject_cast<QAction*>(sender());		//ä»actioné‡Œé¢å–å‡ºæ•°æ®
 	int index = cur_action->data().value<int>();
 	emit menuCopyItemTriggered(index);
 }
 /*-------------------------------------------------
-		½Ó¿Ú - Õ³Ìù°´ÏÂ
+		æ¥å£ - ç²˜è´´æŒ‰ä¸‹
 */
 void P_RadioTable::menuPasteItemInAction(){
 	if (this->m_itemOuterControl_PasteActive == false){ return; }
-	QAction* cur_action = qobject_cast<QAction*>(sender());		//´ÓactionÀïÃæÈ¡³öÊı¾İ
+	QAction* cur_action = qobject_cast<QAction*>(sender());		//ä»actioné‡Œé¢å–å‡ºæ•°æ®
 	int index = cur_action->data().value<int>();
 	emit menuPasteItemTriggered(index);
 }
 /*-------------------------------------------------
-		½Ó¿Ú - Çå¿Õ°´ÏÂ
+		æ¥å£ - æ¸…ç©ºæŒ‰ä¸‹
 */
 void P_RadioTable::menuClearItemInAction(){
 	if (this->m_itemOuterControl_ClearActive == false){ return; }
-	QAction* cur_action = qobject_cast<QAction*>(sender());		//´ÓactionÀïÃæÈ¡³öÊı¾İ
+	QAction* cur_action = qobject_cast<QAction*>(sender());		//ä»actioné‡Œé¢å–å‡ºæ•°æ®
 	int index = cur_action->data().value<int>();
 	emit menuClearItemTriggered(index);
 }

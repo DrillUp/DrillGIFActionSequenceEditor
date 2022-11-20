@@ -1,18 +1,18 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "P_PiSBlock.h"
 
-#include "Source/Utils/common/TTool.h"
-#include "i_PiSPicture.h"
+#include "Source/Utils/Common/TTool.h"
+#include "I_PiSPicture.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Í¼Æ¬¿é.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		Ò»¸öµ¥¶ÀµÄÍ¼Æ¬¿é£¬¿ÉÒÔ¼Ì³Ğ¸ÃÀà£¬Ìí¼ÓÆäËûQWidget¡£
+		ç±»ï¼š		å›¾ç‰‡å—.cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		ä¸€ä¸ªå•ç‹¬çš„å›¾ç‰‡å—ï¼Œå¯ä»¥ç»§æ‰¿è¯¥ç±»ï¼Œæ·»åŠ å…¶ä»–QWidgetã€‚
 
-		Ê¹ÓÃ·½·¨£º
-				>³õÊ¼»¯
+		ä½¿ç”¨æ–¹æ³•ï¼š
+				>åˆå§‹åŒ–
 
 -----==========================================================-----
 */
@@ -28,40 +28,40 @@ P_PiSBlock::~P_PiSBlock(){
 }
 
 /*-------------------------------------------------
-		³õÊ¼»¯
+		åˆå§‹åŒ–
 */
 void P_PiSBlock::_init(){
 
-	// > Í¼Æ¬ÇøÓò
+	// > å›¾ç‰‡åŒºåŸŸ
 	this->m_i_PiSPicture = new I_PiSPicture( this->m_width - 10, this->m_height - 10, this );
 	this->m_i_PiSPicture->move(5, 6);
 	this->m_i_PiSPicture->stackUnder(ui.label);
 
-	// > Ãû³ÆÇøÓò
+	// > åç§°åŒºåŸŸ
 	ui.label->setText("");
 	ui.label->move(2, 3);
 }
 
 /*-------------------------------------------------
-		¿Ø¼ş - ÉèÖÃÎÄ±¾
+		æ§ä»¶ - è®¾ç½®æ–‡æœ¬
 */
 void P_PiSBlock::setCountText(QString name){
 	ui.label->setText(name);
 }
 /*-------------------------------------------------
-		¿Ø¼ş - »ñÈ¡ÎÄ±¾
+		æ§ä»¶ - è·å–æ–‡æœ¬
 */
 QString P_PiSBlock::getCountText(){
 	return ui.label->text();
 }
 /*-------------------------------------------------
-		¿Ø¼ş - ÉèÖÃÍ¼Æ¬
+		æ§ä»¶ - è®¾ç½®å›¾ç‰‡
 */
 void P_PiSBlock::setPixmap(QPixmap pixmap){
 	this->m_i_PiSPicture->setPixmap(pixmap);
 }
 /*-------------------------------------------------
-		¿Ø¼ş - ÉèÖÃÂíÈü¿Ë±³¾°
+		æ§ä»¶ - è®¾ç½®é©¬èµ›å…‹èƒŒæ™¯
 */
 void P_PiSBlock::setMaskEnabled(bool enabled){
 	this->m_i_PiSPicture->setMaskEnabled(enabled);

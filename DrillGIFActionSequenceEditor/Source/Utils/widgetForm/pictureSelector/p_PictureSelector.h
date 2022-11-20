@@ -1,4 +1,5 @@
-#pragma once
+ï»¿#pragma once
+#include "stdafx.h"
 
 #include <QKeyEvent>
 #include <QListWidget>
@@ -7,12 +8,12 @@
 
 /*
 -----==========================================================-----
-		Àà£º		µ¥Ñ¡/¶àÑ¡ Í¼Æ¬ÁĞ.cpp
-		°æ±¾£º		v1.01
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		½«Í¼Æ¬È«²¿ÏÔÊ¾£¬²¢ÄÜµ¥Ñ¡/¶àÑ¡¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		å•é€‰/å¤šé€‰ å›¾ç‰‡åˆ—.cpp
+		ç‰ˆæœ¬ï¼š		v1.01
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		å°†å›¾ç‰‡å…¨éƒ¨æ˜¾ç¤ºï¼Œå¹¶èƒ½å•é€‰/å¤šé€‰ã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 class P_PictureSelector : public QObject
@@ -20,99 +21,99 @@ class P_PictureSelector : public QObject
 	Q_OBJECT
 
 	public:
-		P_PictureSelector(QListWidget *parent);		//¹¹Ôìº¯Êı
-		~P_PictureSelector();						//Îö¹¹º¯Êı
+		P_PictureSelector(QListWidget *parent);		//æ„é€ å‡½æ•°
+		~P_PictureSelector();						//ææ„å‡½æ•°
 		
 	//-----------------------------------
-	//----¿Ø¼ş
+	//----æ§ä»¶
 	protected:
-		QListWidget* m_listWidget;					//Í¼Æ¬ÁĞ¶ÔÏó
-		QString m_listWidgetStyle;					//Í¼Æ¬ÁĞÄ¬ÈÏÑùÊ½
-		QList<QListWidgetItem*> m_itemTank;			//ÏîÁĞ±í
-		QList<QWidget*> m_widgetTank;				//¿Ø¼şÁĞ±í¡¾±ØĞëÒª´æ£¬²»È»È¡³öµÄWidget»á×Ô¶¯Ïú»Ù¡¿
-		int m_last_index;							//ÉÏÒ»¸öÑ¡ÖĞµÄË÷ÒıÏî
+		QListWidget* m_listWidget;					//å›¾ç‰‡åˆ—å¯¹è±¡
+		QString m_listWidgetStyle;					//å›¾ç‰‡åˆ—é»˜è®¤æ ·å¼
+		QList<QListWidgetItem*> m_itemTank;			//é¡¹åˆ—è¡¨
+		QList<QWidget*> m_widgetTank;				//æ§ä»¶åˆ—è¡¨ã€å¿…é¡»è¦å­˜ï¼Œä¸ç„¶å–å‡ºçš„Widgetä¼šè‡ªåŠ¨é”€æ¯ã€‘
+		int m_last_index;							//ä¸Šä¸€ä¸ªé€‰ä¸­çš„ç´¢å¼•é¡¹
 	public:
-									//¿Ø¼ş - ÖØ½¨Í¼Æ¬ÁĞ£¨Èç¹ûÍ¼Æ¬¶à£¬²»½¨Òé·´¸´µ÷ÓÃ£©
+									//æ§ä»¶ - é‡å»ºå›¾ç‰‡åˆ—ï¼ˆå¦‚æœå›¾ç‰‡å¤šï¼Œä¸å»ºè®®åå¤è°ƒç”¨ï¼‰
 		void rebuildListUi();
-									//¿Ø¼ş - ½¨Á¢Í¼Æ¬Ïî
+									//æ§ä»¶ - å»ºç«‹å›¾ç‰‡é¡¹
 		virtual QListWidgetItem* createPictureItem();
-									//¿Ø¼ş - ½¨Á¢Í¼Æ¬¿Ø¼ş
+									//æ§ä»¶ - å»ºç«‹å›¾ç‰‡æ§ä»¶
 		virtual QWidget* createPictureWidget(int i, QPixmap pixmap);
-									//¿Ø¼ş - ÇåÀíÈ«²¿
+									//æ§ä»¶ - æ¸…ç†å…¨éƒ¨
 		virtual void clearAll();
 
 	signals:
-									//¿Ø¼ş - Ñ¡ÖĞÑ¡Ïî±ä»¯£¨ĞÅºÅ£©
+									//æ§ä»¶ - é€‰ä¸­é€‰é¡¹å˜åŒ–ï¼ˆä¿¡å·ï¼‰
 		void currentIndexChanged(int index);
-									//¿Ø¼ş - Ñ¡ÖĞÑ¡Ïî±ä»¯£¨¶àÑ¡Ê±£¬ĞÅºÅ£©
+									//æ§ä»¶ - é€‰ä¸­é€‰é¡¹å˜åŒ–ï¼ˆå¤šé€‰æ—¶ï¼Œä¿¡å·ï¼‰
 		void selectedIndexChanged_Multi(QList<int> index);
 
-									//¿Ø¼ş - ÌùÍ¼bitmap±ä»¯£¨ĞÅºÅ£©
-									//		¡¾ËµÃ÷¡¿£ºQPixmapÓĞQPixmapCache»º´æ»úÖÆ£¬ÆäËü¿Ø¼ş¿ÉÒÔ·´¸´¶ÁÈ¡QPixmap×ÊÔ´¡£
+									//æ§ä»¶ - è´´å›¾bitmapå˜åŒ–ï¼ˆä¿¡å·ï¼‰
+									//		ã€è¯´æ˜ã€‘ï¼šQPixmapæœ‰QPixmapCacheç¼“å­˜æœºåˆ¶ï¼Œå…¶å®ƒæ§ä»¶å¯ä»¥åå¤è¯»å–QPixmapèµ„æºã€‚
 		void animBitmapChanged();
 
 	//-----------------------------------
-	//----ÊÂ¼ş
+	//----äº‹ä»¶
 	protected:
-		bool m_selectionSignalBlock_Root;	//È¦Ñ¡ Ëø
+		bool m_selectionSignalBlock_Root;	//åœˆé€‰ é”
 	protected slots:
-											//ÊÂ¼ş - ÓÒ¼üÊÂ¼ş
+											//äº‹ä»¶ - å³é”®äº‹ä»¶
 		void itemRightClicked(QPoint point);
-											//ÊÂ¼ş - ÓÒ¼üÊÂ¼ş£¨Áã¸ö¡¢µ¥¸ö¡¢¶à¸ö£©
+											//äº‹ä»¶ - å³é”®äº‹ä»¶ï¼ˆé›¶ä¸ªã€å•ä¸ªã€å¤šä¸ªï¼‰
 		virtual void event_itemRightClicked(QList<QListWidgetItem*> item_list);
 
-											//ÊÂ¼ş - È¦Ñ¡±ä»¯ÊÂ¼ş
+											//äº‹ä»¶ - åœˆé€‰å˜åŒ–äº‹ä»¶
 		void itemSelectionChanged();
-											//ÊÂ¼ş - È¦Ñ¡±ä»¯ÊÂ¼ş£¨µ¥¸ö¡¢¶à¸ö£©
+											//äº‹ä»¶ - åœˆé€‰å˜åŒ–äº‹ä»¶ï¼ˆå•ä¸ªã€å¤šä¸ªï¼‰
 		virtual void event_itemSelectionChanged(QList<QListWidgetItem*> selected_item_list);
 		
 	//-----------------------------------
-	//----Í¼Æ¬ÁĞÉèÖÃ
+	//----å›¾ç‰‡åˆ—è®¾ç½®
 	protected:
-		C_PiSConfig m_config;			//Í¼Æ¬ÁĞÅäÖÃÏî
+		C_PiSConfig m_config;			//å›¾ç‰‡åˆ—é…ç½®é¡¹
 	public:
-										//Í¼Æ¬ÁĞÉèÖÃ - ÉèÖÃ²ÎÊı
+										//å›¾ç‰‡åˆ—è®¾ç½® - è®¾ç½®å‚æ•°
 		virtual void setConfigParam(C_PiSConfig config);
-										//Í¼Æ¬ÁĞÉèÖÃ - È¡³ö²ÎÊı
+										//å›¾ç‰‡åˆ—è®¾ç½® - å–å‡ºå‚æ•°
 		virtual C_PiSConfig getConfigParam();
 
 	//-----------------------------------
-	//----×ÊÔ´Êı¾İ
+	//----èµ„æºæ•°æ®
 	protected:
-		QList<QPixmap> m_org_bitmapList;		//×ÊÔ´Êı¾İ
+		QList<QPixmap> m_org_bitmapList;		//èµ„æºæ•°æ®
 	public:
-									//×ÊÔ´Êı¾İ - ÉèÖÃÊı¾İ
+									//èµ„æºæ•°æ® - è®¾ç½®æ•°æ®
 		virtual void setSource(QList<QFileInfo> file_list);
-									//×ÊÔ´Êı¾İ - ÉèÖÃÊı¾İ
+									//èµ„æºæ•°æ® - è®¾ç½®æ•°æ®
 		virtual void setSource(QList<QPixmap> bitmap_list);
 
 	//-----------------------------------
-	//----Ñ¡ÖĞ
+	//----é€‰ä¸­
 	public slots:
-									//Ñ¡ÖĞ - ÉèÖÃÑ¡ÖĞ
-									//		¡¾²ÎÊı¡¿£ºÊı×Ö£¬¿ÉÒÔËæÒâÔ½½ç£¬Ô½½çºó»áÑ¡Ôñ×î½Ó½üµÄÒ»Ïî¡£
-									//		¡¾ËµÃ÷¡¿£º¶àÑ¡Ò²¿ÉÒÔÓÃ£¬½«»á±£³ÖÖ»ÓĞÒ»¸ö±»Ñ¡ÖĞ¡£
+									//é€‰ä¸­ - è®¾ç½®é€‰ä¸­
+									//		ã€å‚æ•°ã€‘ï¼šæ•°å­—ï¼Œå¯ä»¥éšæ„è¶Šç•Œï¼Œè¶Šç•Œåä¼šé€‰æ‹©æœ€æ¥è¿‘çš„ä¸€é¡¹ã€‚
+									//		ã€è¯´æ˜ã€‘ï¼šå¤šé€‰ä¹Ÿå¯ä»¥ç”¨ï¼Œå°†ä¼šä¿æŒåªæœ‰ä¸€ä¸ªè¢«é€‰ä¸­ã€‚
 		void selectIndex(int index);
-									//Ñ¡ÖĞ - ÉèÖÃÑ¡ÖĞ£¨¶àÑ¡Ê±£©
-									//		¡¾²ÎÊı¡¿£ºÊı×Ö£¬¿ÉÒÔËæÒâÔ½½ç£¬Ô½½çµÄÊı×ÖÃ»ÓĞĞ§¹û¡£
-									//		¡¾ËµÃ÷¡¿£º¿ÕÊı×é¿ÉÒÔÈ¡ÏûËùÓĞÑ¡ÖĞ¡£
+									//é€‰ä¸­ - è®¾ç½®é€‰ä¸­ï¼ˆå¤šé€‰æ—¶ï¼‰
+									//		ã€å‚æ•°ã€‘ï¼šæ•°å­—ï¼Œå¯ä»¥éšæ„è¶Šç•Œï¼Œè¶Šç•Œçš„æ•°å­—æ²¡æœ‰æ•ˆæœã€‚
+									//		ã€è¯´æ˜ã€‘ï¼šç©ºæ•°ç»„å¯ä»¥å–æ¶ˆæ‰€æœ‰é€‰ä¸­ã€‚
 		void selectIndex_Multi(QList<int> index_list);
 
-									//Ñ¡ÖĞ - Ñ¡ÖĞÉÏÒ»Ïî
+									//é€‰ä¸­ - é€‰ä¸­ä¸Šä¸€é¡¹
 		void selectLast();
-									//Ñ¡ÖĞ - Ñ¡ÖĞÏÂÒ»Ïî
+									//é€‰ä¸­ - é€‰ä¸­ä¸‹ä¸€é¡¹
 		void selectNext();
-									//Ñ¡ÖĞ - Ñ¡ÖĞÊ×Ïî
+									//é€‰ä¸­ - é€‰ä¸­é¦–é¡¹
 		void selectStart();
-									//Ñ¡ÖĞ - Ñ¡ÖĞÎ²Ïî
+									//é€‰ä¸­ - é€‰ä¸­å°¾é¡¹
 		void selectEnd();
 
 	public:
-									//Ñ¡ÖĞ - »ñÈ¡Ñ¡ÖĞÊı¾İ
-									//		¡¾ËµÃ÷¡¿£º-1£¬±íÊ¾È«²¿Î´Ñ¡£»¶àÑ¡Ê±£¬±íÊ¾µÚÒ»¸öÑ¡ÖĞµÄË÷Òı¡£
+									//é€‰ä¸­ - è·å–é€‰ä¸­æ•°æ®
+									//		ã€è¯´æ˜ã€‘ï¼š-1ï¼Œè¡¨ç¤ºå…¨éƒ¨æœªé€‰ï¼›å¤šé€‰æ—¶ï¼Œè¡¨ç¤ºç¬¬ä¸€ä¸ªé€‰ä¸­çš„ç´¢å¼•ã€‚
 		int getSelectedIndex();
-									//Ñ¡ÖĞ - »ñÈ¡Ñ¡ÖĞÊı¾İ£¨¶àÑ¡Ê±£©
-									//		¡¾ËµÃ÷¡¿£º×¢Òâ£¬¿ÉÄÜ³öÏÖ¿ÕÊı×éÇé¿ö¡£
+									//é€‰ä¸­ - è·å–é€‰ä¸­æ•°æ®ï¼ˆå¤šé€‰æ—¶ï¼‰
+									//		ã€è¯´æ˜ã€‘ï¼šæ³¨æ„ï¼Œå¯èƒ½å‡ºç°ç©ºæ•°ç»„æƒ…å†µã€‚
 		QList<int> getSelectedIndex_Multi();
 
 };

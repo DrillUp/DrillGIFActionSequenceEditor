@@ -1,16 +1,17 @@
-#ifndef W_RaTConfig_H
+ï»¿#ifndef W_RaTConfig_H
 #define W_RaTConfig_H
+#include "stdafx.h"
 
 #include "ui_W_RaTConfig.h"
-#include "../c_RaTConfig.h"
+#include "../C_RaTConfig.h"
 
 /*
 -----==========================================================-----
-		Àà£º		µ¥Ñ¡±í¸ñÅäÖÃ ´°¿Ú.h
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		±à¼­ µ¥Ñ¡±í¸ñÅäÖÃ ´°¿ÚµÄÒ»Ğ©ÅäÖÃ¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		å•é€‰è¡¨æ ¼é…ç½® çª—å£.h
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		ç¼–è¾‘ å•é€‰è¡¨æ ¼é…ç½® çª—å£çš„ä¸€äº›é…ç½®ã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 class W_RaTConfig : public QDialog
@@ -22,31 +23,31 @@ class W_RaTConfig : public QDialog
 		~W_RaTConfig();
 		
 	//-----------------------------------
-	//----¿Ø¼ş
+	//----æ§ä»¶
 	public:
-										//»Ø³µ¹ıÂË
+										//å›è½¦è¿‡æ»¤
 		void keyPressEvent(QKeyEvent *event);
 		
 	public slots:
-										//ÁãÌî³ä¹´Ñ¡±ä»¯
+										//é›¶å¡«å……å‹¾é€‰å˜åŒ–
 		void zeroFillChanged(bool enable);	
 
 	//-----------------------------------
-	//----´°¿Ú
+	//----çª—å£
 	protected:
 		C_RaTConfig local_data;
 	public:
-										//´°¿Ú - ÉèÖÃÊı¾İ£¨ĞŞ¸Ä£©
+										//çª—å£ - è®¾ç½®æ•°æ®ï¼ˆä¿®æ”¹ï¼‰
 		void setDataInModifyMode(C_RaTConfig data);
-										//´°¿Ú - È¡³öÊı¾İ
+										//çª—å£ - å–å‡ºæ•°æ®
 		C_RaTConfig getData();
-										//´°¿Ú - ±¾µØÊı¾İ -> uiÊı¾İ
+										//çª—å£ - æœ¬åœ°æ•°æ® -> uiæ•°æ®
 		void putDataToUi();							
-										//´°¿Ú - uiÊı¾İ -> ±¾µØÊı¾İ
+										//çª—å£ - uiæ•°æ® -> æœ¬åœ°æ•°æ®
 		void putUiToData();
 
 	public slots:
-										//´°¿Ú - Ìá½»Êı¾İ£¨Ğ£Ñé£©
+										//çª—å£ - æäº¤æ•°æ®ï¼ˆæ ¡éªŒï¼‰
 		void acceptData();	
 
 	private:

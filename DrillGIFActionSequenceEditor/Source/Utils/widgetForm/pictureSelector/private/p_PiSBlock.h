@@ -1,16 +1,17 @@
-#ifndef P_PiSBlock_H
+ï»¿#ifndef P_PiSBlock_H
 #define P_PiSBlock_H
+#include "stdafx.h"
 
 #include <QtWidgets>
 #include "ui_P_PiSBlock.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Í¼Æ¬¿é.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		Ò»¸öµ¥¶ÀµÄÍ¼Æ¬¿é£¬¿ÉÒÔ¼Ì³Ğ¸ÃÀà£¬Ìí¼ÓÆäËûQWidget¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		å›¾ç‰‡å—.cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		ä¸€ä¸ªå•ç‹¬çš„å›¾ç‰‡å—ï¼Œå¯ä»¥ç»§æ‰¿è¯¥ç±»ï¼Œæ·»åŠ å…¶ä»–QWidgetã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 class I_PiSPicture;
@@ -19,28 +20,28 @@ class P_PiSBlock : public QWidget
 	Q_OBJECT
 
 	public:
-		P_PiSBlock(int width, int height, QWidget* parent = 0);	//¹¹Ôìº¯Êı
-		~P_PiSBlock();											//Îö¹¹º¯Êı
-		void _init();											//³õÊ¼»¯£¨¸Ãº¯Êı ×ÓÀà¼Ì³ĞÃ»ÓÃ£©
+		P_PiSBlock(int width, int height, QWidget* parent = 0);	//æ„é€ å‡½æ•°
+		~P_PiSBlock();											//ææ„å‡½æ•°
+		void _init();											//åˆå§‹åŒ–ï¼ˆè¯¥å‡½æ•° å­ç±»ç»§æ‰¿æ²¡ç”¨ï¼‰
 
 	//-----------------------------------
-	//----¿Ø¼ş
+	//----æ§ä»¶
 	protected:
 		int m_width;
 		int m_height;
 		I_PiSPicture* m_i_PiSPicture;
 	public:
-							//¿Ø¼ş - ÉèÖÃÎÄ±¾
+							//æ§ä»¶ - è®¾ç½®æ–‡æœ¬
 		void setCountText(QString name);
-							//¿Ø¼ş - »ñÈ¡ÎÄ±¾
+							//æ§ä»¶ - è·å–æ–‡æœ¬
 		QString getCountText();
-							//¿Ø¼ş - ÉèÖÃÍ¼Æ¬
+							//æ§ä»¶ - è®¾ç½®å›¾ç‰‡
 		void setPixmap(QPixmap pixmap);
-							//¿Ø¼ş - ÉèÖÃÂíÈü¿Ë±³¾°
+							//æ§ä»¶ - è®¾ç½®é©¬èµ›å…‹èƒŒæ™¯
 		void setMaskEnabled(bool enabled);
 		
 	//-----------------------------------
-	//----´°¿Ú
+	//----çª—å£
 	protected:
 		Ui::P_PiSBlock ui;
 };

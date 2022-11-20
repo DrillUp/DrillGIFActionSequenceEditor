@@ -3,6 +3,7 @@
 
 #include "../actionSeqData/s_ActionSeqDataContainer.h"
 #include "Source/ProjectModule/s_ProjectManager.h"
+#include "Source/Utils/WidgetForm/QStringListEditor/W_QStringListEditor.h"
 #include "Source/Utils/common/TTool.h"
 
 /*
@@ -43,6 +44,7 @@ P_StatePart::P_StatePart(QWidget *parent)
 	//----初始化参数
 	this->m_last_index = -1;
 	this->m_slotBlock_source = false;
+	this->m_curTagTank.clear();
 
 	//-----------------------------------
 	//----初始化ui
@@ -83,6 +85,9 @@ P_StatePart::P_StatePart(QWidget *parent)
 	connect(this->m_table, &P_RadioTable::menuClearItemTriggered, this, &P_StatePart::shortcut_clearData);
 	connect(this->m_p_AnimationListEditor, &P_AnimationListEditor::selectedIndexChanged_Multi, this, &P_StatePart::tableChanged_Multi);
 
+	// > 标签列表编辑
+	connect(ui.pushButton_tagTank, &QPushButton::clicked, this, &P_StatePart::btn_editTagTank);
+
 	// > 表单变化绑定
 	connect(ui.lineEdit_name, &QLineEdit::textEdited, this->m_table, &P_RadioTable::modifyText_Selected);
 	connect(ui.lineEdit_name, &QLineEdit::textChanged, this->m_p_AnimationListEditor, &P_AnimationListEditor::setExportName);
@@ -103,6 +108,29 @@ P_StatePart::P_StatePart(QWidget *parent)
 }
 
 P_StatePart::~P_StatePart(){
+}
+
+
+/*-------------------------------------------------
+		控件 - 修改标签列表
+*/
+void P_StatePart::btn_editTagTank(){
+	W_QStringListEditor d(this);
+	d.setDataInModifyMode(this->m_curTagTank);
+	if (d.exec() == QDialog::Accepted){
+		this->m_curTagTank = d.getData();
+		this->refreshTagTank();
+	}
+}
+/*-------------------------------------------------
+		控件 - 刷新标签显示
+*/
+void P_StatePart::refreshTagTank(){
+	QString context;
+	context.append("[");
+	context.append(this->m_curTagTank.join(","));
+	context.append("]");
+	ui.label_tagTank->setText(context);
 }
 
 /*-------------------------------------------------
@@ -245,6 +273,7 @@ void P_StatePart::local_saveCurIndexData(){
 	// > 表单数据
 		QJsonObject obj_edit;
 		obj_edit.insert("状态元名称", ui.lineEdit_name->text());
+		obj_edit.insert("状态元标签", TTool::_JSON_stringify_(this->m_curTagTank));
 		obj_edit.insert("状态元优先级", QString::number(ui.spinBox_priority->value()));
 		obj_edit.insert("状态元权重", QString::number(ui.spinBox_proportion->value()));
 		obj_edit.insert("可被动作元打断", ui.checkBox_canBeInterrupted->isChecked() ? "true" : "false");
@@ -289,6 +318,8 @@ void P_StatePart::local_loadIndexData(int index){
 	QJsonObject obj_data = this->m_stateDataList.at(index);
 	//qDebug() << obj_data;
 		ui.lineEdit_name->setText(obj_data.value("状态元名称").toString());
+		this->m_curTagTank = TTool::_JSON_parse_To_QListQString_(obj_data.value("状态元标签").toString());
+		this->refreshTagTank();
 		ui.spinBox_priority->setValue(obj_data.value("状态元优先级").toString().toInt());
 		ui.spinBox_proportion->setValue(obj_data.value("状态元权重").toString().toInt());
 		ui.checkBox_canBeInterrupted->setChecked(obj_data.value("可被动作元打断").toString() == "true");

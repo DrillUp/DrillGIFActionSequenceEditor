@@ -1,17 +1,17 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "W_FoldableTabChildWindow.h"
 
-#include "../p_FoldableTabRelater.h"
-#include "Source/Utils/common/TTool.h"
+#include "../P_FoldableTabRelater.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
-		Àà£º		ÕÛµş×Ó´°¿Ú.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		¿ìËÙÌîĞ´±íµ¥²ÎÊıµÄ´°¿Ú¡£
+		ç±»ï¼š		æŠ˜å å­çª—å£.cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		å¿«é€Ÿå¡«å†™è¡¨å•å‚æ•°çš„çª—å£ã€‚
 
-		Ê¹ÓÃ·½·¨£º	¸ÃÀà²»¿Éµ¥ÓÃ£¬¼ûP_FoldableTabManager¡£
+		ä½¿ç”¨æ–¹æ³•ï¼š	è¯¥ç±»ä¸å¯å•ç”¨ï¼Œè§P_FoldableTabManagerã€‚
 -----==========================================================-----
 */
 W_FoldableTabChildWindow::W_FoldableTabChildWindow(P_FoldableTabRelater* parentManager, C_FoldableTabPrivate* part, QWidget *parent)
@@ -20,7 +20,7 @@ W_FoldableTabChildWindow::W_FoldableTabChildWindow(P_FoldableTabRelater* parentM
 	ui.setupUi(this);
 
 	//-----------------------------------
-	//----³õÊ¼»¯²ÎÊı
+	//----åˆå§‹åŒ–å‚æ•°
 	Qt::WindowFlags flags = Qt::Dialog;
 	flags |= Qt::WindowCloseButtonHint;
 	flags |= Qt::WindowMaximizeButtonHint;
@@ -29,12 +29,12 @@ W_FoldableTabChildWindow::W_FoldableTabChildWindow(P_FoldableTabRelater* parentM
 	
 
 	//-----------------------------------
-	//----ÊÂ¼ş°ó¶¨
+	//----äº‹ä»¶ç»‘å®š
 	connect(ui.buttonBox, SIGNAL(accepted()), this, SLOT(acceptData()));
 	connect(ui.buttonBox, SIGNAL(rejected()), this, SLOT(rejectData()));
 
 	//-----------------------------------
-	//----³õÊ¼»¯ui
+	//----åˆå§‹åŒ–ui
 	this->m_parentManager = parentManager;
 	this->m_part = part;
 	this->m_layout = new QHBoxLayout(ui.widget_context);
@@ -46,7 +46,7 @@ W_FoldableTabChildWindow::~W_FoldableTabChildWindow(){
 }
 
 /*-------------------------------------------------
-		¿Ø¼ş - Ë¢ĞÂ×Ó¿é¿Ø¼ş
+		æ§ä»¶ - åˆ·æ–°å­å—æ§ä»¶
 */
 void W_FoldableTabChildWindow::refreshPart(){
 	this->setWindowTitle(this->m_part->name);
@@ -59,7 +59,7 @@ void W_FoldableTabChildWindow::refreshPart(){
 }
 
 /*-------------------------------------------------
-		¿Ø¼ş - ÇåÀí¿Ø¼ş
+		æ§ä»¶ - æ¸…ç†æ§ä»¶
 */
 void W_FoldableTabChildWindow::clearPart(){
 	this->m_layout->removeWidget(this->m_part->partWidget);
@@ -67,7 +67,7 @@ void W_FoldableTabChildWindow::clearPart(){
 
 
 /* --------------------------------------------------------------
-		´°¿Ú - ÏÔÊ¾ÊÂ¼ş£¨×îĞ¡»¯»¹Ô­£©
+		çª—å£ - æ˜¾ç¤ºäº‹ä»¶ï¼ˆæœ€å°åŒ–è¿˜åŸï¼‰
 */
 void W_FoldableTabChildWindow::showEvent(QShowEvent *event){
 	this->m_part->isInChildWindow = true;
@@ -76,7 +76,7 @@ void W_FoldableTabChildWindow::showEvent(QShowEvent *event){
 	event->accept();
 }
 /* --------------------------------------------------------------
-		´°¿Ú - ¹Ø±ÕÊÂ¼ş£¨°´Å¥£©
+		çª—å£ - å…³é—­äº‹ä»¶ï¼ˆæŒ‰é’®ï¼‰
 */
 void W_FoldableTabChildWindow::closeEvent(QCloseEvent *event){
 	this->m_part->isInChildWindow = false;
@@ -85,7 +85,7 @@ void W_FoldableTabChildWindow::closeEvent(QCloseEvent *event){
 	event->accept();
 }
 /* --------------------------------------------------------------
-		´°¿Ú - ¹Ø±ÕÊÂ¼ş£¨°´Å¥£©
+		çª—å£ - å…³é—­äº‹ä»¶ï¼ˆæŒ‰é’®ï¼‰
 */
 void W_FoldableTabChildWindow::acceptData(){
 
@@ -93,7 +93,7 @@ void W_FoldableTabChildWindow::acceptData(){
 	this->m_parentManager->refreshAllPart();
 }
 /* --------------------------------------------------------------
-		´°¿Ú - ¹Ø±ÕÊÂ¼ş£¨°´Å¥£©
+		çª—å£ - å…³é—­äº‹ä»¶ï¼ˆæŒ‰é’®ï¼‰
 */
 void W_FoldableTabChildWindow::rejectData(){
 

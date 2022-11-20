@@ -1,35 +1,34 @@
-#include "stdafx.h"
-
-#include "c_RaTConfig.h"
+ï»¿#include "stdafx.h"
+#include "C_RaTConfig.h"
 
 /*
 -----==========================================================-----
-		Àà£º		±í¸ñÅäÖÃ Êý¾ÝÀà.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		µ¥Ñ¡±í¸ñÅäÖÃ µÄÊý¾ÝÀà¡£
+		ç±»ï¼š		è¡¨æ ¼é…ç½® æ•°æ®ç±».cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±žæ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		å•é€‰è¡¨æ ¼é…ç½® çš„æ•°æ®ç±»ã€‚
 					
-		×Ó¹¦ÄÜ£º
-					->¿Õ¶ÔÏó
+		å­åŠŸèƒ½ï¼š
+					->ç©ºå¯¹è±¡
 					
 -----==========================================================-----
 */
 C_RaTConfig::C_RaTConfig(){
 
-	this->showNumber = true;			//ÏÔÊ¾ÐòºÅ
-	this->zeroFill = true;				//ÁãÌî³ä
-	this->zeroFillCount = 4;			//Ìî³äÎ»Êý
-	this->zeroFillChar = '0';			//Ìî³ä×Ö·û
+	this->showNumber = true;			//æ˜¾ç¤ºåºå·
+	this->zeroFill = true;				//é›¶å¡«å……
+	this->zeroFillCount = 4;			//å¡«å……ä½æ•°
+	this->zeroFillChar = '0';			//å¡«å……å­—ç¬¦
 
-	this->rowHeight = 24;				//ÐÐ¸ß
-	this->isMultiSelect = false;		//¶àÑ¡¿ª¹Ø
+	this->rowHeight = 24;				//è¡Œé«˜
+	this->isMultiSelect = false;		//å¤šé€‰å¼€å…³
 }
 C_RaTConfig::~C_RaTConfig(){
 }
 
 
 /*-------------------------------------------------
-		ÊµÌåÀà -> QJsonObject
+		å®žä½“ç±» -> QJsonObject
 */
 QJsonObject C_RaTConfig::getJsonObject(){
 	QJsonObject obj = QJsonObject();
@@ -42,7 +41,7 @@ QJsonObject C_RaTConfig::getJsonObject(){
 	return obj;
 }
 /*-------------------------------------------------
-		QJsonObject -> ÊµÌåÀà
+		QJsonObject -> å®žä½“ç±»
 */
 void C_RaTConfig::setJsonObject(QJsonObject obj){
 

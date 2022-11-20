@@ -1,4 +1,5 @@
-#pragma once
+ï»¿#pragma once
+#include "stdafx.h"
 
 #include <QKeyEvent>
 #include <QTableWidget>
@@ -7,12 +8,12 @@
 
 /*
 -----==========================================================-----
-		Àà£º		µ¥Ñ¡±í¸ñ.cpp
-		°æ±¾£º		v1.02
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		½«Êı¾İÈ«²¿ÏÔÊ¾£¬²¢ÄÜµ¥Ñ¡¡££¨²»º¬ÅÅĞò¹¦ÄÜ£©
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		å•é€‰è¡¨æ ¼.cpp
+		ç‰ˆæœ¬ï¼š		v1.02
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		å°†æ•°æ®å…¨éƒ¨æ˜¾ç¤ºï¼Œå¹¶èƒ½å•é€‰ã€‚ï¼ˆä¸å«æ’åºåŠŸèƒ½ï¼‰
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 class P_RadioTable : public QObject
@@ -20,135 +21,135 @@ class P_RadioTable : public QObject
 	Q_OBJECT
 
 	public:
-		P_RadioTable(QTableWidget *parent);		//¹¹Ôìº¯Êı
-		~P_RadioTable();						//Îö¹¹º¯Êı
+		P_RadioTable(QTableWidget *parent);		//æ„é€ å‡½æ•°
+		~P_RadioTable();						//ææ„å‡½æ•°
 		
 	//-----------------------------------
-	//----¿Ø¼ş
+	//----æ§ä»¶
 	protected:
-		QTableWidget* m_table;						//±í¸ñ¶ÔÏó
-		QString m_tableStyle;						//±í¸ñÄ¬ÈÏÑùÊ½
-		QList<QTableWidgetItem*> m_itemTank;		//±í¸ñÏîÁĞ±í
+		QTableWidget* m_table;						//è¡¨æ ¼å¯¹è±¡
+		QString m_tableStyle;						//è¡¨æ ¼é»˜è®¤æ ·å¼
+		QList<QTableWidgetItem*> m_itemTank;		//è¡¨æ ¼é¡¹åˆ—è¡¨
 	public:
-									//¿Ø¼ş - Ë¢ĞÂ±í¸ñ
+									//æ§ä»¶ - åˆ·æ–°è¡¨æ ¼
 		void refreshTableUi();
-									//¿Ø¼ş - ÇåÀíÈ«²¿
+									//æ§ä»¶ - æ¸…ç†å…¨éƒ¨
 		void clearAll();
-									//¿Ø¼ş - ±í¸ñÏîÊıÁ¿
+									//æ§ä»¶ - è¡¨æ ¼é¡¹æ•°é‡
 		int count();
-									//¿Ø¼ş - ĞŞ¸ÄÖ¸¶¨Î»ÖÃÎÄ±¾£¨²»·¢textchangeĞÅºÅ£©
+									//æ§ä»¶ - ä¿®æ”¹æŒ‡å®šä½ç½®æ–‡æœ¬ï¼ˆä¸å‘textchangeä¿¡å·ï¼‰
 		void modifyText(int index, QString text);
-									//¿Ø¼ş - ĞŞ¸ÄÑ¡ÖĞÏîÎÄ±¾£¨²»·¢textchangeĞÅºÅ£©
+									//æ§ä»¶ - ä¿®æ”¹é€‰ä¸­é¡¹æ–‡æœ¬ï¼ˆä¸å‘textchangeä¿¡å·ï¼‰
 		void modifyText_Selected( QString text );
-									//¿Ø¼ş - »ñÈ¡Ãû³Æ
+									//æ§ä»¶ - è·å–åç§°
 		QString getTextByIndex(int index);
 		QStringList getTextByIndex(QList<int> index_list);
 
 	protected:
-									//¿Ø¼ş - »ñÈ¡ÎÄ±¾
+									//æ§ä»¶ - è·å–æ–‡æœ¬
 		QString getRealText(QTableWidgetItem* item);
-									//¿Ø¼ş - Ë¢ĞÂ Ïî ×ÔÉíÎÄ±¾
+									//æ§ä»¶ - åˆ·æ–° é¡¹ è‡ªèº«æ–‡æœ¬
 		void refreshItem(QTableWidgetItem* item);
 		
 	//-----------------------------------
-	//----Êı¾İ£¨±í¸ñÉèÖÃ£©
+	//----æ•°æ®ï¼ˆè¡¨æ ¼è®¾ç½®ï¼‰
 	protected:
-		C_RaTConfig m_config;	//±í¸ñÉèÖÃ
+		C_RaTConfig m_config;	//è¡¨æ ¼è®¾ç½®
 	public:
-										//±í¸ñÉèÖÃ - ÉèÖÃ²ÎÊı
+										//è¡¨æ ¼è®¾ç½® - è®¾ç½®å‚æ•°
 		void setConfigParam(C_RaTConfig config);
-										//±í¸ñÉèÖÃ - È¡³ö²ÎÊı
+										//è¡¨æ ¼è®¾ç½® - å–å‡ºå‚æ•°
 		C_RaTConfig setConfigParam();
-										//±í¸ñÉèÖÃ - ÉèÖÃ²ÎÊı
+										//è¡¨æ ¼è®¾ç½® - è®¾ç½®å‚æ•°
 		void setConfigParam_obj(QJsonObject config);
-										//±í¸ñÉèÖÃ - È¡³ö²ÎÊı
+										//è¡¨æ ¼è®¾ç½® - å–å‡ºå‚æ•°
 		QJsonObject getConfigParam_obj();
 	protected slots:
-										//±í¸ñÉèÖÃ - ±à¼­´°¿Ú
+										//è¡¨æ ¼è®¾ç½® - ç¼–è¾‘çª—å£
 		void openConfigParamWindow();
 
 	//-----------------------------------
-	//----±í¸ñÊÂ¼ş
+	//----è¡¨æ ¼äº‹ä»¶
 	public:
-		bool m_selectionSignalBlock_Root;	//È¦Ñ¡ Ëø
+		bool m_selectionSignalBlock_Root;	//åœˆé€‰ é”
 	public slots:
-											//ÓÒ¼üÊÂ¼ş
+											//å³é”®äº‹ä»¶
 		void sltItemRightClicked(QPoint point);
-											//È¦Ñ¡±ä»¯ÊÂ¼ş
+											//åœˆé€‰å˜åŒ–äº‹ä»¶
 		void sltItemSelectionChanged();
 
 	//-----------------------------------
-	//----×ÊÔ´Êı¾İ
+	//----èµ„æºæ•°æ®
 	protected:
-		QStringList local_text;		//×ÊÔ´Êı¾İ
+		QStringList local_text;		//èµ„æºæ•°æ®
 	public:
-									//×ÊÔ´Êı¾İ - ÉèÖÃÊı¾İ
+									//èµ„æºæ•°æ® - è®¾ç½®æ•°æ®
 		void setSource(QStringList text_list);
-									//×ÊÔ´Êı¾İ - È¡³öÊı¾İ
+									//èµ„æºæ•°æ® - å–å‡ºæ•°æ®
 		int getSelectedIndex();
 		QString getSelectedText();
-									//×ÊÔ´Êı¾İ - È¡³öÊı¾İ£¨¶àÑ¡£©
+									//èµ„æºæ•°æ® - å–å‡ºæ•°æ®ï¼ˆå¤šé€‰ï¼‰
 		QList<int> getSelectedIndex_Multi();
 		QList<QString> getSelectedText_Multi();
 
 		
 	//-----------------------------------
-	//----Ñ¡ÖĞ
+	//----é€‰ä¸­
 	protected:
-		int m_last_index;			//ÉÏÒ»¸öÑ¡ÖĞÏî
+		int m_last_index;			//ä¸Šä¸€ä¸ªé€‰ä¸­é¡¹
 	public slots:
-									//Ñ¡ÖĞ - ÉèÖÃÑ¡ÖĞ
-									//		¡¾²ÎÊı¡¿£ºÊı×Ö£¬¿ÉÒÔËæÒâÔ½½ç£¬Ô½½çºó»áÑ¡Ôñ×î½Ó½üµÄÒ»Ïî¡£
+									//é€‰ä¸­ - è®¾ç½®é€‰ä¸­
+									//		ã€å‚æ•°ã€‘ï¼šæ•°å­—ï¼Œå¯ä»¥éšæ„è¶Šç•Œï¼Œè¶Šç•Œåä¼šé€‰æ‹©æœ€æ¥è¿‘çš„ä¸€é¡¹ã€‚
 		void selectIndex(int index);
-									//Ñ¡ÖĞ - ÉèÖÃÑ¡ÖĞ
-									//		¡¾²ÎÊı¡¿£º×Ö·û´®£¬¶à¸öÏàÍ¬×Ö·û´®£¬Ö»Ñ¡µÚÒ»¸ö¡£Ã»ÓĞÆ¥ÅäµÄÔòÎŞĞ§¡£
+									//é€‰ä¸­ - è®¾ç½®é€‰ä¸­
+									//		ã€å‚æ•°ã€‘ï¼šå­—ç¬¦ä¸²ï¼Œå¤šä¸ªç›¸åŒå­—ç¬¦ä¸²ï¼Œåªé€‰ç¬¬ä¸€ä¸ªã€‚æ²¡æœ‰åŒ¹é…çš„åˆ™æ— æ•ˆã€‚
 		void selectText(QString text);
-									//Ñ¡ÖĞ - ÉèÖÃÑ¡ÖĞ£¨¶àÑ¡£©
+									//é€‰ä¸­ - è®¾ç½®é€‰ä¸­ï¼ˆå¤šé€‰ï¼‰
 		void selectIndex_Multi(QList<int> index);
 		void selectText_Multi(QList<QString> text);
-									//Ñ¡ÖĞ - Ñ¡ÖĞÉÏÒ»Ïî
+									//é€‰ä¸­ - é€‰ä¸­ä¸Šä¸€é¡¹
 		void selectLast();
-									//Ñ¡ÖĞ - Ñ¡ÖĞÏÂÒ»Ïî
+									//é€‰ä¸­ - é€‰ä¸­ä¸‹ä¸€é¡¹
 		void selectNext();
-									//Ñ¡ÖĞ - Ñ¡ÖĞÊ×Ïî
+									//é€‰ä¸­ - é€‰ä¸­é¦–é¡¹
 		void selectStart();
-									//Ñ¡ÖĞ - Ñ¡ÖĞÎ²Ïî
+									//é€‰ä¸­ - é€‰ä¸­å°¾é¡¹
 		void selectEnd();
 	signals:
-									//Ñ¡ÖĞ - Ñ¡ÖĞÑ¡Ïî±ä»¯
+									//é€‰ä¸­ - é€‰ä¸­é€‰é¡¹å˜åŒ–
 		void currentIndexChanged(int index);
-									//Ñ¡ÖĞ - Ñ¡ÖĞÎÄ±¾±ä»¯
+									//é€‰ä¸­ - é€‰ä¸­æ–‡æœ¬å˜åŒ–
 		void currentTextChanged(QString text);
-									//Ñ¡ÖĞ - Ñ¡ÖĞÑ¡Ïî±ä»¯£¨¶àÑ¡£©
+									//é€‰ä¸­ - é€‰ä¸­é€‰é¡¹å˜åŒ–ï¼ˆå¤šé€‰ï¼‰
 		void currentIndexChanged_Multi(QList<int> index_list);
 
 		
 	//-----------------------------------
-	//----ÓÒ¼ü²Ëµ¥
+	//----å³é”®èœå•
 	protected:
-		bool m_itemOuterControlEnabled;			//²Ëµ¥±à¼­ - ¿ª¹Ø
-		bool m_itemOuterControl_CopyActive;		//²Ëµ¥±à¼­ - ¸´ÖÆ¼¤»î
-		bool m_itemOuterControl_PasteActive;	//²Ëµ¥±à¼­ - Õ³Ìù¼¤»î
-		bool m_itemOuterControl_ClearActive;	//²Ëµ¥±à¼­ - Çå¿Õ¼¤»î
+		bool m_itemOuterControlEnabled;			//èœå•ç¼–è¾‘ - å¼€å…³
+		bool m_itemOuterControl_CopyActive;		//èœå•ç¼–è¾‘ - å¤åˆ¶æ¿€æ´»
+		bool m_itemOuterControl_PasteActive;	//èœå•ç¼–è¾‘ - ç²˜è´´æ¿€æ´»
+		bool m_itemOuterControl_ClearActive;	//èœå•ç¼–è¾‘ - æ¸…ç©ºæ¿€æ´»
 	signals:
-									//½Ó¿Ú - ¸´ÖÆ°´ÏÂ£¨ĞÅºÅ£©
+									//æ¥å£ - å¤åˆ¶æŒ‰ä¸‹ï¼ˆä¿¡å·ï¼‰
 		void menuCopyItemTriggered(int index);
-									//½Ó¿Ú - Õ³Ìù°´ÏÂ£¨ĞÅºÅ£©
+									//æ¥å£ - ç²˜è´´æŒ‰ä¸‹ï¼ˆä¿¡å·ï¼‰
 		void menuPasteItemTriggered(int index);
-									//½Ó¿Ú - Çå¿Õ°´ÏÂ£¨ĞÅºÅ£©
+									//æ¥å£ - æ¸…ç©ºæŒ‰ä¸‹ï¼ˆä¿¡å·ï¼‰
 		void menuClearItemTriggered(int index);
 	public slots:
-									//½Ó¿Ú - ¿ª¹Ø£¨Ä¬ÈÏ¿ªÆô£©
+									//æ¥å£ - å¼€å…³ï¼ˆé»˜è®¤å¼€å¯ï¼‰
 		void setItemOuterControlEnabled(bool enabled);
-									//½Ó¿Ú - ¼¤»î¿ØÖÆ
+									//æ¥å£ - æ¿€æ´»æ§åˆ¶
 		void setItemOuterControl_CopyActive(bool enabled);
 		void setItemOuterControl_PasteActive(bool enabled);
 		void setItemOuterControl_ClearActive(bool enabled);
-									//½Ó¿Ú - ¸´ÖÆ°´ÏÂ
+									//æ¥å£ - å¤åˆ¶æŒ‰ä¸‹
 		void menuCopyItemInAction();
-									//½Ó¿Ú - Õ³Ìù°´ÏÂ
+									//æ¥å£ - ç²˜è´´æŒ‰ä¸‹
 		void menuPasteItemInAction();
-									//½Ó¿Ú - Çå¿Õ°´ÏÂ
+									//æ¥å£ - æ¸…ç©ºæŒ‰ä¸‹
 		void menuClearItemInAction();
 
 

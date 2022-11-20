@@ -1,15 +1,16 @@
-#ifndef I_PiSPicture_H
+ï»¿#ifndef I_PiSPicture_H
 #define I_PiSPicture_H
+#include "stdafx.h"
 
 #include <QWidget>
 
 /*
 -----==========================================================-----
-		Àà£º		Í¼Æ¬µ¥¿Ø¼ş.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		Ê¹µÃ±êÇ©´øÓĞ¶à¸ö°´Å¥£¬ÕâĞ©°´Å¥Ïàµ±ÓÚ¹´Ñ¡¿ò¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		å›¾ç‰‡å•æ§ä»¶.cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		ä½¿å¾—æ ‡ç­¾å¸¦æœ‰å¤šä¸ªæŒ‰é’®ï¼Œè¿™äº›æŒ‰é’®ç›¸å½“äºå‹¾é€‰æ¡†ã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 
@@ -18,32 +19,32 @@ class I_PiSPicture : public QWidget
 	Q_OBJECT
 
 	public:
-		I_PiSPicture(int width, int height, QWidget* parent = 0);	//¹¹Ôìº¯Êı
-		~I_PiSPicture();											//Îö¹¹º¯Êı
+		I_PiSPicture(int width, int height, QWidget* parent = 0);	//æ„é€ å‡½æ•°
+		~I_PiSPicture();											//ææ„å‡½æ•°
 
 	//-----------------------------------
-	//----¿Ø¼ş
+	//----æ§ä»¶
 	private:
 		int m_pixmapWidth;
 		int m_pixmapHeight;
 		QPixmap m_pixmap;
 	public:
-									//¿Ø¼ş - ÉèÖÃÍ¼Æ¬
+									//æ§ä»¶ - è®¾ç½®å›¾ç‰‡
 		void setPixmap(QPixmap pixmap);
-									//¿Ø¼ş - ÂíÈü¿ËÉèÖÃ
+									//æ§ä»¶ - é©¬èµ›å…‹è®¾ç½®
 		void setMaskEnabled(bool maskEnabled);
 		
 	//-----------------------------------
-	//----»æÖÆ
+	//----ç»˜åˆ¶
 	protected:
-		bool m_maskEnabled;			//ÂíÈü¿Ë
-		int m_maskWidth;			//ÂíÈü¿Ë ¿é¿í
-		int m_maskHeight;			//ÂíÈü¿Ë ¿é¸ß
-		QColor m_maskColor;			//ÂíÈü¿Ë ÑÕÉ«
+		bool m_maskEnabled;			//é©¬èµ›å…‹
+		int m_maskWidth;			//é©¬èµ›å…‹ å—å®½
+		int m_maskHeight;			//é©¬èµ›å…‹ å—é«˜
+		QColor m_maskColor;			//é©¬èµ›å…‹ é¢œè‰²
 	protected:
-									//»æÖÆ - »æÖÆÍ¼Æ¬
+									//ç»˜åˆ¶ - ç»˜åˆ¶å›¾ç‰‡
 		void paintEvent(QPaintEvent*);
-									//»æÖÆ - »æÖÆÂíÈü¿Ë·½¿é
+									//ç»˜åˆ¶ - ç»˜åˆ¶é©¬èµ›å…‹æ–¹å—
 		QPixmap getBitmapMaskBackground();
 
 };

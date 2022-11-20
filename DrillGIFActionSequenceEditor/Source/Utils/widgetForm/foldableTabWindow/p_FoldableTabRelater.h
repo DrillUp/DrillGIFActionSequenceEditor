@@ -1,17 +1,18 @@
-#ifndef P_FoldableTabManager_H
+ï»¿#ifndef P_FoldableTabManager_H
 #define P_FoldableTabManager_H
+#include "stdafx.h"
 
-#include "private/c_FoldableTabPrivate.h"
-#include "private/w_FoldableTabChildWindow.h"
+#include "Private/C_FoldableTabPrivate.h"
+#include "Private/W_FoldableTabChildWindow.h"
 
 /*
 -----==========================================================-----
-		Àà£º		¿ÉÕÛµşÑ¡Ïî¿¨ ¹ÜÀíÆ÷.h
-		°æ±¾£º		v1.02
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		ÕÛµşÑ¡Ïî¿¨´°¿ÚµÄ¹ÜÀíÆ÷¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		å¯æŠ˜å é€‰é¡¹å¡ ç®¡ç†å™¨.h
+		ç‰ˆæœ¬ï¼š		v1.03
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		æŠ˜å é€‰é¡¹å¡çª—å£çš„ç®¡ç†å™¨ã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 
@@ -24,45 +25,48 @@ class P_FoldableTabRelater : public QObject
 		~P_FoldableTabRelater();
 		
 	//-----------------------------------
-	//----¸¸¿Ø¼ş
+	//----çˆ¶æ§ä»¶
 	protected:
-		QTabWidget* m_tab;				//¸¸¿Ø¼ş
-		QString m_tabStyle;				//ÑùÊ½
+		QTabWidget* m_tab;				//çˆ¶æ§ä»¶
+		QString m_tabStyle;				//æ ·å¼
 	public slots:
-								//¸¸¿Ø¼ş - ¹Ø±Õ±êÇ©
+								//çˆ¶æ§ä»¶ - å…³é—­æ ‡ç­¾
+								//		ã€è¯´æ˜ã€‘ï¼šindexå¯ä»¥è¶Šç•Œã€‚
 		void tabClosed(int index);
-								//¸¸¿Ø¼ş - ±êÇ©È«¹éÎ»
+								//çˆ¶æ§ä»¶ - åˆ‡æ¢åˆ°æŒ‡å®šæ ‡ç­¾
+		void selectTab(QString tab_name);
+								//çˆ¶æ§ä»¶ - æ ‡ç­¾å…¨å½’ä½
 		void homingAllTab();
 
 	//-----------------------------------
-	//----×Ó¿é
+	//----å­å—
 	protected:
 		QList<C_FoldableTabPrivate*> m_partList;
 	public slots:
-								//×Ó¿é - Ìí¼Ó×Ó¿é
+								//å­å— - æ·»åŠ å­å—
 		void addPart(QString name, QWidget* partWidget);	
 		void addPart(QString name, QWidget* partWidget, QJsonObject param);	
 		
-								//×Ó¿é - »ñÈ¡×Ó¿é£¨¸ù¾İÃû³Æ£©
+								//å­å— - è·å–å­å—ï¼ˆæ ¹æ®åç§°ï¼‰
 		C_FoldableTabPrivate* getPartByName(QString name);
-								//×Ó¿é - »ñÈ¡È«²¿×Ó¿é
+								//å­å— - è·å–å…¨éƒ¨å­å—
 		QList<C_FoldableTabPrivate*> getAllPart();
 
-								//×Ó¿é - Ë¢ĞÂ×Ó¿é´°¿Ú·Ö²¼Çé¿ö
+								//å­å— - åˆ·æ–°å­å—çª—å£åˆ†å¸ƒæƒ…å†µ
 		void refreshAllPart();
 
 	//-----------------------------------
-	//----×Ó´°¿Ú
+	//----å­çª—å£
 	protected:
 		QList<W_FoldableTabChildWindow*> m_childWindowList;
 	public slots:
-								//×Ó´°¿Ú - ÏÔÊ¾
+								//å­çª—å£ - æ˜¾ç¤º
 		void showChildWindow(QString name);	
-								//×Ó´°¿Ú - Òş²Ø
+								//å­çª—å£ - éšè—
 		void hideChildWindow(QString name);
-								//×Ó´°¿Ú - È«²¿Òş²Ø£¨È«²¿»Øµ½±êÇ©Ò³ÖĞ£©
+								//å­çª—å£ - å…¨éƒ¨éšè—ï¼ˆå…¨éƒ¨å›åˆ°æ ‡ç­¾é¡µä¸­ï¼‰
 		void hideAllChildWindow();
-								//×Ó´°¿Ú - »ñÈ¡
+								//å­çª—å£ - è·å–
 		W_FoldableTabChildWindow* getChildWindow(QString name);
 		
 };

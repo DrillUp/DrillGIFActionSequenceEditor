@@ -1,18 +1,18 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "I_PiSPicture.h"
 
-#include "Source/Utils/common/TTool.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Í¼Æ¬¿é.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		Ê¹µÃ±êÇ©´øÓĞ¶à¸ö°´Å¥£¬ÕâĞ©°´Å¥Ïàµ±ÓÚ¹´Ñ¡¿ò¡£
+		ç±»ï¼š		å›¾ç‰‡å—.cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		ä½¿å¾—æ ‡ç­¾å¸¦æœ‰å¤šä¸ªæŒ‰é’®ï¼Œè¿™äº›æŒ‰é’®ç›¸å½“äºå‹¾é€‰æ¡†ã€‚
 
 
-		Ê¹ÓÃ·½·¨£º
-				>³õÊ¼»¯
+		ä½¿ç”¨æ–¹æ³•ï¼š
+				>åˆå§‹åŒ–
 
 -----==========================================================-----
 */
@@ -20,17 +20,17 @@ I_PiSPicture::I_PiSPicture(int width, int height, QWidget *parent)
 	: QWidget(parent)
 {
 	//-----------------------------------
-	//----²ÎÊı³õÊ¼»¯
+	//----å‚æ•°åˆå§‹åŒ–
 	this->m_pixmapWidth = width;
 	this->m_pixmapHeight = height;
 
-	this->m_maskEnabled = true;					//ÂíÈü¿Ë »æÖÆ
-	this->m_maskWidth = 24;						//ÂíÈü¿Ë ¿é¿í
-	this->m_maskHeight = 24;					//ÂíÈü¿Ë ¿é¸ß
-	this->m_maskColor = QColor(245, 245, 245);	//ÂíÈü¿Ë ÑÕÉ«
+	this->m_maskEnabled = true;					//é©¬èµ›å…‹ ç»˜åˆ¶
+	this->m_maskWidth = 24;						//é©¬èµ›å…‹ å—å®½
+	this->m_maskHeight = 24;					//é©¬èµ›å…‹ å—é«˜
+	this->m_maskColor = QColor(245, 245, 245);	//é©¬èµ›å…‹ é¢œè‰²
 
 	//-----------------------------------
-	//----ui³õÊ¼»¯
+	//----uiåˆå§‹åŒ–
 	this->setFixedWidth(this->m_pixmapWidth);
 	this->setMinimumWidth(this->m_pixmapWidth);
 	this->setMaximumWidth(this->m_pixmapWidth);
@@ -44,14 +44,14 @@ I_PiSPicture::~I_PiSPicture(){
 }
 
 /*-------------------------------------------------
-		¿Ø¼ş - ÉèÖÃÍ¼Æ¬
+		æ§ä»¶ - è®¾ç½®å›¾ç‰‡
 */
 void I_PiSPicture::setPixmap(QPixmap pixmap){
 	this->m_pixmap = pixmap;
 	this->update();
 }
 /*-------------------------------------------------
-		¿Ø¼ş - ÂíÈü¿Ë
+		æ§ä»¶ - é©¬èµ›å…‹
 */
 void I_PiSPicture::setMaskEnabled(bool maskEnabled){
 	if (this->m_maskEnabled == maskEnabled){ return; }
@@ -60,36 +60,36 @@ void I_PiSPicture::setMaskEnabled(bool maskEnabled){
 }
 
 /*-------------------------------------------------
-		»æÖÆ - »æÖÆÍ¼Æ¬
+		ç»˜åˆ¶ - ç»˜åˆ¶å›¾ç‰‡
 */
 void I_PiSPicture::paintEvent(QPaintEvent*){
 
-	// > °´±ÈÀıËõ·Å
+	// > æŒ‰æ¯”ä¾‹ç¼©æ”¾
 	QPixmap scaledPixmap = this->m_pixmap.scaled(QSize(this->m_pixmapWidth, this->m_pixmapHeight), Qt::KeepAspectRatio);
 
-	// > »æÖÆ
+	// > ç»˜åˆ¶
 	QPainter* painter = new QPainter();
 	painter->begin(this);
 
-	//QPen pen;		//£¨»­Ò»ÌõĞ±Ïß£¬²âÊÔÓÃ£©
+	//QPen pen;		//ï¼ˆç”»ä¸€æ¡æ–œçº¿ï¼Œæµ‹è¯•ç”¨ï¼‰
 	//pen.setWidthF(0.4);
 	//pen.setColor(QColor(0, 0, 0));
 	//painter->setPen(pen);
 	//painter->drawLine(0, 0, 7, 7);
 
-	// > ±³¾°»æÖÆ
+	// > èƒŒæ™¯ç»˜åˆ¶
 	if (this->m_maskEnabled){
 		painter->drawPixmap(QPoint(0, 0), this->getBitmapMaskBackground());
 	}
 
-	// > ¾ÓÖĞµã
+	// > å±…ä¸­ç‚¹
 	QPoint p = QPoint((this->m_pixmapWidth - scaledPixmap.width())*0.5, (this->m_pixmapHeight - scaledPixmap.height())*0.5);
 	painter->drawPixmap(p, scaledPixmap);
 
 	painter->end();
 }
 /*-------------------------------------------------
-		»æÖÆ - »æÖÆÂíÈü¿Ë·½¿é
+		ç»˜åˆ¶ - ç»˜åˆ¶é©¬èµ›å…‹æ–¹å—
 */
 QPixmap I_PiSPicture::getBitmapMaskBackground(){
 	int ww = this->m_pixmapWidth;
@@ -97,9 +97,9 @@ QPixmap I_PiSPicture::getBitmapMaskBackground(){
 	int pw = this->m_maskWidth;
 	int ph = this->m_maskHeight;
 
-	QPixmap img = QPixmap(ww, hh);				//»­°å
-	QPainter painter(&img);						//»­¼Ò
-	img.fill(this->m_maskColor);				//Ìî³äµ×É«
+	QPixmap img = QPixmap(ww, hh);				//ç”»æ¿
+	QPainter painter(&img);						//ç”»å®¶
+	img.fill(this->m_maskColor);				//å¡«å……åº•è‰²
 
 	painter.setPen(QPen(QColor(0, 0, 0, 0)));
 	painter.setBrush(QBrush(QColor(0, 0, 0, 30), Qt::BrushStyle::SolidPattern));
@@ -112,7 +112,7 @@ QPixmap I_PiSPicture::getBitmapMaskBackground(){
 		}
 	}
 	painter.end();
-	//£¨×¢Òâ£¬painter.fillRectº¯ÊıÊÇÎŞĞ§µÄ£¡£©
+	//ï¼ˆæ³¨æ„ï¼Œpainter.fillRectå‡½æ•°æ˜¯æ— æ•ˆçš„ï¼ï¼‰
 
 	return img;
 }

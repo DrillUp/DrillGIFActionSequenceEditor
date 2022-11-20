@@ -3,7 +3,8 @@
 
 #include "../actionSeqData/s_ActionSeqDataContainer.h"
 #include "Source/ProjectModule/s_ProjectManager.h"
-#include "Source/Utils/common/TTool.h"
+#include "Source/Utils/WidgetForm/QStringListEditor/W_QStringListEditor.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
@@ -43,6 +44,7 @@ P_ActionPart::P_ActionPart(QWidget *parent)
 	//----初始化参数
 	this->m_last_index = -1;
 	this->m_slotBlock_source = false;
+	this->m_curTagTank.clear();
 
 	//-----------------------------------
 	//----初始化ui
@@ -83,6 +85,9 @@ P_ActionPart::P_ActionPart(QWidget *parent)
 	connect(this->m_table, &P_RadioTable::menuClearItemTriggered, this, &P_ActionPart::shortcut_clearData);
 	connect(this->m_p_AnimationListEditor, &P_AnimationListEditor::selectedIndexChanged_Multi, this, &P_ActionPart::tableChanged_Multi);
 
+	// > 标签列表编辑
+	connect(ui.pushButton_tagTank, &QPushButton::clicked, this, &P_ActionPart::btn_editTagTank);
+
 	// > 表单变化绑定
 	connect(ui.lineEdit_name, &QLineEdit::textEdited, this->m_table, &P_RadioTable::modifyText_Selected);
 	connect(ui.lineEdit_name, &QLineEdit::textChanged, this->m_p_AnimationListEditor, &P_AnimationListEditor::setExportName);
@@ -104,6 +109,30 @@ P_ActionPart::P_ActionPart(QWidget *parent)
 
 P_ActionPart::~P_ActionPart(){
 }
+
+
+/*-------------------------------------------------
+		控件 - 修改标签列表
+*/
+void P_ActionPart::btn_editTagTank(){
+	W_QStringListEditor d(this);
+	d.setDataInModifyMode(this->m_curTagTank);
+	if (d.exec() == QDialog::Accepted){
+		this->m_curTagTank = d.getData();
+		this->refreshTagTank();
+	}
+}
+/*-------------------------------------------------
+		控件 - 刷新标签显示
+*/
+void P_ActionPart::refreshTagTank(){
+	QString context;
+	context.append("[");
+	context.append(this->m_curTagTank.join(","));
+	context.append("]");
+	ui.label_tagTank->setText(context);
+}
+
 
 /*-------------------------------------------------
 		动画帧 - 选项变化
@@ -244,6 +273,7 @@ void P_ActionPart::local_saveCurIndexData(){
 	// > 表单数据
 		QJsonObject obj_edit;
 		obj_edit.insert("动作元名称", ui.lineEdit_name->text());
+		obj_edit.insert("动作元标签", TTool::_JSON_stringify_(this->m_curTagTank));
 		obj_edit.insert("动作元优先级", QString::number(ui.spinBox_priority->value()));
 		obj_edit.insert("是否倒放", ui.checkBox_gif_back_run->isChecked() ? "true" : "false");
 		obj_edit.insert("是否预加载", ui.checkBox_gif_preload->isChecked() ? "true" : "false");
@@ -286,6 +316,8 @@ void P_ActionPart::local_loadIndexData(int index){
 	QJsonObject obj_data = this->m_actionDataList.at(index);
 	//qDebug() << obj_data;
 		ui.lineEdit_name->setText(obj_data.value("动作元名称").toString());
+		this->m_curTagTank = TTool::_JSON_parse_To_QListQString_(obj_data.value("动作元标签").toString());
+		this->refreshTagTank();
 		ui.spinBox_priority->setValue(obj_data.value("动作元优先级").toString().toInt());
 		ui.checkBox_gif_back_run->setChecked(obj_data.value("是否倒放").toString() == "true");
 		ui.checkBox_gif_preload->setChecked(obj_data.value("是否预加载").toString() == "true");
