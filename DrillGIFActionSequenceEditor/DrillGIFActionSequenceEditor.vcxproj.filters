@@ -977,6 +977,9 @@
     <ClCompile Include="GeneratedFiles\Release\moc_W_QStringListEditor.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ActionSeqModule\actionSeqPart\C_ActionSeq.cpp">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="drillgifactionsequenceeditor.qrc">
@@ -1469,6 +1472,9 @@
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_W_QStringListEditor.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ActionSeqModule\actionSeqPart\C_ActionSeq.h">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

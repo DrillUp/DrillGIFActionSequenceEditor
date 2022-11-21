@@ -708,6 +708,7 @@
     <ClCompile Include="Source\ActionSeqModule\actionSeqData\lengthData\c_ActionSeqLength.cpp" />
     <ClCompile Include="Source\ActionSeqModule\actionSeqData\lengthData\w_ActionSeqLength.cpp" />
     <ClCompile Include="Source\ActionSeqModule\actionSeqData\s_ActionSeqDataContainer.cpp" />
+    <ClCompile Include="Source\ActionSeqModule\actionSeqPart\C_ActionSeq.cpp" />
     <ClCompile Include="Source\ActionSeqModule\actionSeqPart\p_ActionSeqPart.cpp" />
     <ClCompile Include="Source\ActionSeqModule\playingPart\defaultStateGroup\w_DefaultStateGroupEdit.cpp" />
     <ClCompile Include="Source\ActionSeqModule\playingPart\p_PlayingPart.cpp" />
@@ -1046,6 +1047,7 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </Command>
     </CustomBuild>
+    <ClInclude Include="Source\ActionSeqModule\actionSeqPart\C_ActionSeq.h" />
     <ClInclude Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_ActController.h" />
     <ClInclude Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_MainController.h" />
     <ClInclude Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_StateController.h" />

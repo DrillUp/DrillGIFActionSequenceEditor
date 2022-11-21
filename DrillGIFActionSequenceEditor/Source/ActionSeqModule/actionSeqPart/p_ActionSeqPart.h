@@ -1,9 +1,10 @@
-#ifndef P_ActionSeqPart_H
+ï»¿#ifndef P_ActionSeqPart_H
 #define P_ActionSeqPart_H
 
 #include <QtWidgets>
 #include "ui_P_ActionSeqPart.h"
 
+#include "C_ActionSeq.h"
 #include "Source/ActionSeqModule/actionPart/p_ActionPart.h"
 #include "Source/ActionSeqModule/statePart/p_StatePart.h"
 #include "Source/ActionSeqModule/playingPart/p_PlayingPart.h"
@@ -14,11 +15,11 @@
 
 /*
 -----==========================================================-----
-		Àà£º		¶¯»­ĞòÁĞ¿é.h
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¶¯»­ĞòÁĞÄ£¿é
-		¹¦ÄÜ£º		¸Ã²¿·ÖÌá¹©¶¯»­ĞòÁĞ·ÅÓ³£¬¹¦ÄÜ£¬²¢Ç¶Ì××´Ì¬Ôª¡¢¶¯×÷ÔªµÄ¿é¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		åŠ¨ç”»åºåˆ—å—.h
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	åŠ¨ç”»åºåˆ—æ¨¡å—
+		åŠŸèƒ½ï¼š		è¯¥éƒ¨åˆ†æä¾›åŠ¨ç”»åºåˆ—æ”¾æ˜ ï¼ŒåŠŸèƒ½ï¼Œå¹¶åµŒå¥—çŠ¶æ€å…ƒã€åŠ¨ä½œå…ƒçš„å—ã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 class P_ActionSeqPart : public QWidget
@@ -30,82 +31,80 @@ class P_ActionSeqPart : public QWidget
 		~P_ActionSeqPart();
 		
 	//-----------------------------------
-	//----¶¯»­ĞòÁĞ È«Êı¾İ
+	//----åŠ¨ç”»åºåˆ— å…¨æ•°æ®
 	protected:
-		P_FlexibleClassificationTree* m_p_tree;		//¶¯»­ĞòÁĞÏÔÊ¾Ê÷
+		P_FlexibleClassificationTree* m_p_tree;		//åŠ¨ç”»åºåˆ—æ˜¾ç¤ºæ ‘
 	public slots:
-										//È«Êı¾İ - Ê÷Ñ¡Ôñ±ä»¯
+										//å…¨æ•°æ® - æ ‘é€‰æ‹©å˜åŒ–
 		void currentActionSeqChanged(QTreeWidgetItem* item, int id, QString name);
 		
 	//-----------------------------------
-	//----±¾µØÊı¾İµÄË÷Òı
+	//----æœ¬åœ°æ•°æ®çš„ç´¢å¼•
 	protected:
-		int m_cur_actionSeqIndex;				//µ±Ç°¶¯»­ĞòÁĞË÷Òı
-		QJsonObject m_cur_actionSeq;			//µ±Ç°¶¯»­ĞòÁĞ
-		QList<QJsonObject> m_cur_actionTank;	//µ±Ç°¶¯×÷ÔªÈİÆ÷
-		QList<QJsonObject> m_cur_stateTank;		//µ±Ç°×´Ì¬ÔªÈİÆ÷
+		int m_cur_actionSeqIndex;				//å½“å‰åŠ¨ç”»åºåˆ—ç´¢å¼•
+		C_ActionSeq m_cur_actionSeq;			//å½“å‰åŠ¨ç”»åºåˆ—
 	public:
-									//Êı¾İ - ±£´æ±¾µØÊı¾İ
+									//æ•°æ® - ä¿å­˜æœ¬åœ°æ•°æ®
 		void local_saveCurIndexData();
-									//Êı¾İ - ¶ÁÈ¡±¾µØÊı¾İ
+									//æ•°æ® - è¯»å–æœ¬åœ°æ•°æ®
 		void local_loadIndexData(int index);
 		
 	//-----------------------------------
-	//----¿ì½İ¼ü
+	//----å¿«æ·é”®
 	protected:
 		QJsonObject m_copyed_actionSeq;
 	protected:
-									//²Ù×÷ - Ìæ»»
+									//æ“ä½œ - æ›¿æ¢
 		void op_replace(int index, QJsonObject actiong_seq);
-									//²Ù×÷ - Çå¿Õ
+									//æ“ä½œ - æ¸…ç©º
 		void op_clear(int index);
 	public:
-									//¿ì½İ¼ü - ÊÂ¼ş
+									//å¿«æ·é”® - äº‹ä»¶
 		void keyPressEvent(QKeyEvent *event);
-									//¿ì½İ¼ü - ¸´ÖÆ
+									//å¿«æ·é”® - å¤åˆ¶
 		void shortcut_copyData();
-									//¿ì½İ¼ü - Õ³Ìù
+									//å¿«æ·é”® - ç²˜è´´
 		void shortcut_pasteData();
-									//¿ì½İ¼ü - Çå¿Õ
+									//å¿«æ·é”® - æ¸…ç©º
 		void shortcut_clearData();
 
 	//-----------------------------------
-	//----´ó¿Ø¼ş
+	//----å¤§æ§ä»¶
 	protected:
-		P_FoldableTabRelater* m_p_FoldableTabRelater;	//¿ÉÕÛµşÑ¡Ïî¿¨
-		P_ActionPart* m_actionPart;						//¶¯×÷Ôª¿é
-		P_StatePart* m_statePart;						//×´Ì¬Ôª¿é
-		P_PlayingPart* m_playingPart;					//·ÅÓ³Çø
+		P_FoldableTabRelater* m_p_FoldableTabRelater;	//å¯æŠ˜å é€‰é¡¹å¡
+		P_ActionPart* m_actionPart;						//åŠ¨ä½œå…ƒå—
+		P_StatePart* m_statePart;						//çŠ¶æ€å…ƒå—
+		P_PlayingPart* m_playingPart;					//æ”¾æ˜ åŒº
 	public:
-										//´ó¿Ø¼ş - ÖÃ»Ò
-										//		¡¾ËµÃ÷¡¿£ºÑ¡ÔñÒ»¸ö¶¯»­ĞòÁĞºó£¬ÖÃ»Ò²Å»á±»È¡Ïû¡£
+										//å¤§æ§ä»¶ - ç½®ç°
+										//		ã€è¯´æ˜ã€‘ï¼šé€‰æ‹©ä¸€ä¸ªåŠ¨ç”»åºåˆ—åï¼Œç½®ç°æ‰ä¼šè¢«å–æ¶ˆã€‚
 		void setPartGray();
-										//´ó¿Ø¼ş - Í£Ö¹²¥·Å
+										//å¤§æ§ä»¶ - åœæ­¢æ’­æ”¾
 		void stopPlaying();
 
 	//-----------------------------------
-	//----´°¿Ú
+	//----çª—å£
 	public:
-		bool m_slotBlock_source;					//¼ÓÔØÊ±×èÈû
-		QList<QJsonObject> m_actionSeq_list;		//¶¯»­ĞòÁĞÁĞ±í£¨ÁÙÊ±£©
+		bool m_slotBlock_source;					//åŠ è½½æ—¶é˜»å¡
+		QList<QJsonObject> m_actionSeq_list;		//åŠ¨ç”»åºåˆ—åˆ—è¡¨ï¼ˆä¸´æ—¶ï¼‰
 	public:
-										//´°¿Ú - ÉèÖÃÊı¾İ
+										//çª—å£ - è®¾ç½®æ•°æ®
 		void setData(QJsonObject actionSeq, C_ActionSeqLength length);
-										//´°¿Ú - È¡³öÊı¾İ
+										//çª—å£ - å–å‡ºæ•°æ®
 		QJsonObject getDataActionSeqData();
 		C_ActionSeqLength getDataActionSeqLength();
-										//´°¿Ú - ±¾µØÊı¾İ -> uiÊı¾İ
+										//çª—å£ - æœ¬åœ°æ•°æ® -> uiæ•°æ®
 		void putDataToUi();							
-										//´°¿Ú - uiÊı¾İ -> ±¾µØÊı¾İ
+										//çª—å£ - uiæ•°æ® -> æœ¬åœ°æ•°æ®
 		void putUiToData();
 	public:
-										//´°¿Ú - ĞŞ¸Ä³¤¶È
+										//çª—å£ - ä¿®æ”¹é•¿åº¦
 		void modifyDataLengthInAction();
 		
 	public:
-										//´°¿Ú - ÓÃ»§×Ô¶¨ÒåUI¶ÁÈ¡
+										//çª—å£ - ç”¨æˆ·è‡ªå®šä¹‰UIè¯»å–
 		void ui_loadConfig();
-										//´°¿Ú - ÓÃ»§×Ô¶¨ÒåUI´æ´¢
+										//çª—å£ - ç”¨æˆ·è‡ªå®šä¹‰UIå­˜å‚¨
 		void ui_saveConfig();
 	private:
 		Ui::P_ActionSeqPart ui;

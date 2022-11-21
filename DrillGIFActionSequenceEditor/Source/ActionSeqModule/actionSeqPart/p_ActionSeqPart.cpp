@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "p_ActionSeqPart.h"
 
 #include "Source/ProjectModule/s_ProjectManager.h"
@@ -10,15 +10,15 @@
 
 /*
 -----==========================================================-----
-		Àà£º		¶¯»­ĞòÁĞ¿é.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		¸Ã²¿·ÖÌá¹©¶¯»­ĞòÁĞ·ÅÓ³£¬¹¦ÄÜ£¬²¢Ç¶Ì××´Ì¬Ôª¡¢¶¯×÷ÔªµÄ¿é¡£
+		ç±»ï¼š		åŠ¨ç”»åºåˆ—å—.cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		è¯¥éƒ¨åˆ†æä¾›åŠ¨ç”»åºåˆ—æ”¾æ˜ ï¼ŒåŠŸèƒ½ï¼Œå¹¶åµŒå¥—çŠ¶æ€å…ƒã€åŠ¨ä½œå…ƒçš„å—ã€‚
 		
-		Ä¿±ê£º		1.
+		ç›®æ ‡ï¼š		1.
 
-		Ê¹ÓÃ·½·¨£º
-				>³õÊ¼»¯
+		ä½¿ç”¨æ–¹æ³•ï¼š
+				>åˆå§‹åŒ–
 
 -----==========================================================-----
 */
@@ -28,44 +28,44 @@ P_ActionSeqPart::P_ActionSeqPart(QWidget *parent)
 	ui.setupUi(this);
 
 	//-----------------------------------
-	//----³õÊ¼»¯²ÎÊı
+	//----åˆå§‹åŒ–å‚æ•°
 	this->m_slotBlock_source = false;
 	this->m_cur_actionSeqIndex = -1;
-	this->m_cur_actionSeq = QJsonObject();
+	this->m_cur_actionSeq = C_ActionSeq();
 
 	//-----------------------------------
-	//----³õÊ¼»¯ui
+	//----åˆå§‹åŒ–ui
 
-	// > ·ÅÓ³Çø¡¢¶¯×÷Ôª¡¢×´Ì¬Ôª
+	// > æ”¾æ˜ åŒºã€åŠ¨ä½œå…ƒã€çŠ¶æ€å…ƒ
 	this->m_statePart = new P_StatePart(parent);
 	this->m_actionPart = new P_ActionPart(parent);
 	this->m_playingPart = new P_PlayingPart(this->m_statePart, this->m_actionPart, parent);
 
-	// > ¿ÉÕÛµşÑ¡Ïî¿¨
-	this->m_p_FoldableTabRelater = new P_FoldableTabRelater(ui.tabWidget);	//£¨uiÖĞµÄÖ»ÊÇÊ¾Òâ£¬¸Ã¹¤¾ßÀà»áÖØ½¨tab£©
-	this->m_p_FoldableTabRelater->addPart(" ·ÅÓ³Çø  ", this->m_playingPart);
-	this->m_p_FoldableTabRelater->addPart(" ×´Ì¬Ôª  ", this->m_statePart);
-	this->m_p_FoldableTabRelater->addPart(" ¶¯×÷Ôª  ", this->m_actionPart);
+	// > å¯æŠ˜å é€‰é¡¹å¡
+	this->m_p_FoldableTabRelater = new P_FoldableTabRelater(ui.tabWidget);	//ï¼ˆuiä¸­çš„åªæ˜¯ç¤ºæ„ï¼Œè¯¥å·¥å…·ç±»ä¼šé‡å»ºtabï¼‰
+	this->m_p_FoldableTabRelater->addPart(" æ”¾æ˜ åŒº  ", this->m_playingPart);
+	this->m_p_FoldableTabRelater->addPart(" çŠ¶æ€å…ƒ  ", this->m_statePart);
+	this->m_p_FoldableTabRelater->addPart(" åŠ¨ä½œå…ƒ  ", this->m_actionPart);
 	this->setPartGray();
 
-	// > Ê÷
+	// > æ ‘
 	this->m_p_tree = new P_FlexibleClassificationTree(ui.treeWidget_ActionSeq);
 	C_FCT_Config* config = this->m_p_tree->getConfigEx();
 	config->rowHeight = 32;
-	config->setCurrentMode("×Ô¶¨Òå·ÖÖ§£¨°´idµİÔöÅÅĞò£©");
+	config->setCurrentMode("è‡ªå®šä¹‰åˆ†æ”¯ï¼ˆæŒ‰idé€’å¢æ’åºï¼‰");
 	this->m_p_tree->setConfigEx(config);
 	connect(this->m_p_tree, &P_FlexibleClassificationTree::currentLeafChanged, this, &P_ActionSeqPart::currentActionSeqChanged);
 	connect(this->m_p_tree, &P_FlexibleClassificationTree::menuCopyLeafTriggered, this, &P_ActionSeqPart::shortcut_copyData);
 	connect(this->m_p_tree, &P_FlexibleClassificationTree::menuPasteLeafTriggered, this, &P_ActionSeqPart::shortcut_pasteData);
 	connect(this->m_p_tree, &P_FlexibleClassificationTree::menuClearLeafTriggered, this, &P_ActionSeqPart::shortcut_clearData);
 
-	// > Ë®Æ½·Ö¸îÏß
-	ui.splitter->setStretchFactor(0, 4);		//£¨±ÈÀı±ä»¯±È½ÏÆæ¹Ö£¬ÔİÊ±ÕâÑù°É£©
+	// > æ°´å¹³åˆ†å‰²çº¿
+	ui.splitter->setStretchFactor(0, 4);		//ï¼ˆæ¯”ä¾‹å˜åŒ–æ¯”è¾ƒå¥‡æ€ªï¼Œæš‚æ—¶è¿™æ ·å§ï¼‰
 	ui.splitter->setStretchFactor(1, 5);
 	ui.splitter->handle(1)->setAttribute(Qt::WA_Hover, true);
 
 	//-----------------------------------
-	//----ÊÂ¼ş°ó¶¨
+	//----äº‹ä»¶ç»‘å®š
 	connect(ui.lineEdit, &QLineEdit::textEdited, this->m_p_tree, &P_FlexibleClassificationTree::outerModifySelectedLeafName);
 	connect(ui.toolButton_modifyLength, &QToolButton::clicked, this, &P_ActionSeqPart::modifyDataLengthInAction);
 
@@ -76,16 +76,16 @@ P_ActionSeqPart::~P_ActionSeqPart(){
 
 
 /*-------------------------------------------------
-		È«Êı¾İ - Ê÷Ñ¡Ôñ±ä»¯
+		å…¨æ•°æ® - æ ‘é€‰æ‹©å˜åŒ–
 */
 void P_ActionSeqPart::currentActionSeqChanged(QTreeWidgetItem* item, int id, QString name){
 	if (id > this->m_actionSeq_list.length()){ return; }
 	if (this->m_slotBlock_source == true){ return; }
 
-	// > ¾ÉÊı¾İ´æ´¢
+	// > æ—§æ•°æ®å­˜å‚¨
 	this->local_saveCurIndexData();
 
-	// > ĞÂÊı¾İÌî³ä
+	// > æ–°æ•°æ®å¡«å……
 	this->local_loadIndexData(id - 1);
 	
 }
@@ -93,88 +93,56 @@ void P_ActionSeqPart::currentActionSeqChanged(QTreeWidgetItem* item, int id, QSt
 
 
 /*-------------------------------------------------
-		Êı¾İ - ±£´æ±¾µØÊı¾İ
+		æ•°æ® - ä¿å­˜æœ¬åœ°æ•°æ®
 */
 void P_ActionSeqPart::local_saveCurIndexData(){
 	if (this->m_cur_actionSeqIndex < 0){ return; }
 	if (this->m_cur_actionSeqIndex >= this->m_actionSeq_list.count()){ return; }
 
-	// > ±íµ¥Êı¾İ
-	this->m_cur_actionSeq.insert("±êÇ©", ui.lineEdit->text());
+	// > å­æ§ä»¶ - æ ‡ç­¾
+	this->m_cur_actionSeq.m_name = ui.lineEdit->text();
 
-	// > ±£´æÊı¾İ£¨¶¯×÷Ôª£©
-	QList<QJsonObject> old_actionTank = this->m_actionPart->getData();
-	QStringList actionTank_str = TTool::_QList_QJsonObjectToQString_(old_actionTank);
-	for (int i = 0; i < actionTank_str.count(); i++){
-		this->m_cur_actionSeq.insert("¶¯×÷Ôª-" + QString::number(i + 1), actionTank_str.at(i));
-	}
+	// > å­æ§ä»¶ - åŠ¨ä½œå…ƒå—
+	this->m_cur_actionSeq.m_act_tank = this->m_actionPart->getData();
 
-	// > ±£´æÊı¾İ£¨×´Ì¬Ôª£©
-	QList<QJsonObject> old_stateTank = this->m_statePart->getData();
-	QStringList stateTank_str = TTool::_QList_QJsonObjectToQString_(old_stateTank);
-	for (int i = 0; i < stateTank_str.count(); i++){
-		this->m_cur_actionSeq.insert("×´Ì¬Ôª-" + QString::number(i + 1), stateTank_str.at(i));
-	}
+	// > å­æ§ä»¶ - çŠ¶æ€å…ƒå—
+	this->m_cur_actionSeq.m_state_tank = this->m_statePart->getData();
 
-	// > ×Ô¶¯Ìî³ä Ä¬ÈÏ×´Ì¬Ôª¼¯ºÏ
-	QStringList default_list = TTool::_JSON_parse_To_QListQString_(this->m_cur_actionSeq.value("Ä¬ÈÏµÄ×´Ì¬Ôª¼¯ºÏ").toString());
-	if (default_list.count() == 0){
-		for (int i = 0; i < old_stateTank.count(); i++){
-			QJsonObject obj = old_stateTank.at(i);
-			QString state_name = obj.value("×´Ì¬ÔªÃû³Æ").toString();
-			if (state_name != ""){
-				default_list.append(state_name);
-				break;
-			}
-		}
-	}
-	this->m_cur_actionSeq.insert("Ä¬ÈÏµÄ×´Ì¬Ôª¼¯ºÏ", TTool::_JSON_stringify_(default_list));
-
-	// > ±£´æÊı¾İ£¨·ÅÓ³Çø£©
-	QStringList default_state_list = this->m_playingPart->getDefaultStateData();
-	if (default_state_list.count() != 0){
-		this->m_cur_actionSeq.insert("Ä¬ÈÏµÄ×´Ì¬Ôª¼¯ºÏ", TTool::_JSON_stringify_(default_state_list));
-	}
+	// > å­æ§ä»¶ - æ”¾æ˜ åŒº
+	this->m_cur_actionSeq.m_state_default_randomSeq = this->m_playingPart->getDefaultStateData();
 	
-	// > ±à¼­±ê¼Ç
+
+	// > ç¼–è¾‘æ ‡è®°
 	S_ProjectManager::getInstance()->setDirty();
 
-	this->m_actionSeq_list.replace(this->m_cur_actionSeqIndex, this->m_cur_actionSeq);
+	// > ä¿å­˜æ•°æ®
+	QJsonObject obj_actionSeq = this->m_cur_actionSeq.getJsonObject();
+	this->m_actionSeq_list.replace(this->m_cur_actionSeqIndex, obj_actionSeq);
 }
 /*-------------------------------------------------
-		Êı¾İ - ¶ÁÈ¡±¾µØÊı¾İ
+		æ•°æ® - è¯»å–æœ¬åœ°æ•°æ®
 */
 void P_ActionSeqPart::local_loadIndexData(int index){
 	if (index < 0){ return; }
 	if (index >= this->m_actionSeq_list.count()){ return; }
 
-	// > ±íµ¥Êı¾İ
-	this->m_cur_actionSeq = this->m_actionSeq_list.at(index);
+	// > è¯»å–æ•°æ®
+	QJsonObject obj_actionSeq = this->m_actionSeq_list.at(index);
+	this->m_cur_actionSeq.setJsonObject(obj_actionSeq);
+
+	// > å­æ§ä»¶ - æ ‡ç­¾
 	ui.widget_editPart->setEnabled(true);
-	ui.lineEdit->setText(this->m_cur_actionSeq.value("±êÇ©").toString());
+	ui.lineEdit->setText(this->m_cur_actionSeq.m_name);
 	
-	// > ¼ÓÈëÊı¾İ£¨¶¯×÷Ôª£©
-	QStringList actionTank_str = QStringList();
-	for (int i = 0; i < S_ActionSeqDataContainer::getInstance()->getActionSeqLength().realLen_action; i++){
-		QJsonValue value = this->m_cur_actionSeq.value("¶¯×÷Ôª-" + QString::number(i + 1));
-		actionTank_str.append(value.toString());
-	}
-	this->m_cur_actionTank = TTool::_QList_QStringToQJsonObject_(actionTank_str);
-	this->m_actionPart->setData(this->m_cur_actionTank);
+	// > å­æ§ä»¶ - åŠ¨ä½œå…ƒå—
+	this->m_actionPart->setData(this->m_cur_actionSeq.m_act_tank);
 
-	// > ¼ÓÈëÊı¾İ£¨×´Ì¬Ôª£©
-	QStringList stateTank_str = QStringList();
-	for (int i = 0; i < S_ActionSeqDataContainer::getInstance()->getActionSeqLength().realLen_state; i++){
-		QJsonValue value = this->m_cur_actionSeq.value("×´Ì¬Ôª-" + QString::number(i + 1));
-		stateTank_str.append(value.toString());
-	}
-	this->m_cur_stateTank = TTool::_QList_QStringToQJsonObject_(stateTank_str);
-	this->m_statePart->setData(this->m_cur_stateTank);
+	// > å­æ§ä»¶ - çŠ¶æ€å…ƒå—
+	this->m_statePart->setData(this->m_cur_actionSeq.m_state_tank);
 
-	// > ¼ÓÈëÊı¾İ£¨·ÅÓ³Çø£©
-	QStringList defaultState = TTool::_JSON_parse_To_QListQString_(this->m_cur_actionSeq.value("Ä¬ÈÏµÄ×´Ì¬Ôª¼¯ºÏ").toString());
+	// > å­æ§ä»¶ - æ”¾æ˜ åŒº
 	this->m_playingPart->stopFrame();
-	this->m_playingPart->setDefaultStateData(defaultState);
+	this->m_playingPart->setDefaultStateData(this->m_cur_actionSeq.m_state_default_randomSeq);
 	this->m_playingPart->refreshSource();
 
 	this->m_cur_actionSeqIndex = index;
@@ -183,42 +151,42 @@ void P_ActionSeqPart::local_loadIndexData(int index){
 
 
 /*-------------------------------------------------
-		²Ù×÷ - Ìæ»»
+		æ“ä½œ - æ›¿æ¢
 */
 void P_ActionSeqPart::op_replace(int index, QJsonObject actiong_seq){
 	if (index < 0){ return; }
 	if (index >= this->m_actionSeq_list.count()){ return; }
 	if (actiong_seq.isEmpty()){ return; }
 
-	// > ±à¼­±ê¼Ç
+	// > ç¼–è¾‘æ ‡è®°
 	S_ProjectManager::getInstance()->setDirty();
 
-	// > Ö´ĞĞÌæ»»
+	// > æ‰§è¡Œæ›¿æ¢
 	this->m_actionSeq_list.replace(index, actiong_seq);
 	this->local_loadIndexData(index);
 
-	// > ¸üĞÂÊ÷µÄÃû³Æ
+	// > æ›´æ–°æ ‘çš„åç§°
 	this->m_p_tree->outerModifySelectedLeafName(ui.lineEdit->text());
 }
 /*-------------------------------------------------
-		²Ù×÷ - Çå¿Õ
+		æ“ä½œ - æ¸…ç©º
 */
 void P_ActionSeqPart::op_clear(int index){
 	if (index < 0){ return; }
 	if (index >= this->m_actionSeq_list.count()){ return; }
 
-	// > ±à¼­±ê¼Ç
+	// > ç¼–è¾‘æ ‡è®°
 	S_ProjectManager::getInstance()->setDirty();
 
-	// > Ö´ĞĞÌæ»»
+	// > æ‰§è¡Œæ›¿æ¢
 	this->m_actionSeq_list.replace(index, QJsonObject());
 	this->local_loadIndexData(index);
 
-	// > ¸üĞÂÊ÷µÄÃû³Æ
+	// > æ›´æ–°æ ‘çš„åç§°
 	this->m_p_tree->outerModifySelectedLeafName(ui.lineEdit->text());
 }
 /*-------------------------------------------------
-		¿ì½İ¼ü - ÊÂ¼ş
+		å¿«æ·é”® - äº‹ä»¶
 */
 void P_ActionSeqPart::keyPressEvent(QKeyEvent *event){
 	if (event->modifiers() & Qt::ControlModifier){
@@ -234,22 +202,22 @@ void P_ActionSeqPart::keyPressEvent(QKeyEvent *event){
 	}
 }
 /*-------------------------------------------------
-		¿ì½İ¼ü - ¸´ÖÆ
+		å¿«æ·é”® - å¤åˆ¶
 */
 void P_ActionSeqPart::shortcut_copyData(){
 	if (ui.treeWidget_ActionSeq->hasFocus() == false){ return; }
-	this->m_copyed_actionSeq = this->m_cur_actionSeq;
-	this->m_p_tree->setLeafOuterControl_PasteActive(true);		//¼¤»îÕ³Ìù
+	this->m_copyed_actionSeq = this->m_cur_actionSeq.getJsonObject();
+	this->m_p_tree->setLeafOuterControl_PasteActive(true);		//æ¿€æ´»ç²˜è´´
 }
 /*-------------------------------------------------
-		¿ì½İ¼ü - Õ³Ìù
+		å¿«æ·é”® - ç²˜è´´
 */
 void P_ActionSeqPart::shortcut_pasteData(){
 	if (ui.treeWidget_ActionSeq->hasFocus() == false){ return; }
 	this->op_replace(this->m_cur_actionSeqIndex, this->m_copyed_actionSeq);
 }
 /*-------------------------------------------------
-		¿ì½İ¼ü - Çå¿Õ
+		å¿«æ·é”® - æ¸…ç©º
 */
 void P_ActionSeqPart::shortcut_clearData(){
 	if (ui.treeWidget_ActionSeq->hasFocus() == false){ return; }
@@ -259,7 +227,7 @@ void P_ActionSeqPart::shortcut_clearData(){
 
 
 /*-------------------------------------------------
-		´ó¿Ø¼ş - ÖÃ»Ò
+		å¤§æ§ä»¶ - ç½®ç°
 */
 void P_ActionSeqPart::setPartGray(){
 	this->m_p_FoldableTabRelater->homingAllTab();
@@ -268,7 +236,7 @@ void P_ActionSeqPart::setPartGray(){
 	ui.widget_editPart->setEnabled(false);
 }
 /*-------------------------------------------------
-		´ó¿Ø¼ş - Í£Ö¹²¥·Å
+		å¤§æ§ä»¶ - åœæ­¢æ’­æ”¾
 */
 void P_ActionSeqPart::stopPlaying(){
 	this->m_playingPart->stopFrame();
@@ -276,17 +244,17 @@ void P_ActionSeqPart::stopPlaying(){
 
 
 /*-------------------------------------------------
-		´°¿Ú - ÉèÖÃÊı¾İ
+		çª—å£ - è®¾ç½®æ•°æ®
 */
 void P_ActionSeqPart::setData(QJsonObject actionSeq, C_ActionSeqLength length) {
 	this->m_slotBlock_source = true;
 	S_ActionSeqDataContainer::getInstance()->setActionSeqData(actionSeq);
-	S_ActionSeqDataContainer::getInstance()->setActionSeqLength(length);	//£¨lengthÈ¡×ÔÈİÆ÷£¬²»»áÊµÊ±±ä»¯£©
+	S_ActionSeqDataContainer::getInstance()->setActionSeqLength(length);	//ï¼ˆlengthå–è‡ªå®¹å™¨ï¼Œä¸ä¼šå®æ—¶å˜åŒ–ï¼‰
 	this->putDataToUi();
 	this->m_slotBlock_source = false;
 }
 /*-------------------------------------------------
-		´°¿Ú - È¡³öÊı¾İ
+		çª—å£ - å–å‡ºæ•°æ®
 */
 QJsonObject P_ActionSeqPart::getDataActionSeqData(){
 	this->putUiToData();
@@ -297,36 +265,36 @@ C_ActionSeqLength P_ActionSeqPart::getDataActionSeqLength(){
 	return S_ActionSeqDataContainer::getInstance()->getActionSeqLength();
 }
 /*-------------------------------------------------
-		´°¿Ú - ±¾µØÊı¾İ -> uiÊı¾İ
+		çª—å£ - æœ¬åœ°æ•°æ® -> uiæ•°æ®
 */
 void P_ActionSeqPart::putDataToUi() {
 
-	// > Ê÷½á¹¹³õÊ¼»¯
+	// > æ ‘ç»“æ„åˆå§‹åŒ–
 	QJsonObject obj_treeData = S_ActionSeqDataContainer::getInstance()->getTreeData();
 	C_FCT_Config* config = dynamic_cast<C_FCT_Config*>(this->m_p_tree->createConfigData());
-	config->setJsonObject(obj_treeData, this->m_p_tree);		//£¨´æ´¢µÄÊı¾İĞèÒªÔÚloadÇ°Íê³É¸³Öµ£©
+	config->setJsonObject(obj_treeData, this->m_p_tree);		//ï¼ˆå­˜å‚¨çš„æ•°æ®éœ€è¦åœ¨loadå‰å®Œæˆèµ‹å€¼ï¼‰
 	this->m_p_tree->setConfigEx(config);
 
-	// > ·Ö½âÊı¾İ£¨¶¯»­ĞòÁĞ --> ¶¯»­ĞòÁĞÁĞ±í£©
+	// > åˆ†è§£æ•°æ®ï¼ˆåŠ¨ç”»åºåˆ— --> åŠ¨ç”»åºåˆ—åˆ—è¡¨ï¼‰
 	int data_actionSeqCount = S_ActionSeqDataContainer::getInstance()->getActionSeqLength().realLen_actionSeq;
 	QJsonObject data_actionSeq = S_ActionSeqDataContainer::getInstance()->getActionSeqData();
 
 	this->m_actionSeq_list = QList<QJsonObject>();
 	for (int i = 0; i < data_actionSeqCount; i++){
 
-		// > ¾ÉÃû×ÖĞŞ¸Ä£¨¶¯×÷ĞòÁĞ -> ¶¯»­ĞòÁĞ£©
-		QJsonValue v = data_actionSeq.value("¶¯×÷ĞòÁĞ-" + QString::number(i + 1));
+		// > æ—§åå­—ä¿®æ”¹ï¼ˆåŠ¨ä½œåºåˆ— -> åŠ¨ç”»åºåˆ—ï¼‰
+		QJsonValue v = data_actionSeq.value("åŠ¨ä½œåºåˆ—-" + QString::number(i + 1));
 		if (v.isUndefined() == false){
-			data_actionSeq.insert("¶¯»­ĞòÁĞ-" + QString::number(i + 1), v);
-			data_actionSeq.remove("¶¯×÷ĞòÁĞ-" + QString::number(i + 1));
+			data_actionSeq.insert("åŠ¨ç”»åºåˆ—-" + QString::number(i + 1), v);
+			data_actionSeq.remove("åŠ¨ä½œåºåˆ—-" + QString::number(i + 1));
 		}
 
-		// > Ìí¼ÓÄÚÈİ
-		QJsonValue value = data_actionSeq.value("¶¯»­ĞòÁĞ-" + QString::number(i + 1));
+		// > æ·»åŠ å†…å®¹
+		QJsonValue value = data_actionSeq.value("åŠ¨ç”»åºåˆ—-" + QString::number(i + 1));
 		if (value.isUndefined() == false){
 			QJsonObject obj = TTool::_JSON_parse_To_Obj_(value.toString());
 			obj.insert("COAS_id", i + 1);
-			obj.insert("COAS_name", obj.value("±êÇ©").toString());
+			obj.insert("COAS_name", obj.value("æ ‡ç­¾").toString());
 			this->m_actionSeq_list.append(obj);
 		}
 		else{
@@ -338,37 +306,37 @@ void P_ActionSeqPart::putDataToUi() {
 	}
 	this->m_p_tree->loadSource(this->m_actionSeq_list, "COAS_id", "COAS_name", "COAS_type");
 
-	// > ±à¼­¿éÖÃ»Ò
-	this->setPartGray();	//£¨ĞèÒªÍæ¼ÒÖØĞÂÑ¡ÔñÒ»¸ö¶¯»­ĞòÁĞ£©
+	// > ç¼–è¾‘å—ç½®ç°
+	this->setPartGray();	//ï¼ˆéœ€è¦ç©å®¶é‡æ–°é€‰æ‹©ä¸€ä¸ªåŠ¨ç”»åºåˆ—ï¼‰
 	
-	// > ÔØÈë¶¯»­ĞòÁĞÊı¾İ
+	// > è½½å…¥åŠ¨ç”»åºåˆ—æ•°æ®
 	//qDebug() << data_actionSeq;
 
 }
 /*-------------------------------------------------
-		´°¿Ú - uiÊı¾İ -> ±¾µØÊı¾İ
+		çª—å£ - uiæ•°æ® -> æœ¬åœ°æ•°æ®
 */
 void P_ActionSeqPart::putUiToData() {
 
-	// > ±£´æµ±Ç°Êı¾İ
+	// > ä¿å­˜å½“å‰æ•°æ®
 	this->local_saveCurIndexData();
 
-	// > ºÏ²¢Êı¾İ£¨¶¯»­ĞòÁĞÁĞ±í --> ¶¯»­ĞòÁĞ £©
+	// > åˆå¹¶æ•°æ®ï¼ˆåŠ¨ç”»åºåˆ—åˆ—è¡¨ --> åŠ¨ç”»åºåˆ— ï¼‰
 	int data_actionSeqCount = S_ActionSeqDataContainer::getInstance()->getActionSeqLength().realLen_actionSeq;
 	QJsonObject data_actionSeq = S_ActionSeqDataContainer::getInstance()->getActionSeqData();
 
 	for (int i = 0; i < data_actionSeqCount; i++){
 		QJsonObject data_obj = this->m_actionSeq_list.at(i);
 
-		// > Ê÷Êı¾İ£¨ºÏ²¢µ½¶¯»­ĞòÁĞ£©
+		// > æ ‘æ•°æ®ï¼ˆåˆå¹¶åˆ°åŠ¨ç”»åºåˆ—ï¼‰
 		int id = data_obj.value("COAS_id").toInt();
 		data_obj.insert("COAS_type", this->m_p_tree->getLeafType(id));
 		data_obj.remove("COAS_id");
-		data_obj.remove("COAS_name");	//£¨È¥³ıidºÍname£¬type±£Áô£©
+		data_obj.remove("COAS_name");	//ï¼ˆå»é™¤idå’Œnameï¼Œtypeä¿ç•™ï¼‰
 
 		QString data_str = TTool::_JSON_stringify_(data_obj);
-		data_actionSeq.insert("¶¯»­ĞòÁĞ-" + QString::number(i + 1), data_str);
-		data_actionSeq.remove("¶¯×÷ĞòÁĞ-" + QString::number(i + 1));
+		data_actionSeq.insert("åŠ¨ç”»åºåˆ—-" + QString::number(i + 1), data_str);
+		data_actionSeq.remove("åŠ¨ä½œåºåˆ—-" + QString::number(i + 1));
 	}
 
 	S_ActionSeqDataContainer::getInstance()->setActionSeqData(data_actionSeq);
@@ -377,7 +345,7 @@ void P_ActionSeqPart::putUiToData() {
 
 
 /*-------------------------------------------------
-		´°¿Ú - ĞŞ¸Ä³¤¶È
+		çª—å£ - ä¿®æ”¹é•¿åº¦
 */
 void P_ActionSeqPart::modifyDataLengthInAction(){
 	this->m_slotBlock_source = true;
@@ -397,11 +365,11 @@ void P_ActionSeqPart::modifyDataLengthInAction(){
 
 
 /*-------------------------------------------------
-		´°¿Ú - ÓÃ»§×Ô¶¨ÒåUI¶ÁÈ¡
+		çª—å£ - ç”¨æˆ·è‡ªå®šä¹‰UIè¯»å–
 */
 void P_ActionSeqPart::ui_loadConfig(){
 
-	// > ·Ö¸îÌõ
+	// > åˆ†å‰²æ¡
 	QString data = S_IniManager::getInstance()->getConfig("COAS_MainWindow_Spliter");
 	if (data != ""){
 		ui.splitter->setSizes(TTool::_QList_QStringToInt_(data.split(",")));
@@ -409,11 +377,11 @@ void P_ActionSeqPart::ui_loadConfig(){
 
 }
 /*-------------------------------------------------
-		´°¿Ú - ÓÃ»§×Ô¶¨ÒåUI´æ´¢
+		çª—å£ - ç”¨æˆ·è‡ªå®šä¹‰UIå­˜å‚¨
 */
 void P_ActionSeqPart::ui_saveConfig(){
 
-	// > ·Ö¸îÌõ
+	// > åˆ†å‰²æ¡
 	QStringList data = TTool::_QList_IntToQString_( ui.splitter->sizes() );
 	S_IniManager::getInstance()->setConfig("COAS_MainWindow_Spliter", data.join(","));
 }
