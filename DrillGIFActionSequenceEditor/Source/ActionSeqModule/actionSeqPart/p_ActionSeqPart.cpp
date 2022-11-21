@@ -38,6 +38,7 @@ P_ActionSeqPart::P_ActionSeqPart(QWidget *parent)
 
 	// > 放映区、动作元、状态元
 	this->m_statePart = new P_StatePart(parent);
+	this->m_stateNodePart = new P_StateNodePart(parent);
 	this->m_actionPart = new P_ActionPart(parent);
 	this->m_playingPart = new P_PlayingPart(this->m_statePart, this->m_actionPart, parent);
 
@@ -45,6 +46,7 @@ P_ActionSeqPart::P_ActionSeqPart(QWidget *parent)
 	this->m_p_FoldableTabRelater = new P_FoldableTabRelater(ui.tabWidget);	//（ui中的只是示意，该工具类会重建tab）
 	this->m_p_FoldableTabRelater->addPart(" 放映区  ", this->m_playingPart);
 	this->m_p_FoldableTabRelater->addPart(" 状态元  ", this->m_statePart);
+	this->m_p_FoldableTabRelater->addPart(" 状态节点  ", this->m_stateNodePart);
 	this->m_p_FoldableTabRelater->addPart(" 动作元  ", this->m_actionPart);
 	this->setPartGray();
 
@@ -108,6 +110,9 @@ void P_ActionSeqPart::local_saveCurIndexData(){
 	// > 子控件 - 状态元块
 	this->m_cur_actionSeq.m_state_tank = this->m_statePart->getData();
 
+	// > 子控件 - 状态节点块
+	this->m_cur_actionSeq.m_stateNode_tank = this->m_stateNodePart->getData();
+
 	// > 子控件 - 放映区
 	this->m_cur_actionSeq.m_state_default_randomSeq = this->m_playingPart->getDefaultStateData();
 	
@@ -139,6 +144,9 @@ void P_ActionSeqPart::local_loadIndexData(int index){
 
 	// > 子控件 - 状态元块
 	this->m_statePart->setData(this->m_cur_actionSeq.m_state_tank);
+
+	// > 子控件 - 状态节点块
+	this->m_stateNodePart->setData(this->m_cur_actionSeq.m_stateNode_tank);
 
 	// > 子控件 - 放映区
 	this->m_playingPart->stopFrame();

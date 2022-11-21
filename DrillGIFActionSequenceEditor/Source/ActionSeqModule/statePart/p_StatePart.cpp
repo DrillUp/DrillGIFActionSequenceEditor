@@ -354,9 +354,18 @@ void P_StatePart::local_loadIndexData(int index){
 /*-------------------------------------------------
 		窗口 - 设置数据
 */
-void P_StatePart::setData(QList<QJsonObject> state) {
+void P_StatePart::setData(QList<QJsonObject> stateDataList) {
 	this->m_slotBlock_source = true;
-	this->m_stateDataList = state;
+
+	// > 状态元表格
+	this->m_stateDataList = stateDataList;
+	if (this->m_stateDataList.count() == 0){
+		int data_count = S_ActionSeqDataContainer::getInstance()->getActionSeqLength().realLen_state;
+		for (int i = 0; i < data_count; i++){
+			this->m_stateDataList.append(QJsonObject());
+		}
+	}
+
 	this->m_p_AnimationListPlayer->stopFrame();		//（设置数据时，暂停播放）
 	this->putDataToUi();
 	this->m_slotBlock_source = false;

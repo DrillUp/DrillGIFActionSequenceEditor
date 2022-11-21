@@ -219,9 +219,6 @@
     <Filter Include="源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块">
       <UniqueIdentifier>{18548a2d-43b3-4d31-b7fa-1cfa351485cc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\默认状态元集合">
-      <UniqueIdentifier>{1ebfb5f8-a24a-49a8-a3f1-37aef24aa4e5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\【 图形模块 GraphModule】\中间件（Middleware）">
       <UniqueIdentifier>{85dd517f-9d78-4208-b9f5-277dc0a0bede}</UniqueIdentifier>
     </Filter>
@@ -269,6 +266,9 @@
     </Filter>
     <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\字符串列表编辑器">
       <UniqueIdentifier>{b6b126b4-5d32-43a4-9231-7c8c784db4b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 动画序列 ActionSeqModule】\动画序列块\放映区\默认状态元集合">
+      <UniqueIdentifier>{1ebfb5f8-a24a-49a8-a3f1-37aef24aa4e5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -588,7 +588,7 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\playingPart\defaultStateGroup\w_DefaultStateGroupEdit.cpp">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\默认状态元集合</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\放映区\默认状态元集合</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_w_DefaultStateGroupEdit.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -980,6 +980,15 @@
     <ClCompile Include="Source\ActionSeqModule\actionSeqPart\C_ActionSeq.cpp">
       <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ActionSeqModule\stateNodePart\P_StateNodePart.cpp">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_P_StateNodePart.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_P_StateNodePart.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="drillgifactionsequenceeditor.qrc">
@@ -1121,10 +1130,10 @@
       <Filter>源文件\【 动画序列 ActionSeqModule】\数据读取器\数据最大值编辑</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\playingPart\defaultStateGroup\w_DefaultStateGroupEdit.h">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\默认状态元集合</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\放映区\默认状态元集合</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\playingPart\defaultStateGroup\w_DefaultStateGroupEdit.ui">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\默认状态元集合</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\放映区\默认状态元集合</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\Utils\manager\GIFManager\s_GIFManager.h">
       <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\GIF转换器</Filter>
@@ -1284,6 +1293,12 @@
     </CustomBuild>
     <CustomBuild Include="Source\Utils\widgetForm\QStringListEditor\W_QStringListEditor.ui">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\字符串列表编辑器</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ActionSeqModule\stateNodePart\P_StateNodePart.h">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ActionSeqModule\stateNodePart\P_StateNodePart.ui">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -1475,6 +1490,9 @@
     </ClInclude>
     <ClInclude Include="Source\ActionSeqModule\actionSeqPart\C_ActionSeq.h">
       <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_P_StateNodePart.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

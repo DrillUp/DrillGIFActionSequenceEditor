@@ -7,6 +7,7 @@
 #include "C_ActionSeq.h"
 #include "Source/ActionSeqModule/actionPart/p_ActionPart.h"
 #include "Source/ActionSeqModule/statePart/p_StatePart.h"
+#include "Source/ActionSeqModule/stateNodePart/P_StateNodePart.h"
 #include "Source/ActionSeqModule/playingPart/p_PlayingPart.h"
 #include "Source/ActionSeqModule/actionSeqData/lengthData/c_ActionSeqLength.h"
 
@@ -74,6 +75,7 @@ class P_ActionSeqPart : public QWidget
 		P_FoldableTabRelater* m_p_FoldableTabRelater;	//可折叠选项卡
 		P_ActionPart* m_actionPart;						//动作元块
 		P_StatePart* m_statePart;						//状态元块
+		P_StateNodePart* m_stateNodePart;				//状态节点块
 		P_PlayingPart* m_playingPart;					//放映区
 	public:
 										//大控件 - 置灰

@@ -1,17 +1,17 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "W_ActionSeqLength.h"
 
 #include "Source/Utils/common/TTool.h"
 
 /*
 -----==========================================================-----
-		Àà£º		×î´óÖµ ´°¿Ú.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		±à¼­ ×î´óÖµ ´°¿ÚµÄÒ»Ð©ÅäÖÃ¡£
+		ç±»ï¼š		æœ€å¤§å€¼ çª—å£.cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±žæ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		ç¼–è¾‘ æœ€å¤§å€¼ çª—å£çš„ä¸€äº›é…ç½®ã€‚
 
-		Ê¹ÓÃ·½·¨£º
-				>´ò¿ª´°¿Ú
+		ä½¿ç”¨æ–¹æ³•ï¼š
+				>æ‰“å¼€çª—å£
 					W_ActionSeqLength d;
 					d.setDataInModifyMode(this->getConfigParam());
 					if (d.exec() == QDialog::Accepted){
@@ -26,23 +26,23 @@ W_ActionSeqLength::W_ActionSeqLength(QWidget *parent)
 	ui.setupUi(this);
 
 	//-----------------------------------
-	//----³õÊ¼»¯²ÎÊý
+	//----åˆå§‹åŒ–å‚æ•°
 
 	//-----------------------------------
-	//----ÊÂ¼þ°ó¶¨
+	//----äº‹ä»¶ç»‘å®š
 	connect(ui.buttonBox, &QDialogButtonBox::accepted, this, &W_ActionSeqLength::acceptData);
 	
 	//-----------------------------------
-	//----³õÊ¼»¯ui
-	if (ui.buttonBox->button(QDialogButtonBox::Ok) != nullptr){ ui.buttonBox->button(QDialogButtonBox::Ok)->setText("È·¶¨"); }
-	if (ui.buttonBox->button(QDialogButtonBox::Cancel) != nullptr){ ui.buttonBox->button(QDialogButtonBox::Cancel)->setText("È¡Ïû"); }
+	//----åˆå§‹åŒ–ui
+	if (ui.buttonBox->button(QDialogButtonBox::Ok) != nullptr){ ui.buttonBox->button(QDialogButtonBox::Ok)->setText("ç¡®å®š"); }
+	if (ui.buttonBox->button(QDialogButtonBox::Cancel) != nullptr){ ui.buttonBox->button(QDialogButtonBox::Cancel)->setText("å–æ¶ˆ"); }
 }
 
 W_ActionSeqLength::~W_ActionSeqLength(){
 }
 
 /*-------------------------------------------------
-		»Ø³µÊÂ¼þ¹ýÂË
+		å›žè½¦äº‹ä»¶è¿‡æ»¤
 */
 void W_ActionSeqLength::keyPressEvent(QKeyEvent *event) {
 	if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
@@ -55,47 +55,50 @@ void W_ActionSeqLength::keyPressEvent(QKeyEvent *event) {
 
 
 /*-------------------------------------------------
-		´°¿Ú - ÉèÖÃÊý¾Ý£¨ÐÞ¸Ä£©
+		çª—å£ - è®¾ç½®æ•°æ®ï¼ˆä¿®æ”¹ï¼‰
 */
 void W_ActionSeqLength::setDataInModifyMode(C_ActionSeqLength data) {
 	this->local_data = data;
 	this->putDataToUi();
 }
 /*-------------------------------------------------
-		´°¿Ú - È¡³öÊý¾Ý
+		çª—å£ - å–å‡ºæ•°æ®
 */
 C_ActionSeqLength W_ActionSeqLength::getData(){
 	return this->local_data;
 };
 /*-------------------------------------------------
-		´°¿Ú - ±¾µØÊý¾Ý -> uiÊý¾Ý
+		çª—å£ - æœ¬åœ°æ•°æ® -> uiæ•°æ®
 */
 void W_ActionSeqLength::putDataToUi() {
 	
-	// > Ê¹ÓÃÄ¬ÈÏÖµ
+	// > ä½¿ç”¨é»˜è®¤å€¼
 	if (this->local_data.realLen_actionSeq < 4 ||
 		this->local_data.realLen_action < 4 ||
 		this->local_data.realLen_state < 4){
 		ui.spinBox_actionSeq->setValue(40);
 		ui.spinBox_action->setValue(10);
 		ui.spinBox_state->setValue(10);
+		ui.spinBox_stateNode->setValue(10);
 		return;
 	}
 
 	TTool::_int_(ui.spinBox_actionSeq, &this->local_data.realLen_actionSeq);
 	TTool::_int_(ui.spinBox_action, &this->local_data.realLen_action);
 	TTool::_int_(ui.spinBox_state, &this->local_data.realLen_state);
+	TTool::_int_(ui.spinBox_stateNode, &this->local_data.realLen_stateNode);
 };
 /*-------------------------------------------------
-		´°¿Ú - uiÊý¾Ý -> ±¾µØÊý¾Ý
+		çª—å£ - uiæ•°æ® -> æœ¬åœ°æ•°æ®
 */
 void W_ActionSeqLength::putUiToData() {
 	TTool::_int_(&this->local_data.realLen_actionSeq, ui.spinBox_actionSeq);
 	TTool::_int_(&this->local_data.realLen_action, ui.spinBox_action);
 	TTool::_int_(&this->local_data.realLen_state, ui.spinBox_state);
+	TTool::_int_(&this->local_data.realLen_stateNode, ui.spinBox_stateNode);
 };
 /*-------------------------------------------------
-		´°¿Ú - Ìá½»Êý¾Ý£¨Ð£Ñé£©
+		çª—å£ - æäº¤æ•°æ®ï¼ˆæ ¡éªŒï¼‰
 */
 void W_ActionSeqLength::acceptData(){
 	this->putUiToData();
