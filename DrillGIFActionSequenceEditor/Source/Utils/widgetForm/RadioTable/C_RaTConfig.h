@@ -4,11 +4,11 @@
 
 /*
 -----==========================================================-----
-		绫伙細		琛ㄦ牸閰嶇疆 鏁版嵁绫?cpp
-		浣滆€咃細		drill_up
-		鎵€灞炴ā鍧楋細	宸ュ叿妯″潡
-		鍔熻兘锛?	鍗曢€夎〃鏍奸厤缃?鐨勬暟鎹被銆?
-					锛堣缁嗚cpp锛?
+		类：		表格配置 数据类.h
+		作者：		drill_up
+		所属模块：	工具模块
+		功能：		单选表格配置 的数据类。
+					（详细见cpp）
 -----==========================================================-----
 */
 class C_RaTConfig{
@@ -18,21 +18,21 @@ class C_RaTConfig{
 		~C_RaTConfig();
 		
 	//-----------------------------------
-	//----鏁版嵁
+	//----数据
 	public:
-		bool showNumber;			//鏄剧ず搴忓彿
-		bool zeroFill;				//闆跺～鍏?
-		int zeroFillCount;			//濉厖浣嶆暟
-		QChar zeroFillChar;			//濉厖瀛楃
+		bool showNumber;			//显示序号
+		bool zeroFill;				//零填充
+		int zeroFillCount;			//填充位数
+		QChar zeroFillChar;			//填充字符
 
-		int rowHeight;				//琛岄珮
-		bool isMultiSelect;			//澶氶€夊紑鍏?
+		int rowHeight;				//行高
+		bool isMultiSelect;			//多选开关
 
 	//-----------------------------------
-	//----绫诲睘鎬?
+	//----类属性
 	public:
-									//瀹炰綋绫?-> QJsonObject
+									//实体类 -> QJsonObject
 		QJsonObject getJsonObject();
-									//QJsonObject -> 瀹炰綋绫?
+									//QJsonObject -> 实体类
 		void setJsonObject(QJsonObject obj);
 };
