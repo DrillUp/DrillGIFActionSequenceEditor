@@ -87,9 +87,6 @@
     <Filter Include="源文件\【 项目管理模块 ProjectModule】">
       <UniqueIdentifier>{850e5c2d-13fb-48ce-97ac-a1a21f40d1c3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 项目管理模块 ProjectModule】\temp文件夹">
-      <UniqueIdentifier>{77b5d387-e75a-4d81-9751-d8f8900abd80}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\【 项目管理模块 ProjectModule】\存储文件">
       <UniqueIdentifier>{412c7763-d6d1-4bfc-a05c-0a7adec7522d}</UniqueIdentifier>
     </Filter>
@@ -270,6 +267,9 @@
     <Filter Include="源文件\【 动画序列 ActionSeqModule】\动画序列块\放映区\默认状态元集合">
       <UniqueIdentifier>{1ebfb5f8-a24a-49a8-a3f1-37aef24aa4e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\【 项目管理模块 ProjectModule】\Temp文件夹">
+      <UniqueIdentifier>{77b5d387-e75a-4d81-9751-d8f8900abd80}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -419,66 +419,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_s_LEConfigWriter.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ProjectModule\s_ProjectManager.cpp">
-      <Filter>源文件\【 项目管理模块 ProjectModule】</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_s_ProjectManager.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_s_ProjectManager.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ProjectModule\s_ProjectWindowManager.cpp">
-      <Filter>源文件\【 项目管理模块 ProjectModule】</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_s_ProjectWindowManager.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_s_ProjectWindowManager.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_s_StorageManager.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_s_StorageManager.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ProjectModule\storage\s_StorageManager.cpp">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ProjectModule\storage\s_StorageManagerTemplate.cpp">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ProjectModule\data\c_ProjectData.cpp">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ProjectModule\data\p_ProjectCreate.cpp">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_p_ProjectCreate.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_p_ProjectCreate.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ProjectModule\data\w_ProjectCreate.cpp">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_w_ProjectCreate.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_w_ProjectCreate.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ProjectModule\file\s_TempFileManager.cpp">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\temp文件夹</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_s_TempFileManager.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_s_TempFileManager.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\playingPart\p_PlayingPart.cpp">
       <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\放映区</Filter>
     </ClCompile>
@@ -566,15 +506,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_w_SoftwareFirstTip.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ProjectModule\storageGlobal\s_IniManager.cpp">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件-全局</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_s_IniManager.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_s_IniManager.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\actionSeqData\lengthData\c_ActionSeqLength.cpp">
       <Filter>源文件\【 动画序列 ActionSeqModule】\数据读取器\数据最大值编辑</Filter>
     </ClCompile>
@@ -654,15 +585,6 @@
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_p_RmmvCaller.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ProjectModule\data\extendPart\w_ProjectNote.cpp">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据\扩展块</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_w_ProjectNote.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_w_ProjectNote.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_p_FlexiblePageTree.cpp">
@@ -989,6 +911,84 @@
     <ClCompile Include="GeneratedFiles\Release\moc_P_StateNodePart.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ProjectModule\S_ProjectManager.cpp">
+      <Filter>源文件\【 项目管理模块 ProjectModule】</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_S_ProjectManager.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_S_ProjectManager.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ProjectModule\S_ProjectWindowManager.cpp">
+      <Filter>源文件\【 项目管理模块 ProjectModule】</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_S_ProjectWindowManager.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_S_ProjectWindowManager.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ProjectModule\Data\C_ProjectData.cpp">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ProjectModule\Data\P_ProjectCreate.cpp">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_P_ProjectCreate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_P_ProjectCreate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ProjectModule\Data\W_ProjectCreate.cpp">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_W_ProjectCreate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_W_ProjectCreate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ProjectModule\Data\ExtendPart\W_ProjectNote.cpp">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据\扩展块</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_W_ProjectNote.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_W_ProjectNote.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ProjectModule\File\S_TempFileManager.cpp">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\Temp文件夹</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_S_TempFileManager.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_S_TempFileManager.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ProjectModule\Storage\S_StorageManager.cpp">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_S_StorageManager.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_S_StorageManager.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ProjectModule\Storage\S_StorageManagerTemplate.cpp">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ProjectModule\StorageGlobal\S_IniManager.cpp">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件-全局</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_S_IniManager.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_S_IniManager.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="drillgifactionsequenceeditor.qrc">
@@ -1051,30 +1051,6 @@
     <CustomBuild Include="Source\PluginModule\lengthEditor\s_LEConfigWriter.h">
       <Filter>源文件\【 插件模块 PluginModule】\最大值编辑器  [plugins文件夹，读写]\修改器</Filter>
     </CustomBuild>
-    <CustomBuild Include="Source\ProjectModule\s_ProjectManager.h">
-      <Filter>源文件\【 项目管理模块 ProjectModule】</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\ProjectModule\s_ProjectWindowManager.h">
-      <Filter>源文件\【 项目管理模块 ProjectModule】</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\ProjectModule\storage\s_StorageManager.h">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\ProjectModule\data\p_ProjectCreate.h">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\ProjectModule\data\p_ProjectCreate.ui">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\ProjectModule\data\w_ProjectCreate.h">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\ProjectModule\data\w_ProjectCreate.ui">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\ProjectModule\file\s_TempFileManager.h">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\temp文件夹</Filter>
-    </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\playingPart\p_PlayingPart.h">
       <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\放映区</Filter>
     </CustomBuild>
@@ -1120,9 +1096,6 @@
     <CustomBuild Include="Source\MainModule\firstTip\w_SoftwareFirstTip.ui">
       <Filter>源文件\【 主窗体 MainModule】\首页提示</Filter>
     </CustomBuild>
-    <CustomBuild Include="Source\ProjectModule\storageGlobal\s_IniManager.h">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件-全局</Filter>
-    </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\actionSeqData\lengthData\w_ActionSeqLength.h">
       <Filter>源文件\【 动画序列 ActionSeqModule】\数据读取器\数据最大值编辑</Filter>
     </CustomBuild>
@@ -1161,12 +1134,6 @@
     </CustomBuild>
     <CustomBuild Include="Source\RmmvInteractiveModule\custom\p_RmmvCaller.h">
       <Filter>源文件\【 交互模块 RmmvInteractiveModule】\专用交互</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\ProjectModule\data\extendPart\w_ProjectNote.h">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据\扩展块</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\ProjectModule\data\extendPart\w_ProjectNote.ui">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据\扩展块</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\Utils\widgetFormSenior\flexiblePageTree\p_FlexiblePageTree.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规）</Filter>
@@ -1300,6 +1267,39 @@
     <CustomBuild Include="Source\ActionSeqModule\stateNodePart\P_StateNodePart.ui">
       <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块</Filter>
     </CustomBuild>
+    <CustomBuild Include="Source\ProjectModule\S_ProjectManager.h">
+      <Filter>源文件\【 项目管理模块 ProjectModule】</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ProjectModule\S_ProjectWindowManager.h">
+      <Filter>源文件\【 项目管理模块 ProjectModule】</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ProjectModule\Data\P_ProjectCreate.h">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ProjectModule\Data\P_ProjectCreate.ui">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ProjectModule\Data\W_ProjectCreate.h">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ProjectModule\Data\W_ProjectCreate.ui">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ProjectModule\Data\ExtendPart\W_ProjectNote.h">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据\扩展块</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ProjectModule\Data\ExtendPart\W_ProjectNote.ui">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据\扩展块</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ProjectModule\File\S_TempFileManager.h">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\Temp文件夹</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ProjectModule\Storage\S_StorageManager.h">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ProjectModule\StorageGlobal\S_IniManager.h">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件-全局</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DrillGIFActionSequenceEditor.rc" />
@@ -1346,18 +1346,6 @@
     </ClInclude>
     <ClInclude Include="Source\PluginModule\lengthEditor\c_LEConfigData.h">
       <Filter>源文件\【 插件模块 PluginModule】\最大值编辑器  [plugins文件夹，读写]\修改器</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ProjectModule\storage\s_StorageManagerTemplate.h">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ProjectModule\data\c_ProjectData.h">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_p_ProjectCreate.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_w_ProjectCreate.h">
-      <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_p_PlayingPart.h">
       <Filter>Generated Files</Filter>
@@ -1406,9 +1394,6 @@
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>源文件\【 主窗体 MainModule】</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_w_ProjectNote.h">
-      <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Utils\widgetFormSenior\flexiblePageTree\private\i_FPT_Branch.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规）\树控件</Filter>
@@ -1494,6 +1479,21 @@
     <ClInclude Include="GeneratedFiles\ui_P_StateNodePart.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\ProjectModule\Data\C_ProjectData.h">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_P_ProjectCreate.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_W_ProjectCreate.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_W_ProjectNote.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ProjectModule\Storage\S_StorageManagerTemplate.h">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Utils\widgetFormSenior\ObjectSortController\程序入口.txt">
@@ -1561,9 +1561,6 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Source\ProjectModule\项目管理模块结构.vsdx">
-      <Filter>源文件\【 项目管理模块 ProjectModule】</Filter>
-    </None>
     <None Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\关于灵活分类树.docx">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）</Filter>
     </None>

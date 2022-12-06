@@ -1,16 +1,17 @@
-#ifndef P_PROJECT_CREATE_H
+ï»¿#ifndef P_PROJECT_CREATE_H
 #define P_PROJECT_CREATE_H
+#include "stdafx.h"
 
-#include "ui_p_ProjectCreate.h"
-#include "c_ProjectData.h"
+#include "ui_P_ProjectCreate.h"
+#include "C_ProjectData.h"
 
 /*
 -----==========================================================-----
-		Àà£º		ĞÂ½¨ÏîÄ¿¿é.h
-		ËùÊôÄ£¿é£º	ÏîÄ¿¹ÜÀíÄ£¿é
-		¹¦ÄÜ£º		¾­¹ı¸ÃÁ÷³Ìºó£¬½«ĞÂ½¨ÏîÄ¿ÎÄ¼ş¼Ğ¡£
-					±ÈÈçĞÂ½¨ÏîÄ¿¡¢Áí´æÎªÏîÄ¿¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		æ–°å»ºé¡¹ç›®å—.h
+		æ‰€å±æ¨¡å—ï¼š	é¡¹ç›®ç®¡ç†æ¨¡å—
+		åŠŸèƒ½ï¼š		ç»è¿‡è¯¥æµç¨‹åï¼Œå°†æ–°å»ºé¡¹ç›®æ–‡ä»¶å¤¹ã€‚
+					æ¯”å¦‚æ–°å»ºé¡¹ç›®ã€å¦å­˜ä¸ºé¡¹ç›®ã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 class P_ProjectCreate : public QWidget
@@ -22,43 +23,43 @@ class P_ProjectCreate : public QWidget
 		~P_ProjectCreate();
 		
 	//-----------------------------------
-	//----²Ù×÷
+	//----æ“ä½œ
 	public slots:
-										//²Ù×÷ - Ãû³ÆĞŞ¸Ä
+										//æ“ä½œ - åç§°ä¿®æ”¹
 		void nameChanged(QString name);
-										//²Ù×÷ - Î»ÖÃĞŞ¸Ä
+										//æ“ä½œ - ä½ç½®ä¿®æ”¹
 		void pathChanged(QString path);
-										//²Ù×÷ - Ñ¡ÔñÎÄ¼ş¼Ğ
+										//æ“ä½œ - é€‰æ‹©æ–‡ä»¶å¤¹
 		void chooseFiles();		
-										//²Ù×÷ - ½¨Á¢ÎÄ¼ş¼ĞĞŞ¸Ä
+										//æ“ä½œ - å»ºç«‹æ–‡ä»¶å¤¹ä¿®æ”¹
 		void radioChanged(bool toggled);
-										//²Ù×÷ - Ë¢ĞÂÍêÕûÂ·¾¶
+										//æ“ä½œ - åˆ·æ–°å®Œæ•´è·¯å¾„
 		void refreshOutput();
 		
 	//-----------------------------------
-	//----Î»ÖÃ£¨ÕâÀï½«ui·â×°ÁËÒ»ÏÂ£¬·ÀÖ¹Â·¾¶»ìÂÒµ÷ÓÃ£©
+	//----ä½ç½®ï¼ˆè¿™é‡Œå°†uiå°è£…äº†ä¸€ä¸‹ï¼Œé˜²æ­¢è·¯å¾„æ··ä¹±è°ƒç”¨ï¼‰
 	public:
 		QStringList m_pathList;
 	public:
-										//Î»ÖÃ - Ìí¼ÓÎ»ÖÃ
+										//ä½ç½® - æ·»åŠ ä½ç½®
 		void insertPath(QString path);
-										//Î»ÖÃ - Ñ¡ÔñÎ»ÖÃ
+										//ä½ç½® - é€‰æ‹©ä½ç½®
 		void selectPath(QString path);
-										//Î»ÖÃ - »ñÈ¡Ñ¡ÔñµÄÎ»ÖÃ
+										//ä½ç½® - è·å–é€‰æ‹©çš„ä½ç½®
 		QString getCurrentPath();
 
 	//-----------------------------------
-	//----´°¿Ú
+	//----çª—å£
 	public:
 		C_ProjectData local_ProjectData;
 	public:
-										//´°¿Ú - ÉèÖÃÊı¾İ
+										//çª—å£ - è®¾ç½®æ•°æ®
 		void setDataInModifyMode(C_ProjectData p);
-										//´°¿Ú - È¡³öÊı¾İ
+										//çª—å£ - å–å‡ºæ•°æ®
 		C_ProjectData getData();
-										//´°¿Ú - ±¾µØÊı¾İ -> uiÊı¾İ
+										//çª—å£ - æœ¬åœ°æ•°æ® -> uiæ•°æ®
 		void putDataToUi();							
-										//´°¿Ú - uiÊı¾İ -> ±¾µØÊı¾İ
+										//çª—å£ - uiæ•°æ® -> æœ¬åœ°æ•°æ®
 		void putUiToData();
 	private:
 		Ui::P_ProjectCreate ui;

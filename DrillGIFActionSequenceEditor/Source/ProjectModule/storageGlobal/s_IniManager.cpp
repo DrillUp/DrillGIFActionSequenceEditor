@@ -1,19 +1,19 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "S_IniManager.h"
 
 
 /*
 -----==========================================================-----
-		Àà£º		iniÎÄ¼þÅäÖÃ¹ÜÀí.cpp
-		°æ±¾£º		v1.01
-		ËùÊôÄ£¿é£º	ÏîÄ¿¹ÜÀíÄ£¿é
-		¹¦ÄÜ£º		»ùÓÚQSettingÎÄ¼þµÄ»ù±¾ÅäÖÃ¹ÜÀíÆ÷£¬Ö±½ÓÐ´³ÉiniÎÄ¼þ¡£
-					£¨Í¨³£ÓÃÓÚ´æ´¢UIÍÏ·Å´°¿Ú¡¢¼ÇÂ¼×î´ó×îÐ¡»¯µÈÎÄ¼þÐÅÏ¢£©
+		ç±»ï¼š		iniæ–‡ä»¶é…ç½®ç®¡ç†.cpp
+		ç‰ˆæœ¬ï¼š		v1.02
+		æ‰€å±žæ¨¡å—ï¼š	é¡¹ç›®ç®¡ç†æ¨¡å—
+		åŠŸèƒ½ï¼š		åŸºäºŽQSettingæ–‡ä»¶çš„åŸºæœ¬é…ç½®ç®¡ç†å™¨ï¼Œç›´æŽ¥å†™æˆiniæ–‡ä»¶ã€‚
+					ï¼ˆé€šå¸¸ç”¨äºŽå­˜å‚¨UIæ‹–æ”¾çª—å£ã€è®°å½•æœ€å¤§æœ€å°åŒ–ç­‰æ–‡ä»¶ä¿¡æ¯ï¼‰
 
-		×Ó¹¦ÄÜ£º	->iniÎÄ¼þ
-						->×Ô¶¯´´½¨
-						->ÉèÖÃ¼ü
-						->»ñÈ¡¼ü
+		å­åŠŸèƒ½ï¼š	->iniæ–‡ä»¶
+						->è‡ªåŠ¨åˆ›å»º
+						->è®¾ç½®é”®
+						->èŽ·å–é”®
 
 -----==========================================================-----
 */
@@ -25,7 +25,7 @@ S_IniManager::S_IniManager(){
 S_IniManager::~S_IniManager() {
 }
 /*-------------------------------------------------
-		µ¥Àý
+		å•ä¾‹
 */
 S_IniManager* S_IniManager::cur_instance = NULL;
 S_IniManager* S_IniManager::getInstance() {
@@ -35,33 +35,33 @@ S_IniManager* S_IniManager::getInstance() {
 	return cur_instance;
 }
 /*-------------------------------------------------
-		³õÊ¼»¯
+		åˆå§‹åŒ–
 */
 void S_IniManager::_init() {
 
-	// > ÎÄ¼þÂ·¾¶
+	// > æ–‡ä»¶è·¯å¾„
 	this->m_path = QCoreApplication::applicationDirPath() + "/config.ini";
 	QFile f(this->m_path);
 	if ( !f.exists() ){
 		if (!f.open(QIODevice::WriteOnly | QIODevice::Text)){
-			//£¨²âÊÔÎÄ¼þ´ò¿ª£©
+			//ï¼ˆæµ‹è¯•æ–‡ä»¶æ‰“å¼€ï¼‰
 		}
 		f.close();
 	}
 	
-	// > ÅäÖÃ
+	// > é…ç½®
 	this->m_qsettings = new QSettings(this->m_path, QSettings::IniFormat);
-	
+	this->m_qsettings->setIniCodec("UTF-8");		//ï¼ˆé˜²æ­¢ä¸­æ–‡ä¹±ç ï¼‰
 }
 
 /*-------------------------------------------------
-		²Ù×÷ - »ñÈ¡Öµ
+		æ“ä½œ - èŽ·å–å€¼
 */
 QString S_IniManager::getConfig(QString key){
 	return this->m_qsettings->value(key).toString();
 }
 /*-------------------------------------------------
-		²Ù×÷ - ²åÈëÖµ
+		æ“ä½œ - æ’å…¥å€¼
 */
 void S_IniManager::setConfig(QString key, QString value){
 	this->m_qsettings->setValue(key, value);

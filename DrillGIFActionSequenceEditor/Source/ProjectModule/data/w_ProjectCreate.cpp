@@ -1,13 +1,13 @@
-#include "stdafx.h"
-#include "w_ProjectCreate.h"
-#include "../s_ProjectManager.h"
+ï»¿#include "stdafx.h"
+#include "W_ProjectCreate.h"
+#include "../S_ProjectManager.h"
 
 /*
 -----==========================================================-----
-		Àà£º		ĞÂ½¨ÏîÄ¿´°¿Ú.cpp
-		ËùÊôÄ£¿é£º	ÏîÄ¿¹ÜÀíÄ£¿é
-		¹¦ÄÜ£º		¾­¹ı¸ÃÁ÷³Ìºó£¬½«ĞÂ½¨ÏîÄ¿ÎÄ¼ş¼Ğ¡£
-					±ÈÈçĞÂ½¨ÏîÄ¿¡¢Áí´æÎªÏîÄ¿¡£
+		ç±»ï¼š		æ–°å»ºé¡¹ç›®çª—å£.cpp
+		æ‰€å±æ¨¡å—ï¼š	é¡¹ç›®ç®¡ç†æ¨¡å—
+		åŠŸèƒ½ï¼š		ç»è¿‡è¯¥æµç¨‹åï¼Œå°†æ–°å»ºé¡¹ç›®æ–‡ä»¶å¤¹ã€‚
+					æ¯”å¦‚æ–°å»ºé¡¹ç›®ã€å¦å­˜ä¸ºé¡¹ç›®ã€‚
 -----==========================================================-----
 */
 
@@ -17,7 +17,7 @@ W_ProjectCreate::W_ProjectCreate(QWidget* parent)
 	ui.setupUi(this);
 	
 	//-----------------------------------
-	//----¿Ø¼ş³õÊ¼»¯
+	//----æ§ä»¶åˆå§‹åŒ–
 	this->m_P_ProjectCreate = new P_ProjectCreate();
 	QVBoxLayout* l = new QVBoxLayout(ui.widget);
 	ui.widget->setLayout(l);
@@ -25,32 +25,32 @@ W_ProjectCreate::W_ProjectCreate(QWidget* parent)
 	l->addWidget(this->m_P_ProjectCreate);
 
 	//-----------------------------------
-	//----ÊÂ¼ş°ó¶¨
+	//----äº‹ä»¶ç»‘å®š
 	connect(ui.buttonBox, SIGNAL(accepted()), this, SLOT(acceptData()));
 
 	//-----------------------------------
-	//----ui³õÊ¼»¯
-	ui.buttonBox->button(QDialogButtonBox::Ok)->setText( ("È·¶¨"));
-	ui.buttonBox->button(QDialogButtonBox::Cancel)->setText( ("È¡Ïû"));
+	//----uiåˆå§‹åŒ–
+	ui.buttonBox->button(QDialogButtonBox::Ok)->setText( ("ç¡®å®š"));
+	ui.buttonBox->button(QDialogButtonBox::Cancel)->setText( ("å–æ¶ˆ"));
 }
 W_ProjectCreate::~W_ProjectCreate(){
 }
 
 
 /*-------------------------------------------------
-		Î»ÖÃ - Ìí¼ÓÎ»ÖÃ
+		ä½ç½® - æ·»åŠ ä½ç½®
 */
 void W_ProjectCreate::insertPath(QString path){
 	this->m_P_ProjectCreate->insertPath(path);
 }
 /*-------------------------------------------------
-		Î»ÖÃ - Ñ¡ÔñÎ»ÖÃ
+		ä½ç½® - é€‰æ‹©ä½ç½®
 */
 void W_ProjectCreate::selectPath(QString path){
 	this->m_P_ProjectCreate->selectPath(path);
 }
 /*-------------------------------------------------
-		Î»ÖÃ - »ñÈ¡Ñ¡ÔñµÄÎ»ÖÃ
+		ä½ç½® - è·å–é€‰æ‹©çš„ä½ç½®
 */
 QString W_ProjectCreate::getCurrentPath(){
 	return this->m_P_ProjectCreate->getCurrentPath();
@@ -58,20 +58,20 @@ QString W_ProjectCreate::getCurrentPath(){
 
 
 /*-------------------------------------------------
-		´°¿Ú - ÉèÖÃÊı¾İ
+		çª—å£ - è®¾ç½®æ•°æ®
 */
 void W_ProjectCreate::setDataInModifyMode(C_ProjectData p) {
 	this->m_P_ProjectCreate->setDataInModifyMode(p);
 }
 
 /*-------------------------------------------------
-		´°¿Ú - È¡³öÊı¾İ
+		çª—å£ - å–å‡ºæ•°æ®
 */
 C_ProjectData W_ProjectCreate::getData(){
 	return this->m_P_ProjectCreate->getData();
 };
 /*-------------------------------------------------
-		´°¿Ú - Ìá½»Êı¾İ£¨Ğ£Ñé£©
+		çª—å£ - æäº¤æ•°æ®ï¼ˆæ ¡éªŒï¼‰
 */
 void W_ProjectCreate::acceptData(){
 

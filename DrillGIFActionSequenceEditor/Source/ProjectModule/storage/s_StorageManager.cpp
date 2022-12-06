@@ -1,36 +1,36 @@
-#include "stdafx.h"
-#include "s_StorageManager.h"
+ï»¿#include "stdafx.h"
+#include "S_StorageManager.h"
 
 
 
 /*
 -----==========================================================-----
-		Àà£º		´æ´¢¹ÜÀíÆ÷.cpp
-		ËùÊôÄ£¿é£º	ÏîÄ¿¹ÜÀíÄ£¿é
-		¹¦ÄÜ£º		½«ËùÓĞ¼Ì³ĞÄ£°åµÄ×ÓÀàµÄÊı¾İ£¬´æ´¢ÎÄ¼ş/¶ÁÈ¡ÎÄ¼ş¡£
+		ç±»ï¼š		å­˜å‚¨ç®¡ç†å™¨.cpp
+		æ‰€å±æ¨¡å—ï¼š	é¡¹ç›®ç®¡ç†æ¨¡å—
+		åŠŸèƒ½ï¼š		å°†æ‰€æœ‰ç»§æ‰¿æ¨¡æ¿çš„å­ç±»çš„æ•°æ®ï¼Œå­˜å‚¨æ–‡ä»¶/è¯»å–æ–‡ä»¶ã€‚
 			
-		±ØÒªÊÂÏî£º	1.´æ´¢µÄ×ÓÀà±ØĞë¼Ì³ĞÄ£°å¡££¨s_StorageManagerTemplate£©
-					  Èç¹ûÃ»ÓĞ¼Ì³Ğ£¬ÔòÃ»ÓĞĞ§¹û¡£
+		å¿…è¦äº‹é¡¹ï¼š	1.å­˜å‚¨çš„å­ç±»å¿…é¡»ç»§æ‰¿æ¨¡æ¿ã€‚ï¼ˆs_StorageManagerTemplateï¼‰
+					  å¦‚æœæ²¡æœ‰ç»§æ‰¿ï¼Œåˆ™æ²¡æœ‰æ•ˆæœã€‚
 
-		ÆäËüËµÃ÷£º	1.Ä£°å»á×Ô¶¯Ê¶±ğ×ÓÀàÃû×÷Îª´æ´¢Ãû¡£
-					  ÄãÒ²¿ÉÒÔÊÖ¶¯ĞŞ¸Äsave_name¡£
-					2.¹ÜÀíÆ÷Í¨¹ıÖ¸ÕëÖ±½Ó²Ù×÷×ÓÀà£¬Ã»ÓĞ·µ»ØÖµ¡£
-					3.´æ´¢½á¹¹ÈçÏÂ£º
+		å…¶å®ƒè¯´æ˜ï¼š	1.æ¨¡æ¿ä¼šè‡ªåŠ¨è¯†åˆ«å­ç±»åä½œä¸ºå­˜å‚¨åã€‚
+					  ä½ ä¹Ÿå¯ä»¥æ‰‹åŠ¨ä¿®æ”¹save_nameã€‚
+					2.ç®¡ç†å™¨é€šè¿‡æŒ‡é’ˆç›´æ¥æ“ä½œå­ç±»ï¼Œæ²¡æœ‰è¿”å›å€¼ã€‚
+					3.å­˜å‚¨ç»“æ„å¦‚ä¸‹ï¼š
 						{
-							"S_StorageManager":{¡­¡­},
-							"S_SourceManager":{¡­¡­},
-							"S_RequestManager":{¡­¡­},
-							"C_GlobalSettings":{¡­¡­},
+							"S_StorageManager":{â€¦â€¦},
+							"S_SourceManager":{â€¦â€¦},
+							"S_RequestManager":{â€¦â€¦},
+							"C_GlobalSettings":{â€¦â€¦},
 						}
 			
-		Ê¹ÓÃ·½·¨£º	
-				>´æ´¢£º
-					S_StorageManager->getInstance()->createSaveFile( ¡­ );
-				>¶ÁÈ¡£º
-					S_StorageManager->getInstance()->readSaveFile( ¡­ );
-				>Çå³ı£º
+		ä½¿ç”¨æ–¹æ³•ï¼š	
+				>å­˜å‚¨ï¼š
+					S_StorageManager->getInstance()->createSaveFile( â€¦ );
+				>è¯»å–ï¼š
+					S_StorageManager->getInstance()->readSaveFile( â€¦ );
+				>æ¸…é™¤ï¼š
 					S_StorageManager->getInstance()->clearAllApplicationData();
-				>×ÓÀà»ñÈ¡´æ´¢ÎÄ¼şÂ·¾¶£º
+				>å­ç±»è·å–å­˜å‚¨æ–‡ä»¶è·¯å¾„ï¼š
 					this->m_storage_fileInfo
 -----==========================================================-----
 */
@@ -41,7 +41,7 @@ S_StorageManager::~S_StorageManager() {
 }
 
 /* --------------------------------------------------------------
-----------StorageManager µ¥Àı
+----------StorageManager å•ä¾‹
 */
 S_StorageManager* S_StorageManager::cur_manager = NULL;
 S_StorageManager* S_StorageManager::getInstance() {
@@ -57,11 +57,11 @@ void S_StorageManager::addManager(S_StorageManagerTemplate* s_m) {
 }
 
 /* ----------------------------------------------------------------------------------
-		¹ÜÀí - ´æ´¢ÎÄ¼ş£¨F:/aaa/bbb.xxx £©
+		ç®¡ç† - å­˜å‚¨æ–‡ä»¶ï¼ˆF:/aaa/bbb.xxx ï¼‰
 */
 void S_StorageManager::createSaveFile(QString file_name) {
 	QJsonObject obj_all = QJsonObject();
-	for (int i = 0; i < this->m_managers.count() ;i++) {		//ÒÀ´ÎÊı¾İ»ñÈ¡
+	for (int i = 0; i < this->m_managers.count() ;i++) {		//ä¾æ¬¡æ•°æ®è·å–
 		S_StorageManagerTemplate* s_m = this->m_managers.at(i);
 		s_m->m_storage_fileInfo = QFileInfo(file_name);
 		QJsonObject obj_manager = s_m->getAllDataOfJsonObject();
@@ -71,25 +71,25 @@ void S_StorageManager::createSaveFile(QString file_name) {
 	QString context_all = QJsonDocument(obj_all).toJson();
 	QFile file(file_name);
 	if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QFile::Truncate)){
-		QMessageBox::warning(this, "´íÎó", "ÎŞ·¨´´½¨´æ´¢ÎÄ¼ş¡£", QMessageBox::Yes);
+		QMessageBox::warning(this, "é”™è¯¯", "æ— æ³•åˆ›å»ºå­˜å‚¨æ–‡ä»¶ã€‚", QMessageBox::Yes);
 		return;
 	}
 	QTextStream write_stream(&file);
 	QTextCodec *codec2 = QTextCodec::codecForName("utf-8");
 	write_stream.flush();
 	write_stream.setCodec(codec2);
-	write_stream.seek(0);						//¹â±ê´Ó0¿ªÊ¼Ğ´Èë
+	write_stream.seek(0);						//å…‰æ ‡ä»0å¼€å§‹å†™å…¥
 	write_stream << context_all;
 	file.close();
 }
 
 /* ----------------------------------------------------------------------------------
-		¹ÜÀí - ¶ÁÈ¡ÎÄ¼ş£¨F:/aaa/bbb.xxx £©
+		ç®¡ç† - è¯»å–æ–‡ä»¶ï¼ˆF:/aaa/bbb.xxx ï¼‰
 */
 void S_StorageManager::readSaveFile(QString file_name) {
 	QFile file(file_name);
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) { 
-		QMessageBox::warning(this, "´íÎó", "Î´ÕÒµ½ÎÄ¼ş¡£", QMessageBox::Yes);
+		QMessageBox::warning(this, "é”™è¯¯", "æœªæ‰¾åˆ°æ–‡ä»¶ã€‚", QMessageBox::Yes);
 		return;
 	}
 	QString context = file.readAll();
@@ -97,12 +97,12 @@ void S_StorageManager::readSaveFile(QString file_name) {
 
 	QJsonDocument jsonDocument = QJsonDocument::fromJson(context.toUtf8());
 	if (jsonDocument.isNull()){
-		QMessageBox::warning(this, "´íÎó", "¶ÁÈ¡ÎÄ¼şÊ§°Ü¡£", QMessageBox::Yes);
+		QMessageBox::warning(this, "é”™è¯¯", "è¯»å–æ–‡ä»¶å¤±è´¥ã€‚", QMessageBox::Yes);
 		return;
 	}
 
 	QJsonObject obj_all = jsonDocument.object();
-	for (int i = 0; i < this->m_managers.count(); i++) {		//ÒÀ´ÎÊı¾İ¸³Öµ
+	for (int i = 0; i < this->m_managers.count(); i++) {		//ä¾æ¬¡æ•°æ®èµ‹å€¼
 		S_StorageManagerTemplate* s_m = this->m_managers.at(i);
 		QJsonObject obj_project = obj_all.value(s_m->getSaveName()).toObject();
 		s_m->m_storage_fileInfo = QFileInfo(file_name);
@@ -122,11 +122,11 @@ void S_StorageManager::readSaveFile(QString file_name) {
 
 
 /* ----------------------------------------------------------------------------------
-		¹ÜÀí - Çå³ıËùÓĞ³ÌĞòÊı¾İ
+		ç®¡ç† - æ¸…é™¤æ‰€æœ‰ç¨‹åºæ•°æ®
 */
 void S_StorageManager::clearAllApplicationData() {
 
-	for (int i = 0; i < this->m_managers.count(); i++) {		//ÒÀ´ÎÊı¾İ¸³Öµ
+	for (int i = 0; i < this->m_managers.count(); i++) {		//ä¾æ¬¡æ•°æ®èµ‹å€¼
 		S_StorageManagerTemplate* s_m = this->m_managers.at(i);
 		s_m->clearAllData();
 	}

@@ -1,19 +1,19 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "S_ProjectWindowManager.h"
 
-#include "data/c_ProjectData.h"
+#include "Data/C_ProjectData.h"
 
 #include "DrillGIFActionSequenceEditor.h"
 
 /*
 -----==========================================================-----
-		Àà£º		ÏîÄ¿¹ÜÀí - ´°¿Ú¹ÜÀí.cpp
-		ËùÊôÄ£¿é£º	ÏîÄ¿¹ÜÀíÄ£¿é
-		¹¦ÄÜ£º		¶Ô´ò¿ª¡¢±à¼­´°¿Ú½øĞĞ²Ù×÷£¬°üÀ¨ÏìÓ¦Ïà¹Ø¿ØÖÆ¡£
-					¡¾´°¿Ú¡¿
+		ç±»ï¼š		é¡¹ç›®ç®¡ç† - çª—å£ç®¡ç†.cpp
+		æ‰€å±æ¨¡å—ï¼š	é¡¹ç›®ç®¡ç†æ¨¡å—
+		åŠŸèƒ½ï¼š		å¯¹æ‰“å¼€ã€ç¼–è¾‘çª—å£è¿›è¡Œæ“ä½œï¼ŒåŒ…æ‹¬å“åº”ç›¸å…³æ§åˆ¶ã€‚
+					ã€çª—å£ã€‘
 
-		Ê¹ÓÃ·½·¨£º
-				> Ö±½Óµ÷ÓÃ£º
+		ä½¿ç”¨æ–¹æ³•ï¼š
+				> ç›´æ¥è°ƒç”¨ï¼š
 					S_ProjectWindowManager::getInstance()->newProject();
 -----==========================================================-----
 */
@@ -23,7 +23,7 @@ S_ProjectWindowManager::~S_ProjectWindowManager(){
 }
 
 /* --------------------------------------------------------------
-----------ProjectWindowManager µ¥Àı
+----------ProjectWindowManager å•ä¾‹
 */
 S_ProjectWindowManager* S_ProjectWindowManager::project_manager = NULL;
 S_ProjectWindowManager* S_ProjectWindowManager::getInstance() {
@@ -34,38 +34,38 @@ S_ProjectWindowManager* S_ProjectWindowManager::getInstance() {
 }
 
 /*-------------------------------------------------
-		Á÷³Ì - ĞÂ½¨£¨¶Ô»°¿ò£©
+		æµç¨‹ - æ–°å»ºï¼ˆå¯¹è¯æ¡†ï¼‰
 */
 void S_ProjectWindowManager::newProject() {
 
 	bool is_success = S_ProjectManager::getInstance()->newProject();
 
-	// > ¹¤³ÌÄÚÈİ±ä»¯Ê±
+	// > å·¥ç¨‹å†…å®¹å˜åŒ–æ—¶
 	if (is_success) {
 		//...
 	}
 }
 /*-------------------------------------------------
-		Á÷³Ì - ´ò¿ª£¨¶Ô»°¿ò£©
+		æµç¨‹ - æ‰“å¼€ï¼ˆå¯¹è¯æ¡†ï¼‰
 */
 void S_ProjectWindowManager::openProject() {
 
 	bool is_success = S_ProjectManager::getInstance()->openProject();
 
-	// > ¹¤³ÌÄÚÈİ±ä»¯Ê±
+	// > å·¥ç¨‹å†…å®¹å˜åŒ–æ—¶
 	if (is_success) {
 		//...
 	}
 }
 /*-------------------------------------------------
-		Á÷³Ì - ±£´æ£¨¶Ô»°¿ò£©
+		æµç¨‹ - ä¿å­˜ï¼ˆå¯¹è¯æ¡†ï¼‰
 */
 void S_ProjectWindowManager::saveProject() {
 
 	bool is_success = S_ProjectManager::getInstance()->saveProject();
 }
 /*-------------------------------------------------
-		Á÷³Ì - Áí´æÎª£¨¶Ô»°¿ò£©
+		æµç¨‹ - å¦å­˜ä¸ºï¼ˆå¯¹è¯æ¡†ï¼‰
 */
 void S_ProjectWindowManager::saveAs() {
 
@@ -73,7 +73,7 @@ void S_ProjectWindowManager::saveAs() {
 }
 
 /*-------------------------------------------------
-		´°¿Ú - ´ò¿ª¹¤³Ì±Ê¼Ç
+		çª—å£ - æ‰“å¼€å·¥ç¨‹ç¬”è®°
 */
 void S_ProjectWindowManager::openModifyWindowNote(){
 	W_ProjectNote d(PROJECT_INSTANCE);

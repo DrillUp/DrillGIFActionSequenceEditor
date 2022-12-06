@@ -1,13 +1,14 @@
-#ifndef W_ProjectNote_H
+ï»¿#ifndef W_ProjectNote_H
 #define W_ProjectNote_H
+#include "stdafx.h"
 
-#include "ui_w_ProjectNote.h"
+#include "ui_W_ProjectNote.h"
 
 /*
 -----==========================================================-----
-		Àà£º		ÏîÄ¿±¸×¢ ±à¼­´°¿Ú.h
-		ËùÊôÄ£¿é£º	ÏîÄ¿¹ÜÀíÄ£¿é
-		¹¦ÄÜ£º		ÏîÄ¿±¸×¢ÎÄ±¾µÄ±à¼­´°¿Ú¡£
+		ç±»ï¼š		é¡¹ç›®å¤‡æ³¨ ç¼–è¾‘çª—å£.h
+		æ‰€å±æ¨¡å—ï¼š	é¡¹ç›®ç®¡ç†æ¨¡å—
+		åŠŸèƒ½ï¼š		é¡¹ç›®å¤‡æ³¨æ–‡æœ¬çš„ç¼–è¾‘çª—å£ã€‚
 -----==========================================================-----
 */
 class W_ProjectNote : public QDialog
@@ -19,27 +20,27 @@ class W_ProjectNote : public QDialog
 		~W_ProjectNote();
 		
 	//-----------------------------------
-	//----¿Ø¼ş
+	//----æ§ä»¶
 	public slots:
-										//¿Ø¼ş - ±à¼­
+										//æ§ä»¶ - ç¼–è¾‘
 		void clickedBtn(QAbstractButton * btn);
 		
 	//-----------------------------------
-	//----´°¿Ú
+	//----çª—å£
 	public:
 		//bool isAddMode;
 		QString local_ProjectNote;
 	public:
-										//´°¿Ú - ÉèÖÃÊı¾İ
+										//çª—å£ - è®¾ç½®æ•°æ®
 		void setData(QString p);
-										//´°¿Ú - È¡³öÊı¾İ
+										//çª—å£ - å–å‡ºæ•°æ®
 		QString getData();
-										//´°¿Ú - ±¾µØÊı¾İ -> uiÊı¾İ
+										//çª—å£ - æœ¬åœ°æ•°æ® -> uiæ•°æ®
 		void putDataToUi();							
-										//´°¿Ú - uiÊı¾İ -> ±¾µØÊı¾İ
+										//çª—å£ - uiæ•°æ® -> æœ¬åœ°æ•°æ®
 		void putUiToData();
 	public slots:
-										//´°¿Ú - Ìá½»Êı¾İ£¨Ğ£Ñé£©
+										//çª—å£ - æäº¤æ•°æ®ï¼ˆæ ¡éªŒï¼‰
 		void acceptData();	
 	private:
 		Ui::W_ProjectNote ui;

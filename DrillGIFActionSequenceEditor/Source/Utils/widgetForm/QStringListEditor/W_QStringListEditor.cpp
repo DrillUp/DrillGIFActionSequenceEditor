@@ -7,7 +7,7 @@
 /*
 -----==========================================================-----
 		类：		字符串编辑列表 窗口.cpp
-		版本：		v1.02
+		版本：		v1.04
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		数据编辑的字符串列表控制。
@@ -40,6 +40,13 @@ W_QStringListEditor::W_QStringListEditor(QWidget *parent)
 	this->m_paramListDescription = "";
 	this->m_notNull = false;
 	this->m_noRepeat = false;
+	this->m_size_width = 400;
+	this->m_size_height = 450;
+	this->m_copyed_data = "";
+
+	// > 窗口内容刷新
+	this->refreshWindow();
+
 
 	//-----------------------------------
 	//----事件绑定
@@ -49,6 +56,9 @@ W_QStringListEditor::W_QStringListEditor(QWidget *parent)
 	connect(ui.tableWidget, &QTableWidget::itemDoubleClicked, this, &W_QStringListEditor::modifyOneRow);		//双击编辑行
 	connect(ui.pushButton_moveUp, &QPushButton::clicked, this, &W_QStringListEditor::moveUpOneRow);
 	connect(ui.pushButton_moveDown, &QPushButton::clicked, this, &W_QStringListEditor::moveDownOneRow);
+	connect(ui.pushButton_clear, &QPushButton::clicked, this, &W_QStringListEditor::clearAllRow);
+	connect(ui.pushButton_copy, &QPushButton::clicked, this, &W_QStringListEditor::shortcut_copyData);
+	connect(ui.pushButton_paste, &QPushButton::clicked, this, &W_QStringListEditor::shortcut_pasteData);
 	connect(ui.buttonBox, &QDialogButtonBox::accepted, this, &W_QStringListEditor::acceptData);
 
 	//-----------------------------------
@@ -95,6 +105,14 @@ void W_QStringListEditor::setConditionNotNull(bool b){
 void W_QStringListEditor::setConditionNoRepeat(bool b){
 	this->m_noRepeat = b;
 };
+/*-------------------------------------------------
+		控件 - 设置窗口大小
+*/
+void W_QStringListEditor::setConditionWindowSize(int width, int height){
+	this->m_size_width = width;
+	this->m_size_height = height;
+	this->resize(this->m_size_width, this->m_size_height);
+}
 
 
 /*-----------------------------------
@@ -201,6 +219,20 @@ int W_QStringListEditor::moveDownOneRow(){
 	ui.tableWidget->selectRow(pos + 1);
 	return pos;
 }
+/*-------------------------------------------------
+		控件 - 清空
+*/
+bool W_QStringListEditor::clearAllRow(){
+	switch (QMessageBox::information(this, "提示", "你确定要清空全部?", "确定", "取消", 0, 1)){
+		case 0:
+			this->local_dataList.clear();
+			this->refreshTable();
+			return true;
+		case 1:
+		default:
+			return false;
+	}
+}
 /*-----------------------------------
 		控件 - 刷新表格
 */
@@ -217,12 +249,10 @@ void W_QStringListEditor::refreshTable() {
 		ui.tableWidget->setItem(i, 0, new QTableWidgetItem(str));
 	}
 }
-
-
-/*-------------------------------------------------
-		窗口 - 设置数据（修改）
+/*-----------------------------------
+		控件 - 刷新窗口内容
 */
-void W_QStringListEditor::setDataInModifyMode(QStringList data) {
+void W_QStringListEditor::refreshWindow(){
 
 	// > 窗口名称
 	this->setWindowTitle(this->m_paramShowingName + "列表");
@@ -235,9 +265,77 @@ void W_QStringListEditor::setDataInModifyMode(QStringList data) {
 	}
 
 	// > 窗口大小
-	int ww = 350 ;
-	int hh = 450 ;
-	this->resize(ww, hh);
+	this->resize(this->m_size_width, this->m_size_height);
+}
+
+
+
+/*-------------------------------------------------
+		快捷键 - 事件
+*/
+void W_QStringListEditor::keyPressEvent(QKeyEvent *event){
+
+	if (event->modifiers() & Qt::ControlModifier){
+		if (event->key() == Qt::Key_C){
+			this->shortcut_copyData();
+		}
+		if (event->key() == Qt::Key_V){
+			this->shortcut_pasteData();
+		}
+	}
+	if (event->key() == Qt::Key_Delete){
+		this->shortcut_deleteData();
+	}
+}
+/*-------------------------------------------------
+		快捷键 - 复制
+*/
+void W_QStringListEditor::shortcut_copyData(){
+	QList<QTableWidgetSelectionRange> range = ui.tableWidget->selectedRanges();
+	if (range.size() == 0) { return; }
+	int pos = range.at(0).topRow();
+	this->m_copyed_data = this->local_dataList.at(pos);
+	if (this->m_copyed_data != ""){		//（启用粘贴功能）
+		ui.pushButton_paste->setEnabled(true);
+	}
+}
+/*-------------------------------------------------
+		快捷键 - 粘贴
+*/
+void W_QStringListEditor::shortcut_pasteData(){
+	if (this->m_copyed_data == ""){ return; }
+	QList<QTableWidgetSelectionRange> range = ui.tableWidget->selectedRanges();
+	if (range.size() == 0) { return; }
+	int pos = range.at(0).topRow();
+	QString data = this->m_copyed_data;
+	while (true){
+		data = TTool::_QString_suffix_addOne_(data);
+		if (this->local_dataList.contains(data) == false){
+			this->local_dataList.insert(pos + 1, data);
+			break;
+		}
+	}
+	this->refreshTable();
+}
+/*-------------------------------------------------
+		快捷键 - 删除
+*/
+void W_QStringListEditor::shortcut_deleteData(){
+	QList<QTableWidgetSelectionRange> range = ui.tableWidget->selectedRanges();
+	if (range.size() == 0) { return; }
+	int pos = range.at(0).topRow();
+	this->local_dataList.removeAt(pos);
+	this->refreshTable();
+}
+
+
+/*-------------------------------------------------
+		窗口 - 设置数据（修改）
+*/
+void W_QStringListEditor::setDataInModifyMode(QStringList data) {
+
+	// > 窗口内容刷新
+	this->refreshWindow();
 
 	// > 窗口数据
 	this->local_dataList = data;

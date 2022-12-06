@@ -1,23 +1,23 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "P_ProjectCreate.h"
-#include "../s_ProjectManager.h"
+#include "../S_ProjectManager.h"
 
 /*
 -----==========================================================-----
-		Àà£º		ĞÂ½¨ÏîÄ¿¿é.cpp
-		ËùÊôÄ£¿é£º	ÏîÄ¿¹ÜÀíÄ£¿é
-		¹¦ÄÜ£º		¾­¹ı¸ÃÁ÷³Ìºó£¬½«ĞÂ½¨ÏîÄ¿ÎÄ¼ş¼Ğ¡£
-					±ÈÈçĞÂ½¨ÏîÄ¿¡¢Áí´æÎªÏîÄ¿¡£
+		ç±»ï¼š		æ–°å»ºé¡¹ç›®å—.cpp
+		æ‰€å±æ¨¡å—ï¼š	é¡¹ç›®ç®¡ç†æ¨¡å—
+		åŠŸèƒ½ï¼š		ç»è¿‡è¯¥æµç¨‹åï¼Œå°†æ–°å»ºé¡¹ç›®æ–‡ä»¶å¤¹ã€‚
+					æ¯”å¦‚æ–°å»ºé¡¹ç›®ã€å¦å­˜ä¸ºé¡¹ç›®ã€‚
 					
-		Ê¹ÓÃ·½·¨£º
-				>³õÊ¼»¯
+		ä½¿ç”¨æ–¹æ³•ï¼š
+				>åˆå§‹åŒ–
 					m_P_ProjectCreate = new P_ProjectCreate(this);
 					QVBoxLayout* latout = new QVBoxLayout(ui.widget);
 					latout->addWidget(m_P_ProjectCreate);
 					latout->setMargin(0);
-				>ÉèÖÃ
+				>è®¾ç½®
 					m_P_ProjectCreate->setDataInModifyMode(this->local_ProjectData);
-				>»ñÈ¡£¨»áĞ£Ñé£©
+				>è·å–ï¼ˆä¼šæ ¡éªŒï¼‰
 					this->local_ProjectData = m_P_ProjectCreate->getData();
 
 -----==========================================================-----
@@ -29,29 +29,29 @@ P_ProjectCreate::P_ProjectCreate(QWidget* parent)
 	ui.setupUi(this);
 
 	//-----------------------------------
-	//----²ÎÊı³õÊ¼»¯
+	//----å‚æ•°åˆå§‹åŒ–
 
-	// > Ìí¼ÓÀúÊ·Ä¿Â¼
+	// > æ·»åŠ å†å²ç›®å½•
 	QList<QDir> dir_list = S_ProjectManager::getInstance()->getHistoryDirTank();
 	for (int i = 0; i < dir_list.count(); i++){
 		this->m_pathList.append(dir_list.at(i).absolutePath());
 	}
 
-	// > Ìí¼Óµ±Ç°Ä¿Â¼
+	// > æ·»åŠ å½“å‰ç›®å½•
 	QDir dir(this->local_ProjectData.getProjectRootPath());
 	dir.mkdir(this->local_ProjectData.getProjectRootPath());
 	this->insertPath(this->local_ProjectData.getProjectRootPath());
 	this->selectPath(this->local_ProjectData.getProjectRootPath());
 
 	//-----------------------------------
-	//----ÊÂ¼ş°ó¶¨
+	//----äº‹ä»¶ç»‘å®š
 	connect(ui.pushButton, &QPushButton::clicked, this, &P_ProjectCreate::chooseFiles);
 	connect(ui.lineEdit_name, &QLineEdit::textChanged, this, &P_ProjectCreate::nameChanged);
 	connect(ui.comboBox_path, &QComboBox::currentTextChanged, this, &P_ProjectCreate::pathChanged);
 	connect(ui.checkBox, &QCheckBox::stateChanged, this, &P_ProjectCreate::radioChanged);
 
 	//-----------------------------------
-	//----ui³õÊ¼»¯
+	//----uiåˆå§‹åŒ–
 	ui.lineEdit_name->setValidator(new QRegExpValidator(QRegExp("[^/\\\\]*")));
 }
 P_ProjectCreate::~P_ProjectCreate()
@@ -59,24 +59,24 @@ P_ProjectCreate::~P_ProjectCreate()
 }
 
 /*-----------------------------------
-		²Ù×÷ - Ãû³ÆĞŞ¸Ä
+		æ“ä½œ - åç§°ä¿®æ”¹
 */
 void P_ProjectCreate::nameChanged(QString s) {
 	this->refreshOutput();
 }
 /*-----------------------------------
-		²Ù×÷ - Â·¾¶ĞŞ¸Ä
+		æ“ä½œ - è·¯å¾„ä¿®æ”¹
 */
 void P_ProjectCreate::pathChanged(QString s) {
 	this->refreshOutput();
 }
 /*-----------------------------------
-		²Ù×÷ - Ñ¡ÔñÎÄ¼ş¼Ğ
+		æ“ä½œ - é€‰æ‹©æ–‡ä»¶å¤¹
 */
 void P_ProjectCreate::chooseFiles() {
 	QFileDialog fd;
 	QString path;
-	path = fd.getExistingDirectory(this, ("ÇëÑ¡ÔñÎÄ¼ş¼Ğ"), this->local_ProjectData.getParentPath());
+	path = fd.getExistingDirectory(this, ("è¯·é€‰æ‹©æ–‡ä»¶å¤¹"), this->local_ProjectData.getParentPath());
 	if (path == "") {
 		return;
 	}
@@ -85,18 +85,18 @@ void P_ProjectCreate::chooseFiles() {
 	this->refreshOutput();
 }
 /*-----------------------------------
-		²Ù×÷ - ½¨Á¢ÎÄ¼ş¼ĞĞŞ¸Ä
+		æ“ä½œ - å»ºç«‹æ–‡ä»¶å¤¹ä¿®æ”¹
 */
 void P_ProjectCreate::radioChanged(bool toggled) {
 	this->refreshOutput();
 }
 /*-----------------------------------
-		²Ù×÷ - Ë¢ĞÂÍêÕûÂ·¾¶
+		æ“ä½œ - åˆ·æ–°å®Œæ•´è·¯å¾„
 */
 void P_ProjectCreate::refreshOutput() {
 	QString name = ui.lineEdit_name->text();
 	if (name == "") {
-		ui.lineEdit_outPut->setText("Î´ÌîĞ´Ãû³Æ");
+		ui.lineEdit_outPut->setText("æœªå¡«å†™åç§°");
 		return;
 	}
 	if (ui.checkBox->isChecked()) {
@@ -107,34 +107,34 @@ void P_ProjectCreate::refreshOutput() {
 }
 
 /*-------------------------------------------------
-		Î»ÖÃ - Ìí¼ÓÎ»ÖÃ
+		ä½ç½® - æ·»åŠ ä½ç½®
 */
 void P_ProjectCreate::insertPath(QString path){
 
-	// > È¥µôÄ©Î²Ğ±¸Ü
+	// > å»æ‰æœ«å°¾æ–œæ 
 	if (path.at(path.size() - 1) == '/'){
 		path = path.mid(0, path.size() - 1);
 	}
 
-	// > ÖØË¢ÁĞ±í
+	// > é‡åˆ·åˆ—è¡¨
 	if (this->m_pathList.contains(path)){ return; }
 	this->m_pathList.insert(0, path);
 	ui.comboBox_path->clear();
 	ui.comboBox_path->addItems(m_pathList);
 }
 /*-------------------------------------------------
-		Î»ÖÃ - Ñ¡ÔñÎ»ÖÃ
+		ä½ç½® - é€‰æ‹©ä½ç½®
 */
 void P_ProjectCreate::selectPath(QString path){
 
-	// > È¥µôÄ©Î²Ğ±¸Ü
+	// > å»æ‰æœ«å°¾æ–œæ 
 	if (path.at(path.size() - 1) == '/'){
 		path = path.mid(0, path.size() - 1);
 	}
 	ui.comboBox_path->setCurrentText(path);
 }
 /*-------------------------------------------------
-		Î»ÖÃ - »ñÈ¡Ñ¡ÔñµÄÎ»ÖÃ
+		ä½ç½® - è·å–é€‰æ‹©çš„ä½ç½®
 */
 QString P_ProjectCreate::getCurrentPath(){
 	return ui.comboBox_path->currentText();
@@ -142,7 +142,7 @@ QString P_ProjectCreate::getCurrentPath(){
 
 
 /*-------------------------------------------------
-		´°¿Ú - ÉèÖÃÊı¾İ
+		çª—å£ - è®¾ç½®æ•°æ®
 */
 void P_ProjectCreate::setDataInModifyMode(C_ProjectData p) {
 	this->local_ProjectData = p;
@@ -150,26 +150,26 @@ void P_ProjectCreate::setDataInModifyMode(C_ProjectData p) {
 }
 
 /*-------------------------------------------------
-		´°¿Ú - È¡³öÊı¾İ
+		çª—å£ - å–å‡ºæ•°æ®
 */
 C_ProjectData P_ProjectCreate::getData(){
 	this->putUiToData();
 
-	// > Ğ£Ñé
+	// > æ ¡éªŒ
 	QString name = ui.lineEdit_name->text();
 	if (name == "") {
-		QMessageBox::warning(this, ("´íÎó"), ("Ãû³Æ²»ÄÜÎª¿Õ¡£"));
+		QMessageBox::warning(this, ("é”™è¯¯"), ("åç§°ä¸èƒ½ä¸ºç©ºã€‚"));
 		return C_ProjectData();
 	}
 	if (this->getCurrentPath() == "") {
-		QMessageBox::warning(this, ("´íÎó"), ("Î»ÖÃ²»ÄÜÎª¿Õ¡£"));
+		QMessageBox::warning(this, ("é”™è¯¯"), ("ä½ç½®ä¸èƒ½ä¸ºç©ºã€‚"));
 		return C_ProjectData();
 	}
 
 	return this->local_ProjectData;
 };
 /*-------------------------------------------------
-		´°¿Ú - ±¾µØÊı¾İ -> uiÊı¾İ
+		çª—å£ - æœ¬åœ°æ•°æ® -> uiæ•°æ®
 */
 void P_ProjectCreate::putDataToUi() {
 
@@ -179,7 +179,7 @@ void P_ProjectCreate::putDataToUi() {
 	ui.checkBox->setChecked(true);
 };
 /*-------------------------------------------------
-		´°¿Ú - uiÊı¾İ -> ±¾µØÊı¾İ
+		çª—å£ - uiæ•°æ® -> æœ¬åœ°æ•°æ®
 */
 void P_ProjectCreate::putUiToData() {
 	local_ProjectData.setName( ui.lineEdit_name->text() );

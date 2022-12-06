@@ -1,14 +1,15 @@
-#pragma once
-#include "Source/Utils/common/p_FileOperater.h"
+ï»¿#pragma once
+#include "stdafx.h"
+#include "Source/Utils/Common/P_FileOperater.h"
 
 /*
 -----==========================================================-----
-		Àà£º		tempÎÄ¼ş¼Ğ¹ÜÀí.h
-		°æ±¾£º		v1.21
-		ËùÊôÄ£¿é£º	ÏîÄ¿¹ÜÀíÄ£¿é
-		¹¦ÄÜ£º		¶ÔtempÎÄ¼ş¼ĞµÄÈÎºÎ²Ù×÷¶¼ÔÚÕâÀï½øĞĞ¡£
-					Ö±½ÓÔÚexeÎÄ¼şÄ¿Â¼ÏÂ½¨Á¢tempÎÄ¼ş¼Ğ£¬¶ÔÎÄ¼ş×÷×ªÒÆ¡¢ÁÙÊ±´¦Àí¡£
-					£¨ÏêÏ¸ÄÚÈİ¼û.cpp£©
+		ç±»ï¼š		tempæ–‡ä»¶å¤¹ç®¡ç†.h
+		ç‰ˆæœ¬ï¼š		v1.22
+		æ‰€å±æ¨¡å—ï¼š	é¡¹ç›®ç®¡ç†æ¨¡å—
+		åŠŸèƒ½ï¼š		å¯¹tempæ–‡ä»¶å¤¹çš„ä»»ä½•æ“ä½œéƒ½åœ¨è¿™é‡Œè¿›è¡Œã€‚
+					ç›´æ¥åœ¨exeæ–‡ä»¶ç›®å½•ä¸‹å»ºç«‹tempæ–‡ä»¶å¤¹ï¼Œå¯¹æ–‡ä»¶ä½œè½¬ç§»ã€ä¸´æ—¶å¤„ç†ã€‚
+					ï¼ˆè¯¦ç»†å†…å®¹è§.cppï¼‰
 -----==========================================================-----
 */
 
@@ -19,169 +20,169 @@ class S_TempFileManager : public P_FileOperater
 	public:
 		S_TempFileManager();
 		~S_TempFileManager();
-		static S_TempFileManager* cur_instance;				//µ¥Àı
-		static S_TempFileManager* getInstance();			//µ¥Àı£¬»ñÈ¡×Ô¼º£¨±ØĞëÒªÄÃµ½È«¾ÖÅäÖÃ²ÅÄÜ½øĞĞ¼ÆËã£©
-		void init();										//³õÊ¼»¯
-		void destroyInstance();								//Ïú»Ùµ¥Àı
+		static S_TempFileManager* cur_instance;				//å•ä¾‹
+		static S_TempFileManager* getInstance();			//å•ä¾‹ï¼Œè·å–è‡ªå·±ï¼ˆå¿…é¡»è¦æ‹¿åˆ°å…¨å±€é…ç½®æ‰èƒ½è¿›è¡Œè®¡ç®—ï¼‰
+		void init();										//åˆå§‹åŒ–
+		void destroyInstance();								//é”€æ¯å•ä¾‹
 		
 	//-----------------------------------
-	//----Ë½ÓĞÊı¾İ
+	//----ç§æœ‰æ•°æ®
 	protected:
-		QString temp_file_url;		//µ±Ç°»º´æÎÄ¼ş¼ĞÂ·¾¶
-		QString workspace_url;		//µ±Ç°¹¤×÷ÇøÂ·¾¶
+		QString temp_file_url;		//å½“å‰ç¼“å­˜æ–‡ä»¶å¤¹è·¯å¾„
+		QString workspace_url;		//å½“å‰å·¥ä½œåŒºè·¯å¾„
 	protected:
-		virtual bool copyDirPrivate(QString dirPath_from, QString dirPath_to);		//¸´ÖÆÎÄ¼ş¼Ğ£¨¸²Ğ´£©
+		virtual bool copyDirPrivate(QString dirPath_from, QString dirPath_to);		//å¤åˆ¶æ–‡ä»¶å¤¹ï¼ˆè¦†å†™ï¼‰
 
 	//-----------------------------------
-	//----logÎÄ¼ş
+	//----logæ–‡ä»¶
 	public:
-									//»ìÔÓ - Éú³ÉlogÎÄ¼ş£¬¸²Ğ´
-									//		¡¾²ÎÊı1¡¿ "name.txt"£¨ÎÄ¼ş£©£¨²»º¬Â·¾¶£©
-									//		¡¾²ÎÊı2¡¿ logÄÚÈİ£¨utf8´æ´¢£©
-									//		¡¾·µ»Ø¡¿ ÎŞ
+									//æ··æ‚ - ç”Ÿæˆlogæ–‡ä»¶ï¼Œè¦†å†™
+									//		ã€å‚æ•°1ã€‘ "name.txt"ï¼ˆæ–‡ä»¶ï¼‰ï¼ˆä¸å«è·¯å¾„ï¼‰
+									//		ã€å‚æ•°2ã€‘ logå†…å®¹ï¼ˆutf8å­˜å‚¨ï¼‰
+									//		ã€è¿”å›ã€‘ æ— 
 		void replaceDebugLog(QString filename, QString logdata);
-									//»ìÔÓ - Éú³ÉlogÎÄ¼ş£¬×·¼Ó
-									//		¡¾²ÎÊı1¡¿ "name.txt"£¨ÎÄ¼ş£©£¨²»º¬Â·¾¶£©
-									//		¡¾²ÎÊı2¡¿ logÄÚÈİ£¨utf8´æ´¢£©
-									//		¡¾·µ»Ø¡¿ ÎŞ
-		void addDebugLog(QString filename, QString logdata);
-									//»ìÔÓ - Éú³ÉlogÎÄ¼ş£¬¸²Ğ´
-									//		¡¾²ÎÊı1¡¿ "name.txt"£¨ÎÄ¼ş£©£¨²»º¬Â·¾¶£©
-									//		¡¾²ÎÊı2¡¿ ×Ö½ÚÁ÷£¨utf8£©
-									//		¡¾·µ»Ø¡¿ ÎŞ
+									//æ··æ‚ - ç”Ÿæˆlogæ–‡ä»¶ï¼Œè¿½åŠ 
+									//		ã€å‚æ•°1ã€‘ "name.txt"ï¼ˆæ–‡ä»¶ï¼‰ï¼ˆä¸å«è·¯å¾„ï¼‰
+									//		ã€å‚æ•°2ã€‘ logå†…å®¹ï¼ˆutf8å­˜å‚¨ï¼‰
+									//		ã€è¿”å›ã€‘ æ— 
+		void addDebugLog(QString filename, QString logdata, bool record_time = true);
+									//æ··æ‚ - ç”Ÿæˆlogæ–‡ä»¶ï¼Œè¦†å†™
+									//		ã€å‚æ•°1ã€‘ "name.txt"ï¼ˆæ–‡ä»¶ï¼‰ï¼ˆä¸å«è·¯å¾„ï¼‰
+									//		ã€å‚æ•°2ã€‘ å­—èŠ‚æµï¼ˆutf8ï¼‰
+									//		ã€è¿”å›ã€‘ æ— 
 		void replaceDebugLog(QString filename, QByteArray logdata);
 
 	//-----------------------------------
-	//----¸´ÖÆ
+	//----å¤åˆ¶
 	public:
-									//¸´ÖÆ - Ö¸¶¨ÎÄ¼ş/ÎÄ¼ş¼Ğ -> tempÎÄ¼ş¼Ğ£¨È«²¿£©
-									//		¡¾·µ»Ø¡¿ ³É¹¦Çé¿ö£¨½ûÖ¹ºó×º»á×èÖ¹¸ÃĞĞÎª£©
+									//å¤åˆ¶ - æŒ‡å®šæ–‡ä»¶/æ–‡ä»¶å¤¹ -> tempæ–‡ä»¶å¤¹ï¼ˆå…¨éƒ¨ï¼‰
+									//		ã€è¿”å›ã€‘ æˆåŠŸæƒ…å†µï¼ˆç¦æ­¢åç¼€ä¼šé˜»æ­¢è¯¥è¡Œä¸ºï¼‰
 		bool copyResourceToTemp_File(QString src_url);
 		bool copyResourceToTemp_Dir(QString src_url);
 		bool copyResourceToTemp_DirWithDepth(QString src_url, int depth);
 		bool copyResourceToTemp_DirWithAllSubfolders(QString src_url);
-									//¸´ÖÆ - tempÎÄ¼ş¼Ğ -> Ö¸¶¨ÎÄ¼ş¼Ğ £¨È«²¿£©
-									//		¡¾·µ»Ø¡¿ ³É¹¦Çé¿ö£¨½ûÖ¹ºó×º»á×èÖ¹¸ÃĞĞÎª£©
+									//å¤åˆ¶ - tempæ–‡ä»¶å¤¹ -> æŒ‡å®šæ–‡ä»¶å¤¹ ï¼ˆå…¨éƒ¨ï¼‰
+									//		ã€è¿”å›ã€‘ æˆåŠŸæƒ…å†µï¼ˆç¦æ­¢åç¼€ä¼šé˜»æ­¢è¯¥è¡Œä¸ºï¼‰
 		bool copyTempToTarget_Dir(QString tar_url);
 		bool copyTempToTarget_DirWithDepth(QString tar_url, int depth);
 		bool copyTempToTarget_DirWithAllSubfolders(QString tar_url);
 
-									//¸´ÖÆ - ¶à¸öÎÄ¼ş -> tempÎÄ¼ş¼Ğ
-									//		¡¾²ÎÊı1¡¿ "F:/name"£¨ÎÄ¼ş¼Ğ£©£¨Òªº¬¸ùÄ¿Â¼ ÈçF:£©
-									//		¡¾²ÎÊı2¡¿ ["aa.xds","bb.vcut"¡­]£¨ÁĞ±í£©£¨²»º¬Â·¾¶£©
-									//		¡¾·µ»Ø¡¿ ÎŞ
+									//å¤åˆ¶ - å¤šä¸ªæ–‡ä»¶ -> tempæ–‡ä»¶å¤¹
+									//		ã€å‚æ•°1ã€‘ "F:/name"ï¼ˆæ–‡ä»¶å¤¹ï¼‰ï¼ˆè¦å«æ ¹ç›®å½• å¦‚F:ï¼‰
+									//		ã€å‚æ•°2ã€‘ ["aa.xds","bb.vcut"â€¦]ï¼ˆåˆ—è¡¨ï¼‰ï¼ˆä¸å«è·¯å¾„ï¼‰
+									//		ã€è¿”å›ã€‘ æ— 
 		void copyResourceToTemp_SeveralFile(QString src_url, QStringList file_names);
-									//¸´ÖÆ - ¶à¸ötempÎÄ¼ş -> Ö¸¶¨ÎÄ¼ş¼Ğ 
-									//		¡¾²ÎÊı1¡¿ "F:/name"£¨ÎÄ¼ş¼Ğ£©£¨Òªº¬¸ùÄ¿Â¼ ÈçF:£©
-									//		¡¾²ÎÊı2¡¿ ["aa.xds","bb.vcut"¡­]£¨ÁĞ±í£©£¨²»º¬Â·¾¶£©
-									//		¡¾·µ»Ø¡¿ ÎŞ
+									//å¤åˆ¶ - å¤šä¸ªtempæ–‡ä»¶ -> æŒ‡å®šæ–‡ä»¶å¤¹ 
+									//		ã€å‚æ•°1ã€‘ "F:/name"ï¼ˆæ–‡ä»¶å¤¹ï¼‰ï¼ˆè¦å«æ ¹ç›®å½• å¦‚F:ï¼‰
+									//		ã€å‚æ•°2ã€‘ ["aa.xds","bb.vcut"â€¦]ï¼ˆåˆ—è¡¨ï¼‰ï¼ˆä¸å«è·¯å¾„ï¼‰
+									//		ã€è¿”å›ã€‘ æ— 
 		void copyTempToTarget_SeveralFile(QString tar_url, QStringList file_names);
-									//¸´ÖÆ - tempÎÄ¼ş¼Ğ µÄÎÄ¼ş£¬²¢ÃüÃûĞÂµÄÃû×Ö
-									//		¡¾²ÎÊı1¡¿ "name.xxx"£¨ÎÄ¼ş£©£¨²»º¬Â·¾¶£©
-									//		¡¾²ÎÊı2¡¿ "new_name.xxx"£¨ÎÄ¼ş£©£¨²»º¬Â·¾¶£©
-									//		¡¾·µ»Ø¡¿ ÎŞ
+									//å¤åˆ¶ - tempæ–‡ä»¶å¤¹ çš„æ–‡ä»¶ï¼Œå¹¶å‘½åæ–°çš„åå­—
+									//		ã€å‚æ•°1ã€‘ "name.xxx"ï¼ˆæ–‡ä»¶ï¼‰ï¼ˆä¸å«è·¯å¾„ï¼‰
+									//		ã€å‚æ•°2ã€‘ "new_name.xxx"ï¼ˆæ–‡ä»¶ï¼‰ï¼ˆä¸å«è·¯å¾„ï¼‰
+									//		ã€è¿”å›ã€‘ æ— 
 		void copyTempToTemp_FileWithNewName(QString filename, QString file_new_name);
-									//¸´ÖÆ - tempÎÄ¼ş¼Ğ µÄÎÄ¼ş¼Ğ£¬²¢ÃüÃûĞÂµÄÎÄ¼ş¼ĞÃû
-									//		¡¾²ÎÊı1¡¿ "xxxx"£¨ÎÄ¼ş¼Ğ£©£¨²»º¬Â·¾¶£©
-									//		¡¾²ÎÊı2¡¿ "xxxx/xx"£¨ÎÄ¼ş¼Ğ£©£¨²»º¬È«Â·¾¶£©
-									//		¡¾·µ»Ø¡¿ ÎŞ
+									//å¤åˆ¶ - tempæ–‡ä»¶å¤¹ çš„æ–‡ä»¶å¤¹ï¼Œå¹¶å‘½åæ–°çš„æ–‡ä»¶å¤¹å
+									//		ã€å‚æ•°1ã€‘ "xxxx"ï¼ˆæ–‡ä»¶å¤¹ï¼‰ï¼ˆä¸å«è·¯å¾„ï¼‰
+									//		ã€å‚æ•°2ã€‘ "xxxx/xx"ï¼ˆæ–‡ä»¶å¤¹ï¼‰ï¼ˆä¸å«å…¨è·¯å¾„ï¼‰
+									//		ã€è¿”å›ã€‘ æ— 
 		bool copyTempToTemp_Dir(QString dir_name, QString dir_new_name);
 		bool copyTempToTemp_DirWithDepth(QString dir_name, QString dir_new_name, int depth);
 		bool copyTempToTemp_DirWithAllSubfolders(QString dir_name, QString dir_new_name);
 		
 
 	//-----------------------------------
-	//----Éú³É
+	//----ç”Ÿæˆ
 	public:
-									//Éú³É - Éú³ÉÒ»¸öÎÄ¼ş£¬Ğ´ÈëÊı¾İ£¨ÎÄ¼şÒÑ´æÔÚ£¬Ôò²»²Ù×÷£©
-									//		¡¾²ÎÊı1¡¿ "name.xxx"£¨ÎÄ¼ş£©£¨²»º¬Â·¾¶£©
-									//		¡¾²ÎÊı2¡¿ ×Ö·û´®ÄÚÈİ£¨utf8´æ´¢£©
-									//		¡¾·µ»Ø¡¿ ÎŞ
+									//ç”Ÿæˆ - ç”Ÿæˆä¸€ä¸ªæ–‡ä»¶ï¼Œå†™å…¥æ•°æ®ï¼ˆæ–‡ä»¶å·²å­˜åœ¨ï¼Œåˆ™ä¸æ“ä½œï¼‰
+									//		ã€å‚æ•°1ã€‘ "name.xxx"ï¼ˆæ–‡ä»¶ï¼‰ï¼ˆå¯å«è·¯å¾„å¦‚"aaa/name.xxx"ï¼‰
+									//		ã€å‚æ•°2ã€‘ å­—ç¬¦ä¸²å†…å®¹ï¼ˆutf8å­˜å‚¨ï¼‰
+									//		ã€è¿”å›ã€‘ æ— 
 		void generateTempFile(QString filename, QString filedata);
-									//Éú³É - Éú³ÉÒ»¸öÎÄ¼ş£¬Ğ´ÈëÊı¾İ£¨ÎÄ¼şÒÑ´æÔÚ£¬Ôò¸²¸Ç£©
-									//		¡¾²ÎÊı1¡¿ "name.xxx"£¨ÎÄ¼ş£©£¨²»º¬Â·¾¶£©
-									//		¡¾²ÎÊı2¡¿ ×Ö·û´®ÄÚÈİ
-									//		¡¾²ÎÊı3¡¿ ±àÂëÉèÖÃ£¨Ä¬ÈÏutf8£©
-									//		¡¾·µ»Ø¡¿ ÎŞ
-		void generateTempFileStrict(QString filename, QString filedata, QString code);
+									//ç”Ÿæˆ - ç”Ÿæˆä¸€ä¸ªæ–‡ä»¶ï¼Œå†™å…¥æ•°æ®ï¼ˆæ–‡ä»¶å·²å­˜åœ¨ï¼Œåˆ™è¦†ç›–ï¼‰
+									//		ã€å‚æ•°1ã€‘ "name.xxx"ï¼ˆæ–‡ä»¶ï¼‰ï¼ˆå¯å«è·¯å¾„å¦‚"aaa/name.xxx"ï¼‰
+									//		ã€å‚æ•°2ã€‘ å­—ç¬¦ä¸²å†…å®¹
+									//		ã€å‚æ•°3ã€‘ ç¼–ç è®¾ç½®ï¼ˆé»˜è®¤utf8ï¼Œå¯é€‰ utf8/toLocal8Bit/toLatin1ï¼‰
+									//		ã€è¿”å›ã€‘ æ— 
+		void generateTempFileStrict(QString filename, QString filedata, QString code = "utf8");
 		
 	//-----------------------------------
-	//----¸Ä
-	/*	¸ÄÎÄ¼şÃûÖ±½ÓÓÃ£ºbool ok = QFile::rename(path1, path2);	*/
+	//----æ”¹
+	/*	æ”¹æ–‡ä»¶åç›´æ¥ç”¨ï¼šbool ok = QFile::rename(path1, path2);	*/
 
 	//-----------------------------------
-	//----É¾³ı
+	//----åˆ é™¤
 	public:
-									//É¾³ı - É¾³ıtempÎÄ¼ş
+									//åˆ é™¤ - åˆ é™¤tempæ–‡ä»¶
 		void removeInTemp_Dir(QString dirname);
 		void removeInTemp_File(QString filename);
 		void removeInTemp_FileBySuffix(QString suffix);
 		void removeInTemp_FileBySuffix_WithAllSubfolders(QString suffix);
 		void removeInTemp_FileByNameNoSuffix(QString onlyname);
 		void removeInTemp_FileByNameNoSuffix_WithAllSubfolders(QString onlyname);
-									//É¾³ı - Çå¿ÕËùÓĞÎÄ¼ş£¨°üÀ¨ÎÄ¼ş¼Ğ£©
+									//åˆ é™¤ - æ¸…ç©ºæ‰€æœ‰æ–‡ä»¶ï¼ˆåŒ…æ‹¬æ–‡ä»¶å¤¹ï¼‰
 		void removeAllTempFile();
 		
 	//-----------------------------------
-	//----»ñÈ¡
+	//----è·å–
 	public:
-									//»ñÈ¡ - »º´æÎÄ¼ş¼ĞÖ÷Â·¾¶
-									//		¡¾·µ»Ø¡¿ "F:/.../temp"
+									//è·å– - ç¼“å­˜æ–‡ä»¶å¤¹ä¸»è·¯å¾„
+									//		ã€è¿”å›ã€‘ "F:/.../temp"
 		QString getMainUrl();
-									//»ñÈ¡ - µ±Ç°»º´æ¹¤×÷ÇøÂ·¾¶
-									//		¡¾·µ»Ø¡¿ "F:/.../temp/workspace"
+									//è·å– - å½“å‰ç¼“å­˜å·¥ä½œåŒºè·¯å¾„
+									//		ã€è¿”å›ã€‘ "F:/.../temp/workspace"
 		QString getTempFileUrl();
-									//»ñÈ¡ - ÊÇ·ñ´æÔÚÖ¸¶¨ÎÄ¼ş
-									//		¡¾²ÎÊı¡¿ "name.xxx"£¨ÎÄ¼ş£©£¨²»º¬Â·¾¶£©
-									//		¡¾·µ»Ø¡¿ ture/false
+									//è·å– - æ˜¯å¦å­˜åœ¨æŒ‡å®šæ–‡ä»¶
+									//		ã€å‚æ•°ã€‘ "name.xxx"ï¼ˆæ–‡ä»¶ï¼‰ï¼ˆä¸å«è·¯å¾„ï¼‰
+									//		ã€è¿”å›ã€‘ ture/false
 		bool hasTempFile(QString filename);
-									//»ñÈ¡ - Ö¸¶¨ÎÄ¼şÊÇ·ñÔÚtempÎÄ¼ş¼ĞÖĞ
-									//		¡¾²ÎÊı¡¿ "F:/.../..."£¨ÎÄ¼ş£©
-									//		¡¾·µ»Ø¡¿ ture/false
+									//è·å– - æŒ‡å®šæ–‡ä»¶æ˜¯å¦åœ¨tempæ–‡ä»¶å¤¹ä¸­
+									//		ã€å‚æ•°ã€‘ "F:/.../..."ï¼ˆæ–‡ä»¶ï¼‰
+									//		ã€è¿”å›ã€‘ ture/false
 		bool isInCurTempFile(QString filename);
 
 		
 	//-----------------------------------
-	//----ºó×º
+	//----åç¼€
 	private:
-		QStringList skip_suffix;					//ºöÂÔºó×º
-		QStringList forbidden_suffix;				//½ûÖ¹ºó×º
-		QStringList default_skip_suffix;			//Ä¬ÈÏºöÂÔºó×º
-		QStringList default_forbidden_suffix;		//Ä¬ÈÏ½ûÖ¹ºó×º
+		QStringList skip_suffix;					//å¿½ç•¥åç¼€
+		QStringList forbidden_suffix;				//ç¦æ­¢åç¼€
+		QStringList default_skip_suffix;			//é»˜è®¤å¿½ç•¥åç¼€
+		QStringList default_forbidden_suffix;		//é»˜è®¤ç¦æ­¢åç¼€
 	public:
-									//ºó×º - ¹ıÂËºöÂÔµÄºó×º£¨ÎÄ¼ş¼Ğ¸´ÖÆÊ±£©
-									//		¡¾·µ»Ø¡¿ ["xds","vcut"]£¨ÁĞ±í£©£¨²»º¬Â·¾¶£©
+									//åç¼€ - è¿‡æ»¤å¿½ç•¥çš„åç¼€ï¼ˆæ–‡ä»¶å¤¹å¤åˆ¶æ—¶ï¼‰
+									//		ã€è¿”å›ã€‘ ["xds","vcut"]ï¼ˆåˆ—è¡¨ï¼‰ï¼ˆä¸å«è·¯å¾„ï¼‰
 		QStringList getSkipSuffix();
-									//ºó×º - ÉèÖÃ¹ıÂËºó×º£¨ÎÄ¼ş¼Ğ¸´ÖÆÊ±£©
-									//		¡¾²ÎÊı1¡¿ ["xds","vcut"]£¨ÁĞ±í£©£¨²»º¬Â·¾¶£©
+									//åç¼€ - è®¾ç½®è¿‡æ»¤åç¼€ï¼ˆæ–‡ä»¶å¤¹å¤åˆ¶æ—¶ï¼‰
+									//		ã€å‚æ•°1ã€‘ ["xds","vcut"]ï¼ˆåˆ—è¡¨ï¼‰ï¼ˆä¸å«è·¯å¾„ï¼‰
 		void setSkipSuffix(QStringList suffix_list);
-									//ºó×º - ÖØÉè¹ıÂËºó×º
+									//åç¼€ - é‡è®¾è¿‡æ»¤åç¼€
 		void resetSkipSuffix();
-									//ºó×º - ½ûÖ¹ºó×º£¨ÎÄ¼ş¼Ğ½ûÖ¹¸´ÖÆ£©
-									//		¡¾·µ»Ø¡¿ ["exe"]£¨ÁĞ±í£©£¨²»º¬Â·¾¶£©
+									//åç¼€ - ç¦æ­¢åç¼€ï¼ˆæ–‡ä»¶å¤¹ç¦æ­¢å¤åˆ¶ï¼‰
+									//		ã€è¿”å›ã€‘ ["exe"]ï¼ˆåˆ—è¡¨ï¼‰ï¼ˆä¸å«è·¯å¾„ï¼‰
 		QStringList getForbiddenSuffix();
-									//ºó×º - ÉèÖÃ½ûÖ¹ºó×º£¨ÎÄ¼ş¼Ğ½ûÖ¹¸´ÖÆ£©
-									//		¡¾²ÎÊı1¡¿ ["exe"]£¨ÁĞ±í£©£¨²»º¬Â·¾¶£©
+									//åç¼€ - è®¾ç½®ç¦æ­¢åç¼€ï¼ˆæ–‡ä»¶å¤¹ç¦æ­¢å¤åˆ¶ï¼‰
+									//		ã€å‚æ•°1ã€‘ ["exe"]ï¼ˆåˆ—è¡¨ï¼‰ï¼ˆä¸å«è·¯å¾„ï¼‰
 		void setForbiddenSuffix(QStringList suffix_list);
-									//ºó×º - ÖØÉè½ûÖ¹ºó×º
+									//åç¼€ - é‡è®¾ç¦æ­¢åç¼€
 		void resetForbiddenSuffix();
 
 	private:
-									//ºó×º - ºöÂÔÎÄ¼ş
+									//åç¼€ - å¿½ç•¥æ–‡ä»¶
 		bool isSkipFile(QFileInfo info);
-									//ºó×º - ½ûÖ¹ÎÄ¼ş
+									//åç¼€ - ç¦æ­¢æ–‡ä»¶
 		bool isForbiddenFile(QFileInfo info);
 
 		
 	//-----------------------------------
-	//----ÆäËû
+	//----å…¶ä»–
 	public slots:
-									//ÆäËû - ´ò¿ª»º´æÂ·¾¶ÎÄ¼ş¼Ğ
-									//		¡¾·µ»Ø¡¿ ²»³É¹¦·µ»Øfalse
+									//å…¶ä»– - æ‰“å¼€ç¼“å­˜è·¯å¾„æ–‡ä»¶å¤¹
+									//		ã€è¿”å›ã€‘ ä¸æˆåŠŸè¿”å›false
 		bool openDesktopTempUrl();
-									//ÆäËû - ´ò¿ª»º´æÂ·¾¶ÖĞÖ¸¶¨ÎÄ¼ş
-									//		¡¾²ÎÊı¡¿ "name.xxx"£¨ÎÄ¼ş£©£¨²»º¬Â·¾¶£©
-									//		¡¾·µ»Ø¡¿ ²»³É¹¦·µ»Øfalse
+									//å…¶ä»– - æ‰“å¼€ç¼“å­˜è·¯å¾„ä¸­æŒ‡å®šæ–‡ä»¶
+									//		ã€å‚æ•°ã€‘ "name.xxx"ï¼ˆæ–‡ä»¶ï¼‰ï¼ˆä¸å«è·¯å¾„ï¼‰
+									//		ã€è¿”å›ã€‘ ä¸æˆåŠŸè¿”å›false
 		bool openDesktopTempFile(QString filename);
 };
 

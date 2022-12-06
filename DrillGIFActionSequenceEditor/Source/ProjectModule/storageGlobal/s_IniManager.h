@@ -1,15 +1,16 @@
-#pragma once
+ï»¿#pragma once
+#include "stdafx.h"
 #include <QObject>
 #include <QSettings>
 
 
 /*
 -----==========================================================-----
-		Àà£º		iniÎÄ¼şÅäÖÃ¹ÜÀí.cpp
-		°æ±¾£º		v1.01
-		ËùÊôÄ£¿é£º	ÏîÄ¿¹ÜÀíÄ£¿é
-		¹¦ÄÜ£º		»ùÓÚQSettingÎÄ¼şµÄ»ù±¾ÅäÖÃ¹ÜÀíÆ÷£¬Ö±½ÓĞ´³ÉiniÎÄ¼ş¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		iniæ–‡ä»¶é…ç½®ç®¡ç†.cpp
+		ç‰ˆæœ¬ï¼š		v1.02
+		æ‰€å±æ¨¡å—ï¼š	é¡¹ç›®ç®¡ç†æ¨¡å—
+		åŠŸèƒ½ï¼š		åŸºäºQSettingæ–‡ä»¶çš„åŸºæœ¬é…ç½®ç®¡ç†å™¨ï¼Œç›´æ¥å†™æˆiniæ–‡ä»¶ã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 class S_IniManager : public QObject
@@ -17,25 +18,25 @@ class S_IniManager : public QObject
 	Q_OBJECT
 
 	//-----------------------------------
-	//----»ù´¡½á¹¹
+	//----åŸºç¡€ç»“æ„
 	public:
 		S_IniManager();
 		~S_IniManager();
-		static S_IniManager* cur_instance;			//µ¥Àı
-		static S_IniManager* getInstance();			//µ¥Àı£¬»ñÈ¡×Ô¼º£¨±ØĞëÒªÄÃµ½È«¾ÖÅäÖÃ²ÅÄÜ½øĞĞ¼ÆËã£©
-		void _init();								//³õÊ¼»¯
+		static S_IniManager* cur_instance;			//å•ä¾‹
+		static S_IniManager* getInstance();			//å•ä¾‹ï¼Œè·å–è‡ªå·±ï¼ˆå¿…é¡»è¦æ‹¿åˆ°å…¨å±€é…ç½®æ‰èƒ½è¿›è¡Œè®¡ç®—ï¼‰
+		void _init();								//åˆå§‹åŒ–
 		
 	//-----------------------------------
-	//----²Ù×÷
+	//----æ“ä½œ
 	private:
-		QSettings* m_qsettings;			//ÅäÖÃ
-		QString m_path;					//ÎÄ¼şÂ·¾¶
+		QSettings* m_qsettings;			//é…ç½®
+		QString m_path;					//æ–‡ä»¶è·¯å¾„
 
 	public:
-										//²Ù×÷ - »ñÈ¡Öµ
+										//æ“ä½œ - è·å–å€¼
 		QString getConfig(QString key);
-										//²Ù×÷ - ²åÈëÖµ
-										//		¡¾ËµÃ÷¡¿:²åÈëÊı¾İ¼´´æ´¢¡£
+										//æ“ä½œ - æ’å…¥å€¼
+										//		ã€è¯´æ˜ã€‘:æ’å…¥æ•°æ®å³å­˜å‚¨ã€‚
 		void setConfig(QString key,QString value);
 };
 

@@ -1,47 +1,47 @@
-#include "stdafx.h"
-#include "s_TempFileManager.h"
+ï»¿#include "stdafx.h"
+#include "S_TempFileManager.h"
 
 
 /*
 -----==========================================================-----
-		Àà£º		tempÎÄ¼ş¼Ğ¹ÜÀí.cpp
-		°æ±¾£º		v1.21
-		ËùÊôÄ£¿é£º	ÏîÄ¿¹ÜÀíÄ£¿é
-		¹¦ÄÜ£º		¶ÔtempÎÄ¼ş¼ĞµÄÈÎºÎ²Ù×÷¶¼ÔÚÕâÀï½øĞĞ¡£
-					Ö±½ÓÔÚexeÎÄ¼şÄ¿Â¼ÏÂ½¨Á¢tempÎÄ¼ş¼Ğ£¬¶ÔÎÄ¼ş×÷×ªÒÆ¡¢ÁÙÊ±´¦Àí¡£
+		ç±»ï¼š		tempæ–‡ä»¶å¤¹ç®¡ç†.cpp
+		ç‰ˆæœ¬ï¼š		v1.22
+		æ‰€å±æ¨¡å—ï¼š	é¡¹ç›®ç®¡ç†æ¨¡å—
+		åŠŸèƒ½ï¼š		å¯¹tempæ–‡ä»¶å¤¹çš„ä»»ä½•æ“ä½œéƒ½åœ¨è¿™é‡Œè¿›è¡Œã€‚
+					ç›´æ¥åœ¨exeæ–‡ä»¶ç›®å½•ä¸‹å»ºç«‹tempæ–‡ä»¶å¤¹ï¼Œå¯¹æ–‡ä»¶ä½œè½¬ç§»ã€ä¸´æ—¶å¤„ç†ã€‚
 
-		Ä¿±ê£º		ÎÄ¼ş£º
-						->Î¨Ò»ÎÄ¼ş
-						->É¾³ı
-						->¸´ÖÆ½ø
-						->¸´ÖÆ³ö
-						->Éú³Édebug/logÎÄ¼ş
-					¹¤×÷Çø£º
-						->»®·Ö£¨¶à´°¿ÚÊ±£©
-						->¹¤×÷Çø¼ä°éËæÏú»Ù
-					ÆäËü:
-						->¸´ÖÆÊ±ºöÂÔÖ¸¶¨ºó×ºÎÄ¼ş
+		ç›®æ ‡ï¼š		æ–‡ä»¶ï¼š
+						->å”¯ä¸€æ–‡ä»¶
+						->åˆ é™¤
+						->å¤åˆ¶è¿›
+						->å¤åˆ¶å‡º
+						->ç”Ÿæˆdebug/logæ–‡ä»¶
+					å·¥ä½œåŒºï¼š
+						->åˆ’åˆ†ï¼ˆå¤šçª—å£æ—¶ï¼‰
+						->å·¥ä½œåŒºé—´ä¼´éšé”€æ¯
+					å…¶å®ƒ:
+						->å¤åˆ¶æ—¶å¿½ç•¥æŒ‡å®šåç¼€æ–‡ä»¶
 						
-		±ØÒªÊÂÏî£º	1.ËÑË÷ÎÄ¼ş¼Ğ£º
-						copyResourceToTempFile Éî¶ÈÎª1£»
-						copyResourceToTempFileIncludChildDir Éî¶ÈÎª2£»
-					2.tempÎÄ¼ş¼Ğ×Ô¶¯ÔÚexeÏÂ½¨Á¢¡£
-					3.µ¥ÀıÎŞ·¨ÔÚÏú»ÙÊ±Çå¿ÕÎÄ¼ş¼Ğ£¬ĞèÒªÄãÊÖ¶¯ destroyInstance()
+		å¿…è¦äº‹é¡¹ï¼š	1.æœç´¢æ–‡ä»¶å¤¹ï¼š
+						copyResourceToTempFile æ·±åº¦ä¸º1ï¼›
+						copyResourceToTempFileIncludChildDir æ·±åº¦ä¸º2ï¼›
+					2.tempæ–‡ä»¶å¤¹è‡ªåŠ¨åœ¨exeä¸‹å»ºç«‹ã€‚
+					3.å•ä¾‹æ— æ³•åœ¨é”€æ¯æ—¶æ¸…ç©ºæ–‡ä»¶å¤¹ï¼Œéœ€è¦ä½ æ‰‹åŠ¨ destroyInstance()
 
-		ÆäËüËµÃ÷£º	1.¸ÃtempÎÄ¼ş¼ĞÓëQDir::tempPath()ÎÄ¼ş¼ĞÍêÈ«²»Í¬£¬ÓÃÓÚÏîÄ¿ÁÙÊ±»ò³¤ÆÚ´æ´¢µÄÄ¿Â¼¡£
-					2.ĞŞ¸ÄÒ»¶¨Òª×ĞÏ¸ÓÃdebug²é¿´ÎÄ¼şÂ·¾¶£¨QFileInfoÊÇË½ÓĞ±äÁ¿£¬²»ÄÜÔÚ±äÁ¿ÖĞÕ¹¿ª£©
-					3.²»¹ÜÎÄ¼ş»¹ÊÇÎÄ¼ş¼Ğ£¬
-						absolutePath     - ÉÏÒ»¼¶Ä¿Â¼
-						absoluteDir      - ÉÏÒ»¼¶Ä¿Â¼
-						absoluteFilePath - ÎÄ¼ş»òÎÄ¼ş¼ĞµÄÈ«Ãû
-					4.entryInfoList°üº¬È«²¿¸¸¼¶ÎÄ¼ş¼Ğ£¬ĞèÒªÉ¸Ñ¡³öÀ´
+		å…¶å®ƒè¯´æ˜ï¼š	1.è¯¥tempæ–‡ä»¶å¤¹ä¸QDir::tempPath()æ–‡ä»¶å¤¹å®Œå…¨ä¸åŒï¼Œç”¨äºé¡¹ç›®ä¸´æ—¶æˆ–é•¿æœŸå­˜å‚¨çš„ç›®å½•ã€‚
+					2.ä¿®æ”¹ä¸€å®šè¦ä»”ç»†ç”¨debugæŸ¥çœ‹æ–‡ä»¶è·¯å¾„ï¼ˆQFileInfoæ˜¯ç§æœ‰å˜é‡ï¼Œä¸èƒ½åœ¨å˜é‡ä¸­å±•å¼€ï¼‰
+					3.ä¸ç®¡æ–‡ä»¶è¿˜æ˜¯æ–‡ä»¶å¤¹ï¼Œ
+						absolutePath     - ä¸Šä¸€çº§ç›®å½•
+						absoluteDir      - ä¸Šä¸€çº§ç›®å½•
+						absoluteFilePath - æ–‡ä»¶æˆ–æ–‡ä»¶å¤¹çš„å…¨å
+					4.entryInfoListåŒ…å«å…¨éƒ¨çˆ¶çº§æ–‡ä»¶å¤¹ï¼Œéœ€è¦ç­›é€‰å‡ºæ¥
 
-		µ÷ÓÃ·½·¨£º	»ñÈ¡µ¥Àı£¬È»ºóÖ±½ÓÖ´ĞĞ·½·¨¡£
+		è°ƒç”¨æ–¹æ³•ï¼š	è·å–å•ä¾‹ï¼Œç„¶åç›´æ¥æ‰§è¡Œæ–¹æ³•ã€‚
 						S_TempFileManager::getInstance()->clearAllTempFile();
 						S_TempFileManager::getInstance()->copyResourceToTempFile("D:/aaa");
-					»ñÈ¡tempÎÄ¼ş¼ĞÖĞµÄÎÄ¼ş£º£¨fileÖ¸ÕëºÍ¶ÔÏó¶¼ÎŞ·¨´«µİ£¬×Ü±¨´í£©
+					è·å–tempæ–‡ä»¶å¤¹ä¸­çš„æ–‡ä»¶ï¼šï¼ˆfileæŒ‡é’ˆå’Œå¯¹è±¡éƒ½æ— æ³•ä¼ é€’ï¼Œæ€»æŠ¥é”™ï¼‰
 						QFile f( S_TempFileManager::getInstance()->getTempFileUrl() + "/" + filename);
-					¹Ø±Õ³ÌĞòÊ±£¬ĞèÒªÊÖ¶¯Ïú»Ùµ¥Àı¡£
+					å…³é—­ç¨‹åºæ—¶ï¼Œéœ€è¦æ‰‹åŠ¨é”€æ¯å•ä¾‹ã€‚
 						S_TempFileManager::getInstance()->destroyInstance();
 
 -----==========================================================-----
@@ -52,7 +52,7 @@ S_TempFileManager::S_TempFileManager(){
 }
 S_TempFileManager::~S_TempFileManager(){
 }
-/* -------------µ¥Àı------------ */
+/* -------------å•ä¾‹------------ */
 S_TempFileManager* S_TempFileManager::cur_instance = NULL;
 S_TempFileManager* S_TempFileManager::getInstance() {
 	if (cur_instance == NULL) {
@@ -60,21 +60,21 @@ S_TempFileManager* S_TempFileManager::getInstance() {
 	}
 	return cur_instance;
 }
-/* -------------Ïú»Ùµ¥Àı------------ */
+/* -------------é”€æ¯å•ä¾‹------------ */
 void S_TempFileManager::destroyInstance() {
 	this->removeAllTempFile();
 	QDir dir(this->workspace_url);
 	dir.removeRecursively();
 	delete cur_instance;
 }
-/* -------------³õÊ¼»¯------------ */
+/* -------------åˆå§‹åŒ–------------ */
 void S_TempFileManager::init() {
 
-	this->temp_file_url = QCoreApplication::applicationDirPath() + "/temp";		//½¨Á¢tempÎÄ¼ş¼Ğ
+	this->temp_file_url = QCoreApplication::applicationDirPath() + "/temp";		//å»ºç«‹tempæ–‡ä»¶å¤¹
 	QDir dir(this->temp_file_url);
 	dir.mkdir(this->temp_file_url);
 
-	int temp_id = 1;		//ÃüÃûĞòºÅĞŞ¸Ä
+	int temp_id = 1;		//å‘½ååºå·ä¿®æ”¹
 	QString auto_name = "";
 	while (true){
 		QString temp = "/workspace_" + QString::number(temp_id);
@@ -86,44 +86,44 @@ void S_TempFileManager::init() {
 		}
 	}
 
-	this->workspace_url = this->temp_file_url + auto_name;	//½¨Á¢¹¤×÷Çø
+	this->workspace_url = this->temp_file_url + auto_name;	//å»ºç«‹å·¥ä½œåŒº
 	QDir dir2(this->workspace_url);
 	dir2.mkdir(this->workspace_url);
 
-	this->default_skip_suffix = QStringList();						//ºöÂÔºó×º
-	this->default_forbidden_suffix = QStringList() << "exe" << "lnk";		//½ûÖ¹ºó×º
+	this->default_skip_suffix = QStringList();						//å¿½ç•¥åç¼€
+	this->default_forbidden_suffix = QStringList() << "exe" << "lnk";		//ç¦æ­¢åç¼€
 	this->skip_suffix = this->default_skip_suffix;
 	this->forbidden_suffix = this->default_forbidden_suffix;
 }
 
 
 /* ----------------------------------------------------------------------------------------------------------------------------
-------»ñÈ¡ - »º´æÎÄ¼ş¼ĞÂ·¾¶
+------è·å– - ç¼“å­˜æ–‡ä»¶å¤¹è·¯å¾„
 */
 QString S_TempFileManager::getMainUrl() {
 	return this->temp_file_url;
 }
 /* ----------------------------------------------------------------------------------------------------------------------------
-------»ñÈ¡ - µ±Ç°»º´æ¹¤×÷ÇøÂ·¾¶
+------è·å– - å½“å‰ç¼“å­˜å·¥ä½œåŒºè·¯å¾„
 */
 QString S_TempFileManager::getTempFileUrl() {
 	return this->workspace_url;
 }
 /* ----------------------------------------------------------------------------------------------------------------------------
-------»ñÈ¡ - ÊÇ·ñ´æÔÚÖ¸¶¨ÎÄ¼ş
+------è·å– - æ˜¯å¦å­˜åœ¨æŒ‡å®šæ–‡ä»¶
 */
 bool S_TempFileManager::hasTempFile(QString filename) {
 	return QFile(this->workspace_url + "/" + filename).exists();
 }
 /* ----------------------------------------------------------------------------------------------------------------------------
-------»ñÈ¡ - Ö¸¶¨ÎÄ¼şÊÇ·ñÔÚtempÎÄ¼ş¼ĞÖĞ
+------è·å– - æŒ‡å®šæ–‡ä»¶æ˜¯å¦åœ¨tempæ–‡ä»¶å¤¹ä¸­
 */
 bool S_TempFileManager::isInCurTempFile(QString filename) {
 	return QFileInfo(filename).absoluteFilePath().contains(QFileInfo(this->workspace_url).absoluteFilePath());
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------
-------ºó×º - ºöÂÔºó×º
+------åç¼€ - å¿½ç•¥åç¼€
 */
 QStringList S_TempFileManager::getSkipSuffix() {
 	return this->skip_suffix;
@@ -140,7 +140,7 @@ bool S_TempFileManager::isSkipFile(QFileInfo info){
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------
-------ºó×º - ½ûÖ¹ºó×º
+------åç¼€ - ç¦æ­¢åç¼€
 */
 QStringList S_TempFileManager::getForbiddenSuffix() {
 	return this->forbidden_suffix;
@@ -157,7 +157,7 @@ bool S_TempFileManager::isForbiddenFile(QFileInfo info){
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------
-------É¾³ı - É¾³ıÎÄ¼ş£¨¸ù¾İºó×º£©
+------åˆ é™¤ - åˆ é™¤æ–‡ä»¶ï¼ˆæ ¹æ®åç¼€ï¼‰
 */
 void S_TempFileManager::removeInTemp_Dir(QString dirname) {
 	QFileInfo info = QFileInfo(this->workspace_url + "/" + dirname);
@@ -173,24 +173,24 @@ void S_TempFileManager::removeInTemp_File(QString filename) {
 	}
 }
 void S_TempFileManager::removeInTemp_FileBySuffix(QString suffix) {
-	// > µİ¹éÉ¾³ı£¨Éî¶È0£©
+	// > é€’å½’åˆ é™¤ï¼ˆæ·±åº¦0ï¼‰
 	this->removeFilePrivate_recursion( "*." + suffix, 0, this->workspace_url, 0);
 }
 void S_TempFileManager::removeInTemp_FileBySuffix_WithAllSubfolders(QString suffix) {
-	// > µİ¹éÉ¾³ı£¨Éî¶È-1£©
+	// > é€’å½’åˆ é™¤ï¼ˆæ·±åº¦-1ï¼‰
 	this->removeFilePrivate_recursion("*." + suffix, -1, this->workspace_url, 0);
 }
 void S_TempFileManager::removeInTemp_FileByNameNoSuffix(QString onlyname) {
-	// > µİ¹éÉ¾³ı£¨Éî¶È0£©
+	// > é€’å½’åˆ é™¤ï¼ˆæ·±åº¦0ï¼‰
 	this->removeFilePrivate_recursion(onlyname + ".*", 0, this->workspace_url, 0);
 }
 void S_TempFileManager::removeInTemp_FileByNameNoSuffix_WithAllSubfolders(QString onlyname) {
-	// > µİ¹éÉ¾³ı£¨Éî¶È-1£©
+	// > é€’å½’åˆ é™¤ï¼ˆæ·±åº¦-1ï¼‰
 	this->removeFilePrivate_recursion(onlyname + ".*", -1, this->workspace_url, 0);
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------
-------É¾³ı - Çå¿ÕËùÓĞÎÄ¼ş£¨°üÀ¨ÎÄ¼ş¼Ğ£©
+------åˆ é™¤ - æ¸…ç©ºæ‰€æœ‰æ–‡ä»¶ï¼ˆåŒ…æ‹¬æ–‡ä»¶å¤¹ï¼‰
 */
 void S_TempFileManager::removeAllTempFile() {
 
@@ -203,7 +203,7 @@ void S_TempFileManager::removeAllTempFile() {
 	int delay = 0;
 
 	int infoNum = fileList.size();
-	for (int i = infoNum - 1; i >= 0; i--) {	//µ¹ĞòÉ¾³ı£¨ÕâÑù¾Í²»ĞèÒªµü´úÆ÷ÁË£©
+	for (int i = infoNum - 1; i >= 0; i--) {	//å€’åºåˆ é™¤ï¼ˆè¿™æ ·å°±ä¸éœ€è¦è¿­ä»£å™¨äº†ï¼‰
 		curfile = fileList[i];
 		if (curfile.isFile()) {
 			QFile file_temp(curfile.filePath());
@@ -211,18 +211,18 @@ void S_TempFileManager::removeAllTempFile() {
 			fileList.removeAt(i);
 		}
 		if (curfile.isDir()) {
-			QDir dir2(curfile.filePath());		//É¾³ıÎÄ¼ş¼Ğ
+			QDir dir2(curfile.filePath());		//åˆ é™¤æ–‡ä»¶å¤¹
 			dir2.removeRecursively();
 			fileList.removeAt(i);
 		}
 	}
 }
 /* ----------------------------------------------------------------------------------------------------------------------------
-------¸´ÖÆ - ¶à¸öÎÄ¼ş -> tempÎÄ¼ş¼Ğ£¨Ç°ÕßÄ¿±êÎÄ¼ş¼Ğ F:/aaa/bbb£¬ºóÕßÄ¿±êÎÄ¼şÁĞ±í£º["aa.xds","bb.vcut"¡­]£©
+------å¤åˆ¶ - å¤šä¸ªæ–‡ä»¶ -> tempæ–‡ä»¶å¤¹ï¼ˆå‰è€…ç›®æ ‡æ–‡ä»¶å¤¹ F:/aaa/bbbï¼Œåè€…ç›®æ ‡æ–‡ä»¶åˆ—è¡¨ï¼š["aa.xds","bb.vcut"â€¦]ï¼‰
 */
 void S_TempFileManager::copyResourceToTemp_SeveralFile(QString src_url, QStringList file_names) {
 	QFileInfo info(src_url);
-	if (this->isInCurTempFile(info.absoluteFilePath()) == true){ Q_ASSERT(false); return; }	//£¨tempÎÄ¼ş¼ĞÄÚ²¿²»ÄÜ¸´ÖÆ£©
+	if (this->isInCurTempFile(info.absoluteFilePath()) == true){ Q_ASSERT(false); return; }	//ï¼ˆtempæ–‡ä»¶å¤¹å†…éƒ¨ä¸èƒ½å¤åˆ¶ï¼‰
 	if (src_url.at(src_url.size()-1) == '/'){
 		src_url = src_url.mid(0, src_url.size() - 1);
 	}
@@ -235,7 +235,7 @@ void S_TempFileManager::copyResourceToTemp_SeveralFile(QString src_url, QStringL
 	}
 }
 /* ----------------------------------------------------------------------------------------------------------------------------
-------¸´ÖÆ - ¶à¸ötempÎÄ¼ş -> Ö¸¶¨ÎÄ¼ş¼Ğ £¨Ç°ÕßÄ¿±êÎÄ¼ş¼Ğ F:/aaa/bbb£¬ºóÕßtempÎÄ¼şÁĞ±í£º["aa.xds","bb.vcut"¡­]£©
+------å¤åˆ¶ - å¤šä¸ªtempæ–‡ä»¶ -> æŒ‡å®šæ–‡ä»¶å¤¹ ï¼ˆå‰è€…ç›®æ ‡æ–‡ä»¶å¤¹ F:/aaa/bbbï¼Œåè€…tempæ–‡ä»¶åˆ—è¡¨ï¼š["aa.xds","bb.vcut"â€¦]ï¼‰
 */
 void S_TempFileManager::copyTempToTarget_SeveralFile(QString tar_url, QStringList file_names) {
 	if (tar_url.at(tar_url.size() - 1) == '/'){
@@ -250,59 +250,59 @@ void S_TempFileManager::copyTempToTarget_SeveralFile(QString tar_url, QStringLis
 	}
 }
 /* ----------------------------------------------------------------------------------------------------------------------------
-------¸´ÖÆ - Ö¸¶¨ÎÄ¼ş/ÎÄ¼ş¼Ğ -> tempÎÄ¼ş¼Ğ £¨ÎÄ¼ş»òÎÄ¼ş¼Ğ¶¼¿ÉÒÔ£¬F:/aaa/bbb ÍêÕûÂ·¾¶£©
+------å¤åˆ¶ - æŒ‡å®šæ–‡ä»¶/æ–‡ä»¶å¤¹ -> tempæ–‡ä»¶å¤¹ ï¼ˆæ–‡ä»¶æˆ–æ–‡ä»¶å¤¹éƒ½å¯ä»¥ï¼ŒF:/aaa/bbb å®Œæ•´è·¯å¾„ï¼‰
 */
 bool S_TempFileManager::copyResourceToTemp_File(QString src_url) {
 	QFileInfo info(src_url);
 	if (!info.isFile()){ return false; }
-	if (this->isInCurTempFile(info.absoluteFilePath()) == true){ Q_ASSERT(false); return false; }	//£¨tempÎÄ¼ş¼ĞÄÚ²¿²»ÄÜ¸´ÖÆ£©
+	if (this->isInCurTempFile(info.absoluteFilePath()) == true){ Q_ASSERT(false); return false; }	//ï¼ˆtempæ–‡ä»¶å¤¹å†…éƒ¨ä¸èƒ½å¤åˆ¶ï¼‰
 	return this->copyFilePrivate(info.absoluteFilePath(), this->workspace_url + "/" + info.fileName());
 }
 bool S_TempFileManager::copyResourceToTemp_Dir(QString src_url) {
-	// > µİ¹é¸´ÖÆ£¨Éî¶È0£©
+	// > é€’å½’å¤åˆ¶ï¼ˆæ·±åº¦0ï¼‰
 	QFileInfo info(src_url);
 	if (!info.isDir()){ return false; }
-	if (this->isInCurTempFile(info.absoluteFilePath()) == true){ Q_ASSERT(false); return false; }	//£¨tempÎÄ¼ş¼ĞÄÚ²¿²»ÄÜ¸´ÖÆ£©
+	if (this->isInCurTempFile(info.absoluteFilePath()) == true){ Q_ASSERT(false); return false; }	//ï¼ˆtempæ–‡ä»¶å¤¹å†…éƒ¨ä¸èƒ½å¤åˆ¶ï¼‰
 	QString dir_from = src_url;
 	QString dir_to = this->workspace_url;
 	return this->copyDirPrivate_recursion(dir_to, 0, dir_from, dir_from, 0);
 }
 bool S_TempFileManager::copyResourceToTemp_DirWithDepth(QString src_url, int depth) {
-	// > µİ¹é¸´ÖÆ£¨Éî¶È×Ô¶¨Òå£©
+	// > é€’å½’å¤åˆ¶ï¼ˆæ·±åº¦è‡ªå®šä¹‰ï¼‰
 	QFileInfo info(src_url);
 	if (!info.isDir()){ return false; }
-	if (this->isInCurTempFile(info.absoluteFilePath()) == true){ Q_ASSERT(false); return false; }	//£¨tempÎÄ¼ş¼ĞÄÚ²¿²»ÄÜ¸´ÖÆ£©
+	if (this->isInCurTempFile(info.absoluteFilePath()) == true){ Q_ASSERT(false); return false; }	//ï¼ˆtempæ–‡ä»¶å¤¹å†…éƒ¨ä¸èƒ½å¤åˆ¶ï¼‰
 	QString dir_from = src_url;
 	QString dir_to = this->workspace_url;
 	return this->copyDirPrivate_recursion(dir_to, depth, dir_from, dir_from, 0);
 }
 bool S_TempFileManager::copyResourceToTemp_DirWithAllSubfolders(QString src_url) {
-	// > µİ¹é¸´ÖÆ£¨Éî¶È-1£©
+	// > é€’å½’å¤åˆ¶ï¼ˆæ·±åº¦-1ï¼‰
 	QFileInfo info(src_url);
 	if (!info.isDir()){ return false; }
-	if (this->isInCurTempFile(info.absoluteFilePath()) == true){ Q_ASSERT(false); return false; }	//£¨tempÎÄ¼ş¼ĞÄÚ²¿²»ÄÜ¸´ÖÆ£©
+	if (this->isInCurTempFile(info.absoluteFilePath()) == true){ Q_ASSERT(false); return false; }	//ï¼ˆtempæ–‡ä»¶å¤¹å†…éƒ¨ä¸èƒ½å¤åˆ¶ï¼‰
 	QString dir_from = src_url;
 	QString dir_to = this->workspace_url;
 	return this->copyDirPrivate_recursion(dir_to, -1, dir_from, dir_from, 0);
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------
-------¸´ÖÆ - tempÎÄ¼ş¼Ğ -> Ö¸¶¨ÎÄ¼ş¼Ğ £¨F:/aaa/bbb ÍêÕûÂ·¾¶£©
+------å¤åˆ¶ - tempæ–‡ä»¶å¤¹ -> æŒ‡å®šæ–‡ä»¶å¤¹ ï¼ˆF:/aaa/bbb å®Œæ•´è·¯å¾„ï¼‰
 */
 bool S_TempFileManager::copyTempToTarget_Dir(QString tar_url) {
-	// > µİ¹é¸´ÖÆ£¨Éî¶È0£©
+	// > é€’å½’å¤åˆ¶ï¼ˆæ·±åº¦0ï¼‰
 	QString dir_from = this->workspace_url;
 	QString dir_to = tar_url;
 	return this->copyDirPrivate_recursion(dir_to, 0, dir_from, dir_from, 0);
 }
 bool S_TempFileManager::copyTempToTarget_DirWithDepth(QString tar_url, int depth) {
-	// > µİ¹é¸´ÖÆ£¨Éî¶È×Ô¶¨Òå£©
+	// > é€’å½’å¤åˆ¶ï¼ˆæ·±åº¦è‡ªå®šä¹‰ï¼‰
 	QString dir_from = this->workspace_url;
 	QString dir_to = tar_url;
 	return this->copyDirPrivate_recursion(dir_to, depth, dir_from, dir_from, 0);
 }
 bool S_TempFileManager::copyTempToTarget_DirWithAllSubfolders(QString tar_url) {
-	// > µİ¹é¸´ÖÆ£¨Éî¶È-1£©
+	// > é€’å½’å¤åˆ¶ï¼ˆæ·±åº¦-1ï¼‰
 	QString dir_from = this->workspace_url;
 	QString dir_to = tar_url;
 	return this->copyDirPrivate_recursion(dir_to, -1, dir_from, dir_from, 0);
@@ -311,17 +311,21 @@ bool S_TempFileManager::copyTempToTarget_DirWithAllSubfolders(QString tar_url) {
 
 
 /* ----------------------------------------------------------------------------------------------------------------------------
-------¸´ÖÆ - tempÎÄ¼ş¼Ğ µÄÎÄ¼ş£¬²¢ÃüÃûĞÂµÄÃû×Ö
+------å¤åˆ¶ - tempæ–‡ä»¶å¤¹ çš„æ–‡ä»¶ï¼Œå¹¶å‘½åæ–°çš„åå­—
 */
 void S_TempFileManager::copyTempToTemp_FileWithNewName(QString filename, QString file_new_name){
 	if (filename == ""){ return; }
 	if (file_new_name == ""){ return; }
+	filename = filename.replace(this->workspace_url+"/", "");
+	filename = filename.replace(this->workspace_url, "");
+	file_new_name = file_new_name.replace(this->workspace_url + "/", "");
+	file_new_name = file_new_name.replace(this->workspace_url, "");
 	QString urlA = this->workspace_url + "/" + filename;
 	QString urlB = this->workspace_url + "/" + file_new_name;
 	this->copyFilePrivate(urlA, urlB);
 }
 /* ----------------------------------------------------------------------------------------------------------------------------
-------¸´ÖÆ - tempÎÄ¼ş¼Ğ µÄÎÄ¼ş¼Ğ£¬²¢ÃüÃûĞÂµÄÃû×Ö
+------å¤åˆ¶ - tempæ–‡ä»¶å¤¹ çš„æ–‡ä»¶å¤¹ï¼Œå¹¶å‘½åæ–°çš„åå­—
 */
 bool S_TempFileManager::copyTempToTemp_Dir(QString dir_name, QString dir_new_name){
 	QString dir_from = this->workspace_url + "/" + dir_name;
@@ -341,31 +345,31 @@ bool S_TempFileManager::copyTempToTemp_DirWithAllSubfolders(QString dir_name, QS
 
 
 /* ----------------------------------------------------------------------------------------------------------------------------
-------Ë½ÓĞ - ¸´ÖÆÎÄ¼ş¼Ğ A -> B £¨¸²Ğ´£©
+------ç§æœ‰ - å¤åˆ¶æ–‡ä»¶å¤¹ A -> B ï¼ˆè¦†å†™ï¼‰
 */
 bool S_TempFileManager::copyDirPrivate(QString dirPath_from, QString dirPath_to){
 	QFileInfo info_to(dirPath_to);
 	QFileInfo info_from(dirPath_from);
 	QDir dir_to(dirPath_to);
 	QDir dir_from(dirPath_from);
-	if (dir_to.absolutePath() == dir_from.absolutePath()){ return true; }		//£¨ÏàÍ¬Â·¾¶Ìø¹ı£©
+	if (dir_to.absolutePath() == dir_from.absolutePath()){ return true; }		//ï¼ˆç›¸åŒè·¯å¾„è·³è¿‡ï¼‰
 
-	// > Â·¾¶Éú³É
+	// > è·¯å¾„ç”Ÿæˆ
 	if (dir_to.exists() == false){
 		dir_to.mkdir(dirPath_to);
 	}
 	bool all_success = true;
 
-	// > ½ûÖ¹¸´ÖÆ
+	// > ç¦æ­¢å¤åˆ¶
 	QFileInfoList f_list = dir_from.entryInfoList(QDir::Files);
 	for (int i = 0; i < f_list.size(); i++) {
 		QFileInfo temp_info(f_list.at(i));
 		if (this->isForbiddenFile(temp_info)){
-			return false;	//£¨³öÏÖºó£¬Á¢¼´ÖÕÖ¹£©
+			return false;	//ï¼ˆå‡ºç°åï¼Œç«‹å³ç»ˆæ­¢ï¼‰
 		}
 	}
 
-	// > Ö±½Ó¸´ÖÆ
+	// > ç›´æ¥å¤åˆ¶
 	for (int i = 0; i < f_list.size(); i++) {
 		QFileInfo temp_info(f_list.at(i));
 		if (!this->isSkipFile(temp_info)){
@@ -379,53 +383,68 @@ bool S_TempFileManager::copyDirPrivate(QString dirPath_from, QString dirPath_to)
 
 
 /* ----------------------------------------------------------------------------------------------------------------------------
-------Éú³É - Éú³ÉÒ»¸öÎÄ¼ş£¬Ğ´ÈëÊı¾İ£¨ÎÄ¼şÒÑ´æÔÚ£¬Ôò²»²Ù×÷£©
+------ç”Ÿæˆ - ç”Ÿæˆä¸€ä¸ªæ–‡ä»¶ï¼Œå†™å…¥æ•°æ®ï¼ˆæ–‡ä»¶å·²å­˜åœ¨ï¼Œåˆ™ä¸æ“ä½œï¼‰
 */
 void S_TempFileManager::generateTempFile(QString filename, QString filedata) {
-	if (this->hasTempFile(filename)) {
-		return;
+	if (this->hasTempFile(filename)) { return; }
+	QString file_path = this->workspace_url + "/" + filename;
+	QString file_dir = QFileInfo(file_path).absolutePath();
+
+	// > è·¯å¾„ç”Ÿæˆ
+	QDir dir_to(file_dir);
+	if (dir_to.exists() == false){
+		dir_to.mkdir(file_dir);
 	}
-	QFile file_to(this->workspace_url +"/"+filename);
+
+	// > å†™å…¥æ–‡ä»¶
+	QFile file_to(file_path);
 	if (!file_to.open(QIODevice::WriteOnly)) { return; }
 	QByteArray ba = filedata.toUtf8();
 	file_to.write(ba);
 	file_to.close();
 }
 /* ----------------------------------------------------------------------------------------------------------------------------
-------Éú³É - Éú³ÉÒ»¸öÎÄ¼ş£¬Ğ´ÈëÊı¾İ£¨ÎÄ¼şÒÑ´æÔÚ£¬Ôò¸²¸Ç£©
+------ç”Ÿæˆ - ç”Ÿæˆä¸€ä¸ªæ–‡ä»¶ï¼Œå†™å…¥æ•°æ®ï¼ˆæ–‡ä»¶å·²å­˜åœ¨ï¼Œåˆ™è¦†ç›–ï¼‰
 */
-void S_TempFileManager::generateTempFileStrict(QString filename, QString filedata, QString code = "utf8") {
-	QFile file_to(this->workspace_url + "/" + filename);
-	if (file_to.exists()) {
-		file_to.remove();
+void S_TempFileManager::generateTempFileStrict(QString filename, QString filedata, QString code) {
+	QString file_path = this->workspace_url + "/" + filename;
+	QString file_dir = QFileInfo(file_path).absolutePath();
+
+	// > è·¯å¾„ç”Ÿæˆ
+	QDir dir_to(file_dir);
+	if (dir_to.exists() == false){
+		dir_to.mkdir(file_dir);
 	}
 
+	// > è¦†ç›–æ–‡ä»¶
+	QFile file_to(file_path);
+	if (file_to.exists()) { file_to.remove();}
+
+	// > å†™å…¥æ–‡ä»¶
 	if (!file_to.open(QIODevice::WriteOnly | QIODevice::Truncate)) { return; }
 	QByteArray ba;
-	if (code == "toLocal8Bit"){		//windows±¾µØ×Ö·û
+	if (code == "toLocal8Bit"){			//windowsæœ¬åœ°å­—ç¬¦
 		ba = filedata.toLocal8Bit();
-	}
-	else if (code == "toLatin1"){	//ISO-8859-1±àÂë£¬Ö»ÓĞASCII£¬²»Ö§³Öºº×Ö
+	}else if (code == "toLatin1"){		//ISO-8859-1ç¼–ç ï¼Œåªæœ‰ASCIIï¼Œä¸æ”¯æŒæ±‰å­—
 		ba = filedata.toLatin1();
-	}
-	else{
+	}else{
 		ba = filedata.toUtf8();
 	}
 	file_to.write(ba);
 	file_to.close();
-	/*else if (code == "toUcs4"){	//4×Ö½ÚµÄ¿í×Ö·û±àÂë
+	/*else if (code == "toUcs4"){	//4å­—èŠ‚çš„å®½å­—ç¬¦ç¼–ç 
 	ba = filedata.toUcs4();
 	}*/
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------
-------»ìÔÓ - Éú³ÉlogÎÄ¼ş£¬¸²Ğ´
+------æ··æ‚ - ç”Ÿæˆlogæ–‡ä»¶ï¼Œè¦†å†™
 */
 void S_TempFileManager::replaceDebugLog(QString filename, QString logdata) {
 	this->generateTempFileStrict(filename, logdata);
 }
 /* ----------------------------------------------------------------------------------------------------------------------------
-------»ìÔÓ - Éú³ÉlogÎÄ¼ş£¬¸²Ğ´
+------æ··æ‚ - ç”Ÿæˆlogæ–‡ä»¶ï¼Œè¦†å†™
 */
 void S_TempFileManager::replaceDebugLog(QString filename, QByteArray logdata){
 	QFile file_to(this->workspace_url + "/" + filename);
@@ -439,16 +458,18 @@ void S_TempFileManager::replaceDebugLog(QString filename, QByteArray logdata){
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------
-------»ìÔÓ - Éú³ÉlogÎÄ¼ş£¬×·¼Ó
+------æ··æ‚ - ç”Ÿæˆlogæ–‡ä»¶ï¼Œè¿½åŠ 
 */
-void S_TempFileManager::addDebugLog(QString filename, QString logdata){
+void S_TempFileManager::addDebugLog(QString filename, QString logdata, bool record_time){
 	QFile file_to(this->workspace_url + "/" + filename);
-	if (file_to.exists()) {
-		file_to.remove();
-	}
-
 	if (!file_to.open(QIODevice::WriteOnly | QIODevice::Append)) { return; }
-	QByteArray ba = logdata.toUtf8();
+	QString data = QString("\n");
+	if (record_time == true){
+		data.append(QDateTime::currentDateTime().toString("yyyy/MM/dd hh:mm:ss"));
+		data.append("\n");
+	}
+	data.append(logdata);
+	QByteArray ba = data.toUtf8();
 	file_to.seek(file_to.size());
 	file_to.write(ba);
 	file_to.close();
@@ -456,14 +477,14 @@ void S_TempFileManager::addDebugLog(QString filename, QString logdata){
 
 
 /* ----------------------------------------------------------------------------------------------------------------------------
-------ÆäËû - ´ò¿ª»º´æÂ·¾¶ÎÄ¼ş¼Ğ
+------å…¶ä»– - æ‰“å¼€ç¼“å­˜è·¯å¾„æ–‡ä»¶å¤¹
 */
 bool S_TempFileManager::openDesktopTempUrl() {
 	QString buffer_path = this->getTempFileUrl();
 	return QDesktopServices::openUrl(QUrl("file:/" + buffer_path + "/"));
 }
 /* ----------------------------------------------------------------------------------------------------------------------------
-------ÆäËû - ´ò¿ª»º´æÂ·¾¶ÖĞÖ¸¶¨ÎÄ¼ş
+------å…¶ä»– - æ‰“å¼€ç¼“å­˜è·¯å¾„ä¸­æŒ‡å®šæ–‡ä»¶
 */
 bool S_TempFileManager::openDesktopTempFile(QString filename) {
 	if (!this->hasTempFile(filename)) { return false; }

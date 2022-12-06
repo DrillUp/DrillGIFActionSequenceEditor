@@ -1,16 +1,17 @@
-#pragma once
+ï»¿#pragma once
+#include "stdafx.h"
 
-#include "s_ProjectManager.h"
+#include "S_ProjectManager.h"
 
-#include "data/w_ProjectCreate.h"
-#include "data/extendPart/w_ProjectNote.h"
+#include "Data/W_ProjectCreate.h"
+#include "Data/ExtendPart/W_ProjectNote.h"
 
 /*
 -----==========================================================-----
-		Àà£º		ÏîÄ¿¹ÜÀí - ´°¿Ú¹ÜÀí.h
-		ËùÊôÄ£¿é£º	ÏîÄ¿¹ÜÀíÄ£¿é
-		¹¦ÄÜ£º		¶Ô´ò¿ª¡¢±à¼­´°¿Ú½øĞĞ²Ù×÷£¬°üÀ¨ÏìÓ¦Ïà¹Ø¿ØÖÆ¡£
-					¡¾´°¿Ú¡¿
+		ç±»ï¼š		é¡¹ç›®ç®¡ç† - çª—å£ç®¡ç†.h
+		æ‰€å±æ¨¡å—ï¼š	é¡¹ç›®ç®¡ç†æ¨¡å—
+		åŠŸèƒ½ï¼š		å¯¹æ‰“å¼€ã€ç¼–è¾‘çª—å£è¿›è¡Œæ“ä½œï¼ŒåŒ…æ‹¬å“åº”ç›¸å…³æ§åˆ¶ã€‚
+					ã€çª—å£ã€‘
 -----==========================================================-----
 */
 
@@ -21,28 +22,28 @@ class S_ProjectWindowManager : public QObject
 	public:
 		S_ProjectWindowManager();
 		~S_ProjectWindowManager();
-		static S_ProjectWindowManager* project_manager;		//µ¥Àı
-		static S_ProjectWindowManager* getInstance();		//µ¥Àı£¬»ñÈ¡×Ô¼º£¨±ØĞëÒªÄÃµ½È«¾ÖÅäÖÃ²ÅÄÜ½øĞĞ¼ÆËã£©
+		static S_ProjectWindowManager* project_manager;		//å•ä¾‹
+		static S_ProjectWindowManager* getInstance();		//å•ä¾‹ï¼Œè·å–è‡ªå·±ï¼ˆå¿…é¡»è¦æ‹¿åˆ°å…¨å±€é…ç½®æ‰èƒ½è¿›è¡Œè®¡ç®—ï¼‰
 
 	//-----------------------------------
-	//----Á÷³Ì
+	//----æµç¨‹
 	public slots:
-										//Á÷³Ì - ĞÂ½¨£¨¶Ô»°¿ò£©
+										//æµç¨‹ - æ–°å»ºï¼ˆå¯¹è¯æ¡†ï¼‰
 		void newProject();
-										//Á÷³Ì - ´ò¿ª£¨¶Ô»°¿ò£©
+										//æµç¨‹ - æ‰“å¼€ï¼ˆå¯¹è¯æ¡†ï¼‰
 		void openProject();	
-										//Á÷³Ì - ±£´æ£¨¶Ô»°¿ò£©
+										//æµç¨‹ - ä¿å­˜ï¼ˆå¯¹è¯æ¡†ï¼‰
 		void saveProject();	
-										//Á÷³Ì - Áí´æÎª£¨¶Ô»°¿ò£©
+										//æµç¨‹ - å¦å­˜ä¸ºï¼ˆå¯¹è¯æ¡†ï¼‰
 		void saveAs();
 
 	//-----------------------------------
-	//----´°¿Ú
+	//----çª—å£
 	public slots:
-										//´°¿Ú - ĞÂ½¨ÏîÄ¿
-										//		£¨Õâ¸ö´°¿Ú±È½ÏÌØÊâ£¬ÕâÀïÖ±½ÓÇ¶Ì×µ½s_ProjectManagerÖĞÁË¡££©
+										//çª—å£ - æ–°å»ºé¡¹ç›®
+										//		ï¼ˆè¿™ä¸ªçª—å£æ¯”è¾ƒç‰¹æ®Šï¼Œè¿™é‡Œç›´æ¥åµŒå¥—åˆ°s_ProjectManagerä¸­äº†ã€‚ï¼‰
 		//void openModifyWindowCreate();
-										//´°¿Ú - ¹¤³Ì±Ê¼Ç
+										//çª—å£ - å·¥ç¨‹ç¬”è®°
 		void openModifyWindowNote();
 };
 

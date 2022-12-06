@@ -1,60 +1,60 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 
-#include "s_ProjectManager.h"
-#include "s_ProjectWindowManager.h"
+#include "S_ProjectManager.h"
+#include "S_ProjectWindowManager.h"
 
-#include "data/c_ProjectData.h"
-#include "data/w_ProjectCreate.h"
-#include "storage/s_StorageManager.h"
-#include "storageGlobal/s_IniManager.h"
-#include "file/s_TempFileManager.h"
+#include "Data/C_ProjectData.h"
+#include "Data/W_ProjectCreate.h"
+#include "Storage/S_StorageManager.h"
+#include "StorageGlobal/S_IniManager.h"
+#include "File/S_TempFileManager.h"
 
 #include "DrillGIFActionSequenceEditor.h"
 /*
 -----==========================================================-----
-		Àà£º		ÏîÄ¿¹ÜÀí.cpp
-		°æ±¾£º		v1.15
-		ËùÊôÄ£¿é£º	ÏîÄ¿¹ÜÀíÄ£¿é
-		¹¦ÄÜ£º		ÏîÄ¿¹ÜÀíÏà¹ØÊı¾İ¡¢Ïà¹Ø²Ù×÷¶¼ÔÚÕâÀïÖ÷Òª¿ØÖÆ¡£
-					> »ù±¾¹¦ÄÜ
-						> ÏîÄ¿ÎÄ¼ş¼Ğ£º
-							±£´æÏîÄ¿Ê±£¬Ä¬ÈÏ½¨Á¢Ò»¸öÏîÄ¿ÎÄ¼ş¼Ğ ÏîÄ¿ÃûFiles£¬´æ´¢ÆäËûÏà¹ØÎÄ¼ş¡£
-							¹¤³ÌÎÄ¼ş ÏîÄ¿Ãû.xxx ´æ´¢¸ùÄ¿Â¼£¬ÓëÏîÄ¿ÎÄ¼ş¼ĞÍ¬¼¶¡£
-							ÏîÄ¿ÃûÖ§³Ö"xxx.xx.xx.xx"µÄÃüÃû£¬²»»á³ö´í¡£
-						> ÏîÄ¿¸Ä¶¯¼àÌı£º
-							Èç¹ûÏîÄ¿ÖĞ³öÏÖÁËÈÎºÎÖµµÄ¸Ä¶¯Ìá½»£¬¾Í»á±»¼ÇÂ¼ÏÂÀ´£¬±êÌâ³öÏÖ"*"ºÅ¡£
-							¹Ø±ÕÎÄ¼şÊ±¸ù¾İÊÇ·ñ¸Ä¶¯£¬ÌáÊ¾"µ±Ç°ÓĞÎ´±£´æµÄĞŞ¸Ä£¬ÊÇ·ñ±£´æ£¿"¡£
-						> ·ÇÄ£Ì¬Ëø¶¨£º
-							´´½¨·ÇÄ£Ì¬¿òÊ±£¬Ö´ĞĞÏîÄ¿µÄËø¶¨·½·¨£¬¿ÉÒÔÊ¹µÃ´°¿ÚÔÚ±à¼­ÆÚ¼ä£¬²»ÄÜÖ´ĞĞĞÂ½¨/´ò¿ª/±£´æ/Áí´æÎª£¬Ò²²»ÄÜ¹Ø±Õ´°¿Ú¡£
-						> ×î½ü´ò¿ªµÄÎÄ¼ş£º£¨history£©
-							ÏîÄ¿¹ÜÀí½«¼ÇÂ¼×î½ü´ò¿ªµÄÏîÄ¿¡£
-					> tempÎÄ¼ş¼Ğ
-						> ×ªÒÆÎÄ¼ş£º
-							Ö±½ÓÔÚexeÎÄ¼şÄ¿Â¼ÏÂ½¨Á¢tempÎÄ¼ş¼Ğ£¬¶ÔÎÄ¼ş×÷×ªÒÆ¡¢ÁÙÊ±´¦Àí¡£
-							±£´æÏîÄ¿ºó£¬ÎÄ¼ş¼ĞÄÚµÄËùÓĞÏà¹ØÎÄ¼ş¶¼»á±£´æµ½ÏîÄ¿ÎÄ¼ş¼ĞÖĞ¡£
-						> Î¨Ò»ÎÄ¼ş£º
-							½«Ä³¸öÎÄ¼şµ¼Èëºó£¬ÃüÃûÎªuuidÎ¨Ò»ÎÄ¼şÃû£¬È·±£¿ÉÒÔµ¼ÈëÖØ¸´ÎÄ¼ş£¬²¢ÇÒĞŞ¸ÄÏîÄ¿ÖĞµÄÎÄ¼şÃû¡£
-						> logÎÄ¼ş£º
-							Ìá¹©¿ìËÙÉú³ÉdebugÓÃµÄÎÄ±¾ÎÄ¼ş£¬·ÅÔÚtempÎÄ¼ş¼ĞÖĞ¡£
-					> ´æ´¢ÎÄ¼ş¹ÜÀí
-						> json´æ´¢£º 
-							ÄÜ¹»½«»ùÓÚÄ£°åµÄËùÓĞÊı¾İ¶¼´æ´¢ÔÚ"PROJECT_SUFFIX"µÄºó×ºÎÄ¼şÖĞ¡£
-							ÒªÇóº¬ÓĞ´æ´¢¹¦ÄÜµÄÀà±ØĞë¼Ì³ĞÊµÏÖ´æ´¢Ä£°åµÄ4¸ö·½·¨¡£
-							Êı¾İ½á¹¹ÀàĞèÒªÊµÏÖ"getJsonObject"·½·¨ºÍ"setJsonObject"·½·¨£¬È·±£ËùÓĞÊı¾İÀà¶¼ÄÜ¹»×ª³ÉjsonÊı¾İ¡£
+		ç±»ï¼š		é¡¹ç›®ç®¡ç†.cpp
+		ç‰ˆæœ¬ï¼š		v1.15
+		æ‰€å±æ¨¡å—ï¼š	é¡¹ç›®ç®¡ç†æ¨¡å—
+		åŠŸèƒ½ï¼š		é¡¹ç›®ç®¡ç†ç›¸å…³æ•°æ®ã€ç›¸å…³æ“ä½œéƒ½åœ¨è¿™é‡Œä¸»è¦æ§åˆ¶ã€‚
+					> åŸºæœ¬åŠŸèƒ½
+						> é¡¹ç›®æ–‡ä»¶å¤¹ï¼š
+							ä¿å­˜é¡¹ç›®æ—¶ï¼Œé»˜è®¤å»ºç«‹ä¸€ä¸ªé¡¹ç›®æ–‡ä»¶å¤¹ é¡¹ç›®åFilesï¼Œå­˜å‚¨å…¶ä»–ç›¸å…³æ–‡ä»¶ã€‚
+							å·¥ç¨‹æ–‡ä»¶ é¡¹ç›®å.xxx å­˜å‚¨æ ¹ç›®å½•ï¼Œä¸é¡¹ç›®æ–‡ä»¶å¤¹åŒçº§ã€‚
+							é¡¹ç›®åæ”¯æŒ"xxx.xx.xx.xx"çš„å‘½åï¼Œä¸ä¼šå‡ºé”™ã€‚
+						> é¡¹ç›®æ”¹åŠ¨ç›‘å¬ï¼š
+							å¦‚æœé¡¹ç›®ä¸­å‡ºç°äº†ä»»ä½•å€¼çš„æ”¹åŠ¨æäº¤ï¼Œå°±ä¼šè¢«è®°å½•ä¸‹æ¥ï¼Œæ ‡é¢˜å‡ºç°"*"å·ã€‚
+							å…³é—­æ–‡ä»¶æ—¶æ ¹æ®æ˜¯å¦æ”¹åŠ¨ï¼Œæç¤º"å½“å‰æœ‰æœªä¿å­˜çš„ä¿®æ”¹ï¼Œæ˜¯å¦ä¿å­˜ï¼Ÿ"ã€‚
+						> éæ¨¡æ€é”å®šï¼š
+							åˆ›å»ºéæ¨¡æ€æ¡†æ—¶ï¼Œæ‰§è¡Œé¡¹ç›®çš„é”å®šæ–¹æ³•ï¼Œå¯ä»¥ä½¿å¾—çª—å£åœ¨ç¼–è¾‘æœŸé—´ï¼Œä¸èƒ½æ‰§è¡Œæ–°å»º/æ‰“å¼€/ä¿å­˜/å¦å­˜ä¸ºï¼Œä¹Ÿä¸èƒ½å…³é—­çª—å£ã€‚
+						> æœ€è¿‘æ‰“å¼€çš„æ–‡ä»¶ï¼šï¼ˆhistoryï¼‰
+							é¡¹ç›®ç®¡ç†å°†è®°å½•æœ€è¿‘æ‰“å¼€çš„é¡¹ç›®ã€‚
+					> tempæ–‡ä»¶å¤¹
+						> è½¬ç§»æ–‡ä»¶ï¼š
+							ç›´æ¥åœ¨exeæ–‡ä»¶ç›®å½•ä¸‹å»ºç«‹tempæ–‡ä»¶å¤¹ï¼Œå¯¹æ–‡ä»¶ä½œè½¬ç§»ã€ä¸´æ—¶å¤„ç†ã€‚
+							ä¿å­˜é¡¹ç›®åï¼Œæ–‡ä»¶å¤¹å†…çš„æ‰€æœ‰ç›¸å…³æ–‡ä»¶éƒ½ä¼šä¿å­˜åˆ°é¡¹ç›®æ–‡ä»¶å¤¹ä¸­ã€‚
+						> å”¯ä¸€æ–‡ä»¶ï¼š
+							å°†æŸä¸ªæ–‡ä»¶å¯¼å…¥åï¼Œå‘½åä¸ºuuidå”¯ä¸€æ–‡ä»¶åï¼Œç¡®ä¿å¯ä»¥å¯¼å…¥é‡å¤æ–‡ä»¶ï¼Œå¹¶ä¸”ä¿®æ”¹é¡¹ç›®ä¸­çš„æ–‡ä»¶åã€‚
+						> logæ–‡ä»¶ï¼š
+							æä¾›å¿«é€Ÿç”Ÿæˆdebugç”¨çš„æ–‡æœ¬æ–‡ä»¶ï¼Œæ”¾åœ¨tempæ–‡ä»¶å¤¹ä¸­ã€‚
+					> å­˜å‚¨æ–‡ä»¶ç®¡ç†
+						> jsonå­˜å‚¨ï¼š 
+							èƒ½å¤Ÿå°†åŸºäºæ¨¡æ¿çš„æ‰€æœ‰æ•°æ®éƒ½å­˜å‚¨åœ¨"PROJECT_SUFFIX"çš„åç¼€æ–‡ä»¶ä¸­ã€‚
+							è¦æ±‚å«æœ‰å­˜å‚¨åŠŸèƒ½çš„ç±»å¿…é¡»ç»§æ‰¿å®ç°å­˜å‚¨æ¨¡æ¿çš„4ä¸ªæ–¹æ³•ã€‚
+							æ•°æ®ç»“æ„ç±»éœ€è¦å®ç°"getJsonObject"æ–¹æ³•å’Œ"setJsonObject"æ–¹æ³•ï¼Œç¡®ä¿æ‰€æœ‰æ•°æ®ç±»éƒ½èƒ½å¤Ÿè½¬æˆjsonæ•°æ®ã€‚
 			
-		×¢ÒâÊÂÏî£º	1.¸Ã¹ÜÀíÆ÷ĞèÒªĞŞ¸Ä´°¿ÚÃû×Ö£¬»á·¢ËÍĞÅºÅ¡£
-					2.PROJECT_SUFFIX ÔÚc_ProjectDataÀàÖĞ¶¨Òå¡£
+		æ³¨æ„äº‹é¡¹ï¼š	1.è¯¥ç®¡ç†å™¨éœ€è¦ä¿®æ”¹çª—å£åå­—ï¼Œä¼šå‘é€ä¿¡å·ã€‚
+					2.PROJECT_SUFFIX åœ¨c_ProjectDataç±»ä¸­å®šä¹‰ã€‚
 -----==========================================================-----
 */
 
 S_ProjectManager::S_ProjectManager(){
 	S_TempFileManager::getInstance()->setSkipSuffix(S_TempFileManager::getInstance()->getSkipSuffix() << PROJECT_SUFFIX << "cbf");
 	
-	// > ²ÎÊı³õÊ¼»¯
+	// > å‚æ•°åˆå§‹åŒ–
 	this->m_isDirty = false;
 	this->m_lockingWidgets.clear();
 	
-	// > ÀúÊ·¼ÇÂ¼³õÊ¼»¯
+	// > å†å²è®°å½•åˆå§‹åŒ–
 	this->m_historyProjectTank.clear();
 	this->m_historyDirTank.clear();
 	this->m_historyProjectMax = 10;
@@ -65,7 +65,7 @@ S_ProjectManager::~S_ProjectManager() {
 }
 
 /* --------------------------------------------------------------
-----------ProjectManager µ¥Àı
+----------ProjectManager å•ä¾‹
 */
 S_ProjectManager* S_ProjectManager::project_manager = NULL;
 S_ProjectManager* S_ProjectManager::getInstance() {
@@ -77,7 +77,7 @@ S_ProjectManager* S_ProjectManager::getInstance() {
 
 
 /* --------------------------------------------------------------
-		È«¾Ö - ÉèÖÃÊı¾İÒÑĞŞ¸Ä
+		å…¨å±€ - è®¾ç½®æ•°æ®å·²ä¿®æ”¹
 */
 void S_ProjectManager::setDirty() {
 	if (this->m_isDirty == false) {
@@ -86,7 +86,7 @@ void S_ProjectManager::setDirty() {
 	}
 }
 /* --------------------------------------------------------------
-		È«¾Ö - Ëø¶¨ÏîÄ¿
+		å…¨å±€ - é”å®šé¡¹ç›®
 */
 void S_ProjectManager::addLock(QWidget* widget) {
 	if (this->m_lockingWidgets.size() == 0) {
@@ -95,7 +95,7 @@ void S_ProjectManager::addLock(QWidget* widget) {
 	this->m_lockingWidgets.push_back(widget);
 }
 /* --------------------------------------------------------------
-		È«¾Ö - ½âËøÏîÄ¿
+		å…¨å±€ - è§£é”é¡¹ç›®
 */
 void S_ProjectManager::removeLock(QWidget* widget) {
 	this->m_lockingWidgets.removeOne(widget);
@@ -104,7 +104,7 @@ void S_ProjectManager::removeLock(QWidget* widget) {
 	}
 }
 /* --------------------------------------------------------------
-		#È«¾Ö - ĞŞ¸ÄÃû³Æ
+		#å…¨å±€ - ä¿®æ”¹åç§°
 */
 void S_ProjectManager::changeTitle(){
 	QString title = "";
@@ -119,24 +119,24 @@ void S_ProjectManager::changeTitle(){
 	emit changeWindowTitle(title);
 }
 /* --------------------------------------------------------------
-		È«¾Ö - ÅĞ¶ÏËø¶¨
+		å…¨å±€ - åˆ¤æ–­é”å®š
 */
 bool S_ProjectManager::isLocked() {
 	return this->m_lockingWidgets.size() > 0;
 }
 /* --------------------------------------------------------------
-		È«¾Ö - ÅĞ¶ÏĞŞ¸Ä
+		å…¨å±€ - åˆ¤æ–­ä¿®æ”¹
 */
 bool S_ProjectManager::isDirty() {
 	return this->m_isDirty;
 }
 /* --------------------------------------------------------------
-		È«¾Ö - ±£´æĞŞ¸Ä²¿·ÖÌáÊ¾
+		å…¨å±€ - ä¿å­˜ä¿®æ”¹éƒ¨åˆ†æç¤º
 */
 bool S_ProjectManager::dirtyTip() {
 
 	if (this->m_isDirty) {
-		switch (QMessageBox::question(PROJECT_INSTANCE, "ÌáÊ¾", "µ±Ç°ÓĞÎ´±£´æµÄĞŞ¸Ä£¬ÊÇ·ñ±£´æ£¿", "±£´æ", "²»±£´æ", "È¡Ïû", 0)) {
+		switch (QMessageBox::question(PROJECT_INSTANCE, "æç¤º", "å½“å‰æœ‰æœªä¿å­˜çš„ä¿®æ”¹ï¼Œæ˜¯å¦ä¿å­˜ï¼Ÿ", "ä¿å­˜", "ä¸ä¿å­˜", "å–æ¶ˆ", 0)) {
 		case 0:
 			return this->saveProject();
 		case 1:
@@ -153,85 +153,85 @@ bool S_ProjectManager::dirtyTip() {
 }
 
 /* --------------------------------------------------------------
-		ÏîÄ¿ - ĞÂ½¨£¨¶Ô»°¿ò£©
+		é¡¹ç›® - æ–°å»ºï¼ˆå¯¹è¯æ¡†ï¼‰
 */
 bool S_ProjectManager::newProject() {
 
-	// > ĞŞ¸ÄÌáÊ¾£¨È¡ÏûÔò·µ»Øfalse£©
+	// > ä¿®æ”¹æç¤ºï¼ˆå–æ¶ˆåˆ™è¿”å›falseï¼‰
 	if (this->dirtyTip() == false) { return false; }
 
-	this->clearProject();					//ÇåÀíÏîÄ¿
-	this->changeTitle();					//ĞŞ¸Ä±êÌâ
-	emit newProjectFinished();				//ÏîÄ¿ĞÂ½¨Çå¿Õºó£¨ĞÅºÅ£©
+	this->clearProject();					//æ¸…ç†é¡¹ç›®
+	this->changeTitle();					//ä¿®æ”¹æ ‡é¢˜
+	emit newProjectFinished();				//é¡¹ç›®æ–°å»ºæ¸…ç©ºåï¼ˆä¿¡å·ï¼‰
 
 	return true;
 }
 
 
 /* --------------------------------------------------------------
-		ÏîÄ¿ - ´ò¿ª£¨¶Ô»°¿ò£©
+		é¡¹ç›® - æ‰“å¼€ï¼ˆå¯¹è¯æ¡†ï¼‰
 */
 bool S_ProjectManager::openProject() {
 
-	// > ĞŞ¸ÄÌáÊ¾£¨È¡ÏûÔò·µ»Øfalse£©
+	// > ä¿®æ”¹æç¤ºï¼ˆå–æ¶ˆåˆ™è¿”å›falseï¼‰
 	if (this->dirtyTip() == false) { return false; }
 
-	// > ÓÃ»§Ñ¡ÔñÏîÄ¿ÎÄ¼ş
+	// > ç”¨æˆ·é€‰æ‹©é¡¹ç›®æ–‡ä»¶
 	QString file_path;
 	QFileDialog fd;
-	fd.setWindowTitle("´ò¿ªÏîÄ¿");
+	fd.setWindowTitle("æ‰“å¼€é¡¹ç›®");
 	fd.setAcceptMode(QFileDialog::AcceptOpen);
 	fd.setDirectory(this->data_ProjectData.getParentPath());	
-	fd.setNameFilters(QStringList()	<< QString("ÏîÄ¿ÎÄ¼ş(*.") + PROJECT_SUFFIX + ")");
+	fd.setNameFilters(QStringList()	<< QString("é¡¹ç›®æ–‡ä»¶(*.") + PROJECT_SUFFIX + ")");
 	fd.setViewMode(QFileDialog::Detail);
 	if (fd.exec() == QDialog::Accepted) {
 		if (fd.selectedFiles().empty()) {
-			//£¨Ã»ÓĞÑ¡ÔñÎÄ¼ş½øÈëµÄÇé¿ö£©
+			//ï¼ˆæ²¡æœ‰é€‰æ‹©æ–‡ä»¶è¿›å…¥çš„æƒ…å†µï¼‰
 			return false;
 		}
 		file_path = fd.selectedFiles().at(0);
 	}else {
-		//£¨µã»÷¹Ø±Õ»òÕßÈ¡Ïû²Ù×÷µÄÇé¿ö£©
+		//ï¼ˆç‚¹å‡»å…³é—­æˆ–è€…å–æ¶ˆæ“ä½œçš„æƒ…å†µï¼‰
 		return false;
 	}
 
-	// > ±ØĞëÖ¸¶¨ÎÄ¼ş´ò¿ª
+	// > å¿…é¡»æŒ‡å®šæ–‡ä»¶æ‰“å¼€
 	this->openProjectDirectly(file_path);
 	return true;
 }
 /* --------------------------------------------------------------
-		ÏîÄ¿ - ´ò¿ª£¨ÊäÈëÖµ£©
+		é¡¹ç›® - æ‰“å¼€ï¼ˆè¾“å…¥å€¼ï¼‰
 */
 bool S_ProjectManager::openProjectByArgs(int argc, char *argv[]) {
 	if (argc == 2) {
-		//qDebug() << argv[0];	//exeµÄÂ·¾¶
-		//qDebug() << argv[1];	//ÊäÈëÎÄ¼şµÄÂ·¾¶
+		//qDebug() << argv[0];	//exeçš„è·¯å¾„
+		//qDebug() << argv[1];	//è¾“å…¥æ–‡ä»¶çš„è·¯å¾„
 		QString exe_path = argv[0];
 		QString file_path = argv[1];
 		if (QFileInfo(file_path).suffix() == PROJECT_SUFFIX) {
-			this->openProjectDirectly(file_path);		//¸ù¾İÎÄ¼ş´ò¿ª
+			this->openProjectDirectly(file_path);		//æ ¹æ®æ–‡ä»¶æ‰“å¼€
 			return true;
 		}
 	}
 	return false;
 }
 /* --------------------------------------------------------------
-		ÏîÄ¿ - ´ò¿ª£¨ÍÏ×§ÎÄ¼ş£©
+		é¡¹ç›® - æ‰“å¼€ï¼ˆæ‹–æ‹½æ–‡ä»¶ï¼‰
 */
 bool S_ProjectManager::openProjectByDropFile(QDropEvent *event) {
 
-	// > ĞŞ¸ÄÌáÊ¾£¨È¡ÏûÔò·µ»Øfalse£©
+	// > ä¿®æ”¹æç¤ºï¼ˆå–æ¶ˆåˆ™è¿”å›falseï¼‰
 	if (this->dirtyTip() == false) { return false; }
 
-	// > ÓÃ»§Ñ¡ÔñÏîÄ¿ÎÄ¼ş¼Ğ
-	QList<QUrl> urls = event->mimeData()->urls();		//Ö»ÒªÓĞÒ»¸öÂú×ã"drill"¶ÁÈ¡ÎÄ¼ş£¬Ôò´ò¿ª
+	// > ç”¨æˆ·é€‰æ‹©é¡¹ç›®æ–‡ä»¶å¤¹
+	QList<QUrl> urls = event->mimeData()->urls();		//åªè¦æœ‰ä¸€ä¸ªæ»¡è¶³"drill"è¯»å–æ–‡ä»¶ï¼Œåˆ™æ‰“å¼€
 	for (int i = 0; i < urls.count(); i++) {
 		QString file_path = urls.at(i).path();
-		if (file_path.at(0) == '/') {					//¶àÁË²»Ã÷µÄÌØÊâ×Ö·û£¬È¥µô
+		if (file_path.at(0) == '/') {					//å¤šäº†ä¸æ˜çš„ç‰¹æ®Šå­—ç¬¦ï¼Œå»æ‰
 			file_path = file_path.mid(1);
 		}
 		if (QFileInfo(file_path).suffix() == PROJECT_SUFFIX) {
-			this->openProjectDirectly(file_path);		//¸ù¾İÎÄ¼ş´ò¿ª
+			this->openProjectDirectly(file_path);		//æ ¹æ®æ–‡ä»¶æ‰“å¼€
 			return true;
 		}
 	}
@@ -239,24 +239,24 @@ bool S_ProjectManager::openProjectByDropFile(QDropEvent *event) {
 	return false;
 }
 /* --------------------------------------------------------------
-		ÏîÄ¿ - ±£´æ£¨¶Ô»°¿ò£©
+		é¡¹ç›® - ä¿å­˜ï¼ˆå¯¹è¯æ¡†ï¼‰
 */
 bool S_ProjectManager::saveProject() {
 
-	// > ÏîÄ¿Î´´ò¿ªÇé¿ö
+	// > é¡¹ç›®æœªæ‰“å¼€æƒ…å†µ
 	if (this->data_ProjectData.isNull()) {
 		W_ProjectCreate d(PROJECT_INSTANCE);
 		d.setDataInModifyMode(this->data_ProjectData);
 		bool accepted = d.exec();
 		if (accepted == QDialog::Accepted) {
-			this->data_ProjectData = d.getData();	//Ë¢ĞÂÏîÄ¿Êı¾İ
-			this->changeTitle();					//ĞŞ¸Ä±êÌâ
+			this->data_ProjectData = d.getData();	//åˆ·æ–°é¡¹ç›®æ•°æ®
+			this->changeTitle();					//ä¿®æ”¹æ ‡é¢˜
 
 			this->saveAll(this->data_ProjectData.getProjectRootPath());
 		}
 		return accepted;
 	}
-	// > ÏîÄ¿ÒÑ´ò¿ªÇé¿ö
+	// > é¡¹ç›®å·²æ‰“å¼€æƒ…å†µ
 	else{
 		this->saveAll(this->data_ProjectData.getProjectRootPath());
 		return true;
@@ -265,17 +265,17 @@ bool S_ProjectManager::saveProject() {
 }
 
 /* --------------------------------------------------------------
-		ÏîÄ¿ - Áí´æÎª£¨¶Ô»°¿ò£©
+		é¡¹ç›® - å¦å­˜ä¸ºï¼ˆå¯¹è¯æ¡†ï¼‰
 */
 bool S_ProjectManager::saveAs() {
 
 	W_ProjectCreate d(PROJECT_INSTANCE);
 	d.setDataInModifyMode(this->data_ProjectData);
-	d.setWindowTitle("ÏîÄ¿Áí´æÎª");
+	d.setWindowTitle("é¡¹ç›®å¦å­˜ä¸º");
 	bool accepted = d.exec();
 	if (accepted == QDialog::Accepted) {
-		this->data_ProjectData = d.getData();	//Ë¢ĞÂÏîÄ¿Êı¾İ
-		this->changeTitle();					//ĞŞ¸Ä±êÌâ
+		this->data_ProjectData = d.getData();	//åˆ·æ–°é¡¹ç›®æ•°æ®
+		this->changeTitle();					//ä¿®æ”¹æ ‡é¢˜
 
 		this->saveAll(this->data_ProjectData.getProjectRootPath());
 	}
@@ -283,42 +283,42 @@ bool S_ProjectManager::saveAs() {
 
 }
 /* --------------------------------------------------------------
-		ÏîÄ¿ - Ç¿ÖÆ±£´æ
+		é¡¹ç›® - å¼ºåˆ¶ä¿å­˜
 */
 bool S_ProjectManager::saveInForce() {
 
-	// > ÏîÄ¿Î´´ò¿ªÇé¿ö
+	// > é¡¹ç›®æœªæ‰“å¼€æƒ…å†µ
 	if (this->data_ProjectData.isNull()) { return false; }
 
-	// > ÏîÄ¿ÒÑ´ò¿ªÇé¿ö
+	// > é¡¹ç›®å·²æ‰“å¼€æƒ…å†µ
 	this->saveAll(this->data_ProjectData.getProjectRootPath());
 	return true;
 }
 
 /* --------------------------------------------------------------
-		#ÏîÄ¿ - Çå³ıÏîÄ¿Êı¾İ
+		#é¡¹ç›® - æ¸…é™¤é¡¹ç›®æ•°æ®
 */
 void S_ProjectManager::clearProject() {
 
-	// > ÏîÄ¿ËùÓĞ²ÎÊı³õÊ¼»¯
-	S_StorageManager::getInstance()->clearAllApplicationData();		//ÇåÀí´æ´¢Êı¾İ
-	this->data_ProjectData = C_ProjectData();						//ÇåÀíµ±Ç°ÏîÄ¿Êı¾İ
-	this->m_isDirty = false;										//ÇåÀíÏîÄ¿ĞŞ¸ÄºÛ¼£
+	// > é¡¹ç›®æ‰€æœ‰å‚æ•°åˆå§‹åŒ–
+	S_StorageManager::getInstance()->clearAllApplicationData();		//æ¸…ç†å­˜å‚¨æ•°æ®
+	this->data_ProjectData = C_ProjectData();						//æ¸…ç†å½“å‰é¡¹ç›®æ•°æ®
+	this->m_isDirty = false;										//æ¸…ç†é¡¹ç›®ä¿®æ”¹ç—•è¿¹
 
-	// > Çå³ı»º´æÊı¾İ
+	// > æ¸…é™¤ç¼“å­˜æ•°æ®
 	S_TempFileManager::getInstance()->removeAllTempFile();
 
 }
 
 /* --------------------------------------------------------------
-		#ÏîÄ¿ - ´ò¿ª£¨¸ù¾İÎÄ¼şÃû£©
+		#é¡¹ç›® - æ‰“å¼€ï¼ˆæ ¹æ®æ–‡ä»¶åï¼‰
 */
 void S_ProjectManager::openProjectDirectly(QString open_path) {
 
-	// > ÇåÀíÏîÄ¿
+	// > æ¸…ç†é¡¹ç›®
 	this->clearProject();
 
-	// > Ë¢ĞÂÏîÄ¿Â·¾¶
+	// > åˆ·æ–°é¡¹ç›®è·¯å¾„
 	QFileInfo info(open_path);
 	this->data_ProjectData.setPath(info.absolutePath());
 	this->data_ProjectData.setName(info.completeBaseName());
@@ -326,79 +326,81 @@ void S_ProjectManager::openProjectDirectly(QString open_path) {
 	this->addHistoryDir(info.absolutePath());
 	this->saveHistory();
 
-	// > ¸´ÖÆÎÄ¼şµ½tempÖĞ
+	// > å¤åˆ¶æ–‡ä»¶åˆ°tempä¸­
 	bool success = S_TempFileManager::getInstance()->copyResourceToTemp_Dir(this->data_ProjectData.getProjectFilePath());
 	if (success == false){
-		QMessageBox message(QMessageBox::Information, "ÌáÊ¾", "µ±Ç°ÏîÄ¿ÖĞ°üº¬·Ç·¨ÎÄ¼şÂ·¾¶£¬´ò¿ªÊ§°Ü¡£\nÇë½«¹¤³ÌÎÄ¼şÒÆ¶¯ÖÁÒ»¸ö¿ÕµÄÎÄ¼ş¼ĞÖĞ£¬ÔÙ´ò¿ª¹¤³Ì¡£");
+		QMessageBox message(QMessageBox::Information, "æç¤º", "å½“å‰é¡¹ç›®ä¸­åŒ…å«éæ³•æ–‡ä»¶è·¯å¾„ï¼Œæ‰“å¼€å¤±è´¥ã€‚\nè¯·å°†å·¥ç¨‹æ–‡ä»¶ç§»åŠ¨è‡³ä¸€ä¸ªç©ºçš„æ–‡ä»¶å¤¹ä¸­ï¼Œå†æ‰“å¼€å·¥ç¨‹ã€‚");
 		message.exec();
 		return;
 	}
 
-	// > ¶ÁÈ¡´æ´¢ÎÄ¼ş
+	// > è¯»å–å­˜å‚¨æ–‡ä»¶
 	this->readSaveFile();
 
-	// > ĞŞ¸Ä´°¿ÚÏîÄ¿Ãû
+	// > ä¿®æ”¹çª—å£é¡¹ç›®å
 	emit changeWindowTitle(this->data_ProjectData.getSoftname() + " - " + this->data_ProjectData.getName());
 
-	// > ÏîÄ¿´ò¿ªºó£¨ĞÅºÅ£©
+	// > é¡¹ç›®æ‰“å¼€åï¼ˆä¿¡å·ï¼‰
 	emit openProjectFinished();
 }
 /* --------------------------------------------------------------
-		#ÏîÄ¿ - ±£´æ£¨Ä¿±êÎÄ¼ş¼Ğ£©
+		#é¡¹ç›® - ä¿å­˜ï¼ˆç›®æ ‡æ–‡ä»¶å¤¹ï¼‰
 */
 void S_ProjectManager::saveAll(QString url) {
 
-	// > ´´½¨ÎÄ¼ş¼Ğ
+	// > åˆ›å»ºæ–‡ä»¶å¤¹
 	if (url.at(url.size() - 1) != '/') { url += "/"; }
 	QDir temp_dir(url);
 	temp_dir.mkpath(url);
 
-	// > ±£´æ¼ÇÂ¼
+	// > ä¿å­˜è®°å½•
 	this->data_ProjectData.lastSaveDate = QDateTime::currentDateTime();
 
-	// > Éú³É´æ´¢ÎÄ¼ş
+	// > ç”Ÿæˆå­˜å‚¨æ–‡ä»¶
 	this->createSaveFile();
 
-	// > ÇåÀíºÛ¼£
+	// > æ¸…ç†ç—•è¿¹
 	this->m_isDirty = false;
 	this->changeTitle();
 
-	// > ÏîÄ¿±£´æºó£¨ĞÅºÅ£©
+	// > é¡¹ç›®ä¿å­˜åï¼ˆä¿¡å·ï¼‰
 	emit saveProjectFinished();
 }
 /* --------------------------------------------------------------
-		#ÏîÄ¿ - ±£´æ£¨ÎÄ¼ş£©
+		#é¡¹ç›® - ä¿å­˜ï¼ˆæ–‡ä»¶ï¼‰
 */
 void S_ProjectManager::createSaveFile() {
-	// > ´æ´¢¹ÜÀíÆ÷
+
+	// > ç¡®ä¿å¤åˆ¶æ–‡ä»¶æ—¶ï¼Œä¸å‡ºç°è¦†ç›–é—®é¢˜
+	S_TempFileManager::getInstance()->removeInTemp_File(this->data_ProjectData.getName() + "." + this->data_ProjectData.getSuffix());
+
+	// > å­˜å‚¨
 	S_StorageManager::getInstance()->createSaveFile(this->data_ProjectData.getProjectFile());
 	this->addHistoryProject(this->data_ProjectData.getProjectFile());
 	this->addHistoryDir(this->data_ProjectData.getProjectRootPath());
 	this->saveHistory();
 
-	// > ¸´ÖÆ temp µ½ src
+	// > å¤åˆ¶ temp åˆ° src
 	S_TempFileManager::getInstance()->copyTempToTarget_DirWithAllSubfolders(this->data_ProjectData.getProjectFilePath());
 
 }
 
 /* --------------------------------------------------------------
-		#ÏîÄ¿ - ¶ÁÈ¡£¨ÎÄ¼ş£©
+		#é¡¹ç›® - è¯»å–ï¼ˆæ–‡ä»¶ï¼‰
 */
 void S_ProjectManager::readSaveFile() {
-	// > È·±£¸´ÖÆÎÄ¼şÊ±£¬²»³öÏÖ¸²¸ÇÎÊÌâ
-	S_TempFileManager::getInstance()->removeInTemp_File(this->data_ProjectData.getName() + "." + this->data_ProjectData.getSuffix());
 
-	// > ´æ´¢¹ÜÀíÆ÷
-	S_StorageManager::getInstance()->readSaveFile(this->data_ProjectData.getProjectFile());
-
-	// > ¸´ÖÆ src µ½ temp
+	// > å¤åˆ¶ src åˆ° tempã€å…ˆå¤åˆ¶æ–‡ä»¶ï¼Œå†è¯»å–æ•°æ®ã€‘
 	S_TempFileManager::getInstance()->copyResourceToTemp_DirWithAllSubfolders(this->data_ProjectData.getProjectFilePath());
+
+	// > è¯»å–
+	S_StorageManager::getInstance()->readSaveFile(this->data_ProjectData.getProjectFile());
 
 }
 
 
 /* --------------------------------------------------------------
-		#ÏîÄ¿ - »ñÈ¡ÎÄ¼ş£¨¸ù¾İºó×º£¬F:/aaa/bbb.sufÍêÕûÂ·¾¶£©
+		#é¡¹ç›® - è·å–æ–‡ä»¶ï¼ˆæ ¹æ®åç¼€ï¼ŒF:/aaa/bbb.sufå®Œæ•´è·¯å¾„ï¼‰
 */
 QString S_ProjectManager::getOneFileBySuffix(QString url, QString suffix) {
 	suffix = suffix.replace(".", "");
@@ -408,7 +410,7 @@ QString S_ProjectManager::getOneFileBySuffix(QString url, QString suffix) {
 	for (int i = 0; i < list.size(); i++) {
 		QString file_sufx = list.at(i).suffix();
 		if ( file_sufx == suffix ) {
-			result = list.at(i).absoluteFilePath();		//ÍêÕûÂ·¾¶
+			result = list.at(i).absoluteFilePath();		//å®Œæ•´è·¯å¾„
 			break;
 		}
 	}
@@ -416,13 +418,13 @@ QString S_ProjectManager::getOneFileBySuffix(QString url, QString suffix) {
 }
 
 /*-----------------------------------
-		Êı¾İ - »ñÈ¡´æ´¢µÄÃû³Æ
+		æ•°æ® - è·å–å­˜å‚¨çš„åç§°
 */
 QString S_ProjectManager::getSaveName() {
 	return "S_ProjectManager";
 }
 /*-----------------------------------
-		Êı¾İ - Çå³ıµ±Ç°¹ÜÀíÆ÷Êı¾İ
+		æ•°æ® - æ¸…é™¤å½“å‰ç®¡ç†å™¨æ•°æ®
 */
 void S_ProjectManager::clearAllData() {
 	
@@ -431,12 +433,12 @@ void S_ProjectManager::clearAllData() {
 }
 
 /*-----------------------------------
-		Êı¾İ - È«²¿Çó½âĞèÇóÊı¾İ -> QJsonObject
+		æ•°æ® - å…¨éƒ¨æ±‚è§£éœ€æ±‚æ•°æ® -> QJsonObject
 */
 QJsonObject S_ProjectManager::getAllDataOfJsonObject(){
 	QJsonObject obj_all = QJsonObject();
 
-	QJsonObject obj_ProjectData = QJsonObject();			//ÏîÄ¿¹ÜÀíÊı¾İ
+	QJsonObject obj_ProjectData = QJsonObject();			//é¡¹ç›®ç®¡ç†æ•°æ®
 	obj_ProjectData.insert("type", "ProjectData");
 	obj_ProjectData.insert("data", this->data_ProjectData.getJsonObject());
 
@@ -445,38 +447,38 @@ QJsonObject S_ProjectManager::getAllDataOfJsonObject(){
 }
 
 /*-----------------------------------
-		Êı¾İ - QJsonObject -> È«²¿Çó½âĞèÇóÊı¾İ
+		æ•°æ® - QJsonObject -> å…¨éƒ¨æ±‚è§£éœ€æ±‚æ•°æ®
 */
 void S_ProjectManager::setAllDataFromJsonObject(QJsonObject obj_all){
 	this->clearAllData();
 
-	QJsonObject obj_ProjectData = obj_all.value("ProjectData").toObject();	//ÏîÄ¿¹ÜÀíÊı¾İ
+	QJsonObject obj_ProjectData = obj_all.value("ProjectData").toObject();	//é¡¹ç›®ç®¡ç†æ•°æ®
 	this->data_ProjectData.setJsonObject(obj_ProjectData.value("data").toObject());
 
-	/*----------------ÏîÄ¿Â·¾¶ĞèÒªÖØĞÂË¢µ±Ç°µÄĞÂÂ·¾¶----------------*/
+	/*----------------é¡¹ç›®è·¯å¾„éœ€è¦é‡æ–°åˆ·å½“å‰çš„æ–°è·¯å¾„----------------*/
 	this->data_ProjectData.setPath( this->m_storage_fileInfo.absolutePath());
 }
 
 
 /* --------------------------------------------------------------
-		ÀúÊ·¼ÇÂ¼ - »ñÈ¡ÏîÄ¿
+		å†å²è®°å½• - è·å–é¡¹ç›®
 */
 QList<QFileInfo> S_ProjectManager::getHistoryProjectTank(){
 	return this->m_historyProjectTank;
 }
 /* --------------------------------------------------------------
-		ÀúÊ·¼ÇÂ¼ - Ìí¼ÓÏîÄ¿
+		å†å²è®°å½• - æ·»åŠ é¡¹ç›®
 */
 void S_ProjectManager::addHistoryProject(QFileInfo info){
 	
-	// > ÒÑ´æÔÚÊ±£¬Ç°ÖÃ
+	// > å·²å­˜åœ¨æ—¶ï¼Œå‰ç½®
 	if (this->m_historyProjectTank.contains(info)){
 		this->m_historyProjectTank.removeOne(info);
 		this->m_historyProjectTank.push_front(info);
 		return; 
 	}
 
-	// > ²»´æÔÚÊ±£¬Ìí¼Ó
+	// > ä¸å­˜åœ¨æ—¶ï¼Œæ·»åŠ 
 	this->m_historyProjectTank.insert(0, info);
 	
 	if (this->m_historyProjectTank.count() > this->m_historyProjectMax){
@@ -484,7 +486,7 @@ void S_ProjectManager::addHistoryProject(QFileInfo info){
 	}
 }
 /* --------------------------------------------------------------
-		ÀúÊ·¼ÇÂ¼ - È¥³ıÏîÄ¿
+		å†å²è®°å½• - å»é™¤é¡¹ç›®
 */
 void S_ProjectManager::removeHistoryProject(int index){
 	if (index < 0){ return; }
@@ -492,24 +494,24 @@ void S_ProjectManager::removeHistoryProject(int index){
 	this->m_historyProjectTank.removeAt(index);
 }
 /* --------------------------------------------------------------
-		ÀúÊ·¼ÇÂ¼ - »ñÈ¡¸ùÄ¿Â¼
+		å†å²è®°å½• - è·å–æ ¹ç›®å½•
 */
 QList<QDir> S_ProjectManager::getHistoryDirTank(){
 	return this->m_historyDirTank;
 }
 /* --------------------------------------------------------------
-		ÀúÊ·¼ÇÂ¼ - Ìí¼Ó¸ùÄ¿Â¼
+		å†å²è®°å½• - æ·»åŠ æ ¹ç›®å½•
 */
 void S_ProjectManager::addHistoryDir(QDir dir){
 
-	// > ÒÑ´æÔÚÊ±£¬Ç°ÖÃ
+	// > å·²å­˜åœ¨æ—¶ï¼Œå‰ç½®
 	if (this->m_historyDirTank.contains(dir)){
 		this->m_historyDirTank.removeOne(dir);
 		this->m_historyDirTank.push_front(dir);
 		return;
 	}
 
-	// > ²»´æÔÚÊ±£¬Ìí¼Ó
+	// > ä¸å­˜åœ¨æ—¶ï¼Œæ·»åŠ 
 	this->m_historyDirTank.insert(0, dir);
 
 	if (this->m_historyDirTank.count() > this->m_historyDirMax){
@@ -517,7 +519,7 @@ void S_ProjectManager::addHistoryDir(QDir dir){
 	}
 }
 /* --------------------------------------------------------------
-		ÀúÊ·¼ÇÂ¼ - È¥³ı¸ùÄ¿Â¼
+		å†å²è®°å½• - å»é™¤æ ¹ç›®å½•
 */
 void S_ProjectManager::removeHistoryDir(int index){
 	if (index < 0){ return; }
@@ -525,7 +527,7 @@ void S_ProjectManager::removeHistoryDir(int index){
 	this->m_historyDirTank.removeAt(index);
 }
 /* --------------------------------------------------------------
-		ÀúÊ·¼ÇÂ¼ - ±£´æ¼ÇÂ¼£¨Ë½ÓĞ£©
+		å†å²è®°å½• - ä¿å­˜è®°å½•ï¼ˆç§æœ‰ï¼‰
 */
 void S_ProjectManager::saveHistory(){
 
@@ -540,15 +542,15 @@ void S_ProjectManager::saveHistory(){
 		dir_list.append(dir.absolutePath());
 	}
 
-	S_IniManager::getInstance()->setConfig("COAS_historyProject", project_list.join("|"));
-	S_IniManager::getInstance()->setConfig("COAS_historyDir", dir_list.join("|"));
+	S_IniManager::getInstance()->setConfig("historyProject", project_list.join("|"));
+	S_IniManager::getInstance()->setConfig("historyDir", dir_list.join("|"));
 }
 /* --------------------------------------------------------------
-		ÀúÊ·¼ÇÂ¼ - ¶ÁÈ¡¼ÇÂ¼£¨Ë½ÓĞ£©
+		å†å²è®°å½• - è¯»å–è®°å½•ï¼ˆç§æœ‰ï¼‰
 */
 void S_ProjectManager::loadHistory(){
-	QStringList project_list = S_IniManager::getInstance()->getConfig("COAS_historyProject").split("|");	//£¨ÓÃÊúÏß»®·Ö£©
-	QStringList dir_list = S_IniManager::getInstance()->getConfig("COAS_historyDir").split("|");	
+	QStringList project_list = S_IniManager::getInstance()->getConfig("historyProject").split("|");	//ï¼ˆç”¨ç«–çº¿åˆ’åˆ†ï¼‰
+	QStringList dir_list = S_IniManager::getInstance()->getConfig("historyDir").split("|");	
 
 	this->m_historyProjectTank.clear();
 	for (int i = 0; i < project_list.count(); i++){
@@ -568,7 +570,7 @@ void S_ProjectManager::loadHistory(){
 }
 
 /* --------------------------------------------------------------
-		ÆäËû - ´ò¿ªÏîÄ¿Â·¾¶ÎÄ¼ş¼Ğ
+		å…¶ä»– - æ‰“å¼€é¡¹ç›®è·¯å¾„æ–‡ä»¶å¤¹
 */
 bool S_ProjectManager::openDesktopProjectUrl() {
 	QString buffer_path = this->data_ProjectData.getProjectRootPath();
@@ -576,7 +578,7 @@ bool S_ProjectManager::openDesktopProjectUrl() {
 }
 
 /* --------------------------------------------------------------
-		ÆäËû - ´ò¿ªÏîÄ¿Â·¾¶ÖĞÖ¸¶¨ÎÄ¼ş
+		å…¶ä»– - æ‰“å¼€é¡¹ç›®è·¯å¾„ä¸­æŒ‡å®šæ–‡ä»¶
 */
 bool S_ProjectManager::openDesktopProjectFile(QString filename) {
 	QString buffer_path = this->data_ProjectData.getProjectRootPath();

@@ -7,7 +7,7 @@
 /*
 -----==========================================================-----
 		类：		字符串编辑列表 窗口.h
-		版本：		v1.02
+		版本：		v1.04
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		数据编辑的字符串列表控制。
@@ -32,6 +32,8 @@ class W_QStringListEditor : public QDialog
 		QString m_paramListDescription;		//列表编辑的描述
 		bool m_notNull;						//非空
 		bool m_noRepeat;					//不可重复
+		int m_size_width;					//窗口宽度
+		int m_size_height;					//窗口高度
 	public:
 										//控件 - 设置参数显示名
 		void setParamShowingName(QString name);
@@ -43,6 +45,8 @@ class W_QStringListEditor : public QDialog
 		void setConditionNotNull(bool b);
 										//控件 - 设置不可重复
 		void setConditionNoRepeat(bool b);
+										//控件 - 设置窗口大小
+		void setConditionWindowSize(int width,int height);
 
 	public slots:
 										//控件 - 添加
@@ -55,9 +59,27 @@ class W_QStringListEditor : public QDialog
 		virtual int moveUpOneRow();
 										//控件 - 下移
 		virtual int moveDownOneRow();
+										//控件 - 清空
+		virtual bool clearAllRow();
 		
 										//控件 - 刷新表格
-		void refreshTable();	
+		virtual void refreshTable();
+										//控件 - 刷新窗口内容
+		virtual void refreshWindow();
+		
+	//-----------------------------------
+	//----快捷键
+	protected:
+		QString m_copyed_data;
+	public:
+									//快捷键 - 事件
+		void keyPressEvent(QKeyEvent *event);
+									//快捷键 - 复制
+		virtual void shortcut_copyData();
+									//快捷键 - 粘贴
+		virtual void shortcut_pasteData();
+									//快捷键 - 删除
+		virtual void shortcut_deleteData();
 
 
 	//-----------------------------------

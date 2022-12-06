@@ -1,13 +1,14 @@
-#pragma once
+ï»¿#pragma once
+#include "stdafx.h"
 
-#include "s_StorageManagerTemplate.h"
+#include "S_StorageManagerTemplate.h"
 
 /*
 -----==========================================================-----
-		Àà£º		´æ´¢¹ÜÀíÆ÷.h
-		ËùÊôÄ£¿é£º	ÏîÄ¿¹ÜÀíÄ£¿é
-		¹¦ÄÜ£º		½«ËùÓĞ¼Ì³ĞÄ£°åµÄ×ÓÀàµÄÊı¾İ£¬´æ´¢ÎÄ¼ş/¶ÁÈ¡ÎÄ¼ş¡£
-					ÏêÏ¸¼û.cpp¡£
+		ç±»ï¼š		å­˜å‚¨ç®¡ç†å™¨.h
+		æ‰€å±æ¨¡å—ï¼š	é¡¹ç›®ç®¡ç†æ¨¡å—
+		åŠŸèƒ½ï¼š		å°†æ‰€æœ‰ç»§æ‰¿æ¨¡æ¿çš„å­ç±»çš„æ•°æ®ï¼Œå­˜å‚¨æ–‡ä»¶/è¯»å–æ–‡ä»¶ã€‚
+					è¯¦ç»†è§.cppã€‚
 -----==========================================================-----
 */
 
@@ -18,26 +19,26 @@ class S_StorageManager : public QWidget
 	public:
 		S_StorageManager();
 		~S_StorageManager();
-		static S_StorageManager* cur_manager;		//µ¥Àı
-		static S_StorageManager* getInstance();		//µ¥Àı£¬»ñÈ¡×Ô¼º£¨±ØĞëÒªÄÃµ½È«¾ÖÅäÖÃ²ÅÄÜ½øĞĞ¼ÆËã£©
+		static S_StorageManager* cur_manager;		//å•ä¾‹
+		static S_StorageManager* getInstance();		//å•ä¾‹ï¼Œè·å–è‡ªå·±ï¼ˆå¿…é¡»è¦æ‹¿åˆ°å…¨å±€é…ç½®æ‰èƒ½è¿›è¡Œè®¡ç®—ï¼‰
 		
 	//-----------------------------------
-	//----Êı¾İ
+	//----æ•°æ®
 	private:
 		QList<S_StorageManagerTemplate*> m_managers;
 	public:
-										//Êı¾İ - Ìí¼Ó¹ÜÀíÆ÷£¨Ä£°åÖĞ×Ô¶¯Ìí¼Ó£¬²»ĞèÒªÖØ¸´Ìí¼Ó£©
+										//æ•°æ® - æ·»åŠ ç®¡ç†å™¨ï¼ˆæ¨¡æ¿ä¸­è‡ªåŠ¨æ·»åŠ ï¼Œä¸éœ€è¦é‡å¤æ·»åŠ ï¼‰
 		void addManager(S_StorageManagerTemplate* s_m);
 		
 
 	//-----------------------------------
-	//----¹ÜÀí
+	//----ç®¡ç†
 	public:
-										//¹ÜÀí - Çå³ıËùÓĞ³ÌĞòÊı¾İ
+										//ç®¡ç† - æ¸…é™¤æ‰€æœ‰ç¨‹åºæ•°æ®
 		void clearAllApplicationData();
-										//¹ÜÀí - ´æ´¢ÎÄ¼ş£¨F:/aaa/bbb.xxx £©
+										//ç®¡ç† - å­˜å‚¨æ–‡ä»¶ï¼ˆF:/aaa/bbb.xxx ï¼‰
 		void createSaveFile(QString file_name);
-										//¹ÜÀí - ¶ÁÈ¡ÎÄ¼ş£¨F:/aaa/bbb.xxx £©
+										//ç®¡ç† - è¯»å–æ–‡ä»¶ï¼ˆF:/aaa/bbb.xxx ï¼‰
 		void readSaveFile(QString file_name);
 
 };

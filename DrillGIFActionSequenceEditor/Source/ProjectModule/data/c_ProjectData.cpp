@@ -1,37 +1,37 @@
-#include "stdafx.h"
-#include "c_ProjectData.h"
+ï»¿#include "stdafx.h"
+#include "C_ProjectData.h"
 
 /*
 -----==========================================================-----
-		Àà£º		ÏîÄ¿Êý¾Ý ÊµÌåÀà.cpp
-		ËùÊôÄ£¿é£º	ÏîÄ¿¹ÜÀíÄ£¿é
-		¹¦ÄÜ£º		´æ´¢ÏîÄ¿µÄ»ù±¾ÄÚÈÝµÄÊý¾ÝÀà¡£
+		ç±»ï¼š		é¡¹ç›®æ•°æ® å®žä½“ç±».cpp
+		æ‰€å±žæ¨¡å—ï¼š	é¡¹ç›®ç®¡ç†æ¨¡å—
+		åŠŸèƒ½ï¼š		å­˜å‚¨é¡¹ç›®çš„åŸºæœ¬å†…å®¹çš„æ•°æ®ç±»ã€‚
 -----==========================================================-----
 */
 C_ProjectData::C_ProjectData(){
-	this->name = "";														//ÏîÄ¿Ãû
-	this->path = QCoreApplication::applicationDirPath() + "/workspace/";	//ÏîÄ¿Â·¾¶£¨º¬ÏîÄ¿Ãû D:/aaa/vvv/ÏîÄ¿Ãû/£©
+	this->name = "";														//é¡¹ç›®å
+	this->path = QCoreApplication::applicationDirPath() + "/workspace/";	//é¡¹ç›®è·¯å¾„ï¼ˆå«é¡¹ç›®å D:/aaa/vvv/é¡¹ç›®å/ï¼‰
 
-	this->note = "";									//ÏîÄ¿±Ê¼Ç£¨±¸×¢£©
-	this->createDate = QDateTime::currentDateTime();	//´´½¨Ê±¼ä
-	this->lastSaveDate = QDateTime::currentDateTime();	//ÉÏÒ»´ÎÐÞ¸ÄÊ±¼ä
+	this->note = "";									//é¡¹ç›®ç¬”è®°ï¼ˆå¤‡æ³¨ï¼‰
+	this->createDate = QDateTime::currentDateTime();	//åˆ›å»ºæ—¶é—´
+	this->lastSaveDate = QDateTime::currentDateTime();	//ä¸Šä¸€æ¬¡ä¿®æ”¹æ—¶é—´
 }
 
 C_ProjectData::~C_ProjectData(){
 }
 
-QString C_ProjectData::softname = "GIF¶¯»­ÐòÁÐ±à¼­Æ÷";	//Èí¼þÃû
-QString C_ProjectData::version = "v1.12";				//Èí¼þ°æ±¾
-QString C_ProjectData::version_serial = "";				//Èí¼þ°æ±¾ºÅ
+QString C_ProjectData::softname = "GIFåŠ¨ç”»åºåˆ—ç¼–è¾‘å™¨";	//è½¯ä»¶å
+QString C_ProjectData::version = "v1.20";				//è½¯ä»¶ç‰ˆæœ¬
+QString C_ProjectData::version_serial = "";				//è½¯ä»¶ç‰ˆæœ¬å·
 
 /*-------------------------------------------------
-		¿ÕÅÐ¶Ï
+		ç©ºåˆ¤æ–­
 */
 bool C_ProjectData::isNull(){
 	return this->name == "";
 }
 /*-------------------------------------------------
-		ÊµÌåÀà -> QJsonObject
+		å®žä½“ç±» -> QJsonObject
 */
 QJsonObject C_ProjectData::getJsonObject(){
 	QJsonObject obj = QJsonObject();
@@ -43,7 +43,7 @@ QJsonObject C_ProjectData::getJsonObject(){
 	return obj;
 }
 /*-------------------------------------------------
-		QJsonObject -> ÊµÌåÀà
+		QJsonObject -> å®žä½“ç±»
 */
 void C_ProjectData::setJsonObject(QJsonObject obj){
 
@@ -55,7 +55,7 @@ void C_ProjectData::setJsonObject(QJsonObject obj){
 
 }
 /*-------------------------------------------------
-		»ñÈ¡ÏîÄ¿È«Ãû
+		èŽ·å–é¡¹ç›®å…¨å
 */
 QString C_ProjectData::getSoftname(){
 	//return this->softname + "(" + this->version + "." + this->version_serial + ")";
@@ -63,31 +63,31 @@ QString C_ProjectData::getSoftname(){
 }
 
 /*-------------------------------------------------
-		»ñÈ¡ÏîÄ¿Ãû
+		èŽ·å–é¡¹ç›®å
 */
 QString C_ProjectData::getName() {
 	return this->name;
 }
 /*-------------------------------------------------
-		»ñÈ¡ÏîÄ¿ºó×º
+		èŽ·å–é¡¹ç›®åŽç¼€
 */
 QString C_ProjectData::getSuffix() {
 	return PROJECT_SUFFIX;
 }
 /*-------------------------------------------------
-		ÉèÖÃÏîÄ¿Ãû
+		è®¾ç½®é¡¹ç›®å
 */
 void C_ProjectData::setName(QString name) {
 	this->name = name;
 }
 /*-------------------------------------------------
-		ÉèÖÃÏîÄ¿Â·¾¶
+		è®¾ç½®é¡¹ç›®è·¯å¾„
 */
 void C_ProjectData::setPath(QString path) {
 	this->path = path;
 }
 /*-------------------------------------------------
-		»ñÈ¡ÏîÄ¿¸¸Ä¿Â¼£¨D:/aaa/vvv/£©
+		èŽ·å–é¡¹ç›®çˆ¶ç›®å½•ï¼ˆD:/aaa/vvv/ï¼‰
 */
 QString C_ProjectData::getParentPath(){
 	if (this->name == ""){
@@ -105,15 +105,15 @@ QString C_ProjectData::getParentPath(){
 	}
 }
 /*-------------------------------------------------
-		»ñÈ¡ÏîÄ¿Â·¾¶£¨D:/aaa/vvv/ÏîÄ¿Ãû/£©
+		èŽ·å–é¡¹ç›®è·¯å¾„ï¼ˆD:/aaa/vvv/é¡¹ç›®å/ï¼‰
 */
 QString C_ProjectData::getProjectRootPath() {
 	QString root_path = this->path;
-	if (root_path.at(root_path.size() - 1) != '/' ){ root_path += "/"; }		//¼ÓÐ±¸Ü
+	if (root_path.at(root_path.size() - 1) != '/' ){ root_path += "/"; }		//åŠ æ–œæ 
 	return root_path;
 }
 /*-------------------------------------------------
-		»ñÈ¡ÏîÄ¿ÎÄ¼þ¼Ð£¨D:/aaa/vvv/ÏîÄ¿Ãû/ÏîÄ¿ÃûFiles/£©
+		èŽ·å–é¡¹ç›®æ–‡ä»¶å¤¹ï¼ˆD:/aaa/vvv/é¡¹ç›®å/é¡¹ç›®åFiles/ï¼‰
 */
 QString C_ProjectData::getProjectFilePath() {
 	QString file_path = this->getProjectRootPath() + this->name + "Files/";
@@ -122,7 +122,7 @@ QString C_ProjectData::getProjectFilePath() {
 	return file_path;
 }
 /*-------------------------------------------------
-		»ñÈ¡ÏîÄ¿ÎÄ¼þ£¨D:/aaa/vvv/ÏîÄ¿Ãû/ÏîÄ¿Ãû.xxx£©
+		èŽ·å–é¡¹ç›®æ–‡ä»¶ï¼ˆD:/aaa/vvv/é¡¹ç›®å/é¡¹ç›®å.xxxï¼‰
 */
 QString C_ProjectData::getProjectFile() {
 	return this->getProjectRootPath() + this->name + "." + PROJECT_SUFFIX;

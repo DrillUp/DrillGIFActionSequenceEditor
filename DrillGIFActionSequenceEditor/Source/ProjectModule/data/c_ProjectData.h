@@ -1,15 +1,16 @@
-#pragma once
+ï»¿#pragma once
+#include "stdafx.h"
 #include <QList>
 #include <QMap>
 
-#define PROJECT_SUFFIX		"drillas"										//ÏîÄ¿ÎÄ¼þºó×º
-#define PROJECT_INSTANCE	DrillGIFActionSequenceEditor::getInstance()		//¸¸´°¿Ú¹ØÁª
+#define PROJECT_SUFFIX		"drillas"										//é¡¹ç›®æ–‡ä»¶åŽç¼€
+#define PROJECT_INSTANCE	DrillGIFActionSequenceEditor::getInstance()		//çˆ¶çª—å£å…³è”
 
 /*
 -----==========================================================-----
-		Àà£º		ÏîÄ¿Êý¾Ý ÊµÌåÀà.h
-		ËùÊôÄ£¿é£º	ÏîÄ¿¹ÜÀíÄ£¿é
-		¹¦ÄÜ£º		´æ´¢ÏîÄ¿µÄ»ù±¾ÄÚÈÝµÄÊý¾ÝÀà¡£
+		ç±»ï¼š		é¡¹ç›®æ•°æ® å®žä½“ç±».h
+		æ‰€å±žæ¨¡å—ï¼š	é¡¹ç›®ç®¡ç†æ¨¡å—
+		åŠŸèƒ½ï¼š		å­˜å‚¨é¡¹ç›®çš„åŸºæœ¬å†…å®¹çš„æ•°æ®ç±»ã€‚
 -----==========================================================-----
 */
 class C_ProjectData{
@@ -19,49 +20,49 @@ class C_ProjectData{
 		~C_ProjectData();
 		
 	//-----------------------------------
-	//----ÏîÄ¿Êý¾Ý
+	//----é¡¹ç›®æ•°æ®
 	private:
-		QString name;					//ÏîÄ¿Ãû£¨Ç¿ÖÆË½ÓÐ£¬ÏîÄ¿Ãû£©
-		QString path;					//ÏîÄ¿Â·¾¶£¨Ç¿ÖÆË½ÓÐ£¬D:/aaa/vvv/ÏîÄ¿Ãû/£©
+		QString name;					//é¡¹ç›®åï¼ˆå¼ºåˆ¶ç§æœ‰ï¼Œé¡¹ç›®åï¼‰
+		QString path;					//é¡¹ç›®è·¯å¾„ï¼ˆå¼ºåˆ¶ç§æœ‰ï¼ŒD:/aaa/vvv/é¡¹ç›®å/ï¼‰
 	public:
-										//»ñÈ¡ÏîÄ¿Ãû
+										//èŽ·å–é¡¹ç›®å
 		QString getName();
-										//»ñÈ¡ÏîÄ¿ºó×º
+										//èŽ·å–é¡¹ç›®åŽç¼€
 		QString getSuffix();
-										//ÉèÖÃÏîÄ¿Ãû
+										//è®¾ç½®é¡¹ç›®å
 		void setName(QString name);
-										//ÉèÖÃÏîÄ¿Â·¾¶
+										//è®¾ç½®é¡¹ç›®è·¯å¾„
 		void setPath(QString path);
-										//»ñÈ¡ÏîÄ¿¸¸Ä¿Â¼£¨D:/aaa/vvv/£©
+										//èŽ·å–é¡¹ç›®çˆ¶ç›®å½•ï¼ˆD:/aaa/vvv/ï¼‰
 		QString getParentPath();
-										//»ñÈ¡ÏîÄ¿Â·¾¶£¨D:/aaa/vvv/ÏîÄ¿Ãû/£©
+										//èŽ·å–é¡¹ç›®è·¯å¾„ï¼ˆD:/aaa/vvv/é¡¹ç›®å/ï¼‰
 		QString getProjectRootPath();
-										//»ñÈ¡ÏîÄ¿ÎÄ¼þ¼Ð£¨D:/aaa/vvv/ÏîÄ¿Ãû/ÏîÄ¿ÃûFiles/£©
+										//èŽ·å–é¡¹ç›®æ–‡ä»¶å¤¹ï¼ˆD:/aaa/vvv/é¡¹ç›®å/é¡¹ç›®åFiles/ï¼‰
 		QString getProjectFilePath();
-										//»ñÈ¡ÏîÄ¿ÎÄ¼þ£¨D:/aaa/vvv/ÏîÄ¿Ãû/ÏîÄ¿Ãû.xxx£©
+										//èŽ·å–é¡¹ç›®æ–‡ä»¶ï¼ˆD:/aaa/vvv/é¡¹ç›®å/é¡¹ç›®å.xxxï¼‰
 		QString getProjectFile();
 		
 	//-----------------------------------
-	//----Èí¼þÊý¾Ý
+	//----è½¯ä»¶æ•°æ®
 	public:
-		static QString softname;				//Èí¼þÃû
-		static QString version;					//Èí¼þ°æ±¾
-		static QString version_serial;			//Èí¼þ°æ±¾ºÅ
-		QString note;							//ÏîÄ¿±Ê¼Ç£¨±¸×¢£©
-		QDateTime createDate;					//´´½¨Ê±¼ä
-		QDateTime lastSaveDate;					//ÉÏÒ»´ÎÐÞ¸ÄÊ±¼ä
+		static QString softname;				//è½¯ä»¶å
+		static QString version;					//è½¯ä»¶ç‰ˆæœ¬
+		static QString version_serial;			//è½¯ä»¶ç‰ˆæœ¬å·
+		QString note;							//é¡¹ç›®ç¬”è®°ï¼ˆå¤‡æ³¨ï¼‰
+		QDateTime createDate;					//åˆ›å»ºæ—¶é—´
+		QDateTime lastSaveDate;					//ä¸Šä¸€æ¬¡ä¿®æ”¹æ—¶é—´
 	public:
-										//»ñÈ¡Èí¼þÈ«Ãû
+										//èŽ·å–è½¯ä»¶å…¨å
 		QString getSoftname();
 		
 	//-----------------------------------
-	//----ÀàÊôÐÔ
+	//----ç±»å±žæ€§
 	public:
-										//¿ÕÅÐ¶Ï
+										//ç©ºåˆ¤æ–­
 		bool isNull();
-										//ÊµÌåÀà -> QJsonObject
+										//å®žä½“ç±» -> QJsonObject
 		QJsonObject getJsonObject();
-										//QJsonObject -> ÊµÌåÀà
+										//QJsonObject -> å®žä½“ç±»
 		void setJsonObject(QJsonObject obj);
 
 };

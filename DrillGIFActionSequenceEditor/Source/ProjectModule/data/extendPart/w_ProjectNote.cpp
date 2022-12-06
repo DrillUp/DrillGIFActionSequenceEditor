@@ -1,15 +1,15 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "W_ProjectNote.h"
 
 #include <QtWidgets>
-#include "../../s_ProjectManager.h"
-#include "Source/Utils/common/TTool.h"
+#include "../../S_ProjectManager.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
-		Àà£º		ÏîÄ¿±¸×¢ ±à¼­´°¿Ú.cpp
-		ËùÊôÄ£¿é£º	ÏîÄ¿¹ÜÀíÄ£¿é
-		¹¦ÄÜ£º		ÏîÄ¿±¸×¢ÎÄ±¾µÄ±à¼­´°¿Ú¡£
+		ç±»ï¼š		é¡¹ç›®å¤‡æ³¨ ç¼–è¾‘çª—å£.cpp
+		æ‰€å±žæ¨¡å—ï¼š	é¡¹ç›®ç®¡ç†æ¨¡å—
+		åŠŸèƒ½ï¼š		é¡¹ç›®å¤‡æ³¨æ–‡æœ¬çš„ç¼–è¾‘çª—å£ã€‚
 -----==========================================================-----
 */
 W_ProjectNote::W_ProjectNote(QWidget *parent)
@@ -18,25 +18,25 @@ W_ProjectNote::W_ProjectNote(QWidget *parent)
 	ui.setupUi(this);
 
 	//-----------------------------------
-	//----ÊÂ¼þ°ó¶¨
+	//----äº‹ä»¶ç»‘å®š
 	connect(ui.buttonBox, &QDialogButtonBox::clicked, this, &W_ProjectNote::clickedBtn);
 
 	//-----------------------------------
-	//----ui³õÊ¼»¯
+	//----uiåˆå§‹åŒ–
 
-	// > ´°¿Ú°´Å¥×é
-	ui.buttonBox->button(QDialogButtonBox::Ok)->setText(("È·¶¨"));
-	ui.buttonBox->button(QDialogButtonBox::Retry)->setText(("ÖØÐÂ±à¼­"));
-	ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(("È¡Ïû"));
+	// > çª—å£æŒ‰é’®ç»„
+	ui.buttonBox->button(QDialogButtonBox::Ok)->setText(("ç¡®å®š"));
+	ui.buttonBox->button(QDialogButtonBox::Retry)->setText(("é‡æ–°ç¼–è¾‘"));
+	ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(("å–æ¶ˆ"));
 
-	// > ÐÅÏ¢ÏÔÊ¾
+	// > ä¿¡æ¯æ˜¾ç¤º
 	C_ProjectData data = S_ProjectManager::getInstance()->data_ProjectData;
 	QString name = data.getName();
-	if (name == ""){ name = "Î´ÃüÃû"; }
-	ui.label->setText("¹¤³ÌÃû³Æ£º " + name);
-	ui.label_2->setText("´´½¨Ê±¼ä£º " + data.createDate.toString("yyyy/MM/dd hh:mm:ss"));
+	if (name == ""){ name = "æœªå‘½å"; }
+	ui.label->setText("å·¥ç¨‹åç§°ï¼š " + name);
+	ui.label_2->setText("åˆ›å»ºæ—¶é—´ï¼š " + data.createDate.toString("yyyy/MM/dd hh:mm:ss"));
 
-	// > ±¾µØÎÄ±¾³õÊ¼»¯
+	// > æœ¬åœ°æ–‡æœ¬åˆå§‹åŒ–
 	this->putUiToData();
 }
 W_ProjectNote::~W_ProjectNote(){
@@ -44,7 +44,7 @@ W_ProjectNote::~W_ProjectNote(){
 
 
 /*-------------------------------------------------
-		´°¿Ú - ÉèÖÃÊý¾Ý
+		çª—å£ - è®¾ç½®æ•°æ®
 */
 void W_ProjectNote::setData(QString p) {
 	if (p == ""){ return; }
@@ -52,20 +52,20 @@ void W_ProjectNote::setData(QString p) {
 	this->putDataToUi();
 }
 /*-------------------------------------------------
-		´°¿Ú - È¡³öÊý¾Ý
+		çª—å£ - å–å‡ºæ•°æ®
 */
 QString W_ProjectNote::getData(){
 	return this->local_ProjectNote;
 };
 /*-------------------------------------------------
-		´°¿Ú - ±¾µØÊý¾Ý -> uiÊý¾Ý
+		çª—å£ - æœ¬åœ°æ•°æ® -> uiæ•°æ®
 */
 void W_ProjectNote::putDataToUi() {
 
 	TTool::_QString_(ui.plainTextEdit, &this->local_ProjectNote);
 };
 /*-------------------------------------------------
-		´°¿Ú - uiÊý¾Ý -> ±¾µØÊý¾Ý
+		çª—å£ - uiæ•°æ® -> æœ¬åœ°æ•°æ®
 */
 void W_ProjectNote::putUiToData() {
 
@@ -73,17 +73,17 @@ void W_ProjectNote::putUiToData() {
 
 };
 /*-------------------------------------------------
-		´°¿Ú - Ìá½»Êý¾Ý£¨Ð£Ñé£©
+		çª—å£ - æäº¤æ•°æ®ï¼ˆæ ¡éªŒï¼‰
 */
 void W_ProjectNote::acceptData(){
 	this->putUiToData();
 
-	//ÎÞÐ£Ñé
+	//æ— æ ¡éªŒ
 
 	this->accept();
 };
 /*-------------------------------------------------
-		´°¿Ú - °´Å¥ÉèÖÃ
+		çª—å£ - æŒ‰é’®è®¾ç½®
 */
 void W_ProjectNote::clickedBtn(QAbstractButton * btn){
 	if (btn == ui.buttonBox->button(QDialogButtonBox::Ok)) {

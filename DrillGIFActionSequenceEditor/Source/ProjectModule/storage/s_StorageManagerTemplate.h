@@ -1,11 +1,12 @@
 #pragma once
+#include "stdafx.h"
 
 /*
 -----==========================================================-----
-		类：		存储模板块.h
-		所属模块：	项目管理模块
-		功能：		存储的模板，用于规范子类实现的数据结构。
-					详细见s_StorageManager.cpp。
+		锟洁：		锟芥储模锟斤拷锟斤拷.h
+		锟斤拷锟斤拷模锟介：	锟斤拷目锟斤拷锟斤拷模锟斤拷
+		锟斤拷锟杰ｏ拷		锟芥储锟斤拷模锟藉，锟斤拷锟节规范锟斤拷锟斤拷实锟街碉拷锟斤拷锟捷结构锟斤拷
+					锟斤拷细锟斤拷s_StorageManager.cpp锟斤拷
 -----==========================================================-----
 */
 
@@ -17,24 +18,24 @@ class S_StorageManagerTemplate
 		~S_StorageManagerTemplate();
 		
 	//-----------------------------------
-	//----数据
+	//----锟斤拷锟斤拷
 	public:
-		QFileInfo m_storage_fileInfo;	//存储/读取时的文件信息
+		QFileInfo m_storage_fileInfo;	//锟芥储/锟斤拷取时锟斤拷锟侥硷拷锟斤拷息
 	public:
-										//数据 - 获取存储的名称
+										//锟斤拷锟斤拷 - 锟斤拷取锟芥储锟斤拷锟斤拷锟斤拷
 		virtual QString getSaveName() = 0;
-										//数据 - 清除当前管理器数据
+										//锟斤拷锟斤拷 - 锟斤拷锟斤拷锟斤拷前锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷
 		virtual void clearAllData() = 0;
-										//数据 - 全部项目管理数据 -> QJsonObject
+										//锟斤拷锟斤拷 - 全锟斤拷锟斤拷目锟斤拷锟斤拷锟斤拷锟斤拷 -> QJsonObject
 		virtual QJsonObject getAllDataOfJsonObject() = 0;
-										//数据 - QJsonObject -> 全部项目管理数据
+										//锟斤拷锟斤拷 - QJsonObject -> 全锟斤拷锟斤拷目锟斤拷锟斤拷锟斤拷锟斤拷
 		virtual void setAllDataFromJsonObject(QJsonObject obj) = 0;
 		
 	//-----------------------------------
-	//----特殊
+	//----锟斤拷锟斤拷
 	public:
-										//特殊 - 获取旧版本的名称(读取用)
-										//		 如果"getSaveName"改了名字，这里用来作兼容
+										//锟斤拷锟斤拷 - 锟斤拷取锟缴版本锟斤拷锟斤拷锟斤拷(锟斤拷取锟斤拷)
+										//		 锟斤拷锟斤拷"getSaveName"锟斤拷锟斤拷锟斤拷锟街ｏ拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷
 		virtual QStringList getOldNamesForRead();
 
 };

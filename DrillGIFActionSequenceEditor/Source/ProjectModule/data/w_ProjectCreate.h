@@ -1,15 +1,16 @@
-#ifndef W_PROJECT_CREATE_H
+ï»¿#ifndef W_PROJECT_CREATE_H
 #define W_PROJECT_CREATE_H
+#include "stdafx.h"
 
-#include "ui_w_ProjectCreate.h"
-#include "p_ProjectCreate.h"
+#include "ui_W_ProjectCreate.h"
+#include "P_ProjectCreate.h"
 
 /*
 -----==========================================================-----
-		Àà£º		ĞÂ½¨ÏîÄ¿´°¿Ú.cpp
-		ËùÊôÄ£¿é£º	ÏîÄ¿¹ÜÀíÄ£¿é
-		¹¦ÄÜ£º		¾­¹ı¸ÃÁ÷³Ìºó£¬½«ĞÂ½¨ÏîÄ¿ÎÄ¼ş¼Ğ¡£
-					±ÈÈçĞÂ½¨ÏîÄ¿¡¢Áí´æÎªÏîÄ¿¡£
+		ç±»ï¼š		æ–°å»ºé¡¹ç›®çª—å£.cpp
+		æ‰€å±æ¨¡å—ï¼š	é¡¹ç›®ç®¡ç†æ¨¡å—
+		åŠŸèƒ½ï¼š		ç»è¿‡è¯¥æµç¨‹åï¼Œå°†æ–°å»ºé¡¹ç›®æ–‡ä»¶å¤¹ã€‚
+					æ¯”å¦‚æ–°å»ºé¡¹ç›®ã€å¦å­˜ä¸ºé¡¹ç›®ã€‚
 -----==========================================================-----
 */
 class W_ProjectCreate : public QDialog
@@ -21,29 +22,29 @@ class W_ProjectCreate : public QDialog
 		~W_ProjectCreate();
 		
 	//-----------------------------------
-	//----¿Ø¼ş
+	//----æ§ä»¶
 	public:
 		P_ProjectCreate* m_P_ProjectCreate;
 				
 	//-----------------------------------
-	//----Î»ÖÃ
+	//----ä½ç½®
 	public:
-										//Î»ÖÃ - Ìí¼ÓÎ»ÖÃ
+										//ä½ç½® - æ·»åŠ ä½ç½®
 		void insertPath(QString path);
-										//Î»ÖÃ - Ñ¡ÔñÎ»ÖÃ
+										//ä½ç½® - é€‰æ‹©ä½ç½®
 		void selectPath(QString path);
-										//Î»ÖÃ - »ñÈ¡Ñ¡ÔñµÄÎ»ÖÃ
+										//ä½ç½® - è·å–é€‰æ‹©çš„ä½ç½®
 		QString getCurrentPath();
 
 	//-----------------------------------
-	//----´°¿Ú
+	//----çª—å£
 	public:
-										//´°¿Ú - ÉèÖÃÊı¾İ
+										//çª—å£ - è®¾ç½®æ•°æ®
 		void setDataInModifyMode(C_ProjectData p);
-										//´°¿Ú - È¡³öÊı¾İ
+										//çª—å£ - å–å‡ºæ•°æ®
 		C_ProjectData getData();
 	public slots:
-										//´°¿Ú - Ìá½»Êı¾İ£¨Ğ£Ñé£©
+										//çª—å£ - æäº¤æ•°æ®ï¼ˆæ ¡éªŒï¼‰
 		void acceptData();	
 
 	private:
