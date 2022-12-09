@@ -4,7 +4,9 @@
 #include <QtWidgets>
 #include "ui_P_StateNodePart.h"
 
+#include "../statePart/p_StatePart.h"
 #include "Source/Utils/widgetForm/radioTable/p_RadioTable.h"
+#include "Source/Utils/operater/TwoTableStringFiller/P_TwoTableStringFiller.h"
 
 /*
 -----==========================================================-----
@@ -20,7 +22,7 @@ class P_StateNodePart : public QWidget
 	Q_OBJECT
 
 	public:
-		P_StateNodePart(QWidget *parent = 0);
+		P_StateNodePart(P_StatePart* statePart, QWidget *parent = 0);
 		~P_StateNodePart();
 		
 	//-----------------------------------
@@ -32,6 +34,30 @@ class P_StateNodePart : public QWidget
 		void btn_editTagTank();
 									//控件 - 刷新
 		void refreshTagTank();
+		
+	//-----------------------------------
+	//----状态节点配置
+	protected:
+		P_StatePart* m_P_StatePart;
+		P_TwoTableStringFiller* m_P_TwoTableStringFiller;
+		QStringList m_curStateNameList;
+		QStringList m_curNodeNameList;
+	public slots:
+									//状态节点配置 - 播放方式变化
+		void playTypeChanged();
+									//状态节点配置 - 左移
+		void btn_moveToLeft();
+									//状态节点配置 - 右移
+		void btn_moveToRight();
+									//状态节点配置 - 上移
+		void btn_moveUp();
+									//状态节点配置 - 下移
+		void btn_moveDown();
+									//状态节点配置 - 手动配置
+		void btn_editConfig();
+	private:
+									//状态节点配置 - 刷新配置
+		void configNameDataChanged();
 		
 	//-----------------------------------
 	//----快捷键

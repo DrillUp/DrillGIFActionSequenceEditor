@@ -31,7 +31,7 @@
 
 -----==========================================================-----
 */
-P_StateNodePart::P_StateNodePart(QWidget *parent)
+P_StateNodePart::P_StateNodePart(P_StatePart* statePart, QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
@@ -44,6 +44,9 @@ P_StateNodePart::P_StateNodePart(QWidget *parent)
 
 	//-----------------------------------
 	//----初始化ui
+	QStyledItemDelegate* itemDelegate_playType = new QStyledItemDelegate(ui.comboBox_playType);
+	ui.comboBox_playType->setItemDelegate(itemDelegate_playType);
+	ui.comboBox_playType->setStyleSheet("QComboBox QAbstractItemView::item {min-height:24px;}");
 
 	// > 编辑表格
 	this->m_table = new P_RadioTable(ui.tableWidget);
@@ -52,6 +55,12 @@ P_StateNodePart::P_StateNodePart(QWidget *parent)
 	rat_config.rowHeight = 22;
 	this->m_table->setConfigParam(rat_config);			//固定参数
 	this->m_table->setItemOuterControlEnabled(true);	//开启右键菜单
+
+	// > 
+	this->m_P_StatePart = statePart;
+
+	// > 双表格
+	this->m_P_TwoTableStringFiller = new P_TwoTableStringFiller(ui.tableWidget_left, ui.tableWidget_right);
 
 	//-----------------------------------
 	//----事件绑定
@@ -62,6 +71,14 @@ P_StateNodePart::P_StateNodePart(QWidget *parent)
 
 	// > 标签列表编辑
 	connect(ui.pushButton_tagTank, &QPushButton::clicked, this, &P_StateNodePart::btn_editTagTank);
+
+	// > 播放方式
+	connect(ui.comboBox_playType, &QComboBox::currentTextChanged, this, &P_StateNodePart::playTypeChanged);
+	connect(ui.pushButton_moveToLeft, &QPushButton::clicked, this, &P_StateNodePart::btn_moveToLeft);
+	connect(ui.pushButton_moveToRight, &QPushButton::clicked, this, &P_StateNodePart::btn_moveToRight);
+	connect(ui.pushButton_moveUp, &QPushButton::clicked, this, &P_StateNodePart::btn_moveUp);
+	connect(ui.pushButton_moveDown, &QPushButton::clicked, this, &P_StateNodePart::btn_moveDown);
+	connect(ui.pushButton_editConfig, &QPushButton::clicked, this, &P_StateNodePart::btn_editConfig);
 
 	// > 表单变化绑定
 	connect(ui.lineEdit_name, &QLineEdit::textEdited, this->m_table, &P_RadioTable::modifyText_Selected);
@@ -118,6 +135,95 @@ void P_StateNodePart::currentIndexChanged(int index){
 	this->local_loadIndexData(index);
 }
 
+
+/*-------------------------------------------------
+		状态节点配置 - 播放方式变化
+*/
+void P_StateNodePart::playTypeChanged(){
+	QString text = ui.comboBox_playType->currentText();
+	if (text == "随机播放状态元" || text == "顺序播放状态元"){
+		this->m_P_TwoTableStringFiller->setLeftTitle("已有状态元");
+		this->m_P_TwoTableStringFiller->setRightTitle("当前配置");
+		QStringList name_list = this->m_P_StatePart->getNameList();
+		TTool::_QStringList_clearEmptyRows_(&name_list);
+		this->m_P_TwoTableStringFiller->setLeftString(name_list);
+		this->m_P_TwoTableStringFiller->setRightString(this->m_curStateNameList);
+		this->m_P_TwoTableStringFiller->refreshTable();
+	}
+	if (text == "随机播放嵌套集合" || text == "顺序播放嵌套集合"){
+		this->m_P_TwoTableStringFiller->setLeftTitle("已有状态节点");
+		this->m_P_TwoTableStringFiller->setRightTitle("当前配置");
+		QStringList name_list = this->getNameList();//节点名称列表
+		TTool::_QStringList_clearEmptyRows_(&name_list);
+		this->m_P_TwoTableStringFiller->setLeftString(name_list);
+		this->m_P_TwoTableStringFiller->setRightString(this->m_curNodeNameList);
+		this->m_P_TwoTableStringFiller->refreshTable();
+	}
+
+	if (text == "随机播放状态元" || text == "随机播放嵌套集合"){
+		ui.widget_randomMax->setVisible(true);
+		this->m_P_TwoTableStringFiller->setRightRowHeaderVisible(false);
+	}else{
+		ui.widget_randomMax->setVisible(false);
+		this->m_P_TwoTableStringFiller->setRightRowHeaderVisible(true);
+	}
+}
+/*-------------------------------------------------
+		状态节点配置 - 左移
+*/
+void P_StateNodePart::btn_moveToLeft(){
+	this->m_P_TwoTableStringFiller->moveSelectedToLeft();
+	this->configNameDataChanged();
+}
+/*-------------------------------------------------
+		状态节点配置 - 右移
+*/
+void P_StateNodePart::btn_moveToRight(){
+	this->m_P_TwoTableStringFiller->moveSelectedToRight();
+	this->configNameDataChanged();
+}
+/*-------------------------------------------------
+		状态节点配置 - 上移
+*/
+void P_StateNodePart::btn_moveUp(){
+	this->m_P_TwoTableStringFiller->moveUpRightString();
+	this->configNameDataChanged();
+}
+/*-------------------------------------------------
+		状态节点配置 - 下移
+*/
+void P_StateNodePart::btn_moveDown(){
+	this->m_P_TwoTableStringFiller->moveDownRightString();
+	this->configNameDataChanged();
+}
+/*-------------------------------------------------
+		状态节点配置 - 手动配置
+*/
+void P_StateNodePart::btn_editConfig(){
+	W_QStringListEditor d(this);
+	d.setParamShowingName("当前配置");
+	d.setDataInModifyMode(this->m_P_TwoTableStringFiller->getRightString());
+	if (d.exec() == QDialog::Accepted){
+		this->m_P_TwoTableStringFiller->setRightString(d.getData());
+		this->configNameDataChanged();
+	}
+}
+/*-------------------------------------------------
+		状态节点配置 - 刷新配置
+*/
+void P_StateNodePart::configNameDataChanged(){
+
+	// > 变化的数据存储
+	QString text = ui.comboBox_playType->currentText();
+	if (text == "随机播放状态元" || text == "顺序播放状态元"){
+		this->m_curStateNameList = this->m_P_TwoTableStringFiller->getRightString();
+		TTool::_QStringList_clearEmptyRows_(&this->m_curStateNameList);
+	}
+	if (text == "随机播放嵌套集合" || text == "顺序播放嵌套集合"){
+		this->m_curNodeNameList = this->m_P_TwoTableStringFiller->getRightString();
+		TTool::_QStringList_clearEmptyRows_(&this->m_curNodeNameList);
+	}
+}
 
 
 /*-------------------------------------------------
@@ -217,16 +323,14 @@ void P_StateNodePart::local_saveCurIndexData(){
 	TTool::_QJsonObject_put_(&obj_org, obj_edit);
 
 	// > 播放方式
-	//	C_ALEData data = this->m_p_AnimationListEditor->getSource();
-	//	QJsonObject obj_edit2 = QJsonObject();
-	//	obj_edit2.insert("帧间隔", QString::number( data.getData_IntervalDefault() ));
-	//	//（资源文件夹不需要）
-	//	QList<QString> gif_src = QList<QString>();
-	//	QList<QFileInfo> info_list = data.getAllFile();
-	//	for (int i = 0; i < info_list.count(); i++){
-	//		gif_src.append(info_list.at(i).completeBaseName());
-	//	}
-	//TTool::_QJsonObject_put_(&obj_org, obj_edit2);
+		QJsonObject obj_play;
+		obj_play.insert("播放方式", ui.comboBox_playType->currentText());
+		obj_play.insert("随机播放状态元", TTool::_JSON_stringify_(this->m_curStateNameList));
+		obj_play.insert("顺序播放状态元", TTool::_JSON_stringify_(this->m_curStateNameList));
+		obj_play.insert("随机播放嵌套集合", TTool::_JSON_stringify_(this->m_curNodeNameList));
+		obj_play.insert("顺序播放嵌套集合", TTool::_JSON_stringify_(this->m_curNodeNameList));
+		obj_edit.insert("随机播放的次数上限", QString::number(ui.spinBox_randomMax->value()));
+	TTool::_QJsonObject_put_(&obj_org, obj_play);
 
 	// > 编辑标记
 	S_ProjectManager::getInstance()->setDirty();
@@ -252,13 +356,20 @@ void P_StateNodePart::local_loadIndexData(int index){
 		ui.plainTextEdit_note->setPlainText(obj_data.value("备注").toString());
 
 	// > 播放方式
+		ui.comboBox_playType->setCurrentText(obj_data.value("播放方式").toString());
 
-	//C_ALEData data = C_ALEData();
-	//data.setData_Id(index);
-	//data.setSource(gif_src_file, gif_src);
-	//data.setInterval(gif_interval, gif_intervalTank);
-	//this->m_p_AnimationListEditor->setSource(data);
-	//this->m_p_AnimationListEditor->selectStart();
+		QStringList arr = TTool::_JSON_parse_To_QListQString_(obj_data.value("随机播放状态元").toString());
+		if (arr.isEmpty()){ arr = TTool::_JSON_parse_To_QListQString_(obj_data.value("顺序播放状态元").toString()); }
+		this->m_curStateNameList = arr;
+		TTool::_QStringList_clearEmptyRows_(&this->m_curStateNameList);
+		
+		QStringList arr2 = TTool::_JSON_parse_To_QListQString_(obj_data.value("随机播放嵌套集合").toString());
+		if (arr2.isEmpty()){ arr2 = TTool::_JSON_parse_To_QListQString_(obj_data.value("顺序播放嵌套集合").toString()); }
+		this->m_curNodeNameList = arr2;
+		TTool::_QStringList_clearEmptyRows_(&this->m_curNodeNameList);
+		this->playTypeChanged();
+		
+		ui.spinBox_randomMax->setValue(obj_data.value("随机播放的次数上限").toString().toInt());
 
 	this->m_last_index = index;
 }

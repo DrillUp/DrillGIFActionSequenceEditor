@@ -270,6 +270,9 @@
     <Filter Include="源文件\【 项目管理模块 ProjectModule】\Temp文件夹">
       <UniqueIdentifier>{77b5d387-e75a-4d81-9751-d8f8900abd80}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\【 工具箱 Utils】\辅助操作器（operater）\双表格字符串填写器">
+      <UniqueIdentifier>{e0da4532-5bcc-491c-a213-744a5aad28a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -989,6 +992,15 @@
     <ClCompile Include="GeneratedFiles\Release\moc_S_IniManager.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_P_TwoTableStringFiller.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_P_TwoTableStringFiller.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\operater\TwoTableStringFiller\P_TwoTableStringFiller.cpp">
+      <Filter>源文件\【 工具箱 Utils】\辅助操作器（operater）\双表格字符串填写器</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="drillgifactionsequenceeditor.qrc">
@@ -1299,6 +1311,9 @@
     </CustomBuild>
     <CustomBuild Include="Source\ProjectModule\StorageGlobal\S_IniManager.h">
       <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件-全局</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\operater\TwoTableStringFiller\P_TwoTableStringFiller.h">
+      <Filter>源文件\【 工具箱 Utils】\辅助操作器（operater）\双表格字符串填写器</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>

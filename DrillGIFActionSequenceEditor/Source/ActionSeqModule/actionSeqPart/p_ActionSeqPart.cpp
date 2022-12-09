@@ -38,7 +38,7 @@ P_ActionSeqPart::P_ActionSeqPart(QWidget *parent)
 
 	// > 放映区、动作元、状态元
 	this->m_statePart = new P_StatePart(parent);
-	this->m_stateNodePart = new P_StateNodePart(parent);
+	this->m_stateNodePart = new P_StateNodePart(this->m_statePart, parent);
 	this->m_actionPart = new P_ActionPart(parent);
 	this->m_playingPart = new P_PlayingPart(this->m_statePart, this->m_actionPart, parent);
 
