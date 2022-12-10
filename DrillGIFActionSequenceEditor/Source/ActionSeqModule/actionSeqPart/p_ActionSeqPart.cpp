@@ -40,7 +40,7 @@ P_ActionSeqPart::P_ActionSeqPart(QWidget *parent)
 	this->m_statePart = new P_StatePart(parent);
 	this->m_stateNodePart = new P_StateNodePart(this->m_statePart, parent);
 	this->m_actionPart = new P_ActionPart(parent);
-	this->m_playingPart = new P_PlayingPart(this->m_statePart, this->m_actionPart, parent);
+	this->m_playingPart = new P_PlayingPart(this->m_statePart, this->m_stateNodePart, this->m_actionPart, parent);
 
 	// > 可折叠选项卡
 	this->m_p_FoldableTabRelater = new P_FoldableTabRelater(ui.tabWidget);	//（ui中的只是示意，该工具类会重建tab）

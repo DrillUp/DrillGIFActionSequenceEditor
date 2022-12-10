@@ -416,6 +416,9 @@ void P_StateNodePart::putDataToUi() {
 
 	// > 当前选中的数据
 	this->local_loadIndexData(this->m_last_index);
+
+	// > 强制刷新一次（防止空白节点不刷新）
+	this->playTypeChanged();
 }
 /*-------------------------------------------------
 		窗口 - ui数据 -> 本地数据

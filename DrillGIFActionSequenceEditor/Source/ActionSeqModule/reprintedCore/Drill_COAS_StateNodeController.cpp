@@ -64,9 +64,9 @@ void Drill_COAS_StateNodeController::drill_initData_Node(){
 	QJsonObject data = this->_drill_data;
 
 	// > 常规
-	if (data["name"].isUndefined() == true){ data["name"] = ""; }					//状态元名称
-	if (data["priority"].isUndefined() == true){ data["priority"] = 0; }			//状态元优先级
-	if (data["proportion"].isUndefined() == true){ data["proportion"] = 40; }		//状态元权重
+	if (data["name"].isUndefined() == true){ data["name"] = ""; }					//节点名称
+	if (data["priority"].isUndefined() == true){ data["priority"] = 0; }			//节点优先级
+	if (data["proportion"].isUndefined() == true){ data["proportion"] = 40; }		//节点权重
 
 	// > 播放列表
 	if (data["play_type"].isUndefined() == true){ data["play_type"] = "随机播放状态元"; }					//播放列表 - 播放方式

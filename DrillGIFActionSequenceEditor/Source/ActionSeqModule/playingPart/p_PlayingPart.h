@@ -4,8 +4,9 @@
 #include <QtWidgets>
 #include "ui_P_PlayingPart.h"
 
-#include "Source/ActionSeqModule/actionPart/p_ActionPart.h"
 #include "Source/ActionSeqModule/statePart/p_StatePart.h"
+#include "Source/ActionSeqModule/stateNodePart/p_StateNodePart.h"
+#include "Source/ActionSeqModule/actionPart/p_ActionPart.h"
 #include "Source/ActionSeqModule/reprintedCore/Drill_COAS_MainController.h"
 #include "Source/ActionSeqModule/reprintedCore/Drill_COAS_Init.h"
 #include "Source/Utils/widgetForm/radioTable/p_RadioTable.h"
@@ -24,30 +25,39 @@ class P_PlayingPart : public QWidget
 	Q_OBJECT
 
 	public:
-		P_PlayingPart(P_StatePart* state_part, P_ActionPart* action_part, QWidget *parent = 0);
+		P_PlayingPart(P_StatePart* state_part, P_StateNodePart* stateNode_part, P_ActionPart* action_part, QWidget *parent = 0);
 		~P_PlayingPart();
 		
 	//-----------------------------------
 	//----控件
 	public:
-		P_ActionPart* m_actionPart;
 		P_StatePart* m_statePart;
-		P_RadioTable* m_table_action;
-		P_RadioTable* m_table_state;
+		P_StateNodePart* m_stateNodePart;
+		P_ActionPart* m_actionPart;
 		P_AnimPictureViewer* m_p_AnimPictureViewer;
 	public slots:
-										//控件 - 编辑状态元集合
-		void editDefaultStateGroup();
 										//控件 - 根据文件名获取资源文件
 		QFileInfo getSrcFileByName(QString file_name);
-										//控件 - 获取名称
-		QStringList getActionNameList();
-		QStringList getStateNameList();
-		QStringList getStateNameListWithoutEmpty();
-										//控件 - 获取全部关联文件名（去重）
-		QStringList getRelatFileNameList();
 										//控件 - 缩放比例变化
 		void zoomValueChanged(double value);
+		
+
+	//-----------------------------------
+	//----操作台
+	public:
+		P_RadioTable* m_table_state;
+		P_RadioTable* m_table_action;
+	public slots:
+										//操作台 - 编辑状态元集合
+		void editDefaultStateGroup();
+										//操作台 - 获取名称
+		QStringList getStateNameList();
+		QStringList getStateNodeNameList();
+		QStringList getActionNameList();
+										//操作台 - 获取全部关联文件名（去重）
+		QStringList getRelatFileNameList();
+		
+		
 
 	//-----------------------------------
 	//----按钮
@@ -64,6 +74,7 @@ class P_PlayingPart : public QWidget
 										//按钮 - 刷新播放图标
 		void updateIcon();
 		
+
 	//-----------------------------------
 	//----动画帧
 	private:
@@ -95,6 +106,7 @@ class P_PlayingPart : public QWidget
 	public:
 		QStringList local_defaultStateList;
 		QList<QJsonObject> local_stateDataList;
+		QList<QJsonObject> local_stateNodeDataList;
 		QList<QJsonObject> local_actionDataList;
 	public:
 										//窗口 - 刷新基于的数据

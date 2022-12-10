@@ -29,7 +29,7 @@
 
 -----==========================================================-----
 */
-P_PlayingPart::P_PlayingPart(P_StatePart* state_part, P_ActionPart* action_part, QWidget *parent)
+P_PlayingPart::P_PlayingPart(P_StatePart* state_part, P_StateNodePart* stateNode_part, P_ActionPart* action_part, QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
@@ -37,6 +37,7 @@ P_PlayingPart::P_PlayingPart(P_StatePart* state_part, P_ActionPart* action_part,
 	//-----------------------------------
 	//----初始化参数
 	this->m_statePart = state_part;
+	this->m_stateNodePart = stateNode_part;
 	this->m_actionPart = action_part;
 
 	// > 参数值
@@ -47,7 +48,11 @@ P_PlayingPart::P_PlayingPart(P_StatePart* state_part, P_ActionPart* action_part,
 	//-----------------------------------
 	//----初始化ui
 
-	// > 编辑表格
+	// > 图片查看块
+	this->m_p_AnimPictureViewer = new P_AnimPictureViewer(ui.widget_view);
+	this->m_p_AnimPictureViewer->rebuildUI();
+
+	// > 操作台 - 编辑表格
 	this->m_table_action = new P_RadioTable(ui.tableWidget_action);
 	this->m_table_state = new P_RadioTable(ui.tableWidget_state);
 	C_RaTConfig rat_config = C_RaTConfig();
@@ -61,10 +66,6 @@ P_PlayingPart::P_PlayingPart(P_StatePart* state_part, P_ActionPart* action_part,
 	rat_config2.isMultiSelect = true;
 	this->m_table_state->setConfigParam(rat_config2);
 	this->m_table_state->setItemOuterControlEnabled(false);
-
-	// > 图片查看块
-	this->m_p_AnimPictureViewer = new P_AnimPictureViewer(ui.widget_view);
-	this->m_p_AnimPictureViewer->rebuildUI();
 
 
 	//-----------------------------------
@@ -86,8 +87,23 @@ P_PlayingPart::P_PlayingPart(P_StatePart* state_part, P_ActionPart* action_part,
 P_PlayingPart::~P_PlayingPart(){
 }
 
+
 /*-------------------------------------------------
-		控件 - 编辑状态元集合
+		控件 - 根据文件名获取资源文件
+*/
+QFileInfo P_PlayingPart::getSrcFileByName(QString file_name){
+	return QFileInfo(S_ActionSeqDataContainer::getInstance()->getActionSeqDir() + "/" + this->m_COAS_mainController._drill_curBitmapName + ".png");
+}
+/*-------------------------------------------------
+		控件 - 缩放比例切换
+*/
+void P_PlayingPart::zoomValueChanged(double value){
+	ui.label_zoomValue->setText( QString::number(value * 100)+"%" );
+}
+
+
+/*-------------------------------------------------
+		操作台 - 编辑状态元集合
 */
 void P_PlayingPart::editDefaultStateGroup(){
 	// > 未播放时，刷新资源
@@ -96,7 +112,8 @@ void P_PlayingPart::editDefaultStateGroup(){
 	}
 
 	// > 资源检查
-	QStringList state_list = this->getStateNameListWithoutEmpty();
+	QStringList state_list = this->getStateNameList();
+	TTool::_QStringList_clearEmptyRows_(&state_list);
 	if (state_list.count() == 0){
 		QMessageBox::information(this, "提示", "你需要配置至少一个 状态元 才能编辑。", QMessageBox::Yes);
 		return;
@@ -112,13 +129,7 @@ void P_PlayingPart::editDefaultStateGroup(){
 
 }
 /*-------------------------------------------------
-		控件 - 根据文件名获取资源文件
-*/
-QFileInfo P_PlayingPart::getSrcFileByName(QString file_name){
-	return QFileInfo(S_ActionSeqDataContainer::getInstance()->getActionSeqDir() + "/" + this->m_COAS_mainController._drill_curBitmapName + ".png");
-}
-/*-------------------------------------------------
-		控件 - 获取名称
+		操作台 - 获取名称
 */
 QStringList P_PlayingPart::getStateNameList(){
 	QStringList result = QStringList();
@@ -127,12 +138,10 @@ QStringList P_PlayingPart::getStateNameList(){
 	}
 	return result;
 }
-QStringList P_PlayingPart::getStateNameListWithoutEmpty(){
+QStringList P_PlayingPart::getStateNodeNameList(){
 	QStringList result = QStringList();
-	for (int i = 0; i < this->local_stateDataList.count(); i++){
-		QString name = this->local_stateDataList.at(i).value("状态元名称").toString();
-		if (name == ""){ continue; }
-		result.append(name);
+	for (int i = 0; i < this->local_stateNodeDataList.count(); i++){
+		result.append(this->local_stateNodeDataList.at(i).value("节点名称").toString());
 	}
 	return result;
 }
@@ -144,7 +153,7 @@ QStringList P_PlayingPart::getActionNameList(){
 	return result;
 }
 /*-------------------------------------------------
-		控件 - 获取全部关联文件名（去重）
+		操作台 - 获取全部关联文件名（去重）
 */
 QStringList P_PlayingPart::getRelatFileNameList(){
 	QStringList result = QStringList();
@@ -165,16 +174,13 @@ QStringList P_PlayingPart::getRelatFileNameList(){
 		result.append(src_list);
 	}
 
+	// > 状态节点资源
+	//（无资源）
+
 	// > 去重
 	result = result.toSet().toList();
 
 	return result;
-}
-/*-------------------------------------------------
-		控件 - 缩放比例切换
-*/
-void P_PlayingPart::zoomValueChanged(double value){
-	ui.label_zoomValue->setText( QString::number(value * 100)+"%" );
 }
 
 
@@ -252,8 +258,9 @@ bool P_PlayingPart::isPlaying(){
 	return this->m_playing;
 }
 
+
 /*-------------------------------------------------
-		放映区 - 播放
+		按钮 - 播放
 */
 void P_PlayingPart::btn_play(){
 	if (this->isPlaying() == true){
@@ -310,6 +317,7 @@ void P_PlayingPart::updateIcon(){
 */
 void P_PlayingPart::refreshSource(){
 	this->local_stateDataList = this->m_statePart->getData();
+	this->local_stateNodeDataList = this->m_stateNodePart->getData();
 	this->local_actionDataList = this->m_actionPart->getData();
 	this->putDataToUi();
 }
@@ -350,19 +358,34 @@ void P_PlayingPart::putDataToUi() {
 	if (this->local_defaultStateList.count() == 0){ text = "无"; }
 	ui.label_defaultState->setText(text);
 
-	// > 解析动画序列（直接根据 默认集合+状态元列表+动作元列表 设置动画序列）
+
+	// > 解析动画序列
 	QJsonObject data = QJsonObject();
-	data["state_default_randomSeq"] = TTool::_QJsonArray_QStringToA_(this->local_defaultStateList);
+
+	// > 容器 - 状态元序列
 	QJsonArray state_tank = QJsonArray();
 	for (int i = 0; i < this->local_stateDataList.count(); i++){
 		state_tank.append(Drill_COAS_Init::drill_COAS_initState(this->local_stateDataList.at(i)));
 	}
 	data["state_tank"] = state_tank;
+
+	// > 容器 - 状态节点序列
+	QJsonArray stateNode_tank = QJsonArray();
+	for (int i = 0; i < this->local_stateNodeDataList.count(); i++){
+		stateNode_tank.append(Drill_COAS_Init::drill_COAS_initState(this->local_stateNodeDataList.at(i)));
+	}
+	data["stateNode_tank"] = stateNode_tank;
+
+	// > 容器 - 动作元序列
 	QJsonArray act_tank = QJsonArray();
 	for (int i = 0; i < this->local_actionDataList.count(); i++){
 		act_tank.append(Drill_COAS_Init::drill_COAS_initAct(this->local_actionDataList.at(i)));
 	}
 	data["act_tank"] = act_tank;
+
+	// > 容器 - 默认的状态元集合
+	data["state_default_randomSeq"] = TTool::_QJsonArray_QStringToA_(this->local_defaultStateList);
+
 
 	// > 动画序列核心初始化
 	this->m_COAS_mainController = Drill_COAS_MainController(data);
