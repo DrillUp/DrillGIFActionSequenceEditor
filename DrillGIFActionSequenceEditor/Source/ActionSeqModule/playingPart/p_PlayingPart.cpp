@@ -372,7 +372,7 @@ void P_PlayingPart::putDataToUi() {
 	// > 容器 - 状态节点序列
 	QJsonArray stateNode_tank = QJsonArray();
 	for (int i = 0; i < this->local_stateNodeDataList.count(); i++){
-		stateNode_tank.append(Drill_COAS_Init::drill_COAS_initState(this->local_stateNodeDataList.at(i)));
+		stateNode_tank.append(Drill_COAS_Init::drill_COAS_initStateNode(this->local_stateNodeDataList.at(i)));
 	}
 	data["stateNode_tank"] = stateNode_tank;
 

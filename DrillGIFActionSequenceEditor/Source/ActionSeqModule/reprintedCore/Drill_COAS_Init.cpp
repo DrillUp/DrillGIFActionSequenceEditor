@@ -52,8 +52,11 @@ QJsonObject Drill_COAS_Init::drill_COAS_initState(QJsonObject dataFrom){
 
 	// > 常规
 	data["name"] = dataFrom["状态元名称"].toString("");
+	QStringList tag_tank = TTool::_JSON_parse_To_QListQString_(dataFrom["状态元标签"].toString(""));
+	data["tag_tank"] = TTool::_QJsonArray_QStringToA_(tag_tank);
 	data["priority"] = dataFrom["状态元优先级"].toString("0").toInt();		//【注意大坑：变量获取一定要先toString，再转存为int】
 	data["proportion"] = dataFrom["状态元权重"].toString("40").toInt();
+	data["canBeInterrupted"] = dataFrom["可被动作元打断"].toString("false") == "true";
 
 	// > GIF
 	QStringList gif_src = TTool::_JSON_parse_To_QListQString_(dataFrom["资源-状态元"].toString(""));
@@ -87,9 +90,12 @@ QJsonObject Drill_COAS_Init::drill_COAS_initStateNode(QJsonObject dataFrom){
 	QJsonObject data = QJsonObject();
 
 	// > 常规
-	data["name"] = dataFrom["集合名称"].toString("");
-	data["priority"] = dataFrom["集合优先级"].toString("0").toInt();		//【注意大坑：变量获取一定要先toString，再转存为int】
-	data["proportion"] = dataFrom["集合权重"].toString("40").toInt();
+	data["name"] = dataFrom["节点名称"].toString("");
+	QStringList tag_tank = TTool::_JSON_parse_To_QListQString_(dataFrom["节点标签"].toString(""));
+	data["tag_tank"] = TTool::_QJsonArray_QStringToA_(tag_tank);
+	data["priority"] = dataFrom["节点优先级"].toString("0").toInt();		//【注意大坑：变量获取一定要先toString，再转存为int】
+	data["proportion"] = dataFrom["节点权重"].toString("40").toInt();
+	data["canBeInterrupted"] = dataFrom["可被动作元打断"].toString("false") == "true";
 
 	// > 播放列表
 	data["play_type"] = dataFrom["播放方式"].toString("随机播放状态元");
@@ -121,6 +127,8 @@ QJsonObject Drill_COAS_Init::drill_COAS_initAct(QJsonObject dataFrom){
 
 	// > 常规
 	data["name"] = dataFrom["动作元名称"].toString("");
+	QStringList tag_tank = TTool::_JSON_parse_To_QListQString_(dataFrom["动作元标签"].toString(""));
+	data["tag_tank"] = TTool::_QJsonArray_QStringToA_(tag_tank);
 	data["priority"] = dataFrom["动作元优先级"].toString("20").toInt();
 
 	// > GIF
@@ -171,7 +179,7 @@ QJsonObject Drill_COAS_Init::drill_COAS_initSequence(QJsonObject dataFrom){
 	QJsonArray stateNode_tank = QJsonArray();
 	for (int i = 0; i < len.realLen_stateNode; i++){
 		QJsonObject obj = TTool::_JSON_parse_To_Obj_(dataFrom["状态节点-" + QString::number(i + 1)].toString("{}"));
-		stateNode_tank.append(Drill_COAS_Init::drill_COAS_initState(obj));
+		stateNode_tank.append(Drill_COAS_Init::drill_COAS_initStateNode(obj));
 	}
 	data["stateNode_tank"] = stateNode_tank;
 
