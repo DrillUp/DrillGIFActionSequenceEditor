@@ -51,10 +51,10 @@ QJsonObject C_ActionSeqLength::getJsonObject(){
 */
 void C_ActionSeqLength::setJsonObject(QJsonObject obj){
 
-	if (obj.value("realLen_actionSeq").isUndefined() == false){ this->realLen_actionSeq = obj.value("realLen_actionSeq").toInt(); }
-	if (obj.value("realLen_action").isUndefined() == false){ this->realLen_action = obj.value("realLen_action").toInt(); }
-	if (obj.value("realLen_state").isUndefined() == false){ this->realLen_state = obj.value("realLen_state").toInt(); }
-	if (obj.value("realLen_stateNode").isUndefined() == false){ this->realLen_stateNode = obj.value("realLen_stateNode").toInt(); }
+	if (obj.value("realLen_actionSeq").isUndefined() == false){ this->realLen_actionSeq = obj.value("realLen_actionSeq").toInt(40); }
+	if (obj.value("realLen_action").isUndefined() == false){ this->realLen_action = obj.value("realLen_action").toInt(10); }
+	if (obj.value("realLen_state").isUndefined() == false){ this->realLen_state = obj.value("realLen_state").toInt(10); }
+	if (obj.value("realLen_stateNode").isUndefined() == false){ this->realLen_stateNode = obj.value("realLen_stateNode").toInt(10); }
 	
 	// > 默认值
 	if (this->isNull()){

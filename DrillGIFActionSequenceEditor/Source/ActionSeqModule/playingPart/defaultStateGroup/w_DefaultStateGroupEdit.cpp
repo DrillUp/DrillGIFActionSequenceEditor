@@ -1,16 +1,16 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "W_DefaultStateGroupEdit.h"
 
 #include "Source/Utils/common/TTool.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Ä¬ÈÏ×´Ì¬Ôª¼¯ºÏ ±à¼­.cpp
-		ËùÊôÄ£¿é£º	¶¯»­ĞòÁĞÄ£¿é
-		¹¦ÄÜ£º		Ä¬ÈÏ×´Ì¬Ôª¼¯ºÏµÄ´°¿Ú¡£
+		ç±»ï¼š		é»˜è®¤çŠ¶æ€å…ƒé›†åˆ ç¼–è¾‘.cpp
+		æ‰€å±æ¨¡å—ï¼š	åŠ¨ç”»åºåˆ—æ¨¡å—
+		åŠŸèƒ½ï¼š		é»˜è®¤çŠ¶æ€å…ƒé›†åˆçš„çª—å£ã€‚
 
-		Ê¹ÓÃ·½·¨£º
-				>´ò¿ª´°¿Ú
+		ä½¿ç”¨æ–¹æ³•ï¼š
+				>æ‰“å¼€çª—å£
 					W_DefaultStateGroupEdit d;
 					d.exec();
 
@@ -23,17 +23,17 @@ W_DefaultStateGroupEdit::W_DefaultStateGroupEdit(QWidget *parent)
 
 
 	//-----------------------------------
-	//----¿Ø¼ş³õÊ¼»¯
+	//----æ§ä»¶åˆå§‹åŒ–
 	this->m_p_RadioTable = new P_RadioTable(ui.tableWidget);
 	C_RaTConfig rat_config = C_RaTConfig();
 	rat_config.showNumber = false;
 	rat_config.isMultiSelect = true;
-	this->m_p_RadioTable->setConfigParam(rat_config);	//¹Ì¶¨²ÎÊı
+	this->m_p_RadioTable->setConfigParam(rat_config);	//å›ºå®šå‚æ•°
 
 	connect(this->m_p_RadioTable, &P_RadioTable::currentIndexChanged_Multi, this, &W_DefaultStateGroupEdit::selectedChanged);
 
 	//-----------------------------------
-	//----ui³õÊ¼»¯
+	//----uiåˆå§‹åŒ–
 	TTool::_chinese_(ui.buttonBox);
 }
 
@@ -42,24 +42,30 @@ W_DefaultStateGroupEdit::~W_DefaultStateGroupEdit(){
 
 
 /*-------------------------------------------------
-		¿Ø¼ş - Ñ¡ÖĞ±ä»¯
+		æ§ä»¶ - è®¾ç½®åç§°
+*/
+void W_DefaultStateGroupEdit::setWindowName(QString name){
+	this->setWindowTitle(name);
+}
+/*-------------------------------------------------
+		æ§ä»¶ - é€‰ä¸­å˜åŒ–
 */
 void W_DefaultStateGroupEdit::selectedChanged(QList<int> index_list){
 	
 	QStringList data_list = this->m_p_RadioTable->getTextByIndex(index_list);
-	ui.label->setText("Öµ£º[" + data_list.join(",") + "]");
+	ui.label->setText("å€¼ï¼š[" + data_list.join(",") + "]");
 }
 
 
 /*-------------------------------------------------
-		´°¿Ú - ÉèÖÃÊı¾İ
+		çª—å£ - è®¾ç½®æ•°æ®
 */
 void W_DefaultStateGroupEdit::setData(QStringList data, QStringList selected){
 	this->m_p_RadioTable->setSource(data);
 	this->m_p_RadioTable->selectText_Multi(selected);
 }
 /*-------------------------------------------------
-		´°¿Ú - »ñÈ¡Êı¾İ
+		çª—å£ - è·å–æ•°æ®
 */
 QStringList W_DefaultStateGroupEdit::getData(){
 	return this->m_p_RadioTable->getSelectedText_Multi();

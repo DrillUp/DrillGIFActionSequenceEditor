@@ -107,7 +107,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #44
             <item>
              <widget class="QPushButton" name="pushButton">
               <property name="text">
-               <string>查看全节点大表</string>
+               <string>查看状态节点关系表</string>
               </property>
              </widget>
             </item>
@@ -173,7 +173,7 @@ QTableView::item:selected {
                <item row="0" column="3">
                 <widget class="QSpinBox" name="spinBox_priority">
                  <property name="maximum">
-                  <number>9999</number>
+                  <number>999999</number>
                  </property>
                 </widget>
                </item>
@@ -207,8 +207,11 @@ QTableView::item:selected {
                </item>
                <item row="1" column="3">
                 <widget class="QSpinBox" name="spinBox_proportion">
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
                  <property name="maximum">
-                  <number>9999</number>
+                  <number>999999</number>
                  </property>
                 </widget>
                </item>

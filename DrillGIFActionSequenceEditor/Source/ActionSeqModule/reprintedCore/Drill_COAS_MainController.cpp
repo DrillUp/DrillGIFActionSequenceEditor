@@ -274,6 +274,7 @@ void Drill_COAS_MainController::drill_COAS_updateStateNode(){
 
 	// > 状态节点 数据刷新情况
 	if (this->_drill_node_curSerial != this->_drill_node_curController->_drill_controllerSerial){
+		this->_drill_node_curController->_drill_curIndex = 0;		//（指针重置）
 		this->_drill_node_curController->drill_COAS_refreshNext();
 		this->_drill_node_curSerial = this->_drill_node_curController->_drill_controllerSerial;
 	}

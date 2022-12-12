@@ -160,6 +160,7 @@ void Drill_COAS_ActController::drill_COAS_updateAct(){
 	}
 	if (cur_index < 0){ cur_index = 0; }	//【动作元 播放完毕后，保持在最后一帧，等待 状态节点 控制新的一轮。】
 	if (cur_index >= this->_drill_curIntervalTank.count()){ cur_index = this->_drill_curIntervalTank.count() - 1; }
+	if (this->_drill_curIntervalTank.count() == 0){ return; }
 
 	// > 帧间隔列表
 	int cur_time = this->_drill_curTickTime;

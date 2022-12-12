@@ -47,28 +47,34 @@ class P_PlayingPart : public QWidget
 	public:
 		P_RadioTable* m_table_state;
 		P_RadioTable* m_table_action;
+		QStringList m_temp_simpleState;
 	public slots:
-										//操作台 - 编辑状态元集合
-		void editDefaultStateGroup();
+										//操作台 - 编辑默认的状态元集合
+		void editDefaultState();
+										//操作台 - 编辑临时的简单状态元
+		void editSimpleState();
+										//操作台 - 获取全部关联文件名（去重）
+		QStringList getRelatFileNameList();
 										//操作台 - 获取名称
 		QStringList getStateNameList();
 		QStringList getStateNodeNameList();
 		QStringList getActionNameList();
-										//操作台 - 获取全部关联文件名（去重）
-		QStringList getRelatFileNameList();
-		
-		
+										//操作台 - 刷新表格
+										//		【说明】：只刷新表格和显示名。
+		void refreshTable();
 
 	//-----------------------------------
 	//----按钮
 	public slots:
 										//按钮 - 播放
 		void btn_play();
-										//按钮 - 加入默认状态元
-		void btn_playDefault();
-										//按钮 - 加入状态元
-		void btn_playState();
-										//按钮 - 加入动作元
+										//按钮 - 播放默认的状态元集合
+		void btn_playDefaultState();
+										//按钮 - 播放简单状态元
+		void btn_playSimpleStateNode();
+										//按钮 - 播放状态节点
+		void btn_playStateNode();
+										//按钮 - 播放动作元
 		void btn_playAction();
 	private:
 										//按钮 - 刷新播放图标

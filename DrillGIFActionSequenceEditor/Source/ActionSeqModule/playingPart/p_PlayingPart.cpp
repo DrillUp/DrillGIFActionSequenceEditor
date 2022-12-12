@@ -72,10 +72,12 @@ P_PlayingPart::P_PlayingPart(P_StatePart* state_part, P_StateNodePart* stateNode
 	//-----------------------------------
 	//----事件绑定
 	connect(ui.toolButton_open, &QToolButton::clicked, this, &P_PlayingPart::btn_play);
-	connect(ui.toolButton_playDefault, &QToolButton::clicked, this, &P_PlayingPart::btn_playDefault);
-	connect(ui.toolButton_playState, &QToolButton::clicked, this, &P_PlayingPart::btn_playState);
+	connect(ui.toolButton_playDefault, &QToolButton::clicked, this, &P_PlayingPart::btn_playDefaultState);
+	connect(ui.toolButton_playSimple, &QToolButton::clicked, this, &P_PlayingPart::btn_playSimpleStateNode);
+	connect(ui.toolButton_playState, &QToolButton::clicked, this, &P_PlayingPart::btn_playStateNode);
 	connect(ui.toolButton_playAction, &QToolButton::clicked, this, &P_PlayingPart::btn_playAction);
-	connect(ui.toolButton_editGroup, &QToolButton::clicked, this, &P_PlayingPart::editDefaultStateGroup);
+	connect(ui.toolButton_editGroup, &QToolButton::clicked, this, &P_PlayingPart::editDefaultState);
+	connect(ui.toolButton_editSimple, &QToolButton::clicked, this, &P_PlayingPart::editSimpleState);
 
 	// > 图片查看块 - 缩放
 	connect(ui.toolButton_zoom_in, &QPushButton::clicked, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::zoomIn);
@@ -106,7 +108,8 @@ void P_PlayingPart::zoomValueChanged(double value){
 /*-------------------------------------------------
 		操作台 - 编辑状态元集合
 */
-void P_PlayingPart::editDefaultStateGroup(){
+void P_PlayingPart::editDefaultState(){
+
 	// > 未播放时，刷新资源
 	if (this->isPlaying() == false){
 		this->refreshCurActionSeq();
@@ -116,18 +119,40 @@ void P_PlayingPart::editDefaultStateGroup(){
 	QStringList state_list = this->getStateNameList();
 	TTool::_QStringList_clearEmptyRows_(&state_list);
 	if (state_list.count() == 0){
-		QMessageBox::information(this, "提示", "你需要配置至少一个 状态元 才能编辑。", QMessageBox::Yes);
+		QMessageBox::information(this, "提示", "该动画序列状态元全部为空。你需要配置至少一个 状态元 才能编辑。", QMessageBox::Yes);
 		return;
 	}
 
 	// > 窗口
 	W_DefaultStateGroupEdit d(this);
+	d.setWindowName("默认的状态元集合");
 	d.setData(state_list, this->local_defaultSeq);
 	if (d.exec() == QDialog::Accepted){
 		this->local_defaultSeq = d.getData();
 		this->putDataToUi();
 	}
+};
+/*-------------------------------------------------
+		操作台 - 编辑临时的简单状态元
+*/
+void P_PlayingPart::editSimpleState(){
+	
+	// > 资源检查
+	QStringList state_list = this->getStateNameList();
+	TTool::_QStringList_clearEmptyRows_(&state_list);
+	if (state_list.count() == 0){
+		QMessageBox::information(this, "提示", "该动画序列状态元全部为空。你需要配置至少一个 状态元 才能编辑。", QMessageBox::Yes);
+		return;
+	}
 
+	// > 窗口
+	W_DefaultStateGroupEdit d(this);
+	d.setWindowName("临时的简单状态元");
+	d.setData(state_list, this->m_temp_simpleState);
+	if (d.exec() == QDialog::Accepted){
+		this->m_temp_simpleState = d.getData();
+		this->refreshTable();
+	}
 }
 /*-------------------------------------------------
 		操作台 - 获取名称
@@ -183,6 +208,41 @@ QStringList P_PlayingPart::getRelatFileNameList(){
 
 	return result;
 }
+/*-------------------------------------------------
+		操作台 - 刷新表格
+*/
+void P_PlayingPart::refreshTable(){
+
+	// > 默认的状态元集合
+	QString text_default = "";
+	for (int i = 0; i < this->local_defaultSeq.count(); i++){
+		text_default.append("◆ ");
+		text_default.append(this->local_defaultSeq.at(i));
+		if (i < this->local_defaultSeq.count() - 1){
+			text_default.append("\n");
+		}
+	}
+	if (this->local_defaultSeq.count() == 0){ text_default = "无"; }
+	ui.label_defaultState->setText(text_default);
+
+	// > 临时的简单状态元集合
+	QString text_simple = "";
+	for (int i = 0; i < this->m_temp_simpleState.count(); i++){
+		text_simple.append("◆ ");
+		text_simple.append(this->m_temp_simpleState.at(i));
+		if (i < this->m_temp_simpleState.count() - 1){
+			text_simple.append("\n");
+		}
+	}
+	if (this->m_temp_simpleState.count() == 0){ text_simple = "无"; }
+	ui.label_simpleState->setText(text_simple);
+
+	// > 状态节点 列表名
+	this->m_table_state->setSource(this->getStateNodeNameList());
+
+	// > 动作元 列表名
+	this->m_table_action->setSource(this->getActionNameList());
+}
 
 
 /*-------------------------------------------------
@@ -204,17 +264,10 @@ void P_PlayingPart::updateFrame(){
 	
 
 	// > 显示当前状态
-	//QString cur_state = this->m_COAS_data._drill_state_curCom;
-	//if (this->m_COAS_data.drill_COAS_isPlayingAct()){
-	//	ui.label_playingName->setText(QString("动作元【")+this->m_COAS_data._drill_act_curCom+"】");
-	//}else{
-	//	if (cur_state != ""){		//（cur_state为空时不会变化资源图片）
-	//		ui.label_playingName->setText(QString("状态元【") + cur_state + "】");
-	//	}
-	//}
-	//if (cur_state != ""){ ui.label_playingState->setText(cur_state); }
-	//ui.label_playingAction->setText(this->m_COAS_data._drill_act_curCom);
-	//ui.label_stateSeq->setText(this->m_COAS_data._drill_state_curSeq.join(","));
+	ui.label_actionSeqId->setText(QString::number( this->m_COAS_mainController._drill_data["id"].toInt() ));
+	ui.label_curStateName->setText(this->m_COAS_mainController.drill_COAS_getCurStateName());
+	ui.label_curActionName->setText(this->m_COAS_mainController.drill_COAS_getCurActName());
+	ui.label_allRoot->setText(this->m_COAS_mainController.drill_COAS_getCurStateName_AllRoot());
 
 }
 /*-------------------------------------------------
@@ -239,6 +292,7 @@ void P_PlayingPart::startFrame(){
 	ui.groupBox_seq->setEnabled(true);
 	ui.widget_operateFrame->setEnabled(true);
 	ui.toolButton_playDefault->setEnabled(true);
+	ui.toolButton_playSimple->setEnabled(true);
 	this->updateIcon();
 	emit playStarted();
 }
@@ -256,6 +310,7 @@ void P_PlayingPart::stopFrame(){
 	ui.groupBox_seq->setEnabled(false);
 	ui.widget_operateFrame->setEnabled(false);
 	ui.toolButton_playDefault->setEnabled(false);
+	ui.toolButton_playSimple->setEnabled(false);
 	this->updateIcon();
 }
 /*-------------------------------------------------
@@ -277,27 +332,33 @@ void P_PlayingPart::btn_play(){
 	this->startFrame();
 }
 /*-------------------------------------------------
-		按钮 - 加入默认状态元
+		按钮 - 播放默认的状态元集合
 */
-void P_PlayingPart::btn_playDefault(){
+void P_PlayingPart::btn_playDefaultState(){
 	this->m_COAS_mainController.drill_COAS_setStateNodeDefault();
 }
 /*-------------------------------------------------
-		按钮 - 加入状态元
+		按钮 - 播放简单状态元
 */
-void P_PlayingPart::btn_playState(){
-	QStringList state_list = this->m_table_state->getSelectedText_Multi();
-	this->m_COAS_mainController.drill_COAS_setSimpleStateNode(state_list);
+void P_PlayingPart::btn_playSimpleStateNode(){
+	this->m_COAS_mainController.drill_COAS_setSimpleStateNode(this->m_temp_simpleState);
 }
 /*-------------------------------------------------
-		按钮 - 加入动作元
+		按钮 - 播放状态节点
+*/
+void P_PlayingPart::btn_playStateNode(){
+	QString node_name = this->m_table_state->getSelectedText();
+	this->m_COAS_mainController.drill_COAS_setStateNode(node_name);
+}
+/*-------------------------------------------------
+		按钮 - 播放动作元
 */
 void P_PlayingPart::btn_playAction(){
 	QString action_name = this->m_table_action->getSelectedText();
 	this->m_COAS_mainController.drill_COAS_setAct(action_name);
 }
 /*-------------------------------------------------
-		放映区 - 刷新播放图标
+		按钮 - 刷新播放图标
 */
 void P_PlayingPart::updateIcon(){
 	
@@ -310,10 +371,10 @@ void P_PlayingPart::updateIcon(){
 	}else{
 		ui.toolButton_open->setIcon(QIcon(QRC_IconSrcPath + "/player/Play_Run.png"));
 		ui.widget_playingPart->setStyleSheet("#widget_playingPart{ background-color: rgb(242, 242, 242); }");
-		ui.label_playingAction->setText("");
-		ui.label_playingName->setText("");
-		ui.label_playingState->setText("");
-		ui.label_stateSeq->setText("");
+		ui.label_actionSeqId->setText("");
+		ui.label_curStateName->setText("");
+		ui.label_curActionName->setText("");
+		ui.label_allRoot->setText("");
 	}
 }
 
@@ -354,54 +415,39 @@ QStringList P_PlayingPart::getData_DefaultSeq(){
 */
 void P_PlayingPart::putDataToUi() {
 
-	// > 表格选择
-	this->m_table_action->setSource(this->getActionNameList());
-	this->m_table_state->setSource(this->getStateNameList());
-	
-	// > 状态元
-	QString text = "";
-	for (int i = 0; i < this->local_defaultSeq.count(); i++){
-		text = text + "◆ " + this->local_defaultSeq.at(i);
-		if (i < this->local_defaultSeq.count()-1){
-			text = text + "\n";
-		}
-	}
-	if (this->local_defaultSeq.count() == 0){ text = "无"; }
-	ui.label_defaultState->setText(text);
 
-
-	// > 解析动画序列
+	// > 动画序列数据 - 初始化
 	QJsonObject data = QJsonObject();
 	data["id"] = this->m_actionSeq_curIndex;
 	data["visible"] = true;
 	data["pause"] = false;
 	data["waitForPreload"] = true;
 
-	// > 容器 - 状态元序列
+	// > 动画序列数据 - 容器 - 状态元序列
 	QJsonArray state_tank = QJsonArray();
 	for (int i = 0; i < this->local_stateDataList.count(); i++){
 		state_tank.append(Drill_COAS_Init::drill_COAS_initState(this->local_stateDataList.at(i)));
 	}
 	data["state_tank"] = state_tank;
 
-	// > 容器 - 状态节点序列
+	// > 动画序列数据 - 容器 - 状态节点序列
 	QJsonArray stateNode_tank = QJsonArray();
 	for (int i = 0; i < this->local_stateNodeDataList.count(); i++){
 		stateNode_tank.append(Drill_COAS_Init::drill_COAS_initStateNode(this->local_stateNodeDataList.at(i)));
 	}
 	data["stateNode_tank"] = stateNode_tank;
 
-	// > 容器 - 动作元序列
+	// > 动画序列数据 - 容器 - 动作元序列
 	QJsonArray act_tank = QJsonArray();
 	for (int i = 0; i < this->local_actionDataList.count(); i++){
 		act_tank.append(Drill_COAS_Init::drill_COAS_initAct(this->local_actionDataList.at(i)));
 	}
 	data["act_tank"] = act_tank;
 
-	// > 容器 - 默认的状态元集合
+	// > 动画序列数据 - 容器 - 默认的状态元集合
 	data["state_default_randomSeq"] = TTool::_QJsonArray_QStringToA_(this->local_defaultSeq);
 
-	// > 打包并放置在全局参数中
+	// > 动画序列数据 - 打包并放置在全局参数中
 	Drill_COAS_Init::getInstance()->setCOASDataByIndex(this->m_actionSeq_curIndex, data);
 
 
@@ -411,6 +457,9 @@ void P_PlayingPart::putDataToUi() {
 	this->m_p_AnimPictureViewer->clearSource();
 	this->m_p_AnimPictureViewer->setAnimFile(this->getSrcFileByName(this->m_COAS_mainController._drill_curBitmapName));
 	this->m_p_AnimPictureViewer->setTint(this->m_COAS_mainController._drill_curBitmapTint);
+
+	// > 刷新表格
+	this->refreshTable();
 }
 /*-------------------------------------------------
 		窗口 - ui数据 -> 本地数据

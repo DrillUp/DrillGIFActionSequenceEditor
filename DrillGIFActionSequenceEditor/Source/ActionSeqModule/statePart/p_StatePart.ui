@@ -141,8 +141,11 @@ QTableView::item:selected {
                </item>
                <item row="4" column="1">
                 <widget class="QSpinBox" name="spinBox_proportion">
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
                  <property name="maximum">
-                  <number>9999</number>
+                  <number>999999</number>
                  </property>
                 </widget>
                </item>
@@ -262,7 +265,7 @@ QTableView::item:selected {
                <item row="3" column="1">
                 <widget class="QSpinBox" name="spinBox_priority">
                  <property name="maximum">
-                  <number>9999</number>
+                  <number>999999</number>
                  </property>
                 </widget>
                </item>

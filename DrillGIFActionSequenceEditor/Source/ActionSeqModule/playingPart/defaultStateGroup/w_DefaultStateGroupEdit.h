@@ -1,4 +1,4 @@
-#ifndef W_DefaultStateGroupEdit_H
+ï»¿#ifndef W_DefaultStateGroupEdit_H
 #define W_DefaultStateGroupEdit_H
 
 #include <QtWidgets/QDialog>
@@ -7,10 +7,10 @@
 
 /*
 -----==========================================================-----
-		Àà£º		Ä¬ÈÏ×´Ì¬Ôª¼¯ºÏ ±à¼­.h
-		ËùÊôÄ£¿é£º	¶¯»­ĞòÁĞÄ£¿é
-		¹¦ÄÜ£º		Ä¬ÈÏ×´Ì¬Ôª¼¯ºÏµÄ´°¿Ú¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		é»˜è®¤çŠ¶æ€å…ƒé›†åˆ ç¼–è¾‘.h
+		æ‰€å±æ¨¡å—ï¼š	åŠ¨ç”»åºåˆ—æ¨¡å—
+		åŠŸèƒ½ï¼š		é»˜è®¤çŠ¶æ€å…ƒé›†åˆçš„çª—å£ã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 class W_DefaultStateGroupEdit : public QDialog
@@ -18,27 +18,29 @@ class W_DefaultStateGroupEdit : public QDialog
 	Q_OBJECT
 
 	public:
-		W_DefaultStateGroupEdit(QWidget *parent = 0);	//¹¹Ôìº¯Êı
-		~W_DefaultStateGroupEdit();						//Îö¹¹º¯Êı
+		W_DefaultStateGroupEdit(QWidget *parent = 0);	//æ„é€ å‡½æ•°
+		~W_DefaultStateGroupEdit();						//ææ„å‡½æ•°
 		
 	//-----------------------------------
-	//----¿Ø¼ş
+	//----æ§ä»¶
 	public:
 		P_RadioTable* m_p_RadioTable;
 	public:
-									//¿Ø¼ş - Ñ¡ÖĞ±ä»¯
+									//æ§ä»¶ - è®¾ç½®åç§°
+		void setWindowName(QString name);
+									//æ§ä»¶ - é€‰ä¸­å˜åŒ–
 		void selectedChanged(QList<int> index_list);
 		
 	//-----------------------------------
-	//----´°¿Ú
+	//----çª—å£
 	public slots:
-									//´°¿Ú - ÉèÖÃÊı¾İ
+									//çª—å£ - è®¾ç½®æ•°æ®
 		void setData(QStringList data,QStringList selected);
-									//´°¿Ú - »ñÈ¡Êı¾İ
+									//çª—å£ - è·å–æ•°æ®
 		QStringList getData();
-									//´°¿Ú - ±¾µØÊı¾İ -> uiÊı¾İ
-									//´°¿Ú - uiÊı¾İ -> ±¾µØÊı¾İ
-									//´°¿Ú - Ìá½»Êı¾İ£¨Ğ£Ñé£©
+									//çª—å£ - æœ¬åœ°æ•°æ® -> uiæ•°æ®
+									//çª—å£ - uiæ•°æ® -> æœ¬åœ°æ•°æ®
+									//çª—å£ - æäº¤æ•°æ®ï¼ˆæ ¡éªŒï¼‰
 	private:
 		Ui::W_DefaultStateGroupEdit ui;
 		

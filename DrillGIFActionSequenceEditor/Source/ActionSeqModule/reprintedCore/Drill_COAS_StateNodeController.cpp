@@ -158,6 +158,9 @@ void Drill_COAS_StateNodeController::drill_COAS_refreshNext_Private(){
 	QJsonObject data = this->_drill_data;
 	//qDebug() << data;
 
+	// > 结束播放后，停止刷新子节点
+	if (this->drill_COAS_isNodeEnd()){ return; }
+
 	QString play_type = data["play_type"].toString();
 	if (play_type == "随机播放状态元"){
 		QJsonArray data_list;
@@ -205,23 +208,29 @@ void Drill_COAS_StateNodeController::drill_COAS_refreshNext_Private(){
 QJsonObject Drill_COAS_StateNodeController::drill_COAS_rollObjData(QJsonArray objData_list){
 	if (objData_list.isEmpty()){ return QJsonObject(); }
 	if (objData_list.count() == 1){ return objData_list[0].toObject(); }
+	//qDebug() << "roll_objData_list:" << objData_list;
 
 	QJsonObject result_data;
 	int total_proportion = 0;
 	for (int i = 0; i < objData_list.count(); i++){
 		QJsonObject objData = objData_list[i].toObject();
-		total_proportion += objData["proportion"].toInt();
+		int proportion = objData["proportion"].toInt();
+		if (proportion <= 0){ proportion = 1; }
+		total_proportion += proportion;
 	}
+	qsrand(QTime(0, 0, 0).secsTo(QTime::currentTime()));
 	for (int i = 0; i < objData_list.count(); i++){
 		QJsonObject objData = objData_list[i].toObject();
+		int proportion = objData["proportion"].toInt();
+		if (proportion <= 0){ proportion = 1; }
 
 		// > 概率命中，则返回数据
-		if ( (rand()%10000)*0.0001 <= objData["proportion"].toInt() / total_proportion){
+		if ((qrand() % 10000)*0.0001 <= proportion / total_proportion){
 			return objData;
 		}
 
 		// > 没命中，则减去当前的概率，再进入下一轮抽取
-		total_proportion -= objData["proportion"].toInt();
+		total_proportion -= proportion;
 	}
 	return result_data;
 }
@@ -447,6 +456,7 @@ QString Drill_COAS_StateNodeController::drill_COAS_getCurStateName_AllRoot(){
 		状态节点 - 操作 - 播放简单状态元集合【开放函数】
 */
 void Drill_COAS_StateNodeController::drill_COAS_setNewStateNameList(QStringList state_nameList){
+	if (state_nameList.count() == 0){ return; }
 	QJsonObject data = this->_drill_data;
 	data["play_type"] = "随机播放状态元";
 	data["play_randomStateSeq"] = TTool::_QJsonArray_QStringToA_(state_nameList);

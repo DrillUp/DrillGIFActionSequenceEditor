@@ -254,7 +254,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #44
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QLabel" name="label_defaultState_2">
+             <widget class="QLabel" name="label_simpleState">
               <property name="text">
                <string>[]</string>
               </property>
@@ -264,7 +264,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #44
              </widget>
             </item>
             <item row="1" column="2">
-             <widget class="QToolButton" name="toolButton_editGroup_2">
+             <widget class="QToolButton" name="toolButton_editSimple">
               <property name="toolTip">
                <string>编辑状态元集合</string>
               </property>
@@ -284,7 +284,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #44
              </widget>
             </item>
             <item row="1" column="3">
-             <widget class="QToolButton" name="toolButton_playDefault_2">
+             <widget class="QToolButton" name="toolButton_playSimple">
               <property name="enabled">
                <bool>false</bool>
               </property>
@@ -355,6 +355,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #44
 QTableView::item:selected {
 	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #5C87D9, stop:0.505 #557CC7, stop:1 #5075BC);
 }</string>
+                 </property>
+                 <property name="selectionMode">
+                  <enum>QAbstractItemView::SingleSelection</enum>
                  </property>
                 </widget>
                </item>
@@ -600,28 +603,28 @@ QToolButton:pressed{
            </property>
            <layout class="QGridLayout" name="gridLayout" columnstretch="0,1">
             <item row="3" column="1">
-             <widget class="QLabel" name="label_stateSeq">
+             <widget class="QLabel" name="label_allRoot">
               <property name="text">
                <string/>
               </property>
              </widget>
             </item>
             <item row="2" column="1">
-             <widget class="QLabel" name="label_playingAction">
+             <widget class="QLabel" name="label_curActionName">
               <property name="text">
                <string/>
               </property>
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QLabel" name="label_playingState">
+             <widget class="QLabel" name="label_curStateName">
               <property name="text">
                <string/>
               </property>
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLabel" name="label_playingName">
+             <widget class="QLabel" name="label_actionSeqId">
               <property name="text">
                <string/>
               </property>
@@ -630,7 +633,7 @@ QToolButton:pressed{
             <item row="0" column="0">
              <widget class="QLabel" name="label_2">
               <property name="text">
-               <string>当前播放：</string>
+               <string>动画序列id：</string>
               </property>
              </widget>
             </item>
@@ -651,7 +654,7 @@ QToolButton:pressed{
             <item row="3" column="0">
              <widget class="QLabel" name="label_5">
               <property name="text">
-               <string>当前状态元集合：</string>
+               <string>当前状态节点全路径：</string>
               </property>
              </widget>
             </item>
