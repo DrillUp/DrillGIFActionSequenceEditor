@@ -35,11 +35,11 @@ class Drill_COAS_Init{
 		
 	//-----------------------------------
 	//----C++数据容器
-	public:
+	protected:
 		QList<QJsonObject> g_COAS_list;
 	public:
-
-		void refresh_COAS_List(int maxcount);
+									//C++数据容器 - 设置数据
+		void setCOASDataByIndex(int index, QJsonObject data);
 
 	//-----------------------------------
 	//----数据访问器

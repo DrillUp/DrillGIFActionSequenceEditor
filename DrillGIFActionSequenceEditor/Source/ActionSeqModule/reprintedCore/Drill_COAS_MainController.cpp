@@ -107,6 +107,7 @@ void Drill_COAS_MainController::drill_initPrivateData_Main(){
 	node_data["proportion"] = 40;
 	node_data["play_type"] = "随机播放状态元";
 	node_data["play_randomStateSeq"] = data["state_default_randomSeq"];
+	node_data["play_randomMax"] = 5;
 	node_data["note"] = "";
 	QJsonArray stateNode_tank = data["stateNode_tank"].toArray();
 	stateNode_tank.append(node_data);

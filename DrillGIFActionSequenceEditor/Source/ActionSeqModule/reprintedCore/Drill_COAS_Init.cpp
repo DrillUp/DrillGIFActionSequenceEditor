@@ -42,10 +42,22 @@ Drill_COAS_Init* Drill_COAS_Init::getInstance() {
 */
 void Drill_COAS_Init::_init() {
 	this->g_COAS_list.clear();
-	for (int i = 0; i < 20; i++){
-		this->g_COAS_list.push_back(QJsonObject());
-	}
 }
+/*-------------------------------------------------
+		C++数据容器 - 设置数据
+*/
+void Drill_COAS_Init::setCOASDataByIndex(int index, QJsonObject data){
+	if (index < 0){ return; }
+	if (index < this->g_COAS_list.count()){
+		this->g_COAS_list.replace(index, data);
+		return;
+	}
+	for (int i = this->g_COAS_list.count(); i < index; i++){
+		this->g_COAS_list.append(QJsonObject());
+	}
+	this->g_COAS_list.append(data);
+}
+
 
 /*-------------------------------------------------
 		变量获取 - 状态元（~struct~DrillCOASState）

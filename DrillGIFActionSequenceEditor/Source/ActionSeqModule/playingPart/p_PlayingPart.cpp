@@ -198,9 +198,9 @@ void P_PlayingPart::updateFrame(){
 
 	// > 播放图片（每帧）
 	QString bitmap_name = this->m_COAS_mainController._drill_curBitmapName;
-	qDebug() << bitmap_name;
 	this->m_p_AnimPictureViewer->setAnimFile(this->getSrcFileByName(bitmap_name));
 	this->m_p_AnimPictureViewer->setTint(this->m_COAS_mainController._drill_curBitmapTint);
+	//qDebug() << bitmap_name;
 	
 
 	// > 显示当前状态
@@ -402,7 +402,7 @@ void P_PlayingPart::putDataToUi() {
 	data["state_default_randomSeq"] = TTool::_QJsonArray_QStringToA_(this->local_defaultSeq);
 
 	// > 打包并放置在全局参数中
-	Drill_COAS_Init::getInstance()->g_COAS_list[this->m_actionSeq_curIndex] = data;
+	Drill_COAS_Init::getInstance()->setCOASDataByIndex(this->m_actionSeq_curIndex, data);
 
 
 	// > 动画序列核心初始化
@@ -410,6 +410,7 @@ void P_PlayingPart::putDataToUi() {
 	this->m_COAS_mainController.drill_COAS_update();
 	this->m_p_AnimPictureViewer->clearSource();
 	this->m_p_AnimPictureViewer->setAnimFile(this->getSrcFileByName(this->m_COAS_mainController._drill_curBitmapName));
+	this->m_p_AnimPictureViewer->setTint(this->m_COAS_mainController._drill_curBitmapTint);
 }
 /*-------------------------------------------------
 		窗口 - ui数据 -> 本地数据

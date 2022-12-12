@@ -156,7 +156,7 @@ void Drill_COAS_StateNodeController::drill_COAS_resetData_Node(QJsonObject data)
 */
 void Drill_COAS_StateNodeController::drill_COAS_refreshNext_Private(){
 	QJsonObject data = this->_drill_data;
-	qDebug() << data;
+	//qDebug() << data;
 
 	QString play_type = data["play_type"].toString();
 	if (play_type == "随机播放状态元"){
@@ -164,7 +164,6 @@ void Drill_COAS_StateNodeController::drill_COAS_refreshNext_Private(){
 		QJsonArray play_randomStateSeq = data["play_randomStateSeq"].toArray();
 		for (int i = 0; i < play_randomStateSeq.count(); i++){
 			QJsonObject state_data = Drill_COAS_Init::getInstance()->drill_COAS_getStateData(this->_drill_parentDataId, play_randomStateSeq[i].toString());
-			qDebug() << state_data;
 			if (state_data.isEmpty()){ continue; }
 			data_list.append(state_data);
 		}
@@ -238,6 +237,7 @@ void Drill_COAS_StateNodeController::drill_COAS_refreshNextState(QJsonObject nex
 
 	// > 重设数据
 	this->_drill_curState->drill_COAS_resetData_State(next_data);
+	this->_drill_curState->_drill_curIndex = 0;	//（指针归零）
 	this->_drill_curState->drill_COAS_update();	//（设置数据后，立即强制刷新）
 }
 /*-------------------------------------------------
@@ -266,6 +266,7 @@ void Drill_COAS_StateNodeController::drill_COAS_refreshNextNode(QJsonObject next
 	this->_drill_curNode->drill_COAS_setParentDataId(this->_drill_parentDataId);
 	this->_drill_curNode->drill_COAS_setLayer(next_layer);
 	this->_drill_curNode->drill_COAS_refreshNext();
+	this->_drill_curNode->_drill_curIndex = 0;	//（指针归零）
 	this->_drill_curNode->drill_COAS_update();	//（设置数据后，立即强制刷新）
 }
 /*-------------------------------------------------
@@ -449,5 +450,6 @@ void Drill_COAS_StateNodeController::drill_COAS_setNewStateNameList(QStringList 
 	QJsonObject data = this->_drill_data;
 	data["play_type"] = "随机播放状态元";
 	data["play_randomStateSeq"] = TTool::_QJsonArray_QStringToA_(state_nameList);
+	this->_drill_data = data;		//（c++注意此处，data变化后需要强制赋值，因为不是指针修改）
 	this->drill_COAS_refreshNext();
 }
