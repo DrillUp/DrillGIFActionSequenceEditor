@@ -43,6 +43,7 @@ class Drill_COAS_MainController{
 		QString		_drill_act_curName;								//动作元 - 当前每次
 		QString		_drill_act_curSerial;							//动作元 - 当前序列号
 		Drill_COAS_ActController* _drill_act_curController;			//动作元 - 当前控制器
+		bool		_drill_act_interrupt;							//动作元 - 打断设置
 
 	public:
 									//数据 - 初始化数据【标准默认值】
@@ -95,6 +96,8 @@ class Drill_COAS_MainController{
 		void drill_COAS_setStateNode(QString node_name);
 									//动画序列-状态节点 - 操作 - 播放简单状态元集合【开放函数】
 		void drill_COAS_setSimpleStateNode(QStringList state_nameList);
+									//动画序列-状态节点 - 操作 - 播放状态元 根据标签【开放函数】
+		void drill_COAS_setAnnotation(QStringList annotation_list);
 		
 									//动画序列-动作元 - 获取数据 - 全部【开放函数】
 		QJsonArray drill_COAS_getActData_All();

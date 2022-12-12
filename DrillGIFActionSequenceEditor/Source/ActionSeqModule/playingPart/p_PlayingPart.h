@@ -104,17 +104,19 @@ class P_PlayingPart : public QWidget
 	//-----------------------------------
 	//----窗口
 	public:
-		QStringList local_defaultStateList;
+		int m_actionSeq_curIndex;
+		QStringList local_defaultSeq;
 		QList<QJsonObject> local_stateDataList;
 		QList<QJsonObject> local_stateNodeDataList;
 		QList<QJsonObject> local_actionDataList;
 	public:
 										//窗口 - 刷新基于的数据
-		void refreshSource();
+		void refreshCurActionSeq();
 										//窗口 - 设置数据
-		void setDefaultStateData(QStringList defaultStateList);
+		void setData_DefaultSeq(QStringList defaultSeq);
+		void setData_CurIndex(int index);
 										//窗口 - 取出数据
-		QStringList getDefaultStateData();
+		QStringList getData_DefaultSeq();
 										//窗口 - 本地数据 -> ui数据
 		void putDataToUi();							
 										//窗口 - ui数据 -> 本地数据

@@ -61,9 +61,11 @@ void Drill_COAS_StateController::drill_initData_State(){
 	QJsonObject data = this->_drill_data;
 
 	// > 常规
-	if (data["name"].isUndefined() == true){ data["name"] = ""; }					//状态元名称
-	if (data["priority"].isUndefined() == true){ data["priority"] = 0; }			//状态元优先级
-	if (data["proportion"].isUndefined() == true){ data["proportion"] = 40; }		//状态元权重
+	if (data["name"].isUndefined() == true){ data["name"] = ""; }								//状态元名称
+	if (data["tag_tank"].isUndefined() == true){ data["tag_tank"] = QJsonArray(); }				//状态元标签
+	if (data["priority"].isUndefined() == true){ data["priority"] = 0; }						//状态元优先级
+	if (data["proportion"].isUndefined() == true){ data["proportion"] = 40; }					//状态元权重
+	if (data["canBeInterrupted"].isUndefined() == true){ data["canBeInterrupted"] = false; }	//可被动作元打断
 
 	// > GIF
 	if (data["gif_src"].isUndefined() == true){ data["gif_src"] = QJsonArray(); }							//GIF - 资源
@@ -99,7 +101,7 @@ void Drill_COAS_StateController::drill_initPrivateData_State(){
 	// > GIF - 播放
 	this->_drill_curTickTime = 0;									//播放 - 当前累计时间
 	this->_drill_curIndex = 0;										//播放 - 当前索引
-	this->_drill_tarIndex = 0;										//播放 - 索引结束位置
+	this->_drill_tarIndex = data["gif_src"].toArray().count();		//播放 - 索引结束位置
 
 	// > GIF - 帧间隔列表 计算
 	this->_drill_curIntervalTank = QJsonArray();
@@ -109,7 +111,7 @@ void Drill_COAS_StateController::drill_initPrivateData_State(){
 		if (i < gif_intervalTank.count()){
 			interval = gif_intervalTank[i].toInt();
 		}
-		this->_drill_curIntervalTank[i] = interval;
+		this->_drill_curIntervalTank.append(interval);
 	}
 }
 /*-------------------------------------------------
@@ -188,7 +190,7 @@ QString Drill_COAS_StateController::drill_COAS_curBitmapName(){
 	return this->_drill_curBitmapName;
 }
 /*-------------------------------------------------
-		状态元 - 输出数据 - 当前的对象名【开放函数】
+		状态元 - 输出数据 - 当前的路径【开放函数】
 */
 QString Drill_COAS_StateController::drill_COAS_curBitmapPath(){
 	return this->_drill_curBitmapPath;
@@ -216,6 +218,12 @@ QString Drill_COAS_StateController::drill_COAS_getCurStateName(){
 */
 int Drill_COAS_StateController::drill_COAS_getCurStatePriority(){
 	return this->_drill_data["priority"].toInt();
+}
+/*-------------------------------------------------
+		状态元 - 节点 - 可被动作元打断【开放函数】
+*/
+int Drill_COAS_StateController::drill_COAS_canBeInterrupted(){
+	return this->_drill_data["canBeInterrupted"].toBool();
 }
 /*-------------------------------------------------
 		状态元 - 节点 - 是否结束播放【开放函数】

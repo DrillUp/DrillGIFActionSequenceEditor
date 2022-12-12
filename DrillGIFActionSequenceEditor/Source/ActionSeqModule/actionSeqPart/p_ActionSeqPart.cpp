@@ -114,7 +114,7 @@ void P_ActionSeqPart::local_saveCurIndexData(){
 	this->m_cur_actionSeq.m_stateNode_tank = this->m_stateNodePart->getData();
 
 	// > 子控件 - 放映区
-	this->m_cur_actionSeq.m_state_default_randomSeq = this->m_playingPart->getDefaultStateData();
+	this->m_cur_actionSeq.m_state_default_randomSeq = this->m_playingPart->getData_DefaultSeq();
 	
 
 	// > 编辑标记
@@ -150,8 +150,9 @@ void P_ActionSeqPart::local_loadIndexData(int index){
 
 	// > 子控件 - 放映区
 	this->m_playingPart->stopFrame();
-	this->m_playingPart->setDefaultStateData(this->m_cur_actionSeq.m_state_default_randomSeq);
-	this->m_playingPart->refreshSource();
+	this->m_playingPart->setData_DefaultSeq(this->m_cur_actionSeq.m_state_default_randomSeq);
+	this->m_playingPart->setData_CurIndex(index);
+	this->m_playingPart->refreshCurActionSeq();
 
 	this->m_cur_actionSeqIndex = index;
 }

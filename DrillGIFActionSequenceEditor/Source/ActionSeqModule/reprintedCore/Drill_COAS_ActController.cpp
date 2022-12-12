@@ -61,8 +61,9 @@ void Drill_COAS_ActController::drill_initData_Act(){
 	QJsonObject data = this->_drill_data;
 
 	// > 常规
-	if (data["name"].isUndefined() == true){ data["name"] = ""; }					//动作元名称
-	if (data["priority"].isUndefined() == true){ data["priority"] = 0; }			//动作元优先级
+	if (data["name"].isUndefined() == true){ data["name"] = ""; }							//动作元名称
+	if (data["tag_tank"].isUndefined() == true){ data["tag_tank"] = QJsonArray(); }			//动作元标签
+	if (data["priority"].isUndefined() == true){ data["priority"] = 0; }					//动作元优先级
 	
 	// > GIF
 	if (data["gif_src"].isUndefined() == true){ data["gif_src"] = QJsonArray(); }							//GIF - 资源
@@ -108,7 +109,7 @@ void Drill_COAS_ActController::drill_initPrivateData_Act(){
 		if (i < gif_intervalTank.count()){
 			interval = gif_intervalTank[i].toInt();
 		}
-		this->_drill_curIntervalTank[i] = interval;
+		this->_drill_curIntervalTank.append(interval);
 	}
 }
 /*-------------------------------------------------
@@ -187,7 +188,7 @@ QString Drill_COAS_ActController::drill_COAS_curBitmapName(){
 	return this->_drill_curBitmapName;
 }
 /*-------------------------------------------------
-		动作元 - 输出数据 - 当前的对象名【开放函数】
+		动作元 - 输出数据 - 当前的路径【开放函数】
 */
 QString Drill_COAS_ActController::drill_COAS_curBitmapPath(){
 	return this->_drill_curBitmapPath;

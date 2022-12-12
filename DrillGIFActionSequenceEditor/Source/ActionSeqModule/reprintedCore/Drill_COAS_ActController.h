@@ -62,7 +62,7 @@ class Drill_COAS_ActController{
 	public:
 									//动作元 - 输出数据 - 当前的对象名【开放函数】
 		QString drill_COAS_curBitmapName();
-									//动作元 - 输出数据 - 当前的对象名【开放函数】
+									//动作元 - 输出数据 - 当前的路径【开放函数】
 		QString drill_COAS_curBitmapPath();
 									//动作元 - 输出数据 - 当前的色调【开放函数】
 		int drill_COAS_curBitmapTint();

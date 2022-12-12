@@ -79,6 +79,8 @@ class Drill_COAS_StateNodeController{
 		bool drill_COAS_isNodeEnd();
 									//状态节点 - 节点 - 当前状态元优先级【开放函数】
 		int drill_COAS_getCurStatePriority();
+									//状态节点 - 节点 - 可被动作元打断【开放函数】
+		bool drill_COAS_canBeInterrupted();
 									//状态节点 - 子节点 - 刷新子节点【开放函数】
 		void drill_COAS_refreshNext();
 									//状态节点 - 子节点 - 获取当前状态元名称【开放函数】

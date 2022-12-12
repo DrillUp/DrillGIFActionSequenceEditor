@@ -62,7 +62,7 @@ class Drill_COAS_StateController{
 	public:
 									//状态元 - 输出数据 - 当前的对象名【开放函数】
 		QString drill_COAS_curBitmapName();
-									//状态元 - 输出数据 - 当前的对象名【开放函数】
+									//状态元 - 输出数据 - 当前的路径【开放函数】
 		QString drill_COAS_curBitmapPath();
 									//状态元 - 输出数据 - 当前的色调【开放函数】
 		int drill_COAS_curBitmapTint();
@@ -72,6 +72,8 @@ class Drill_COAS_StateController{
 		QString drill_COAS_getCurStateName();
 									//状态元 - 节点 - 当前状态元优先级【开放函数】
 		int drill_COAS_getCurStatePriority();
+									//状态元 - 节点 - 可被动作元打断【开放函数】
+		int drill_COAS_canBeInterrupted();
 									//状态元 - 节点 - 是否结束播放【开放函数】
 		bool drill_COAS_isStateEnd();
 

@@ -36,6 +36,7 @@ P_PlayingPart::P_PlayingPart(P_StatePart* state_part, P_StateNodePart* stateNode
 
 	//-----------------------------------
 	//----初始化参数
+	this->m_actionSeq_curIndex = 0;
 	this->m_statePart = state_part;
 	this->m_stateNodePart = stateNode_part;
 	this->m_actionPart = action_part;
@@ -108,7 +109,7 @@ void P_PlayingPart::zoomValueChanged(double value){
 void P_PlayingPart::editDefaultStateGroup(){
 	// > 未播放时，刷新资源
 	if (this->isPlaying() == false){
-		this->refreshSource();
+		this->refreshCurActionSeq();
 	}
 
 	// > 资源检查
@@ -121,9 +122,9 @@ void P_PlayingPart::editDefaultStateGroup(){
 
 	// > 窗口
 	W_DefaultStateGroupEdit d(this);
-	d.setData(state_list, this->local_defaultStateList);
+	d.setData(state_list, this->local_defaultSeq);
 	if (d.exec() == QDialog::Accepted){
-		this->local_defaultStateList = d.getData();
+		this->local_defaultSeq = d.getData();
 		this->putDataToUi();
 	}
 
@@ -190,12 +191,18 @@ QStringList P_PlayingPart::getRelatFileNameList(){
 void P_PlayingPart::updateFrame(){
 	if (this->m_playing == false){ return; }
 
+
 	// > 帧刷新
 	this->m_COAS_mainController.drill_COAS_update();
 
-	// > 播放图片
-	this->m_p_AnimPictureViewer->setAnimFile(this->getSrcFileByName(this->m_COAS_mainController._drill_curBitmapName));
+
+	// > 播放图片（每帧）
+	QString bitmap_name = this->m_COAS_mainController._drill_curBitmapName;
+	qDebug() << bitmap_name;
+	this->m_p_AnimPictureViewer->setAnimFile(this->getSrcFileByName(bitmap_name));
+	this->m_p_AnimPictureViewer->setTint(this->m_COAS_mainController._drill_curBitmapTint);
 	
+
 	// > 显示当前状态
 	//QString cur_state = this->m_COAS_data._drill_state_curCom;
 	//if (this->m_COAS_data.drill_COAS_isPlayingAct()){
@@ -220,7 +227,7 @@ void P_PlayingPart::startFrame(){
 	this->m_playing = true;
 
 	// > 数据初始化
-	this->refreshSource();
+	this->refreshCurActionSeq();
 	QStringList src_name = this->getRelatFileNameList();
 	QList<QFileInfo> scr_infoList = QList<QFileInfo>();
 	for (int i = 0; i < src_name.count(); i++){
@@ -315,28 +322,32 @@ void P_PlayingPart::updateIcon(){
 /*-------------------------------------------------
 		窗口 - 设置数据
 */
-void P_PlayingPart::refreshSource(){
+void P_PlayingPart::refreshCurActionSeq(){
 	this->local_stateDataList = this->m_statePart->getData();
 	this->local_stateNodeDataList = this->m_stateNodePart->getData();
 	this->local_actionDataList = this->m_actionPart->getData();
+
 	this->putDataToUi();
 }
 /*-------------------------------------------------
 		窗口 - 设置数据
 */
-void P_PlayingPart::setDefaultStateData(QStringList defaultStateList) {
-	this->local_defaultStateList = defaultStateList;
+void P_PlayingPart::setData_DefaultSeq(QStringList defaultSeq) {
+	this->local_defaultSeq = defaultSeq;
+}
+void P_PlayingPart::setData_CurIndex(int index) {
+	this->m_actionSeq_curIndex = index;
 }
 /*-------------------------------------------------
 		窗口 - 取出数据
 */
-QStringList P_PlayingPart::getDefaultStateData(){
+QStringList P_PlayingPart::getData_DefaultSeq(){
 	this->putUiToData();
 
 	// > 校验
 	//...
 	
-	return this->local_defaultStateList;
+	return this->local_defaultSeq;
 }
 /*-------------------------------------------------
 		窗口 - 本地数据 -> ui数据
@@ -349,18 +360,22 @@ void P_PlayingPart::putDataToUi() {
 	
 	// > 状态元
 	QString text = "";
-	for (int i = 0; i < this->local_defaultStateList.count(); i++){
-		text = text + "◆ " + this->local_defaultStateList.at(i);
-		if (i < this->local_defaultStateList.count()-1){
+	for (int i = 0; i < this->local_defaultSeq.count(); i++){
+		text = text + "◆ " + this->local_defaultSeq.at(i);
+		if (i < this->local_defaultSeq.count()-1){
 			text = text + "\n";
 		}
 	}
-	if (this->local_defaultStateList.count() == 0){ text = "无"; }
+	if (this->local_defaultSeq.count() == 0){ text = "无"; }
 	ui.label_defaultState->setText(text);
 
 
 	// > 解析动画序列
 	QJsonObject data = QJsonObject();
+	data["id"] = this->m_actionSeq_curIndex;
+	data["visible"] = true;
+	data["pause"] = false;
+	data["waitForPreload"] = true;
 
 	// > 容器 - 状态元序列
 	QJsonArray state_tank = QJsonArray();
@@ -384,7 +399,10 @@ void P_PlayingPart::putDataToUi() {
 	data["act_tank"] = act_tank;
 
 	// > 容器 - 默认的状态元集合
-	data["state_default_randomSeq"] = TTool::_QJsonArray_QStringToA_(this->local_defaultStateList);
+	data["state_default_randomSeq"] = TTool::_QJsonArray_QStringToA_(this->local_defaultSeq);
+
+	// > 打包并放置在全局参数中
+	Drill_COAS_Init::getInstance()->g_COAS_list[this->m_actionSeq_curIndex] = data;
 
 
 	// > 动画序列核心初始化

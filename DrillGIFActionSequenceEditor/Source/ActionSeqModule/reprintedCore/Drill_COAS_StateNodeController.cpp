@@ -64,9 +64,11 @@ void Drill_COAS_StateNodeController::drill_initData_Node(){
 	QJsonObject data = this->_drill_data;
 
 	// > 常规
-	if (data["name"].isUndefined() == true){ data["name"] = ""; }					//节点名称
-	if (data["priority"].isUndefined() == true){ data["priority"] = 0; }			//节点优先级
-	if (data["proportion"].isUndefined() == true){ data["proportion"] = 40; }		//节点权重
+	if (data["name"].isUndefined() == true){ data["name"] = ""; }								//节点名称
+	if (data["tag_tank"].isUndefined() == true){ data["tag_tank"] = QJsonArray(); }				//节点标签
+	if (data["priority"].isUndefined() == true){ data["priority"] = 0; }						//节点优先级
+	if (data["proportion"].isUndefined() == true){ data["proportion"] = 40; }					//节点权重
+	if (data["canBeInterrupted"].isUndefined() == true){ data["canBeInterrupted"] = false; }	//可被动作元打断
 
 	// > 播放列表
 	if (data["play_type"].isUndefined() == true){ data["play_type"] = "随机播放状态元"; }					//播放列表 - 播放方式
@@ -154,6 +156,7 @@ void Drill_COAS_StateNodeController::drill_COAS_resetData_Node(QJsonObject data)
 */
 void Drill_COAS_StateNodeController::drill_COAS_refreshNext_Private(){
 	QJsonObject data = this->_drill_data;
+	qDebug() << data;
 
 	QString play_type = data["play_type"].toString();
 	if (play_type == "随机播放状态元"){
@@ -161,6 +164,7 @@ void Drill_COAS_StateNodeController::drill_COAS_refreshNext_Private(){
 		QJsonArray play_randomStateSeq = data["play_randomStateSeq"].toArray();
 		for (int i = 0; i < play_randomStateSeq.count(); i++){
 			QJsonObject state_data = Drill_COAS_Init::getInstance()->drill_COAS_getStateData(this->_drill_parentDataId, play_randomStateSeq[i].toString());
+			qDebug() << state_data;
 			if (state_data.isEmpty()){ continue; }
 			data_list.append(state_data);
 		}
@@ -392,6 +396,20 @@ int Drill_COAS_StateNodeController::drill_COAS_getCurStatePriority(){
 		return qMax(priority, this->_drill_curNode->drill_COAS_getCurStatePriority());
 	}
 	return priority;
+}
+/*-------------------------------------------------
+		状态节点 - 节点 - 可被动作元打断【开放函数】
+*/
+bool Drill_COAS_StateNodeController::drill_COAS_canBeInterrupted(){
+	if (this->_drill_data["canBeInterrupted"].toBool() == true){ return true; }
+	int priority = this->_drill_data["priority"].toInt();
+	if (this->drill_COAS_isTypeState()){
+		return this->_drill_curState->drill_COAS_canBeInterrupted();
+	}
+	if (this->drill_COAS_isTypeNode()){
+		return this->_drill_curNode->drill_COAS_canBeInterrupted();
+	}
+	return false;
 }
 /*-------------------------------------------------
 		状态节点 - 子节点 - 刷新子节点【开放函数】

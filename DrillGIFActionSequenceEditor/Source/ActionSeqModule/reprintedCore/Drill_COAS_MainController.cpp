@@ -25,6 +25,7 @@ Drill_COAS_MainController::Drill_COAS_MainController(){
 	this->drill_initData_Main();										//初始化数据
 	this->drill_initPrivateData_Main();									//私有数据初始化
 	this->drill_COAS_resetData_Main(this->_drill_data);
+	//$gameTemp._drill_COAS_lastCreatedMainController = this;			//（记录上一个动画序列）
 }
 Drill_COAS_MainController::Drill_COAS_MainController(QJsonObject data){
 	this->_drill_data = data;											//深拷贝数据
@@ -37,6 +38,7 @@ Drill_COAS_MainController::Drill_COAS_MainController(QJsonObject data){
 	this->drill_initData_Main();										//初始化数据
 	this->drill_initPrivateData_Main();									//私有数据初始化
 	this->drill_COAS_resetData_Main(this->_drill_data);
+	//$gameTemp._drill_COAS_lastCreatedMainController = this;			//（记录上一个动画序列）
 }
 Drill_COAS_MainController::~Drill_COAS_MainController(){
 }
@@ -121,6 +123,7 @@ void Drill_COAS_MainController::drill_initPrivateData_Main(){
 	this->_drill_act_curName = "";
 	this->_drill_act_curSerial = -1;
 	this->_drill_act_curController = new Drill_COAS_ActController();
+	this->_drill_act_interrupt = false;
 
 	// > 数据量查看
 	qDebug() << node_data;
@@ -160,6 +163,23 @@ void Drill_COAS_MainController::drill_COAS_resetData_Main(QJsonObject data){
 	this->drill_initData_Main();											//初始化数据
 	this->drill_initPrivateData_Main();										//私有数据初始化
 }
+/*-------------------------------------------------
+		动画序列 - 校验数据是否为数组
+*/
+void Drill_COAS_MainController::drill_COAS_checkArray(QJsonValue arr){
+	if( this->_drill_checkArrayEnabled != true ){ return; }
+		
+	if (arr.isArray()){
+		// > 通过
+	}else{
+		// > 报错提示
+		qDebug() << "【Drill_CoreOfActionSequence.js 系统 - GIF动画序列核心】\n" << "接口调用错误，数组接口获取到了 非数组 参数：";
+		qDebug() << arr; 
+		qDebug() << " 。";
+		this->_drill_checkArrayEnabled = false;
+	}	
+}
+
 
 
 /*-------------------------------------------------
@@ -237,6 +257,40 @@ QStringList Drill_COAS_MainController::drill_COAS_getStateNodeData_AllName(){
 	return result_list;
 }
 /*-------------------------------------------------
+		动画序列-状态节点 - 帧刷新
+*/
+void Drill_COAS_MainController::drill_COAS_updateStateNode(){
+	if (this->drill_COAS_isPlayingAct() == true){ return; }		//动作播放时，不操作
+	
+	// > 动作元打断
+	if (this->_drill_act_interrupt == true){
+		this->_drill_act_interrupt = false;
+		if (this->_drill_node_curController->drill_COAS_canBeInterrupted()){
+			this->_drill_node_curController->_drill_curIndex = 0;		//（指针重置）
+			this->_drill_node_curController->drill_COAS_refreshNext();
+		}
+	}
+
+	// > 状态节点 数据刷新情况
+	if (this->_drill_node_curSerial != this->_drill_node_curController->_drill_controllerSerial){
+		this->_drill_node_curController->drill_COAS_refreshNext();
+		this->_drill_node_curSerial = this->_drill_node_curController->_drill_controllerSerial;
+	}
+
+	// > 状态节点 播放完毕情况
+	if (this->_drill_node_curController->drill_COAS_isNodeEnd() == true){
+		this->_drill_node_curController->_drill_curIndex = 0;		//（指针重置）
+		this->_drill_node_curController->drill_COAS_refreshNext();
+	}
+
+	// > 状态节点 帧刷新
+	this->_drill_node_curController->drill_COAS_update();
+	this->_drill_curBitmapName = this->_drill_node_curController->drill_COAS_curBitmapName();
+	this->_drill_curBitmapPath = this->_drill_node_curController->drill_COAS_curBitmapPath();
+	this->_drill_curBitmapTint = this->_drill_node_curController->drill_COAS_curBitmapTint();
+	this->_drill_curBitmapSmooth = this->_drill_node_curController->drill_COAS_curBitmapSmooth();
+}
+/*-------------------------------------------------
 		动画序列-状态节点 - 操作 - 获取当前状态元名称【开放函数】
 */
 QString Drill_COAS_MainController::drill_COAS_getCurStateName(){
@@ -279,6 +333,17 @@ void Drill_COAS_MainController::drill_COAS_setSimpleStateNode(QStringList state_
 	//this->drill_COAS_checkArray(state_nameList);	//（不需要检查）
 	this->_drill_node_curController->drill_COAS_setNewStateNameList(state_nameList);
 }
+/*-------------------------------------------------
+		动画序列-状态节点 - 操作 - 播放状态元 根据标签【开放函数】
+*/
+void Drill_COAS_MainController::drill_COAS_setAnnotation(QStringList annotation_list){
+
+	// > 找到符合注解数量最多的状态元名
+	int max_fit_count = 0;			//（最大符合数量）
+	QJsonArray fit_seq;				//（最大符合的索引列表）
+	QJsonArray stateData_list = this->drill_COAS_getStateData_All();
+	//...
+}
 
 
 /*-------------------------------------------------
@@ -316,6 +381,43 @@ QStringList Drill_COAS_MainController::drill_COAS_getActData_AllName(){
 		}
 	}
 	return result_list;
+}
+/*-------------------------------------------------
+		动画序列-动作元 - 帧刷新
+*/
+void Drill_COAS_MainController::drill_COAS_updateAct(){
+	if (this->drill_COAS_isPlayingAct() == false){ return; }	//动作未播放时，不操作
+
+	// > 动作元打断 锁
+	this->_drill_act_interrupt = true;
+
+	// > 动作元 数据刷新情况
+	if (this->_drill_act_curSerial != this->_drill_act_curController->_drill_controllerSerial){
+		QJsonObject data_act = this->drill_COAS_getActData_ByName(this->_drill_act_curName);
+		if (data_act.isEmpty() == false){
+			this->_drill_act_curController->drill_COAS_resetData_Act(data_act);
+		}
+		this->_drill_act_curSerial = this->_drill_act_curController->_drill_controllerSerial;
+	}
+
+	// > 动作元 播放完毕情况
+	if (this->_drill_act_curController->drill_COAS_isActEnd() == true){
+		this->_drill_act_curName = "";
+		this->_drill_act_curSerial = -1;
+	}
+
+	// > 动作元 帧刷新
+	this->_drill_act_curController->drill_COAS_update();
+	this->_drill_curBitmapName = this->_drill_act_curController->drill_COAS_curBitmapName();
+	this->_drill_curBitmapPath = this->_drill_act_curController->drill_COAS_curBitmapPath();
+	this->_drill_curBitmapTint = this->_drill_act_curController->drill_COAS_curBitmapTint();
+	this->_drill_curBitmapSmooth = this->_drill_act_curController->drill_COAS_curBitmapSmooth();
+}
+/*-------------------------------------------------
+		动画序列-动作元 - 判断播放
+*/
+bool Drill_COAS_MainController::drill_COAS_isPlayingAct(){
+	return this->_drill_act_curName != "";
 }
 /*-------------------------------------------------
 		动画序列-动作元 - 操作 - 获取当前动作元名称【开放函数】
@@ -359,80 +461,4 @@ void Drill_COAS_MainController::drill_COAS_stopAct(){
 }
 
 
-/*-------------------------------------------------
-		动画序列 - 校验数据是否为数组
-*/
-void Drill_COAS_MainController::drill_COAS_checkArray(QJsonValue arr){
-	if( this->_drill_checkArrayEnabled != true ){ return; }
-		
-	if (arr.isArray()){
-		// > 通过
-	}else{
-		// > 报错提示
-		qDebug() << "【Drill_CoreOfActionSequence.js 系统 - GIF动画序列核心】\n" << "接口调用错误，数组接口获取到了 非数组 参数：";
-		qDebug() << arr; 
-		qDebug() << " 。";
-		this->_drill_checkArrayEnabled = false;
-	}	
-}
 
-/*-------------------------------------------------
-		动画序列-状态节点 - 帧刷新
-*/
-void Drill_COAS_MainController::drill_COAS_updateStateNode(){
-	if (this->drill_COAS_isPlayingAct() == true){ return; }		//动作播放时，不操作
-
-	// > 状态节点 数据刷新情况
-	if (this->_drill_node_curSerial != this->_drill_node_curController->_drill_controllerSerial){
-		this->_drill_node_curController->drill_COAS_refreshNext();
-		this->_drill_node_curSerial = this->_drill_node_curController->_drill_controllerSerial;
-	}
-
-	// > 状态节点 播放完毕情况
-	if (this->_drill_node_curController->drill_COAS_isNodeEnd() == true){
-		this->_drill_node_curController->_drill_curIndex = 0;		//（指针重置）
-		this->_drill_node_curController->drill_COAS_refreshNext();
-	}
-
-	// > 状态节点 帧刷新
-	this->_drill_node_curController->drill_COAS_update();
-	this->_drill_curBitmapName = this->_drill_node_curController->drill_COAS_curBitmapName();
-	this->_drill_curBitmapPath = this->_drill_node_curController->drill_COAS_curBitmapPath();
-	this->_drill_curBitmapTint = this->_drill_node_curController->drill_COAS_curBitmapTint();
-	this->_drill_curBitmapSmooth = this->_drill_node_curController->drill_COAS_curBitmapSmooth();
-}
-
-/*-------------------------------------------------
-		动画序列-动作元 - 帧刷新
-*/
-void Drill_COAS_MainController::drill_COAS_updateAct(){
-	if (this->drill_COAS_isPlayingAct() == false){ return; }	//动作未播放时，不操作
-
-	// > 动作元 数据刷新情况
-	if (this->_drill_act_curSerial != this->_drill_act_curController->_drill_controllerSerial){
-		QJsonObject data_act = this->drill_COAS_getActData_ByName(this->_drill_act_curName);
-		if (data_act.isEmpty() == false){
-			this->_drill_act_curController->drill_COAS_resetData_Act(data_act);
-		}
-		this->_drill_act_curSerial = this->_drill_act_curController->_drill_controllerSerial;
-	}
-
-	// > 动作元 播放完毕情况
-	if (this->_drill_act_curController->drill_COAS_isActEnd() == true){
-		this->_drill_act_curName = "";
-		this->_drill_act_curSerial = -1;
-	}
-
-	// > 动作元 帧刷新
-	this->_drill_act_curController->drill_COAS_update();
-	this->_drill_curBitmapName = this->_drill_act_curController->drill_COAS_curBitmapName();
-	this->_drill_curBitmapPath = this->_drill_act_curController->drill_COAS_curBitmapPath();
-	this->_drill_curBitmapTint = this->_drill_act_curController->drill_COAS_curBitmapTint();
-	this->_drill_curBitmapSmooth = this->_drill_act_curController->drill_COAS_curBitmapSmooth();
-}
-/*-------------------------------------------------
-		动画序列-动作元 - 判断播放
-*/
-bool Drill_COAS_MainController::drill_COAS_isPlayingAct(){
-	return this->_drill_act_curName != "";
-}

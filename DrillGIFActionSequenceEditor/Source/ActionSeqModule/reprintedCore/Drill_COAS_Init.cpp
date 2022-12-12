@@ -41,7 +41,10 @@ Drill_COAS_Init* Drill_COAS_Init::getInstance() {
 		初始化
 */
 void Drill_COAS_Init::_init() {
-	//...
+	this->g_COAS_list.clear();
+	for (int i = 0; i < 20; i++){
+		this->g_COAS_list.push_back(QJsonObject());
+	}
 }
 
 /*-------------------------------------------------
@@ -201,7 +204,8 @@ QJsonObject Drill_COAS_Init::drill_COAS_initSequence(QJsonObject dataFrom){
 QJsonObject Drill_COAS_Init::drill_COAS_getSequenceData(int sequence_id){
 	if (sequence_id < 0){ return QJsonObject(); }
 	if (sequence_id >= this->g_COAS_list.count()){ return QJsonObject(); }
-	return this->g_COAS_list.at(sequence_id).toObject();
+	qDebug() << "sequence_id:" << sequence_id;
+	return this->g_COAS_list.at(sequence_id);
 }
 /*-------------------------------------------------
 		数据访问器 - 获取 - 状态元
