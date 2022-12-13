@@ -267,21 +267,21 @@ void Drill_COAS_MainController::drill_COAS_updateStateNode(){
 	if (this->_drill_act_interrupt == true){
 		this->_drill_act_interrupt = false;
 		if (this->_drill_node_curController->drill_COAS_canBeInterrupted()){
-			this->_drill_node_curController->_drill_curIndex = 0;		//（指针重置）
+			this->_drill_node_curController->drill_COAS_resetTimer();
 			this->_drill_node_curController->drill_COAS_refreshNext();
 		}
 	}
 
 	// > 状态节点 数据刷新情况
 	if (this->_drill_node_curSerial != this->_drill_node_curController->_drill_controllerSerial){
-		this->_drill_node_curController->_drill_curIndex = 0;		//（指针重置）
+		this->_drill_node_curController->drill_COAS_resetTimer();
 		this->_drill_node_curController->drill_COAS_refreshNext();
 		this->_drill_node_curSerial = this->_drill_node_curController->_drill_controllerSerial;
 	}
 
 	// > 状态节点 播放完毕情况
 	if (this->_drill_node_curController->drill_COAS_isNodeEnd() == true){
-		this->_drill_node_curController->_drill_curIndex = 0;		//（指针重置）
+		this->_drill_node_curController->drill_COAS_resetTimer();
 		this->_drill_node_curController->drill_COAS_refreshNext();
 	}
 
@@ -338,13 +338,62 @@ void Drill_COAS_MainController::drill_COAS_setSimpleStateNode(QStringList state_
 /*-------------------------------------------------
 		动画序列-状态节点 - 操作 - 播放状态元 根据标签【开放函数】
 */
-void Drill_COAS_MainController::drill_COAS_setAnnotation(QStringList annotation_list){
+bool Drill_COAS_MainController::drill_COAS_setAnnotation(QStringList annotation_list){
 
 	// > 找到符合注解数量最多的状态元名
 	int max_fit_count = 0;			//（最大符合数量）
-	QJsonArray fit_seq;				//（最大符合的索引列表）
+	QList<QJsonObject> fit_seq;		//（最大符合的索引列表）
 	QJsonArray stateData_list = this->drill_COAS_getStateData_All();
-	//...
+	for( int i = 0; i < stateData_list.count(); i++){
+		QJsonObject stateData = stateData_list[i].toObject();
+		QStringList tag_tank = TTool::_QJsonArray_AToQString_(stateData["tag_tank"].toArray());
+		if (tag_tank.count() == 0){ continue; }
+
+		// > 记录注解符合数量
+		int fit_count = 0;
+		for( int j = 0; j < annotation_list.count(); j++){
+			QString annotation = annotation_list[j];
+			if (tag_tank.contains(annotation) == true){
+				fit_count += 1;
+			}
+		}
+
+		// > 符合数量更大时，清空序列，重新添加
+		if (fit_count > max_fit_count){
+			fit_seq.clear();
+			max_fit_count = fit_count;
+
+			QJsonObject fit;
+			fit["index"] = i;
+			fit["count"] = fit_count;
+			fit["name"] = stateData["name"].toString();
+			fit_seq.append(fit);
+
+			// > 符合数量相等，累计
+		}
+		else if (fit_count == max_fit_count){
+			QJsonObject fit = {};
+			fit["index"] = i;
+			fit["count"] = fit_count;
+			fit["name"] = stateData["name"].toString();
+			fit_seq.append(fit);
+
+			// > 符合数量少了，跳过
+		}else{
+			continue;
+		}
+	}
+	if (fit_seq.count() == 0){ return false; }
+
+	// > 根据最大值的下标取出符合的名称
+	QStringList stateName_list;
+	for (int i = 0; i < fit_seq.count(); i++){
+		stateName_list.append(fit_seq[i]["name"].toString());
+	}
+
+	// > 播放简单状态元集合
+	this->drill_COAS_setSimpleStateNode(stateName_list);
+	return true;
 }
 
 

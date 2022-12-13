@@ -56,6 +56,8 @@ class Drill_COAS_StateController{
 		void drill_COAS_update();
 									//状态元 - 重设数据【标准函数】
 		void drill_COAS_resetData_State(QJsonObject data);
+									//状态元 - 播放时间重置
+		void drill_COAS_resetTimer(QJsonObject data = QJsonObject());
 
 	//-----------------------------------
 	//----开放函数

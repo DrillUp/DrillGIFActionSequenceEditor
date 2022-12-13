@@ -4,11 +4,12 @@
 
 /*
 -----==========================================================-----
-		绫伙細		鍔ㄧ敾搴忓垪 鏁版嵁绫?cpp
-		浣滆€咃細		drill_up
-		鎵€灞炴ā鍧楋細	鍔ㄧ敾搴忓垪妯″潡
-		鍔熻兘锛?	鍔ㄧ敾搴忓垪 鐨勬暟鎹被銆?
-					锛堣缁嗚cpp锛?
+		类：		动画序列 数据类.cpp
+		作者：		drill_up
+		所属模块：	动画序列模块
+		功能：		动画序列 的数据类。
+					
+		说明：		
 -----==========================================================-----
 */
 class C_ActionSeq{
@@ -18,19 +19,19 @@ class C_ActionSeq{
 		~C_ActionSeq();
 		
 	//-----------------------------------
-	//----鏁版嵁
+	//----数据
 	public:
-		QString m_name;								//鍔ㄧ敾搴忓垪鍚嶇О/鏍囩
-		QStringList m_state_default_randomSeq;		//榛樿鐨勭姸鎬佸厓闆嗗悎
-		QList<QJsonObject> m_act_tank;				//鍔ㄤ綔鍏冨鍣?
-		QList<QJsonObject> m_state_tank;			//鐘舵€佸厓瀹瑰櫒
-		QList<QJsonObject> m_stateNode_tank;		//鐘舵€佽妭鐐瑰鍣?
+		QString m_name;
+		QStringList m_state_default_randomSeq;
+		QList<QJsonObject> m_act_tank;
+		QList<QJsonObject> m_state_tank;
+		QList<QJsonObject> m_stateNode_tank;
 
 	//-----------------------------------
-	//----绫诲睘鎬?
+	//----类属性
 	public:
-									//瀹炰綋绫?-> QJsonObject
+								//实体类 -> QJsonObject
 		QJsonObject getJsonObject();
-									//QJsonObject -> 瀹炰綋绫?
+								//QJsonObject -> 实体类
 		void setJsonObject(QJsonObject obj);
 };

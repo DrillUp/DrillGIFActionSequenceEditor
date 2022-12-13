@@ -90,16 +90,8 @@ void Drill_COAS_ActController::drill_initPrivateData_Act(){
 	this->_drill_curTime = 0;										//常规 - 当前时间
 	this->_drill_needDestroy = false;								//常规 - 销毁
 
-	// > GIF - 输出数据
-	this->_drill_curBitmapName = "";								//输出数据 - 当前的对象名
-	this->_drill_curBitmapPath = data["gif_src_file"].toString();	//输出数据 - 当前的路径
-	this->_drill_curBitmapTint = data["tint"].toInt();				//输出数据 - 当前的色调
-	this->_drill_curBitmapSmooth = data["smooth"].toBool();			//输出数据 - 当前的模糊
-
-	// > GIF - 播放
-	this->_drill_curTickTime = 0;									//播放 - 当前累计时间
-	this->_drill_curIndex = 0;										//播放 - 当前索引
-	this->_drill_tarIndex = 0;										//播放 - 索引结束位置
+	// > 播放时间重置
+	this->drill_COAS_resetTimer(data);
 
 	// > GIF - 帧间隔列表 计算
 	this->_drill_curIntervalTank = QJsonArray();
@@ -116,6 +108,9 @@ void Drill_COAS_ActController::drill_initPrivateData_Act(){
 		动作元 - 重设数据（私有）
 */
 void Drill_COAS_ActController::drill_COAS_resetData_Act(QJsonObject data){
+
+	// > 播放时间重置
+	this->drill_COAS_resetTimer(data);
 
 	// > 判断数据重复情况
 	if (this->_drill_data.isEmpty() == false){
@@ -146,6 +141,23 @@ void Drill_COAS_ActController::drill_COAS_resetData_Act(QJsonObject data){
 	this->_drill_controllerSerial = this->_drill_controllerSerial.replace("-", "");
 	this->drill_initData_Act();												//初始化数据
 	this->drill_initPrivateData_Act();										//私有数据初始化
+}
+/*-------------------------------------------------
+		动作元 - 播放时间重置
+*/
+void Drill_COAS_ActController::drill_COAS_resetTimer(QJsonObject data){
+	if (data.isEmpty()){ data = this->_drill_data; }
+
+	// > GIF - 输出数据
+	this->_drill_curBitmapName = "";								//输出数据 - 当前的对象名
+	this->_drill_curBitmapPath = data["gif_src_file"].toString();	//输出数据 - 当前的路径
+	this->_drill_curBitmapTint = data["tint"].toInt();				//输出数据 - 当前的色调
+	this->_drill_curBitmapSmooth = data["smooth"].toBool();			//输出数据 - 当前的模糊
+
+	// > GIF - 播放
+	this->_drill_curTickTime = 0;									//播放 - 当前累计时间
+	this->_drill_curIndex = 0;										//播放 - 当前索引
+	this->_drill_tarIndex = 0;										//播放 - 索引结束位置
 }
 /*-------------------------------------------------
 		动作元 - 帧刷新动作元

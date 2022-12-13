@@ -97,7 +97,8 @@ class Drill_COAS_MainController{
 									//动画序列-状态节点 - 操作 - 播放简单状态元集合【开放函数】
 		void drill_COAS_setSimpleStateNode(QStringList state_nameList);
 									//动画序列-状态节点 - 操作 - 播放状态元 根据标签【开放函数】
-		void drill_COAS_setAnnotation(QStringList annotation_list);
+									//		【说明】：没有任何标签时，返回false。
+		bool drill_COAS_setAnnotation(QStringList annotation_list);
 		
 									//动画序列-动作元 - 获取数据 - 全部【开放函数】
 		QJsonArray drill_COAS_getActData_All();

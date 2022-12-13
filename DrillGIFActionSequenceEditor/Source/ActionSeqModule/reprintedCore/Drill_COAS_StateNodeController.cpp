@@ -95,31 +95,20 @@ void Drill_COAS_StateNodeController::drill_initPrivateData_Node(){
 	this->_drill_parentDataId = -1;				//节点 - 父数据ID
 	this->_drill_curLayer = 0;					//节点 - 当前层数
 
-	// > 播放
-	this->_drill_curIndex = 0;					//播放 - 当前索引
-	this->_drill_tarIndex = 0;					//播放 - 索引结束位置
-
 	// > 集合对象初始化
 	//this->_drill_curState = null;	//（不要置空，后续可能还会再次使用）
 	//this->_drill_curNode = null;
 
-	if (data["play_type"].toString() == "随机播放状态元"){
-		this->_drill_tarIndex = data["play_randomMax"].toInt();	//（随机播放的次数上限）
-	}
-	if (data["play_type"].toString() == "顺序播放状态元"){
-		this->_drill_tarIndex = data["play_plainStateSeq"].toArray().count();
-	}
-	if (data["play_type"].toString() == "随机播放嵌套集合"){
-		this->_drill_tarIndex = data["play_randomMax"].toInt();	//（随机播放的次数上限）
-	}
-	if (data["play_type"].toString() == "顺序播放嵌套集合"){
-		this->_drill_tarIndex = data["play_plainNodeSeq"].toArray().count();
-	}
+	// > 播放时间重置
+	this->drill_COAS_resetTimer(data);
 }
 /*-------------------------------------------------
 		状态节点 - 重设数据【标准函数】
 */
 void Drill_COAS_StateNodeController::drill_COAS_resetData_Node(QJsonObject data){
+
+	// > 播放时间重置
+	this->drill_COAS_resetTimer(data);
 
 	// > 判断数据重复情况
 	if (this->_drill_data.isEmpty() == false){
@@ -152,6 +141,30 @@ void Drill_COAS_StateNodeController::drill_COAS_resetData_Node(QJsonObject data)
 	this->drill_initPrivateData_Node();										//私有数据初始化
 }
 /*-------------------------------------------------
+		状态节点 - 播放时间重置
+*/
+void Drill_COAS_StateNodeController::drill_COAS_resetTimer(QJsonObject data){
+	if (data.isEmpty()){ data = this->_drill_data; }
+
+	// > 播放
+	this->_drill_curIndex = 0;					//播放 - 当前索引
+	this->_drill_tarIndex = 0;					//播放 - 索引结束位置
+
+	// > 播放 - 索引结束位置
+	if (data["play_type"].toString() == "随机播放状态元"){
+		this->_drill_tarIndex = data["play_randomMax"].toInt();	//（随机播放的次数上限）
+	}
+	if (data["play_type"].toString() == "顺序播放状态元"){
+		this->_drill_tarIndex = data["play_plainStateSeq"].toArray().count();
+	}
+	if (data["play_type"].toString() == "随机播放嵌套集合"){
+		this->_drill_tarIndex = data["play_randomMax"].toInt();	//（随机播放的次数上限）
+	}
+	if (data["play_type"].toString() == "顺序播放嵌套集合"){
+		this->_drill_tarIndex = data["play_plainNodeSeq"].toArray().count();
+	}
+}
+/*-------------------------------------------------
 		状态节点 - 子节点 - 刷新子节点
 */
 void Drill_COAS_StateNodeController::drill_COAS_refreshNext_Private(){
@@ -163,6 +176,8 @@ void Drill_COAS_StateNodeController::drill_COAS_refreshNext_Private(){
 
 	QString play_type = data["play_type"].toString();
 	if (play_type == "随机播放状态元"){
+
+		// > 准备数据
 		QJsonArray data_list;
 		QJsonArray play_randomStateSeq = data["play_randomStateSeq"].toArray();
 		for (int i = 0; i < play_randomStateSeq.count(); i++){
@@ -170,19 +185,43 @@ void Drill_COAS_StateNodeController::drill_COAS_refreshNext_Private(){
 			if (state_data.isEmpty()){ continue; }
 			data_list.append(state_data);
 		}
+
+		// > 随机抽取数据
 		QJsonObject next_data = this->drill_COAS_rollObjData(data_list);
-		if (next_data.isEmpty()){ data["play_type"] = ""; return; }	//（空数据则直接清除播放状态）
+		if (next_data.isEmpty()){	//（空数据时直接报错提示）
+			QString message = "【Drill_CoreOfActionSequence.js 系统 - GIF动画序列核心】\n";
+			message.append("错误，状态节点\"" + data["name"].toString() + "\"未找到资源名列表。\n");
+			message.append("当前为\"" + play_type + "\"，序列数据为：" + TTool::_QJsonArray_AToQString_(play_randomStateSeq).join(",") + "。");
+			QMessageBox::about(nullptr, "提示", message);
+			data["play_type"] = "";
+			return;
+		}	
+
+		// > 刷新状态元
 		this->drill_COAS_refreshNextState(next_data);
 	}
 	if (play_type == "顺序播放状态元"){
+
+		// > 顺序抽取数据
 		QJsonArray play_plainStateSeq = data["play_plainStateSeq"].toArray();
 		QString next_name = play_plainStateSeq[this->_drill_curIndex].toString();
 		QJsonObject next_data = Drill_COAS_Init::getInstance()->drill_COAS_getStateData(this->_drill_parentDataId, next_name);
-		if (next_data.isEmpty()){ data["play_type"] = ""; return; }	//（空数据则直接清除播放状态）
+		if (next_data.isEmpty()){	//（空数据时直接报错提示）
+			QString message = "【Drill_CoreOfActionSequence.js 系统 - GIF动画序列核心】\n";
+			message.append("错误，状态节点\"" + data["name"].toString() + "\"未找到资源名列表。\n");
+			message.append("当前为\"" + play_type + "\"，序列数据为：" + TTool::_QJsonArray_AToQString_(play_plainStateSeq).join(",") + "。");
+			QMessageBox::about(nullptr, "提示", message);
+			data["play_type"] = "";
+			return;
+		}
+
+		// > 刷新状态元
 		this->drill_COAS_refreshNextState(next_data);
 	}
 
 	if (play_type == "随机播放嵌套集合"){
+
+		// > 准备数据
 		QJsonArray data_list;
 		QJsonArray play_randomNodeSeq = data["play_randomNodeSeq"].toArray();
 		for (int i = 0; i < play_randomNodeSeq.count(); i++){
@@ -190,15 +229,37 @@ void Drill_COAS_StateNodeController::drill_COAS_refreshNext_Private(){
 			if (node_data.isEmpty()){ continue; }
 			data_list.append(node_data);
 		}
+
+		// > 随机抽取数据
 		QJsonObject next_data = this->drill_COAS_rollObjData(data_list);
-		if (next_data.isEmpty()){ data["play_type"] = ""; return; }	//（空数据则直接清除播放状态）
+		if (next_data.isEmpty()){	//（空数据时直接报错提示）
+			QString message = "【Drill_CoreOfActionSequence.js 系统 - GIF动画序列核心】\n";
+			message.append("错误，状态节点\"" + data["name"].toString() + "\"未找到资源名列表。\n");
+			message.append("当前为\"" + play_type + "\"，序列数据为：" + TTool::_QJsonArray_AToQString_(play_randomNodeSeq).join(",") + "。");
+			QMessageBox::about(nullptr, "提示", message);
+			data["play_type"] = "";
+			return;
+		}
+
+		// > 刷新状态节点
 		this->drill_COAS_refreshNextNode(next_data);
 	}
 	if (play_type == "顺序播放嵌套集合"){
+
+		// > 顺序抽取数据
 		QJsonArray play_plainNodeSeq = data["play_plainNodeSeq"].toArray();
 		QString next_name = play_plainNodeSeq[this->_drill_curIndex].toString();
 		QJsonObject next_data = Drill_COAS_Init::getInstance()->drill_COAS_getStateNodeData(this->_drill_parentDataId, next_name);
-		if (next_data.isEmpty()){ data["play_type"] = ""; return; }	//（空数据则直接清除播放状态）
+		if (next_data.isEmpty()){	//（空数据时直接报错提示）
+			QString message = "【Drill_CoreOfActionSequence.js 系统 - GIF动画序列核心】\n";
+			message.append("错误，状态节点\"" + data["name"].toString() + "\"未找到资源名列表。\n");
+			message.append("当前为\"" + play_type + "\"，序列数据为：" + TTool::_QJsonArray_AToQString_(play_plainNodeSeq).join(",") + "。");
+			QMessageBox::about(nullptr, "提示", message);
+			data["play_type"] = "";
+			return;
+		}
+
+		// > 刷新状态节点
 		this->drill_COAS_refreshNextNode(next_data);
 	}
 }
@@ -218,14 +279,13 @@ QJsonObject Drill_COAS_StateNodeController::drill_COAS_rollObjData(QJsonArray ob
 		if (proportion <= 0){ proportion = 1; }
 		total_proportion += proportion;
 	}
-	qsrand(QTime(0, 0, 0).secsTo(QTime::currentTime()));
 	for (int i = 0; i < objData_list.count(); i++){
 		QJsonObject objData = objData_list[i].toObject();
 		int proportion = objData["proportion"].toInt();
 		if (proportion <= 0){ proportion = 1; }
 
 		// > 概率命中，则返回数据
-		if ((qrand() % 10000)*0.0001 <= proportion / total_proportion){
+		if ((rand() % 10000)*0.0001 <= (double)proportion / total_proportion){
 			return objData;
 		}
 
@@ -246,7 +306,6 @@ void Drill_COAS_StateNodeController::drill_COAS_refreshNextState(QJsonObject nex
 
 	// > 重设数据
 	this->_drill_curState->drill_COAS_resetData_State(next_data);
-	this->_drill_curState->_drill_curIndex = 0;	//（指针归零）
 	this->_drill_curState->drill_COAS_update();	//（设置数据后，立即强制刷新）
 }
 /*-------------------------------------------------
@@ -275,7 +334,6 @@ void Drill_COAS_StateNodeController::drill_COAS_refreshNextNode(QJsonObject next
 	this->_drill_curNode->drill_COAS_setParentDataId(this->_drill_parentDataId);
 	this->_drill_curNode->drill_COAS_setLayer(next_layer);
 	this->_drill_curNode->drill_COAS_refreshNext();
-	this->_drill_curNode->_drill_curIndex = 0;	//（指针归零）
 	this->_drill_curNode->drill_COAS_update();	//（设置数据后，立即强制刷新）
 }
 /*-------------------------------------------------

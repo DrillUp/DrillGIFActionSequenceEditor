@@ -607,12 +607,18 @@ QToolButton:pressed{
               <property name="text">
                <string/>
               </property>
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
              </widget>
             </item>
             <item row="2" column="1">
              <widget class="QLabel" name="label_curActionName">
               <property name="text">
                <string/>
+              </property>
+              <property name="wordWrap">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -621,12 +627,18 @@ QToolButton:pressed{
               <property name="text">
                <string/>
               </property>
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
              </widget>
             </item>
             <item row="0" column="1">
              <widget class="QLabel" name="label_actionSeqId">
               <property name="text">
                <string/>
+              </property>
+              <property name="wordWrap">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
