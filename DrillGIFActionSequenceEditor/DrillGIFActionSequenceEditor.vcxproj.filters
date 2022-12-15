@@ -273,6 +273,9 @@
     <Filter Include="源文件\【 工具箱 Utils】\辅助操作器（operater）\双表格字符串填写器">
       <UniqueIdentifier>{e0da4532-5bcc-491c-a213-744a5aad28a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点关系表">
+      <UniqueIdentifier>{3fd7385c-2f28-41ad-97d8-ba909296f49e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -1001,6 +1004,15 @@
     <ClCompile Include="Source\ActionSeqModule\actionSeqPart\C_ActionSeq.cpp">
       <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ActionSeqModule\stateNodePart\RelationTable\W_StateNodeRelationTable.cpp">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点关系表</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_W_StateNodeRelationTable.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_W_StateNodeRelationTable.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="drillgifactionsequenceeditor.qrc">
@@ -1315,6 +1327,12 @@
     <CustomBuild Include="Source\Utils\operater\TwoTableStringFiller\P_TwoTableStringFiller.h">
       <Filter>源文件\【 工具箱 Utils】\辅助操作器（operater）\双表格字符串填写器</Filter>
     </CustomBuild>
+    <CustomBuild Include="Source\ActionSeqModule\stateNodePart\RelationTable\W_StateNodeRelationTable.h">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点关系表</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\ActionSeqModule\stateNodePart\RelationTable\W_StateNodeRelationTable.ui">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点关系表</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DrillGIFActionSequenceEditor.rc" />
@@ -1508,6 +1526,9 @@
     </ClInclude>
     <ClInclude Include="Source\ActionSeqModule\actionSeqPart\C_ActionSeq.h">
       <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_W_StateNodeRelationTable.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

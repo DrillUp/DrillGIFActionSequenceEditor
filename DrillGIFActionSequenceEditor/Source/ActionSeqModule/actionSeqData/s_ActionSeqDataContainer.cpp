@@ -132,28 +132,30 @@ void S_ActionSeqDataContainer::setActionSeqData_Object(QJsonObject data_obj){
 		QJsonValue value = data_obj.value("动画序列-" + QString::number(i + 1));
 		if (value.isUndefined() == false){
 			QJsonObject obj = TTool::_JSON_parse_To_Obj_(value.toString());
-			
-			// > 树数据
-			obj.insert("COAS_id", i + 1);
-			//COAS_name
-			//COAS_type
 
 			// > 新建对象
 			C_ActionSeq* data = new C_ActionSeq();
 			data->setJsonObject(obj);
+
+			// > 树数据
+			data->m_COAS_id = i + 1;
+			//m_COAS_name
+			//m_COAS_type
+
 			this->data_ActionSeqData.append(data);
 
 		}else{
 			QJsonObject obj = QJsonObject();
 
-			// > 树数据
-			obj.insert("COAS_id", i + 1);
-			//COAS_name
-			//COAS_type
-
 			// > 新建对象
 			C_ActionSeq* data = new C_ActionSeq();
 			data->setJsonObject(obj);
+
+			// > 树数据
+			data->m_COAS_id = i + 1;
+			//m_COAS_name
+			//m_COAS_type
+
 			this->data_ActionSeqData.append(data);
 		}
 	}
@@ -206,14 +208,15 @@ void S_ActionSeqDataContainer::refreshActionSeqLength(){
 		for (int i = this->data_ActionSeqData.count(); i < this->data_ActionSeqLength.realLen_actionSeq; i++){
 			QJsonObject obj = QJsonObject();
 
-			// > 树数据
-			obj.insert("COAS_id", i + 1);
-			//COAS_name
-			//COAS_type
-
 			// > 新建对象
 			C_ActionSeq* data = new C_ActionSeq();
 			data->setJsonObject(obj);
+
+			// > 树数据
+			data->m_COAS_id = i + 1;
+			//m_COAS_name
+			//m_COAS_type
+
 			this->data_ActionSeqData.append(data);
 		}
 	}
@@ -223,7 +226,7 @@ void S_ActionSeqDataContainer::refreshActionSeqLength(){
 		for (int i = this->data_ActionSeqData.count()-1; i >= this->data_ActionSeqLength.realLen_actionSeq; i--){
 			C_ActionSeq* data = this->data_ActionSeqData.at(i);
 			delete data;
-			this->data_ActionSeqData.removeLast();
+			this->data_ActionSeqData.removeAt(i);
 		}
 	}
 }

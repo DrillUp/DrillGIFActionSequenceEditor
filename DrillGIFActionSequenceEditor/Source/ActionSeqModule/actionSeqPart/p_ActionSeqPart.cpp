@@ -82,7 +82,7 @@ P_ActionSeqPart::~P_ActionSeqPart(){
 void P_ActionSeqPart::currentActionSeqChanged(QTreeWidgetItem* item, int id, QString name){
 	if (this->m_slotBlock_source == true){ return; }
 	if (id < 0){ return; }
-	if (id >= this->m_actionSeq_list.count()){ return; }
+	if (id >= this->getActionSeqList().count()){ return; }
 
 	// > 旧数据存储
 	this->local_saveCurIndexData();
@@ -99,8 +99,14 @@ void P_ActionSeqPart::currentActionSeqChanged(QTreeWidgetItem* item, int id, QSt
 */
 C_ActionSeq* P_ActionSeqPart::getCurrentData(){
 	if (this->m_cur_actionSeqIndex < 0){ return nullptr; }
-	if (this->m_cur_actionSeqIndex >= this->m_actionSeq_list.count()){ return nullptr; }
-	this->m_actionSeq_list.at(this->m_cur_actionSeqIndex);
+	if (this->m_cur_actionSeqIndex >= this->getActionSeqList().count()){ return nullptr; }
+	return this->getActionSeqList().at(this->m_cur_actionSeqIndex);
+}
+/*-------------------------------------------------
+		数据 - 动画序列
+*/
+QList<C_ActionSeq*> P_ActionSeqPart::getActionSeqList(){
+	return S_ActionSeqDataContainer::getInstance()->getActionSeqData();
 }
 /*-------------------------------------------------
 		数据 - 保存本地数据
@@ -133,10 +139,10 @@ void P_ActionSeqPart::local_saveCurIndexData(){
 */
 void P_ActionSeqPart::local_loadIndexData(int index){
 	if (index < 0){ return; }
-	if (index >= this->m_actionSeq_list.count()){ return; }
+	if (index >= this->getActionSeqList().count()){ return; }
 
 	// > 读取数据
-	C_ActionSeq* action_data = this->m_actionSeq_list.at(index);
+	C_ActionSeq* action_data = this->getActionSeqList().at(index);
 	if (action_data == nullptr){ return; }
 
 	// > 子控件 - 标签
@@ -168,14 +174,14 @@ void P_ActionSeqPart::local_loadIndexData(int index){
 */
 void P_ActionSeqPart::op_replace(int index, QJsonObject actiong_seq){
 	if (index < 0){ return; }
-	if (index >= this->m_actionSeq_list.count()){ return; }
+	if (index >= this->getActionSeqList().count()){ return; }
 	if (actiong_seq.isEmpty()){ return; }
 
 	// > 编辑标记
 	S_ProjectManager::getInstance()->setDirty();
 
 	// > 执行替换
-	this->m_actionSeq_list.at(index)->setJsonObject(actiong_seq);
+	this->getActionSeqList().at(index)->setJsonObject(actiong_seq);
 	this->local_loadIndexData(index);
 
 	// > 更新树的名称
@@ -186,13 +192,13 @@ void P_ActionSeqPart::op_replace(int index, QJsonObject actiong_seq){
 */
 void P_ActionSeqPart::op_clear(int index){
 	if (index < 0){ return; }
-	if (index >= this->m_actionSeq_list.count()){ return; }
+	if (index >= this->getActionSeqList().count()){ return; }
 
 	// > 编辑标记
 	S_ProjectManager::getInstance()->setDirty();
 
 	// > 执行替换
-	this->m_actionSeq_list.at(index)->clearTankData();
+	this->getActionSeqList().at(index)->clearTankData();
 	this->local_loadIndexData(index);
 
 	// > 更新树的名称
@@ -294,9 +300,6 @@ void P_ActionSeqPart::putDataToUi() {
 	QList<QJsonObject> tree_data = S_ActionSeqDataContainer::getInstance()->getTreeData();
 	this->m_p_tree->loadSource(tree_data, "COAS_id", "COAS_name", "COAS_type");
 
-	// > 本地指针设置
-	this->m_actionSeq_list = S_ActionSeqDataContainer::getInstance()->getActionSeqData();
-
 	// > 编辑块置灰
 	this->setPartGray();	//（需要玩家重新选择一个动画序列）
 	
@@ -310,6 +313,13 @@ void P_ActionSeqPart::putUiToData() {
 
 	// > 保存当前数据
 	this->local_saveCurIndexData();
+
+	// > 树数据保存
+	QList<C_ActionSeq*> data_list = this->getActionSeqList();
+	for (int i = 0; i < data_list.count(); i++){
+		C_ActionSeq* data = data_list.at(i);
+		data->m_COAS_type = this->m_p_tree->getLeafType(data->m_COAS_id);
+	}
 
 	//S_ActionSeqDataContainer::getInstance()->setActionSeqData(data_actionSeq);（由于是指针，所以不需要再修改了）
 	S_ActionSeqDataContainer::getInstance()->modifyTreeConfig(this->m_p_tree->getConfigEx()->getJsonObject());

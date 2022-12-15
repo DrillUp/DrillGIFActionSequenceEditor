@@ -189,10 +189,10 @@ void Drill_COAS_StateNodeController::drill_COAS_refreshNext_Private(){
 		// > 随机抽取数据
 		QJsonObject next_data = this->drill_COAS_rollObjData(data_list);
 		if (next_data.isEmpty()){	//（空数据时直接报错提示）
-			QString message = "【Drill_CoreOfActionSequence.js 系统 - GIF动画序列核心】\n";
-			message.append("错误，状态节点\"" + data["name"].toString() + "\"未找到资源名列表。\n");
-			message.append("当前为\"" + play_type + "\"，序列数据为：" + TTool::_QJsonArray_AToQString_(play_randomStateSeq).join(",") + "。");
-			QMessageBox::about(nullptr, "提示", message);
+		//	QString message = "【Drill_CoreOfActionSequence.js 系统 - GIF动画序列核心】\n";
+		//	message.append("错误，状态节点\"" + data["name"].toString() + "\"未找到资源名列表。\n");
+		//	message.append("当前为\"" + play_type + "\"，序列数据为：" + TTool::_QJsonArray_AToQString_(play_randomStateSeq).join(",") + "。");
+		//	QMessageBox::about(nullptr, "提示", message);
 			data["play_type"] = "";
 			return;
 		}	
@@ -207,10 +207,10 @@ void Drill_COAS_StateNodeController::drill_COAS_refreshNext_Private(){
 		QString next_name = play_plainStateSeq[this->_drill_curIndex].toString();
 		QJsonObject next_data = Drill_COAS_Init::getInstance()->drill_COAS_getStateData(this->_drill_parentDataId, next_name);
 		if (next_data.isEmpty()){	//（空数据时直接报错提示）
-			QString message = "【Drill_CoreOfActionSequence.js 系统 - GIF动画序列核心】\n";
-			message.append("错误，状态节点\"" + data["name"].toString() + "\"未找到资源名列表。\n");
-			message.append("当前为\"" + play_type + "\"，序列数据为：" + TTool::_QJsonArray_AToQString_(play_plainStateSeq).join(",") + "。");
-			QMessageBox::about(nullptr, "提示", message);
+		//	QString message = "【Drill_CoreOfActionSequence.js 系统 - GIF动画序列核心】\n";
+		//	message.append("错误，状态节点\"" + data["name"].toString() + "\"未找到资源名列表。\n");
+		//	message.append("当前为\"" + play_type + "\"，序列数据为：" + TTool::_QJsonArray_AToQString_(play_plainStateSeq).join(",") + "。");
+		//	QMessageBox::about(nullptr, "提示", message);
 			data["play_type"] = "";
 			return;
 		}
@@ -233,10 +233,10 @@ void Drill_COAS_StateNodeController::drill_COAS_refreshNext_Private(){
 		// > 随机抽取数据
 		QJsonObject next_data = this->drill_COAS_rollObjData(data_list);
 		if (next_data.isEmpty()){	//（空数据时直接报错提示）
-			QString message = "【Drill_CoreOfActionSequence.js 系统 - GIF动画序列核心】\n";
-			message.append("错误，状态节点\"" + data["name"].toString() + "\"未找到资源名列表。\n");
-			message.append("当前为\"" + play_type + "\"，序列数据为：" + TTool::_QJsonArray_AToQString_(play_randomNodeSeq).join(",") + "。");
-			QMessageBox::about(nullptr, "提示", message);
+		//	QString message = "【Drill_CoreOfActionSequence.js 系统 - GIF动画序列核心】\n";
+		//	message.append("错误，状态节点\"" + data["name"].toString() + "\"未找到资源名列表。\n");
+		//	message.append("当前为\"" + play_type + "\"，序列数据为：" + TTool::_QJsonArray_AToQString_(play_randomNodeSeq).join(",") + "。");
+		//	QMessageBox::about(nullptr, "提示", message);
 			data["play_type"] = "";
 			return;
 		}
@@ -251,10 +251,10 @@ void Drill_COAS_StateNodeController::drill_COAS_refreshNext_Private(){
 		QString next_name = play_plainNodeSeq[this->_drill_curIndex].toString();
 		QJsonObject next_data = Drill_COAS_Init::getInstance()->drill_COAS_getStateNodeData(this->_drill_parentDataId, next_name);
 		if (next_data.isEmpty()){	//（空数据时直接报错提示）
-			QString message = "【Drill_CoreOfActionSequence.js 系统 - GIF动画序列核心】\n";
-			message.append("错误，状态节点\"" + data["name"].toString() + "\"未找到资源名列表。\n");
-			message.append("当前为\"" + play_type + "\"，序列数据为：" + TTool::_QJsonArray_AToQString_(play_plainNodeSeq).join(",") + "。");
-			QMessageBox::about(nullptr, "提示", message);
+		//	QString message = "【Drill_CoreOfActionSequence.js 系统 - GIF动画序列核心】\n";
+		//	message.append("错误，状态节点\"" + data["name"].toString() + "\"未找到资源名列表。\n");
+		//	message.append("当前为\"" + play_type + "\"，序列数据为：" + TTool::_QJsonArray_AToQString_(play_plainNodeSeq).join(",") + "。");
+		//	QMessageBox::about(nullptr, "提示", message);
 			data["play_type"] = "";
 			return;
 		}

@@ -105,9 +105,19 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #44
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton">
+             <widget class="QPushButton" name="pushButton_relationTable">
               <property name="text">
-               <string>查看状态节点关系表</string>
+               <string>状态节点关系表</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../../drillgifactionsequenceeditor.qrc">
+                <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/menu/Common_SelectAll.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/menu/Common_SelectAll.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>26</width>
+                <height>26</height>
+               </size>
               </property>
              </widget>
             </item>

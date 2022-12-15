@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "p_StateNodePart.h"
 
+#include "RelationTable/W_StateNodeRelationTable.h"
 #include "../actionSeqData/s_ActionSeqDataContainer.h"
 #include "Source/ProjectModule/s_ProjectManager.h"
 #include "Source/Utils/WidgetForm/QStringListEditor/W_QStringListEditor.h"
@@ -71,6 +72,7 @@ P_StateNodePart::P_StateNodePart(P_StatePart* statePart, QWidget *parent)
 
 	// > 标签列表编辑
 	connect(ui.pushButton_tagTank, &QPushButton::clicked, this, &P_StateNodePart::btn_editTagTank);
+	connect(ui.pushButton_relationTable, &QPushButton::clicked, this, &P_StateNodePart::btn_RelationTable);
 
 	// > 播放方式
 	connect(ui.comboBox_playType, &QComboBox::currentTextChanged, this, &P_StateNodePart::playTypeChanged);
@@ -99,6 +101,15 @@ void P_StateNodePart::btn_editTagTank(){
 		this->m_curTagTank = d.getData();
 		this->refreshTagTank();
 	}
+}
+/*-------------------------------------------------
+		控件 - 打开状态节点关系表
+*/
+void P_StateNodePart::btn_RelationTable(){
+	W_StateNodeRelationTable d(this);
+	d.setData_StateData(this->m_P_StatePart->getData());
+	d.setData_StateNodeData(this->getData());
+	d.exec();
 }
 /*-------------------------------------------------
 		控件 - 刷新标签显示
@@ -329,7 +340,7 @@ void P_StateNodePart::local_saveCurIndexData(){
 		obj_play.insert("顺序播放状态元", TTool::_JSON_stringify_(this->m_curStateNameList));
 		obj_play.insert("随机播放嵌套集合", TTool::_JSON_stringify_(this->m_curNodeNameList));
 		obj_play.insert("顺序播放嵌套集合", TTool::_JSON_stringify_(this->m_curNodeNameList));
-		obj_edit.insert("随机播放的次数上限", QString::number(ui.spinBox_randomMax->value()));
+		obj_play.insert("随机播放的次数上限", QString::number(ui.spinBox_randomMax->value()));
 	TTool::_QJsonObject_put_(&obj_org, obj_play);
 
 	// > 编辑标记

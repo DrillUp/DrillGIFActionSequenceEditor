@@ -32,6 +32,8 @@ class P_StateNodePart : public QWidget
 	public slots:
 									//控件 - 修改标签列表
 		void btn_editTagTank();
+									//控件 - 打开状态节点关系表
+		void btn_RelationTable();
 									//控件 - 刷新
 		void refreshTagTank();
 		
