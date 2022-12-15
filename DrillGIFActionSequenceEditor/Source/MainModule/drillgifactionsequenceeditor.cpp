@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "drillgifactionsequenceeditor.h"
 
 #include "about/w_SoftwareAbout.h"
@@ -13,10 +13,10 @@
 
 /*
 -----==========================================================-----
-		Àà£º		Ö÷´°Ìå.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	Ö÷´°ÌåÄ£¿é
-		¹¦ÄÜ£º		³ÌÐò½øÈëºóµÄÖ÷¿ØÖÆ´°¿Ú¡£
+		ç±»ï¼š		ä¸»çª—ä½“.cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±žæ¨¡å—ï¼š	ä¸»çª—ä½“æ¨¡å—
+		åŠŸèƒ½ï¼š		ç¨‹åºè¿›å…¥åŽçš„ä¸»æŽ§åˆ¶çª—å£ã€‚
 					
 -----==========================================================-----
 */
@@ -31,7 +31,7 @@ DrillGIFActionSequenceEditor::~DrillGIFActionSequenceEditor(){
 }
 
 /*-------------------------------------------------
-		µ¥Àý
+		å•ä¾‹
 */
 DrillGIFActionSequenceEditor* DrillGIFActionSequenceEditor::cur_instance = NULL;
 DrillGIFActionSequenceEditor* DrillGIFActionSequenceEditor::getInstance() {
@@ -41,12 +41,12 @@ DrillGIFActionSequenceEditor* DrillGIFActionSequenceEditor::getInstance() {
 	return cur_instance;
 }
 /*-------------------------------------------------
-		³õÊ¼»¯
+		åˆå§‹åŒ–
 */
 void DrillGIFActionSequenceEditor::_init() {
 
 	//-----------------------------------
-	//----×î´ó»¯/×îÐ¡»¯
+	//----æœ€å¤§åŒ–/æœ€å°åŒ–
 	Qt::WindowFlags flags = Qt::Dialog;
 	flags |= Qt::WindowCloseButtonHint;
 	flags |= Qt::WindowMaximizeButtonHint;
@@ -55,25 +55,25 @@ void DrillGIFActionSequenceEditor::_init() {
 	this->m_last_uiSize = this->size();
 
 	//-----------------------------------
-	//----³õÊ¼»¯ui
+	//----åˆå§‹åŒ–ui
 	QHBoxLayout* l = new QHBoxLayout();
 	ui.widget_actionSeq->setLayout(l);
 	this->m_p_ActionSeqPart = new P_ActionSeqPart(ui.widget_actionSeq);
 	l->setMargin(0);
 	l->addWidget(this->m_p_ActionSeqPart);
 
-	// > UI¶ÁÈ¡
+	// > UIè¯»å–
 	this->ui_loadConfig();
 	
 	//-----------------------------------
-	//----³õÊ¼»¯²ÎÊý
+	//----åˆå§‹åŒ–å‚æ•°
 	this->m_w_RmmvOperateBoard = nullptr;
 	S_ProjectManager::getInstance();
 	S_RmmvDataContainer::getInstance();
 	S_ActionSeqDataContainer::getInstance();
 
 	//-----------------------------------
-	//----ÊÂ¼þ°ó¶¨
+	//----äº‹ä»¶ç»‘å®š
 	connect(ui.toolButton_new, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::newProject);
 	connect(ui.toolButton_open, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::openProject);
 	connect(ui.toolButton_save, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::saveProject);
@@ -82,14 +82,14 @@ void DrillGIFActionSequenceEditor::_init() {
 	connect(ui.toolButton_userManual, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::openUserManual);
 	connect(ui.toolButton_about, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::openAbout);
 	connect(S_ProjectManager::getInstance(), &S_ProjectManager::changeWindowTitle, this, &DrillGIFActionSequenceEditor::changeWindowTitle);
-	// £¨×¢Òârmmv½»»¥µÄÊý¾ÝÒª×îÏÈÁ¬½Ó£¬ÕâÑùÔÚ´æµµ¶ÁÈ¡Ê±²»»áÂÒÐò£©
+	// ï¼ˆæ³¨æ„rmmväº¤äº’çš„æ•°æ®è¦æœ€å…ˆè¿žæŽ¥ï¼Œè¿™æ ·åœ¨å­˜æ¡£è¯»å–æ—¶ä¸ä¼šä¹±åºï¼‰
 	connect(S_RmmvDataContainer::getInstance(), &S_RmmvDataContainer::dataAllReloaded, this, &DrillGIFActionSequenceEditor::rmmvInteractiveDataLoaded);
 	connect(S_ActionSeqDataContainer::getInstance(), &S_ActionSeqDataContainer::dataAllReloaded, this, &DrillGIFActionSequenceEditor::actionSeqDataLoaded);
 
 }
 
 /*-------------------------------------------------
-		¿Ø¼þ - ´ò¿ªrmmv½»»¥´°¿Ú
+		æŽ§ä»¶ - æ‰“å¼€rmmväº¤äº’çª—å£
 */
 void DrillGIFActionSequenceEditor::openWindowRmmvInteractive(){
 	if (this->m_w_RmmvOperateBoard == nullptr){
@@ -98,26 +98,26 @@ void DrillGIFActionSequenceEditor::openWindowRmmvInteractive(){
 	}
 	this->m_w_RmmvOperateBoard->show();
 
-	//£¨RmmvProjectDataÔÚ²Ù×÷"´ò¿ªrmmv"»ñÈ¡µ½Êý¾Ýºó£¬Á¢¼´´æÈëÈÝÆ÷£©
+	//ï¼ˆRmmvProjectDataåœ¨æ“ä½œ"æ‰“å¼€rmmv"èŽ·å–åˆ°æ•°æ®åŽï¼Œç«‹å³å­˜å…¥å®¹å™¨ï¼‰
 }
 /*-------------------------------------------------
-		¿Ø¼þ - rmmv½»»¥Êý¾ÝÒÑ¶ÁÈ¡
+		æŽ§ä»¶ - rmmväº¤äº’æ•°æ®å·²è¯»å–
 */
 void DrillGIFActionSequenceEditor::rmmvInteractiveDataLoaded(){
-	if (this->m_w_RmmvOperateBoard != nullptr){		//£¨Ë¢ÐÂ´°¿ÚÊý¾Ý£©
+	if (this->m_w_RmmvOperateBoard != nullptr){		//ï¼ˆåˆ·æ–°çª—å£æ•°æ®ï¼‰
 		this->m_w_RmmvOperateBoard->setData(S_RmmvDataContainer::getInstance()->getRmmvProjectData());
 	}
 }
 
 
 /*-------------------------------------------------
-		¿Ø¼þ - ¶¯»­ÐòÁÐÒÑ¶ÁÈ¡
+		æŽ§ä»¶ - åŠ¨ç”»åºåˆ—å·²è¯»å–
 */
 void DrillGIFActionSequenceEditor::actionSeqDataLoaded(){
 
-	QJsonObject data_obj = S_ActionSeqDataContainer::getInstance()->getActionSeqData();
+	QList<C_ActionSeq*> data_list = S_ActionSeqDataContainer::getInstance()->getActionSeqData();
 	C_ActionSeqLength data_length = S_ActionSeqDataContainer::getInstance()->getActionSeqLength();
-	if (data_obj.isEmpty()){
+	if (data_list.isEmpty()){
 		ui.main_widget->setEnabled(false);
 		ui.toolButton_save->setEnabled(false);
 		ui.toolButton_saveAs->setEnabled(false);
@@ -126,91 +126,88 @@ void DrillGIFActionSequenceEditor::actionSeqDataLoaded(){
 		ui.toolButton_save->setEnabled(true);
 		ui.toolButton_saveAs->setEnabled(true);
 
-		this->m_p_ActionSeqPart->setData(data_obj, data_length);
+		this->m_p_ActionSeqPart->setData(data_list, data_length);
 	}
 }
 /*-------------------------------------------------
-		¿Ø¼þ - ¶¯»­ÐòÁÐÊý¾ÝÖØ½¨
+		æŽ§ä»¶ - åŠ¨ç”»åºåˆ—æ•°æ®é‡å»º
 */
 void DrillGIFActionSequenceEditor::rebuildActionSeqData(){
 	W_ActionSeqLength d(this);
 	d.setDataInModifyMode(S_ActionSeqDataContainer::getInstance()->getActionSeqLength());
 	if (d.exec() == QDialog::Accepted){
 		C_ActionSeqLength result = d.getData();
-		QJsonObject obj = S_ActionSeqDataContainer::getInstance()->buildEmptyActionSeqData(result);
-
 		S_ActionSeqDataContainer::getInstance()->setActionSeqLength(result);
-		S_ActionSeqDataContainer::getInstance()->setActionSeqData(obj);
 
-		// > ¶ÁÈ¡Êý¾Ý
+		// > è¯»å–æ•°æ®
 		this->actionSeqDataLoaded();
 		this->m_p_ActionSeqPart->setPartGray();
 	}
 }
 /*-------------------------------------------------
-		¿Ø¼þ - ÐÂ½¨ÏîÄ¿
+		æŽ§ä»¶ - æ–°å»ºé¡¹ç›®
 */
 void DrillGIFActionSequenceEditor::newProject(){
 	S_ProjectManager::getInstance()->newProject();
 
-	// £¨ÐÂ½¨ÏîÄ¿Ê±£¬Êý¾ÝÒªÖØ½¨£©
+	// ï¼ˆæ–°å»ºé¡¹ç›®æ—¶ï¼Œæ•°æ®è¦é‡å»ºï¼‰
 	this->rebuildActionSeqData();
 }
 /*-------------------------------------------------
-		¿Ø¼þ - ´ò¿ªÏîÄ¿
+		æŽ§ä»¶ - æ‰“å¼€é¡¹ç›®
 */
 void DrillGIFActionSequenceEditor::openProject(){
 	S_ProjectManager::getInstance()->openProject();
 }
 /*-------------------------------------------------
-		¿Ø¼þ - ±£´æÏîÄ¿
+		æŽ§ä»¶ - ä¿å­˜é¡¹ç›®
 */
 void DrillGIFActionSequenceEditor::saveProject(){
 	
-	// > µã»÷±£´æÇ°£¬½«Ò³ÃæÊý¾ÝÈ«²¿µ¼³ö
+	// > ç‚¹å‡»ä¿å­˜å‰ï¼Œå°†é¡µé¢æ•°æ®å…¨éƒ¨å¯¼å‡º
 	this->m_p_ActionSeqPart->putUiToData();
 
-	// > rmmvÅäÖÃÊý¾Ý´æ´¢
+	// > rmmvé…ç½®æ•°æ®å­˜å‚¨
 	if (this->m_w_RmmvOperateBoard != nullptr){
 		S_RmmvDataContainer::getInstance()->modify(this->m_w_RmmvOperateBoard->getData());
 	}
 	
-	// > ±£´æ
+	// > ä¿å­˜
 	S_ProjectManager::getInstance()->saveProject();
 }
 /*-------------------------------------------------
-		¿Ø¼þ - Áí´æÎªÏîÄ¿
+		æŽ§ä»¶ - å¦å­˜ä¸ºé¡¹ç›®
 */
 void DrillGIFActionSequenceEditor::saveAsProject(){
 	
-	// > µã»÷±£´æÇ°£¬½«Ò³ÃæÊý¾ÝÈ«²¿µ¼³ö
+	// > ç‚¹å‡»ä¿å­˜å‰ï¼Œå°†é¡µé¢æ•°æ®å…¨éƒ¨å¯¼å‡º
 	this->m_p_ActionSeqPart->putUiToData();
 	
-	// > Áí´æÎª
+	// > å¦å­˜ä¸º
 	S_ProjectManager::getInstance()->saveAs();
 }
 /*-------------------------------------------------
-		¿Ø¼þ - ÐÞ¸ÄÎÄ¼þÃû³Æ
+		æŽ§ä»¶ - ä¿®æ”¹æ–‡ä»¶åç§°
 */
 void DrillGIFActionSequenceEditor::changeWindowTitle(QString title){
 	this->setWindowTitle(title);
 }
 /* --------------------------------------------------------------
-		¿Ø¼þ - ÓÃ»§ÊÖ²á
+		æŽ§ä»¶ - ç”¨æˆ·æ‰‹å†Œ
 */
 void DrillGIFActionSequenceEditor::openUserManual() {
 	QString sPath = qApp->applicationDirPath();
 
-	QString docx = sPath + "/help/¹ØÓÚGIF¶¯»­ÐòÁÐºËÐÄ±à¼­Æ÷.docx";
+	QString docx = sPath + "/help/å…³äºŽGIFåŠ¨ç”»åºåˆ—æ ¸å¿ƒç¼–è¾‘å™¨.docx";
 	if (QFileInfo(docx).exists()){
 		QDesktopServices::openUrl(QUrl("file:/" + docx)); 
 	}else{
-		QMessageBox::warning(this, "´íÎó", "ÎÄµµ\"¹ØÓÚGIF¶¯»­ÐòÁÐºËÐÄ±à¼­Æ÷.docx\"²»¼ûÁË¡£", QMessageBox::Yes);
+		QMessageBox::warning(this, "é”™è¯¯", "æ–‡æ¡£\"å…³äºŽGIFåŠ¨ç”»åºåˆ—æ ¸å¿ƒç¼–è¾‘å™¨.docx\"ä¸è§äº†ã€‚", QMessageBox::Yes);
 	}
 
 }
 /* --------------------------------------------------------------
-		¿Ø¼þ - ¹ØÓÚ...
+		æŽ§ä»¶ - å…³äºŽ...
 */
 void DrillGIFActionSequenceEditor::openAbout() {
 	W_SoftwareAbout d(this);
@@ -219,113 +216,113 @@ void DrillGIFActionSequenceEditor::openAbout() {
 
 
 /* --------------------------------------------------------------
-		ÊÂ¼þ - ´°¿ÚÇÐ»»´óÐ¡ÊÂ¼þ
+		äº‹ä»¶ - çª—å£åˆ‡æ¢å¤§å°äº‹ä»¶
 */
 void DrillGIFActionSequenceEditor::resizeEvent(QResizeEvent *event){
 
 	QSize size = event->size();
 	if (size.width() + 100 < QApplication::desktop()->width() &&
 		size.height() + 80 < QApplication::desktop()->height()){
-		this->m_last_uiSize = size;		//£¨×î´ó»¯Ê±²»´æÖµ£¬Ò²²»´æ¹ý´óµÄÖµ£©
+		this->m_last_uiSize = size;		//ï¼ˆæœ€å¤§åŒ–æ—¶ä¸å­˜å€¼ï¼Œä¹Ÿä¸å­˜è¿‡å¤§çš„å€¼ï¼‰
 	}
 
 	event->accept();
 }
 /* --------------------------------------------------------------
-		ÊÂ¼þ - ´°¿Ú¹Ø±ÕÊÂ¼þ£¨µã»÷¹Ø±Õ°´Å¥£©
+		äº‹ä»¶ - çª—å£å…³é—­äº‹ä»¶ï¼ˆç‚¹å‡»å…³é—­æŒ‰é’®ï¼‰
 */
 void DrillGIFActionSequenceEditor::closeEvent(QCloseEvent *event){
 
-	// > Í£Ö¹²¥·Å
+	// > åœæ­¢æ’­æ”¾
 	this->m_p_ActionSeqPart->stopPlaying();
 
-	// > ¹¤³Ì
+	// > å·¥ç¨‹
 	if (S_ProjectManager::getInstance()->dirtyTip() == false) {
 		event->ignore();
 		return;
 	}
 
-	// > tempÎÄ¼þÏú»Ù
+	// > tempæ–‡ä»¶é”€æ¯
 	S_TempFileManager::getInstance()->destroyInstance();
 
-	// > UI±£´æ
+	// > UIä¿å­˜
 	this->ui_saveConfig();
 
 	event->accept();
 }
 /* --------------------------------------------------------------
-		ÊÂ¼þ - ÍÏÈëÎÄ¼þÅÐ¶Ï
+		äº‹ä»¶ - æ‹–å…¥æ–‡ä»¶åˆ¤æ–­
 */
 void DrillGIFActionSequenceEditor::dragEnterEvent(QDragEnterEvent *event) {
 	
-	qDebug() << event;		//£¨ÍÏ¶¯µÄÎÄ¼þÖ»Òª¾­¹ý´°¿Ú£¬¾Í»á´¥·¢£©
+	qDebug() << event;		//ï¼ˆæ‹–åŠ¨çš„æ–‡ä»¶åªè¦ç»è¿‡çª—å£ï¼Œå°±ä¼šè§¦å‘ï¼‰
 	QString file_name = event->mimeData()->urls()[0].fileName();
 	if (QFileInfo(file_name).suffix() == "drillas" ) {
-		event->acceptProposedAction();	//£¨½ÓÊÜÎÄ¼þ£©
+		event->acceptProposedAction();	//ï¼ˆæŽ¥å—æ–‡ä»¶ï¼‰
 	}else {
-		event->ignore();	//£¨²»½ÓÊÜÎÄ¼þ£¬ÏÔÊ¾²»¿ÉÍÏÈë£©
+		event->ignore();	//ï¼ˆä¸æŽ¥å—æ–‡ä»¶ï¼Œæ˜¾ç¤ºä¸å¯æ‹–å…¥ï¼‰
 	}
 }
 /* --------------------------------------------------------------
-		ÊÂ¼þ - ·ÅÖÃÎÄ¼þ¶¯×÷
+		äº‹ä»¶ - æ”¾ç½®æ–‡ä»¶åŠ¨ä½œ
 */
 void DrillGIFActionSequenceEditor::dropEvent(QDropEvent *event) {
 
-	//£¨Òª¼ÇµÃÔÚuiÀïÃæÌí¼ÓacceptDrops£©
+	//ï¼ˆè¦è®°å¾—åœ¨uié‡Œé¢æ·»åŠ acceptDropsï¼‰
 	S_ProjectManager::getInstance()->openProjectByDropFile(event);
 
 }
 
 /* --------------------------------------------------------------
-		´°¿Ú - ÓÃ»§×Ô¶¨ÒåUI¶ÁÈ¡
+		çª—å£ - ç”¨æˆ·è‡ªå®šä¹‰UIè¯»å–
 */
 void DrillGIFActionSequenceEditor::ui_loadConfig(){
 
-	// > ´°¿Ú¸ß¿í
+	// > çª—å£é«˜å®½
 	QString ww = S_IniManager::getInstance()->getConfig("COAS_MainWindow_Width");
 	QString hh = S_IniManager::getInstance()->getConfig("COAS_MainWindow_Height");
 	if (ww != "" && hh != "" && ww.toInt() >0 && hh.toInt() >0){
 		this->resize(ww.toInt(), hh.toInt());
 	}
 
-	// > ´°¿ÚÎ»ÖÃ£¨ÔÝ²»ÓÃ£©
+	// > çª—å£ä½ç½®ï¼ˆæš‚ä¸ç”¨ï¼‰
 	//QString xx = S_IniManager::getInstance()->getConfig("COAS_MainWindow_X");
 	//QString yy = S_IniManager::getInstance()->getConfig("COAS_MainWindow_Y");
 	//if (xx != "" && yy != ""){
 	//	this->move(xx.toInt(), yy.toInt());
 	//}
 
-	// > ×î´ó»¯
+	// > æœ€å¤§åŒ–
 	QString config = S_IniManager::getInstance()->getConfig("COAS_MainWindow_Maximized");
 	if (config == "true"){
 		this->showMaximized();
 	}
 
-	// > ×Ó¿Ø¼þ
+	// > å­æŽ§ä»¶
 	this->m_p_ActionSeqPart->ui_loadConfig();
 	
 }
 /* --------------------------------------------------------------
-		´°¿Ú - ÓÃ»§×Ô¶¨ÒåUI´æ´¢
+		çª—å£ - ç”¨æˆ·è‡ªå®šä¹‰UIå­˜å‚¨
 */
 void DrillGIFActionSequenceEditor::ui_saveConfig(){
 
-	// > ´°¿Ú¸ß¿í
+	// > çª—å£é«˜å®½
 	S_IniManager::getInstance()->setConfig("COAS_MainWindow_Width",QString::number(this->m_last_uiSize.width()));
 	S_IniManager::getInstance()->setConfig("COAS_MainWindow_Height", QString::number(this->m_last_uiSize.height()));
 
-	// > ´°¿ÚÎ»ÖÃ£¨ÔÝ²»ÓÃ£©
+	// > çª—å£ä½ç½®ï¼ˆæš‚ä¸ç”¨ï¼‰
 	//S_IniManager::getInstance()->setConfig("COAS_MainWindow_X", QString::number(this->x()));
 	//S_IniManager::getInstance()->setConfig("COAS_MainWindow_Y", QString::number(this->y()));
 
-	// > ×î´ó»¯
+	// > æœ€å¤§åŒ–
 	if (this->isMaximized() == true){
 		S_IniManager::getInstance()->setConfig("COAS_MainWindow_Maximized", "true");
 	}else{
 		S_IniManager::getInstance()->setConfig("COAS_MainWindow_Maximized", "false");
 	}
 
-	// > ×Ó¿Ø¼þ
+	// > å­æŽ§ä»¶
 	this->m_p_ActionSeqPart->ui_saveConfig();
 
 }

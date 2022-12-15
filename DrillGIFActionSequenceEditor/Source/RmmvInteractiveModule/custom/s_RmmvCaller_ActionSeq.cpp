@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "s_RmmvCaller_ActionSeq.h"
 
 #include "Source/ProjectModule/s_ProjectManager.h"
@@ -11,16 +11,16 @@
 
 /*
 -----==========================================================-----
-		Àà£º		rmmv½»»¥Õß£¨¶¯»­ĞòÁĞ ×¨ÓÃ£©.cpp
-		ËùÊôÄ£¿é£º	½»»¥Ä£¿é
-		¹¦ÄÜ£º		Óërmmv½»»¥µÄÄ£¿é£¬Ö»¿¼ÂÇ ¶¯»­ĞòÁĞ Ïà¹ØÎÄ¼ş¡£
+		ç±»ï¼š		rmmväº¤äº’è€…ï¼ˆåŠ¨ç”»åºåˆ— ä¸“ç”¨ï¼‰.cpp
+		æ‰€å±æ¨¡å—ï¼š	äº¤äº’æ¨¡å—
+		åŠŸèƒ½ï¼š		ä¸rmmväº¤äº’çš„æ¨¡å—ï¼Œåªè€ƒè™‘ åŠ¨ç”»åºåˆ— ç›¸å…³æ–‡ä»¶ã€‚
 
-		×Ó¹¦ÄÜ£º	->ÎÄ¼ş
-						-> ¶ÁÈ¡²å¼şÎÄ¼ş
-						-> ¶ÁÈ¡ÏµÍ³ÎÄ¼ş
+		å­åŠŸèƒ½ï¼š	->æ–‡ä»¶
+						-> è¯»å–æ’ä»¶æ–‡ä»¶
+						-> è¯»å–ç³»ç»Ÿæ–‡ä»¶
 					
-		Ê¹ÓÃ·½·¨£º
-				>´ò¿ª£º
+		ä½¿ç”¨æ–¹æ³•ï¼š
+				>æ‰“å¼€ï¼š
 					
 			
 -----==========================================================-----
@@ -33,7 +33,7 @@ S_RmmvCaller_ActionSeq::~S_RmmvCaller_ActionSeq() {
 }
 
 /* --------------------------------------------------------------
-----------RmmvFileManager µ¥Àı
+----------RmmvFileManager å•ä¾‹
 */
 S_RmmvCaller_ActionSeq* S_RmmvCaller_ActionSeq::cur_manager = NULL;
 S_RmmvCaller_ActionSeq* S_RmmvCaller_ActionSeq::getInstance() {
@@ -43,50 +43,50 @@ S_RmmvCaller_ActionSeq* S_RmmvCaller_ActionSeq::getInstance() {
 	return cur_manager;
 }
 /* --------------------------------------------------------------
-----------³õÊ¼»¯
+----------åˆå§‹åŒ–
 */
 void S_RmmvCaller_ActionSeq::init(){
 }
 
 
 /*-------------------------------------------------
-		¹¤³Ì - ¶ÁÈ¡È«²¿Ïà¹Ø¹¤³ÌÎÄ¼ş
+		å·¥ç¨‹ - è¯»å–å…¨éƒ¨ç›¸å…³å·¥ç¨‹æ–‡ä»¶
 */
 bool S_RmmvCaller_ActionSeq::loadAllRmmvFile(C_RmmvProjectData rmmvProjectData) {
 	if (rmmvProjectData.isNull()){ return false; }
 
-	// > ¶ÁÈ¡²å¼şÎÄ¼ş
+	// > è¯»å–æ’ä»¶æ–‡ä»¶
 	QFileInfo plugin_info = S_RmmvDataContainer::getInstance()->getRmmvFile_PluginsData();
 	QFile plugin_file(plugin_info.absoluteFilePath());
 	if (!plugin_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-		QMessageBox::warning(nullptr, "´íÎó", "Î´ÕÒµ½plugins.jsÎÄ¼ş¡£", QMessageBox::Yes);
+		QMessageBox::warning(nullptr, "é”™è¯¯", "æœªæ‰¾åˆ°plugins.jsæ–‡ä»¶ã€‚", QMessageBox::Yes);
 		return false;
 	}
 	QString plugin_context = plugin_file.readAll();
-	S_PluginDataContainer::getInstance()->loadPluginData(plugin_context);		//£¨¶ÁÈ¡ÎÄ¼ş£©
+	S_PluginDataContainer::getInstance()->loadPluginData(plugin_context);		//ï¼ˆè¯»å–æ–‡ä»¶ï¼‰
 	plugin_file.close();
 
-	// > ¶ÁÈ¡ÏµÍ³ÎÄ¼ş
+	// > è¯»å–ç³»ç»Ÿæ–‡ä»¶
 	QFileInfo system_info = S_RmmvDataContainer::getInstance()->getRmmvFile_System();
 	QFile system_file(system_info.absoluteFilePath());
 	if (!system_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-		QMessageBox::warning(nullptr, "´íÎó", "Î´ÕÒµ½system.jsÎÄ¼ş¡£", QMessageBox::Yes);
+		QMessageBox::warning(nullptr, "é”™è¯¯", "æœªæ‰¾åˆ°system.jsæ–‡ä»¶ã€‚", QMessageBox::Yes);
 		return false;
 	}
-	QString system_context = system_file.readAll();// £¨ÔİÎŞ²Ù×÷£©
+	QString system_context = system_file.readAll();// ï¼ˆæš‚æ— æ“ä½œï¼‰
 	system_file.close();
 
 	return true;
 }
 
 /*-------------------------------------------------
-		¹¤³Ì - ¸²¸Ç×ÊÔ´ÎÄ¼ş
+		å·¥ç¨‹ - è¦†ç›–èµ„æºæ–‡ä»¶
 */
 void S_RmmvCaller_ActionSeq::coverSourceFileToTemp(C_RmmvProjectData rmmvProjectData){
 	if (rmmvProjectData.isNull()){ return ; }
 
 
-	// > ×ÊÔ´ÎÄ¼ş¼Ğimg/Special__actionSeq
+	// > èµ„æºæ–‡ä»¶å¤¹img/Special__actionSeq
 	QString temp_path = S_TempFileManager::getInstance()->getTempFileUrl() + "/Special__actionSeq";
 	S_TempFileManager::getInstance()->remove_Dir(QDir(temp_path));
 	S_TempFileManager::getInstance()->copy_Dir(QDir(rmmvProjectData.getRootPath() + "/img/Special__actionSeq"), QDir(temp_path));
@@ -96,58 +96,58 @@ void S_RmmvCaller_ActionSeq::coverSourceFileToTemp(C_RmmvProjectData rmmvProject
 
 
 /*-------------------------------------------------
-		¹¤³Ì - ´ò¿ªrmmv£¨¼Ì³Ğ£©
+		å·¥ç¨‹ - æ‰“å¼€rmmvï¼ˆç»§æ‰¿ï¼‰
 */
 C_RmmvProjectData S_RmmvCaller_ActionSeq::callRmmvSelect(){
 	C_RmmvProjectData result = P_RmmvCaller::callRmmvSelect();
-	S_RmmvDataContainer::getInstance()->modify(result);		//´ò¿ªºó£¬Á¢¼´¼ÇÂ¼Î»ÖÃ
+	S_RmmvDataContainer::getInstance()->modify(result);		//æ‰“å¼€åï¼Œç«‹å³è®°å½•ä½ç½®
 	return result;
 }
 /*-------------------------------------------------
-		¹¤³Ì - ±£´æ²Ù×÷£¨¸²¸Çµ½rmmv£©
+		å·¥ç¨‹ - ä¿å­˜æ“ä½œï¼ˆè¦†ç›–åˆ°rmmvï¼‰
 */
 void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
-	//£¨Ğéº¯ÊıÖ±½Ó¸²Ğ´£©
+	//ï¼ˆè™šå‡½æ•°ç›´æ¥è¦†å†™ï¼‰
 
 
-	// > ¼ì²é²å¼ş£¨Ç¿ÖÆÉı¼¶£©
+	// > æ£€æŸ¥æ’ä»¶ï¼ˆå¼ºåˆ¶å‡çº§ï¼‰
 	QFileInfo file_COAS = S_RmmvDataContainer::getInstance()->getRmmvFile_Plugin("Drill_CoreOfActionSequence");
 	if (file_COAS.exists()){
 		QFile file_COAS_file(file_COAS.absoluteFilePath());
 		if (!file_COAS_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-			//£¨¶ÁÈ¡Ê§°ÜÊ±£¬²»²Ù×÷£©
+			//ï¼ˆè¯»å–å¤±è´¥æ—¶ï¼Œä¸æ“ä½œï¼‰
 		}
 		QString COAS_context = file_COAS_file.readAll();
 		file_COAS_file.close();
 
-		// > Ç¿ÖÆ¸²¸Ç
-		if (COAS_context.contains("¶¯×÷ĞòÁĞ-%d")){
+		// > å¼ºåˆ¶è¦†ç›–
+		if (COAS_context.contains("åŠ¨ä½œåºåˆ—-%d")){
 			QFileInfo COAS_updateFile = QFileInfo(QApplication::applicationDirPath() + "/tools/Drill_CoreOfActionSequence.js");
 			S_TempFileManager::getInstance()->copy_File(COAS_updateFile, file_COAS_file);
 		}
 	}
 
 	// ---------------------------------------------
-	// > ¶ÁÈ¡²å¼şÎÄ¼şÄÚÈİ
+	// > è¯»å–æ’ä»¶æ–‡ä»¶å†…å®¹
 	QFileInfo plugin_info = S_RmmvDataContainer::getInstance()->getRmmvFile_PluginsData();
 	QFile plugin_file(plugin_info.absoluteFilePath());
 	if (!plugin_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-		QMessageBox::warning(nullptr, "´íÎó", "ÎŞ·¨´ò¿ªplugins.jsÎÄ¼ş¡£", QMessageBox::Yes);
+		QMessageBox::warning(nullptr, "é”™è¯¯", "æ— æ³•æ‰“å¼€plugins.jsæ–‡ä»¶ã€‚", QMessageBox::Yes);
 		return ;
 	}
 	QString plugin_context = plugin_file.readAll();
-	S_PluginDataContainer::getInstance()->loadPluginDataNoSignal(plugin_context);		//£¨¶ÁÈ¡ÎÄ¼ş£©
+	S_PluginDataContainer::getInstance()->loadPluginDataNoSignal(plugin_context);		//ï¼ˆè¯»å–æ–‡ä»¶ï¼‰
 	plugin_file.close();
 
 
-	// > ±¸·İÎÄ¼ş
+	// > å¤‡ä»½æ–‡ä»¶
 	if (rmmvProjectData.optional_backup == true){
 		S_TempFileManager::getInstance()->copy_File(plugin_info, plugin_info.absolutePath() + "/plugins_bak.js");
 	}
 
 
 	// ---------------------------------------------
-	// > »ñÈ¡×¢½â + Êµ¼Ê³¤¶È
+	// > è·å–æ³¨è§£ + å®é™…é•¿åº¦
 	QString script_path = QApplication::applicationDirPath() + "/tools/Drill_CoreOfActionSequence.js";
 	QFileInfo pluginScript_info = S_RmmvDataContainer::getInstance()->getRmmvFile_Plugin("Drill_CoreOfActionSequence");
 	if (pluginScript_info.exists() == false){
@@ -155,7 +155,7 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 	}
 	C_LEAnnotation* le_annotation = S_LEAnnotationReader::getInstance()->readPlugin(pluginScript_info.absoluteFilePath());
 	
-	// > ĞŞ¸ÄÊı¾İ
+	// > ä¿®æ”¹æ•°æ®
 	C_PluginData* data = S_PluginDataContainer::getInstance()->getPluginData("Drill_CoreOfActionSequence");
 	if (data == nullptr){
 		
@@ -164,15 +164,15 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 		data->status = true;
 		S_PluginDataContainer::getInstance()->op_add(data);
 	}
-	data->description = le_annotation->pluginDesc + "¡¾±à¼­Æ÷±à¼­¡¿";
-	data->parameters = S_ActionSeqDataContainer::getInstance()->getActionSeqData();	//£¨´Ó ¶¯»­ĞòÁĞÊı¾İÈİÆ÷ ÖĞ£¬»ñÈ¡µ½²ÎÊıÊı¾İ£©
+	data->description = le_annotation->pluginDesc + "ã€ç¼–è¾‘å™¨ç¼–è¾‘ã€‘";
+	data->parameters = S_ActionSeqDataContainer::getInstance()->getActionSeqData_Object();	//ï¼ˆä» åŠ¨ç”»åºåˆ—æ•°æ®å®¹å™¨ ä¸­ï¼Œè·å–åˆ°å‚æ•°æ•°æ®ï¼‰
 	S_PluginDataContainer::getInstance()->op_modify(data);
 
 
 	// ---------------------------------------------
-	// > Ğ´ÈëÎÄ¼ş
+	// > å†™å…¥æ–‡ä»¶
 	if (!plugin_file.open(QIODevice::Truncate | QIODevice::WriteOnly | QIODevice::Text)) {
-		QMessageBox::warning(nullptr, "´íÎó", "ÎŞ·¨´ò¿ªplugins.jsÎÄ¼ş¡£", QMessageBox::Yes);
+		QMessageBox::warning(nullptr, "é”™è¯¯", "æ— æ³•æ‰“å¼€plugins.jsæ–‡ä»¶ã€‚", QMessageBox::Yes);
 		return;
 	}
 	QString new_context = S_PluginDataContainer::getInstance()->writePluginData(); 
@@ -180,17 +180,17 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 	QTextCodec *codec2 = QTextCodec::codecForName("utf-8");
 	write_stream.flush();
 	write_stream.setCodec(codec2);
-	write_stream.seek(0);				//¹â±ê´Ó0¿ªÊ¼Ğ´Èë
+	write_stream.seek(0);				//å…‰æ ‡ä»0å¼€å§‹å†™å…¥
 	write_stream << new_context;
 	plugin_file.close();
 
 
 	// ---------------------------------------------
-	// > ÎÄ¼şÇå¿Õ
+	// > æ–‡ä»¶æ¸…ç©º
 	QString src_path = rmmvProjectData.getRootPath() + "/img/Special__actionSeq";
 	S_TempFileManager::getInstance()->remove_Dir(src_path);
 
-	// > ÎÄ¼ş×ªÒÆ
+	// > æ–‡ä»¶è½¬ç§»
 	QDir(src_path).mkdir(src_path);
 	QList<QFileInfo> info_list = S_ActionSeqDataContainer::getInstance()->getAllRelatedFile();
 	for (int i = 0; i < info_list.count(); i++){
@@ -199,27 +199,27 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 	}
 
 	// ---------------------------------------------
-	// > ²å¼ş×î´óÖµ¸üĞÂ
+	// > æ’ä»¶æœ€å¤§å€¼æ›´æ–°
 	QFile script_file(pluginScript_info.absoluteFilePath());
 	if (!script_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-		//£¨¶ÁÈ¡Ê§°ÜÊ±£¬²»²Ù×÷£©
+		//ï¼ˆè¯»å–å¤±è´¥æ—¶ï¼Œä¸æ“ä½œï¼‰
 	}else{
 		QString script_context = script_file.readAll();
 		script_file.close();
 		C_LEConfigData le_data = C_LEConfigData();
 		C_ActionSeqLength as_len = S_ActionSeqDataContainer::getInstance()->getActionSeqLength();
 
-		// > ÓÉÓÚÕâÀï×¨ÃÅÕë¶Ô ¶¯»­ĞòÁĞºËĞÄ £¬ËùÒÔ²ÎÊı¶¼ÖªµÀ
-		le_data.initParam("Drill_CoreOfActionSequence", "¶¯»­ĞòÁĞ-%d", as_len.realLen_actionSeq);
-		script_context = S_LEConfigWriter::getInstance()->doOverwritePlugin(script_context, le_annotation->getParamByKey("¶¯»­ĞòÁĞ-%d"), le_data);
+		// > ç”±äºè¿™é‡Œä¸“é—¨é’ˆå¯¹ åŠ¨ç”»åºåˆ—æ ¸å¿ƒ ï¼Œæ‰€ä»¥å‚æ•°éƒ½çŸ¥é“
+		le_data.initParam("Drill_CoreOfActionSequence", "åŠ¨ç”»åºåˆ—-%d", as_len.realLen_actionSeq);
+		script_context = S_LEConfigWriter::getInstance()->doOverwritePlugin(script_context, le_annotation->getParamByKey("åŠ¨ç”»åºåˆ—-%d"), le_data);
 
-		le_data.initParam("Drill_CoreOfActionSequence", "×´Ì¬Ôª-%d", as_len.realLen_state);
-		script_context = S_LEConfigWriter::getInstance()->doOverwritePlugin(script_context, le_annotation->getParamByKey("×´Ì¬Ôª-%d"), le_data);
+		le_data.initParam("Drill_CoreOfActionSequence", "çŠ¶æ€å…ƒ-%d", as_len.realLen_state);
+		script_context = S_LEConfigWriter::getInstance()->doOverwritePlugin(script_context, le_annotation->getParamByKey("çŠ¶æ€å…ƒ-%d"), le_data);
 
-		le_data.initParam("Drill_CoreOfActionSequence", "¶¯×÷Ôª-%d", as_len.realLen_action);
-		script_context = S_LEConfigWriter::getInstance()->doOverwritePlugin(script_context, le_annotation->getParamByKey("¶¯×÷Ôª-%d"), le_data);
+		le_data.initParam("Drill_CoreOfActionSequence", "åŠ¨ä½œå…ƒ-%d", as_len.realLen_action);
+		script_context = S_LEConfigWriter::getInstance()->doOverwritePlugin(script_context, le_annotation->getParamByKey("åŠ¨ä½œå…ƒ-%d"), le_data);
 
-		// > Ğ´Èë½Å±¾
+		// > å†™å…¥è„šæœ¬
 		if (script_context != "" &&
 			script_file.open(QIODevice::Truncate | QIODevice::WriteOnly | QIODevice::Text)) {
 
@@ -235,21 +235,21 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 
 
 	// ---------------------------------------------
-	// > ÎÄ¼ş±ê¼Ç£¨²å¼şËµÃ÷£©
+	// > æ–‡ä»¶æ ‡è®°ï¼ˆæ’ä»¶è¯´æ˜ï¼‰
 	QString explain_context = "";
-	explain_context = explain_context + "\n  ¸ÃÎÄ¼ş¼ĞÀ´×Ô²å¼ş Drill_CoreOfActionSequence ÏµÍ³ - GIF¶¯»­ĞòÁĞºËĞÄ¡£";
-	explain_context = explain_context + "\n  ÕâÀï¿ÉÒÔ·Å¶àÕÅÍ¼Æ¬×é³ÉµÄGIFÅ¶¡£";
+	explain_context = explain_context + "\n  è¯¥æ–‡ä»¶å¤¹æ¥è‡ªæ’ä»¶ Drill_CoreOfActionSequence ç³»ç»Ÿ - GIFåŠ¨ç”»åºåˆ—æ ¸å¿ƒã€‚";
+	explain_context = explain_context + "\n  è¿™é‡Œå¯ä»¥æ”¾å¤šå¼ å›¾ç‰‡ç»„æˆçš„GIFå“¦ã€‚";
 	explain_context = explain_context + "\n";
 	explain_context = explain_context + "\n  ----------------------------------------------------------------------";
-	explain_context = explain_context + "\n  ¸ÃÎÄ¼şÓÉ " + S_ProjectManager::getInstance()->data_ProjectData.getSoftname() + " ×Ô¶¯Éú³É£»";
+	explain_context = explain_context + "\n  è¯¥æ–‡ä»¶ç”± " + S_ProjectManager::getInstance()->data_ProjectData.getSoftname() + " è‡ªåŠ¨ç”Ÿæˆï¼›";
 	explain_context = explain_context + "\n";
-	explain_context = explain_context + "\n  ÏîÄ¿Ãû£º" + S_ProjectManager::getInstance()->data_ProjectData.getName();
-	explain_context = explain_context + "\n  Éú³ÉÊ±¼ä£º" + QDateTime::currentDateTime().toString("yyyyÄêMMÔÂddÈÕ hhÊ±mm·ÖssÃë");
-	explain_context = explain_context + "\n  ×ªÒÆÎÄ¼ş£º" + QString::number(info_list.count()) + "¸ö";
+	explain_context = explain_context + "\n  é¡¹ç›®åï¼š" + S_ProjectManager::getInstance()->data_ProjectData.getName();
+	explain_context = explain_context + "\n  ç”Ÿæˆæ—¶é—´ï¼š" + QDateTime::currentDateTime().toString("yyyyå¹´MMæœˆddæ—¥ hhæ—¶mmåˆ†ssç§’");
+	explain_context = explain_context + "\n  è½¬ç§»æ–‡ä»¶ï¼š" + QString::number(info_list.count()) + "ä¸ª";
 	explain_context = explain_context + "\n  ----------------------------------------------------------------------";
 	explain_context = explain_context + "\n";
 		
-	QString explain_file_name = src_path + "/_²å¼şËµÃ÷ " + QDate::currentDate().toString("yyyy-MM-dd") + ".txt";
+	QString explain_file_name = src_path + "/_æ’ä»¶è¯´æ˜ " + QDate::currentDate().toString("yyyy-MM-dd") + ".txt";
 	QFile explain_file(explain_file_name);
 	if (!explain_file.open(QIODevice::Truncate | QIODevice::WriteOnly | QIODevice::Text)) {
 		return;
@@ -258,9 +258,9 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 	QTextCodec *codec3 = QTextCodec::codecForName("utf-8");
 	write_stream2.flush();
 	write_stream2.setCodec(codec3);
-	write_stream2.seek(0);				//¹â±ê´Ó0¿ªÊ¼Ğ´Èë
+	write_stream2.seek(0);				//å…‰æ ‡ä»0å¼€å§‹å†™å…¥
 	write_stream2 << explain_context;
 	plugin_file.close();
 
-	QMessageBox::information(nullptr, "ÌáÊ¾", "±£´æ³É¹¦¡£", QMessageBox::Yes);
+	QMessageBox::information(nullptr, "æç¤º", "ä¿å­˜æˆåŠŸã€‚", QMessageBox::Yes);
 }

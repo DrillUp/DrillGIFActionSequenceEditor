@@ -31,7 +31,6 @@ P_ActionSeqPart::P_ActionSeqPart(QWidget *parent)
 	//----初始化参数
 	this->m_slotBlock_source = false;
 	this->m_cur_actionSeqIndex = -1;
-	this->m_cur_actionSeq = C_ActionSeq();
 
 	//-----------------------------------
 	//----初始化ui
@@ -81,8 +80,9 @@ P_ActionSeqPart::~P_ActionSeqPart(){
 		全数据 - 树选择变化
 */
 void P_ActionSeqPart::currentActionSeqChanged(QTreeWidgetItem* item, int id, QString name){
-	if (id > this->m_actionSeq_list.length()){ return; }
 	if (this->m_slotBlock_source == true){ return; }
+	if (id < 0){ return; }
+	if (id >= this->m_actionSeq_list.count()){ return; }
 
 	// > 旧数据存储
 	this->local_saveCurIndexData();
@@ -95,34 +95,38 @@ void P_ActionSeqPart::currentActionSeqChanged(QTreeWidgetItem* item, int id, QSt
 
 
 /*-------------------------------------------------
+		数据 - 获取当前动画序列
+*/
+C_ActionSeq* P_ActionSeqPart::getCurrentData(){
+	if (this->m_cur_actionSeqIndex < 0){ return nullptr; }
+	if (this->m_cur_actionSeqIndex >= this->m_actionSeq_list.count()){ return nullptr; }
+	this->m_actionSeq_list.at(this->m_cur_actionSeqIndex);
+}
+/*-------------------------------------------------
 		数据 - 保存本地数据
 */
 void P_ActionSeqPart::local_saveCurIndexData(){
-	if (this->m_cur_actionSeqIndex < 0){ return; }
-	if (this->m_cur_actionSeqIndex >= this->m_actionSeq_list.count()){ return; }
+	C_ActionSeq* action_data = this->getCurrentData();
+	if (action_data == nullptr){ return; }
 
 	// > 子控件 - 标签
-	this->m_cur_actionSeq.m_name = ui.lineEdit->text();
+	action_data->m_COAS_name = ui.lineEdit->text();
 
 	// > 子控件 - 动作元块
-	this->m_cur_actionSeq.m_act_tank = this->m_actionPart->getData();
+	action_data->m_act_tank = this->m_actionPart->getData();
 
 	// > 子控件 - 状态元块
-	this->m_cur_actionSeq.m_state_tank = this->m_statePart->getData();
+	action_data->m_state_tank = this->m_statePart->getData();
 
 	// > 子控件 - 状态节点块
-	this->m_cur_actionSeq.m_stateNode_tank = this->m_stateNodePart->getData();
+	action_data->m_stateNode_tank = this->m_stateNodePart->getData();
 
 	// > 子控件 - 放映区
-	this->m_cur_actionSeq.m_state_default_randomSeq = this->m_playingPart->getData_DefaultSeq();
+	action_data->m_state_default_randomSeq = this->m_playingPart->getData_DefaultSeq();
 	
 
 	// > 编辑标记
 	S_ProjectManager::getInstance()->setDirty();
-
-	// > 保存数据
-	QJsonObject obj_actionSeq = this->m_cur_actionSeq.getJsonObject();
-	this->m_actionSeq_list.replace(this->m_cur_actionSeqIndex, obj_actionSeq);
 }
 /*-------------------------------------------------
 		数据 - 读取本地数据
@@ -132,25 +136,25 @@ void P_ActionSeqPart::local_loadIndexData(int index){
 	if (index >= this->m_actionSeq_list.count()){ return; }
 
 	// > 读取数据
-	QJsonObject obj_actionSeq = this->m_actionSeq_list.at(index);
-	this->m_cur_actionSeq.setJsonObject(obj_actionSeq);
+	C_ActionSeq* action_data = this->m_actionSeq_list.at(index);
+	if (action_data == nullptr){ return; }
 
 	// > 子控件 - 标签
 	ui.widget_editPart->setEnabled(true);
-	ui.lineEdit->setText(this->m_cur_actionSeq.m_name);
+	ui.lineEdit->setText(action_data->m_COAS_name);
 	
 	// > 子控件 - 动作元块
-	this->m_actionPart->setData(this->m_cur_actionSeq.m_act_tank);
+	this->m_actionPart->setData(action_data->m_act_tank);
 
 	// > 子控件 - 状态元块
-	this->m_statePart->setData(this->m_cur_actionSeq.m_state_tank);
+	this->m_statePart->setData(action_data->m_state_tank);
 
 	// > 子控件 - 状态节点块
-	this->m_stateNodePart->setData(this->m_cur_actionSeq.m_stateNode_tank);
+	this->m_stateNodePart->setData(action_data->m_stateNode_tank);
 
 	// > 子控件 - 放映区
 	this->m_playingPart->stopFrame();
-	this->m_playingPart->setData_DefaultSeq(this->m_cur_actionSeq.m_state_default_randomSeq);
+	this->m_playingPart->setData_DefaultSeq(action_data->m_state_default_randomSeq);
 	this->m_playingPart->setData_CurIndex(index);
 	this->m_playingPart->refreshCurActionSeq();
 
@@ -171,7 +175,7 @@ void P_ActionSeqPart::op_replace(int index, QJsonObject actiong_seq){
 	S_ProjectManager::getInstance()->setDirty();
 
 	// > 执行替换
-	this->m_actionSeq_list.replace(index, actiong_seq);
+	this->m_actionSeq_list.at(index)->setJsonObject(actiong_seq);
 	this->local_loadIndexData(index);
 
 	// > 更新树的名称
@@ -188,7 +192,7 @@ void P_ActionSeqPart::op_clear(int index){
 	S_ProjectManager::getInstance()->setDirty();
 
 	// > 执行替换
-	this->m_actionSeq_list.replace(index, QJsonObject());
+	this->m_actionSeq_list.at(index)->clearTankData();
 	this->local_loadIndexData(index);
 
 	// > 更新树的名称
@@ -215,7 +219,9 @@ void P_ActionSeqPart::keyPressEvent(QKeyEvent *event){
 */
 void P_ActionSeqPart::shortcut_copyData(){
 	if (ui.treeWidget_ActionSeq->hasFocus() == false){ return; }
-	this->m_copyed_actionSeq = this->m_cur_actionSeq.getJsonObject();
+	C_ActionSeq* action_data = this->getCurrentData();
+	if (action_data == nullptr){ return; }
+	this->m_copyed_actionSeq = action_data->getJsonObject();
 	this->m_p_tree->setLeafOuterControl_PasteActive(true);		//激活粘贴
 }
 /*-------------------------------------------------
@@ -255,7 +261,7 @@ void P_ActionSeqPart::stopPlaying(){
 /*-------------------------------------------------
 		窗口 - 设置数据
 */
-void P_ActionSeqPart::setData(QJsonObject actionSeq, C_ActionSeqLength length) {
+void P_ActionSeqPart::setData(QList<C_ActionSeq*> actionSeq, C_ActionSeqLength length) {
 	this->m_slotBlock_source = true;
 	S_ActionSeqDataContainer::getInstance()->setActionSeqData(actionSeq);
 	S_ActionSeqDataContainer::getInstance()->setActionSeqLength(length);	//（length取自容器，不会实时变化）
@@ -265,11 +271,11 @@ void P_ActionSeqPart::setData(QJsonObject actionSeq, C_ActionSeqLength length) {
 /*-------------------------------------------------
 		窗口 - 取出数据
 */
-QJsonObject P_ActionSeqPart::getDataActionSeqData(){
+QList<C_ActionSeq*> P_ActionSeqPart::getData_ActionSeqData(){
 	this->putUiToData();
 	return S_ActionSeqDataContainer::getInstance()->getActionSeqData();
 }
-C_ActionSeqLength P_ActionSeqPart::getDataActionSeqLength(){
+C_ActionSeqLength P_ActionSeqPart::getData_ActionSeqLength(){
 	this->putUiToData();
 	return S_ActionSeqDataContainer::getInstance()->getActionSeqLength();
 }
@@ -279,48 +285,23 @@ C_ActionSeqLength P_ActionSeqPart::getDataActionSeqLength(){
 void P_ActionSeqPart::putDataToUi() {
 
 	// > 树结构初始化
-	QJsonObject obj_treeData = S_ActionSeqDataContainer::getInstance()->getTreeData();
+	QJsonObject tree_config = S_ActionSeqDataContainer::getInstance()->getTreeConfig();
 	C_FCT_Config* config = dynamic_cast<C_FCT_Config*>(this->m_p_tree->createConfigData());
-	config->setJsonObject(obj_treeData, this->m_p_tree);		//（存储的数据需要在load前完成赋值）
+	config->setJsonObject(tree_config, this->m_p_tree);		//（存储的数据需要在load前完成赋值）
 	this->m_p_tree->setConfigEx(config);
 
-	// > 分解数据（动画序列 --> 动画序列列表）
-	int data_actionSeqCount = S_ActionSeqDataContainer::getInstance()->getActionSeqLength().realLen_actionSeq;
-	QJsonObject data_actionSeq = S_ActionSeqDataContainer::getInstance()->getActionSeqData();
+	// > 树数据赋值
+	QList<QJsonObject> tree_data = S_ActionSeqDataContainer::getInstance()->getTreeData();
+	this->m_p_tree->loadSource(tree_data, "COAS_id", "COAS_name", "COAS_type");
 
-	this->m_actionSeq_list = QList<QJsonObject>();
-	for (int i = 0; i < data_actionSeqCount; i++){
-
-		// > 旧名字修改（动作序列 -> 动画序列）
-		QJsonValue v = data_actionSeq.value("动作序列-" + QString::number(i + 1));
-		if (v.isUndefined() == false){
-			data_actionSeq.insert("动画序列-" + QString::number(i + 1), v);
-			data_actionSeq.remove("动作序列-" + QString::number(i + 1));
-		}
-
-		// > 添加内容
-		QJsonValue value = data_actionSeq.value("动画序列-" + QString::number(i + 1));
-		if (value.isUndefined() == false){
-			QJsonObject obj = TTool::_JSON_parse_To_Obj_(value.toString());
-			obj.insert("COAS_id", i + 1);
-			obj.insert("COAS_name", obj.value("标签").toString());
-			this->m_actionSeq_list.append(obj);
-		}
-		else{
-			QJsonObject obj = QJsonObject();
-			obj.insert("COAS_id", i+1);
-			obj.insert("COAS_name","");
-			this->m_actionSeq_list.append(obj);
-		}
-	}
-	this->m_p_tree->loadSource(this->m_actionSeq_list, "COAS_id", "COAS_name", "COAS_type");
+	// > 本地指针设置
+	this->m_actionSeq_list = S_ActionSeqDataContainer::getInstance()->getActionSeqData();
 
 	// > 编辑块置灰
 	this->setPartGray();	//（需要玩家重新选择一个动画序列）
 	
 	// > 载入动画序列数据
-	//qDebug() << data_actionSeq;
-
+	//qDebug() << tree_data;
 }
 /*-------------------------------------------------
 		窗口 - ui数据 -> 本地数据
@@ -330,26 +311,8 @@ void P_ActionSeqPart::putUiToData() {
 	// > 保存当前数据
 	this->local_saveCurIndexData();
 
-	// > 合并数据（动画序列列表 --> 动画序列 ）
-	int data_actionSeqCount = S_ActionSeqDataContainer::getInstance()->getActionSeqLength().realLen_actionSeq;
-	QJsonObject data_actionSeq = S_ActionSeqDataContainer::getInstance()->getActionSeqData();
-
-	for (int i = 0; i < data_actionSeqCount; i++){
-		QJsonObject data_obj = this->m_actionSeq_list.at(i);
-
-		// > 树数据（合并到动画序列）
-		int id = data_obj.value("COAS_id").toInt();
-		data_obj.insert("COAS_type", this->m_p_tree->getLeafType(id));
-		data_obj.remove("COAS_id");
-		data_obj.remove("COAS_name");	//（去除id和name，type保留）
-
-		QString data_str = TTool::_JSON_stringify_(data_obj);
-		data_actionSeq.insert("动画序列-" + QString::number(i + 1), data_str);
-		data_actionSeq.remove("动作序列-" + QString::number(i + 1));
-	}
-
-	S_ActionSeqDataContainer::getInstance()->setActionSeqData(data_actionSeq);
-	S_ActionSeqDataContainer::getInstance()->modifyTreeData(this->m_p_tree->getConfigEx()->getJsonObject());
+	//S_ActionSeqDataContainer::getInstance()->setActionSeqData(data_actionSeq);（由于是指针，所以不需要再修改了）
+	S_ActionSeqDataContainer::getInstance()->modifyTreeConfig(this->m_p_tree->getConfigEx()->getJsonObject());
 }
 
 

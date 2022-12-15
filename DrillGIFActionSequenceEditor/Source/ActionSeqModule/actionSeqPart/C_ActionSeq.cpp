@@ -16,7 +16,9 @@
 -----==========================================================-----
 */
 C_ActionSeq::C_ActionSeq(){
-	this->m_name = "";
+	this->m_COAS_id = -1;
+	this->m_COAS_name = "";
+	this->m_COAS_type = "";
 	this->m_state_default_randomSeq.clear();
 	this->m_act_tank.clear();
 	this->m_state_tank.clear();
@@ -25,15 +27,38 @@ C_ActionSeq::C_ActionSeq(){
 C_ActionSeq::~C_ActionSeq(){
 }
 
+/*-------------------------------------------------
+		数据 - 清除数据
+*/
+void C_ActionSeq::clearTankData(){
+	this->m_COAS_name = "";
+	this->m_state_default_randomSeq.clear();
+	this->m_act_tank.clear();
+	this->m_state_tank.clear();
+	this->m_stateNode_tank.clear();
+}
 
+/*-------------------------------------------------
+		空判断
+*/
+bool C_ActionSeq::isNull(){
+	if (this->m_COAS_id == -1){ return true; }
+	if (this->m_COAS_name == ""){ return true; }
+	return false;
+}
 /*-------------------------------------------------
 		实体类 -> QJsonObject
 */
 QJsonObject C_ActionSeq::getJsonObject(){
 	QJsonObject obj_actionSeq = QJsonObject();
 
+	// > 树数据
+	obj_actionSeq.insert("COAS_id", this->m_COAS_id);
+	obj_actionSeq.insert("COAS_name", this->m_COAS_name);
+	obj_actionSeq.insert("COAS_type", this->m_COAS_type);
+
 	// > 标签
-	obj_actionSeq.insert("标签", this->m_name);
+	obj_actionSeq.insert("标签", this->m_COAS_name);
 
 	// > 默认状态元集合
 	if (this->m_state_default_randomSeq.count() == 0){		//（如果为空则自动填充）
@@ -73,8 +98,13 @@ QJsonObject C_ActionSeq::getJsonObject(){
 */
 void C_ActionSeq::setJsonObject(QJsonObject obj_actionSeq){
 
+	// > 树数据
+	this->m_COAS_id = obj_actionSeq.value("COAS_id").toInt();
+	this->m_COAS_name = obj_actionSeq.value("COAS_name").toString();
+	this->m_COAS_type = obj_actionSeq.value("COAS_type").toString();
+
 	// > 标签
-	this->m_name = obj_actionSeq.value("标签").toString();
+	this->m_COAS_name = obj_actionSeq.value("标签").toString();
 
 	// > 默认的状态元集合
 	this->m_state_default_randomSeq = TTool::_JSON_parse_To_QListQString_(obj_actionSeq.value("默认的状态元集合").toString());

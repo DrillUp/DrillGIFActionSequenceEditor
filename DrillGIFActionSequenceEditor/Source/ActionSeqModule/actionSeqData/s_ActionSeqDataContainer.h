@@ -1,16 +1,17 @@
-#pragma once
+ï»¿#pragma once
 #include "Source/ProjectModule/storage/s_StorageManagerTemplate.h"
 
+#include "../actionSeqPart/C_ActionSeq.h"
 #include "lengthData/c_ActionSeqLength.h"
 #include "Source/PluginModule/storageData/c_PluginData.h"
 
 /*
 -----==========================================================-----
-		Àà£º		¶¯»­ĞòÁĞ Êı¾İÈİÆ÷.h
-		ËùÊôÄ£¿é£º	¶¯»­ĞòÁĞÄ£¿é
-		¹¦ÄÜ£º		¶¯»­ĞòÁĞµÄÊı¾İÈİÆ÷¡£
-					»áÖ÷¶¯Ê¹ÓÃ²å¼şÈİÆ÷ÖĞµÄÊı¾İ¡£
-					£¨ÏêÏ¸¼û.cpp£©
+		ç±»ï¼š		åŠ¨ç”»åºåˆ— æ•°æ®å®¹å™¨.h
+		æ‰€å±æ¨¡å—ï¼š	åŠ¨ç”»åºåˆ—æ¨¡å—
+		åŠŸèƒ½ï¼š		åŠ¨ç”»åºåˆ—çš„æ•°æ®å®¹å™¨ã€‚
+					ä¼šä¸»åŠ¨ä½¿ç”¨æ’ä»¶å®¹å™¨ä¸­çš„æ•°æ®ã€‚
+					ï¼ˆè¯¦ç»†è§.cppï¼‰
 -----==========================================================-----
 */
 class S_ActionSeqDataContainer : public QObject, public S_StorageManagerTemplate
@@ -20,78 +21,82 @@ class S_ActionSeqDataContainer : public QObject, public S_StorageManagerTemplate
 	public:
 		S_ActionSeqDataContainer();
 		~S_ActionSeqDataContainer();
-		static S_ActionSeqDataContainer* cur_manager;			//µ¥Àı
-		static S_ActionSeqDataContainer* getInstance();			//µ¥Àı£¬»ñÈ¡×Ô¼º£¨±ØĞëÒªÄÃµ½È«¾ÖÅäÖÃ²ÅÄÜ½øĞĞ¼ÆËã£©
+		static S_ActionSeqDataContainer* cur_manager;			//å•ä¾‹
+		static S_ActionSeqDataContainer* getInstance();			//å•ä¾‹ï¼Œè·å–è‡ªå·±ï¼ˆå¿…é¡»è¦æ‹¿åˆ°å…¨å±€é…ç½®æ‰èƒ½è¿›è¡Œè®¡ç®—ï¼‰
 
 	//-----------------------------------
-	//----¶ÁÈ¡Æ÷£¨Ö»¶Á£¬²»´æ£©
+	//----è¯»å–å™¨ï¼ˆåªè¯»ï¼Œä¸å­˜ï¼‰
 	private:
 		C_PluginData* data_ActionSeqPlugin;
 	public:
-										//¶ÁÈ¡Æ÷ - ÖØÉè²å¼şÊı¾İ£¨×Ô¶¯´Ó²å¼şÊı¾İ¶ÁÈ¡Æ÷ÖĞÈ¥ÄÃ£©
+										//è¯»å–å™¨ - é‡è®¾æ’ä»¶æ•°æ®ï¼ˆè‡ªåŠ¨ä»æ’ä»¶æ•°æ®è¯»å–å™¨ä¸­å»æ‹¿ï¼‰
 		void resetPluginData();
-										//¶ÁÈ¡Æ÷ - »ñÈ¡²å¼şÊı¾İ
-		C_PluginData* getActionSeqPlugin();
-										//¶ÁÈ¡Æ÷ - »ñÈ¡²å¼şÎÄ¼ş
-										//		¡¾ËµÃ÷¡¿£ºÈç¹ûÎ´´ò¿ª¹¤³ÌÎÄ¼ş£¬Ôò·µ»ØµÄinfoÎÄ¼ş²»´æÔÚ¡£
-		QFileInfo getActionSeqPluginFile();
-										//¶ÁÈ¡Æ÷ - »ñÈ¡³¤¶È£¨²å¼şµÄ£©
-										//		¡¾ËµÃ÷¡¿£ºÈç¹ûÎ´´ò¿ª¹¤³ÌÎÄ¼ş£¬Ôò·µ»ØµÄÎªnull¡£
-		C_ActionSeqLength getActionSeqPluginLength();
+										//è¯»å–å™¨ - è·å–æ’ä»¶æ•°æ®
+		C_PluginData* getPluginData_ActionSeq();
+										//è¯»å–å™¨ - è·å–æ’ä»¶æ–‡ä»¶
+										//		ã€è¯´æ˜ã€‘ï¼šå¦‚æœæœªæ‰“å¼€å·¥ç¨‹æ–‡ä»¶ï¼Œåˆ™è¿”å›çš„infoæ–‡ä»¶ä¸å­˜åœ¨ã€‚
+		QFileInfo getPluginFile_ActionSeq();
+										//è¯»å–å™¨ - è·å–é•¿åº¦ï¼ˆæ’ä»¶çš„ï¼‰
+										//		ã€è¯´æ˜ã€‘ï¼šå¦‚æœæœªæ‰“å¼€å·¥ç¨‹æ–‡ä»¶ï¼Œåˆ™è¿”å›çš„ä¸ºnullã€‚
+		C_ActionSeqLength getPluginData_ActionSeqLength();
 		
 	//-----------------------------------
-	//----¶¯»­ĞòÁĞÊı¾İ
+	//----åŠ¨ç”»åºåˆ—æ•°æ®
 	private:
-		C_ActionSeqLength data_ActionSeqLength;		//³¤¶È
-		QJsonObject data_ActionSeqData;				//¶¯»­ĞòÁĞ
+		C_ActionSeqLength data_ActionSeqLength;		//é•¿åº¦
+		QList<C_ActionSeq*> data_ActionSeqData;		//åŠ¨ç”»åºåˆ—
 	public:
-										//Êı¾İ - ÉèÖÃÊı¾İ
-		void setActionSeqData(QJsonObject data);
-										//Êı¾İ - »ñÈ¡Êı¾İ
-		QJsonObject getActionSeqData();
-										//Êı¾İ - ÉèÖÃ³¤¶È
+										//æ•°æ® - è®¾ç½®æ•°æ®
+		void setActionSeqData(QList<C_ActionSeq*> data_list);
+		void setActionSeqData_Object(QJsonObject data_obj);
+										//æ•°æ® - è·å–æ•°æ®
+		QList<C_ActionSeq*> getActionSeqData();
+		QJsonObject getActionSeqData_Object();
+										//æ•°æ® - è®¾ç½®é•¿åº¦
 		void setActionSeqLength(C_ActionSeqLength data);
-										//Êı¾İ - »ñÈ¡³¤¶È
+										//æ•°æ® - è·å–é•¿åº¦
 		C_ActionSeqLength getActionSeqLength();
-										//Êı¾İ - ¸ù¾İ³¤¶È½¨Á¢Ò»¸ö¿Õ°×µÄ¶¯»­ĞòÁĞÁĞ±í
-										//		¡¾ËµÃ÷¡¿£ºQJsonObjectÎª¿Õ Óë ÓĞÊı¾İÁĞµ«ÖµÎª¿Õ ÊÇÁ½ÖÖÇé¿ö£¬ÕâÀï´´½¨ºó£¬Êı¾İÎªºóÕß¡£
-		QJsonObject buildEmptyActionSeqData(C_ActionSeqLength data);
-										//Êı¾İ - »ñÈ¡È«²¿¹ØÁªµÄÎÄ¼ş
+										//æ•°æ® - è·å–å…¨éƒ¨å…³è”çš„æ–‡ä»¶
 		QList<QFileInfo> getAllRelatedFile();
+	protected:
+										//æ•°æ® - é‡åˆ·é•¿åº¦
+		void refreshActionSeqLength();
 
 	//-----------------------------------
-	//----Ê÷Êı¾İ
+	//----æ ‘é…ç½®
 	private:
 		QJsonObject data_treeConfig;
 	public:
-										//Ê÷Êı¾İ - ĞŞ¸Ä
-		void modifyTreeData(QJsonObject tree);
-										//Ê÷Êı¾İ - »ñÈ¡
-		QJsonObject getTreeData();
+										//æ ‘é…ç½® - ä¿®æ”¹é…ç½®
+		void modifyTreeConfig(QJsonObject tree);
+										//æ ‘é…ç½® - è·å–é…ç½®
+		QJsonObject getTreeConfig();
+										//æ ‘é…ç½® - è·å–æ ‘æ•°æ®
+		QList<QJsonObject> getTreeData();
 
 	//-----------------------------------
-	//----³£Á¿
+	//----å¸¸é‡
 	public:
-										//³£Á¿ - »ñÈ¡Èí¼ş±£´æÍ¼Æ¬Â·¾¶£¨F:/xxx/xxx/Special__actionSeq£©
-										//		¡¾ËµÃ÷¡¿£º²»ÊÇrmmvµÄÎÄ¼şÂ·¾¶£¬rmmvÏà¹ØÊı¾İ¶¼ÔÚ½»»¥Ä£¿é¡£
+										//å¸¸é‡ - è·å–è½¯ä»¶ä¿å­˜å›¾ç‰‡è·¯å¾„ï¼ˆF:/xxx/xxx/Special__actionSeqï¼‰
+										//		ã€è¯´æ˜ã€‘ï¼šä¸æ˜¯rmmvçš„æ–‡ä»¶è·¯å¾„ï¼Œrmmvç›¸å…³æ•°æ®éƒ½åœ¨äº¤äº’æ¨¡å—ã€‚
 		QString getActionSeqDir();
 		
 
 	//-----------------------------------
-	//----´æ´¢Êı¾İ£¨¼Ì³Ğ£©
+	//----å­˜å‚¨æ•°æ®ï¼ˆç»§æ‰¿ï¼‰
 	public:
-										//Êı¾İ - »ñÈ¡´æ´¢µÄÃû³Æ
+										//æ•°æ® - è·å–å­˜å‚¨çš„åç§°
 		QString getSaveName();
-										//Êı¾İ - Çå³ıµ±Ç°¹ÜÀíÆ÷Êı¾İ
+										//æ•°æ® - æ¸…é™¤å½“å‰ç®¡ç†å™¨æ•°æ®
 		void clearAllData();
-										//Êı¾İ - È«²¿¼¤ÀøÔ´Êı¾İ -> QJsonObject
+										//æ•°æ® - å…¨éƒ¨æ¿€åŠ±æºæ•°æ® -> QJsonObject
 		QJsonObject getAllDataOfJsonObject();
-										//Êı¾İ - QJsonObject -> È«²¿¼¤ÀøÔ´Êı¾İ
+										//æ•°æ® - QJsonObject -> å…¨éƒ¨æ¿€åŠ±æºæ•°æ®
 		void setAllDataFromJsonObject(QJsonObject obj);
 		
 	//-----------------------------------
-	//----ĞÅºÅ
+	//----ä¿¡å·
 	signals:
-										//ĞÅºÅ - ´æ´¢Êı¾İ±»¶ÁÈ¡
+										//ä¿¡å· - å­˜å‚¨æ•°æ®è¢«è¯»å–
 		void dataAllReloaded();
 };

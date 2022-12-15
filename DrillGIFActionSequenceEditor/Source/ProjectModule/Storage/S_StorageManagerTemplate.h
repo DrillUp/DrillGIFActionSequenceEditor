@@ -1,12 +1,12 @@
-#pragma once
+﻿#pragma once
 #include "stdafx.h"
 
 /*
 -----==========================================================-----
-		�ࣺ		�洢ģ����.h
-		����ģ�飺	��Ŀ����ģ��
-		���ܣ�		�洢��ģ�壬���ڹ淶����ʵ�ֵ����ݽṹ��
-					��ϸ��s_StorageManager.cpp��
+		类：		存储模板块.h
+		所属模块：	项目管理模块
+		功能：		存储的模板，用于规范子类实现的数据结构。
+					详细见s_StorageManager.cpp。
 -----==========================================================-----
 */
 
@@ -18,24 +18,23 @@ class S_StorageManagerTemplate
 		~S_StorageManagerTemplate();
 		
 	//-----------------------------------
-	//----����
+	//----存储数据
 	public:
-		QFileInfo m_storage_fileInfo;	//�洢/��ȡʱ���ļ���Ϣ
+		QFileInfo m_storage_fileInfo;	//文件路径
 	public:
-										//���� - ��ȡ�洢������
+										//数据 - 获取存储的名称
 		virtual QString getSaveName() = 0;
-										//���� - ������ǰ����������
+										//数据 - 清除当前管理器数据
 		virtual void clearAllData() = 0;
-										//���� - ȫ����Ŀ�������� -> QJsonObject
+										//数据 - 全部激励源数据 -> QJsonObject
 		virtual QJsonObject getAllDataOfJsonObject() = 0;
-										//���� - QJsonObject -> ȫ����Ŀ��������
+										//数据 - QJsonObject -> 全部激励源数据
 		virtual void setAllDataFromJsonObject(QJsonObject obj) = 0;
 		
 	//-----------------------------------
-	//----����
+	//----特殊
 	public:
-										//���� - ��ȡ�ɰ汾������(��ȡ��)
-										//		 ����"getSaveName"�������֣���������������
+										//数据 - 获取存储的名称（旧）
 		virtual QStringList getOldNamesForRead();
 
 };

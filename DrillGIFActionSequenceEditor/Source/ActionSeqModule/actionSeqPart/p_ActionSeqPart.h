@@ -43,8 +43,9 @@ class P_ActionSeqPart : public QWidget
 	//----本地数据的索引
 	protected:
 		int m_cur_actionSeqIndex;				//当前动画序列索引
-		C_ActionSeq m_cur_actionSeq;			//当前动画序列
 	public:
+									//数据 - 获取当前动画序列
+		C_ActionSeq* getCurrentData();
 									//数据 - 保存本地数据
 		void local_saveCurIndexData();
 									//数据 - 读取本地数据
@@ -88,13 +89,13 @@ class P_ActionSeqPart : public QWidget
 	//----窗口
 	public:
 		bool m_slotBlock_source;					//加载时阻塞
-		QList<QJsonObject> m_actionSeq_list;		//动画序列列表（临时）
+		QList<C_ActionSeq*> m_actionSeq_list;		//动画序列列表
 	public:
 										//窗口 - 设置数据
-		void setData(QJsonObject actionSeq, C_ActionSeqLength length);
+		void setData(QList<C_ActionSeq*> actionSeq, C_ActionSeqLength length);
 										//窗口 - 取出数据
-		QJsonObject getDataActionSeqData();
-		C_ActionSeqLength getDataActionSeqLength();
+		QList<C_ActionSeq*> getData_ActionSeqData();
+		C_ActionSeqLength getData_ActionSeqLength();
 										//窗口 - 本地数据 -> ui数据
 		void putDataToUi();							
 										//窗口 - ui数据 -> 本地数据

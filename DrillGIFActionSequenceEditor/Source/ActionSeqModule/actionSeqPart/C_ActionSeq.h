@@ -21,15 +21,22 @@ class C_ActionSeq{
 	//-----------------------------------
 	//----数据
 	public:
-		QString m_name;
+		int m_COAS_id;							//序号
+		QString m_COAS_name;					//名称（标签）
+		QString m_COAS_type;					//类型
 		QStringList m_state_default_randomSeq;
 		QList<QJsonObject> m_act_tank;
 		QList<QJsonObject> m_state_tank;
 		QList<QJsonObject> m_stateNode_tank;
+	public:
+								//数据 - 清除数据
+		void clearTankData();
 
 	//-----------------------------------
 	//----类属性
 	public:
+								//空判断
+		bool isNull();
 								//实体类 -> QJsonObject
 		QJsonObject getJsonObject();
 								//QJsonObject -> 实体类

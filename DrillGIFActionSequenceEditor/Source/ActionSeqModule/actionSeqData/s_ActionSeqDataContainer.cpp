@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "s_ActionSeqDataContainer.h"
 
 #include "DrillGIFActionSequenceEditor.h"
@@ -9,13 +9,13 @@
 
 /*
 -----==========================================================-----
-		Àà£º		¶¯»­ĞòÁĞ Êı¾İÈİÆ÷.cpp
-		ËùÊôÄ£¿é£º	¶¯»­ĞòÁĞÄ£¿é
-		¹¦ÄÜ£º		¶¯»­ĞòÁĞµÄÊı¾İÈİÆ÷¡£
-					»áÖ÷¶¯Ê¹ÓÃ²å¼şÈİÆ÷ÖĞµÄÊı¾İ¡£
+		ç±»ï¼š		åŠ¨ç”»åºåˆ— æ•°æ®å®¹å™¨.cpp
+		æ‰€å±æ¨¡å—ï¼š	åŠ¨ç”»åºåˆ—æ¨¡å—
+		åŠŸèƒ½ï¼š		åŠ¨ç”»åºåˆ—çš„æ•°æ®å®¹å™¨ã€‚
+					ä¼šä¸»åŠ¨ä½¿ç”¨æ’ä»¶å®¹å™¨ä¸­çš„æ•°æ®ã€‚
 			
-		Ê¹ÓÃ·½·¨£º
-				>³õÊ¼»¯£º
+		ä½¿ç”¨æ–¹æ³•ï¼š
+				>åˆå§‹åŒ–ï¼š
 					S_ActionSeqDataContainer::getInstance();
 -----==========================================================-----
 */
@@ -23,7 +23,7 @@ S_ActionSeqDataContainer::S_ActionSeqDataContainer(){
 	this->clearAllData();
 
 	//-----------------------------------
-	//----ÊÂ¼ş°ó¶¨
+	//----äº‹ä»¶ç»‘å®š
 	connect(S_PluginDataContainer::getInstance(), &S_PluginDataContainer::pluginDataReloaded, this, &S_ActionSeqDataContainer::resetPluginData);
 
 }
@@ -31,7 +31,7 @@ S_ActionSeqDataContainer::~S_ActionSeqDataContainer() {
 }
 
 /* --------------------------------------------------------------
-----------PluginDataManager µ¥Àı
+----------PluginDataManager å•ä¾‹
 */
 S_ActionSeqDataContainer* S_ActionSeqDataContainer::cur_manager = NULL;
 S_ActionSeqDataContainer* S_ActionSeqDataContainer::getInstance() {
@@ -43,26 +43,26 @@ S_ActionSeqDataContainer* S_ActionSeqDataContainer::getInstance() {
 
 
 /*-------------------------------------------------
-		²å¼şÊı¾İ - ÖØÉè
+		æ’ä»¶æ•°æ® - é‡è®¾
 */
 void S_ActionSeqDataContainer::resetPluginData() {
 	this->clearAllData();
 
-	// > ²å¼şÊı¾İ
+	// > æ’ä»¶æ•°æ®
 	this->data_ActionSeqPlugin = S_PluginDataContainer::getInstance()->getPluginData("Drill_CoreOfActionSequence");
 
-	// > GIF¶¯»­ĞòÁĞºËĞÄ
+	// > GIFåŠ¨ç”»åºåˆ—æ ¸å¿ƒ
 	if (this->data_ActionSeqPlugin != nullptr){	
 
-		// > ²å¼şÅäÖÃµÄÊı¾İ
-		this->data_ActionSeqData = this->data_ActionSeqPlugin->parameters;
-		// > ²å¼şµÄ³¤¶ÈÊı¾İ
-		this->data_ActionSeqLength = this->getActionSeqPluginLength();
+		// > æ’ä»¶é…ç½®çš„æ•°æ®
+		this->setActionSeqData_Object( this->data_ActionSeqPlugin->parameters );
+		// > æ’ä»¶çš„é•¿åº¦æ•°æ®
+		this->setActionSeqLength( this->getPluginData_ActionSeqLength() );
 	}
 
-	// > ¹¤³ÌÖĞÃ»ÓĞ²å¼şÊı¾İ
+	// > å·¥ç¨‹ä¸­æ²¡æœ‰æ’ä»¶æ•°æ®
 	if (this->data_ActionSeqPlugin == nullptr){
-		if (QMessageBox::information(nullptr, "ÌáÊ¾", "¸Ã¹¤³ÌÖĞ£¬Ã»ÓĞÕÒµ½\"GIF¶¯»­ĞòÁĞºËĞÄ\"µÄ²å¼şÅäÖÃ£¬ÊÇ·ñÌí¼Ó£¿", "Ìí¼Ó", "È¡Ïû", 0, 1) == 0){
+		if (QMessageBox::information(nullptr, "æç¤º", "è¯¥å·¥ç¨‹ä¸­ï¼Œæ²¡æœ‰æ‰¾åˆ°\"GIFåŠ¨ç”»åºåˆ—æ ¸å¿ƒ\"çš„æ’ä»¶é…ç½®ï¼Œæ˜¯å¦æ·»åŠ ï¼Ÿ", "æ·»åŠ ", "å–æ¶ˆ", 0, 1) == 0){
 
 			DrillGIFActionSequenceEditor::getInstance()->rebuildActionSeqData();
 			return;
@@ -72,119 +72,240 @@ void S_ActionSeqDataContainer::resetPluginData() {
 	emit dataAllReloaded();
 }
 /*-------------------------------------------------
-		²å¼şÊı¾İ - »ñÈ¡£¨²å¼şÊı¾İ£©
+		æ’ä»¶æ•°æ® - è·å–ï¼ˆæ’ä»¶æ•°æ®ï¼‰
 */
-C_PluginData* S_ActionSeqDataContainer::getActionSeqPlugin() {
+C_PluginData* S_ActionSeqDataContainer::getPluginData_ActionSeq() {
 	return this->data_ActionSeqPlugin;
 }
 /*-------------------------------------------------
-		²å¼şÊı¾İ - »ñÈ¡£¨²å¼şÎÄ¼ş£©
+		æ’ä»¶æ•°æ® - è·å–ï¼ˆæ’ä»¶æ–‡ä»¶ï¼‰
 */
-QFileInfo S_ActionSeqDataContainer::getActionSeqPluginFile() {
+QFileInfo S_ActionSeqDataContainer::getPluginFile_ActionSeq() {
 	return S_RmmvDataContainer::getInstance()->getRmmvFile_Plugin("Drill_CoreOfActionSequence");
 }
 /*-------------------------------------------------
-		²å¼şÊı¾İ - »ñÈ¡³¤¶È
+		æ’ä»¶æ•°æ® - è·å–é•¿åº¦
 */
-C_ActionSeqLength S_ActionSeqDataContainer::getActionSeqPluginLength() {
+C_ActionSeqLength S_ActionSeqDataContainer::getPluginData_ActionSeqLength() {
 	C_ActionSeqLength result = C_ActionSeqLength();
-	QFileInfo plugin_file = this->getActionSeqPluginFile();
+	QFileInfo plugin_file = this->getPluginFile_ActionSeq();
 	if (plugin_file.exists() == false){ return result; }
 
 	C_LEAnnotation* c_le = S_LEAnnotationReader::getInstance()->readPlugin(plugin_file);
-	result.realLen_actionSeq = c_le->getParamByKey("¶¯»­ĞòÁĞ-%d").getRealLen();
+	result.realLen_actionSeq = c_le->getParamByKey("åŠ¨ç”»åºåˆ—-%d").getRealLen();
 	if (result.realLen_actionSeq == 0){
-		result.realLen_actionSeq = c_le->getParamByKey("¶¯×÷ĞòÁĞ-%d").getRealLen();
+		result.realLen_actionSeq = c_le->getParamByKey("åŠ¨ä½œåºåˆ—-%d").getRealLen();
 	}
-	result.realLen_action = c_le->getParamByKey("¶¯×÷Ôª-%d").getRealLen();
-	result.realLen_state = c_le->getParamByKey("×´Ì¬Ôª-%d").getRealLen();
+	result.realLen_action = c_le->getParamByKey("åŠ¨ä½œå…ƒ-%d").getRealLen();
+	result.realLen_state = c_le->getParamByKey("çŠ¶æ€å…ƒ-%d").getRealLen();
 	return result;
 }
 
 
 
 /*-------------------------------------------------
-		Êı¾İ - ÉèÖÃ
+		æ•°æ® - è®¾ç½®
 */
-void S_ActionSeqDataContainer::setActionSeqData(QJsonObject obj){
-	this->data_ActionSeqData = obj;
+void S_ActionSeqDataContainer::setActionSeqData(QList<C_ActionSeq*> data_list){
+	this->data_ActionSeqData = data_list;
+}
+void S_ActionSeqDataContainer::setActionSeqData_Object(QJsonObject data_obj){
+
+	// > åˆ é™¤å…¨éƒ¨æ•°æ®
+	for (int i = 0; i < this->data_ActionSeqData.count(); i++){
+		C_ActionSeq* data = this->data_ActionSeqData.at(i);
+		delete data;
+	}
+	this->data_ActionSeqData.clear();
+
+	// > å¡«å……æ•°æ®
+	for (int i = 0; i < this->data_ActionSeqLength.realLen_actionSeq; i++){
+
+		// > æ—§åå­—ä¿®æ”¹ï¼ˆåŠ¨ä½œåºåˆ— -> åŠ¨ç”»åºåˆ—ï¼‰
+		QJsonValue v = data_obj.value("åŠ¨ä½œåºåˆ—-" + QString::number(i + 1));
+		if (v.isUndefined() == false){
+			data_obj.insert("åŠ¨ç”»åºåˆ—-" + QString::number(i + 1), v);
+			data_obj.remove("åŠ¨ä½œåºåˆ—-" + QString::number(i + 1));
+		}
+
+		// > æ·»åŠ å†…å®¹
+		QJsonValue value = data_obj.value("åŠ¨ç”»åºåˆ—-" + QString::number(i + 1));
+		if (value.isUndefined() == false){
+			QJsonObject obj = TTool::_JSON_parse_To_Obj_(value.toString());
+			
+			// > æ ‘æ•°æ®
+			obj.insert("COAS_id", i + 1);
+			//COAS_name
+			//COAS_type
+
+			// > æ–°å»ºå¯¹è±¡
+			C_ActionSeq* data = new C_ActionSeq();
+			data->setJsonObject(obj);
+			this->data_ActionSeqData.append(data);
+
+		}else{
+			QJsonObject obj = QJsonObject();
+
+			// > æ ‘æ•°æ®
+			obj.insert("COAS_id", i + 1);
+			//COAS_name
+			//COAS_type
+
+			// > æ–°å»ºå¯¹è±¡
+			C_ActionSeq* data = new C_ActionSeq();
+			data->setJsonObject(obj);
+			this->data_ActionSeqData.append(data);
+		}
+	}
+
 }
 /*-------------------------------------------------
-		Êı¾İ - »ñÈ¡
+		æ•°æ® - è·å–
 */
-QJsonObject S_ActionSeqDataContainer::getActionSeqData(){
-	return this->data_ActionSeqData;	//£¨×¢Òâ£¬´ÓrmmvÖĞ¶ÁÈ¡µÄÊı¾İ ºÍ ±à¼­Æ÷ÅäÖÃµÄÊı¾İ ²»Ò»Ñù£©
+QList<C_ActionSeq*> S_ActionSeqDataContainer::getActionSeqData(){
+	return this->data_ActionSeqData;	//ï¼ˆæ³¨æ„ï¼Œä»rmmvä¸­è¯»å–çš„æ•°æ® å’Œ ç¼–è¾‘å™¨é…ç½®çš„æ•°æ® ä¸ä¸€æ ·ï¼‰
+}
+QJsonObject S_ActionSeqDataContainer::getActionSeqData_Object(){
+	this->refreshActionSeqLength();
+
+	QJsonObject result_obj;
+	for (int i = 0; i < this->data_ActionSeqData.count(); i++){
+		C_ActionSeq* data = this->data_ActionSeqData.at(i);
+		QJsonObject data_obj = data->getJsonObject();
+
+		// > æ ‘æ•°æ®ï¼ˆåˆå¹¶åˆ°åŠ¨ç”»åºåˆ—ï¼‰
+		data_obj.remove("COAS_id");
+		data_obj.remove("COAS_name");	//ï¼ˆå»é™¤idå’Œnameï¼Œtypeä¿ç•™ï¼‰
+
+		QString data_str = TTool::_JSON_stringify_(data_obj);
+		result_obj.insert("åŠ¨ç”»åºåˆ—-" + QString::number(i + 1), data_str);
+	}
+	return result_obj;
 }
 /*-------------------------------------------------
-		Êı¾İ - ÉèÖÃ³¤¶È
+		æ•°æ® - è®¾ç½®é•¿åº¦
 */
 void S_ActionSeqDataContainer::setActionSeqLength(C_ActionSeqLength data){
 	this->data_ActionSeqLength = data;
+	this->refreshActionSeqLength();
+
 }
 /*-------------------------------------------------
-		Êı¾İ - »ñÈ¡³¤¶È
+		æ•°æ® - è·å–é•¿åº¦
 */
 C_ActionSeqLength S_ActionSeqDataContainer::getActionSeqLength(){
-	return this->data_ActionSeqLength;	//£¨×¢Òâ£¬²å¼ş¶ÁÈ¡µÄ³¤¶È ºÍ ±à¼­Æ÷ÅäÖÃµÄ³¤¶È ²»Ò»Ñù£©
+	return this->data_ActionSeqLength;	//ï¼ˆæ³¨æ„ï¼Œæ’ä»¶è¯»å–çš„é•¿åº¦ å’Œ ç¼–è¾‘å™¨é…ç½®çš„é•¿åº¦ ä¸ä¸€æ ·ï¼‰
 }
 /*-------------------------------------------------
-		Êı¾İ - ¸ù¾İ³¤¶È½¨Á¢Ò»¸ö¿Õ°×µÄ¶¯»­ĞòÁĞÁĞ±í
+		æ•°æ® - é‡åˆ·é•¿åº¦
 */
-QJsonObject S_ActionSeqDataContainer::buildEmptyActionSeqData(C_ActionSeqLength data){
-	QJsonObject result = QJsonObject();
-	for (int i = 0; i < data.realLen_actionSeq; i++){
-		result.insert("¶¯»­ĞòÁĞ-" + QString::number(i + 1), "");
+void S_ActionSeqDataContainer::refreshActionSeqLength(){
+	
+	// > å°‘äº†ï¼Œè¦åŠ ä¸Š
+	if (this->data_ActionSeqLength.realLen_actionSeq > this->data_ActionSeqData.count()){
+		for (int i = this->data_ActionSeqData.count(); i < this->data_ActionSeqLength.realLen_actionSeq; i++){
+			QJsonObject obj = QJsonObject();
+
+			// > æ ‘æ•°æ®
+			obj.insert("COAS_id", i + 1);
+			//COAS_name
+			//COAS_type
+
+			// > æ–°å»ºå¯¹è±¡
+			C_ActionSeq* data = new C_ActionSeq();
+			data->setJsonObject(obj);
+			this->data_ActionSeqData.append(data);
+		}
 	}
-	return result;
+
+	// > å¤šäº†ï¼Œè¦å»æ‰
+	if (this->data_ActionSeqLength.realLen_actionSeq < this->data_ActionSeqData.count()){
+		for (int i = this->data_ActionSeqData.count()-1; i >= this->data_ActionSeqLength.realLen_actionSeq; i--){
+			C_ActionSeq* data = this->data_ActionSeqData.at(i);
+			delete data;
+			this->data_ActionSeqData.removeLast();
+		}
+	}
 }
 /*-------------------------------------------------
-		Êı¾İ - »ñÈ¡È«²¿¹ØÁªµÄÎÄ¼ş
+		æ•°æ® - è·å–å…¨éƒ¨å…³è”çš„æ–‡ä»¶
 */
 QList<QFileInfo> S_ActionSeqDataContainer::getAllRelatedFile(){
 
 	QStringList fileName_list = QStringList();
-	for (int i = 0; i < this->data_ActionSeqLength.realLen_actionSeq; i++){
+	for (int i = 0; i < this->data_ActionSeqData.count(); i++){
+		C_ActionSeq* data = this->data_ActionSeqData.at(i);
+		if (data == nullptr){ continue; }
+		if (data->isNull()){ continue; }
 
-		// > Ò»²ã×Ö·û´®½â·â
-		QString str_actionSeq = this->data_ActionSeqData.value("¶¯»­ĞòÁĞ-" + QString::number(i + 1)).toString();
-		if (str_actionSeq == ""){ continue; }
-		QJsonObject obj_actionSeq = TTool::_JSON_parse_To_Obj_(str_actionSeq);
+		// > åŠ¨ä½œå…ƒèµ„æº
+		for (int j = 0; j < data->m_act_tank.count(); j++){
+			QJsonObject obj_action = data->m_act_tank.at(j);
 
-		// > ¶¯×÷Ôª×ÊÔ´
-		for (int j = 0; j < this->data_ActionSeqLength.realLen_action; j++){
-
-			// > ¶ş²ã×Ö·û´®½â·â
-			QString str_action = obj_actionSeq.value("¶¯×÷Ôª-" + QString::number(j + 1)).toString();
-			if (str_action == ""){ continue; }
-			QJsonObject obj_action = TTool::_JSON_parse_To_Obj_(str_action);
-
-			// > Èı²ã×Ö·û´®½â·â
-			QString str_src = obj_action.value("×ÊÔ´-¶¯×÷Ôª").toString();
+			// > ä¸‰å±‚å­—ç¬¦ä¸²è§£å°
+			QString str_src = obj_action.value("èµ„æº-åŠ¨ä½œå…ƒ").toString();
 			QStringList src_list = TTool::_JSON_parse_To_QListQString_(str_src);
 
 			fileName_list.append(src_list);
 		}
 
-		// > ×´Ì¬Ôª×ÊÔ´
-		for (int j = 0; j < this->data_ActionSeqLength.realLen_state; j++){
+		// > çŠ¶æ€å…ƒèµ„æº
+		for (int j = 0; j < data->m_state_tank.count(); j++){
+			QJsonObject obj_state = data->m_state_tank.at(j);
 
-			// > ¶ş²ã×Ö·û´®½â·â
-			QString str_action = obj_actionSeq.value("×´Ì¬Ôª-" + QString::number(j + 1)).toString();
-			if (str_action == ""){ continue; }
-			QJsonObject obj_action = TTool::_JSON_parse_To_Obj_(str_action);
-
-			// > Èı²ã×Ö·û´®½â·â
-			QString str_src = obj_action.value("×ÊÔ´-×´Ì¬Ôª").toString();
+			// > ä¸‰å±‚å­—ç¬¦ä¸²è§£å°
+			QString str_src = obj_state.value("èµ„æº-çŠ¶æ€å…ƒ").toString();
 			QStringList src_list = TTool::_JSON_parse_To_QListQString_(str_src);
 
 			fileName_list.append(src_list);
 		}
 	}
 
-	// > È¥ÖØ
+	/*
+	QStringList fileName_list = QStringList();
+	for (int i = 0; i < this->data_ActionSeqLength.realLen_actionSeq; i++){
+
+		// > ä¸€å±‚å­—ç¬¦ä¸²è§£å°
+		QString str_actionSeq = this->data_ActionSeqData.value("åŠ¨ç”»åºåˆ—-" + QString::number(i + 1)).toString();
+		if (str_actionSeq == ""){ continue; }
+		QJsonObject obj_actionSeq = TTool::_JSON_parse_To_Obj_(str_actionSeq);
+
+		// > åŠ¨ä½œå…ƒèµ„æº
+		for (int j = 0; j < this->data_ActionSeqLength.realLen_action; j++){
+
+			// > äºŒå±‚å­—ç¬¦ä¸²è§£å°
+			QString str_action = obj_actionSeq.value("åŠ¨ä½œå…ƒ-" + QString::number(j + 1)).toString();
+			if (str_action == ""){ continue; }
+			QJsonObject obj_action = TTool::_JSON_parse_To_Obj_(str_action);
+
+			// > ä¸‰å±‚å­—ç¬¦ä¸²è§£å°
+			QString str_src = obj_action.value("èµ„æº-åŠ¨ä½œå…ƒ").toString();
+			QStringList src_list = TTool::_JSON_parse_To_QListQString_(str_src);
+
+			fileName_list.append(src_list);
+		}
+
+		// > çŠ¶æ€å…ƒèµ„æº
+		for (int j = 0; j < this->data_ActionSeqLength.realLen_state; j++){
+
+			// > äºŒå±‚å­—ç¬¦ä¸²è§£å°
+			QString str_action = obj_actionSeq.value("çŠ¶æ€å…ƒ-" + QString::number(j + 1)).toString();
+			if (str_action == ""){ continue; }
+			QJsonObject obj_action = TTool::_JSON_parse_To_Obj_(str_action);
+
+			// > ä¸‰å±‚å­—ç¬¦ä¸²è§£å°
+			QString str_src = obj_action.value("èµ„æº-çŠ¶æ€å…ƒ").toString();
+			QStringList src_list = TTool::_JSON_parse_To_QListQString_(str_src);
+
+			fileName_list.append(src_list);
+		}
+	}
+	*/
+
+	// > å»é‡
 	fileName_list = fileName_list.toSet().toList();
 
-	// > ÁĞ³ö×ÊÔ´
+	// > åˆ—å‡ºèµ„æº
 	QList<QFileInfo> result_list = QList<QFileInfo>();
 	for (int i = 0; i < fileName_list.count(); i++){
 		QString file_path = this->getActionSeqDir() + "/" + fileName_list.at(i) + ".png";
@@ -195,7 +316,7 @@ QList<QFileInfo> S_ActionSeqDataContainer::getAllRelatedFile(){
 
 
 /*-------------------------------------------------
-		³£Á¿ - »ñÈ¡Èí¼ş±£´æÍ¼Æ¬Â·¾¶
+		å¸¸é‡ - è·å–è½¯ä»¶ä¿å­˜å›¾ç‰‡è·¯å¾„
 */
 QString S_ActionSeqDataContainer::getActionSeqDir(){
 	QString dir_path = S_TempFileManager::getInstance()->getTempFileUrl() +"/Special__actionSeq";
@@ -206,55 +327,71 @@ QString S_ActionSeqDataContainer::getActionSeqDir(){
 
 
 /*-------------------------------------------------
-		Ê÷Êı¾İ - ĞŞ¸Ä
+		æ ‘é…ç½® - ä¿®æ”¹é…ç½®
 */
-void S_ActionSeqDataContainer::modifyTreeData(QJsonObject tree){
+void S_ActionSeqDataContainer::modifyTreeConfig(QJsonObject tree){
 	this->data_treeConfig = tree;
 }
 /*-------------------------------------------------
-		Ê÷Êı¾İ - »ñÈ¡
+		æ ‘é…ç½® - è·å–é…ç½®
 */
-QJsonObject S_ActionSeqDataContainer::getTreeData(){
+QJsonObject S_ActionSeqDataContainer::getTreeConfig(){
 	return this->data_treeConfig;
+}
+/*-------------------------------------------------
+		æ ‘é…ç½® - è·å–æ ‘æ•°æ®
+*/
+QList<QJsonObject> S_ActionSeqDataContainer::getTreeData(){
+	//ï¼ˆæ­¤æ•°æ®å­˜äº åŠ¨ç”»åºåˆ—æ•°æ® ä¸­ï¼‰
+	QList<QJsonObject> result_list;
+	for (int i = 0; i < this->data_ActionSeqData.count(); i++){
+		C_ActionSeq* data = this->data_ActionSeqData.at(i);
+		QJsonObject obj;
+		obj.insert("COAS_id", data->m_COAS_id);
+		obj.insert("COAS_name", data->m_COAS_name);
+		obj.insert("COAS_type", data->m_COAS_type);
+		result_list.append(obj);
+	}
+	return result_list;
 }
 
 /*-----------------------------------
-		Êı¾İ - »ñÈ¡´æ´¢µÄÃû³Æ
+		æ•°æ® - è·å–å­˜å‚¨çš„åç§°
 */
 QString S_ActionSeqDataContainer::getSaveName() {
 	return "S_ActionSeqDataContainer";
 }
 /*-----------------------------------
-		Êı¾İ - Çå³ıµ±Ç°¹ÜÀíÆ÷Êı¾İ
+		æ•°æ® - æ¸…é™¤å½“å‰ç®¡ç†å™¨æ•°æ®
 */
 void S_ActionSeqDataContainer::clearAllData() {
 	this->data_ActionSeqPlugin = nullptr;
 	this->data_treeConfig = QJsonObject();
 	this->data_ActionSeqLength = C_ActionSeqLength();
-	this->data_ActionSeqData = QJsonObject();
+	this->data_ActionSeqData.clear();
 }
 /*-----------------------------------
-		Êı¾İ - È«²¿¼¤ÀøÔ´Êı¾İ -> QJsonObject
+		æ•°æ® - å…¨éƒ¨æ¿€åŠ±æºæ•°æ® -> QJsonObject
 */
 QJsonObject S_ActionSeqDataContainer::getAllDataOfJsonObject(){
 	QJsonObject obj_all = QJsonObject();
 
-	obj_all.insert("data_treeConfig", this->data_treeConfig);								//Ê÷ÅäÖÃÊı¾İ
-	obj_all.insert("data_ActionSeqLength", this->data_ActionSeqLength.getJsonObject());		//¶¯»­ĞòÁĞ³¤¶È
-	obj_all.insert("data_ActionSeqData", this->data_ActionSeqData);							//¶¯»­ĞòÁĞÊı¾İ
+	obj_all.insert("data_treeConfig", this->data_treeConfig);								//æ ‘é…ç½®æ•°æ®
+	obj_all.insert("data_ActionSeqLength", this->data_ActionSeqLength.getJsonObject());		//åŠ¨ç”»åºåˆ—é•¿åº¦
+	obj_all.insert("data_ActionSeqData", this->getActionSeqData_Object());					//åŠ¨ç”»åºåˆ—æ•°æ®
 	
 	return obj_all;
 }
 
 /*-----------------------------------
-		Êı¾İ - QJsonObject -> È«²¿¼¤ÀøÔ´Êı¾İ
+		æ•°æ® - QJsonObject -> å…¨éƒ¨æ¿€åŠ±æºæ•°æ®
 */
 void S_ActionSeqDataContainer::setAllDataFromJsonObject(QJsonObject obj_all){
 	this->clearAllData();
 
-	this->data_treeConfig = obj_all.value("data_treeConfig").toObject();							//Ê÷ÅäÖÃÊı¾İ
-	this->data_ActionSeqLength.setJsonObject( obj_all.value("data_ActionSeqLength").toObject() );	//¶¯»­ĞòÁĞ³¤¶È
-	this->data_ActionSeqData = obj_all.value("data_ActionSeqData").toObject();						//¶¯»­ĞòÁĞÊı¾İ
+	this->data_treeConfig = obj_all.value("data_treeConfig").toObject();							//æ ‘é…ç½®æ•°æ®
+	this->data_ActionSeqLength.setJsonObject( obj_all.value("data_ActionSeqLength").toObject() );	//åŠ¨ç”»åºåˆ—é•¿åº¦
+	this->setActionSeqData_Object( obj_all.value("data_ActionSeqData").toObject() );				//åŠ¨ç”»åºåˆ—æ•°æ®
 
 	emit dataAllReloaded();
 }
