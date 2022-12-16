@@ -404,6 +404,13 @@ QTableView::item:selected {
                   </widget>
                  </item>
                  <item>
+                  <widget class="QPushButton" name="pushButton_checkLoop">
+                   <property name="text">
+                    <string>检查嵌套关系</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
                   <spacer name="verticalSpacer">
                    <property name="orientation">
                     <enum>Qt::Vertical</enum>

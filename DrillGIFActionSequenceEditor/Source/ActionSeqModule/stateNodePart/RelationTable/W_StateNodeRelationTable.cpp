@@ -25,6 +25,14 @@ W_StateNodeRelationTable::W_StateNodeRelationTable(QWidget *parent)
 	ui.setupUi(this);
 
 	//-----------------------------------
+	//----最大化/最小化
+	Qt::WindowFlags flags = Qt::Dialog;
+	flags |= Qt::WindowCloseButtonHint;
+	flags |= Qt::WindowMaximizeButtonHint;
+	flags |= Qt::WindowMinimizeButtonHint;
+	this->setWindowFlags(flags);
+
+	//-----------------------------------
 	//----初始化参数
 	this->m_availableStateDataList.clear();
 	this->m_availableStateNodeDataList.clear();
