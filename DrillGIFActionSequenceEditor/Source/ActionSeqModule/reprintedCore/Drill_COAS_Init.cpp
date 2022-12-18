@@ -302,10 +302,71 @@ void Drill_COAS_Init::drill_COAS_checkSequenceData(QJsonObject* sequence_data){
 	//...（暂不考虑）
 }
 /*-------------------------------------------------
-		数据校验器 - 空检查 状态节点
+		数据校验器 - 子节点空检查 状态节点
 */
 void Drill_COAS_Init::drill_COAS_checkStateNodeMiss(QJsonObject* sequence_data, QJsonObject* stateNode_data){
 	//...（暂不考虑）
+}
+/*-------------------------------------------------
+		数据校验器 - 数据空检查 状态节点
+*/
+bool Drill_COAS_Init::drill_COAS_checkStateNodeIsEmpty(QJsonObject* stateNode_data){
+	//（状态节点必须配置对应的 状态元或状态节点，否则为空）
+	if (stateNode_data == nullptr){ return true; }
+	if (stateNode_data->value("name").isUndefined()){ return true; }
+	if (stateNode_data->value("name").toString() == ""){ return true; }
+	if (stateNode_data->value("play_type").isUndefined()){ return true; }
+
+	if (stateNode_data->value("play_type").toString() == "随机播放状态元"){
+		if (stateNode_data->value("play_randomStateSeq").isUndefined()){ return true; }
+		if (stateNode_data->value("play_randomStateSeq").toArray().count() == 0){ return true; }
+		return false;
+	}
+	if (stateNode_data->value("play_type").toString() == "顺序播放状态元"){
+		if (stateNode_data->value("play_plainStateSeq").isUndefined()){ return true; }
+		if (stateNode_data->value("play_plainStateSeq").toArray().count() == 0){ return true; }
+		return false;
+	}
+	if (stateNode_data->value("play_type").toString() == "随机播放嵌套集合"){
+		if (stateNode_data->value("play_randomNodeSeq").isUndefined()){ return true; }
+		if (stateNode_data->value("play_randomNodeSeq").toArray().count() == 0){ return true; }
+		return false;
+	}
+	if (stateNode_data->value("play_type").toString() == "顺序播放嵌套集合"){
+		if (stateNode_data->value("play_plainNodeSeq").isUndefined()){ return true; }
+		if (stateNode_data->value("play_plainNodeSeq").toArray().count() == 0){ return true; }
+		return false;
+	}
+	return true;
+}
+bool Drill_COAS_Init::drill_COAS_checkStateNodeIsEmpty_Chinese(QJsonObject* stateNode_data){
+	//（状态节点必须配置对应的 状态元或状态节点，否则为空）
+	if (stateNode_data == nullptr){ return true; }
+	if (stateNode_data->value("节点名称").isUndefined()){ return true; }
+	if (stateNode_data->value("节点名称").toString() == ""){ return true; }
+	if (stateNode_data->value("播放方式").isUndefined()){ return true; }
+
+	if (stateNode_data->value("播放方式").toString() == "随机播放状态元"){
+		if (stateNode_data->value("随机播放状态元").isUndefined()){ return true; }
+		if (TTool::_JSON_parse_To_QListQString_(stateNode_data->value("随机播放状态元").toString()).count() == 0){ return true; }
+		return false;
+	}
+	if (stateNode_data->value("播放方式").toString() == "顺序播放状态元"){
+		if (stateNode_data->value("顺序播放状态元").isUndefined()){ return true; }
+		if (TTool::_JSON_parse_To_QListQString_(stateNode_data->value("顺序播放状态元").toString()).count() == 0){ return true; }
+		return false;
+	}
+	if (stateNode_data->value("播放方式").toString() == "随机播放嵌套集合"){
+		if (stateNode_data->value("随机播放嵌套集合").isUndefined()){ return true; }
+		if (TTool::_JSON_parse_To_QListQString_(stateNode_data->value("随机播放嵌套集合").toString()).count() == 0){ return true; }
+		return false;
+	}
+	if (stateNode_data->value("播放方式").toString() == "顺序播放嵌套集合"){
+		if (stateNode_data->value("顺序播放嵌套集合").isUndefined()){ return true; }
+		if (TTool::_JSON_parse_To_QListQString_(stateNode_data->value("顺序播放嵌套集合").toString()).count() == 0){ return true; }
+		return false;
+	}
+	return true;
 }
 /*-------------------------------------------------
 		数据校验器 - 嵌套检查 状态节点

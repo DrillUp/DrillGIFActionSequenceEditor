@@ -67,8 +67,11 @@ class Drill_COAS_Init{
 	public:
 									//数据校验器 - 检查 动画序列
 		void drill_COAS_checkSequenceData(QJsonObject* sequence_data);
-									//数据校验器 - 空检查 状态节点
+									//数据校验器 - 子节点空检查 状态节点
 		void drill_COAS_checkStateNodeMiss(QJsonObject* sequence_data, QJsonObject* stateNode_data);
+									//数据校验器 - 数据空检查 状态节点
+		bool drill_COAS_checkStateNodeIsEmpty(QJsonObject* stateNode_data);
+		bool drill_COAS_checkStateNodeIsEmpty_Chinese(QJsonObject* stateNode_data);
 									//数据校验器 - 嵌套检查 状态节点
 		void drill_COAS_checkStateNodeRecursion(QJsonObject* sequence_data, QJsonObject* stateNode_data, int layer);
 

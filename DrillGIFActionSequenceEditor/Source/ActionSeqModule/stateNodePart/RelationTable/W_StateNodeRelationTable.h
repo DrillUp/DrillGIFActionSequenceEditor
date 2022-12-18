@@ -2,6 +2,8 @@
 #define W_StateNodeRelationTable_H
 
 #include "ui_W_StateNodeRelationTable.h"
+#include "../StateTreeNode/C_StateTreeNode.h"
+#include "../StateTreeNode/C_StateTreeNodeFactory.h"
 
 /*
 -----==========================================================-----
@@ -28,16 +30,27 @@ class W_StateNodeRelationTable : public QDialog
 										//控件 - 设置表格列
 		void setTableColumnCount(int count);
 										//控件 - 设置状态节点
-		QWidget* createItemByNodeData(QJsonObject node_data);
+		QWidget* createItemByNodeData(C_StateTreeNodePtr node);
 		
+
 	//-----------------------------------
 	//----数据
 	protected:
 		QList<QJsonObject> m_availableStateDataList;
 		QList<QJsonObject> m_availableStateNodeDataList;
+		C_StateTreeNodeFactoryPtr m_C_StateTreeNodeFactory;	//此树容器 在建立窗口时，临时使用，关闭窗口后销毁。
 	public:
-										//数据 - 获取最大层数
-		int getMaxLayerCount();
+										//数据 - 构建状态节点图
+		void rebuildNodeFactory();
+										//数据 - 递归添加节点
+		void createNode_Recursion(C_StateTreeNodePtr node, int layer_deep);
+										//数据 - 获取状态元
+		QJsonObject getStateByName(QString name);
+		QList<QJsonObject> getStateByNameList(QStringList name_list);
+										//数据 - 获取状态节点
+		QJsonObject getStateNodeByName(QString name);
+		QList<QJsonObject> getStateNodeByNameList(QStringList name_list);
+
 
 	//-----------------------------------
 	//----窗口

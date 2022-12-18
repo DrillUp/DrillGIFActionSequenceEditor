@@ -276,6 +276,15 @@
     <Filter Include="源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点关系表">
       <UniqueIdentifier>{3fd7385c-2f28-41ad-97d8-ba909296f49e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（常规无向图）">
+      <UniqueIdentifier>{f6674312-1fb5-43c6-bd0c-fc953203b2a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（树状图）">
+      <UniqueIdentifier>{3fd9cfd0-cb02-4a48-af2f-35ffc51ef9a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点_树图">
+      <UniqueIdentifier>{6e8896c3-718f-421e-a2ba-ad43bb27cddb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -1013,6 +1022,39 @@
     <ClCompile Include="GeneratedFiles\Release\moc_W_StateNodeRelationTable.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_C_NodeFactory.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_C_NodeFactory.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_S_NodeFactoryContainer.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_S_NodeFactoryContainer.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\NodeDataOfTree\C_TreeNode.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（树状图）</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\NodeDataOfTree\C_TreeNodeFactory.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（树状图）</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\NodeData\C_Node.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（常规无向图）</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\NodeData\C_NodeFactory.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（常规无向图）</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\NodeData\S_NodeFactoryContainer.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（常规无向图）</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ActionSeqModule\stateNodePart\StateTreeNode\C_StateTreeNode.cpp">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点_树图</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ActionSeqModule\stateNodePart\StateTreeNode\C_StateTreeNodeFactory.cpp">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点_树图</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="drillgifactionsequenceeditor.qrc">
@@ -1333,6 +1375,12 @@
     <CustomBuild Include="Source\ActionSeqModule\stateNodePart\RelationTable\W_StateNodeRelationTable.ui">
       <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点关系表</Filter>
     </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\NodeData\C_NodeFactory.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（常规无向图）</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\NodeData\S_NodeFactoryContainer.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（常规无向图）</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DrillGIFActionSequenceEditor.rc" />
@@ -1529,6 +1577,21 @@
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_W_StateNodeRelationTable.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\widgetFormSenior\NodeDataOfTree\C_TreeNode.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（树状图）</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\widgetFormSenior\NodeDataOfTree\C_TreeNodeFactory.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（树状图）</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\widgetFormSenior\NodeData\C_Node.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（常规无向图）</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ActionSeqModule\stateNodePart\StateTreeNode\C_StateTreeNode.h">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点_树图</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ActionSeqModule\stateNodePart\StateTreeNode\C_StateTreeNodeFactory.h">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点_树图</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

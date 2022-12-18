@@ -57,7 +57,7 @@ P_StateNodePart::P_StateNodePart(P_StatePart* statePart, QWidget *parent)
 	this->m_table->setConfigParam(rat_config);			//固定参数
 	this->m_table->setItemOuterControlEnabled(true);	//开启右键菜单
 
-	// > 
+	// > 状态元块
 	this->m_P_StatePart = statePart;
 
 	// > 双表格

@@ -1,4 +1,4 @@
-#include <QtWidgets>
+﻿#include <QtWidgets>
 #include <QCoreApplication>
 #include <QDebug>
 #include <QtCore/qmath.h>
@@ -8,6 +8,10 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QMessageBox>
-
-#define QRC_IconSrcPath QString(":/DrillGIFActionSequenceEditor/Resources/icons")
 #pragma execution_character_set("utf-8")
+
+// > 资源路径
+#define QRC_IconSrcPath QString(":/DrillGIFActionSequenceEditor/Resources/icons")
+
+// > 智能指针
+#define CLASS_PTR(XXX) class XXX; typedef QSharedPointer<XXX> XXX##Ptr;

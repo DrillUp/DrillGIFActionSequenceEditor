@@ -1,0 +1,349 @@
+﻿#include "stdafx.h"
+#include "C_TreeNode.h"
+
+#include "C_TreeNodeFactory.h"
+#include "../NodeData/S_NodeFactoryContainer.h"
+#include "Source/Utils/Common/TTool.h"
+
+
+/*
+-----==========================================================-----
+		类：		树节点.cpp
+		版本：		v1.00
+		作者：		drill_up
+		所属模块：	工具模块
+		功能：		定义一个树节点，用于树控制。
+					
+		使用方法：
+				> 创建
+					
+
+-----==========================================================-----
+*/
+C_TreeNode::C_TreeNode(QString id, QString factory_id, QString nodeName) : C_Node(id, factory_id, nodeName){
+
+	// > 类
+	this->id = id;							//标识
+	this->name = nodeName;					//名称
+	this->factory_id = factory_id;			//工厂标识
+
+	// > 节点
+	this->m_connectedNodeIdList.clear();	//连接的节点
+
+	// > 自连接
+	this->m_canSelfConnect = false;			//自连接（树节点禁止自连接）
+
+	// > 树节点
+	this->m_tree_curLayer = -1;
+	this->m_tree_childIdList.clear();
+}
+
+C_TreeNode::~C_TreeNode(){
+}
+
+
+/*-------------------------------------------------
+		树节点 - 设置当前层级
+*/
+void C_TreeNode::setTree_CurLayer_FactoryOnly(int layer){
+	this->m_tree_curLayer = layer;
+}
+/*-------------------------------------------------
+		树节点 - 设置子节点
+*/
+void C_TreeNode::setTree_ChildIdList_FactoryOnly(QStringList id_list){
+	this->m_tree_childIdList = id_list;
+}
+
+/*-------------------------------------------------
+		树节点 - 获取当前层级
+*/
+int C_TreeNode::getTree_CurLayer(){
+	return this->m_tree_curLayer;
+}
+/*-------------------------------------------------
+		树节点 - 获取父节点
+*/
+C_TreeNodePtr C_TreeNode::getTree_Parent(){
+	return this->_factoryTree_get()->getTreeNode_ById(this->getTree_ParentId());
+}
+QString C_TreeNode::getTree_ParentId(){
+	if (this->m_tree_curLayer == -1){ return ""; }
+
+	QList<C_TreeNodePtr> treeNode_list = this->_factoryTree_get()->getTreeNode_All();
+	for (int i = 0; i < treeNode_list.count(); i++){
+		C_TreeNodePtr treeNode = treeNode_list.at(i);
+		QStringList id_list = treeNode->getChildNodeId_Current();
+		if (id_list.contains(this->getId())){		//（由于是树结构，所以只要找到包含 该节点id 的树节点，即父节点）
+			return treeNode->getId();
+		}
+	}
+	return "";
+}
+
+/*-------------------------------------------------
+		树节点 - 是否为树根
+*/
+bool C_TreeNode::isTreeRoot(){
+	return this->m_tree_curLayer == 0;
+}
+/*-------------------------------------------------
+		树节点 - 是否为树枝（包含树根）
+*/
+bool C_TreeNode::isTreeBranch(){
+	if (this->m_tree_curLayer == -1){ return false; }
+	return this->m_tree_childIdList.count() > 0;
+}
+/*-------------------------------------------------
+		树节点 - 是否为树叶
+*/
+bool C_TreeNode::isTreeLeaf(){
+	if (this->m_tree_curLayer == -1){ return false; }
+	return this->m_tree_childIdList.count() == 0;
+}
+/*-------------------------------------------------
+		树节点 - 获取树节点数量
+*/
+QList<C_TreeNodePtr> C_TreeNode::getChildNode_Current(){
+	QList<C_TreeNodePtr> result_list;
+	for (int i = 0; i < this->m_tree_childIdList.count(); i++){
+		QString node_id = this->m_tree_childIdList.at(i);
+		C_TreeNodePtr node = this->_factoryTree_get()->getTreeNode_ById(node_id);
+		result_list.append(node);
+	}
+	return result_list;
+}
+QList<C_TreeNodePtr> C_TreeNode::getChildNode_Recursion(int layer_deep){
+	if (layer_deep > 40){
+		QMessageBox::about(nullptr, "提示", "C_TreeNode中函数getChildNode_Recursion递归次数过载，请重新检查树节点连接情况。");
+		return QList<C_TreeNodePtr>();
+	}
+	QList<C_TreeNodePtr> result_list;
+	for (int i = 0; i < this->m_tree_childIdList.count(); i++){
+		QString node_id = this->m_tree_childIdList.at(i);
+		C_TreeNodePtr node = this->_factoryTree_get()->getTreeNode_ById(node_id);
+		result_list.append(node);
+		result_list.append(node->getChildNode_Recursion(layer_deep + 1));
+	}
+	return result_list;
+}
+/*-------------------------------------------------
+		树节点 - 获取 - 树节点Id
+*/
+QStringList C_TreeNode::getChildNodeId_Current(){
+	return this->m_tree_childIdList;
+}
+QStringList C_TreeNode::getChildNodeId_Recursion(int layer_deep){
+	if (layer_deep > 40){
+		QMessageBox::about(nullptr, "提示", "C_TreeNode中函数getChildNodeId_Recursion递归次数过载，请重新检查树节点连接情况。");
+		return QStringList();
+	}
+	QStringList result_list;
+	for (int i = 0; i < this->m_tree_childIdList.count(); i++){
+		QString node_id = this->m_tree_childIdList.at(i);
+		C_TreeNodePtr node = this->_factoryTree_get()->getTreeNode_ById(node_id);
+		result_list.append( node->getChildNodeId_Recursion(layer_deep + 1) );
+	}
+	return result_list;
+}
+/*-------------------------------------------------
+		树节点 - 获取 - 树节点数量
+*/
+int C_TreeNode::getChildNodeCount_Current(){
+	return this->m_tree_childIdList.count();
+}
+int C_TreeNode::getChildNodeCount_Recursion(int layer_deep){
+	if (layer_deep > 40){
+		QMessageBox::about(nullptr, "提示", "C_TreeNode中函数getChildNodeCount_Recursion递归次数过载，请重新检查树节点连接情况。");
+		return 0;
+	}
+
+	// > 当前为叶子
+	if (this->isTreeLeaf()){
+		return 0;
+	}
+
+	// > 当前为树枝
+	int count = 0;
+	for (int i = 0; i < this->m_tree_childIdList.count(); i++){
+		QString node_id = this->m_tree_childIdList.at(i);
+		C_TreeNodePtr node = this->_factoryTree_get()->getTreeNode_ById(node_id);
+		count += node->getChildNodeCount_Recursion(layer_deep + 1);
+	}
+	return count;
+}
+/*-------------------------------------------------
+		树节点 - 获取 - 树枝
+*/
+QList<C_TreeNodePtr> C_TreeNode::getChildBranch_Current(){
+	QList<C_TreeNodePtr> result_list;
+	for (int i = 0; i < this->m_tree_childIdList.count(); i++){
+		QString node_id = this->m_tree_childIdList.at(i);
+		C_TreeNodePtr node = this->_factoryTree_get()->getTreeNode_ById(node_id);
+		if (node->isTreeBranch()){
+			result_list.append(node);
+		}
+	}
+	return result_list;
+}
+QList<C_TreeNodePtr> C_TreeNode::getChildBranch_Recursion(int layer_deep){
+	if (layer_deep > 40){
+		QMessageBox::about(nullptr, "提示", "C_TreeNode中函数getChildNode_Recursion递归次数过载，请重新检查树节点连接情况。");
+		return QList<C_TreeNodePtr>();
+	}
+
+	// > 当前为叶子
+	if (this->isTreeLeaf()){
+		return QList<C_TreeNodePtr>();
+	}
+
+	// > 当前为树枝
+	QList<C_TreeNodePtr> result_list;
+	for (int i = 0; i < this->m_tree_childIdList.count(); i++){
+		QString node_id = this->m_tree_childIdList.at(i);
+		C_TreeNodePtr node = this->_factoryTree_get()->getTreeNode_ById(node_id);
+		if (node->isTreeBranch()){
+			result_list.append(node);
+		}
+		result_list.append(node->getChildBranch_Recursion(layer_deep + 1));
+	}
+	return result_list;
+}
+/*-------------------------------------------------
+		树节点 - 获取 - 叶子
+*/
+QList<C_TreeNodePtr> C_TreeNode::getChildLeaf_Current(){
+	QList<C_TreeNodePtr> result_list;
+	for (int i = 0; i < this->m_tree_childIdList.count(); i++){
+		QString node_id = this->m_tree_childIdList.at(i);
+		C_TreeNodePtr node = this->_factoryTree_get()->getTreeNode_ById(node_id);
+		if (node->isTreeBranch()){
+			result_list.append(node);
+		}
+	}
+	return result_list;
+}
+QList<C_TreeNodePtr> C_TreeNode::getChildLeaf_Recursion(int layer_deep){
+	if (layer_deep > 40){
+		QMessageBox::about(nullptr, "提示", "C_TreeNode中函数getChildNode_Recursion递归次数过载，请重新检查树节点连接情况。");
+		return QList<C_TreeNodePtr>();
+	}
+
+	// > 当前为叶子
+	if (this->isTreeLeaf()){
+		return QList<C_TreeNodePtr>();
+	}
+
+	// > 当前为树枝
+	QList<C_TreeNodePtr> result_list;
+	for (int i = 0; i < this->m_tree_childIdList.count(); i++){
+		QString node_id = this->m_tree_childIdList.at(i);
+		C_TreeNodePtr node = this->_factoryTree_get()->getTreeNode_ById(node_id);
+		if (node->isTreeLeaf()){
+			result_list.append(node);
+		}
+		result_list.append(node->getChildLeaf_Recursion(layer_deep + 1));
+	}
+	return result_list;
+}
+
+
+/*-------------------------------------------------
+		类 - 获取类名
+*/
+QStringList C_TreeNode::classInherited(){
+	return C_Node::classInherited() << "C_TreeNode";
+}
+/*-------------------------------------------------
+		类 - 判断类
+*/
+bool C_TreeNode::isClass_TreeNode(){
+	return this->classIsInstanceOf("C_TreeNode");
+}
+/*-------------------------------------------------
+		类 - 创建自己
+*/
+C_NodePtr C_TreeNode::_factory_newNode(){
+	return this->_factoryTree_get()->createNodeEmpty();
+}
+/*-------------------------------------------------
+		类 - 获取类
+*/
+C_NodePtr C_TreeNode::_factory_getNodeById(QString node_id){
+	return this->_factoryTree_get()->getTreeNode_ById(node_id);
+}
+/*-------------------------------------------------
+		类 - 获取工厂
+*/
+C_NodeFactoryPtr C_TreeNode::_factory_get(){
+	return this->_factoryTree_get();
+}
+/*-------------------------------------------------
+		类 - 创建自己
+*/
+C_TreeNodePtr C_TreeNode::_factoryTree_newNode(){
+	return this->_factoryTree_get()->createTreeNodeEmpty();
+}
+/*-------------------------------------------------
+		类 - 获取类
+*/
+C_TreeNodePtr C_TreeNode::_factoryTree_getNodeById(QString node_id){
+	return this->_factoryTree_get()->getTreeNode_ById(node_id);
+}
+/*-------------------------------------------------
+		类 - 获取工厂
+*/
+C_TreeNodeFactoryPtr C_TreeNode::_factoryTree_get(){
+	C_NodeFactoryPtr factory = S_NodeFactoryContainer::getInstance()->getFactory_ById(this->factory_id);
+	if (factory->classIsInstanceOf("C_TreeNodeFactory") == false){ return C_TreeNodeFactoryPtr(); }
+	return factory.dynamicCast<C_TreeNodeFactory>();
+}
+
+
+/*-------------------------------------------------
+		复制数据 当前类 -> 目标类
+*/
+void C_TreeNode::copyTo(C_NodePtr data_to){
+	C_Node::copyTo(data_to);
+	if (data_to->classIsInstanceOf("C_TreeNode") == false){ return; }
+	C_TreeNodePtr treeData_to = data_to.dynamicCast<C_TreeNode>();
+
+	// > 树节点
+	treeData_to->m_tree_curLayer = this->m_tree_curLayer;
+	treeData_to->m_tree_childIdList = this->m_tree_childIdList;
+}
+/*-------------------------------------------------
+		复制数据 目标类 -> 当前类
+*/
+void C_TreeNode::copyFrom(C_NodePtr data_from){
+	C_Node::copyFrom(data_from);
+	if (data_from->classIsInstanceOf("C_TreeNode") == false){ return; }
+	C_TreeNodePtr treeData_from = data_from.dynamicCast<C_TreeNode>();
+
+	// > 树节点
+	this->m_tree_curLayer = treeData_from->m_tree_curLayer;
+	this->m_tree_childIdList = treeData_from->m_tree_childIdList;
+}
+/*-------------------------------------------------
+		实体类 -> QJsonObject
+*/
+QJsonObject C_TreeNode::getJsonObject(){
+	QJsonObject obj = C_Node::getJsonObject();
+
+	// > 树节点
+	obj.insert("m_tree_curLayer", this->m_tree_curLayer);
+	obj.insert("m_tree_childIdList", this->m_tree_childIdList.join("___"));
+
+	return obj;
+}
+/*-------------------------------------------------
+		QJsonObject -> 实体类
+*/
+void C_TreeNode::setJsonObject(QJsonObject obj){
+	C_Node::setJsonObject(obj);
+
+	// > 树节点
+	if (obj.value("m_tree_curLayer").isUndefined() == false){ this->m_tree_curLayer = obj.value("m_tree_curLayer").toInt(); }
+	if (obj.value("m_tree_childIdList").isUndefined() == false){ this->m_tree_childIdList = obj.value("m_tree_childIdList").toString().split("___"); }
+}
+
