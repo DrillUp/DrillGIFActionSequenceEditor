@@ -36,9 +36,10 @@ class W_StateNodeRelationTable : public QDialog
 	//-----------------------------------
 	//----数据
 	protected:
-		QList<QJsonObject> m_availableStateDataList;
-		QList<QJsonObject> m_availableStateNodeDataList;
-		C_StateTreeNodeFactoryPtr m_C_StateTreeNodeFactory;	//此树容器 在建立窗口时，临时使用，关闭窗口后销毁。
+		QList<QJsonObject> m_availableStateDataList;		//非空状态元数据
+		QList<QJsonObject> m_availableStateNodeDataList;	//非空状态节点数据
+		C_StateTreeNodeFactoryPtr m_C_StateTreeNodeFactory;	//树图容器（此容器 在建立窗口时，临时使用，关闭窗口后销毁）
+		bool m_errorBlock;									//出错时中止锁
 	public:
 										//数据 - 构建状态节点图
 		void rebuildNodeFactory();
