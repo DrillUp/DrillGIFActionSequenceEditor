@@ -279,11 +279,11 @@
     <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（常规无向图）">
       <UniqueIdentifier>{f6674312-1fb5-43c6-bd0c-fc953203b2a1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（树状图）">
-      <UniqueIdentifier>{3fd9cfd0-cb02-4a48-af2f-35ffc51ef9a2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点_树图">
       <UniqueIdentifier>{6e8896c3-718f-421e-a2ba-ad43bb27cddb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（树图）">
+      <UniqueIdentifier>{3fd9cfd0-cb02-4a48-af2f-35ffc51ef9a2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1035,10 +1035,10 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utils\widgetFormSenior\NodeDataOfTree\C_TreeNode.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（树状图）</Filter>
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（树图）</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utils\widgetFormSenior\NodeDataOfTree\C_TreeNodeFactory.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（树状图）</Filter>
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（树图）</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utils\widgetFormSenior\NodeData\C_Node.cpp">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（常规无向图）</Filter>
@@ -1579,10 +1579,10 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Utils\widgetFormSenior\NodeDataOfTree\C_TreeNode.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（树状图）</Filter>
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（树图）</Filter>
     </ClInclude>
     <ClInclude Include="Source\Utils\widgetFormSenior\NodeDataOfTree\C_TreeNodeFactory.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（树状图）</Filter>
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（树图）</Filter>
     </ClInclude>
     <ClInclude Include="Source\Utils\widgetFormSenior\NodeData\C_Node.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（常规无向图）</Filter>
@@ -1658,6 +1658,12 @@
     <Text Include="Source\Utils\widgetForm\RadioTable\程序入口.txt">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\单选表格</Filter>
     </Text>
+    <Text Include="Source\Utils\widgetFormSenior\NodeData\程序入口.txt">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（常规无向图）</Filter>
+    </Text>
+    <Text Include="Source\Utils\widgetFormSenior\NodeDataOfTree\程序入口.txt">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（树图）</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\关于灵活分类树.docx">
@@ -1665,6 +1671,9 @@
     </None>
     <None Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\关于灵活分类树.vsdx">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）</Filter>
+    </None>
+    <None Include="Source\Utils\widgetFormSenior\NodeDataOfTree\无向图与树图.vsdx">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（树图）</Filter>
     </None>
   </ItemGroup>
 </Project>

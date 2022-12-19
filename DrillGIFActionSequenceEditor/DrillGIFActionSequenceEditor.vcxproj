@@ -2390,6 +2390,8 @@
     <Text Include="Source\Utils\widgetFormSenior\animationListPlayer\程序入口.txt" />
     <Text Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\程序入口.txt" />
     <Text Include="Source\Utils\widgetFormSenior\flexiblePageTree\程序入口.txt" />
+    <Text Include="Source\Utils\widgetFormSenior\NodeDataOfTree\程序入口.txt" />
+    <Text Include="Source\Utils\widgetFormSenior\NodeData\程序入口.txt" />
     <Text Include="Source\Utils\widgetFormSenior\ObjectSortController\程序入口.txt" />
     <Text Include="Source\Utils\widgetForm\FoldableTabWindow\程序入口.txt" />
     <Text Include="Source\Utils\widgetForm\PictureSelector\程序入口.txt" />
@@ -2920,6 +2922,7 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
     </CustomBuild>
+    <None Include="Source\Utils\widgetFormSenior\NodeDataOfTree\无向图与树图.vsdx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
