@@ -10,7 +10,8 @@
 		类：		状态节点关系表.cpp
 		作者：		drill_up
 		所属模块：	动画序列模块
-		功能：		编辑 状态节点关系表 窗口的一些配置。
+		功能：		根据输入的状态元和状态节点数据，生成一张关系表。
+					【通过 状态节点_树图 的方式，即时构建，即时生成大表】
 
 		使用方法：
 				> 打开窗口
@@ -40,6 +41,7 @@ W_StateNodeRelationTable::W_StateNodeRelationTable(QWidget *parent)
 	this->m_availableStateNodeDataList.clear();
 	this->m_C_StateTreeNodeFactory = C_StateTreeNodeFactoryPtr::create();
 	S_NodeFactoryContainer::getInstance()->addFactory(this->m_C_StateTreeNodeFactory);
+	this->m_errorBlock = false;
 
 	//-----------------------------------
 	//----事件绑定
@@ -59,6 +61,7 @@ W_StateNodeRelationTable::~W_StateNodeRelationTable(){
 		控件 - 刷新表格
 */
 void W_StateNodeRelationTable::refreshTable(){
+	if (this->m_errorBlock == true){ return; }
 
 	// > 构建未成功情况
 	if (this->m_C_StateTreeNodeFactory->hasTreeRoot() == false){
@@ -192,6 +195,7 @@ QWidget* W_StateNodeRelationTable::createItemByNodeData(C_StateTreeNodePtr node)
 		数据 - 构建状态节点图
 */
 void W_StateNodeRelationTable::rebuildNodeFactory(){
+	if (this->m_errorBlock == true){ return; }
 
 	// > 树根
 	C_StateTreeNodePtr root = this->m_C_StateTreeNodeFactory->createStateTreeNode("动画序列");
@@ -212,10 +216,12 @@ void W_StateNodeRelationTable::rebuildNodeFactory(){
 	// > 树根初始化
 	if (this->m_C_StateTreeNodeFactory->hasIsolated() == true){
 		QMessageBox::about(nullptr, "错误", "状态节点构建时出现孤岛型嵌套，请重新检查状态节点的嵌套情况。");
+		this->m_errorBlock = true;
 		return;
 	}
 	if (this->m_C_StateTreeNodeFactory->isTree() == false){
 		QMessageBox::about(nullptr, "错误", "状态节点不构成树结构，存在死循环环路，请重新检查状态节点的嵌套情况。");
+		this->m_errorBlock = true;
 		return;
 	}
 	this->m_C_StateTreeNodeFactory->setTreeRoot(root);
@@ -225,8 +231,10 @@ void W_StateNodeRelationTable::rebuildNodeFactory(){
 */
 void W_StateNodeRelationTable::createNode_Recursion(C_StateTreeNodePtr node, int layer_deep){
 	// 由于状态元、状态节点存在重复的情况，因此需要递归添加重复的数据
+	if (this->m_errorBlock == true){ return; }
 	if (layer_deep > 40){
 		QMessageBox::about(nullptr, "错误", "状态节点的嵌套中存在死循环，请重新检查状态节点的嵌套情况。");
+		this->m_errorBlock = true;
 		return;
 	}
 	

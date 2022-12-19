@@ -9,7 +9,7 @@
 /*
 -----==========================================================-----
 		类：		单选表格.cpp
-		版本：		v1.02
+		版本：		v1.03
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		将数据全部显示，并能单选。（不含排序功能）
@@ -91,6 +91,8 @@ class P_RadioTable : public QObject
 									//资源数据 - 取出数据（多选）
 		QList<int> getSelectedIndex_Multi();
 		QList<QString> getSelectedText_Multi();
+									//资源数据 - 取出全部数据
+		QStringList getAllText();
 
 		
 	//-----------------------------------

@@ -45,6 +45,7 @@ P_ActionPart::P_ActionPart(QWidget *parent)
 	this->m_last_index = -1;
 	this->m_slotBlock_source = false;
 	this->m_curTagTank.clear();
+	this->m_errorMessage.clear();
 
 	//-----------------------------------
 	//----初始化ui
@@ -343,6 +344,42 @@ void P_ActionPart::local_loadIndexData(int index){
 	this->m_p_AnimationListEditor->selectStart();
 
 	this->m_last_index = index;
+}
+
+
+
+/*-------------------------------------------------
+		数据检查 - 执行检查
+*/
+void P_ActionPart::checkData_ActionDataList(QList<QJsonObject> actionDataList){
+	this->m_errorMessage.clear();
+
+	// > 空校验
+	// （不校验）
+
+	// > 重名校验
+	QStringList name_list;
+	QStringList repeatName_list;
+	for (int i = 0; i < actionDataList.count(); i++){
+		QJsonObject actionData = actionDataList.at(i);
+		QString name = actionData["动作元名称"].toString();
+		if (name == ""){ continue; }
+		if (name_list.contains(name)){
+			if (repeatName_list.contains(name)){ continue; }
+			repeatName_list.append(name);
+		}
+		name_list.append(name);
+	}
+	if (repeatName_list.count() > 0){
+		this->m_errorMessage.append("存在重复的动作元名称：" + repeatName_list.join(","));
+	}
+
+}
+/*-------------------------------------------------
+		数据检查 - 获取检查信息
+*/
+QStringList P_ActionPart::checkData_getErrorMessage(){
+	return this->m_errorMessage;
 }
 
 /*-------------------------------------------------

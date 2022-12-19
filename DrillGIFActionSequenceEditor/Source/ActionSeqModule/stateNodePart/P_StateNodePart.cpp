@@ -83,7 +83,7 @@ P_StateNodePart::P_StateNodePart(P_StatePart* statePart, QWidget *parent)
 	connect(ui.pushButton_editConfig, &QPushButton::clicked, this, &P_StateNodePart::btn_editConfig);
 
 	// > 表单变化绑定
-	connect(ui.lineEdit_name, &QLineEdit::textEdited, this->m_table, &P_RadioTable::modifyText_Selected);
+	connect(ui.lineEdit_name, &QLineEdit::textEdited, this, &P_StateNodePart::nameEdited);
 
 }
 
@@ -91,6 +91,23 @@ P_StateNodePart::~P_StateNodePart(){
 }
 
 
+/*-------------------------------------------------
+		控件 - 表单变化
+*/
+void P_StateNodePart::nameEdited(QString name){
+
+	// > 状态节点列表变化
+	this->m_table->modifyText_Selected(name);
+
+	// > 可选的状态节点变化
+	QString text = ui.comboBox_playType->currentText();
+	if (text == "随机播放嵌套集合" || text == "顺序播放嵌套集合"){
+		QStringList name_list = this->m_table->getAllText();//节点名称列表
+		TTool::_QStringList_clearEmptyRows_(&name_list);
+		this->m_P_TwoTableStringFiller->setLeftString(name_list);
+		this->m_P_TwoTableStringFiller->refreshTable();
+	}
+}
 /*-------------------------------------------------
 		控件 - 修改标签列表
 */
@@ -387,6 +404,48 @@ void P_StateNodePart::local_loadIndexData(int index){
 
 
 
+/*-------------------------------------------------
+		数据检查 - 执行检查
+*/
+void P_StateNodePart::checkData_StateNodeDataList(QList<QJsonObject> stateDataList, QList<QJsonObject> stateNodeDataList){
+	this->m_errorMessage.clear();
+
+	// > 空校验
+	// （不校验）
+
+	// > 重名校验
+	QStringList name_list;
+	QStringList repeatName_list;
+	for (int i = 0; i < stateNodeDataList.count(); i++){
+		QJsonObject nodeData = stateNodeDataList.at(i);
+		QString name = nodeData["节点名称"].toString();
+		if (name == ""){ continue; }
+		if (name_list.contains(name)){
+			if (repeatName_list.contains(name)){ continue; }
+			repeatName_list.append(name);
+		}
+		name_list.append(name);
+	}
+	if (repeatName_list.count() > 0){
+		this->m_errorMessage.append("存在重复的状态节点名称：" + repeatName_list.join(","));
+	}
+
+	// > 自连接校验
+
+
+	// > 死循环校验
+
+
+	// > 状态元对应校验
+
+
+}
+/*-------------------------------------------------
+		数据检查 - 获取检查信息
+*/
+QStringList P_StateNodePart::checkData_getErrorMessage(){
+	return this->m_errorMessage;
+}
 /*-------------------------------------------------
 		窗口 - 设置数据
 */

@@ -372,5 +372,8 @@ bool Drill_COAS_Init::drill_COAS_checkStateNodeIsEmpty_Chinese(QJsonObject* stat
 		数据校验器 - 嵌套检查 状态节点
 */
 void Drill_COAS_Init::drill_COAS_checkStateNodeRecursion(QJsonObject* sequence_data, QJsonObject* stateNode_data, int layer){
-	//...（暂不考虑）
+	
+	//（此处不执行）
+	//（对应执行函数见 P_StateNodePart::checkData_StateNodeDataList ）
+
 }

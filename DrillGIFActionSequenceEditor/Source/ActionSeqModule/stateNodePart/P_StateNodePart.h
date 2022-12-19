@@ -34,6 +34,8 @@ class P_StateNodePart : public QWidget
 		void btn_editTagTank();
 									//控件 - 打开状态节点关系表
 		void btn_RelationTable();
+									//控件 - 表单变化
+		void nameEdited(QString name);
 									//控件 - 刷新
 		void refreshTagTank();
 		
@@ -94,6 +96,18 @@ class P_StateNodePart : public QWidget
 		void local_saveCurIndexData();
 									//本地索引 - 读取本地数据
 		void local_loadIndexData(int index);
+
+		
+	//-----------------------------------
+	//----数据检查
+	protected:
+		QStringList m_errorMessage;
+	public:
+										//数据检查 - 执行检查
+										//		【说明】：此函数被父控件调用，当前控件不检查。
+		void checkData_StateNodeDataList(QList<QJsonObject> stateDataList, QList<QJsonObject> stateNodeDataList);
+										//数据检查 - 获取检查信息
+		QStringList checkData_getErrorMessage();
 
 	//-----------------------------------
 	//----窗口

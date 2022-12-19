@@ -107,7 +107,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #44
             <item>
              <widget class="QPushButton" name="pushButton_relationTable">
               <property name="text">
-               <string>状态节点关系表</string>
+               <string>查看关系表</string>
               </property>
               <property name="icon">
                <iconset resource="../../../drillgifactionsequenceeditor.qrc">
@@ -404,9 +404,23 @@ QTableView::item:selected {
                   </widget>
                  </item>
                  <item>
+                  <widget class="Line" name="line">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
                   <widget class="QPushButton" name="pushButton_checkLoop">
                    <property name="text">
                     <string>检查嵌套关系</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="pushButton_relationTable_2">
+                   <property name="text">
+                    <string>查看关系表</string>
                    </property>
                   </widget>
                  </item>

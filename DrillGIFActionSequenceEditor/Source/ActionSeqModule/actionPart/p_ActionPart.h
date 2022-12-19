@@ -85,6 +85,17 @@ class P_ActionPart : public QWidget
 									//本地索引 - 读取本地数据
 		void local_loadIndexData(int index);
 
+		
+	//-----------------------------------
+	//----数据检查
+	protected:
+		QStringList m_errorMessage;
+	public:
+										//数据检查 - 执行检查
+										//		【说明】：此函数被父控件调用，当前控件不检查。
+		void checkData_ActionDataList(QList<QJsonObject> actionDataList);
+										//数据检查 - 获取检查信息
+		QStringList checkData_getErrorMessage();
 
 	//-----------------------------------
 	//----窗口
