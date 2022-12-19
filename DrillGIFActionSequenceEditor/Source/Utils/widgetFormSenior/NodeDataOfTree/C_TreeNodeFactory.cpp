@@ -5,11 +5,30 @@
 /*
 -----==========================================================-----
 		类：		树节点工厂.cpp
-		版本：		v1.00
+		版本：		v1.01
 		作者：		drill_up
 		所属模块：	工具模块
-		功能：		存放快速类对象的类容器。
-					【此容器用于主键外键之间识别用，相当于一个库】
+		功能：		定义一个树节点工厂+树节点容器，用于描述/存放一棵树。
+					【此类包含工厂+容器，创建此类后需要 手动 加入到工厂容器中】
+
+		使用方法：
+				> 创建树节点（需要先创建工厂，再通过工厂创建节点）
+					this->m_C_TreeNodeFactoryPtr = C_TreeNodeFactoryPtr::create();
+					S_NodeFactoryContainer::getInstance()->addFactory(this->m_C_TreeNodeFactoryPtr);//（工厂创建后，需手动加入到工厂容器中）
+					C_TreeNodePtr node1 = this->m_C_TreeNodeFactoryPtr->createNode("节点1");
+					C_TreeNodePtr node2 = this->m_C_TreeNodeFactoryPtr->createNode("节点2");
+				> 连接树节点
+					node1->connectNode(node2);
+				> 删除树节点
+					this->m_C_TreeNodeFactoryPtr->removeNode_ById(node1->getId());
+				> 树图判定功能
+					bool result = this->m_C_TreeNodeFactoryPtr->hasSelfConnect();	//是否含自连接
+					bool result = this->m_C_TreeNodeFactoryPtr->hasLoop();			//是否含回路
+					bool result = this->m_C_TreeNodeFactoryPtr->hasIsolated();		//是否含孤岛
+					bool result = this->m_C_TreeNodeFactoryPtr->isTree();			//是否为树
+				> 树图主要功能
+					this->m_C_TreeNodeFactoryPtr->setTreeRoot(node1);				//设置树根
+					int result = this->m_C_TreeNodeFactoryPtr->getTreeDeep();		//获取树深度
 -----==========================================================-----
 */
 

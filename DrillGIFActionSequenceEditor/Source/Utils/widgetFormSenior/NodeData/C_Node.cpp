@@ -9,14 +9,25 @@
 /*
 -----==========================================================-----
 		类：		节点.cpp
-		版本：		v1.00
+		版本：		v1.01
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		定义一个节点，用于描述无向图。
 					
 		使用方法：
-				> 创建
-					
+				> 创建节点（需要先创建工厂，再通过工厂创建节点）
+					this->m_C_NodeFactoryPtr = C_NodeFactoryPtr::create();
+					S_NodeFactoryContainer::getInstance()->addFactory(this->m_C_NodeFactoryPtr);//（工厂创建后，需手动加入到工厂容器中）
+					C_NodePtr node1 = this->m_C_NodeFactoryPtr->createNode("节点1");
+					C_NodePtr node2 = this->m_C_NodeFactoryPtr->createNode("节点2");
+				> 连接节点
+					node1->connectNode(node2);
+				> 删除节点
+					this->m_C_NodeFactoryPtr->removeNode_ById(node1->getId());
+				> 无向图主要功能
+					bool result = this->m_C_NodeFactoryPtr->hasSelfConnect();	//是否含自连接
+					bool result = this->m_C_NodeFactoryPtr->hasLoop();			//是否含回路
+					bool result = this->m_C_NodeFactoryPtr->hasIsolated();		//是否含孤岛
 -----==========================================================-----
 */
 C_Node::C_Node(QString id, QString factory_id, QString nodeName){
@@ -108,13 +119,13 @@ QList<C_NodePtr> C_Node::getConnectedNode_All(){
 	return result_list;
 }
 /*-------------------------------------------------
-		节点 - 获取 - 节点Id
+		节点 - 获取 - 连接的节点Id
 */
 QStringList C_Node::getConnectedNode_AllId(){
 	return this->m_connectedNodeIdList;
 }
 /*-------------------------------------------------
-		节点 - 获取 - 节点数量
+		节点 - 获取 - 连接的节点数量
 */
 int C_Node::getConnectedNode_AllCount(){
 	return this->m_connectedNodeIdList.count();

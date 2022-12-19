@@ -5,11 +5,9 @@
 /*
 -----==========================================================-----
 		类：		状态节点工厂（图数据）.cpp
-		版本：		v1.00
 		作者：		drill_up
 		所属模块：	工具模块
-		功能：		存放快速类对象的类容器。
-					【此容器用于主键外键之间识别用，相当于一个库】
+		功能：		定义一个树节点工厂+树节点容器，用于描述/存放一棵树。
 -----==========================================================-----
 */
 
@@ -61,7 +59,7 @@ QList<C_StateTreeNodePtr> C_StateTreeNodeFactory::getStateTreeNode_AllOrg(){
 	return result_list;
 }
 /*-----------------------------------
-		类容器 - 获取 - 全部Id
+		类容器 - 获取 - 全部
 */
 QList<C_StateTreeNodePtr> C_StateTreeNodeFactory::getStateTreeNode_All(){
 	QList<C_StateTreeNodePtr> result_list;

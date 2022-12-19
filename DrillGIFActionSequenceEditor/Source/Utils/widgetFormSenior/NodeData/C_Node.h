@@ -7,7 +7,7 @@
 /*
 -----==========================================================-----
 		类：		节点.h
-		版本：		v1.00
+		版本：		v1.01
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		定义一个节点，用于描述无向图。
@@ -40,9 +40,9 @@ class C_Node{
 		
 										//节点 - 获取 - 连接的节点
 		QList<C_NodePtr> getConnectedNode_All();
-										//节点 - 获取 - 节点Id
+										//节点 - 获取 - 连接的节点Id
 		QStringList getConnectedNode_AllId();
-										//节点 - 获取 - 节点数量
+										//节点 - 获取 - 连接的节点数量
 		int getConnectedNode_AllCount();
 										//节点 - 获取 - 是否含某节点连接
 		bool hasConnect(C_NodePtr node);

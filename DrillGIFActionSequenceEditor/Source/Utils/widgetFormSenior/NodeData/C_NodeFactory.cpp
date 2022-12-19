@@ -5,11 +5,26 @@
 /*
 -----==========================================================-----
 		类：		节点工厂.cpp
-		版本：		v1.00
+		版本：		v1.01
 		作者：		drill_up
 		所属模块：	工具模块
-		功能：		存放快速类对象的类容器。
-					【此容器用于主键外键之间识别用，相当于一个库】
+		功能：		定义一个节点工厂+节点容器，用于描述/存放无向图。
+					【此类包含工厂+容器，创建此类后需要 手动 加入到工厂容器中】
+					
+		使用方法：
+				> 创建节点（需要先创建工厂，再通过工厂创建节点）
+					this->m_C_NodeFactoryPtr = C_NodeFactoryPtr::create();
+					S_NodeFactoryContainer::getInstance()->addFactory(this->m_C_NodeFactoryPtr);//（工厂创建后，需手动加入到工厂容器中）
+					C_NodePtr node1 = this->m_C_NodeFactoryPtr->createNode("节点1");
+					C_NodePtr node2 = this->m_C_NodeFactoryPtr->createNode("节点2");
+				> 连接节点
+					node1->connectNode(node2);
+				> 删除节点
+					this->m_C_NodeFactoryPtr->removeNode_ById(node1->getId());
+				> 无向图主要功能
+					bool result = this->m_C_NodeFactoryPtr->hasSelfConnect();	//是否含自连接
+					bool result = this->m_C_NodeFactoryPtr->hasLoop();			//是否含回路
+					bool result = this->m_C_NodeFactoryPtr->hasIsolated();		//是否含孤岛
 -----==========================================================-----
 */
 
@@ -270,7 +285,7 @@ QList<C_NodePtr> C_NodeFactory::getNode_AllOrg(){
 	return this->m_NodeTank;
 }
 /*-----------------------------------
-		类容器 - 获取 - 全部Id
+		类容器 - 获取 - 全部
 */
 QList<C_NodePtr> C_NodeFactory::getNode_All(){
 	QList<C_NodePtr> result_list;

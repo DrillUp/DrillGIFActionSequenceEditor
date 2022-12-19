@@ -8,7 +8,15 @@
 		版本：		v1.00
 		作者：		drill_up
 		所属模块：	工具模块
-		功能：		存放工厂对象的容器，用于节点获取工厂对象用。
+		功能：		存放工厂对象的容器，用于 节点获取创建自己的工厂对象 用。
+					【此容器存放所有 工厂，包括子类工厂。】
+					
+		使用方法：
+				> 添加工厂
+					this->m_C_NodeFactoryPtr = C_NodeFactoryPtr::create();
+					S_NodeFactoryContainer::getInstance()->addFactory(this->m_C_NodeFactoryPtr);
+				> 删除工厂（析构函数中）
+					S_NodeFactoryContainer::getInstance()->removeFactory(this->m_C_NodeFactoryPtr->getId());
 -----==========================================================-----
 */
 

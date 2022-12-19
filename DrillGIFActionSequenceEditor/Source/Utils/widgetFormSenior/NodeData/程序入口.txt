@@ -1,0 +1,21 @@
+﻿	【注意，对象选择器的全部以 CodePieceQT笔记 为准，所有修改在笔记中强化】
+			
+	程序入口（纯数据）：
+		C_Node.cpp			（可继承）
+		C_Node.h
+		C_NodeFactory.cpp	（可继承）
+		C_NodeFactory.h
+		
+
+	直接使用：
+		【可以看看图 无向图与树图.vsdx】
+		1.	节点工厂（C_NodeFactory）
+			直接通过Ptr指针的方式建立工厂对象，然后把工厂对象放入到工厂容器中。
+
+		2.	节点（C_Node）
+			建立工厂后，通过工厂函数建立节点，再进行连接操作即可。
+
+
+	继承使用：
+		1.	可以参考 树节点C_TreeNode 继承 节点C_Node 所覆写的函数。
+			所有含virtual的函数，都需要通过override进行虚继承。

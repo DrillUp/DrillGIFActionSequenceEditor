@@ -9,15 +9,29 @@
 /*
 -----==========================================================-----
 		类：		树节点.cpp
-		版本：		v1.00
+		版本：		v1.01
 		作者：		drill_up
 		所属模块：	工具模块
-		功能：		定义一个树节点，用于树控制。
+		功能：		定义一个树节点，用于建立一棵树。
 					
 		使用方法：
-				> 创建
-					
-
+				> 创建树节点（需要先创建工厂，再通过工厂创建节点）
+					this->m_C_TreeNodeFactoryPtr = C_TreeNodeFactoryPtr::create();
+					S_NodeFactoryContainer::getInstance()->addFactory(this->m_C_TreeNodeFactoryPtr);//（工厂创建后，需手动加入到工厂容器中）
+					C_TreeNodePtr node1 = this->m_C_TreeNodeFactoryPtr->createNode("节点1");
+					C_TreeNodePtr node2 = this->m_C_TreeNodeFactoryPtr->createNode("节点2");
+				> 连接树节点
+					node1->connectNode(node2);
+				> 删除树节点
+					this->m_C_TreeNodeFactoryPtr->removeNode_ById(node1->getId());
+				> 树图判定功能
+					bool result = this->m_C_TreeNodeFactoryPtr->hasSelfConnect();	//是否含自连接
+					bool result = this->m_C_TreeNodeFactoryPtr->hasLoop();			//是否含回路
+					bool result = this->m_C_TreeNodeFactoryPtr->hasIsolated();		//是否含孤岛
+					bool result = this->m_C_TreeNodeFactoryPtr->isTree();			//是否为树
+				> 树图主要功能
+					this->m_C_TreeNodeFactoryPtr->setTreeRoot(node1);				//设置树根
+					int result = this->m_C_TreeNodeFactoryPtr->getTreeDeep();		//获取树深度
 -----==========================================================-----
 */
 C_TreeNode::C_TreeNode(QString id, QString factory_id, QString nodeName) : C_Node(id, factory_id, nodeName){
