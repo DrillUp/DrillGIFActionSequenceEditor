@@ -232,7 +232,7 @@ void W_StateNodeRelationTable::rebuildNodeFactory(){
 void W_StateNodeRelationTable::createNode_Recursion(C_StateTreeNodePtr node, int layer_deep){
 	// 由于状态元、状态节点存在重复的情况，因此需要递归添加重复的数据
 	if (this->m_errorBlock == true){ return; }
-	if (layer_deep > 40){
+	if (layer_deep > 20){
 		QMessageBox::about(nullptr, "错误", "状态节点的嵌套中存在死循环，请重新检查状态节点的嵌套情况。");
 		this->m_errorBlock = true;
 		return;

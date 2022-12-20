@@ -34,6 +34,8 @@ class P_StateNodePart : public QWidget
 		void btn_editTagTank();
 									//控件 - 打开状态节点关系表
 		void btn_RelationTable();
+									//控件 - 检查状态节点
+		void btn_checkData();
 									//控件 - 表单变化
 		void nameEdited(QString name);
 									//控件 - 刷新
@@ -101,11 +103,14 @@ class P_StateNodePart : public QWidget
 	//-----------------------------------
 	//----数据检查
 	protected:
+		QList<QJsonObject> m_temp_stateNodeDataList;
 		QStringList m_errorMessage;
 	public:
 										//数据检查 - 执行检查
 										//		【说明】：此函数被父控件调用，当前控件不检查。
 		void checkData_StateNodeDataList(QList<QJsonObject> stateDataList, QList<QJsonObject> stateNodeDataList);
+										//数据检查 - 递归检查节点
+		void searchNode_Recursion(QJsonObject node, int layer_deep);
 										//数据检查 - 获取检查信息
 		QStringList checkData_getErrorMessage();
 

@@ -72,7 +72,9 @@ P_StateNodePart::P_StateNodePart(P_StatePart* statePart, QWidget *parent)
 
 	// > 标签列表编辑
 	connect(ui.pushButton_tagTank, &QPushButton::clicked, this, &P_StateNodePart::btn_editTagTank);
+	connect(ui.pushButton_checkLoop, &QPushButton::clicked, this, &P_StateNodePart::btn_checkData);
 	connect(ui.pushButton_relationTable, &QPushButton::clicked, this, &P_StateNodePart::btn_RelationTable);
+	connect(ui.pushButton_relationTable_2, &QPushButton::clicked, this, &P_StateNodePart::btn_RelationTable);
 
 	// > 播放方式
 	connect(ui.comboBox_playType, &QComboBox::currentTextChanged, this, &P_StateNodePart::playTypeChanged);
@@ -123,10 +125,92 @@ void P_StateNodePart::btn_editTagTank(){
 		控件 - 打开状态节点关系表
 */
 void P_StateNodePart::btn_RelationTable(){
-	W_StateNodeRelationTable d(this);
-	d.setData_StateData(this->m_P_StatePart->getData());
-	d.setData_StateNodeData(this->getData());
-	d.exec();
+	QList<QJsonObject> stateData = this->m_P_StatePart->getData();
+	QList<QJsonObject> stateNodeData = this->getData();
+	this->m_P_StatePart->checkData_StateDataList(stateData);
+	this->checkData_StateNodeDataList(stateData, stateNodeData);
+	QStringList error_state = this->m_P_StatePart->checkData_getErrorMessage();
+	QStringList error_stateNode = this->checkData_getErrorMessage();
+
+	// > 没有数据问题时
+	if (error_state.count() == 0 && error_stateNode.count() == 0){
+		W_StateNodeRelationTable d(this);
+		d.setData_StateData(this->m_P_StatePart->getData());
+		d.setData_StateNodeData(this->getData());
+		d.exec();
+		return;
+	}
+
+	// > 存在数据问题时
+	QString context;
+	context.append("关系表生成失败，存在以下数据问题。\n");
+	context.append("状态元：");
+	if (error_state.count() == 0){ 
+		context.append("无\n"); 
+	}else{
+		context.append("\n"); 
+		for (int i = 0; i < error_state.count(); i++){
+			context.append("> ");
+			context.append(error_state.at(i));
+			context.append("\n");
+		}
+	}
+	context.append("状态节点：");
+	if (error_stateNode.count() == 0){
+		context.append("无\n");
+	}else{
+		context.append("\n"); 
+		for (int i = 0; i < error_stateNode.count(); i++){
+			context.append("> ");
+			context.append(error_stateNode.at(i));
+			context.append("\n");
+		}
+	}
+	QMessageBox::about(nullptr, "提示", context);
+}
+/*-------------------------------------------------
+		控件 - 检查状态节点
+*/
+void P_StateNodePart::btn_checkData(){
+	QList<QJsonObject> stateData = this->m_P_StatePart->getData();
+	QList<QJsonObject> stateNodeData = this->getData();
+	this->m_P_StatePart->checkData_StateDataList(stateData);
+	this->checkData_StateNodeDataList(stateData, stateNodeData);
+	QStringList error_state = this->m_P_StatePart->checkData_getErrorMessage();
+	QStringList error_stateNode = this->checkData_getErrorMessage();
+
+	// > 没有数据问题时
+	if (error_state.count() == 0 && error_stateNode.count() == 0){
+		QMessageBox::about(nullptr, "提示", "嵌套关系完整，暂无数据问题。"); 
+		return;
+	}
+
+	// > 存在数据问题时
+	QString context;
+	context.append("嵌套关系存在问题，如下。\n");
+	context.append("状态元：");
+	if (error_state.count() == 0){ 
+		context.append("无\n"); 
+	}else{
+		context.append("\n"); 
+		for (int i = 0; i < error_state.count(); i++){
+			context.append("> ");
+			context.append(error_state.at(i));
+			context.append("\n");
+		}
+	}
+	context.append("状态节点：");
+	if (error_stateNode.count() == 0){
+		context.append("无\n");
+	}else{
+		context.append("\n"); 
+		for (int i = 0; i < error_stateNode.count(); i++){
+			context.append("> ");
+			context.append(error_stateNode.at(i));
+			context.append("\n");
+		}
+	}
+	QMessageBox::about(nullptr, "提示", context);
 }
 /*-------------------------------------------------
 		控件 - 刷新标签显示
@@ -409,6 +493,7 @@ void P_StateNodePart::local_loadIndexData(int index){
 */
 void P_StateNodePart::checkData_StateNodeDataList(QList<QJsonObject> stateDataList, QList<QJsonObject> stateNodeDataList){
 	this->m_errorMessage.clear();
+	this->m_temp_stateNodeDataList = stateNodeDataList;
 
 	// > 空校验
 	// （不校验）
@@ -416,8 +501,8 @@ void P_StateNodePart::checkData_StateNodeDataList(QList<QJsonObject> stateDataLi
 	// > 重名校验
 	QStringList name_list;
 	QStringList repeatName_list;
-	for (int i = 0; i < stateNodeDataList.count(); i++){
-		QJsonObject nodeData = stateNodeDataList.at(i);
+	for (int i = 0; i < this->m_temp_stateNodeDataList.count(); i++){
+		QJsonObject nodeData = this->m_temp_stateNodeDataList.at(i);
 		QString name = nodeData["节点名称"].toString();
 		if (name == ""){ continue; }
 		if (name_list.contains(name)){
@@ -431,14 +516,107 @@ void P_StateNodePart::checkData_StateNodeDataList(QList<QJsonObject> stateDataLi
 	}
 
 	// > 自连接校验
-
-
-	// > 死循环校验
-
+	QStringList connectSelfName_list;
+	for (int i = 0; i < this->m_temp_stateNodeDataList.count(); i++){
+		QJsonObject nodeData = this->m_temp_stateNodeDataList.at(i);
+		QString name = nodeData["节点名称"].toString();
+		if (name == ""){ continue; }
+		QStringList n_name_list;
+		QString play_type = nodeData["播放方式"].toString();
+		if (play_type == "随机播放嵌套集合"){
+			n_name_list = TTool::_JSON_parse_To_QListQString_(nodeData["随机播放嵌套集合"].toString());
+		}
+		if (play_type == "顺序播放嵌套集合"){
+			n_name_list = TTool::_JSON_parse_To_QListQString_(nodeData["顺序播放嵌套集合"].toString());
+		}
+		if (n_name_list.contains(name)){
+			if (connectSelfName_list.contains(name)){ continue; }
+			connectSelfName_list.append(name);
+		}
+	}
+	if (connectSelfName_list.count() > 0){
+		this->m_errorMessage.append("存在自我嵌套的状态节点：" + connectSelfName_list.join(","));
+	}
 
 	// > 状态元对应校验
+	QStringList stateName_list;
+	for (int i = 0; i < stateDataList.count(); i++){
+		QJsonObject stateData = stateDataList.at(i);
+		QString name = stateData["状态元名称"].toString();
+		if (name == ""){ continue; }
+		stateName_list.append(name);
+	}
+	for (int i = 0; i < this->m_temp_stateNodeDataList.count(); i++){
+		QJsonObject nodeData = this->m_temp_stateNodeDataList.at(i);
+		QString name = nodeData["节点名称"].toString();
+		if (name == ""){ continue; }
+		QStringList missName_list;
+		QStringList s_name_list;
+		QString play_type = nodeData["播放方式"].toString();
+		if (play_type == "随机播放状态元"){
+			s_name_list = TTool::_JSON_parse_To_QListQString_(nodeData["随机播放状态元"].toString());
+		}
+		if (play_type == "顺序播放状态元"){
+			s_name_list = TTool::_JSON_parse_To_QListQString_(nodeData["顺序播放状态元"].toString());
+		}
+		for (int j = 0; j < s_name_list.count(); j++){
+			QString s_name = s_name_list.at(j);
+			if (s_name == ""){ continue; }
+			if (stateName_list.contains(s_name) == false){
+				missName_list.append(s_name);
+			}
+		}
+		if (missName_list.count() > 0){
+			this->m_errorMessage.append("状态节点[" + name + "]指向了并不存在的状态元：" + missName_list.join(","));
+		}
+	}
 
+	// > 死循环校验
+	for (int i = 0; i < this->m_temp_stateNodeDataList.count(); i++){
+		QJsonObject nodeData = this->m_temp_stateNodeDataList.at(i);
+		QString name = nodeData["节点名称"].toString();
+		if (name == ""){ continue; }
+		qDebug() << "死循环校验-状态节点：" << name;
 
+		// > 递归添加节点
+		this->searchNode_Recursion(nodeData, 1);
+	}
+
+}
+/*-------------------------------------------------
+		数据检查 - 递归检查节点
+*/
+void P_StateNodePart::searchNode_Recursion(QJsonObject nodeData, int layer_deep){
+	if (layer_deep > 20){
+		this->m_errorMessage.append("状态节点的嵌套中存在死循环，请重新检查状态节点的嵌套情况。");
+		return;
+	}
+
+	// > 子节点为状态元
+	QString play_type = nodeData["播放方式"].toString();
+	if (play_type == "随机播放状态元" || play_type == "顺序播放状态元"){
+		return;
+	}
+
+	// > 子节点为状态节点
+	QStringList n_name_list;
+	if (play_type == "随机播放嵌套集合"){
+		n_name_list = TTool::_JSON_parse_To_QListQString_(nodeData["随机播放嵌套集合"].toString());
+	}
+	if (play_type == "顺序播放嵌套集合"){
+		n_name_list = TTool::_JSON_parse_To_QListQString_(nodeData["顺序播放嵌套集合"].toString());
+	}
+	for (int i = 0; i < n_name_list.count(); i++){
+		QString n_name = n_name_list.at(i);
+		for (int j = 0; j < this->m_temp_stateNodeDataList.count(); j++){
+			QJsonObject obj = this->m_temp_stateNodeDataList.at(j);
+			QString name = obj["节点名称"].toString();
+			if (n_name == name){
+				this->searchNode_Recursion(obj, layer_deep+1);
+				break;
+			}
+		}
+	}
 }
 /*-------------------------------------------------
 		数据检查 - 获取检查信息
@@ -446,6 +624,8 @@ void P_StateNodePart::checkData_StateNodeDataList(QList<QJsonObject> stateDataLi
 QStringList P_StateNodePart::checkData_getErrorMessage(){
 	return this->m_errorMessage;
 }
+
+
 /*-------------------------------------------------
 		窗口 - 设置数据
 */

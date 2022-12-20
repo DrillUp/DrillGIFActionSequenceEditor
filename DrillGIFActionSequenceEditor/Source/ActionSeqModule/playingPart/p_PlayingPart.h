@@ -87,6 +87,8 @@ class P_PlayingPart : public QWidget
 		bool m_playing;					//正在播放
 		QTimer* m_timer;				//计时器
 	public:
+										//动画帧 - 数据检查
+		bool checkData();
 										//动画帧 - 开始
 		void startFrame();
 										//动画帧 - 暂停

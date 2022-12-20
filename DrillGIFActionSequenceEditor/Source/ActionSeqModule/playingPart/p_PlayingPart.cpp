@@ -271,6 +271,61 @@ void P_PlayingPart::updateFrame(){
 
 }
 /*-------------------------------------------------
+		动画帧 - 数据检查
+*/
+bool P_PlayingPart::checkData(){
+	this->m_statePart->checkData_StateDataList(this->local_stateDataList);
+	this->m_stateNodePart->checkData_StateNodeDataList(this->local_stateDataList, this->local_stateNodeDataList);
+	this->m_actionPart->checkData_ActionDataList(this->local_actionDataList);
+	QStringList error_state = this->m_statePart->checkData_getErrorMessage();
+	QStringList error_stateNode = this->m_stateNodePart->checkData_getErrorMessage();
+	QStringList error_action = this->m_actionPart->checkData_getErrorMessage();
+
+	// > 没有数据问题时
+	if (error_state.count() == 0 && error_stateNode.count() == 0 && error_action.count() == 0){
+		return true;
+	}
+
+	// > 存在数据问题时
+	QString context;
+	context.append("放映区暂时不能启动，因为存在以下数据问题。\n");
+	context.append("状态元：");
+	if (error_state.count() == 0){
+		context.append("无\n");
+	}else{
+		context.append("\n");
+		for (int i = 0; i < error_state.count(); i++){
+			context.append("> ");
+			context.append(error_state.at(i));
+			context.append("\n");
+		}
+	}
+	context.append("状态节点：");
+	if (error_stateNode.count() == 0){
+		context.append("无\n");
+	}else{
+		context.append("\n");
+		for (int i = 0; i < error_stateNode.count(); i++){
+			context.append("> ");
+			context.append(error_stateNode.at(i));
+			context.append("\n");
+		}
+	}
+	context.append("动作元：");
+	if (error_action.count() == 0){
+		context.append("无\n");
+	}else{
+		context.append("\n");
+		for (int i = 0; i < error_action.count(); i++){
+			context.append("> ");
+			context.append(error_action.at(i));
+			context.append("\n");
+		}
+	}
+	QMessageBox::about(this, "提示", context);
+	return false;
+}
+/*-------------------------------------------------
 		动画帧 - 开始
 */
 void P_PlayingPart::startFrame(){
@@ -327,6 +382,9 @@ bool P_PlayingPart::isPlaying(){
 void P_PlayingPart::btn_play(){
 	if (this->isPlaying() == true){
 		this->stopFrame();
+		return;
+	}
+	if (this->checkData() == false){
 		return;
 	}
 	this->startFrame();
