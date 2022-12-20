@@ -1,4 +1,4 @@
-#ifndef DRILLGIFACTIONSEQUENCEEDITOR_H
+ï»¿#ifndef DRILLGIFACTIONSEQUENCEEDITOR_H
 #define DRILLGIFACTIONSEQUENCEEDITOR_H
 
 #include <QtWidgets/QDialog>
@@ -6,14 +6,14 @@
 
 /*
 -----==========================================================-----
-		Àà£º		Ö÷´°Ìå.h
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	Ö÷´°ÌåÄ£¿é
-		¹¦ÄÜ£º		³ÌĞò½øÈëºóµÄÖ÷¿ØÖÆ´°¿Ú¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		ä¸»çª—ä½“.h
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	ä¸»çª—ä½“æ¨¡å—
+		åŠŸèƒ½ï¼š		ç¨‹åºè¿›å…¥åçš„ä¸»æ§åˆ¶çª—å£ã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
-class P_ActionSeqPart;
+class P_COAS_DataPart;
 class W_RmmvOperateBoard;
 class DrillGIFActionSequenceEditor : public QDialog
 {
@@ -22,65 +22,65 @@ class DrillGIFActionSequenceEditor : public QDialog
 	public:
 		DrillGIFActionSequenceEditor(QWidget *parent = 0);
 		~DrillGIFActionSequenceEditor();
-		static DrillGIFActionSequenceEditor* cur_instance;		//µ¥Àı
-		static DrillGIFActionSequenceEditor* getInstance();		//µ¥Àı£¬»ñÈ¡×Ô¼º
-		void _init();											//³õÊ¼»¯
+		static DrillGIFActionSequenceEditor* cur_instance;		//å•ä¾‹
+		static DrillGIFActionSequenceEditor* getInstance();		//å•ä¾‹ï¼Œè·å–è‡ªå·±
+		void _init();											//åˆå§‹åŒ–
 		
 	//-----------------------------------
-	//----¿Ø¼ş£¨rmmv½»»¥Êı¾İ£©
+	//----æ§ä»¶ï¼ˆrmmväº¤äº’æ•°æ®ï¼‰
 	public:
 		W_RmmvOperateBoard* m_w_RmmvOperateBoard;
 	public:
-								//¿Ø¼ş - ´ò¿ªrmmv½»»¥´°¿Ú
+								//æ§ä»¶ - æ‰“å¼€rmmväº¤äº’çª—å£
 		void openWindowRmmvInteractive();
 	public slots:
-								//¿Ø¼ş - rmmv½»»¥Êı¾İÒÑ¶ÁÈ¡
+								//æ§ä»¶ - rmmväº¤äº’æ•°æ®å·²è¯»å–
 		void rmmvInteractiveDataLoaded();
 
 	//-----------------------------------
-	//----¿Ø¼ş£¨¶¯»­ĞòÁĞ½»»¥Êı¾İ£©
+	//----æ§ä»¶ï¼ˆåŠ¨ç”»åºåˆ—äº¤äº’æ•°æ®ï¼‰
 	public:
-		P_ActionSeqPart* m_p_ActionSeqPart;
+		P_COAS_DataPart* m_P_COAS_DataPart;
 	public slots:
-								//¿Ø¼ş - ¶¯»­ĞòÁĞÒÑ¶ÁÈ¡
+								//æ§ä»¶ - åŠ¨ç”»åºåˆ—å·²è¯»å–
 		void actionSeqDataLoaded();
-								//¿Ø¼ş - ¶¯»­ĞòÁĞÊı¾İÖØ½¨
+								//æ§ä»¶ - åŠ¨ç”»åºåˆ—æ•°æ®é‡å»º
 		void rebuildActionSeqData();
-								//¿Ø¼ş - ĞÂ½¨ÏîÄ¿
+								//æ§ä»¶ - æ–°å»ºé¡¹ç›®
 		void newProject();
-								//¿Ø¼ş - ´ò¿ªÏîÄ¿
+								//æ§ä»¶ - æ‰“å¼€é¡¹ç›®
 		void openProject();
-								//¿Ø¼ş - ±£´æÏîÄ¿
+								//æ§ä»¶ - ä¿å­˜é¡¹ç›®
 		void saveProject();
-								//¿Ø¼ş - Áí´æÎªÏîÄ¿
+								//æ§ä»¶ - å¦å­˜ä¸ºé¡¹ç›®
 		void saveAsProject();
-								//¿Ø¼ş - ĞŞ¸ÄÎÄ¼şÃû³Æ
+								//æ§ä»¶ - ä¿®æ”¹æ–‡ä»¶åç§°
 		void changeWindowTitle(QString title);
-								//¿Ø¼ş - ÓÃ»§ÊÖ²á
+								//æ§ä»¶ - ç”¨æˆ·æ‰‹å†Œ
 		void openUserManual();
-								//¿Ø¼ş - ¹ØÓÚ...
+								//æ§ä»¶ - å…³äº...
 		void openAbout();
 
 	//-----------------------------------
-	//----ÊÂ¼ş
+	//----äº‹ä»¶
 	private:
 		QSize m_last_uiSize;
 	public:
-								//ÊÂ¼ş - ´°¿ÚÇĞ»»´óĞ¡ÊÂ¼ş
+								//äº‹ä»¶ - çª—å£åˆ‡æ¢å¤§å°äº‹ä»¶
 		void resizeEvent(QResizeEvent *event);
-								//ÊÂ¼ş - ´°¿Ú¹Ø±ÕÊÂ¼ş£¨µã»÷¹Ø±Õ°´Å¥£©
+								//äº‹ä»¶ - çª—å£å…³é—­äº‹ä»¶ï¼ˆç‚¹å‡»å…³é—­æŒ‰é’®ï¼‰
 		void closeEvent(QCloseEvent *event);
-								//ÊÂ¼ş - ÍÏÈëÎÄ¼şÅĞ¶Ï
+								//äº‹ä»¶ - æ‹–å…¥æ–‡ä»¶åˆ¤æ–­
 		void dragEnterEvent(QDragEnterEvent *event);
-								//ÊÂ¼ş - ·ÅÖÃÎÄ¼ş¶¯×÷
+								//äº‹ä»¶ - æ”¾ç½®æ–‡ä»¶åŠ¨ä½œ
 		void dropEvent(QDropEvent *event);
 
 	//-----------------------------------
-	//----´°¿Ú
+	//----çª—å£
 	public:
-								//´°¿Ú - ÓÃ»§×Ô¶¨ÒåUI¶ÁÈ¡
+								//çª—å£ - ç”¨æˆ·è‡ªå®šä¹‰UIè¯»å–
 		void ui_loadConfig();
-								//´°¿Ú - ÓÃ»§×Ô¶¨ÒåUI´æ´¢
+								//çª—å£ - ç”¨æˆ·è‡ªå®šä¹‰UIå­˜å‚¨
 		void ui_saveConfig();
 	private:
 		Ui::DrillGIFActionSequenceEditorClass ui;

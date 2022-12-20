@@ -2,14 +2,14 @@
 #include "drillgifactionsequenceeditor.h"
 
 #include "about/w_SoftwareAbout.h"
-#include "Source/RmmvInteractiveModule/operateBoard/w_RmmvOperateBoard.h"
-#include "Source/RmmvInteractiveModule/base/s_RmmvDataContainer.h"
-#include "Source/ActionSeqModule/actionSeqPart/p_ActionSeqPart.h"
-#include "Source/ActionSeqModule/actionSeqData/s_ActionSeqDataContainer.h"
-#include "Source/ActionSeqModule/actionSeqData/lengthData/w_ActionSeqLength.h"
-#include "Source/ProjectModule/s_ProjectManager.h"
-#include "Source/ProjectModule/file/s_TempFileManager.h"
-#include "Source/ProjectModule/storageGlobal/s_IniManager.h"
+#include "Source/RmmvInteractiveModule/OperateBoard/W_RmmvOperateBoard.h"
+#include "Source/RmmvInteractiveModule/Base/S_RmmvDataContainer.h"
+#include "Source/ActionSeqModule/Data/S_ActionSeqDataContainer.h"
+#include "Source/ActionSeqModule/Data/LengthData/W_COAS_Length.h"
+#include "Source/ActionSeqModule/DataPart/P_COAS_DataPart.h"
+#include "Source/ProjectModule/S_ProjectManager.h"
+#include "Source/ProjectModule/File/S_TempFileManager.h"
+#include "Source/ProjectModule/StorageGlobal/S_IniManager.h"
 
 /*
 -----==========================================================-----
@@ -58,9 +58,9 @@ void DrillGIFActionSequenceEditor::_init() {
 	//----初始化ui
 	QHBoxLayout* l = new QHBoxLayout();
 	ui.widget_actionSeq->setLayout(l);
-	this->m_p_ActionSeqPart = new P_ActionSeqPart(ui.widget_actionSeq);
+	this->m_P_COAS_DataPart = new P_COAS_DataPart(ui.widget_actionSeq);
 	l->setMargin(0);
-	l->addWidget(this->m_p_ActionSeqPart);
+	l->addWidget(this->m_P_COAS_DataPart);
 
 	// > UI读取
 	this->ui_loadConfig();
@@ -115,8 +115,8 @@ void DrillGIFActionSequenceEditor::rmmvInteractiveDataLoaded(){
 */
 void DrillGIFActionSequenceEditor::actionSeqDataLoaded(){
 
-	QList<C_ActionSeq*> data_list = S_ActionSeqDataContainer::getInstance()->getActionSeqData();
-	C_ActionSeqLength data_length = S_ActionSeqDataContainer::getInstance()->getActionSeqLength();
+	QList<C_COAS_Data*> data_list = S_ActionSeqDataContainer::getInstance()->getActionSeqData();
+	C_COAS_Length data_length = S_ActionSeqDataContainer::getInstance()->getActionSeqLength();
 	if (data_list.isEmpty()){
 		ui.main_widget->setEnabled(false);
 		ui.toolButton_save->setEnabled(false);
@@ -126,22 +126,22 @@ void DrillGIFActionSequenceEditor::actionSeqDataLoaded(){
 		ui.toolButton_save->setEnabled(true);
 		ui.toolButton_saveAs->setEnabled(true);
 
-		this->m_p_ActionSeqPart->setData(data_list, data_length);
+		this->m_P_COAS_DataPart->setData(data_list, data_length);
 	}
 }
 /*-------------------------------------------------
 		控件 - 动画序列数据重建
 */
 void DrillGIFActionSequenceEditor::rebuildActionSeqData(){
-	W_ActionSeqLength d(this);
+	W_COAS_Length d(this);
 	d.setDataInModifyMode(S_ActionSeqDataContainer::getInstance()->getActionSeqLength());
 	if (d.exec() == QDialog::Accepted){
-		C_ActionSeqLength result = d.getData();
+		C_COAS_Length result = d.getData();
 		S_ActionSeqDataContainer::getInstance()->setActionSeqLength(result);
 
 		// > 读取数据
 		this->actionSeqDataLoaded();
-		this->m_p_ActionSeqPart->setPartGray();
+		this->m_P_COAS_DataPart->setPartGray();
 	}
 }
 /*-------------------------------------------------
@@ -165,7 +165,7 @@ void DrillGIFActionSequenceEditor::openProject(){
 void DrillGIFActionSequenceEditor::saveProject(){
 	
 	// > 点击保存前，将页面数据全部导出
-	this->m_p_ActionSeqPart->putUiToData();
+	this->m_P_COAS_DataPart->putUiToData();
 
 	// > rmmv配置数据存储
 	if (this->m_w_RmmvOperateBoard != nullptr){
@@ -181,7 +181,7 @@ void DrillGIFActionSequenceEditor::saveProject(){
 void DrillGIFActionSequenceEditor::saveAsProject(){
 	
 	// > 点击保存前，将页面数据全部导出
-	this->m_p_ActionSeqPart->putUiToData();
+	this->m_P_COAS_DataPart->putUiToData();
 	
 	// > 另存为
 	S_ProjectManager::getInstance()->saveAs();
@@ -234,7 +234,7 @@ void DrillGIFActionSequenceEditor::resizeEvent(QResizeEvent *event){
 void DrillGIFActionSequenceEditor::closeEvent(QCloseEvent *event){
 
 	// > 停止播放
-	this->m_p_ActionSeqPart->stopPlaying();
+	this->m_P_COAS_DataPart->stopPlaying();
 
 	// > 工程
 	if (S_ProjectManager::getInstance()->dirtyTip() == false) {
@@ -299,7 +299,7 @@ void DrillGIFActionSequenceEditor::ui_loadConfig(){
 	}
 
 	// > 子控件
-	this->m_p_ActionSeqPart->ui_loadConfig();
+	this->m_P_COAS_DataPart->ui_loadConfig();
 	
 }
 /* --------------------------------------------------------------
@@ -323,6 +323,6 @@ void DrillGIFActionSequenceEditor::ui_saveConfig(){
 	}
 
 	// > 子控件
-	this->m_p_ActionSeqPart->ui_saveConfig();
+	this->m_P_COAS_DataPart->ui_saveConfig();
 
 }

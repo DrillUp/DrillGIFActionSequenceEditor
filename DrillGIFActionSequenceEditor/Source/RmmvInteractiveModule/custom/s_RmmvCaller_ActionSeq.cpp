@@ -1,13 +1,13 @@
 ﻿#include "stdafx.h"
 #include "s_RmmvCaller_ActionSeq.h"
 
-#include "Source/ProjectModule/s_ProjectManager.h"
-#include "Source/ProjectModule/file/s_TempFileManager.h"
-#include "Source/PluginModule/storageData/s_PluginDataContainer.h"
-#include "Source/PluginModule/lengthEditor/s_LEAnnotationReader.h"
-#include "Source/PluginModule/lengthEditor/s_LEConfigWriter.h"
-#include "Source/ActionSeqModule/actionSeqData/s_ActionSeqDataContainer.h"
-#include "../base/s_RmmvDataContainer.h"
+#include "Source/ProjectModule/S_ProjectManager.h"
+#include "Source/ProjectModule/File/S_TempFileManager.h"
+#include "Source/PluginModule/StorageData/S_PluginDataContainer.h"
+#include "Source/PluginModule/LengthEditor/S_LEAnnotationReader.h"
+#include "Source/PluginModule/LengthEditor/S_LEConfigWriter.h"
+#include "Source/ActionSeqModule/Data/S_ActionSeqDataContainer.h"
+#include "../Base/S_RmmvDataContainer.h"
 
 /*
 -----==========================================================-----
@@ -207,7 +207,7 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 		QString script_context = script_file.readAll();
 		script_file.close();
 		C_LEConfigData le_data = C_LEConfigData();
-		C_ActionSeqLength as_len = S_ActionSeqDataContainer::getInstance()->getActionSeqLength();
+		C_COAS_Length as_len = S_ActionSeqDataContainer::getInstance()->getActionSeqLength();
 
 		// > 由于这里专门针对 动画序列核心 ，所以参数都知道
 		le_data.initParam("Drill_CoreOfActionSequence", "动画序列-%d", as_len.realLen_actionSeq);
