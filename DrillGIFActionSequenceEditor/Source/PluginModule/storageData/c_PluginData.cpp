@@ -1,18 +1,18 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "C_PluginData.h"
 
-#include "Source/Utils/common/TTool.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
-		Àà£º		²å¼þÊý¾Ý ÊµÌåÀà.cpp
-		°æ±¾£º		v1.04
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	²å¼þÄ£¿é
-		¹¦ÄÜ£º		´æ´¢²å¼þÐÅÏ¢µÄÀà£¬¶ÔÓ¦plugin.jsÖÐÃ¿Ìõ²å¼þµÄÅäÖÃÊý¾Ý¡£
+		ç±»ï¼š		æ’ä»¶æ•°æ® å®žä½“ç±».cpp
+		ç‰ˆæœ¬ï¼š		v1.04
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±žæ¨¡å—ï¼š	æ’ä»¶æ¨¡å—
+		åŠŸèƒ½ï¼š		å­˜å‚¨æ’ä»¶ä¿¡æ¯çš„ç±»ï¼Œå¯¹åº”plugin.jsä¸­æ¯æ¡æ’ä»¶çš„é…ç½®æ•°æ®ã€‚
 
-		ËµÃ÷£º		1.ÓÉÓÚµ×²ã»ùÓÚQJsonDocument£¬ÖØÐ´ºó£¬Ë³ÐòÒ»¶¨»áÂÒ¡£
-					2.parametersµÄÖµ£¬²»ÊÇ ×Ö·û´®object ¡£
+		è¯´æ˜Žï¼š		1.ç”±äºŽåº•å±‚åŸºäºŽQJsonDocumentï¼Œé‡å†™åŽï¼Œé¡ºåºä¸€å®šä¼šä¹±ã€‚
+					2.parametersçš„å€¼ï¼Œä¸æ˜¯ å­—ç¬¦ä¸²object ã€‚
 -----==========================================================-----
 */
 C_PluginData::C_PluginData(){
@@ -22,24 +22,24 @@ C_PluginData::C_PluginData(){
 	this->parameters = QJsonObject();
 
 	this->temp_inited = false;
-	this->temp_version = "";			//°æ±¾(µ÷È¡Ê±²Å³õÊ¼»¯£©
-	this->temp_type = "";				//ÀàÐÍ£¨µ÷È¡Ê±²Å³õÊ¼»¯£©
-	this->temp_name = "";				//ÖÐÎÄÃû£¨µ÷È¡Ê±²Å³õÊ¼»¯£©
+	this->temp_version = "";			//ç‰ˆæœ¬(è°ƒå–æ—¶æ‰åˆå§‹åŒ–ï¼‰
+	this->temp_type = "";				//ç±»åž‹ï¼ˆè°ƒå–æ—¶æ‰åˆå§‹åŒ–ï¼‰
+	this->temp_name = "";				//ä¸­æ–‡åï¼ˆè°ƒå–æ—¶æ‰åˆå§‹åŒ–ï¼‰
 }
 C_PluginData::~C_PluginData(){
 }
 
 
 
-//Êý¾Ý - ³õÊ¼»¯½ØÈ¡¶Î
+//æ•°æ® - åˆå§‹åŒ–æˆªå–æ®µ
 void C_PluginData::initDescription_data(){
 	this->temp_inited = true;
 
-	// > °æ±¾
-	if (this->description.isEmpty() == false){			//£¨¸ù¾Ý·½À¨ºÅ½ØÈ¡ÄÚÈÝ£©
+	// > ç‰ˆæœ¬
+	if (this->description.isEmpty() == false){			//ï¼ˆæ ¹æ®æ–¹æ‹¬å·æˆªå–å†…å®¹ï¼‰
 		QString data = this->description.trimmed();
 		QChar ch = data.at(0);
-		if (ch == '[' || ch == '(' || ch == '£¨' || data.at(0) == 'v' || data.at(0) == 'V'){
+		if (ch == '[' || ch == '(' || ch == 'ï¼ˆ' || data.at(0) == 'v' || data.at(0) == 'V'){
 			QStringList data_list = this->description.split("]");
 			if (data_list.count() >= 2){
 				this->temp_version = data_list.at(0) + "]";
@@ -53,22 +53,22 @@ void C_PluginData::initDescription_data(){
 		}
 	}
 
-	// > ÀàÐÍ
-	QStringList data_list = this->description.split(" - ");	//£¨È¡ºá¸ÜµÄ×ó²àÄÚÈÝ£©
+	// > ç±»åž‹
+	QStringList data_list = this->description.split(" - ");	//ï¼ˆå–æ¨ªæ çš„å·¦ä¾§å†…å®¹ï¼‰
 	if (data_list.count() >= 2){
 		QStringList data_list2 = data_list.at(0).trimmed().split(QRegExp("[ \\]\\)]+"));
 		this->temp_type = data_list2.last();
-		if (this->temp_type.contains(".")){ this->temp_type = ""; }		//£¨º¬ÌØÊâ×Ö·ûµÄÀàÐÍÈ¥µô£©
+		if (this->temp_type.contains(".")){ this->temp_type = ""; }		//ï¼ˆå«ç‰¹æ®Šå­—ç¬¦çš„ç±»åž‹åŽ»æŽ‰ï¼‰
 		if (this->temp_type.contains("[")){ this->temp_type = ""; }
 		if (this->temp_type.contains("]")){ this->temp_type = ""; }
 		if (this->temp_type.contains("-")){ this->temp_type = ""; }
 	}
 
-	// > ÖÐÎÄÃû
+	// > ä¸­æ–‡å
 	QStringList data_list2 = this->description.split(" ");
 	this->temp_name = data_list2.last();
 }
-//Êý¾Ý - »ñÈ¡°æ±¾£¨²å¼þÃèÊö ½ØÈ¡¶Î£©
+//æ•°æ® - èŽ·å–ç‰ˆæœ¬ï¼ˆæ’ä»¶æè¿° æˆªå–æ®µï¼‰
 QString C_PluginData::getDescription_version(){
 	if (this->temp_inited == false){ this->initDescription_data(); }
 	return this->temp_version;
@@ -78,12 +78,12 @@ double C_PluginData::getDescription_versionNum(){
 	if (this->temp_version.isEmpty()){ return -1; }
 	return TTool::_to_double_(this->temp_version);
 }
-//Êý¾Ý - »ñÈ¡ÀàÐÍ£¨²å¼þÃèÊö ½ØÈ¡¶Î£©
+//æ•°æ® - èŽ·å–ç±»åž‹ï¼ˆæ’ä»¶æè¿° æˆªå–æ®µï¼‰
 QString C_PluginData::getDescription_type(){
 	if (this->temp_inited == false){ this->initDescription_data(); }
 	return this->temp_type;
 }
-//Êý¾Ý - »ñÈ¡ÖÐÎÄÃû£¨²å¼þÃèÊö ½ØÈ¡¶Î£©
+//æ•°æ® - èŽ·å–ä¸­æ–‡åï¼ˆæ’ä»¶æè¿° æˆªå–æ®µï¼‰
 QString C_PluginData::getDescription_name(){
 	if (this->temp_inited == false){ this->initDescription_data(); }
 	return this->temp_name;
@@ -91,19 +91,19 @@ QString C_PluginData::getDescription_name(){
 
 
 /*-------------------------------------------------
-		¿ÕÅÐ¶Ï
+		ç©ºåˆ¤æ–­
 */
 bool C_PluginData::isNull(){
 	return this->name == "";
 }
 /*-------------------------------------------------
-		ÔËËã·ûÖØÔØ
+		è¿ç®—ç¬¦é‡è½½
 */
 const bool C_PluginData::operator== (const C_PluginData& a)const {
 	return this->name == a.name;
 }
 /*-------------------------------------------------
-		ÊµÌåÀà -> QJsonObject
+		å®žä½“ç±» -> QJsonObject
 */
 QJsonObject C_PluginData::getJsonObject(){
 	QJsonObject obj = QJsonObject();
@@ -115,7 +115,7 @@ QJsonObject C_PluginData::getJsonObject(){
 	return obj;
 }
 /*-------------------------------------------------
-		QJsonObject -> ÊµÌåÀà
+		QJsonObject -> å®žä½“ç±»
 */
 void C_PluginData::setJsonObject(QJsonObject obj){
 	this->name = obj.value("name").toString();

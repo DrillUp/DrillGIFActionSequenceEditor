@@ -1,12 +1,12 @@
-#include "stdafx.h"
-#include "c_LEConfigData.h"
+ï»¿#include "stdafx.h"
+#include "C_LEConfigData.h"
 
-#include "Source/Utils/common/TTool.h"
+#include "Source/Utils/Common/TTool.h"
 
 
 /*
 -----==========================================================-----
-		Àà£º		ÅäÖÃ²ÎÊý.cpp£¨´æ´¢£©
+		ç±»ï¼š		é…ç½®å‚æ•°.cppï¼ˆå­˜å‚¨ï¼‰
 -----==========================================================-----
 */
 C_LEConfigData::C_LEConfigData(){
@@ -18,7 +18,7 @@ C_LEConfigData::~C_LEConfigData(){
 }
 
 /*-------------------------------------------------
-		²ÎÊý - ³õÊ¼»¯
+		å‚æ•° - åˆå§‹åŒ–
 */
 void C_LEConfigData::initParam(QString pluginName, QString paramKey, int realLen){
 	this->pluginName = pluginName;
@@ -26,31 +26,31 @@ void C_LEConfigData::initParam(QString pluginName, QString paramKey, int realLen
 	this->configLen = realLen;
 }
 /*-------------------------------------------------
-		»ñÈ¡ - ²å¼þÃû£¨Ó¢ÎÄ£©
+		èŽ·å– - æ’ä»¶åï¼ˆè‹±æ–‡ï¼‰
 */
 QString C_LEConfigData::getPluginName(){
 	return this->pluginName;
 }
 /*-------------------------------------------------
-		»ñÈ¡ - ±äÁ¿¼ü "½×¶Î-%d"
+		èŽ·å– - å˜é‡é”® "é˜¶æ®µ-%d"
 */
 QString C_LEConfigData::getParamKey(){
 	return this->paramKey;
 }
 /*-------------------------------------------------
-		»ñÈ¡ - ±äÁ¿ÏÔÊ¾Ãû "½×¶Î"
+		èŽ·å– - å˜é‡æ˜¾ç¤ºå "é˜¶æ®µ"
 */
 QString C_LEConfigData::getParamShowingName(){
 	return this->paramKey.split("-").at(0);
 }
 /*-------------------------------------------------
-		»ñÈ¡ - ÅäÖÃ×î´óÖµ
+		èŽ·å– - é…ç½®æœ€å¤§å€¼
 */
 int C_LEConfigData::getConfigLen(){
 	return this->configLen;
 }
 /*-------------------------------------------------
-		ÊµÌåÀà -> QJsonObject
+		å®žä½“ç±» -> QJsonObject
 */
 QJsonObject C_LEConfigData::getJsonObject(){
 	QJsonObject obj = QJsonObject();
@@ -61,7 +61,7 @@ QJsonObject C_LEConfigData::getJsonObject(){
 	return obj;
 }
 /*-------------------------------------------------
-		QJsonObject -> ÊµÌåÀà
+		QJsonObject -> å®žä½“ç±»
 */
 void C_LEConfigData::setJsonObject(QJsonObject obj){
 	this->pluginName = obj.value("pluginName").toString();
@@ -69,13 +69,13 @@ void C_LEConfigData::setJsonObject(QJsonObject obj){
 	this->configLen = obj.value("realLen").toInt();
 }
 /*-------------------------------------------------
-		¿ÕÅÐ¶Ï
+		ç©ºåˆ¤æ–­
 */
 bool C_LEConfigData::isNull(){
 	return this->paramKey == "" || this->pluginName == "";
 }
 /*-------------------------------------------------
-		ÔËËã·ûÖØÔØ
+		è¿ç®—ç¬¦é‡è½½
 */
 const bool C_LEConfigData::operator== (const C_LEConfigData& a)const {
 	return this->pluginName == a.pluginName && this->paramKey == a.paramKey;

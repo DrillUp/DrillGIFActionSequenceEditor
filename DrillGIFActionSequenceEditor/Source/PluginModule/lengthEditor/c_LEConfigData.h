@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 #include <QJsonObject>
 
 /*
 -----==========================================================-----
-		Àà£º		ĞŞ¸ÄµÄ²ÎÊı.h£¨´æ´¢£©
-		ËùÊôÄ£¿é£º	²å¼şÄ£¿é
-		¹¦ÄÜ£º		²å¼şµÄÅäÖÃ²ÎÊıÊı¾İ¡£
+		ç±»ï¼š		ä¿®æ”¹çš„å‚æ•°.hï¼ˆå­˜å‚¨ï¼‰
+		æ‰€å±æ¨¡å—ï¼š	æ’ä»¶æ¨¡å—
+		åŠŸèƒ½ï¼š		æ’ä»¶çš„é…ç½®å‚æ•°æ•°æ®ã€‚
 -----==========================================================-----
 */
 class C_LEConfigData {
@@ -13,30 +13,30 @@ class C_LEConfigData {
 		C_LEConfigData();
 		~C_LEConfigData();
 	private:
-		QString pluginName;			//²å¼şÃû
-		QString paramKey;			//±äÁ¿¼ü
-		int configLen;				//ÅäÖÃ×î´óÖµ
+		QString pluginName;			//æ’ä»¶å
+		QString paramKey;			//å˜é‡é”®
+		int configLen;				//é…ç½®æœ€å¤§å€¼
 	public:
-											//²ÎÊı - ³õÊ¼»¯
+											//å‚æ•° - åˆå§‹åŒ–
 		void initParam(QString pluginName, QString paramKey, int realLen);
-											//»ñÈ¡ - ²å¼şÃû£¨Ó¢ÎÄ£©
+											//è·å– - æ’ä»¶åï¼ˆè‹±æ–‡ï¼‰
 		QString getPluginName();
-											//»ñÈ¡ - ±äÁ¿¼ü "½×¶Î-%d"
+											//è·å– - å˜é‡é”® "é˜¶æ®µ-%d"
 		QString getParamKey();
-											//»ñÈ¡ - ±äÁ¿ÏÔÊ¾Ãû "½×¶Î"
+											//è·å– - å˜é‡æ˜¾ç¤ºå "é˜¶æ®µ"
 		QString getParamShowingName();
-											//»ñÈ¡ - ÅäÖÃ×î´óÖµ
+											//è·å– - é…ç½®æœ€å¤§å€¼
 		int getConfigLen();
 
-											//ÊµÌåÀà -> QJsonObject
+											//å®ä½“ç±» -> QJsonObject
 		QJsonObject getJsonObject();
-											//QJsonObject -> ÊµÌåÀà
+											//QJsonObject -> å®ä½“ç±»
 		void setJsonObject(QJsonObject obj);
-											//¿ÕÅĞ¶Ï
+											//ç©ºåˆ¤æ–­
 		bool isNull();
-											//ÔËËã·ûÖØÔØ
+											//è¿ç®—ç¬¦é‡è½½
 		const bool operator== (const C_LEConfigData& a)const;
 };
-inline uint qHash(C_LEConfigData &key, uint seed){	//qHasgÈ«¾ÖÖØÔØ
+inline uint qHash(C_LEConfigData &key, uint seed){	//qHasgå…¨å±€é‡è½½
 	return qHash(key.getPluginName(), seed) * qHash(key.getParamKey(), seed);
 };

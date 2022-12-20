@@ -1,21 +1,21 @@
-#include "stdafx.h"
-#include "s_LEConfigWriter.h"
+ï»¿#include "stdafx.h"
+#include "S_LEConfigWriter.h"
 
 
 /*
 -----==========================================================-----
-		Àà£º		ÎÄ±¾É¨ÃèÆ÷.h
-		ËùÊôÄ£¿é£º	ºËĞÄÄ£¿é
-		¹¦ÄÜ£º		Ìá¹©É¨Ãè¡¢¸²Ğ´Ö±½Ó¹¦ÄÜ¡£
+		ç±»ï¼š		æ–‡æœ¬æ‰«æå™¨.h
+		æ‰€å±æ¨¡å—ï¼š	æ ¸å¿ƒæ¨¡å—
+		åŠŸèƒ½ï¼š		æä¾›æ‰«æã€è¦†å†™ç›´æ¥åŠŸèƒ½ã€‚
 
-		Ä¿±ê£º		Ê¶±ğÏÂÃæµÄÎÄ±¾£¬²¢×÷ĞŞ¸Ä£º
-						* @Drill_LE_param "ÄÚÈİ-%d"
-						* @Drill_LE_parentKey "---ÄÚÈİ×é%dÖÁ%d---"
+		ç›®æ ‡ï¼š		è¯†åˆ«ä¸‹é¢çš„æ–‡æœ¬ï¼Œå¹¶ä½œä¿®æ”¹ï¼š
+						* @Drill_LE_param "å†…å®¹-%d"
+						* @Drill_LE_parentKey "---å†…å®¹ç»„%dè‡³%d---"
 						* @Drill_LE_var "DrillUp.g_SSpA_context_list_length"
 
-		ËµÃ÷£º		ÕâÀïÖ»Ìá¹©±ØÒª¶ÀÁ¢¹¦ÄÜ¡£
-					²»¿¼ÂÇÁ÷³ÌĞÔµÄ½á¹¹¡£
-					²»¿¼ÂÇÊı¾İ´æ´¢£¬Ö»ÊÇÒ»¸öÖ´ĞĞ¹¤¾ß¡£
+		è¯´æ˜ï¼š		è¿™é‡Œåªæä¾›å¿…è¦ç‹¬ç«‹åŠŸèƒ½ã€‚
+					ä¸è€ƒè™‘æµç¨‹æ€§çš„ç»“æ„ã€‚
+					ä¸è€ƒè™‘æ•°æ®å­˜å‚¨ï¼Œåªæ˜¯ä¸€ä¸ªæ‰§è¡Œå·¥å…·ã€‚
 
 -----==========================================================-----
 */
@@ -25,7 +25,7 @@ S_LEConfigWriter::S_LEConfigWriter() : QObject(){
 }
 S_LEConfigWriter::~S_LEConfigWriter() {
 }
-/*  - - µ¥Àı - - */
+/*  - - å•ä¾‹ - - */
 S_LEConfigWriter* S_LEConfigWriter::cur_manager = NULL;
 S_LEConfigWriter* S_LEConfigWriter::getInstance() {
 	if (cur_manager == NULL) {
@@ -33,60 +33,60 @@ S_LEConfigWriter* S_LEConfigWriter::getInstance() {
 	}
 	return cur_manager;
 }
-/*  - - ³õÊ¼»¯ - - */
+/*  - - åˆå§‹åŒ– - - */
 void S_LEConfigWriter::init() {
 
 }
 
 
 /*-------------------------------------------------
-		¸²Ğ´ - ×î´óÖµĞŞ¸Ä
+		è¦†å†™ - æœ€å¤§å€¼ä¿®æ”¹
 */
 QString S_LEConfigWriter::doOverwritePlugin(QString context, C_LEAnnotation_Param param, C_LEConfigData config){
 	
-	// > ×î´óÖµ¼ì²é
+	// > æœ€å¤§å€¼æ£€æŸ¥
 	if (config.getConfigLen() <= -1 ){
-		QMessageBox::warning(nullptr, "´íÎó", "ÄãĞèÒªÏÈÅäÖÃ" + config.getPluginName() + "µÄ×î´óÖµ¡£", QMessageBox::Yes);
+		QMessageBox::warning(nullptr, "é”™è¯¯", "ä½ éœ€è¦å…ˆé…ç½®" + config.getPluginName() + "çš„æœ€å¤§å€¼ã€‚", QMessageBox::Yes);
 		return "";
 	}
 	if (config.getConfigLen() <= 4){
-		QMessageBox::warning(nullptr, "´íÎó", "²å¼ş" + config.getPluginName() + "²ÎÊıµÄ×î´óÖµ²»ÄÜĞ¡ÓÚ4¡£", QMessageBox::Yes);
+		QMessageBox::warning(nullptr, "é”™è¯¯", "æ’ä»¶" + config.getPluginName() + "å‚æ•°çš„æœ€å¤§å€¼ä¸èƒ½å°äº4ã€‚", QMessageBox::Yes);
 		return "";
 	}
 	if (param.getRealLen() < 4){
-		// £¨¸Ã´íÎóÖ»ÔÚµ¥¶Àµ÷ÓÃ¸Ãº¯ÊıÊ±»á³öÏÖ£©
-		QMessageBox::warning(nullptr, "´íÎó", "Ê¹ÓÃĞŞ¸ÄÆ÷º¯ÊıÊ±£¬±ØĞëÒªÖªµÀĞŞ¸ÄµÄÄ¿±ê²å¼şÊµ¼Ê³¤¶È¡£\n£¨Í¨¹ı¶ÁÈ¡Æ÷ÖĞ¶Á²å¼ş»ñÈ¡£©", QMessageBox::Yes);
+		// ï¼ˆè¯¥é”™è¯¯åªåœ¨å•ç‹¬è°ƒç”¨è¯¥å‡½æ•°æ—¶ä¼šå‡ºç°ï¼‰
+		QMessageBox::warning(nullptr, "é”™è¯¯", "ä½¿ç”¨ä¿®æ”¹å™¨å‡½æ•°æ—¶ï¼Œå¿…é¡»è¦çŸ¥é“ä¿®æ”¹çš„ç›®æ ‡æ’ä»¶å®é™…é•¿åº¦ã€‚\nï¼ˆé€šè¿‡è¯»å–å™¨ä¸­è¯»æ’ä»¶è·å–ï¼‰", QMessageBox::Yes);
 		return "";
 	}
-	// > ÏàÍ¬×î´óÖµ²»ĞŞ¸Ä
+	// > ç›¸åŒæœ€å¤§å€¼ä¸ä¿®æ”¹
 	if (config.getConfigLen() == param.getRealLen()){ return context; }
 
 
 	QStringList context_list = context.split(QRegExp("(\n\r)|(\n)|(\r\n)"));
 	// -----------------------------
-	// > ²»º¬·Ö×éµÄÉú³É
+	// > ä¸å«åˆ†ç»„çš„ç”Ÿæˆ
 	if (!param.isParentGrouping()){
 
-		// > ÕÒµ½±äÁ¿ÆğÊ¼ĞĞ
+		// > æ‰¾åˆ°å˜é‡èµ·å§‹è¡Œ
 		int i_param = -1;
 		for (int i = 0; i < context_list.count(); i++){
 			QString text = context_list.at(i);
-			if (text.contains(QRegExp(param.getParamCommentRe(1)))){	//±ØĞëÈ«´ÊÆ¥Åä£¨"@param SVµĞÈË-1" ²»ÄÜÆ¥Åä "µĞÈË-%d" £©
+			if (text.contains(QRegExp(param.getParamCommentRe(1)))){	//å¿…é¡»å…¨è¯åŒ¹é…ï¼ˆ"@param SVæ•Œäºº-1" ä¸èƒ½åŒ¹é… "æ•Œäºº-%d" ï¼‰
 				i_param = i;
 				break;
 			}
 		}
 
-		// > ÑÏÖØ´íÎó¼ì²é
+		// > ä¸¥é‡é”™è¯¯æ£€æŸ¥
 		if (i_param == -1){
-			QMessageBox::warning(nullptr, "´íÎó", "²å¼ş" + config.getPluginName() + "×ª»»Ê±·¢ÉúÁËÑÏÖØ´íÎó£¬¸Ã´íÎóÈÆ¿ªÁË±à¼­Æ÷µÄ¼ì²é³ÌĞò¡£\nÇë½«¸Ã´íÎóµÄ¾ßÌåÇé¿ö¸æÖªÎÒdrill_up¡£", QMessageBox::Yes);
+			QMessageBox::warning(nullptr, "é”™è¯¯", "æ’ä»¶" + config.getPluginName() + "è½¬æ¢æ—¶å‘ç”Ÿäº†ä¸¥é‡é”™è¯¯ï¼Œè¯¥é”™è¯¯ç»•å¼€äº†ç¼–è¾‘å™¨çš„æ£€æŸ¥ç¨‹åºã€‚\nè¯·å°†è¯¥é”™è¯¯çš„å…·ä½“æƒ…å†µå‘ŠçŸ¥æˆ‘drill_upã€‚", QMessageBox::Yes);
 			return "";
 		}
 
-		// > ÕÒµ½µÚÒ»¸ö±äÁ¿½á¹¹
+		// > æ‰¾åˆ°ç¬¬ä¸€ä¸ªå˜é‡ç»“æ„
 		QStringList param_str_list = this->getParamStringList(context_list, param.getParamCommentRe(1));
 
-		// > µü´ú±éÀúÉ¾³ıĞĞ
+		// > è¿­ä»£éå†åˆ é™¤è¡Œ
 		int name_index = param.getRealLen();
 		bool deleteOn = false;
 		for (int i = context_list.count() - 1; i >= i_param; i--){
@@ -109,25 +109,25 @@ QString S_LEConfigWriter::doOverwritePlugin(QString context, C_LEAnnotation_Para
 			}
 		}
 
-		// > ÖØĞÂÉú³É
+		// > é‡æ–°ç”Ÿæˆ
 		for (int i = 0; i < config.getConfigLen(); i++){
 			QString data_str = param_str_list.join("\n");
 			data_str = data_str.replace(param.getParamName(1), param.getParamName(i + 1));
-			data_str = data_str.replace(QRegExp("@default[^\n]*"), "@default ");		//Çå¿ÕÄ¬ÈÏÖµ
+			data_str = data_str.replace(QRegExp("@default[^\n]*"), "@default ");		//æ¸…ç©ºé»˜è®¤å€¼
 			data_str += "\n * ";
 			context_list.insert(i_param + i, data_str);
 		}
 
 
 	// -----------------------------
-	// > º¬·Ö×éµÄÉú³É
+	// > å«åˆ†ç»„çš„ç”Ÿæˆ
 	}else{
 
-		// > ÕÒµ½±äÁ¿ÆğÊ¼ĞĞ
+		// > æ‰¾åˆ°å˜é‡èµ·å§‹è¡Œ
 		int i_param = 0;
 		for (int i = 0; i < context_list.count(); i++){
 			QString text = context_list.at(i);
-			if (text.contains(QRegExp(param.getParamCommentRe(1)))){	//±ØĞëÈ«´ÊÆ¥Åä£¨"@param SVµĞÈË-1" ²»ÄÜÆ¥Åä "µĞÈË-%d" £©
+			if (text.contains(QRegExp(param.getParamCommentRe(1)))){	//å¿…é¡»å…¨è¯åŒ¹é…ï¼ˆ"@param SVæ•Œäºº-1" ä¸èƒ½åŒ¹é… "æ•Œäºº-%d" ï¼‰
 				i_param = i;
 				break;
 			}
@@ -141,17 +141,17 @@ QString S_LEConfigWriter::doOverwritePlugin(QString context, C_LEAnnotation_Para
 			}
 		}
 
-		// > ÑÏÖØ´íÎó¼ì²é
+		// > ä¸¥é‡é”™è¯¯æ£€æŸ¥
 		if (i_param == -1 || i_parent == -1){
-			QMessageBox::warning(nullptr, "´íÎó", "²å¼ş" + config.getPluginName() + "×ª»»Ê±·¢ÉúÁËÑÏÖØ´íÎó£¬¸Ã´íÎóÈÆ¿ªÁË±à¼­Æ÷µÄ¼ì²é³ÌĞò¡£\nÇë½«¸Ã´íÎóµÄ¾ßÌåÇé¿ö¸æÖªÎÒdrill_up¡£", QMessageBox::Yes);
+			QMessageBox::warning(nullptr, "é”™è¯¯", "æ’ä»¶" + config.getPluginName() + "è½¬æ¢æ—¶å‘ç”Ÿäº†ä¸¥é‡é”™è¯¯ï¼Œè¯¥é”™è¯¯ç»•å¼€äº†ç¼–è¾‘å™¨çš„æ£€æŸ¥ç¨‹åºã€‚\nè¯·å°†è¯¥é”™è¯¯çš„å…·ä½“æƒ…å†µå‘ŠçŸ¥æˆ‘drill_upã€‚", QMessageBox::Yes);
 			return "";
 		}
 		
-		// > ÕÒµ½µÚÒ»¸ö±äÁ¿½á¹¹
+		// > æ‰¾åˆ°ç¬¬ä¸€ä¸ªå˜é‡ç»“æ„
 		QStringList param_str_list = this->getParamStringList(context_list, param.getParamCommentRe(1));
 		QStringList parent_str_list = this->getParamStringList(context_list, param.getParentCommentRe(1));
 
-		// > µü´ú±éÀúÉ¾³ıĞĞ
+		// > è¿­ä»£éå†åˆ é™¤è¡Œ
 		int name_index = param.getRealLen();
 		bool deleteOn = false;
 		for (int i = context_list.count() - 1; i >= i_param; i--){
@@ -173,7 +173,7 @@ QString S_LEConfigWriter::doOverwritePlugin(QString context, C_LEAnnotation_Para
 				}
 			}
 		}
-		// > µü´ú±éÀúÉ¾³ı·Ö×é
+		// > è¿­ä»£éå†åˆ é™¤åˆ†ç»„
 		name_index = param.getRealLen();
 		for (int i = context_list.count() - 1; i >= i_parent; i--){
 			QString text = context_list.at(i).trimmed();
@@ -196,11 +196,11 @@ QString S_LEConfigWriter::doOverwritePlugin(QString context, C_LEAnnotation_Para
 		}
 
 
-		// > ÖØĞÂÉú³É
+		// > é‡æ–°ç”Ÿæˆ
 		for (int i = 0; i < config.getConfigLen(); i++){
 			QString parent_str = "";
 			QString param_str = "";
-			// > ·Ö×é
+			// > åˆ†ç»„
 			if (param.isParentGrouping() && i % 20 == 0){
 				parent_str += parent_str_list.join("\n");
 				parent_str = parent_str.replace(param.getParentName(1), param.getParentName(i + 1));
@@ -208,11 +208,11 @@ QString S_LEConfigWriter::doOverwritePlugin(QString context, C_LEAnnotation_Para
 				parent_str += "\n";
 			}
 
-			// > ±äÁ¿
+			// > å˜é‡
 			param_str += param_str_list.join("\n");
 			param_str = param_str.replace(param.getParamName(1), param.getParamName(i + 1));
-			param_str = param_str.replace(QRegExp("@default[^\n]*"), "@default ");		//Çå¿ÕÄ¬ÈÏÖµ
-			if (param.isParentGrouping()){	//parentĞŞ¸Ä
+			param_str = param_str.replace(QRegExp("@default[^\n]*"), "@default ");		//æ¸…ç©ºé»˜è®¤å€¼
+			if (param.isParentGrouping()){	//parentä¿®æ”¹
 				param_str = param_str.replace(param.getParentName(1), param.getParentName(i + 1));
 			}
 			param_str += "\n * ";
@@ -220,14 +220,14 @@ QString S_LEConfigWriter::doOverwritePlugin(QString context, C_LEAnnotation_Para
 		}
 	}
 
-	// > Ëõ¶Ì¶àÓàĞÇºÅ
+	// > ç¼©çŸ­å¤šä½™æ˜Ÿå·
 	QString result = context_list.join("\n");
 	result = result.replace(QRegExp("([ \t\n\r]+\\*){5,}"),"\n * \n *");
 	
-	// > Ìæ»»
+	// > æ›¿æ¢
 	QString var_str = param.getVarName();
 	if (var_str != "" && var_str != "null"){
-		QString re_str = var_str.replace(".", "\\.");		//·ÀÖ¹ÎóÊ¶±ğÕıÔò
+		QString re_str = var_str.replace(".", "\\.");		//é˜²æ­¢è¯¯è¯†åˆ«æ­£åˆ™
 		QRegExp re = QRegExp(re_str + "[ ]*=[^=]*\n");
 		QString var_defineString = param.getVarName() + " = " + QString::number(config.getConfigLen()) + ";\n";
 		result = result.replace(re, var_defineString);
@@ -237,7 +237,7 @@ QString S_LEConfigWriter::doOverwritePlugin(QString context, C_LEAnnotation_Para
 }
 
 /*-------------------------------------------------
-		¸²Ğ´ - ¸ù¾İ "½×¶Î-1" »ñÈ¡µ½ "@param ½×¶Î-1" µÄÈ«²¿²ÎÊı×Ö·û´®
+		è¦†å†™ - æ ¹æ® "é˜¶æ®µ-1" è·å–åˆ° "@param é˜¶æ®µ-1" çš„å…¨éƒ¨å‚æ•°å­—ç¬¦ä¸²
 */
 QStringList S_LEConfigWriter::getParamStringList(QStringList contextList,QRegExp re){
 	QStringList result_list = QStringList();
@@ -254,7 +254,7 @@ QStringList S_LEConfigWriter::getParamStringList(QStringList contextList,QRegExp
 			if (text.contains("@") && !text.contains("@param")){
 				result_list.append(text);
 			}else{
-				// > ½á¹¹Ñ°ÕÒ½áÊø
+				// > ç»“æ„å¯»æ‰¾ç»“æŸ
 				break;
 			}
 		}

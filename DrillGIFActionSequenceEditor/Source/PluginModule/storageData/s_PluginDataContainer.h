@@ -1,16 +1,16 @@
-#pragma once
+ï»¿#pragma once
 
-#include "c_PluginData.h"
+#include "C_PluginData.h"
 
 /*
 -----==========================================================-----
-		Àà£º		²å¼şÊı¾İ ÈİÆ÷.h
-		°æ±¾£º		v1.04
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	²å¼şÄ£¿é
-		¹¦ÄÜ£º		¹ÜÀíplugin.jsÖĞµÄÈ«²¿²å¼şÅäÖÃÊı¾İ¡£
-					¡¾·â×°µÄÈİÆ÷½á¹¹£¬×¢Òâ½ÓÊÕ¶ÁÈ¡µÄĞÅºÅ¡¿
-					£¨ÏêÏ¸¼û.cpp£©
+		ç±»ï¼š		æ’ä»¶æ•°æ® å®¹å™¨.h
+		ç‰ˆæœ¬ï¼š		v1.04
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	æ’ä»¶æ¨¡å—
+		åŠŸèƒ½ï¼š		ç®¡ç†plugin.jsä¸­çš„å…¨éƒ¨æ’ä»¶é…ç½®æ•°æ®ã€‚
+					ã€å°è£…çš„å®¹å™¨ç»“æ„ï¼Œæ³¨æ„æ¥æ”¶è¯»å–çš„ä¿¡å·ã€‘
+					ï¼ˆè¯¦ç»†è§.cppï¼‰
 -----==========================================================-----
 */
 class S_PluginDataContainer : public QObject
@@ -20,59 +20,59 @@ class S_PluginDataContainer : public QObject
 	public:
 		S_PluginDataContainer();
 		~S_PluginDataContainer();
-		static S_PluginDataContainer* cur_manager;			//µ¥Àı
-		static S_PluginDataContainer* getInstance();			//µ¥Àı£¬»ñÈ¡×Ô¼º£¨±ØĞëÒªÄÃµ½È«¾ÖÅäÖÃ²ÅÄÜ½øĞĞ¼ÆËã£©
+		static S_PluginDataContainer* cur_manager;			//å•ä¾‹
+		static S_PluginDataContainer* getInstance();			//å•ä¾‹ï¼Œè·å–è‡ªå·±ï¼ˆå¿…é¡»è¦æ‹¿åˆ°å…¨å±€é…ç½®æ‰èƒ½è¿›è¡Œè®¡ç®—ï¼‰
 
 	//-----------------------------------
-	//----Êı¾İ
+	//----æ•°æ®
 	private:
 		QList<C_PluginData*> data_PluginDataTank;
 	public:
-										//Êı¾İ - »ñÈ¡È«²¿²å¼şÊı¾İ
-										//		¡¾ËµÃ÷¡¿£º»ñÈ¡Êı¾İÇ°£¬ÒªÈ·±£ÄãÖ®Ç° ÊÖ¶¯ Ö´ĞĞÁËread¶ÁÈ¡£¬²»È»»ñÈ¡²»µ½Êı¾İ¡£
+										//æ•°æ® - è·å–å…¨éƒ¨æ’ä»¶æ•°æ®
+										//		ã€è¯´æ˜ã€‘ï¼šè·å–æ•°æ®å‰ï¼Œè¦ç¡®ä¿ä½ ä¹‹å‰ æ‰‹åŠ¨ æ‰§è¡Œäº†readè¯»å–ï¼Œä¸ç„¶è·å–ä¸åˆ°æ•°æ®ã€‚
 		QList<C_PluginData*> getPluginDataTank();
-										//Êı¾İ - »ñÈ¡¶ÔÓ¦µÄ²å¼şÊı¾İ
-										//		¡¾ËµÃ÷¡¿£º»ñÈ¡Êı¾İÇ°£¬ÒªÈ·±£ÄãÖ®Ç° ÊÖ¶¯ Ö´ĞĞÁËread¶ÁÈ¡£¬²»È»»ñÈ¡²»µ½Êı¾İ¡£
-										//		¡¾ËµÃ÷¡¿£ºÃ»ÓĞÔò·µ»Ø¿ÕÖ¸Õë¡£
+										//æ•°æ® - è·å–å¯¹åº”çš„æ’ä»¶æ•°æ®
+										//		ã€è¯´æ˜ã€‘ï¼šè·å–æ•°æ®å‰ï¼Œè¦ç¡®ä¿ä½ ä¹‹å‰ æ‰‹åŠ¨ æ‰§è¡Œäº†readè¯»å–ï¼Œä¸ç„¶è·å–ä¸åˆ°æ•°æ®ã€‚
+										//		ã€è¯´æ˜ã€‘ï¼šæ²¡æœ‰åˆ™è¿”å›ç©ºæŒ‡é’ˆã€‚
 		C_PluginData* getPluginData(QString pluginName);
 
 	//-----------------------------------
-	//----²Ù×÷
+	//----æ“ä½œ
 	public:
-										//²Ù×÷ - Ìí¼Ó
+										//æ“ä½œ - æ·»åŠ 
 		void op_add(C_PluginData* data);
-										//²Ù×÷ - ĞŞ¸Ä
+										//æ“ä½œ - ä¿®æ”¹
 		void op_modify(C_PluginData* data);
-										//²Ù×÷ - É¾³ı
+										//æ“ä½œ - åˆ é™¤
 		void op_remove(C_PluginData* data);
 
 
 	//-----------------------------------
-	//----¶ÁÈ¡
+	//----è¯»å–
 	public:
-										//¶ÁÈ¡ - ¶ÁÈ¡Êı¾İ£¨plugins.jsÎÄ±¾£©
+										//è¯»å– - è¯»å–æ•°æ®ï¼ˆplugins.jsæ–‡æœ¬ï¼‰
 		void loadPluginData(QString data_context);
-										//¶ÁÈ¡ - ¶ÁÈ¡Êı¾İ£¨plugins.jsÎÄ±¾£¬²»·¢ĞÅºÅ£©
+										//è¯»å– - è¯»å–æ•°æ®ï¼ˆplugins.jsæ–‡æœ¬ï¼Œä¸å‘ä¿¡å·ï¼‰
 		void loadPluginDataNoSignal(QString data_context);
-										//¶ÁÈ¡ - Ò»´ÎĞÔ¶ÁÈ¡Êı¾İ£¨plugins.jsÎÄ±¾£¬¶ÁÈ¡ºóÖ±½Ó·µ»ØÁĞ±í£¬²»ÄÉÈëÈİÆ÷£©
+										//è¯»å– - ä¸€æ¬¡æ€§è¯»å–æ•°æ®ï¼ˆplugins.jsæ–‡æœ¬ï¼Œè¯»å–åç›´æ¥è¿”å›åˆ—è¡¨ï¼Œä¸çº³å…¥å®¹å™¨ï¼‰
 		QList<C_PluginData*> loadPluginDataDirectly(QString data_context);
 	signals:
-										//¶ÁÈ¡ - Êı¾İÒÑ¶ÁÈ¡£¨ĞÅºÅ£©
+										//è¯»å– - æ•°æ®å·²è¯»å–ï¼ˆä¿¡å·ï¼‰
 		void pluginDataReloaded();
 	private:
-										//¶ÁÈ¡ - ¶ÁÈ¡Êı¾İ£¨Ë½ÓĞ£©
+										//è¯»å– - è¯»å–æ•°æ®ï¼ˆç§æœ‰ï¼‰
 		QList<C_PluginData*> readPluginDataPrivate(QString data_context);
 		
 
 	//-----------------------------------
-	//----Ğ´Èë
+	//----å†™å…¥
 	public:
-										//Ğ´Èë - Ğ´ÈëÊı¾İ£¨plugins.jsÎÄ±¾£©
+										//å†™å…¥ - å†™å…¥æ•°æ®ï¼ˆplugins.jsæ–‡æœ¬ï¼‰
 		QString writePluginData();
-										//Ğ´Èë - Ò»´ÎĞÔĞ´ÈëÊı¾İ£¨plugins.jsÎÄ±¾£¬²»°üÀ¨ÈİÆ÷µÄÊı¾İ£©
+										//å†™å…¥ - ä¸€æ¬¡æ€§å†™å…¥æ•°æ®ï¼ˆplugins.jsæ–‡æœ¬ï¼Œä¸åŒ…æ‹¬å®¹å™¨çš„æ•°æ®ï¼‰
 		QString writePluginDataDirectly(QList<C_PluginData*> data_list);
 	private:
-										//Ğ´Èë - Ğ´ÈëÊı¾İ£¨Ë½ÓĞ£©
+										//å†™å…¥ - å†™å…¥æ•°æ®ï¼ˆç§æœ‰ï¼‰
 		QString writePluginDataPrivate(QList<C_PluginData*> data_list);
 
 

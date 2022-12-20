@@ -1,16 +1,16 @@
-#pragma once
+ï»¿#pragma once
 #include <QObject>
-#include "c_LEAnnotation.h"
+#include "C_LEAnnotation.h"
 
-#include "Source/Utils/common/TTool.h"
-#include "Source/Utils/manager/txtRead/p_TxtFastReader.h"
+#include "Source/Utils/Common/TTool.h"
+#include "Source/Utils/Manager/TxtRead/P_TxtFastReader.h"
 
 /*
 -----==========================================================-----
-		Àà£º		×î´óÖµ ×¢½â ¶ÁÈ¡Æ÷.h
-		ËùÊôÄ£¿é£º	²å¼şÄ£¿é
-		¹¦ÄÜ£º		Ö»É¨Ãè×î´óÖµµÄÏà¹Ø×¢½â¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		æœ€å¤§å€¼ æ³¨è§£ è¯»å–å™¨.h
+		æ‰€å±æ¨¡å—ï¼š	æ’ä»¶æ¨¡å—
+		åŠŸèƒ½ï¼š		åªæ‰«ææœ€å¤§å€¼çš„ç›¸å…³æ³¨è§£ã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 class S_LEAnnotationReader : public QObject
@@ -20,21 +20,21 @@ class S_LEAnnotationReader : public QObject
 	public:
 		S_LEAnnotationReader();
 		~S_LEAnnotationReader();
-		static S_LEAnnotationReader* cur_manager;			//µ¥Àı
-		static S_LEAnnotationReader* getInstance();			//µ¥Àı£¬»ñÈ¡×Ô¼º£¨±ØĞëÒªÄÃµ½È«¾ÖÅäÖÃ²ÅÄÜ½øĞĞ¼ÆËã£©
-		void init();										//³õÊ¼»¯
+		static S_LEAnnotationReader* cur_manager;			//å•ä¾‹
+		static S_LEAnnotationReader* getInstance();			//å•ä¾‹ï¼Œè·å–è‡ªå·±ï¼ˆå¿…é¡»è¦æ‹¿åˆ°å…¨å±€é…ç½®æ‰èƒ½è¿›è¡Œè®¡ç®—ï¼‰
+		void init();										//åˆå§‹åŒ–
 		
 	//-----------------------------------
-	//----¶ÁÈ¡
+	//----è¯»å–
 	public:
-												//¶ÁÈ¡ - »ñÈ¡×¢½âÄÚÈİ
-												//		¡¾ËµÃ÷¡¿£ºC_LEAnnotationÖĞº¬ÎÄ¼şÃû¡£
+												//è¯»å– - è·å–æ³¨è§£å†…å®¹
+												//		ã€è¯´æ˜ã€‘ï¼šC_LEAnnotationä¸­å«æ–‡ä»¶åã€‚
 		C_LEAnnotation* readPlugin(QFileInfo file);
-												//¶ÁÈ¡ - Ë¢ĞÂ²ÎÊı×î´óÖµ
-												//		¡¾ËµÃ÷¡¿£º²å¼şÎÄ±¾±»ĞŞ¸Äºó£¬ĞèÒªË¢ĞÂ¡£
+												//è¯»å– - åˆ·æ–°å‚æ•°æœ€å¤§å€¼
+												//		ã€è¯´æ˜ã€‘ï¼šæ’ä»¶æ–‡æœ¬è¢«ä¿®æ”¹åï¼Œéœ€è¦åˆ·æ–°ã€‚
 		void refreshPluginAnnotation(C_LEAnnotation* plugin);
 
-												//¶ÁÈ¡ - ¼ì²éÎÄ±¾ÊÇ·ñ´æÔÚ"xxx-10"ĞòÁĞ¸ñÊ½
+												//è¯»å– - æ£€æŸ¥æ–‡æœ¬æ˜¯å¦å­˜åœ¨"xxx-10"åºåˆ—æ ¼å¼
 		bool isPluginIncludedLengthParam(QString plugin_context);
 
 };

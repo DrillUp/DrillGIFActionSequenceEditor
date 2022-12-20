@@ -1,20 +1,20 @@
-#include "stdafx.h"
-#include "s_LEAnnotationReader.h"
+ï»¿#include "stdafx.h"
+#include "S_LEAnnotationReader.h"
 
 
 /*
 -----==========================================================-----
-		Àà£º		×î´óÖµ ×¢½â ¶ÁÈ¡Æ÷.h
-		ËùÊôÄ£¿é£º	²å¼şÄ£¿é
-		¹¦ÄÜ£º		Ö»É¨Ãè×î´óÖµµÄÏà¹Ø×¢½â¡£
+		ç±»ï¼š		æœ€å¤§å€¼ æ³¨è§£ è¯»å–å™¨.h
+		æ‰€å±æ¨¡å—ï¼š	æ’ä»¶æ¨¡å—
+		åŠŸèƒ½ï¼š		åªæ‰«ææœ€å¤§å€¼çš„ç›¸å…³æ³¨è§£ã€‚
 
-		Ä¿±ê£º		Ê¶±ğÏÂÃæµÄÎÄ±¾£º
-						* @Drill_LE_param "ÄÚÈİ-%d"
-						* @Drill_LE_parentKey "---ÄÚÈİ×é%dÖÁ%d---"
+		ç›®æ ‡ï¼š		è¯†åˆ«ä¸‹é¢çš„æ–‡æœ¬ï¼š
+						* @Drill_LE_param "å†…å®¹-%d"
+						* @Drill_LE_parentKey "---å†…å®¹ç»„%dè‡³%d---"
 						* @Drill_LE_var "DrillUp.g_SSpA_context_list_length"
 						* @Drill_LE_editForbidden
 
-		ËµÃ÷£º		ÕâÀïÖ»Ìá¹©µ¥Ò»²Ù×÷£¬²»º¬ÏÈºóÁ÷³Ì¡£
+		è¯´æ˜ï¼š		è¿™é‡Œåªæä¾›å•ä¸€æ“ä½œï¼Œä¸å«å…ˆåæµç¨‹ã€‚
 -----==========================================================-----
 */
 
@@ -23,7 +23,7 @@ S_LEAnnotationReader::S_LEAnnotationReader() : QObject(){
 }
 S_LEAnnotationReader::~S_LEAnnotationReader() {
 }
-/*  - - µ¥Àı - - */
+/*  - - å•ä¾‹ - - */
 S_LEAnnotationReader* S_LEAnnotationReader::cur_manager = NULL;
 S_LEAnnotationReader* S_LEAnnotationReader::getInstance() {
 	if (cur_manager == NULL) {
@@ -31,55 +31,55 @@ S_LEAnnotationReader* S_LEAnnotationReader::getInstance() {
 	}
 	return cur_manager;
 }
-/*  - - ³õÊ¼»¯ - - */
+/*  - - åˆå§‹åŒ– - - */
 void S_LEAnnotationReader::init() {
 
 }
 
 /*-------------------------------------------------
-		¶ÁÈ¡ - »ñÈ¡×¢½âÄÚÈİ
+		è¯»å– - è·å–æ³¨è§£å†…å®¹
 */
 C_LEAnnotation* S_LEAnnotationReader::readPlugin(QFileInfo file){
 	C_LEAnnotation* result = new C_LEAnnotation();
 	result->pluginName = file.fileName();	//xxxx.js
 	result->fullPath = file.absoluteFilePath();
 
-	// > ÎÄ¼şÀ´Ô´
+	// > æ–‡ä»¶æ¥æº
 	QFile file_from(result->fullPath);
 	if (!file_from.open(QFile::ReadOnly)){
-		QMessageBox message(QMessageBox::Critical, ("´íÎó"), ("ÎŞ·¨´ò¿ªÎÄ¼ş" + result->pluginName ));
+		QMessageBox message(QMessageBox::Critical, ("é”™è¯¯"), ("æ— æ³•æ‰“å¼€æ–‡ä»¶" + result->pluginName ));
 		message.exec();
 		return result;
 	}
 	result->context = file_from.readAll();
 	file_from.close();
 
-	// > É¨ÃèÆ÷×¼±¸
+	// > æ‰«æå™¨å‡†å¤‡
 	P_TxtFastReader reader = P_TxtFastReader(result->context);
 	reader.prepare_trimAllRows();
-	reader.prepare_replaceInStrings(QRegExp("( \\* )|( \\*)|(\\* )|(/\\*:)|(/\\*:ja)"), "");	//Ô¤±¸È¥µô×¢ÊÍ
+	reader.prepare_replaceInStrings(QRegExp("( \\* )|( \\*)|(\\* )|(/\\*:)|(/\\*:ja)"), "");	//é¢„å¤‡å»æ‰æ³¨é‡Š
 
-	// > »ñÈ¡²å¼ş¼ò½é
+	// > è·å–æ’ä»¶ç®€ä»‹
 	int i_desc = reader.d_indexOf("@plugindesc", 0);
 	if (i_desc != -1){
 		QString desc_data = reader.d_rowAt(i_desc);
 		result->pluginDesc = desc_data.replace("@plugindesc", "").trimmed();
 	}
 
-	// > »ñÈ¡²å¼ş×÷Õß
+	// > è·å–æ’ä»¶ä½œè€…
 	int i_author = reader.d_indexOf("@author", 0);
 	if (i_author != -1){
 		QString author_data = reader.d_rowAt(i_author);
 		result->pluginAuthor = author_data.replace("@author", "").trimmed();
 	}
 
-	// > ½ûÓÃÇé¿ö¼ì²é
+	// > ç¦ç”¨æƒ…å†µæ£€æŸ¥
 	if (result->context.indexOf("@Drill_LE_editForbidden") != -1){
 		result->paramForbidden = true;
 		return result;
 	}
 
-	// > »ñÈ¡²å¼ş²ÎÊı
+	// > è·å–æ’ä»¶å‚æ•°
 	int length = reader.d_rowCount();
 	QList<int> index_list = reader.d_getAllRowIndexsContains("@Drill_LE_param");
 	for (int i = 0; i < index_list.length(); i++){
@@ -89,7 +89,7 @@ C_LEAnnotation* S_LEAnnotationReader::readPlugin(QFileInfo file){
 		if (!reader.d_rowAt(i_param + 1).contains("@Drill_LE_parentKey")){ continue; }
 		if (!reader.d_rowAt(i_param + 2).contains("@Drill_LE_var")){ continue; }
 
-		// > »ñÈ¡×Ö·û´®£¨»áÈ¥µôÒıºÅ£©
+		// > è·å–å­—ç¬¦ä¸²ï¼ˆä¼šå»æ‰å¼•å·ï¼‰
 		QString s_param = reader.d_rowAt(i_param).replace("@Drill_LE_param", "");
 		QString s_parentKey = reader.d_rowAt(i_param + 1).replace("@Drill_LE_parentKey", "");
 		QString s_var = reader.d_rowAt(i_param + 2).replace("@Drill_LE_var", "");
@@ -97,52 +97,52 @@ C_LEAnnotation* S_LEAnnotationReader::readPlugin(QFileInfo file){
 		s_parentKey = s_parentKey.trimmed().replace("\"", "");
 		s_var = s_var.trimmed().replace("\"", "");
 
-		// > ¼ÓÈë×é
+		// > åŠ å…¥ç»„
 		C_LEAnnotation_Param c_p = C_LEAnnotation_Param();
 		c_p.initParam(s_param, s_parentKey, s_var);
 		result->paramList.push_back(c_p);
 	}
 
-	// > »ñÈ¡²ÎÊı×î´óÖµ
+	// > è·å–å‚æ•°æœ€å¤§å€¼
 	this->refreshPluginAnnotation(result);
 
 	return result;
 }
 /*-------------------------------------------------
-		¶ÁÈ¡ - Ë¢ĞÂ²ÎÊı×î´óÖµ
+		è¯»å– - åˆ·æ–°å‚æ•°æœ€å¤§å€¼
 */
 void S_LEAnnotationReader::refreshPluginAnnotation(C_LEAnnotation* plugin){
 
-	// > É¨ÃèÆ÷×¼±¸
+	// > æ‰«æå™¨å‡†å¤‡
 	QString context = plugin->context;
 	P_TxtFastReader reader = P_TxtFastReader(context);
 	reader.prepare_trimAllRows();
-	reader.prepare_replaceInStrings(QRegExp("( \\* )|( \\*)|(\\* )|(/\\*:)|(/\\*:ja)"), "");	//´ËĞĞµÄÈ¥µô×¢ÊÍ
+	reader.prepare_replaceInStrings(QRegExp("( \\* )|( \\*)|(\\* )|(/\\*:)|(/\\*:ja)"), "");	//æ­¤è¡Œçš„å»æ‰æ³¨é‡Š
 
-	// > »ñÈ¡ - ±äÁ¿×î´óÖµ
+	// > è·å– - å˜é‡æœ€å¤§å€¼
 	for (int i = 0; i < plugin->paramList.count(); i++){
 		C_LEAnnotation_Param pluginParam = plugin->paramList.at(i);
 		QString var_str = pluginParam.getVarName();
 		if (var_str == "" || var_str == "null"){ break; }
 
-		QString re_str = var_str.replace(".", "\\.");		//·ÀÖ¹ÎóÊ¶±ğÕıÔò
+		QString re_str = var_str.replace(".", "\\.");		//é˜²æ­¢è¯¯è¯†åˆ«æ­£åˆ™
 		QRegExp re = QRegExp(re_str + "[ ]*=[^=]*");
 		int i_var = context.indexOf(re, 0);
 		int i_varEnd = context.indexOf("\n", i_var);
 		if (i_var == -1){ continue; }
 		if (i_varEnd == -1){ continue; }
 
-		// > ±äÁ¿Öµ»ñÈ¡
+		// > å˜é‡å€¼è·å–
 		QString data = context.mid(i_var, i_varEnd - i_var);
 		QStringList dataList = data.split("=");
 		if (dataList.count() == 0){ continue; }
-		int var_length = TTool::_to_int_(dataList.at(1));	//Õ¥È¡µÈºÅºóÃæµÄintÖµ
+		int var_length = TTool::_to_int_(dataList.at(1));	//æ¦¨å–ç­‰å·åé¢çš„intå€¼
 
 		pluginParam.setVarLen(var_length);
 		plugin->paramList.replace(i, pluginParam);
 	}
 
-	// > ËÑË÷ - Êµ¼Ê×î´óÖµ
+	// > æœç´¢ - å®é™…æœ€å¤§å€¼
 	for (int i = 0; i < plugin->paramList.count(); i++){
 		C_LEAnnotation_Param pluginParam = plugin->paramList.at(i);
 
@@ -165,14 +165,14 @@ void S_LEAnnotationReader::refreshPluginAnnotation(C_LEAnnotation* plugin){
 }
 
 /*-------------------------------------------------
-		¶ÁÈ¡ - ²å¼şÊÇ·ñ´æÔÚ"xxx-10"ĞòÁĞ¸ñÊ½
+		è¯»å– - æ’ä»¶æ˜¯å¦å­˜åœ¨"xxx-10"åºåˆ—æ ¼å¼
 */
 bool S_LEAnnotationReader::isPluginIncludedLengthParam(QString context){
 
-	// > É¨ÃèÆ÷×¼±¸
+	// > æ‰«æå™¨å‡†å¤‡
 	P_TxtFastReader reader = P_TxtFastReader(context);
 	
-	// > Êµ¼Ê±äÁ¿ÒÀ´ÎËÑË÷
+	// > å®é™…å˜é‡ä¾æ¬¡æœç´¢
 	QStringList param_names = reader.d_getAllRowsContains(QRegExp("@param[ ]+.*-[0123456789]+"));
 	return param_names.count() >= 4;
 }

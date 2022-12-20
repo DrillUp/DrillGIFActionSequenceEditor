@@ -1,18 +1,18 @@
-#pragma once
+ï»¿#pragma once
 #include <QObject>
 
-#include "c_LEConfigData.h"
-#include "c_LEAnnotation.h"
+#include "C_LEConfigData.h"
+#include "C_LEAnnotation.h"
 
-#include "Source/Utils/common/TTool.h"
-#include "Source/Utils/manager/txtRead/p_TxtFastReader.h"
+#include "Source/Utils/Common/TTool.h"
+#include "Source/Utils/Manager/TxtRead/P_TxtFastReader.h"
 
 /*
 -----==========================================================-----
-		Àà£º		ÎÄ±¾É¨ÃèÆ÷.h
-		ËùÊôÄ£¿é£º	ºËĞÄÄ£¿é
-		¹¦ÄÜ£º		Ìá¹©É¨Ãè¡¢¸²Ğ´Ö±½Ó¹¦ÄÜ¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		æ–‡æœ¬æ‰«æå™¨.h
+		æ‰€å±æ¨¡å—ï¼š	æ ¸å¿ƒæ¨¡å—
+		åŠŸèƒ½ï¼š		æä¾›æ‰«æã€è¦†å†™ç›´æ¥åŠŸèƒ½ã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 class S_LEConfigWriter : public QObject
@@ -22,20 +22,20 @@ class S_LEConfigWriter : public QObject
 	public:
 		S_LEConfigWriter();
 		~S_LEConfigWriter();
-		static S_LEConfigWriter* cur_manager;			//µ¥Àı
-		static S_LEConfigWriter* getInstance();			//µ¥Àı£¬»ñÈ¡×Ô¼º£¨±ØĞëÒªÄÃµ½È«¾ÖÅäÖÃ²ÅÄÜ½øĞĞ¼ÆËã£©
-		void init();									//³õÊ¼»¯
+		static S_LEConfigWriter* cur_manager;			//å•ä¾‹
+		static S_LEConfigWriter* getInstance();			//å•ä¾‹ï¼Œè·å–è‡ªå·±ï¼ˆå¿…é¡»è¦æ‹¿åˆ°å…¨å±€é…ç½®æ‰èƒ½è¿›è¡Œè®¡ç®—ï¼‰
+		void init();									//åˆå§‹åŒ–
 
 	//-----------------------------------
-	//----¸²Ğ´
+	//----è¦†å†™
 	public:
-												//¸²Ğ´ - ×î´óÖµĞŞ¸Ä
-												//		¡¾ËµÃ÷1¡¿:Ã¿´ÎÖ»ÄÜ½«Ò»¸ö×¢½â²ÎÊı¸²¸ÇĞ´Èë£¨¶à¸ö×¢½âĞèÒª¶à´ÎĞŞ¸Ä£©
-												//		¡¾ËµÃ÷2¡¿:Ê§°Ü·µ»Ø¿Õ×Ö·û´®
+												//è¦†å†™ - æœ€å¤§å€¼ä¿®æ”¹
+												//		ã€è¯´æ˜1ã€‘:æ¯æ¬¡åªèƒ½å°†ä¸€ä¸ªæ³¨è§£å‚æ•°è¦†ç›–å†™å…¥ï¼ˆå¤šä¸ªæ³¨è§£éœ€è¦å¤šæ¬¡ä¿®æ”¹ï¼‰
+												//		ã€è¯´æ˜2ã€‘:å¤±è´¥è¿”å›ç©ºå­—ç¬¦ä¸²
 		QString doOverwritePlugin(QString context, C_LEAnnotation_Param param, C_LEConfigData config);
 
 	private:
-												//¸²Ğ´ - ¸ù¾İ "½×¶Î-1" »ñÈ¡µ½ "@param ½×¶Î-1" µÄÈ«²¿²ÎÊı×Ö·û´®
+												//è¦†å†™ - æ ¹æ® "é˜¶æ®µ-1" è·å–åˆ° "@param é˜¶æ®µ-1" çš„å…¨éƒ¨å‚æ•°å­—ç¬¦ä¸²
 		QStringList getParamStringList(QStringList contextList, QRegExp re);
 		
 };

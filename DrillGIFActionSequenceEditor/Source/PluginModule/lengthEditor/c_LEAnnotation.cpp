@@ -1,31 +1,31 @@
-#include "stdafx.h"
-#include "c_LEAnnotation.h"
+ï»¿#include "stdafx.h"
+#include "C_LEAnnotation.h"
 
-#include "Source/Utils/common/TTool.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
-		Àà£º		²å¼ş×¢½â ²ÎÊı.cpp£¨Ö»¶Á£©
-		ËùÊôÄ£¿é£º	ºËĞÄÄ£¿é
-		¹¦ÄÜ£º		²å¼şµÄ¹Ì¶¨²ÎÊıÊı¾İ¡£
+		ç±»ï¼š		æ’ä»¶æ³¨è§£ å‚æ•°.cppï¼ˆåªè¯»ï¼‰
+		æ‰€å±æ¨¡å—ï¼š	æ ¸å¿ƒæ¨¡å—
+		åŠŸèƒ½ï¼š		æ’ä»¶çš„å›ºå®šå‚æ•°æ•°æ®ã€‚
 
-		ËµÃ÷£º		²ÎÊıÕæÊµÖ»´æ¼¸¸öĞèÒªµÄÊı¾İ¡£
-					ÆäËû½á¹¹µ÷ÓÃ´Ë ÊµÌåÀà ¶¼ÊÇÊı¾İµÄ¸÷ÖÖ×éºÏ½á¹û¡£
-					¡¾ÁíÍâ£¬¾¡¿ÉÄÜ±£³ÖÊı¾İÎ¨Ò»ĞÔ£¬±ÜÃâ"½×¶Î-%d"ºÍ"½×¶Î"´æ³ÉÁ½¸ö±äÁ¿¡£¡¿
+		è¯´æ˜ï¼š		å‚æ•°çœŸå®åªå­˜å‡ ä¸ªéœ€è¦çš„æ•°æ®ã€‚
+					å…¶ä»–ç»“æ„è°ƒç”¨æ­¤ å®ä½“ç±» éƒ½æ˜¯æ•°æ®çš„å„ç§ç»„åˆç»“æœã€‚
+					ã€å¦å¤–ï¼Œå°½å¯èƒ½ä¿æŒæ•°æ®å”¯ä¸€æ€§ï¼Œé¿å…"é˜¶æ®µ-%d"å’Œ"é˜¶æ®µ"å­˜æˆä¸¤ä¸ªå˜é‡ã€‚ã€‘
 -----==========================================================-----
 */
 C_LEAnnotation_Param::C_LEAnnotation_Param(){
-	this->paramKey = "";				//±äÁ¿¼ü£¨@Drill_LE_param£©
-	this->parentKey = "";				//±äÁ¿×é¼ü£¨@Drill_LE_parentKey£©
-	this->var = "";						//¶¨ÒåÃû£¨@Drill_LE_var£©
-	this->varLen = 0;					//¶¨Òå×î´óÖµ
-	this->realLen = 0;					//Êµ¼Ê×î´óÖµ
+	this->paramKey = "";				//å˜é‡é”®ï¼ˆ@Drill_LE_paramï¼‰
+	this->parentKey = "";				//å˜é‡ç»„é”®ï¼ˆ@Drill_LE_parentKeyï¼‰
+	this->var = "";						//å®šä¹‰åï¼ˆ@Drill_LE_varï¼‰
+	this->varLen = 0;					//å®šä¹‰æœ€å¤§å€¼
+	this->realLen = 0;					//å®é™…æœ€å¤§å€¼
 }
 C_LEAnnotation_Param::~C_LEAnnotation_Param(){
 }
 
 /*-------------------------------------------------
-		²ÎÊı - ³õÊ¼»¯
+		å‚æ•° - åˆå§‹åŒ–
 */
 void C_LEAnnotation_Param::initParam(QString param, QString parentKey, QString var){
 	this->paramKey = param;
@@ -33,25 +33,25 @@ void C_LEAnnotation_Param::initParam(QString param, QString parentKey, QString v
 	this->var = var;
 }
 /*-------------------------------------------------
-		»ñÈ¡ - ±äÁ¿¼ü
+		è·å– - å˜é‡é”®
 */
 QString C_LEAnnotation_Param::getParamKey(){
 	return this->paramKey;
 }
 /*-------------------------------------------------
-		»ñÈ¡ - ±äÁ¿×é¼ü
+		è·å– - å˜é‡ç»„é”®
 */
 QString C_LEAnnotation_Param::getParentKey(){
 	return this->parentKey;
 }
 /*-------------------------------------------------
-		»ñÈ¡ - ¶¨ÒåÃû
+		è·å– - å®šä¹‰å
 */
 QString C_LEAnnotation_Param::getVarName(){
 	return this->var;
 }
 /*-------------------------------------------------
-		»ñÈ¡ - ¶¨Òå×î´óÖµ
+		è·å– - å®šä¹‰æœ€å¤§å€¼
 */
 void C_LEAnnotation_Param::setVarLen(int len){
 	this->varLen = len;
@@ -60,7 +60,7 @@ int C_LEAnnotation_Param::getVarLen(){
 	return varLen;
 }
 /*-------------------------------------------------
-		»ñÈ¡ - Êµ¼Ê×î´óÖµ
+		è·å– - å®é™…æœ€å¤§å€¼
 */
 void C_LEAnnotation_Param::setRealLen(int len){
 	this->realLen = len;
@@ -69,13 +69,13 @@ int C_LEAnnotation_Param::getRealLen(){
 	return realLen;
 }
 /*-------------------------------------------------
-		»ñÈ¡ - ±äÁ¿ÏÔÊ¾Ãû
+		è·å– - å˜é‡æ˜¾ç¤ºå
 */
 QString C_LEAnnotation_Param::getParamShowingName(){
 	return this->paramKey.split("-").at(0);
 }
 /*-------------------------------------------------
-		»ñÈ¡ - ±äÁ¿Ãû£¨´Ó1¿ªÊ¼¼ÆÊı£©
+		è·å– - å˜é‡åï¼ˆä»1å¼€å§‹è®¡æ•°ï¼‰
 */
 QString C_LEAnnotation_Param::getParamName(int index){
 	QString i_str = QString::number(index);
@@ -84,7 +84,7 @@ QString C_LEAnnotation_Param::getParamName(int index){
 	return result;
 }
 /*-------------------------------------------------
-		»ñÈ¡ - ±äÁ¿×éÃû£¨´Ó1¿ªÊ¼¼ÆÊı£©
+		è·å– - å˜é‡ç»„åï¼ˆä»1å¼€å§‹è®¡æ•°ï¼‰
 */
 QString C_LEAnnotation_Param::getParentName(int index){
 	if (this->isParentGrouping() == false){ return ""; }
@@ -102,21 +102,21 @@ QString C_LEAnnotation_Param::getParentName(int index){
 	return result;
 }
 /*-------------------------------------------------
-		»ñÈ¡ - ±äÁ¿×¢ÊÍÃû£¨È«´ÊÆ¥ÅäÓÃ£©
+		è·å– - å˜é‡æ³¨é‡Šåï¼ˆå…¨è¯åŒ¹é…ç”¨ï¼‰
 */
 QRegExp C_LEAnnotation_Param::getParamCommentRe(int index){
 	QString param_re = "@param[ ]*" + this->getParamName(index) + "$";
 	return QRegExp(param_re);
 }
 /*-------------------------------------------------
-		»ñÈ¡ - ±äÁ¿×¢ÊÍ×éÃû£¨È«´ÊÆ¥ÅäÓÃ£©
+		è·å– - å˜é‡æ³¨é‡Šç»„åï¼ˆå…¨è¯åŒ¹é…ç”¨ï¼‰
 */
 QRegExp C_LEAnnotation_Param::getParentCommentRe(int index){
 	QString parent_re = "@param[ ]*" + this->getParentName(index) + "$";
 	return QRegExp(parent_re);
 }
 /*-------------------------------------------------
-		»ñÈ¡ - ÊÇ·ñ·Ö×é
+		è·å– - æ˜¯å¦åˆ†ç»„
 */
 bool C_LEAnnotation_Param::isParentGrouping(){
 	return this->parentKey.contains("%d");
@@ -124,20 +124,20 @@ bool C_LEAnnotation_Param::isParentGrouping(){
 
 /*
 -----==========================================================-----
-		Àà£º		²å¼şĞÅÏ¢.cpp£¨Ö»¶Á£©
+		ç±»ï¼š		æ’ä»¶ä¿¡æ¯.cppï¼ˆåªè¯»ï¼‰
 -----==========================================================-----
 */
 C_LEAnnotation::C_LEAnnotation(){
-	this->pluginName = "";								//²å¼şÃû
-	this->pluginDesc = "";								//²å¼ş¼ò½é£¨@plugindesc£©
-	this->pluginAuthor = "";							//²å¼ş×÷Õß£¨@author£©
-	this->paramList = QList<C_LEAnnotation_Param>();	//²å¼ş²ÎÊı
-	this->paramForbidden = false;						//½ûÖ¹±à¼­£¨@Drill_LE_editForbidden£©
+	this->pluginName = "";								//æ’ä»¶å
+	this->pluginDesc = "";								//æ’ä»¶ç®€ä»‹ï¼ˆ@plugindescï¼‰
+	this->pluginAuthor = "";							//æ’ä»¶ä½œè€…ï¼ˆ@authorï¼‰
+	this->paramList = QList<C_LEAnnotation_Param>();	//æ’ä»¶å‚æ•°
+	this->paramForbidden = false;						//ç¦æ­¢ç¼–è¾‘ï¼ˆ@Drill_LE_editForbiddenï¼‰
 
-	this->fullPath = "";				//²å¼şÎÄ¼şÂ·¾¶
-	this->context = "";					//²å¼şÎÄ±¾
-	this->message = "";					//²å¼şÏûÏ¢£¨¶ÁÈ¡ºó£¬ÏÔÊ¾µÄ×Ö·û´®£©	
-	this->editMessage = "";				//²å¼şĞŞ¸ÄÏûÏ¢£¨±à¼­ºó£¬±à¼­Êı¾İµÄ×Ö·û´®£©
+	this->fullPath = "";				//æ’ä»¶æ–‡ä»¶è·¯å¾„
+	this->context = "";					//æ’ä»¶æ–‡æœ¬
+	this->message = "";					//æ’ä»¶æ¶ˆæ¯ï¼ˆè¯»å–åï¼Œæ˜¾ç¤ºçš„å­—ç¬¦ä¸²ï¼‰	
+	this->editMessage = "";				//æ’ä»¶ä¿®æ”¹æ¶ˆæ¯ï¼ˆç¼–è¾‘åï¼Œç¼–è¾‘æ•°æ®çš„å­—ç¬¦ä¸²ï¼‰
 }
 C_LEAnnotation::~C_LEAnnotation(){
 }
@@ -151,26 +151,26 @@ C_LEAnnotation_Param C_LEAnnotation::getParamByKey(QString paramKey){
 	return C_LEAnnotation_Param();
 }
 /*-------------------------------------------------
-		ÅĞ¶Ï - ¿ÕÅĞ¶Ï
+		åˆ¤æ–­ - ç©ºåˆ¤æ–­
 */
 bool C_LEAnnotation::isNull(){
 	return this->pluginName == "" || this->pluginDesc == "";
 }
 /*-------------------------------------------------
-		ÅĞ¶Ï - ÊÇ·ñ±»½ûÓÃ
+		åˆ¤æ–­ - æ˜¯å¦è¢«ç¦ç”¨
 */
 bool C_LEAnnotation::isForbidden(){
 	return this->paramForbidden;
 }
 /*-------------------------------------------------
-		ÅĞ¶Ï - ÊÇ·ñ¿É±à¼­
+		åˆ¤æ–­ - æ˜¯å¦å¯ç¼–è¾‘
 */
 bool C_LEAnnotation::isEditable(){
 	if (this->paramList.count() == 0){ return false; }
 	return true;
 }
 /*-------------------------------------------------
-		ÅĞ¶Ï - ÍêÕûĞÔ¼ì²é
+		åˆ¤æ–­ - å®Œæ•´æ€§æ£€æŸ¥
 */
 bool C_LEAnnotation::isIntegrity(){
 	for (int i = 0; i < this->paramList.count(); i++){
@@ -180,7 +180,7 @@ bool C_LEAnnotation::isIntegrity(){
 		if (pluginParam.getVarName() == "null"){ continue; }
 		if (pluginParam.getVarLen() == 0){ return false; }
 
-		// > ¶Ô±È
+		// > å¯¹æ¯”
 		if (pluginParam.getRealLen() != pluginParam.getVarLen()){
 			return false;
 		}

@@ -1,12 +1,12 @@
-#pragma once
+ï»¿#pragma once
 #include <QJsonObject>
 
 /*
 -----==========================================================-----
-		Àà£º		²å¼ş×¢½â ²ÎÊı.h£¨Ö»¶Á£©
-		ËùÊôÄ£¿é£º	ºËĞÄÄ£¿é
-		¹¦ÄÜ£º		²å¼şµÄ¹Ì¶¨²ÎÊıÊı¾İ¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		æ’ä»¶æ³¨è§£ å‚æ•°.hï¼ˆåªè¯»ï¼‰
+		æ‰€å±æ¨¡å—ï¼š	æ ¸å¿ƒæ¨¡å—
+		åŠŸèƒ½ï¼š		æ’ä»¶çš„å›ºå®šå‚æ•°æ•°æ®ã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 class C_LEAnnotation_Param{
@@ -14,48 +14,48 @@ class C_LEAnnotation_Param{
 		C_LEAnnotation_Param();
 		~C_LEAnnotation_Param();
 	private:
-		QString paramKey;				//±äÁ¿¼ü£¨@Drill_LE_param£©
-		QString parentKey;				//±äÁ¿×é¼ü£¨@Drill_LE_parentKey£©
-		QString var;					//¶¨ÒåÃû£¨@Drill_LE_var£©
-		int varLen;						//¶¨Òå×î´óÖµ¡¾¶¨ÒåµÄ var xxx_length = ºóÃæµÄÖµ¡¿
-		int realLen;					//Êµ¼Ê×î´óÖµ¡¾±éÀúµÄ @param ÕÒµ½µÄ×î´óÖµ¡¿
+		QString paramKey;				//å˜é‡é”®ï¼ˆ@Drill_LE_paramï¼‰
+		QString parentKey;				//å˜é‡ç»„é”®ï¼ˆ@Drill_LE_parentKeyï¼‰
+		QString var;					//å®šä¹‰åï¼ˆ@Drill_LE_varï¼‰
+		int varLen;						//å®šä¹‰æœ€å¤§å€¼ã€å®šä¹‰çš„ var xxx_length = åé¢çš„å€¼ã€‘
+		int realLen;					//å®é™…æœ€å¤§å€¼ã€éå†çš„ @param æ‰¾åˆ°çš„æœ€å¤§å€¼ã€‘
 	public:
-										//²ÎÊı - ³õÊ¼»¯
+										//å‚æ•° - åˆå§‹åŒ–
 		void initParam(QString param, QString parentKey, QString var);
-										//»ñÈ¡ - ±äÁ¿¼ü "½×¶Î-%d"
+										//è·å– - å˜é‡é”® "é˜¶æ®µ-%d"
 		QString getParamKey();
-										//»ñÈ¡ - ±äÁ¿×é¼ü "--½×¶Î×é%dÖÁ%d--"
+										//è·å– - å˜é‡ç»„é”® "--é˜¶æ®µç»„%dè‡³%d--"
 		QString getParentKey();
-										//»ñÈ¡ - ¶¨ÒåÃû "DrillUp.g_SSpE_list_length"
+										//è·å– - å®šä¹‰å "DrillUp.g_SSpE_list_length"
 		QString getVarName();
 
-										//²ÎÊı - ÉèÖÃ ¶¨Òå×î´óÖµ£¨¶ÁÈ¡Ê±ĞèÒª¶à´Î¸³Öµ£©
+										//å‚æ•° - è®¾ç½® å®šä¹‰æœ€å¤§å€¼ï¼ˆè¯»å–æ—¶éœ€è¦å¤šæ¬¡èµ‹å€¼ï¼‰
 		void setVarLen(int len);
-										//²ÎÊı - ÉèÖÃ Êµ¼Ê×î´óÖµ£¨¶ÁÈ¡Ê±ĞèÒª¶à´Î¸³Öµ£©
+										//å‚æ•° - è®¾ç½® å®é™…æœ€å¤§å€¼ï¼ˆè¯»å–æ—¶éœ€è¦å¤šæ¬¡èµ‹å€¼ï¼‰
 		void setRealLen(int len);
-										//»ñÈ¡ - ¶¨Òå×î´óÖµ
+										//è·å– - å®šä¹‰æœ€å¤§å€¼
 		int getVarLen();
-										//»ñÈ¡ - Êµ¼Ê×î´óÖµ
+										//è·å– - å®é™…æœ€å¤§å€¼
 		int getRealLen();
 
-										//»ñÈ¡ - ±äÁ¿ÏÔÊ¾Ãû "½×¶Î"
+										//è·å– - å˜é‡æ˜¾ç¤ºå "é˜¶æ®µ"
 		QString getParamShowingName();
-										//»ñÈ¡ - ±äÁ¿Ãû "½×¶Î-210"£¨´Ó1¿ªÊ¼¼ÆÊı£©
+										//è·å– - å˜é‡å "é˜¶æ®µ-210"ï¼ˆä»1å¼€å§‹è®¡æ•°ï¼‰
 		QString getParamName(int index);
-										//»ñÈ¡ - ±äÁ¿×éÃû "--½×¶Î×é21ÖÁ40--"£¨´Ó1¿ªÊ¼¼ÆÊı£©
+										//è·å– - å˜é‡ç»„å "--é˜¶æ®µç»„21è‡³40--"ï¼ˆä»1å¼€å§‹è®¡æ•°ï¼‰
 		QString getParentName(int index);
-										//»ñÈ¡ - ±äÁ¿×¢ÊÍÃû "@param[ ]*½×¶Î-210$"£¨È«´ÊÆ¥ÅäÓÃ£¬´Ó1¿ªÊ¼¼ÆÊı£©
+										//è·å– - å˜é‡æ³¨é‡Šå "@param[ ]*é˜¶æ®µ-210$"ï¼ˆå…¨è¯åŒ¹é…ç”¨ï¼Œä»1å¼€å§‹è®¡æ•°ï¼‰
 		QRegExp getParamCommentRe(int index);
-										//»ñÈ¡ - ±äÁ¿×¢ÊÍ×éÃû "@param[ ]*--½×¶Î×é21ÖÁ40--$"£¨È«´ÊÆ¥ÅäÓÃ£¬´Ó1¿ªÊ¼¼ÆÊı£©
+										//è·å– - å˜é‡æ³¨é‡Šç»„å "@param[ ]*--é˜¶æ®µç»„21è‡³40--$"ï¼ˆå…¨è¯åŒ¹é…ç”¨ï¼Œä»1å¼€å§‹è®¡æ•°ï¼‰
 		QRegExp getParentCommentRe(int index);
-										//»ñÈ¡ - ÊÇ·ñ·Ö×é
+										//è·å– - æ˜¯å¦åˆ†ç»„
 		bool isParentGrouping();
 };
 /*
 -----==========================================================-----
-		Àà£º		²å¼şĞÅÏ¢.h£¨Ö»¶Á£©
-		ËùÊôÄ£¿é£º	ºËĞÄÄ£¿é
-		¹¦ÄÜ£º		²å¼şµÄ¹Ì¶¨ĞÅÏ¢Êı¾İ¡£
+		ç±»ï¼š		æ’ä»¶ä¿¡æ¯.hï¼ˆåªè¯»ï¼‰
+		æ‰€å±æ¨¡å—ï¼š	æ ¸å¿ƒæ¨¡å—
+		åŠŸèƒ½ï¼š		æ’ä»¶çš„å›ºå®šä¿¡æ¯æ•°æ®ã€‚
 -----==========================================================-----
 */
 class C_LEAnnotation{
@@ -63,25 +63,25 @@ class C_LEAnnotation{
 		C_LEAnnotation();
 		~C_LEAnnotation();
 	public:
-		QString pluginName;						//²å¼şÃû
-		QString pluginDesc;						//²å¼ş¼ò½é£¨@plugindesc£©
-		QString pluginAuthor;					//²å¼ş×÷Õß£¨@author£©
-		QList<C_LEAnnotation_Param> paramList;	//²å¼ş²ÎÊı
-		bool paramForbidden;					//½ûÖ¹±à¼­£¨@Drill_LE_editForbidden£©
+		QString pluginName;						//æ’ä»¶å
+		QString pluginDesc;						//æ’ä»¶ç®€ä»‹ï¼ˆ@plugindescï¼‰
+		QString pluginAuthor;					//æ’ä»¶ä½œè€…ï¼ˆ@authorï¼‰
+		QList<C_LEAnnotation_Param> paramList;	//æ’ä»¶å‚æ•°
+		bool paramForbidden;					//ç¦æ­¢ç¼–è¾‘ï¼ˆ@Drill_LE_editForbiddenï¼‰
 
-		QString fullPath;					//²å¼şÎÄ¼şÂ·¾¶
-		QString context;					//²å¼şÎÄ±¾
-		QString message;					//²å¼şÏûÏ¢¡¾Á÷³ÌÓÃ£¬¶ÁÈ¡ºóÏÔÊ¾µÄ×Ö·û´®¡¿
-		QString editMessage;				//²å¼şĞŞ¸ÄÏûÏ¢¡¾Á÷³ÌÓÃ£¬±à¼­ºóÏÔÊ¾µÄÊı¾İ×Ö·û´®¡¿
+		QString fullPath;					//æ’ä»¶æ–‡ä»¶è·¯å¾„
+		QString context;					//æ’ä»¶æ–‡æœ¬
+		QString message;					//æ’ä»¶æ¶ˆæ¯ã€æµç¨‹ç”¨ï¼Œè¯»å–åæ˜¾ç¤ºçš„å­—ç¬¦ä¸²ã€‘
+		QString editMessage;				//æ’ä»¶ä¿®æ”¹æ¶ˆæ¯ã€æµç¨‹ç”¨ï¼Œç¼–è¾‘åæ˜¾ç¤ºçš„æ•°æ®å­—ç¬¦ä¸²ã€‘
 	public:
-											//¸ù¾İ±äÁ¿¼ü»ñÈ¡²ÎÊı
+											//æ ¹æ®å˜é‡é”®è·å–å‚æ•°
 		C_LEAnnotation_Param getParamByKey(QString paramKey);
-											//ÅĞ¶Ï - ¿ÕÅĞ¶Ï
+											//åˆ¤æ–­ - ç©ºåˆ¤æ–­
 		bool isNull();
-											//ÅĞ¶Ï - ÊÇ·ñ±»½ûÓÃ
+											//åˆ¤æ–­ - æ˜¯å¦è¢«ç¦ç”¨
 		bool isForbidden();
-											//ÅĞ¶Ï - ÊÇ·ñ¿É±à¼­
+											//åˆ¤æ–­ - æ˜¯å¦å¯ç¼–è¾‘
 		bool isEditable();
-											//ÅĞ¶Ï - ÍêÕûĞÔ¼ì²é
+											//åˆ¤æ–­ - å®Œæ•´æ€§æ£€æŸ¥
 		bool isIntegrity();
 };

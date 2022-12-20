@@ -1,8 +1,8 @@
-
+ï»¿
 	
-	´ËÄ£¿éÖ»Ìá¹© Êý¾Ý ¶ÁÐ´¹¦ÄÜ£¬²»º¬ÈÎºÎUI¿Ø¼þ¡£
-	´ËÄ£¿éÖ»·Å Êý¾ÝÀàÎÄ¼þ£¨c_Ç°×ºÎÄ¼þ£©»òµ¥ÀýÎÄ¼þ£¨s_Ç°×ºÎÄ¼þ£©¡£
-	´ËÄ£¿éÖ»²Ù×÷¹¤³ÌÖÐ ¡¾plugins.jsÎÄ¼þ¡¿ »ò ¡¾pluginsÎÄ¼þ¼ÐÏÂµÄËùÓÐÎÄ¼þ¡¿¡£
+	æ­¤æ¨¡å—åªæä¾› æ•°æ® è¯»å†™åŠŸèƒ½ï¼Œä¸å«ä»»ä½•UIæŽ§ä»¶ã€‚
+	æ­¤æ¨¡å—åªæ”¾ æ•°æ®ç±»æ–‡ä»¶ï¼ˆC_å‰ç¼€æ–‡ä»¶ï¼‰æˆ–å•ä¾‹æ–‡ä»¶ï¼ˆS_å‰ç¼€æ–‡ä»¶ï¼‰ã€‚
+	æ­¤æ¨¡å—åªæ“ä½œå·¥ç¨‹ä¸­ ã€plugins.jsæ–‡ä»¶ã€‘ æˆ– ã€pluginsæ–‡ä»¶å¤¹ä¸‹çš„æ‰€æœ‰æ–‡ä»¶ã€‘ã€‚
 	
-	Èç¹ûº¬ÓÐÆäËüUI¿Ø¼þ£¬¿ÉÒÔ¿¼ÂÇÉè¼Æ¡¾²å¼þUIÄ£¿é PluginComponentModule¡¿¡£
-	»òÕß×Ô¶¨ÒåÆäËü¿Ø¼þÄ£¿é¡£
+	å¦‚æžœå«æœ‰å…¶å®ƒUIæŽ§ä»¶ï¼Œå¯ä»¥è€ƒè™‘è®¾è®¡ã€æ’ä»¶UIæ¨¡å— PluginComponentModuleã€‘ã€‚
+	æˆ–è€…è‡ªå®šä¹‰å…¶å®ƒæŽ§ä»¶æ¨¡å—ã€‚

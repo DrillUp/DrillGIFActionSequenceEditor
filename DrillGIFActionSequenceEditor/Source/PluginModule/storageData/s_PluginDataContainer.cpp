@@ -1,28 +1,28 @@
-#include "stdafx.h"
-#include "s_PluginDataContainer.h"
+ï»¿#include "stdafx.h"
+#include "S_PluginDataContainer.h"
 
 
 /*
 -----==========================================================-----
-		Àà£º		²å¼şÊı¾İ ÈİÆ÷.cpp
-		°æ±¾£º		v1.04
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	²å¼şÄ£¿é
-		¹¦ÄÜ£º		¹ÜÀíplugin.jsÖĞµÄÈ«²¿²å¼şÅäÖÃÊı¾İ¡£
-					¡¾·â×°µÄÈİÆ÷½á¹¹£¬×¢Òâ½ÓÊÕ¶ÁÈ¡µÄĞÅºÅ¡¿
+		ç±»ï¼š		æ’ä»¶æ•°æ® å®¹å™¨.cpp
+		ç‰ˆæœ¬ï¼š		v1.04
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	æ’ä»¶æ¨¡å—
+		åŠŸèƒ½ï¼š		ç®¡ç†plugin.jsä¸­çš„å…¨éƒ¨æ’ä»¶é…ç½®æ•°æ®ã€‚
+					ã€å°è£…çš„å®¹å™¨ç»“æ„ï¼Œæ³¨æ„æ¥æ”¶è¯»å–çš„ä¿¡å·ã€‘
 		
-		Ê¹ÓÃ·½·¨£º
-				> ¶ÁÈ¡£¨ÓÃÈİÆ÷£©£º
+		ä½¿ç”¨æ–¹æ³•ï¼š
+				> è¯»å–ï¼ˆç”¨å®¹å™¨ï¼‰ï¼š
 					S_PluginDataContainer::getInstance()->loadPluginData( data_context );
-					C_PluginData* data = S_PluginDataContainer::getInstance()->getPluginData( plugin_name );	//µ¥¸ö»ñÈ¡
-					QList<C_PluginData*> data_list = S_PluginDataContainer::getInstance()->getPluginDataTank();	//È«²¿»ñÈ¡
-				> Ğ´Èë£¨ÓÃÈİÆ÷£©£º
+					C_PluginData* data = S_PluginDataContainer::getInstance()->getPluginData( plugin_name );	//å•ä¸ªè·å–
+					QList<C_PluginData*> data_list = S_PluginDataContainer::getInstance()->getPluginDataTank();	//å…¨éƒ¨è·å–
+				> å†™å…¥ï¼ˆç”¨å®¹å™¨ï¼‰ï¼š
 					S_PluginDataContainer::getInstance()->loadPluginData( data_context );
-					S_PluginDataContainer::getInstance()->op_add( data ); //Ìí¼Ó¡¢ĞŞ¸Ä¡¢É¾³ı ²Ù×÷
+					S_PluginDataContainer::getInstance()->op_add( data ); //æ·»åŠ ã€ä¿®æ”¹ã€åˆ é™¤ æ“ä½œ
 					QString data_context = S_PluginDataContainer::getInstance()->writePluginData();
-				> ¶ÁÈ¡£¨Ö±½Ó·¨£©£º
+				> è¯»å–ï¼ˆç›´æ¥æ³•ï¼‰ï¼š
 					QList<C_PluginData*> data_list = S_PluginDataContainer::getInstance()->loadPluginDataDirectly( data_context );
-				> Ğ´Èë£¨Ö±½Ó·¨£©£º
+				> å†™å…¥ï¼ˆç›´æ¥æ³•ï¼‰ï¼š
 					QString data_context = S_PluginDataContainer::getInstance()->writePluginDataDirectly( data_list );
 -----==========================================================-----
 */
@@ -33,7 +33,7 @@ S_PluginDataContainer::~S_PluginDataContainer() {
 }
 
 /* --------------------------------------------------------------
-----------PluginDataManager µ¥Àı
+----------PluginDataManager å•ä¾‹
 */
 S_PluginDataContainer* S_PluginDataContainer::cur_manager = NULL;
 S_PluginDataContainer* S_PluginDataContainer::getInstance() {
@@ -45,16 +45,16 @@ S_PluginDataContainer* S_PluginDataContainer::getInstance() {
 
 
 /*-------------------------------------------------
-		Êı¾İ - »ñÈ¡È«²¿²å¼şÊı¾İ
+		æ•°æ® - è·å–å…¨éƒ¨æ’ä»¶æ•°æ®
 */
 QList<C_PluginData*> S_PluginDataContainer::getPluginDataTank() {
 	return this->data_PluginDataTank;
 }
 /*-------------------------------------------------
-		Êı¾İ - »ñÈ¡¶ÔÓ¦µÄ²å¼şÊı¾İ
+		æ•°æ® - è·å–å¯¹åº”çš„æ’ä»¶æ•°æ®
 */
 C_PluginData* S_PluginDataContainer::getPluginData(QString pluginName){
-	pluginName = pluginName.replace(".js", "");		//£¨È¥µôºó×º£©
+	pluginName = pluginName.replace(".js", "");		//ï¼ˆå»æ‰åç¼€ï¼‰
 
 	for (int i = 0; i < this->data_PluginDataTank.count(); i++){
 		C_PluginData* data = this->data_PluginDataTank.at(i);
@@ -65,22 +65,22 @@ C_PluginData* S_PluginDataContainer::getPluginData(QString pluginName){
 	return nullptr;
 }
 /*-------------------------------------------------
-		²Ù×÷ - Ìí¼Ó
+		æ“ä½œ - æ·»åŠ 
 */
 void S_PluginDataContainer::op_add(C_PluginData* data){
 	if (this->data_PluginDataTank.contains(data) == true){ return; }
 	this->data_PluginDataTank.append(data);
 }
 /*-------------------------------------------------
-		²Ù×÷ - Ìæ»»
+		æ“ä½œ - æ›¿æ¢
 */
 void S_PluginDataContainer::op_modify(C_PluginData* data){
-	int index = this->data_PluginDataTank.indexOf(data);	//£¨Êı¾İÀà¸ù¾İ data->name À´½øĞĞËÑÑ°£©
+	int index = this->data_PluginDataTank.indexOf(data);	//ï¼ˆæ•°æ®ç±»æ ¹æ® data->name æ¥è¿›è¡Œæœå¯»ï¼‰
 	if (index == -1){ return; }
 	this->data_PluginDataTank.replace(index, data);
 }
 /*-------------------------------------------------
-		²Ù×÷ - È¥³ı
+		æ“ä½œ - å»é™¤
 */
 void S_PluginDataContainer::op_remove(C_PluginData* data){
 	this->data_PluginDataTank.removeOne(data);
@@ -89,45 +89,45 @@ void S_PluginDataContainer::op_remove(C_PluginData* data){
 
 
 /*-------------------------------------------------
-		¶ÁÈ¡ - ¶ÁÈ¡Êı¾İ£¨Á÷³Ì£©
+		è¯»å– - è¯»å–æ•°æ®ï¼ˆæµç¨‹ï¼‰
 */
 void S_PluginDataContainer::loadPluginData(QString data_context){
 	QList<C_PluginData*> data_list = this->readPluginDataPrivate(data_context);
 	this->data_PluginDataTank = data_list;
-	emit pluginDataReloaded();		//Êı¾İÒÑ¶ÁÈ¡£¨ĞÅºÅ£©
+	emit pluginDataReloaded();		//æ•°æ®å·²è¯»å–ï¼ˆä¿¡å·ï¼‰
 }
 /*-------------------------------------------------
-		¶ÁÈ¡ - ¶ÁÈ¡Êı¾İ£¨Á÷³Ì£¬²»·¢ĞÅºÅ£©
+		è¯»å– - è¯»å–æ•°æ®ï¼ˆæµç¨‹ï¼Œä¸å‘ä¿¡å·ï¼‰
 */
 void S_PluginDataContainer::loadPluginDataNoSignal(QString data_context){
 	QList<C_PluginData*> data_list = this->readPluginDataPrivate(data_context);
 	this->data_PluginDataTank = data_list;
 }
 /*-------------------------------------------------
-		¶ÁÈ¡ - Ò»´ÎĞÔ¶ÁÈ¡Êı¾İ£¨Á÷³Ì£¬²»ÄÉÈëÈİÆ÷£©
+		è¯»å– - ä¸€æ¬¡æ€§è¯»å–æ•°æ®ï¼ˆæµç¨‹ï¼Œä¸çº³å…¥å®¹å™¨ï¼‰
 */
 QList<C_PluginData*> S_PluginDataContainer::loadPluginDataDirectly(QString data_context){
 	return this->readPluginDataPrivate(data_context);
 }
 /*-------------------------------------------------
-		¶ÁÈ¡ - ¶ÁÈ¡Êı¾İ£¨Ë½ÓĞ·½·¨£©
+		è¯»å– - è¯»å–æ•°æ®ï¼ˆç§æœ‰æ–¹æ³•ï¼‰
 */
 QList<C_PluginData*> S_PluginDataContainer::readPluginDataPrivate(QString data_context){
 	QList<C_PluginData*> data_list = QList<C_PluginData*>();
 
-	// > ½ØÈ¡Êı¾İÎÄ±¾
+	// > æˆªå–æ•°æ®æ–‡æœ¬
 	int start = data_context.indexOf("[");
 	int end = data_context.lastIndexOf("]");
 	data_context = data_context.mid(start, end - start + 1);
 
-	// > json×ª»»
+	// > jsonè½¬æ¢
 	QJsonDocument jsonDocument = QJsonDocument::fromJson(data_context.toUtf8());
 	if (jsonDocument.isNull()){
-		QMessageBox::warning(nullptr, "´íÎó", "¶ÁÈ¡ÎÄ¼şÊ§°Ü¡£", QMessageBox::Yes);
+		QMessageBox::warning(nullptr, "é”™è¯¯", "è¯»å–æ–‡ä»¶å¤±è´¥ã€‚", QMessageBox::Yes);
 		return QList<C_PluginData*>();
 	}
 
-	// > ¶ÁÈ¡¸³Öµ
+	// > è¯»å–èµ‹å€¼
 	QJsonArray arr_all = jsonDocument.array();
 	for (int i = 0; i < arr_all.count(); i++) {
 		QJsonObject obj_plugin = arr_all.at(i).toObject();
@@ -145,19 +145,19 @@ QList<C_PluginData*> S_PluginDataContainer::readPluginDataPrivate(QString data_c
 
 
 /*-------------------------------------------------
-		Ğ´Èë - Ğ´ÈëÊı¾İ£¨Á÷³Ì£©
+		å†™å…¥ - å†™å…¥æ•°æ®ï¼ˆæµç¨‹ï¼‰
 */
 QString S_PluginDataContainer::writePluginData(){
 	return this->writePluginDataPrivate(this->data_PluginDataTank);
 }
 /*-------------------------------------------------
-		Ğ´Èë - Ò»´ÎĞÔĞ´ÈëÊı¾İ£¨Á÷³Ì£¬²»°üÀ¨ÈİÆ÷µÄÊı¾İ£©
+		å†™å…¥ - ä¸€æ¬¡æ€§å†™å…¥æ•°æ®ï¼ˆæµç¨‹ï¼Œä¸åŒ…æ‹¬å®¹å™¨çš„æ•°æ®ï¼‰
 */
 QString S_PluginDataContainer::writePluginDataDirectly(QList<C_PluginData*> data_list){
 	return this->writePluginDataPrivate(data_list);
 }
 /*-------------------------------------------------
-		Ğ´Èë - Ğ´ÈëÊı¾İ£¨Ë½ÓĞ£©
+		å†™å…¥ - å†™å…¥æ•°æ®ï¼ˆç§æœ‰ï¼‰
 */
 QString S_PluginDataContainer::writePluginDataPrivate(QList<C_PluginData*> data_list){
 	QString result = "";

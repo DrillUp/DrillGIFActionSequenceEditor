@@ -1,15 +1,15 @@
-#pragma once
+ï»¿#pragma once
 #include <QList>
 #include <QJsonObject>
 
 /*
 -----==========================================================-----
-		Àà£º		²å¼şÊı¾İ ÊµÌåÀà.h
-		°æ±¾£º		v1.04
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	²å¼şÄ£¿é
-		¹¦ÄÜ£º		´æ´¢²å¼şĞÅÏ¢µÄÀà£¬¶ÔÓ¦plugin.jsÖĞÃ¿Ìõ²å¼şµÄÅäÖÃÊı¾İ¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		æ’ä»¶æ•°æ® å®ä½“ç±».h
+		ç‰ˆæœ¬ï¼š		v1.04
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	æ’ä»¶æ¨¡å—
+		åŠŸèƒ½ï¼š		å­˜å‚¨æ’ä»¶ä¿¡æ¯çš„ç±»ï¼Œå¯¹åº”plugin.jsä¸­æ¯æ¡æ’ä»¶çš„é…ç½®æ•°æ®ã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 class C_PluginData{
@@ -19,40 +19,40 @@ class C_PluginData{
 		~C_PluginData();
 		
 	//-----------------------------------
-	//----Êı¾İ
+	//----æ•°æ®
 	public:
-		QString name;					//²å¼şÃû
-		bool status;					//×´Ì¬
-		QString description;			//²å¼şÃèÊö
-		QJsonObject parameters;			//²ÎÊı
+		QString name;					//æ’ä»¶å
+		bool status;					//çŠ¶æ€
+		QString description;			//æ’ä»¶æè¿°
+		QJsonObject parameters;			//å‚æ•°
 	
 	//-----------------------------------
-	//----ÁÙÊ±½Ø¶ÏÊı¾İ
+	//----ä¸´æ—¶æˆªæ–­æ•°æ®
 	protected:
-		bool temp_inited;				//±ê¼Ç
-		QString temp_version;			//°æ±¾(µ÷È¡Ê±²Å³õÊ¼»¯£©
-		QString temp_type;				//ÀàĞÍ£¨µ÷È¡Ê±²Å³õÊ¼»¯£©
-		QString temp_name;				//ÖĞÎÄÃû£¨µ÷È¡Ê±²Å³õÊ¼»¯£©
+		bool temp_inited;				//æ ‡è®°
+		QString temp_version;			//ç‰ˆæœ¬(è°ƒå–æ—¶æ‰åˆå§‹åŒ–ï¼‰
+		QString temp_type;				//ç±»å‹ï¼ˆè°ƒå–æ—¶æ‰åˆå§‹åŒ–ï¼‰
+		QString temp_name;				//ä¸­æ–‡åï¼ˆè°ƒå–æ—¶æ‰åˆå§‹åŒ–ï¼‰
 	public:
-										//Êı¾İ - ³õÊ¼»¯½ØÈ¡¶Î
+										//æ•°æ® - åˆå§‹åŒ–æˆªå–æ®µ
 		void initDescription_data();
-										//Êı¾İ - »ñÈ¡°æ±¾£¨²å¼şÃèÊö ½ØÈ¡¶Î£©
+										//æ•°æ® - è·å–ç‰ˆæœ¬ï¼ˆæ’ä»¶æè¿° æˆªå–æ®µï¼‰
 		QString getDescription_version();
 		double getDescription_versionNum();
-										//Êı¾İ - »ñÈ¡ÀàĞÍ£¨²å¼şÃèÊö ½ØÈ¡¶Î£©
+										//æ•°æ® - è·å–ç±»å‹ï¼ˆæ’ä»¶æè¿° æˆªå–æ®µï¼‰
 		QString getDescription_type();
-										//Êı¾İ - »ñÈ¡ÖĞÎÄÃû£¨²å¼şÃèÊö ½ØÈ¡¶Î£©
+										//æ•°æ® - è·å–ä¸­æ–‡åï¼ˆæ’ä»¶æè¿° æˆªå–æ®µï¼‰
 		QString getDescription_name();
 
 	//-----------------------------------
-	//----ÀàÊôĞÔ
+	//----ç±»å±æ€§
 	public:
-										//¿ÕÅĞ¶Ï
+										//ç©ºåˆ¤æ–­
 		bool isNull();	
-										//ÊµÌåÀà -> QJsonObject
+										//å®ä½“ç±» -> QJsonObject
 		QJsonObject getJsonObject();
-										//QJsonObject -> ÊµÌåÀà
+										//QJsonObject -> å®ä½“ç±»
 		void setJsonObject(QJsonObject obj);
-										//ÔËËã·ûÖØÔØ
+										//è¿ç®—ç¬¦é‡è½½
 		const bool operator== (const C_PluginData& a)const;
 };
