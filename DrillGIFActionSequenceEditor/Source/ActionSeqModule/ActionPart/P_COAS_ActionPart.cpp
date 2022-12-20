@@ -271,6 +271,10 @@ void P_COAS_ActionPart::local_saveCurIndexData(){
 	if (this->m_last_index < 0){ return; }
 	if (this->m_last_index >= this->m_actionDataList.count()){ return; }
 
+
+	// > 直接对数据指针进行赋值
+	//...
+
 	// > 表单数据
 		QJsonObject obj_edit;
 		obj_edit.insert("动作元名称", ui.lineEdit_name->text());
