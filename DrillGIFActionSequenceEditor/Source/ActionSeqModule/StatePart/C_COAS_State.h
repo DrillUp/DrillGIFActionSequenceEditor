@@ -49,7 +49,7 @@ class C_COAS_State{
 								//空判断
 		bool isNull();
 								//实体类 -> QJsonObject
-		QJsonObject getJsonObject();
+		QJsonObject getJsonObject_Chinese();
 								//QJsonObject -> 实体类
-		void setJsonObject(QJsonObject obj, int id);
+		void setJsonObject_Chinese(QJsonObject obj, int id);
 };

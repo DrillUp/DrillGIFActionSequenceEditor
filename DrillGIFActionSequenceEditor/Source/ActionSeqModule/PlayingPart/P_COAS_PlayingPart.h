@@ -116,7 +116,7 @@ class P_COAS_PlayingPart : public QWidget
 		QStringList local_defaultSeq;
 		QList<QJsonObject> local_stateDataList;
 		QList<QJsonObject> local_stateNodeDataList;
-		QList<QJsonObject> local_actionDataList;
+		QList<C_COAS_ActionPtr> local_actionDataList;
 	public:
 										//窗口 - 刷新基于的数据
 		void refreshCurActionSeq();

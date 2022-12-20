@@ -72,7 +72,7 @@ bool C_COAS_State::isNull(){
 /*-------------------------------------------------
 		实体类 -> QJsonObject
 */
-QJsonObject C_COAS_State::getJsonObject(){
+QJsonObject C_COAS_State::getJsonObject_Chinese(){
 	QJsonObject obj_actionSeq = QJsonObject();
 
 	obj_actionSeq.insert("id", this->id);
@@ -83,7 +83,7 @@ QJsonObject C_COAS_State::getJsonObject(){
 /*-------------------------------------------------
 		QJsonObject -> 实体类
 */
-void C_COAS_State::setJsonObject(QJsonObject obj_actionSeq, int id){
+void C_COAS_State::setJsonObject_Chinese(QJsonObject obj_actionSeq, int id){
 
 	// > 树数据
 	this->id = id;

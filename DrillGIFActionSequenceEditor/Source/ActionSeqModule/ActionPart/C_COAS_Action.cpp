@@ -38,7 +38,7 @@ C_COAS_Action::~C_COAS_Action(){
 /*-------------------------------------------------
 		数据 - 清除数据
 */
-void C_COAS_Action::clearTankData(){
+void C_COAS_Action::clearData(){
 
 	this->name = "";								//常规 - 动作元名称
 	this->tag_tank.clear();							//常规 - 动作元标签
@@ -68,54 +68,60 @@ bool C_COAS_Action::isNull(){
 /*-------------------------------------------------
 		实体类 -> QJsonObject
 */
-QJsonObject C_COAS_Action::getJsonObject(){
+QJsonObject C_COAS_Action::getJsonObject_Chinese(){
 	QJsonObject obj = QJsonObject();
-
 	//obj.insert("id", this->id);
 
+	// > 常规
 	obj.insert("动作元名称", this->name);
-	obj.insert("动作元标签", TTool::_JSON_stringify_(this->m_curTagTank));
-	obj.insert("动作元优先级", QString::number(ui.spinBox_priority->value()));
-	obj.insert("是否倒放", ui.checkBox_gif_back_run->isChecked() ? "true" : "false");
-	obj.insert("是否预加载", ui.checkBox_gif_preload->isChecked() ? "true" : "false");
-	obj.insert("图像-色调值", QString::number(ui.horizontalSlider_tint->value()));
-	obj.insert("图像-模糊边缘", ui.checkBox_smooth->isChecked() ? "true" : "false");
-	obj.insert("备注", ui.plainTextEdit_note->toPlainText());
+	obj.insert("动作元标签", TTool::_JSON_stringify_(this->tag_tank));
+	obj.insert("动作元优先级", QString::number(this->priority));
 
-	obj.insert("帧间隔", this->gif_interval);
-	//（资源文件夹不需要）
+	// > GIF
 	obj.insert("资源-动作元", TTool::_JSON_stringify_(this->gif_src));
+	//		（资源文件夹，不需赋值）
 	QList<QString> gif_intervalTank_strList = TTool::_QList_IntToQString_(this->gif_intervalTank);
 	obj.insert("帧间隔-明细表", TTool::_JSON_stringify_(gif_intervalTank_strList));
+	obj.insert("帧间隔", this->gif_interval);
+	obj.insert("是否倒放", this->gif_back_run ? "true" : "false");
+	obj.insert("是否预加载", this->gif_preload ? "true" : "false");
+
+	// > 图像
+	obj.insert("图像-色调值", QString::number(this->tint));
+	obj.insert("图像-模糊边缘", this->smooth ? "true" : "false");
+
+	// > 杂项
+	obj.insert("备注", this->note);
 
 	return obj;
 }
 /*-------------------------------------------------
 		QJsonObject -> 实体类
 */
-void C_COAS_Action::setJsonObject(QJsonObject obj, int i){
-
+void C_COAS_Action::setJsonObject_Chinese(QJsonObject obj, int i){
 	this->id = i;
-	this->name = obj.value("name").toString();
 
-	ui.lineEdit_name->setText(obj_data.value("动作元名称").toString());
-	this->m_curTagTank = TTool::_JSON_parse_To_QListQString_(obj_data.value("动作元标签").toString());
-	this->refreshTagTank();
-	ui.spinBox_priority->setValue(obj_data.value("动作元优先级").toString().toInt());
-	ui.checkBox_gif_back_run->setChecked(obj_data.value("是否倒放").toString() == "true");
-	ui.checkBox_gif_preload->setChecked(obj_data.value("是否预加载").toString() == "true");
-	ui.horizontalSlider_tint->setValue(obj_data.value("图像-色调值").toString().toInt());
-	ui.checkBox_smooth->setChecked(obj_data.value("图像-模糊边缘").toString() == "true");
-	ui.plainTextEdit_note->setPlainText(obj_data.value("备注").toString());
+	// > 常规
+	this->name = obj.value("动作元名称").toString();
+	this->tag_tank = TTool::_JSON_parse_To_QListQString_(obj.value("动作元标签").toString());
+	this->priority = obj.value("动作元优先级").toString().toInt();
 
-	// > 图片数据
-	int gif_interval = obj_data.value("帧间隔").toString().toInt();								//帧间隔
-	QString gif_src_file = S_ActionSeqDataContainer::getInstance()->getActionSeqDir();			//资源文件夹
-
-	QString gif_src_str = obj_data.value("资源-动作元").toString();
-	QList<QString> gif_src = TTool::_JSON_parse_To_QListQString_(gif_src_str);			//资源文件名
-	QString gif_intervalTank_str = obj_data.value("帧间隔-明细表").toString();
+	// > GIF
+	QString gif_src_str = obj.value("资源-动作元").toString();
+	this->gif_src = TTool::_JSON_parse_To_QListQString_(gif_src_str);			//资源文件名
+	//		（资源文件夹，不需赋值）
+	QString gif_intervalTank_str = obj.value("帧间隔-明细表").toString();
 	QList<QString> gif_intervalTank_strList = TTool::_JSON_parse_To_QListQString_(gif_intervalTank_str);	//帧间隔-明细表
-	QList<int> gif_intervalTank = TTool::_QList_QStringToInt_(gif_intervalTank_strList);
-	
+	this->gif_intervalTank = TTool::_QList_QStringToInt_(gif_intervalTank_strList);
+	this->gif_interval = obj.value("帧间隔").toString().toInt();
+	this->gif_back_run = obj.value("是否倒放").toString() == "true";
+	this->gif_preload = obj.value("是否预加载").toString() == "true";
+
+	// > 图像
+	this->tint = obj.value("图像-色调值").toString().toInt();
+	this->smooth = obj.value("图像-模糊边缘").toString() == "true";
+
+	// > 杂项
+	this->note = obj.value("备注").toString();
+
 }

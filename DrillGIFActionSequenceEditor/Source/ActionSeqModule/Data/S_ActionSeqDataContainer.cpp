@@ -106,15 +106,15 @@ C_COAS_Length S_ActionSeqDataContainer::getPluginData_ActionSeqLength() {
 /*-------------------------------------------------
 		数据 - 设置
 */
-void S_ActionSeqDataContainer::setActionSeqData(QList<C_COAS_Data*> data_list){
+void S_ActionSeqDataContainer::setActionSeqData(QList<C_COAS_DataPtr> data_list){
 	this->data_ActionSeqData = data_list;
 }
 void S_ActionSeqDataContainer::setActionSeqData_Object(QJsonObject data_obj){
 
 	// > 删除全部数据
 	for (int i = 0; i < this->data_ActionSeqData.count(); i++){
-		C_COAS_Data* data = this->data_ActionSeqData.at(i);
-		delete data;
+		C_COAS_DataPtr data = this->data_ActionSeqData.at(i);
+		data.clear();
 	}
 	this->data_ActionSeqData.clear();
 
@@ -134,8 +134,8 @@ void S_ActionSeqDataContainer::setActionSeqData_Object(QJsonObject data_obj){
 			QJsonObject obj = TTool::_JSON_parse_To_Obj_(value.toString());
 
 			// > 新建对象
-			C_COAS_Data* data = new C_COAS_Data();
-			data->setJsonObject(obj);
+			C_COAS_DataPtr data = C_COAS_DataPtr::create();
+			data->setJsonObject_Chinese(obj);
 
 			// > 树数据
 			data->m_COAS_id = i + 1;
@@ -148,8 +148,8 @@ void S_ActionSeqDataContainer::setActionSeqData_Object(QJsonObject data_obj){
 			QJsonObject obj = QJsonObject();
 
 			// > 新建对象
-			C_COAS_Data* data = new C_COAS_Data();
-			data->setJsonObject(obj);
+			C_COAS_DataPtr data = C_COAS_DataPtr::create();
+			data->setJsonObject_Chinese(obj);
 
 			// > 树数据
 			data->m_COAS_id = i + 1;
@@ -164,7 +164,7 @@ void S_ActionSeqDataContainer::setActionSeqData_Object(QJsonObject data_obj){
 /*-------------------------------------------------
 		数据 - 获取
 */
-QList<C_COAS_Data*> S_ActionSeqDataContainer::getActionSeqData(){
+QList<C_COAS_DataPtr> S_ActionSeqDataContainer::getActionSeqData(){
 	return this->data_ActionSeqData;	//（注意，从rmmv中读取的数据 和 编辑器配置的数据 不一样）
 }
 QJsonObject S_ActionSeqDataContainer::getActionSeqData_Object(){
@@ -172,8 +172,8 @@ QJsonObject S_ActionSeqDataContainer::getActionSeqData_Object(){
 
 	QJsonObject result_obj;
 	for (int i = 0; i < this->data_ActionSeqData.count(); i++){
-		C_COAS_Data* data = this->data_ActionSeqData.at(i);
-		QJsonObject data_obj = data->getJsonObject();
+		C_COAS_DataPtr data = this->data_ActionSeqData.at(i);
+		QJsonObject data_obj = data->getJsonObject_Chinese();
 
 		// > 树数据（合并到动画序列）
 		data_obj.remove("COAS_id");
@@ -209,8 +209,8 @@ void S_ActionSeqDataContainer::refreshActionSeqLength(){
 			QJsonObject obj = QJsonObject();
 
 			// > 新建对象
-			C_COAS_Data* data = new C_COAS_Data();
-			data->setJsonObject(obj);
+			C_COAS_DataPtr data = C_COAS_DataPtr::create();
+			data->setJsonObject_Chinese(obj);
 
 			// > 树数据
 			data->m_COAS_id = i + 1;
@@ -224,8 +224,8 @@ void S_ActionSeqDataContainer::refreshActionSeqLength(){
 	// > 多了，要去掉
 	if (this->data_ActionSeqLength.realLen_actionSeq < this->data_ActionSeqData.count()){
 		for (int i = this->data_ActionSeqData.count()-1; i >= this->data_ActionSeqLength.realLen_actionSeq; i--){
-			C_COAS_Data* data = this->data_ActionSeqData.at(i);
-			delete data;
+			C_COAS_DataPtr data = this->data_ActionSeqData.at(i);
+			data.clear();
 			this->data_ActionSeqData.removeAt(i);
 		}
 	}
@@ -237,19 +237,14 @@ QList<QFileInfo> S_ActionSeqDataContainer::getAllRelatedFile(){
 
 	QStringList fileName_list = QStringList();
 	for (int i = 0; i < this->data_ActionSeqData.count(); i++){
-		C_COAS_Data* data = this->data_ActionSeqData.at(i);
+		C_COAS_DataPtr data = this->data_ActionSeqData.at(i);
 		if (data == nullptr){ continue; }
 		if (data->isNull()){ continue; }
 
 		// > 动作元资源
 		for (int j = 0; j < data->m_act_tank.count(); j++){
-			QJsonObject obj_action = data->m_act_tank.at(j);
-
-			// > 三层字符串解封
-			QString str_src = obj_action.value("资源-动作元").toString();
-			QStringList src_list = TTool::_JSON_parse_To_QListQString_(str_src);
-
-			fileName_list.append(src_list);
+			C_COAS_ActionPtr action_ptr = data->m_act_tank.at(j);
+			fileName_list.append(action_ptr->gif_src);
 		}
 
 		// > 状态元资源
@@ -348,7 +343,7 @@ QList<QJsonObject> S_ActionSeqDataContainer::getTreeData(){
 	//（此数据存于 动画序列数据 中）
 	QList<QJsonObject> result_list;
 	for (int i = 0; i < this->data_ActionSeqData.count(); i++){
-		C_COAS_Data* data = this->data_ActionSeqData.at(i);
+		C_COAS_DataPtr data = this->data_ActionSeqData.at(i);
 		QJsonObject obj;
 		obj.insert("COAS_id", data->m_COAS_id);
 		obj.insert("COAS_name", data->m_COAS_name);

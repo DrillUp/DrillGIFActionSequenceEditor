@@ -45,9 +45,9 @@ class P_COAS_DataPart : public QWidget
 		int m_cur_actionSeqIndex;				//当前动画序列索引
 	protected:
 									//数据 - 获取当前动画序列
-		C_COAS_Data* getCurrentData();
+		C_COAS_DataPtr getCurrentData();
 									//数据 - 动画序列
-		QList<C_COAS_Data*> getActionSeqList();
+		QList<C_COAS_DataPtr> getActionSeqList();
 	public:
 									//数据 - 保存本地数据
 		void local_saveCurIndexData();
@@ -94,9 +94,9 @@ class P_COAS_DataPart : public QWidget
 		bool m_slotBlock_source;		//加载时阻塞
 	public:
 										//窗口 - 设置数据
-		void setData(QList<C_COAS_Data*> actionSeq, C_COAS_Length length);
+		void setData(QList<C_COAS_DataPtr> actionSeq, C_COAS_Length length);
 										//窗口 - 取出数据
-		QList<C_COAS_Data*> getData_ActionSeqData();
+		QList<C_COAS_DataPtr> getData_ActionSeqData();
 		C_COAS_Length getData_ActionSeqLength();
 										//窗口 - 本地数据 -> ui数据
 		void putDataToUi();							

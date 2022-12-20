@@ -174,7 +174,8 @@ QStringList P_COAS_PlayingPart::getStateNodeNameList(){
 QStringList P_COAS_PlayingPart::getActionNameList(){
 	QStringList result = QStringList();
 	for (int i = 0; i < this->local_actionDataList.count(); i++){
-		result.append(this->local_actionDataList.at(i).value("动作元名称").toString());
+		C_COAS_ActionPtr action_ptr = this->local_actionDataList.at(i);
+		result.append(action_ptr->name);
 	}
 	return result;
 }
@@ -186,10 +187,8 @@ QStringList P_COAS_PlayingPart::getRelatFileNameList(){
 
 	// > 动作元资源
 	for (int i = 0; i < this->local_actionDataList.count(); i++){
-		QJsonObject obj_action = this->local_actionDataList.at(i);
-		QString str_src = obj_action.value("资源-动作元").toString();
-		QStringList src_list = TTool::_JSON_parse_To_QListQString_(str_src);
-		result.append(src_list);
+		C_COAS_ActionPtr action_ptr = this->local_actionDataList.at(i);
+		result.append(action_ptr->gif_src);
 	}
 
 	// > 状态元资源
@@ -498,7 +497,8 @@ void P_COAS_PlayingPart::putDataToUi() {
 	// > 动画序列数据 - 容器 - 动作元序列
 	QJsonArray act_tank = QJsonArray();
 	for (int i = 0; i < this->local_actionDataList.count(); i++){
-		act_tank.append(Drill_COAS_Init::drill_COAS_initAct(this->local_actionDataList.at(i)));
+		C_COAS_ActionPtr action_ptr = this->local_actionDataList.at(i);
+		act_tank.append(Drill_COAS_Init::drill_COAS_initAct(action_ptr->getJsonObject_Chinese()));
 	}
 	data["act_tank"] = act_tank;
 

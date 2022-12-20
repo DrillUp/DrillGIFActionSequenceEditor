@@ -11,6 +11,7 @@
 					（详细见cpp）
 -----==========================================================-----
 */
+CLASS_PTR(C_COAS_Action);
 class C_COAS_Action{
 
 	public:
@@ -39,7 +40,7 @@ class C_COAS_Action{
 		QString note;					//杂项 - 备注
 	public:
 								//数据 - 清除数据
-		void clearTankData();
+		void clearData();
 
 	//-----------------------------------
 	//----类属性
@@ -47,7 +48,7 @@ class C_COAS_Action{
 								//空判断
 		bool isNull();
 								//实体类 -> QJsonObject
-		QJsonObject getJsonObject();
+		QJsonObject getJsonObject_Chinese();
 								//QJsonObject -> 实体类
-		void setJsonObject(QJsonObject obj, int i);
+		void setJsonObject_Chinese(QJsonObject obj, int i);
 };

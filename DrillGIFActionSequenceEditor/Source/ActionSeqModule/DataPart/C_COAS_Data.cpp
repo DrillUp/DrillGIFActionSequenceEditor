@@ -47,7 +47,7 @@ bool C_COAS_Data::isNull(){
 /*-------------------------------------------------
 		实体类 -> QJsonObject
 */
-QJsonObject C_COAS_Data::getJsonObject(){
+QJsonObject C_COAS_Data::getJsonObject_Chinese(){
 	QJsonObject obj_actionSeq = QJsonObject();
 
 	// > 树数据
@@ -72,9 +72,10 @@ QJsonObject C_COAS_Data::getJsonObject(){
 	obj_actionSeq.insert("默认的状态元集合", TTool::_JSON_stringify_(this->m_state_default_randomSeq));
 
 	// > 动作元列表
-	QStringList actionTank_str = TTool::_QList_QJsonObjectToQString_(this->m_act_tank);
-	for (int i = 0; i < actionTank_str.count(); i++){
-		obj_actionSeq.insert("动作元-" + QString::number(i + 1), actionTank_str.at(i));
+	for (int i = 0; i < this->m_act_tank.count(); i++){
+		C_COAS_ActionPtr action_ptr = this->m_act_tank.at(i);
+		QJsonObject obj = action_ptr->getJsonObject_Chinese();
+		obj_actionSeq.insert("动作元-" + QString::number(i + 1), TTool::_JSON_stringify_(obj));
 	}
 
 	// > 状态元列表
@@ -94,7 +95,7 @@ QJsonObject C_COAS_Data::getJsonObject(){
 /*-------------------------------------------------
 		QJsonObject -> 实体类
 */
-void C_COAS_Data::setJsonObject(QJsonObject obj_actionSeq){
+void C_COAS_Data::setJsonObject_Chinese(QJsonObject obj_actionSeq){
 
 	// > 树数据
 	this->m_COAS_id = obj_actionSeq.value("COAS_id").toInt();
@@ -108,12 +109,13 @@ void C_COAS_Data::setJsonObject(QJsonObject obj_actionSeq){
 	this->m_state_default_randomSeq = TTool::_JSON_parse_To_QListQString_(obj_actionSeq.value("默认的状态元集合").toString());
 
 	// > 动作元列表
-	QStringList actionTank_str = QStringList();
+	this->m_act_tank.clear();
 	for (int i = 0; i < S_ActionSeqDataContainer::getInstance()->getActionSeqLength().realLen_action; i++){
-		QJsonValue value = obj_actionSeq.value("动作元-" + QString::number(i + 1));
-		actionTank_str.append(value.toString());
-	}
-	this->m_act_tank = TTool::_QList_QStringToQJsonObject_(actionTank_str);
+		QString action_str = obj_actionSeq.value("动作元-" + QString::number(i + 1)).toString();
+		C_COAS_ActionPtr action_ptr = C_COAS_ActionPtr::create();
+		action_ptr->setJsonObject_Chinese(TTool::_JSON_parse_To_Obj_(action_str), i);
+		this->m_act_tank.append(action_ptr);
+	};
 
 	// > 状态元列表
 	QStringList stateTank_str = QStringList();

@@ -97,23 +97,23 @@ void P_COAS_DataPart::currentActionSeqChanged(QTreeWidgetItem* item, int id, QSt
 /*-------------------------------------------------
 		数据 - 获取当前动画序列
 */
-C_COAS_Data* P_COAS_DataPart::getCurrentData(){
-	if (this->m_cur_actionSeqIndex < 0){ return nullptr; }
-	if (this->m_cur_actionSeqIndex >= this->getActionSeqList().count()){ return nullptr; }
+C_COAS_DataPtr P_COAS_DataPart::getCurrentData(){
+	if (this->m_cur_actionSeqIndex < 0){ return C_COAS_DataPtr(); }
+	if (this->m_cur_actionSeqIndex >= this->getActionSeqList().count()){ return C_COAS_DataPtr(); }
 	return this->getActionSeqList().at(this->m_cur_actionSeqIndex);
 }
 /*-------------------------------------------------
 		数据 - 动画序列
 */
-QList<C_COAS_Data*> P_COAS_DataPart::getActionSeqList(){
+QList<C_COAS_DataPtr> P_COAS_DataPart::getActionSeqList(){
 	return S_ActionSeqDataContainer::getInstance()->getActionSeqData();
 }
 /*-------------------------------------------------
 		数据 - 保存本地数据
 */
 void P_COAS_DataPart::local_saveCurIndexData(){
-	C_COAS_Data* action_data = this->getCurrentData();
-	if (action_data == nullptr){ return; }
+	C_COAS_DataPtr action_data = this->getCurrentData();
+	if (action_data.isNull()){ return; }
 
 	// > 子控件 - 标签
 	action_data->m_COAS_name = ui.lineEdit->text();
@@ -142,8 +142,8 @@ void P_COAS_DataPart::local_loadIndexData(int index){
 	if (index >= this->getActionSeqList().count()){ return; }
 
 	// > 读取数据
-	C_COAS_Data* action_data = this->getActionSeqList().at(index);
-	if (action_data == nullptr){ return; }
+	C_COAS_DataPtr action_data = this->getActionSeqList().at(index);
+	if (action_data.isNull()){ return; }
 
 	// > 子控件 - 标签
 	ui.widget_editPart->setEnabled(true);
@@ -181,7 +181,8 @@ void P_COAS_DataPart::op_replace(int index, QJsonObject actiong_seq){
 	S_ProjectManager::getInstance()->setDirty();
 
 	// > 执行替换
-	this->getActionSeqList().at(index)->setJsonObject(actiong_seq);
+	this->getActionSeqList().at(index)
+		->setJsonObject_Chinese(actiong_seq);
 	this->local_loadIndexData(index);
 
 	// > 更新树的名称
@@ -225,9 +226,9 @@ void P_COAS_DataPart::keyPressEvent(QKeyEvent *event){
 */
 void P_COAS_DataPart::shortcut_copyData(){
 	if (ui.treeWidget_ActionSeq->hasFocus() == false){ return; }
-	C_COAS_Data* action_data = this->getCurrentData();
-	if (action_data == nullptr){ return; }
-	this->m_copyed_actionSeq = action_data->getJsonObject();
+	C_COAS_DataPtr action_data = this->getCurrentData();
+	if (action_data.isNull()){ return; }
+	this->m_copyed_actionSeq = action_data->getJsonObject_Chinese();
 	this->m_p_tree->setLeafOuterControl_PasteActive(true);		//激活粘贴
 }
 /*-------------------------------------------------
@@ -267,7 +268,7 @@ void P_COAS_DataPart::stopPlaying(){
 /*-------------------------------------------------
 		窗口 - 设置数据
 */
-void P_COAS_DataPart::setData(QList<C_COAS_Data*> actionSeq, C_COAS_Length length) {
+void P_COAS_DataPart::setData(QList<C_COAS_DataPtr> actionSeq, C_COAS_Length length) {
 	this->m_slotBlock_source = true;
 	S_ActionSeqDataContainer::getInstance()->setActionSeqData(actionSeq);
 	S_ActionSeqDataContainer::getInstance()->setActionSeqLength(length);	//（length取自容器，不会实时变化）
@@ -277,7 +278,7 @@ void P_COAS_DataPart::setData(QList<C_COAS_Data*> actionSeq, C_COAS_Length lengt
 /*-------------------------------------------------
 		窗口 - 取出数据
 */
-QList<C_COAS_Data*> P_COAS_DataPart::getData_ActionSeqData(){
+QList<C_COAS_DataPtr> P_COAS_DataPart::getData_ActionSeqData(){
 	this->putUiToData();
 	return S_ActionSeqDataContainer::getInstance()->getActionSeqData();
 }
@@ -315,9 +316,9 @@ void P_COAS_DataPart::putUiToData() {
 	this->local_saveCurIndexData();
 
 	// > 树数据保存
-	QList<C_COAS_Data*> data_list = this->getActionSeqList();
+	QList<C_COAS_DataPtr> data_list = this->getActionSeqList();
 	for (int i = 0; i < data_list.count(); i++){
-		C_COAS_Data* data = data_list.at(i);
+		C_COAS_DataPtr data = data_list.at(i);
 		data->m_COAS_type = this->m_p_tree->getLeafType(data->m_COAS_id);
 	}
 

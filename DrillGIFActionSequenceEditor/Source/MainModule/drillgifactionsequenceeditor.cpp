@@ -115,7 +115,7 @@ void DrillGIFActionSequenceEditor::rmmvInteractiveDataLoaded(){
 */
 void DrillGIFActionSequenceEditor::actionSeqDataLoaded(){
 
-	QList<C_COAS_Data*> data_list = S_ActionSeqDataContainer::getInstance()->getActionSeqData();
+	QList<C_COAS_DataPtr> data_list = S_ActionSeqDataContainer::getInstance()->getActionSeqData();
 	C_COAS_Length data_length = S_ActionSeqDataContainer::getInstance()->getActionSeqLength();
 	if (data_list.isEmpty()){
 		ui.main_widget->setEnabled(false);

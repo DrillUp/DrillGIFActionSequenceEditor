@@ -44,13 +44,13 @@ class S_ActionSeqDataContainer : public QObject, public S_StorageManagerTemplate
 	//----动画序列数据
 	private:
 		C_COAS_Length data_ActionSeqLength;			//长度
-		QList<C_COAS_Data*> data_ActionSeqData;		//动画序列
+		QList<C_COAS_DataPtr> data_ActionSeqData;		//动画序列
 	public:
 										//数据 - 设置数据
-		void setActionSeqData(QList<C_COAS_Data*> data_list);
+		void setActionSeqData(QList<C_COAS_DataPtr> data_list);
 		void setActionSeqData_Object(QJsonObject data_obj);
 										//数据 - 获取数据
-		QList<C_COAS_Data*> getActionSeqData();
+		QList<C_COAS_DataPtr> getActionSeqData();
 		QJsonObject getActionSeqData_Object();
 										//数据 - 设置长度
 		void setActionSeqLength(C_COAS_Length data);

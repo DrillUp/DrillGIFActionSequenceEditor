@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "stdafx.h"
 
+#include "../ActionPart/C_COAS_Action.h"
 
 /*
 -----==========================================================-----
@@ -11,6 +12,7 @@
 					（详细见cpp）
 -----==========================================================-----
 */
+CLASS_PTR(C_COAS_Data);
 class C_COAS_Data{
 
 	public:
@@ -24,7 +26,7 @@ class C_COAS_Data{
 		QString m_COAS_name;					//名称（标签）
 		QString m_COAS_type;					//类型
 		QStringList m_state_default_randomSeq;
-		QList<QJsonObject> m_act_tank;
+		QList<C_COAS_ActionPtr> m_act_tank;
 		QList<QJsonObject> m_state_tank;
 		QList<QJsonObject> m_stateNode_tank;
 	public:
@@ -37,7 +39,7 @@ class C_COAS_Data{
 								//空判断
 		bool isNull();
 								//实体类 -> QJsonObject
-		QJsonObject getJsonObject();
+		QJsonObject getJsonObject_Chinese();
 								//QJsonObject -> 实体类
-		void setJsonObject(QJsonObject obj);
+		void setJsonObject_Chinese(QJsonObject obj);
 };
