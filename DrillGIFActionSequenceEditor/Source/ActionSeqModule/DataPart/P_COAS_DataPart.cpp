@@ -92,6 +92,8 @@ void P_COAS_DataPart::currentActionSeqChanged(QTreeWidgetItem* item, int id, QSt
 	// > 新数据填充
 	this->local_loadIndexData(id - 1);
 	
+	// > 树选择变化时，清理 放映区 的临时简单状态元
+	this->m_playingPart->clearSimpleState();
 }
 
 

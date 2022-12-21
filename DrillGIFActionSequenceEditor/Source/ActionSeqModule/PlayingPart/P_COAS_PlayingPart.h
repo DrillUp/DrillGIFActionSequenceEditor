@@ -54,6 +54,8 @@ class P_COAS_PlayingPart : public QWidget
 		void editDefaultState();
 										//操作台 - 编辑临时的简单状态元
 		void editSimpleState();
+										//操作台 - 清理临时的简单状态元
+		void clearSimpleState();
 										//操作台 - 刷新表格
 										//		【说明】：只刷新表格和显示名。
 		void refreshTable();

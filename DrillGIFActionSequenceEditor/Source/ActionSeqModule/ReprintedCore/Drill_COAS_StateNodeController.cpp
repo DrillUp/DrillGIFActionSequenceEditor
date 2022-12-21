@@ -62,6 +62,7 @@ bool Drill_COAS_StateNodeController::isNull(){
 */
 void Drill_COAS_StateNodeController::drill_initData_Node(){
 	QJsonObject data = this->_drill_data;
+	qDebug() << data;
 
 	// > 常规
 	if (data["name"].isUndefined() == true){ data["name"] = ""; }								//节点名称
@@ -80,6 +81,9 @@ void Drill_COAS_StateNodeController::drill_initData_Node(){
 
 	// > 杂项
 	if (data["note"].isUndefined() == true){ data["note"] = ""; }											//杂项 - 备注
+
+	qDebug() << data;
+	this->_drill_data = data;	//（注意此处的c++指针，需要重新赋值）
 }
 /*-------------------------------------------------
 		数据 - 私有数据初始化
@@ -169,7 +173,6 @@ void Drill_COAS_StateNodeController::drill_COAS_resetTimer(QJsonObject data){
 */
 void Drill_COAS_StateNodeController::drill_COAS_refreshNext_Private(){
 	QJsonObject data = this->_drill_data;
-	//qDebug() << data;
 
 	// > 结束播放后，停止刷新子节点
 	if (this->drill_COAS_isNodeEnd()){ return; }
@@ -341,7 +344,7 @@ void Drill_COAS_StateNodeController::drill_COAS_refreshNextNode(QJsonObject next
 */
 void Drill_COAS_StateNodeController::drill_COAS_updateNode(){
 	QJsonObject data = this->_drill_data;
-
+	
 	// > 帧刷新 状态元类型
 	if (this->drill_COAS_isTypeState()){
 		this->_drill_curState->drill_COAS_update();

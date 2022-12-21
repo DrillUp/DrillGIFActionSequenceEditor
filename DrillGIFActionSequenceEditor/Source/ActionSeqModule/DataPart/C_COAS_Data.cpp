@@ -122,7 +122,7 @@ QJsonObject C_COAS_Data::getJsonObject_Chinese(){
 			}
 		}
 	}
-	obj_actionSeq.insert("默认的状态元集合", TTool::_QJsonArray_QStringToA_(this->m_state_default_randomSeq));
+	obj_actionSeq.insert("默认的状态元集合", TTool::_JSON_stringify_(this->m_state_default_randomSeq));
 
 	// > 动作元列表
 	for (int i = 0; i < this->m_act_tank.count(); i++){
@@ -142,7 +142,7 @@ QJsonObject C_COAS_Data::getJsonObject_Chinese(){
 	for (int i = 0; i < this->m_stateNode_tank.count(); i++){
 		C_COAS_StateNodePtr node_ptr = this->m_stateNode_tank.at(i);
 		QJsonObject obj = node_ptr->getJsonObject_Chinese();
-		obj_actionSeq.insert("状态节点-" + QString::number(i + 1), obj);
+		obj_actionSeq.insert("状态节点-" + QString::number(i + 1), TTool::_JSON_stringify_(obj));
 	}
 
 	return obj_actionSeq;
@@ -183,7 +183,9 @@ void C_COAS_Data::setJsonObject_Chinese(QJsonObject obj_actionSeq){
 
 	// > 状态节点列表
 	this->m_stateNode_tank.clear();
-	for (int i = 0; i < S_ActionSeqDataContainer::getInstance()->getActionSeqLength().realLen_stateNode; i++){
+	int node_max = S_ActionSeqDataContainer::getInstance()->getActionSeqLength().realLen_stateNode;
+	if (node_max < 4){ node_max = 4; }
+	for (int i = 0; i < node_max; i++){
 		QString stateNode_str = obj_actionSeq.value("状态节点-" + QString::number(i + 1)).toString();
 		C_COAS_StateNodePtr stateNode_ptr = C_COAS_StateNodePtr::create();
 		stateNode_ptr->setJsonObject_Chinese(TTool::_JSON_parse_To_Obj_(stateNode_str), i);

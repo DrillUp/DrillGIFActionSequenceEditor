@@ -81,6 +81,8 @@ void Drill_COAS_MainController::drill_initData_Main(){
 
 	// > 子插件用参数
 	if (data["waitForPreload"].isUndefined() == true){ data["waitForPreload"] = true; }		//预加载等待
+
+	this->_drill_data = data;	//（注意此处的c++指针，需要重新赋值）
 }
 /*-------------------------------------------------
 		动画序列 - 私有数据初始化
@@ -112,17 +114,18 @@ void Drill_COAS_MainController::drill_initPrivateData_Main(){
 	QJsonArray stateNode_tank = data["stateNode_tank"].toArray();
 	stateNode_tank.append(node_data);
 	data["stateNode_tank"] = stateNode_tank;
+	this->_drill_data = data;	//（注意此处的c++指针，需要重新赋值）
 
 	// > 状态节点
 	//this._drill_node_curName = "";	//（立刻变化，没有缓冲设置）
-	this->_drill_node_curSerial = -1;
+	this->_drill_node_curSerial = "";	//（注意，序列号在c++中为字符串）
 	this->_drill_node_curController = new Drill_COAS_StateNodeController(node_data);
 	this->_drill_node_curController->drill_COAS_setParentDataId(data["id"].toInt());
 	this->_drill_node_curController->drill_COAS_setLayer(0);
 
 	// > 动作元
 	this->_drill_act_curName = "";
-	this->_drill_act_curSerial = -1;
+	this->_drill_act_curSerial = "";	//（注意，序列号在c++中为字符串）
 	this->_drill_act_curController = new Drill_COAS_ActController();
 	this->_drill_act_interrupt = false;
 
@@ -454,7 +457,7 @@ void Drill_COAS_MainController::drill_COAS_updateAct(){
 	// > 动作元 播放完毕情况
 	if (this->_drill_act_curController->drill_COAS_isActEnd() == true){
 		this->_drill_act_curName = "";
-		this->_drill_act_curSerial = -1;
+		this->_drill_act_curSerial = "";
 	}
 
 	// > 动作元 帧刷新
@@ -508,7 +511,7 @@ void Drill_COAS_MainController::drill_COAS_setAct(QString act_name){
 */
 void Drill_COAS_MainController::drill_COAS_stopAct(){
 	this->_drill_act_curName = "";
-	this->_drill_act_curSerial = -1;
+	this->_drill_act_curSerial = "";
 }
 
 

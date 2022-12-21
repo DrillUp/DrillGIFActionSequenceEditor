@@ -54,10 +54,10 @@ void S_ActionSeqDataContainer::resetPluginData() {
 	// > GIF动画序列核心
 	if (this->data_ActionSeqPlugin != nullptr){	
 
+		// > 插件的长度数据
+		this->setActionSeqLength(this->getPluginData_ActionSeqLength());
 		// > 插件配置的数据
 		this->setActionSeqData_Object( this->data_ActionSeqPlugin->parameters );
-		// > 插件的长度数据
-		this->setActionSeqLength( this->getPluginData_ActionSeqLength() );
 	}
 
 	// > 工程中没有插件数据

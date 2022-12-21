@@ -155,6 +155,12 @@ void P_COAS_PlayingPart::editSimpleState(){
 	}
 }
 /*-------------------------------------------------
+		操作台 - 清理临时的简单状态元
+*/
+void P_COAS_PlayingPart::clearSimpleState(){
+	this->m_temp_simpleState.clear();
+}
+/*-------------------------------------------------
 		操作台 - 刷新表格
 */
 void P_COAS_PlayingPart::refreshTable(){
@@ -342,10 +348,8 @@ void P_COAS_PlayingPart::btn_play(){
 		return;
 	}
 
-	// > 启动前，强制保存其它块的数据
-	this->m_actionPart->local_saveCurIndexData();
-	this->m_statePart->local_saveCurIndexData();
-	this->m_stateNodePart->local_saveCurIndexData();
+	// > 启动前，强制保存父块的数据
+	this->m_parentPart->local_saveCurIndexData();
 
 	// > 校验数据
 	if (this->checkData() == false){
@@ -422,6 +426,8 @@ void P_COAS_PlayingPart::putDataToUi() {
 	QJsonObject COAS_data_Chinese = data_ptr->getJsonObject_Chinese();
 	QJsonObject COAS_data_English = Drill_COAS_Init::drill_COAS_initSequence(COAS_data_Chinese);
 	Drill_COAS_Init::getInstance()->setCOASDataByIndex(data_ptr->m_COAS_id, COAS_data_English);
+	//qDebug() << "动画序列数据【中文】：" << COAS_data_Chinese;
+	//qDebug() << "动画序列数据【英文】：" << COAS_data_English;
 
 	// > 动画序列核心初始化
 	this->m_COAS_mainController = Drill_COAS_MainController(COAS_data_English);

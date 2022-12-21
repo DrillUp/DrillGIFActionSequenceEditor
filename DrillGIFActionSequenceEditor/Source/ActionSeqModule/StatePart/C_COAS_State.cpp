@@ -76,6 +76,11 @@ QJsonObject C_COAS_State::getJsonObject_Chinese(){
 	QJsonObject obj = QJsonObject();
 	//obj.insert("id", this->id);
 
+	// > 空对象情况（直接返回，节约存储空间）
+	if (this->name == "" && this->gif_src.count() == 0){
+		return obj;
+	}
+
 	// > 常规
 	obj.insert("状态元名称", this->name);
 	obj.insert("状态元标签", TTool::_JSON_stringify_(this->tag_tank));

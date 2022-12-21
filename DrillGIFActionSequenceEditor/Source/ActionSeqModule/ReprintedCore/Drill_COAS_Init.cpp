@@ -64,6 +64,7 @@ void Drill_COAS_Init::setCOASDataByIndex(int index, QJsonObject data){
 */
 QJsonObject Drill_COAS_Init::drill_COAS_initState(QJsonObject dataFrom){
 	QJsonObject data = QJsonObject();
+	//【所有 列表/结构体 都需要先转字符串，再转QJsonArray/QJsonObject对象】
 
 	// > 常规
 	data["name"] = dataFrom["状态元名称"].toString("");
@@ -103,6 +104,7 @@ QJsonObject Drill_COAS_Init::drill_COAS_initState(QJsonObject dataFrom){
 */
 QJsonObject Drill_COAS_Init::drill_COAS_initStateNode(QJsonObject dataFrom){
 	QJsonObject data = QJsonObject();
+	//【所有 列表/结构体 都需要先转字符串，再转QJsonArray/QJsonObject对象】
 
 	// > 常规
 	data["name"] = dataFrom["节点名称"].toString("");
@@ -140,6 +142,7 @@ QJsonObject Drill_COAS_Init::drill_COAS_initStateNode(QJsonObject dataFrom){
 */
 QJsonObject Drill_COAS_Init::drill_COAS_initAct(QJsonObject dataFrom){
 	QJsonObject data = QJsonObject();
+	//【所有 列表/结构体 都需要先转字符串，再转QJsonArray/QJsonObject对象】
 
 	// > 常规
 	data["name"] = dataFrom["动作元名称"].toString("");
@@ -178,6 +181,7 @@ QJsonObject Drill_COAS_Init::drill_COAS_initAct(QJsonObject dataFrom){
 QJsonObject Drill_COAS_Init::drill_COAS_initSequence(QJsonObject dataFrom){
 	QJsonObject data = QJsonObject();
 	C_COAS_Length len = S_ActionSeqDataContainer::getInstance()->getActionSeqLength();
+	//【所有 列表/结构体 都需要先转字符串，再转QJsonArray/QJsonObject对象】
 
 	// > 基本数据
 	data["id"] = dataFrom["COAS_id"].toInt();
@@ -188,6 +192,7 @@ QJsonObject Drill_COAS_Init::drill_COAS_initSequence(QJsonObject dataFrom){
 	// > 容器 - 默认的状态元集合
 	QStringList state_default_randomSeq = TTool::_JSON_parse_To_QListQString_(dataFrom["默认的状态元集合"].toString(""));
 	data["state_default_randomSeq"] = TTool::_QJsonArray_QStringToA_(state_default_randomSeq);
+	qDebug() << state_default_randomSeq;
 
 	// > 容器 - 状态元
 	QJsonArray state_tank = QJsonArray();
@@ -196,7 +201,7 @@ QJsonObject Drill_COAS_Init::drill_COAS_initSequence(QJsonObject dataFrom){
 		state_tank.append(Drill_COAS_Init::drill_COAS_initState(obj));
 	}
 	data["state_tank"] = state_tank;
-	qDebug() << "状态元：" <<state_tank;
+	//qDebug() << "状态元：" <<state_tank;
 
 	// > 容器 - 状态节点
 	QJsonArray stateNode_tank = QJsonArray();
@@ -205,7 +210,7 @@ QJsonObject Drill_COAS_Init::drill_COAS_initSequence(QJsonObject dataFrom){
 		stateNode_tank.append(Drill_COAS_Init::drill_COAS_initStateNode(obj));
 	}
 	data["stateNode_tank"] = stateNode_tank;
-	qDebug() << "状态节点：" << stateNode_tank;
+	//qDebug() << "状态节点：" << stateNode_tank;
 
 	// > 容器 - 动作元
 	QJsonArray act_tank = QJsonArray();
@@ -214,7 +219,7 @@ QJsonObject Drill_COAS_Init::drill_COAS_initSequence(QJsonObject dataFrom){
 		act_tank.append(Drill_COAS_Init::drill_COAS_initAct(obj));
 	}
 	data["act_tank"] = act_tank;
-	qDebug() << "动作元：" << act_tank;
+	//qDebug() << "动作元：" << act_tank;
 
 	return data;
 }
@@ -226,7 +231,7 @@ QJsonObject Drill_COAS_Init::drill_COAS_initSequence(QJsonObject dataFrom){
 QJsonObject Drill_COAS_Init::drill_COAS_getSequenceData(int sequence_id){
 	if (sequence_id < 0){ return QJsonObject(); }
 	if (sequence_id >= this->g_COAS_list.count()){ return QJsonObject(); }
-	qDebug() << "sequence_id:" << sequence_id;
+	//qDebug() << "sequence_id:" << sequence_id;
 	return this->g_COAS_list.at(sequence_id);
 }
 /*-------------------------------------------------

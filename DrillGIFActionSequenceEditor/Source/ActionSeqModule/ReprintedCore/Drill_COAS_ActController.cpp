@@ -79,6 +79,8 @@ void Drill_COAS_ActController::drill_initData_Act(){
 
 	// > 杂项
 	if (data["note"].isUndefined() == true){ data["note"] = ""; }					//杂项 - 备注
+
+	this->_drill_data = data;	//（注意此处的c++指针，需要重新赋值）
 }
 /*-------------------------------------------------
 		动作元 - 私有数据初始化
@@ -157,7 +159,7 @@ void Drill_COAS_ActController::drill_COAS_resetTimer(QJsonObject data){
 	// > GIF - 播放
 	this->_drill_curTickTime = 0;									//播放 - 当前累计时间
 	this->_drill_curIndex = 0;										//播放 - 当前索引
-	this->_drill_tarIndex = 0;										//播放 - 索引结束位置
+	this->_drill_tarIndex = data["gif_src"].toArray().count();		//播放 - 索引结束位置
 }
 /*-------------------------------------------------
 		动作元 - 帧刷新动作元
