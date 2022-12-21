@@ -99,7 +99,7 @@ P_COAS_ActionPart::P_COAS_ActionPart(QWidget *parent)
 	// > 图片查看块 - 连接资源切换
 	connect(this->m_p_AnimationListEditor, &P_AnimationListEditor::animBitmapChanged, this, &P_COAS_ActionPart::bitmapChanged);
 	// > 图片查看块 - 着色器
-	connect(this->m_p_AnimPictureViewer, &P_AnimPictureViewer::setTint, ui.horizontalSlider_tint, &QAbstractSlider::valueChanged);
+	connect(ui.horizontalSlider_tint, &QAbstractSlider::valueChanged, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::setTint);
 	// > 图片查看块 - 缩放
 	connect(ui.toolButton_zoom_in, &QPushButton::clicked, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::zoomIn);
 	connect(ui.toolButton_zoom_out, &QPushButton::clicked, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::zoomOut);
@@ -302,6 +302,10 @@ void P_COAS_ActionPart::local_saveCurIndexData(){
 
 	// > 杂项
 	action_ptr->note = ui.plainTextEdit_note->toPlainText();
+
+
+	// > 编辑标记
+	S_ProjectManager::getInstance()->setDirty();
 }
 /*-------------------------------------------------
 		数据 - 读取本地数据
@@ -310,7 +314,7 @@ void P_COAS_ActionPart::local_loadIndexData(int index){
 	if (index < 0){ return; }
 	if (index >= this->m_actionDataList.count()){ return; }
 
-	// > 表单数据
+	// > 直接数据指针中读取值
 	C_COAS_ActionPtr action_ptr = this->m_actionDataList.at(index);
 
 	// > 常规

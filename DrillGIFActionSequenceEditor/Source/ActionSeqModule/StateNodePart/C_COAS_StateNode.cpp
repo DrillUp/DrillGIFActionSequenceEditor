@@ -1,185 +1,143 @@
 ﻿#include "stdafx.h"
 #include "C_COAS_StateNode.h"
 
-#include "C_COAS_StateNodeFactory.h"
-#include "Source/Utils/WidgetFormSenior/NodeData/S_NodeFactoryContainer.h"
+#include "../Data/LengthData/W_COAS_Length.h"
+#include "../Data/S_ActionSeqDataContainer.h"
 #include "Source/Utils/Common/TTool.h"
-
 
 /*
 -----==========================================================-----
-		类：		状态节点（图数据）.cpp
+		类：		状态节点 数据类.cpp
 		作者：		drill_up
-		所属模块：	工具模块
-		功能：		定义一个状态节点，用于存放状态节点、状态元数据。
-					功能基于 树节点，能进行树功能的解析。
-					
-		使用方法：	见父类 树节点 。
+		所属模块：	动画序列模块
+		功能：		状态节点 的数据类。
 -----==========================================================-----
 */
-C_COAS_StateNode::C_COAS_StateNode(QString id, QString factory_id, QString nodeName) : C_TreeNode(id, factory_id, nodeName){
-	
-	// > 状态节点
-	this->m_isObjData_State = false;
-	this->m_isObjData_StateNode = false;
-	this->m_curObjData = QJsonObject();
+C_COAS_StateNode::C_COAS_StateNode(){
+	this->id = -1;
 
+	this->name = "";								//常规 - 节点名称
+	this->tag_tank.clear();							//常规 - 节点标签
+	this->priority = 0;								//常规 - 节点优先级
+	this->proportion = 1;							//常规 - 节点权重
+	this->canBeInterrupted = false;					//常规 - 可被动作元打断
+
+	this->play_type = "随机播放状态元";				//播放列表 - 播放方式
+	this->play_randomStateSeq.clear();				//播放列表 - 随机播放状态元
+	this->play_plainStateSeq.clear();				//播放列表 - 顺序播放状态元
+	this->play_randomNodeSeq.clear();				//播放列表 - 随机播放嵌套集合
+	this->play_plainNodeSeq.clear();				//播放列表 - 顺序播放嵌套集合
+	this->play_randomMax = 1;						//播放列表 - 随机播放的次数上限
+
+	this->note = "";								//杂项 - 备注
 }
-
 C_COAS_StateNode::~C_COAS_StateNode(){
 }
 
+/*-------------------------------------------------
+		数据 - 清除数据
+*/
+void C_COAS_StateNode::clearData(){
 
-//状态节点 - 设置状态元数据
-void C_COAS_StateNode::setObjData_State(QJsonObject data){
-	this->m_isObjData_State = true;
-	this->m_isObjData_StateNode = false;
-	this->m_curObjData = data;
-}
-//状态节点 - 设置状态节点数据
-void C_COAS_StateNode::setObjData_StateNode(QJsonObject data){
-	this->m_isObjData_State = false;
-	this->m_isObjData_StateNode = true;
-	this->m_curObjData = data;
-}
+	this->name = "";								//常规 - 状态元名称
+	this->tag_tank.clear();							//常规 - 状态元标签
+	this->priority = 0;								//常规 - 状态元优先级
+	this->proportion = 1;							//常规 - 状态元权重
+	this->canBeInterrupted = false;					//常规 - 可被动作元打断
 
-//状态节点 - 是否为状态元数据
-bool C_COAS_StateNode::isObjData_State(){
-	return this->m_isObjData_State;
+	this->play_type = "随机播放状态元";				//播放列表 - 播放方式
+	this->play_randomStateSeq.clear();				//播放列表 - 随机播放状态元
+	this->play_plainStateSeq.clear();				//播放列表 - 顺序播放状态元
+	this->play_randomNodeSeq.clear();				//播放列表 - 随机播放嵌套集合
+	this->play_plainNodeSeq.clear();				//播放列表 - 顺序播放嵌套集合
+	this->play_randomMax = 1;						//播放列表 - 随机播放的次数上限
+
+	this->note = "";								//杂项 - 备注
 }
-//状态节点 - 是否为状态节点数据
-bool C_COAS_StateNode::isObjData_StateNode(){
-	return this->m_isObjData_StateNode;
-}
-//状态节点 - 播放类型 - 状态元
-bool C_COAS_StateNode::isPlayType_State(){
-	if (this->isObjData_StateNode() == false){ return false; }
-	QString playType = this->m_curObjData["播放方式"].toString();
-	return playType == "随机播放状态元" || playType == "顺序播放状态元";
-}
-//状态节点 - 播放类型 - 状态节点
-bool C_COAS_StateNode::isPlayType_StateNode(){
-	if (this->isObjData_StateNode() == false){ return false; }
-	QString playType = this->m_curObjData["播放方式"].toString();
-	return playType == "随机播放嵌套集合" || playType == "顺序播放嵌套集合";
-}
-//状态节点 - 获取子节点 - 状态元
-QStringList C_COAS_StateNode::getChildList_State(){
-	if (this->isObjData_StateNode() == false){ return QStringList(); }
-	QString playType = this->m_curObjData["播放方式"].toString();
-	if (playType == "随机播放状态元" ){
-		return TTool::_JSON_parse_To_QListQString_(this->m_curObjData.value("随机播放状态元").toString());
+/*-------------------------------------------------
+		数据 - 判断空节点
+*/
+bool C_COAS_StateNode::isEmptyNode(){
+	if (this->name == ""){ return true; }
+	if (this->play_type == ""){ return true; }
+
+	if (this->play_type == "随机播放状态元"){
+		if (this->play_randomStateSeq.count() == 0){ return true; }
+		return false;
 	}
-	if (playType == "顺序播放状态元"){
-		return TTool::_JSON_parse_To_QListQString_(this->m_curObjData.value("顺序播放状态元").toString());
+	if (this->play_type == "顺序播放状态元"){
+		if (this->play_plainStateSeq.count() == 0){ return true; }
+		return false;
 	}
-	return QStringList();
-}
-//状态节点 - 获取子节点 - 状态节点
-QStringList C_COAS_StateNode::getChildList_StateNode(){
-	if (this->isObjData_StateNode() == false){ return QStringList(); }
-	QString playType = this->m_curObjData["播放方式"].toString();
-	if (playType == "随机播放嵌套集合"){
-		return TTool::_JSON_parse_To_QListQString_(this->m_curObjData.value("随机播放嵌套集合").toString());
+	if (this->play_type == "随机播放嵌套集合"){
+		if (this->play_randomNodeSeq.count() == 0){ return true; }
+		return false;
 	}
-	if (playType == "顺序播放嵌套集合"){
-		return TTool::_JSON_parse_To_QListQString_(this->m_curObjData.value("顺序播放嵌套集合").toString());
+	if (this->play_type == "顺序播放嵌套集合"){
+		if (this->play_plainNodeSeq.count() == 0){ return true; }
+		return false;
 	}
-	return QStringList();
-}
-//状态节点 - 获取节点描述
-QString C_COAS_StateNode::getNodeDescription(){
-	if (this->isObjData_StateNode() == false){ return ""; }
-	QString playType = this->m_curObjData["播放方式"].toString();
-	if (playType == "随机播放状态元" || playType == "随机播放嵌套集合"){
-		int max_num = this->m_curObjData["随机播放的次数上限"].toString().toInt();
-		return "R" + QString::number(max_num)+"→";
-	}
-	if (playType == "顺序播放状态元" || playType == "顺序播放嵌套集合"){
-		return "L→";
-	}
-	return "";
+	return true;
 }
 
 
-/*-------------------------------------------------
-		类 - 获取类名
-*/
-QStringList C_COAS_StateNode::classInherited(){
-	return C_Node::classInherited() << "C_COAS_StateNode";
-}
-/*-------------------------------------------------
-		类 - 判断类
-*/
-bool C_COAS_StateNode::isClass_StateTreeNode(){
-	return this->classIsInstanceOf("C_COAS_StateNode");
-}
-/*-------------------------------------------------
-		类 - 创建自己
-*/
-C_TreeNodePtr C_COAS_StateNode::_factoryTree_newNode(){
-	return this->_factoryTree_get()->createTreeNodeEmpty();
-}
-/*-------------------------------------------------
-		类 - 获取类
-*/
-C_TreeNodePtr C_COAS_StateNode::_factoryTree_getNodeById(QString node_id){
-	return this->_factoryTree_get()->getTreeNode_ById(node_id);
-}
-/*-------------------------------------------------
-		类 - 获取工厂
-*/
-C_TreeNodeFactoryPtr C_COAS_StateNode::_factoryTree_get(){
-	C_NodeFactoryPtr factory = S_NodeFactoryContainer::getInstance()->getFactory_ById(this->factory_id);
-	if (factory->classIsInstanceOf("C_COAS_StateNodeFactory") == false){ return C_COAS_StateNodeFactoryPtr(); }
-	return factory.dynamicCast<C_COAS_StateNodeFactory>();
-}
-
 
 /*-------------------------------------------------
-		复制数据 当前类 -> 目标类
+		空判断
 */
-void C_COAS_StateNode::copyTo(C_NodePtr data_to){
-	C_TreeNode::copyTo(data_to);
-	if (data_to->classIsInstanceOf("C_COAS_StateNode") == false){ return; }
-	C_COAS_StateNodePtr treeData_to = data_to.dynamicCast<C_COAS_StateNode>();
-
-	// > 树节点
-	//treeData_to->m_tree_curLayer = this->m_tree_curLayer;
-	//treeData_to->m_tree_childIdList = this->m_tree_childIdList;
-}
-/*-------------------------------------------------
-		复制数据 目标类 -> 当前类
-*/
-void C_COAS_StateNode::copyFrom(C_NodePtr data_from){
-	C_TreeNode::copyFrom(data_from);
-	if (data_from->classIsInstanceOf("C_COAS_StateNode") == false){ return; }
-	C_COAS_StateNodePtr treeData_from = data_from.dynamicCast<C_COAS_StateNode>();
-
-	// > 树节点
-	//this->m_tree_curLayer = treeData_from->m_tree_curLayer;
-	//this->m_tree_childIdList = treeData_from->m_tree_childIdList;
+bool C_COAS_StateNode::isNull(){
+	if (this->id == -1){ return true; }
+	if (this->name == ""){ return true; }
+	return false;
 }
 /*-------------------------------------------------
 		实体类 -> QJsonObject
 */
-QJsonObject C_COAS_StateNode::getJsonObject(){
-	QJsonObject obj = C_TreeNode::getJsonObject();
+QJsonObject C_COAS_StateNode::getJsonObject_Chinese(){
+	QJsonObject obj = QJsonObject();
+	//obj.insert("id", this->id);
 
-	// > 树节点
-	//obj.insert("m_tree_curLayer", this->m_tree_curLayer);
-	//obj.insert("m_tree_childIdList", this->m_tree_childIdList.join("___"));
+	// > 常规
+	obj.insert("节点名称", this->name);
+	obj.insert("节点标签", TTool::_JSON_stringify_(this->tag_tank));
+	obj.insert("节点优先级", QString::number(this->priority));
+	obj.insert("节点权重", QString::number(this->proportion));
+	obj.insert("可被动作元打断", this->canBeInterrupted ? "true" : "false");
+
+	// > 播放列表
+	obj.insert("播放列表", this->play_type);
+	obj.insert("随机播放状态元", TTool::_JSON_stringify_(this->play_randomStateSeq));
+	obj.insert("顺序播放状态元", TTool::_JSON_stringify_(this->play_plainStateSeq));
+	obj.insert("随机播放嵌套集合", TTool::_JSON_stringify_(this->play_randomNodeSeq));
+	obj.insert("顺序播放嵌套集合", TTool::_JSON_stringify_(this->play_plainNodeSeq));
+	obj.insert("随机播放的次数上限", this->play_randomMax);
+
+	// > 杂项
+	obj.insert("备注", this->note);
 
 	return obj;
 }
 /*-------------------------------------------------
 		QJsonObject -> 实体类
 */
-void C_COAS_StateNode::setJsonObject(QJsonObject obj){
-	C_TreeNode::setJsonObject(obj);
+void C_COAS_StateNode::setJsonObject_Chinese(QJsonObject obj, int id){
+	this->id = id;
 
-	// > 树节点
-	//if (obj.value("m_tree_curLayer").isUndefined() == false){ this->m_tree_curLayer = obj.value("m_tree_curLayer").toInt(); }
-	//if (obj.value("m_tree_childIdList").isUndefined() == false){ this->m_tree_childIdList = obj.value("m_tree_childIdList").toString().split("___"); }
+	// > 常规
+	this->name = obj.value("节点名称").toString();
+	this->tag_tank = TTool::_JSON_parse_To_QListQString_(obj.value("节点标签").toString());
+	this->priority = obj.value("节点优先级").toString().toInt();
+	this->proportion = obj.value("节点权重").toString("1").toInt();
+	this->canBeInterrupted = obj.value("可被动作元打断").toString() == "true";
+
+	// > 播放列表
+	this->play_type = obj.value("播放列表").toString();
+	this->play_randomStateSeq = TTool::_JSON_parse_To_QListQString_(obj.value("随机播放状态元").toString());
+	this->play_plainStateSeq = TTool::_JSON_parse_To_QListQString_(obj.value("顺序播放状态元").toString());
+	this->play_randomNodeSeq = TTool::_JSON_parse_To_QListQString_(obj.value("随机播放嵌套集合").toString());
+	this->play_plainNodeSeq = TTool::_JSON_parse_To_QListQString_(obj.value("顺序播放嵌套集合").toString());
+	this->play_randomMax = obj.value("随机播放的次数上限").toString().toInt();
+
+	// > 杂项
+	this->note = obj.value("备注").toString();
 }
-

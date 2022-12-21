@@ -160,14 +160,16 @@ void P_COAS_PlayingPart::editSimpleState(){
 QStringList P_COAS_PlayingPart::getStateNameList(){
 	QStringList result = QStringList();
 	for (int i = 0; i < this->local_stateDataList.count(); i++){
-		result.append(this->local_stateDataList.at(i).value("状态元名称").toString());
+		C_COAS_StatePtr state_ptr = this->local_stateDataList.at(i);
+		result.append(state_ptr->name);
 	}
 	return result;
 }
 QStringList P_COAS_PlayingPart::getStateNodeNameList(){
 	QStringList result = QStringList();
 	for (int i = 0; i < this->local_stateNodeDataList.count(); i++){
-		result.append(this->local_stateNodeDataList.at(i).value("节点名称").toString());
+		C_COAS_StateNodePtr node_ptr = this->local_stateNodeDataList.at(i);
+		result.append(node_ptr->name);
 	}
 	return result;
 }
@@ -193,10 +195,8 @@ QStringList P_COAS_PlayingPart::getRelatFileNameList(){
 
 	// > 状态元资源
 	for (int i = 0; i < this->local_stateDataList.count(); i++){
-		QJsonObject obj_state = this->local_stateDataList.at(i);
-		QString str_src = obj_state.value("资源-状态元").toString();
-		QStringList src_list = TTool::_JSON_parse_To_QListQString_(str_src);
-		result.append(src_list);
+		C_COAS_StatePtr state_ptr = this->local_stateDataList.at(i);
+		result.append(state_ptr->gif_src);
 	}
 
 	// > 状态节点资源
@@ -483,14 +483,16 @@ void P_COAS_PlayingPart::putDataToUi() {
 	// > 动画序列数据 - 容器 - 状态元序列
 	QJsonArray state_tank = QJsonArray();
 	for (int i = 0; i < this->local_stateDataList.count(); i++){
-		state_tank.append(Drill_COAS_Init::drill_COAS_initState(this->local_stateDataList.at(i)));
+		C_COAS_StatePtr state_ptr = this->local_stateDataList.at(i);
+		state_tank.append(Drill_COAS_Init::drill_COAS_initState(state_ptr->getJsonObject_Chinese()));
 	}
 	data["state_tank"] = state_tank;
 
 	// > 动画序列数据 - 容器 - 状态节点序列
 	QJsonArray stateNode_tank = QJsonArray();
 	for (int i = 0; i < this->local_stateNodeDataList.count(); i++){
-		stateNode_tank.append(Drill_COAS_Init::drill_COAS_initStateNode(this->local_stateNodeDataList.at(i)));
+		C_COAS_StateNodePtr node_ptr = this->local_stateNodeDataList.at(i);
+		stateNode_tank.append(Drill_COAS_Init::drill_COAS_initStateNode(node_ptr->getJsonObject_Chinese()));
 	}
 	data["stateNode_tank"] = stateNode_tank;
 

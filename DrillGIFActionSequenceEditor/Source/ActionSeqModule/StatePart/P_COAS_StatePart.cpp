@@ -159,7 +159,8 @@ void P_COAS_StatePart::zoomValueChanged(double value){
 QStringList P_COAS_StatePart::getNameList(){
 	QStringList result = QStringList();
 	for (int i = 0; i < this->m_stateDataList.count(); i++){
-		result.append(this->m_stateDataList.at(i).value("状态元名称").toString());
+		C_COAS_StatePtr state_ptr = this->m_stateDataList.at(i);
+		result.append(state_ptr->name);
 	}
 	return result;
 }
@@ -213,7 +214,8 @@ void P_COAS_StatePart::op_replace(int index, QJsonObject state){
 	S_ProjectManager::getInstance()->setDirty();
 
 	// > 执行替换
-	this->m_stateDataList.replace(index, state);
+	C_COAS_StatePtr state_ptr = this->m_stateDataList.at(index);
+	state_ptr->setJsonObject_Chinese(state, index);
 	this->local_loadIndexData(index);
 
 	// > 更新表格的名称
@@ -230,7 +232,8 @@ void P_COAS_StatePart::op_clear(int index){
 	S_ProjectManager::getInstance()->setDirty();
 
 	// > 执行替换
-	this->m_stateDataList.replace(index, QJsonObject());
+	C_COAS_StatePtr state_ptr = this->m_stateDataList.at(index);
+	state_ptr->clearData();
 	this->local_loadIndexData(index);
 
 	// > 更新表格的名称
@@ -241,8 +244,9 @@ void P_COAS_StatePart::op_clear(int index){
 */
 void P_COAS_StatePart::shortcut_copyData(){
 	if (ui.tableWidget->hasFocus() == false){ return; }
-	if (this->m_last_index == -1 ){ return; }
-	this->m_copyed_data = this->m_stateDataList.at(m_last_index);
+	if (this->m_last_index == -1){ return; }
+	C_COAS_StatePtr state_ptr = this->m_stateDataList.at(this->m_last_index);
+	this->m_copyed_data = state_ptr->getJsonObject_Chinese();
 	this->m_table->setItemOuterControl_PasteActive(true);		//激活粘贴
 }
 /*-------------------------------------------------
@@ -270,42 +274,40 @@ void P_COAS_StatePart::local_saveCurIndexData(){
 	if (this->m_last_index < 0){ return; }
 	if (this->m_last_index >= this->m_stateDataList.count()){ return; }
 
-	// > 表单数据
-		QJsonObject obj_edit;
-		obj_edit.insert("状态元名称", ui.lineEdit_name->text());
-		obj_edit.insert("状态元标签", TTool::_JSON_stringify_(this->m_curTagTank));
-		obj_edit.insert("状态元优先级", QString::number(ui.spinBox_priority->value()));
-		obj_edit.insert("状态元权重", QString::number(ui.spinBox_proportion->value()));
-		obj_edit.insert("可被动作元打断", ui.checkBox_canBeInterrupted->isChecked() ? "true" : "false");
-		obj_edit.insert("是否倒放", ui.checkBox_gif_back_run->isChecked() ? "true" : "false");
-		obj_edit.insert("是否预加载", ui.checkBox_gif_preload->isChecked() ? "true" : "false");
-		obj_edit.insert("图像-色调值", QString::number(ui.horizontalSlider_tint->value()));
-		obj_edit.insert("图像-模糊边缘", ui.checkBox_smooth->isChecked() ? "true" : "false");
-		obj_edit.insert("备注", ui.plainTextEdit_note->toPlainText());
-	QJsonObject obj_org = this->m_stateDataList.at(this->m_last_index);
-	TTool::_QJsonObject_put_(&obj_org, obj_edit);
+	// > 直接对数据指针进行赋值
+	C_COAS_StatePtr state_ptr = this->m_stateDataList.at(this->m_last_index);
 
-	// > 图片数据
-		C_ALEData data = this->m_p_AnimationListEditor->getSource();
-		QJsonObject obj_edit2 = QJsonObject();
-		obj_edit2.insert("帧间隔", QString::number( data.getData_IntervalDefault() ));
-		//（资源文件夹不需要）
-		QList<QString> gif_src = QList<QString>();
-		QList<QFileInfo> info_list = data.getAllFile();
-		for (int i = 0; i < info_list.count(); i++){
-			gif_src.append(info_list.at(i).completeBaseName());
-		}
-		obj_edit2.insert("资源-状态元", TTool::_JSON_stringify_(gif_src));
-		QList<int> gif_intervalTank = data.getData_IntervalTank();
-		QList<QString> gif_intervalTank_strList = TTool::_QList_IntToQString_(gif_intervalTank);
-		obj_edit2.insert("帧间隔-明细表", TTool::_JSON_stringify_(gif_intervalTank_strList));
-		//qDebug() << obj_edit2;
-	TTool::_QJsonObject_put_(&obj_org, obj_edit2);
+	// > 常规
+	state_ptr->name = ui.lineEdit_name->text();
+	state_ptr->tag_tank = this->m_curTagTank;
+	state_ptr->priority = ui.spinBox_priority->value();
+	state_ptr->proportion = ui.spinBox_proportion->value();
+	state_ptr->canBeInterrupted = ui.checkBox_canBeInterrupted->isChecked();
+
+	// > GIF
+	C_ALEData ALE_data = this->m_p_AnimationListEditor->getSource();
+	state_ptr->gif_src.clear();
+	QList<QFileInfo> info_list = ALE_data.getAllFile();
+	for (int i = 0; i < info_list.count(); i++){
+		state_ptr->gif_src.append(info_list.at(i).completeBaseName());
+	}
+	//		（资源文件夹，不需赋值）
+	state_ptr->gif_interval = ALE_data.getData_IntervalDefault();
+	state_ptr->gif_intervalTank = ALE_data.getData_IntervalTank();
+	state_ptr->gif_back_run = ui.checkBox_gif_back_run->isChecked();
+	state_ptr->gif_preload = ui.checkBox_gif_preload->isChecked();
+
+	// > 图像
+	state_ptr->tint = ui.horizontalSlider_tint->value();
+	state_ptr->smooth = ui.checkBox_smooth->isChecked();
+
+	// > 杂项
+	state_ptr->note = ui.plainTextEdit_note->toPlainText();
+
 
 	// > 编辑标记
 	S_ProjectManager::getInstance()->setDirty();
 
-	this->m_stateDataList.replace(this->m_last_index, obj_org);
 }
 /*-------------------------------------------------
 		数据 - 读取本地数据
@@ -314,37 +316,34 @@ void P_COAS_StatePart::local_loadIndexData(int index){
 	if (index < 0){ return; }
 	if (index >= this->m_stateDataList.count()){ return; }
 
-	// > 表单数据
-	QJsonObject obj_data = this->m_stateDataList.at(index);
-	//qDebug() << obj_data;
-		ui.lineEdit_name->setText(obj_data.value("状态元名称").toString());
-		this->m_curTagTank = TTool::_JSON_parse_To_QListQString_(obj_data.value("状态元标签").toString());
-		this->refreshTagTank();
-		ui.spinBox_priority->setValue(obj_data.value("状态元优先级").toString().toInt());
-		ui.spinBox_proportion->setValue(obj_data.value("状态元权重").toString().toInt());
-		ui.checkBox_canBeInterrupted->setChecked(obj_data.value("可被动作元打断").toString() == "true");
-		ui.checkBox_gif_back_run->setChecked(obj_data.value("是否倒放").toString() == "true");
-		ui.checkBox_gif_preload->setChecked(obj_data.value("是否预加载").toString() == "true");
-		ui.horizontalSlider_tint->setValue(obj_data.value("图像-色调值").toString().toInt());
-		ui.checkBox_smooth->setChecked(obj_data.value("图像-模糊边缘").toString() == "true");
-		ui.plainTextEdit_note->setPlainText(obj_data.value("备注").toString());
+	// > 直接数据指针中读取值
+	C_COAS_StatePtr state_ptr = this->m_stateDataList.at(index);
 
-	// > 图片数据
-		int gif_interval = obj_data.value("帧间隔").toString().toInt();								//帧间隔
-		QString gif_src_file = S_ActionSeqDataContainer::getInstance()->getActionSeqDir();			//资源文件夹
-	
-		QString gif_src_str = obj_data.value("资源-状态元").toString();
-		QList<QString> gif_src = TTool::_JSON_parse_To_QListQString_(gif_src_str);			//资源文件名
-		QString gif_intervalTank_str = obj_data.value("帧间隔-明细表").toString();
-		QList<QString> gif_intervalTank_strList = TTool::_JSON_parse_To_QListQString_(gif_intervalTank_str);	//帧间隔-明细表
-		QList<int> gif_intervalTank = TTool::_QList_QStringToInt_(gif_intervalTank_strList);
+	// > 常规
+	ui.lineEdit_name->setText(state_ptr->name);
+	this->m_curTagTank = state_ptr->tag_tank;
+	this->refreshTagTank();
+	ui.spinBox_priority->setValue(state_ptr->priority);
+	ui.spinBox_proportion->setValue(state_ptr->proportion);
+	ui.checkBox_canBeInterrupted->setChecked(state_ptr->canBeInterrupted);
 
+	// > GIF
+	QString gif_src_file = S_ActionSeqDataContainer::getInstance()->getActionSeqDir();
 	C_ALEData data = C_ALEData();
 	data.setData_Id(index);
-	data.setSource(gif_src_file, gif_src);
-	data.setInterval(gif_interval, gif_intervalTank);
+	data.setSource(gif_src_file, state_ptr->gif_src);
+	data.setInterval(state_ptr->gif_interval, state_ptr->gif_intervalTank);
 	this->m_p_AnimationListEditor->setSource(data);
 	this->m_p_AnimationListEditor->selectStart();
+	ui.checkBox_gif_back_run->setChecked(state_ptr->gif_back_run);
+	ui.checkBox_gif_preload->setChecked(state_ptr->gif_preload);
+
+	// > 图像
+	ui.horizontalSlider_tint->setValue(state_ptr->tint);
+	ui.checkBox_smooth->setChecked(state_ptr->smooth);
+
+	// > 杂项
+	ui.plainTextEdit_note->setPlainText(state_ptr->note);
 
 	this->m_last_index = index;
 }
@@ -354,7 +353,7 @@ void P_COAS_StatePart::local_loadIndexData(int index){
 /*-------------------------------------------------
 		数据检查 - 执行检查
 */
-void P_COAS_StatePart::checkData_StateDataList(QList<QJsonObject> stateDataList){
+void P_COAS_StatePart::checkData_StateDataList(QList<C_COAS_StatePtr> stateDataList){
 	this->m_errorMessage.clear();
 
 	// > 空校验
@@ -364,8 +363,8 @@ void P_COAS_StatePart::checkData_StateDataList(QList<QJsonObject> stateDataList)
 	QStringList name_list;
 	QStringList repeatName_list;
 	for (int i = 0; i < stateDataList.count(); i++){
-		QJsonObject stateData = stateDataList.at(i);
-		QString name = stateData["状态元名称"].toString();
+		C_COAS_StatePtr stateData = stateDataList.at(i);
+		QString name = stateData->name;
 		if (name == ""){ continue; }
 		if (name_list.contains(name)){
 			if (repeatName_list.contains(name)){ continue; }
@@ -387,7 +386,7 @@ QStringList P_COAS_StatePart::checkData_getErrorMessage(){
 /*-------------------------------------------------
 		窗口 - 设置数据
 */
-void P_COAS_StatePart::setData(QList<QJsonObject> stateDataList) {
+void P_COAS_StatePart::setData(QList<C_COAS_StatePtr> stateDataList) {
 	this->m_slotBlock_source = true;
 
 	// > 状态元表格
@@ -395,7 +394,7 @@ void P_COAS_StatePart::setData(QList<QJsonObject> stateDataList) {
 	if (this->m_stateDataList.count() == 0){
 		int data_count = S_ActionSeqDataContainer::getInstance()->getActionSeqLength().realLen_state;
 		for (int i = 0; i < data_count; i++){
-			this->m_stateDataList.append(QJsonObject());
+			this->m_stateDataList.append(C_COAS_StatePtr::create());
 		}
 	}
 
@@ -407,12 +406,8 @@ void P_COAS_StatePart::setData(QList<QJsonObject> stateDataList) {
 /*-------------------------------------------------
 		窗口 - 取出数据
 */
-QList<QJsonObject> P_COAS_StatePart::getData(){
+QList<C_COAS_StatePtr> P_COAS_StatePart::getData(){
 	this->putUiToData();
-
-	// > 校验
-	//...
-	
 	return this->m_stateDataList;
 }
 /*-------------------------------------------------

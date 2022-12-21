@@ -125,8 +125,8 @@ void P_COAS_StateNodePart::btn_editTagTank(){
 		控件 - 打开状态节点关系表
 */
 void P_COAS_StateNodePart::btn_RelationTable(){
-	QList<QJsonObject> stateData = this->m_P_COAS_StatePart->getData();
-	QList<QJsonObject> stateNodeData = this->getData();
+	QList<C_COAS_StatePtr> stateData = this->m_P_COAS_StatePart->getData();
+	QList<C_COAS_StateNodePtr> stateNodeData = this->getData();
 	this->m_P_COAS_StatePart->checkData_StateDataList(stateData);
 	this->checkData_StateNodeDataList(stateData, stateNodeData);
 	QStringList error_state = this->m_P_COAS_StatePart->checkData_getErrorMessage();
@@ -172,8 +172,8 @@ void P_COAS_StateNodePart::btn_RelationTable(){
 		控件 - 检查状态节点
 */
 void P_COAS_StateNodePart::btn_checkData(){
-	QList<QJsonObject> stateData = this->m_P_COAS_StatePart->getData();
-	QList<QJsonObject> stateNodeData = this->getData();
+	QList<C_COAS_StatePtr> stateData = this->m_P_COAS_StatePart->getData();
+	QList<C_COAS_StateNodePtr> stateNodeData = this->getData();
 	this->m_P_COAS_StatePart->checkData_StateDataList(stateData);
 	this->checkData_StateNodeDataList(stateData, stateNodeData);
 	QStringList error_state = this->m_P_COAS_StatePart->checkData_getErrorMessage();
@@ -229,7 +229,8 @@ void P_COAS_StateNodePart::refreshTagTank(){
 QStringList P_COAS_StateNodePart::getNameList(){
 	QStringList result = QStringList();
 	for (int i = 0; i < this->m_stateNodeDataList.count(); i++){
-		result.append(this->m_stateNodeDataList.at(i).value("节点名称").toString());
+		C_COAS_StateNodePtr node_ptr = this->m_stateNodeDataList.at(i);
+		result.append(node_ptr->name);
 	}
 	return result;
 }
@@ -366,7 +367,8 @@ void P_COAS_StateNodePart::op_replace(int index, QJsonObject state){
 	S_ProjectManager::getInstance()->setDirty();
 
 	// > 执行替换
-	this->m_stateNodeDataList.replace(index, state);
+	C_COAS_StateNodePtr node_ptr = this->m_stateNodeDataList.at(index);
+	node_ptr->setJsonObject_Chinese(state, index);
 	this->local_loadIndexData(index);
 
 	// > 更新表格的名称
@@ -383,7 +385,8 @@ void P_COAS_StateNodePart::op_clear(int index){
 	S_ProjectManager::getInstance()->setDirty();
 
 	// > 执行替换
-	this->m_stateNodeDataList.replace(index, QJsonObject());
+	C_COAS_StateNodePtr node_ptr = this->m_stateNodeDataList.at(index);
+	node_ptr->clearData();
 	this->local_loadIndexData(index);
 
 	// > 更新表格的名称
@@ -395,7 +398,8 @@ void P_COAS_StateNodePart::op_clear(int index){
 void P_COAS_StateNodePart::shortcut_copyData(){
 	if (ui.tableWidget->hasFocus() == false){ return; }
 	if (this->m_last_index == -1 ){ return; }
-	this->m_copyed_data = this->m_stateNodeDataList.at(m_last_index);
+	C_COAS_StateNodePtr node_ptr = this->m_stateNodeDataList.at(this->m_last_index);
+	this->m_copyed_data = node_ptr->getJsonObject_Chinese();
 	this->m_table->setItemOuterControl_PasteActive(true);		//激活粘贴
 }
 /*-------------------------------------------------
@@ -423,31 +427,30 @@ void P_COAS_StateNodePart::local_saveCurIndexData(){
 	if (this->m_last_index < 0){ return; }
 	if (this->m_last_index >= this->m_stateNodeDataList.count()){ return; }
 
-	// > 表单数据
-		QJsonObject obj_edit;
-		obj_edit.insert("节点名称", ui.lineEdit_name->text());
-		obj_edit.insert("节点标签", TTool::_JSON_stringify_(this->m_curTagTank));
-		obj_edit.insert("节点优先级", QString::number(ui.spinBox_priority->value()));
-		obj_edit.insert("节点权重", QString::number(ui.spinBox_proportion->value()));
-		obj_edit.insert("可被动作元打断", ui.checkBox_canBeInterrupted->isChecked() ? "true" : "false");
-		obj_edit.insert("备注", ui.plainTextEdit_note->toPlainText());
-	QJsonObject obj_org = this->m_stateNodeDataList.at(this->m_last_index);
-	TTool::_QJsonObject_put_(&obj_org, obj_edit);
+	// > 直接对数据指针进行赋值
+	C_COAS_StateNodePtr node_ptr = this->m_stateNodeDataList.at(this->m_last_index);
 
-	// > 播放方式
-		QJsonObject obj_play;
-		obj_play.insert("播放方式", ui.comboBox_playType->currentText());
-		obj_play.insert("随机播放状态元", TTool::_JSON_stringify_(this->m_curStateNameList));
-		obj_play.insert("顺序播放状态元", TTool::_JSON_stringify_(this->m_curStateNameList));
-		obj_play.insert("随机播放嵌套集合", TTool::_JSON_stringify_(this->m_curNodeNameList));
-		obj_play.insert("顺序播放嵌套集合", TTool::_JSON_stringify_(this->m_curNodeNameList));
-		obj_play.insert("随机播放的次数上限", QString::number(ui.spinBox_randomMax->value()));
-	TTool::_QJsonObject_put_(&obj_org, obj_play);
+	// > 常规
+	node_ptr->name = ui.lineEdit_name->text();
+	node_ptr->tag_tank = this->m_curTagTank;
+	node_ptr->priority = ui.spinBox_priority->value();
+	node_ptr->proportion = ui.spinBox_proportion->value();
+	node_ptr->canBeInterrupted = ui.checkBox_canBeInterrupted->isChecked();
+
+	// > 播放列表
+	node_ptr->play_type = ui.comboBox_playType->currentText();
+	node_ptr->play_randomStateSeq = this->m_curStateNameList;
+	node_ptr->play_plainStateSeq = this->m_curStateNameList;
+	node_ptr->play_randomNodeSeq = this->m_curNodeNameList;
+	node_ptr->play_plainNodeSeq = this->m_curNodeNameList;
+	node_ptr->play_randomMax = ui.spinBox_randomMax->value();
+
+	// > 杂项
+	node_ptr->note = ui.plainTextEdit_note->toPlainText();
+
 
 	// > 编辑标记
 	S_ProjectManager::getInstance()->setDirty();
-
-	this->m_stateNodeDataList.replace(this->m_last_index, obj_org);
 }
 /*-------------------------------------------------
 		数据 - 读取本地数据
@@ -456,33 +459,37 @@ void P_COAS_StateNodePart::local_loadIndexData(int index){
 	if (index < 0){ return; }
 	if (index >= this->m_stateNodeDataList.count()){ return; }
 
-	// > 表单数据
-	QJsonObject obj_data = this->m_stateNodeDataList.at(index);
-	//qDebug() << obj_data;
-		ui.lineEdit_name->setText(obj_data.value("节点名称").toString());
-		this->m_curTagTank = TTool::_JSON_parse_To_QListQString_(obj_data.value("节点标签").toString());
-		this->refreshTagTank();
-		ui.spinBox_priority->setValue(obj_data.value("节点优先级").toString().toInt());
-		ui.spinBox_proportion->setValue(obj_data.value("节点权重").toString().toInt());
-		ui.checkBox_canBeInterrupted->setChecked(obj_data.value("可被动作元打断").toString() == "true");
-		ui.plainTextEdit_note->setPlainText(obj_data.value("备注").toString());
+	// > 直接数据指针中读取值
+	C_COAS_StateNodePtr node_ptr = this->m_stateNodeDataList.at(index);
 
-	// > 播放方式
-		ui.comboBox_playType->setCurrentText(obj_data.value("播放方式").toString());
+	// > 常规
+	ui.lineEdit_name->setText(node_ptr->name);
+	this->m_curTagTank = node_ptr->tag_tank;
+	this->refreshTagTank();
+	ui.spinBox_priority->setValue(node_ptr->priority);
+	ui.spinBox_proportion->setValue(node_ptr->proportion);
+	ui.checkBox_canBeInterrupted->setChecked(node_ptr->canBeInterrupted);
 
-		QStringList arr = TTool::_JSON_parse_To_QListQString_(obj_data.value("随机播放状态元").toString());
-		if (arr.isEmpty()){ arr = TTool::_JSON_parse_To_QListQString_(obj_data.value("顺序播放状态元").toString()); }
-		this->m_curStateNameList = arr;
-		TTool::_QStringList_clearEmptyRows_(&this->m_curStateNameList);
-		
-		QStringList arr2 = TTool::_JSON_parse_To_QListQString_(obj_data.value("随机播放嵌套集合").toString());
-		if (arr2.isEmpty()){ arr2 = TTool::_JSON_parse_To_QListQString_(obj_data.value("顺序播放嵌套集合").toString()); }
-		this->m_curNodeNameList = arr2;
-		TTool::_QStringList_clearEmptyRows_(&this->m_curNodeNameList);
-		this->playTypeChanged();
-		
-		ui.spinBox_randomMax->setValue(obj_data.value("随机播放的次数上限").toString().toInt());
+	// > 播放列表
+	ui.comboBox_playType->setCurrentText(node_ptr->play_type);
 
+	QStringList name_list = node_ptr->play_randomStateSeq;
+	if (name_list.isEmpty()){ name_list = node_ptr->play_plainStateSeq; }
+	this->m_curStateNameList = name_list;
+	TTool::_QStringList_clearEmptyRows_(&this->m_curStateNameList);
+
+	QStringList name_list2 = node_ptr->play_randomNodeSeq;
+	if (name_list2.isEmpty()){ name_list2 = node_ptr->play_plainNodeSeq; }
+	this->m_curNodeNameList = name_list2;
+	TTool::_QStringList_clearEmptyRows_(&this->m_curNodeNameList);
+
+	this->playTypeChanged();	//（刷新内容）
+
+	ui.spinBox_randomMax->setValue(node_ptr->play_randomMax);
+
+	// > 杂项
+	ui.plainTextEdit_note->setPlainText(node_ptr->note);
+	
 	this->m_last_index = index;
 }
 
@@ -491,7 +498,7 @@ void P_COAS_StateNodePart::local_loadIndexData(int index){
 /*-------------------------------------------------
 		数据检查 - 执行检查
 */
-void P_COAS_StateNodePart::checkData_StateNodeDataList(QList<QJsonObject> stateDataList, QList<QJsonObject> stateNodeDataList){
+void P_COAS_StateNodePart::checkData_StateNodeDataList(QList<C_COAS_StatePtr> stateDataList, QList<C_COAS_StateNodePtr> stateNodeDataList){
 	this->m_errorMessage.clear();
 	this->m_temp_stateNodeDataList = stateNodeDataList;
 
@@ -502,8 +509,8 @@ void P_COAS_StateNodePart::checkData_StateNodeDataList(QList<QJsonObject> stateD
 	QStringList name_list;
 	QStringList repeatName_list;
 	for (int i = 0; i < this->m_temp_stateNodeDataList.count(); i++){
-		QJsonObject nodeData = this->m_temp_stateNodeDataList.at(i);
-		QString name = nodeData["节点名称"].toString();
+		C_COAS_StateNodePtr node_ptr = this->m_temp_stateNodeDataList.at(i);
+		QString name = node_ptr->name;
 		if (name == ""){ continue; }
 		if (name_list.contains(name)){
 			if (repeatName_list.contains(name)){ continue; }
@@ -518,16 +525,15 @@ void P_COAS_StateNodePart::checkData_StateNodeDataList(QList<QJsonObject> stateD
 	// > 自连接校验
 	QStringList connectSelfName_list;
 	for (int i = 0; i < this->m_temp_stateNodeDataList.count(); i++){
-		QJsonObject nodeData = this->m_temp_stateNodeDataList.at(i);
-		QString name = nodeData["节点名称"].toString();
+		C_COAS_StateNodePtr node_ptr = this->m_temp_stateNodeDataList.at(i);
+		QString name = node_ptr->name;
 		if (name == ""){ continue; }
 		QStringList n_name_list;
-		QString play_type = nodeData["播放方式"].toString();
-		if (play_type == "随机播放嵌套集合"){
-			n_name_list = TTool::_JSON_parse_To_QListQString_(nodeData["随机播放嵌套集合"].toString());
+		if (node_ptr->play_type == "随机播放嵌套集合"){
+			n_name_list = node_ptr->play_randomNodeSeq;
 		}
-		if (play_type == "顺序播放嵌套集合"){
-			n_name_list = TTool::_JSON_parse_To_QListQString_(nodeData["顺序播放嵌套集合"].toString());
+		if (node_ptr->play_type == "顺序播放嵌套集合"){
+			n_name_list = node_ptr->play_plainNodeSeq;
 		}
 		if (n_name_list.contains(name)){
 			if (connectSelfName_list.contains(name)){ continue; }
@@ -541,23 +547,22 @@ void P_COAS_StateNodePart::checkData_StateNodeDataList(QList<QJsonObject> stateD
 	// > 状态元对应校验
 	QStringList stateName_list;
 	for (int i = 0; i < stateDataList.count(); i++){
-		QJsonObject stateData = stateDataList.at(i);
-		QString name = stateData["状态元名称"].toString();
+		C_COAS_StatePtr stateData = stateDataList.at(i);
+		QString name = stateData->name;
 		if (name == ""){ continue; }
 		stateName_list.append(name);
 	}
 	for (int i = 0; i < this->m_temp_stateNodeDataList.count(); i++){
-		QJsonObject nodeData = this->m_temp_stateNodeDataList.at(i);
-		QString name = nodeData["节点名称"].toString();
+		C_COAS_StateNodePtr node_ptr = this->m_temp_stateNodeDataList.at(i);
+		QString name = node_ptr->name;
 		if (name == ""){ continue; }
 		QStringList missName_list;
 		QStringList s_name_list;
-		QString play_type = nodeData["播放方式"].toString();
-		if (play_type == "随机播放状态元"){
-			s_name_list = TTool::_JSON_parse_To_QListQString_(nodeData["随机播放状态元"].toString());
+		if (node_ptr->play_type == "随机播放状态元"){
+			s_name_list = node_ptr->play_randomStateSeq;
 		}
-		if (play_type == "顺序播放状态元"){
-			s_name_list = TTool::_JSON_parse_To_QListQString_(nodeData["顺序播放状态元"].toString());
+		if (node_ptr->play_type == "顺序播放状态元"){
+			s_name_list = node_ptr->play_plainStateSeq;
 		}
 		for (int j = 0; j < s_name_list.count(); j++){
 			QString s_name = s_name_list.at(j);
@@ -573,46 +578,44 @@ void P_COAS_StateNodePart::checkData_StateNodeDataList(QList<QJsonObject> stateD
 
 	// > 死循环校验
 	for (int i = 0; i < this->m_temp_stateNodeDataList.count(); i++){
-		QJsonObject nodeData = this->m_temp_stateNodeDataList.at(i);
-		QString name = nodeData["节点名称"].toString();
+		C_COAS_StateNodePtr node_ptr = this->m_temp_stateNodeDataList.at(i);
+		QString name = node_ptr->name;
 		if (name == ""){ continue; }
 		qDebug() << "死循环校验-状态节点：" << name;
 
 		// > 递归添加节点
-		this->searchNode_Recursion(nodeData, 1);
+		this->searchNode_Recursion(node_ptr, 1);
 	}
 
 }
 /*-------------------------------------------------
 		数据检查 - 递归检查节点
 */
-void P_COAS_StateNodePart::searchNode_Recursion(QJsonObject nodeData, int layer_deep){
+void P_COAS_StateNodePart::searchNode_Recursion(C_COAS_StateNodePtr nodeData_ptr, int layer_deep){
 	if (layer_deep > 20){
 		this->m_errorMessage.append("状态节点的嵌套中存在死循环，请重新检查状态节点的嵌套情况。");
 		return;
 	}
 
 	// > 子节点为状态元
-	QString play_type = nodeData["播放方式"].toString();
-	if (play_type == "随机播放状态元" || play_type == "顺序播放状态元"){
+	if (nodeData_ptr->play_type == "随机播放状态元" || nodeData_ptr->play_type == "顺序播放状态元"){
 		return;
 	}
 
 	// > 子节点为状态节点
 	QStringList n_name_list;
-	if (play_type == "随机播放嵌套集合"){
-		n_name_list = TTool::_JSON_parse_To_QListQString_(nodeData["随机播放嵌套集合"].toString());
+	if (nodeData_ptr->play_type == "随机播放嵌套集合"){
+		n_name_list = nodeData_ptr->play_randomNodeSeq;
 	}
-	if (play_type == "顺序播放嵌套集合"){
-		n_name_list = TTool::_JSON_parse_To_QListQString_(nodeData["顺序播放嵌套集合"].toString());
+	if (nodeData_ptr->play_type == "顺序播放嵌套集合"){
+		n_name_list = nodeData_ptr->play_plainNodeSeq;
 	}
 	for (int i = 0; i < n_name_list.count(); i++){
 		QString n_name = n_name_list.at(i);
 		for (int j = 0; j < this->m_temp_stateNodeDataList.count(); j++){
-			QJsonObject obj = this->m_temp_stateNodeDataList.at(j);
-			QString name = obj["节点名称"].toString();
-			if (n_name == name){
-				this->searchNode_Recursion(obj, layer_deep+1);
+			C_COAS_StateNodePtr next_ptr = this->m_temp_stateNodeDataList.at(j);
+			if (n_name == next_ptr->name){
+				this->searchNode_Recursion(next_ptr, layer_deep + 1);
 				break;
 			}
 		}
@@ -629,7 +632,7 @@ QStringList P_COAS_StateNodePart::checkData_getErrorMessage(){
 /*-------------------------------------------------
 		窗口 - 设置数据
 */
-void P_COAS_StateNodePart::setData(QList<QJsonObject> stateNodeDataList) {
+void P_COAS_StateNodePart::setData(QList<C_COAS_StateNodePtr> stateNodeDataList) {
 	this->m_slotBlock_source = true;
 
 	// > 状态节点表格
@@ -637,7 +640,7 @@ void P_COAS_StateNodePart::setData(QList<QJsonObject> stateNodeDataList) {
 	if (this->m_stateNodeDataList.count() == 0){
 		int data_count = S_ActionSeqDataContainer::getInstance()->getActionSeqLength().realLen_stateNode;
 		for (int i = 0; i < data_count; i++){
-			this->m_stateNodeDataList.append(QJsonObject());
+			this->m_stateNodeDataList.append(C_COAS_StateNodePtr());
 		}
 	}
 
@@ -648,12 +651,8 @@ void P_COAS_StateNodePart::setData(QList<QJsonObject> stateNodeDataList) {
 /*-------------------------------------------------
 		窗口 - 取出数据
 */
-QList<QJsonObject> P_COAS_StateNodePart::getData(){
+QList<C_COAS_StateNodePtr> P_COAS_StateNodePart::getData(){
 	this->putUiToData();
-
-	// > 校验
-	//...
-	
 	return this->m_stateNodeDataList;
 }
 /*-------------------------------------------------

@@ -2,6 +2,8 @@
 #include "stdafx.h"
 
 #include "../ActionPart/C_COAS_Action.h"
+#include "../StatePart/C_COAS_State.h"
+#include "../StateNodePart/C_COAS_StateNode.h"
 
 /*
 -----==========================================================-----
@@ -27,8 +29,8 @@ class C_COAS_Data{
 		QString m_COAS_type;					//类型
 		QStringList m_state_default_randomSeq;
 		QList<C_COAS_ActionPtr> m_act_tank;
-		QList<QJsonObject> m_state_tank;
-		QList<QJsonObject> m_stateNode_tank;
+		QList<C_COAS_StatePtr> m_state_tank;
+		QList<C_COAS_StateNodePtr> m_stateNode_tank;
 	public:
 								//数据 - 清除数据
 		void clearTankData();

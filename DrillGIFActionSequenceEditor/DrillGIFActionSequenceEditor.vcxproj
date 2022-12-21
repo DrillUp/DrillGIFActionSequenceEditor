@@ -759,8 +759,9 @@
     <ClCompile Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_StateController.cpp" />
     <ClCompile Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_StateNodeController.cpp" />
     <ClCompile Include="Source\ActionSeqModule\StateNodePart\C_COAS_StateNode.cpp" />
-    <ClCompile Include="Source\ActionSeqModule\StateNodePart\C_COAS_StateNodeFactory.cpp" />
     <ClCompile Include="Source\ActionSeqModule\StateNodePart\P_COAS_StateNodePart.cpp" />
+    <ClCompile Include="Source\ActionSeqModule\StateNodePart\RelationTable\C_COAS_StateNodeRelation.cpp" />
+    <ClCompile Include="Source\ActionSeqModule\StateNodePart\RelationTable\C_COAS_StateNodeRelationFactory.cpp" />
     <ClCompile Include="Source\ActionSeqModule\StateNodePart\RelationTable\W_COAS_StateNodeRelationTable.cpp" />
     <ClCompile Include="Source\ActionSeqModule\StatePart\C_COAS_State.cpp" />
     <ClCompile Include="Source\ActionSeqModule\StatePart\P_COAS_StatePart.cpp" />
@@ -1107,8 +1108,6 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp" "-fstdafx.h" "-f../../Source/ActionSeqModule/StatePart/P_COAS_StatePart.h"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_SVG_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtSvg"</Command>
     </CustomBuild>
-    <ClInclude Include="Source\ActionSeqModule\StateNodePart\C_COAS_StateNode.h" />
-    <ClInclude Include="Source\ActionSeqModule\StateNodePart\C_COAS_StateNodeFactory.h" />
     <CustomBuild Include="Source\ActionSeqModule\StateNodePart\P_COAS_StateNodePart.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing P_COAS_StateNodePart.h...</Message>
@@ -1145,6 +1144,9 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp" "-fstdafx.h" "-f../../Source/ActionSeqModule/StateNodePart/RelationTable/W_COAS_StateNodeRelationTable.h"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_SVG_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtSvg"</Command>
     </CustomBuild>
+    <ClInclude Include="Source\ActionSeqModule\StateNodePart\C_COAS_StateNode.h" />
+    <ClInclude Include="Source\ActionSeqModule\StateNodePart\RelationTable\C_COAS_StateNodeRelation.h" />
+    <ClInclude Include="Source\ActionSeqModule\StateNodePart\RelationTable\C_COAS_StateNodeRelationFactory.h" />
     <ClInclude Include="Source\ActionSeqModule\StatePart\C_COAS_State.h" />
     <ClInclude Include="Source\DllModule\cximagecrt_drill\src_header\s_cximageManager.h" />
     <CustomBuild Include="Source\GraphModule\Item\GridLineItem\P_GridLineItem.h">

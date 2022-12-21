@@ -61,8 +61,8 @@ QJsonObject C_COAS_Data::getJsonObject_Chinese(){
 	// > 默认状态元集合
 	if (this->m_state_default_randomSeq.count() == 0){		//（如果为空则自动填充）
 		for (int i = 0; i < this->m_state_tank.count(); i++){
-			QJsonObject obj = this->m_state_tank.at(i);
-			QString state_name = obj.value("状态元名称").toString();
+			C_COAS_StatePtr state_ptr = this->m_state_tank.at(i);
+			QString state_name = state_ptr->name;
 			if (state_name != ""){
 				this->m_state_default_randomSeq.append(state_name);
 				break;
@@ -79,15 +79,17 @@ QJsonObject C_COAS_Data::getJsonObject_Chinese(){
 	}
 
 	// > 状态元列表
-	QStringList stateTank_str = TTool::_QList_QJsonObjectToQString_(this->m_state_tank);
-	for (int i = 0; i < stateTank_str.count(); i++){
-		obj_actionSeq.insert("状态元-" + QString::number(i + 1), stateTank_str.at(i));
+	for (int i = 0; i < this->m_state_tank.count(); i++){
+		C_COAS_StatePtr state_ptr = this->m_state_tank.at(i);
+		QJsonObject obj = state_ptr->getJsonObject_Chinese();
+		obj_actionSeq.insert("状态元-" + QString::number(i + 1), TTool::_JSON_stringify_(obj));
 	}
 
 	// > 状态节点列表
-	QStringList stateNodeTank_str = TTool::_QList_QJsonObjectToQString_(this->m_stateNode_tank);
-	for (int i = 0; i < stateNodeTank_str.count(); i++){
-		obj_actionSeq.insert("状态节点-" + QString::number(i + 1), stateNodeTank_str.at(i));
+	for (int i = 0; i < this->m_stateNode_tank.count(); i++){
+		C_COAS_StateNodePtr node_ptr = this->m_stateNode_tank.at(i);
+		QJsonObject obj = node_ptr->getJsonObject_Chinese();
+		obj_actionSeq.insert("状态节点-" + QString::number(i + 1), obj);
 	}
 
 	return obj_actionSeq;
@@ -118,18 +120,20 @@ void C_COAS_Data::setJsonObject_Chinese(QJsonObject obj_actionSeq){
 	};
 
 	// > 状态元列表
-	QStringList stateTank_str = QStringList();
+	this->m_state_tank.clear();
 	for (int i = 0; i < S_ActionSeqDataContainer::getInstance()->getActionSeqLength().realLen_state; i++){
-		QJsonValue value = obj_actionSeq.value("状态元-" + QString::number(i + 1));
-		stateTank_str.append(value.toString());
-	}
-	this->m_state_tank = TTool::_QList_QStringToQJsonObject_(stateTank_str);
+		QString state_str = obj_actionSeq.value("状态元-" + QString::number(i + 1)).toString();
+		C_COAS_StatePtr state_ptr = C_COAS_StatePtr::create();
+		state_ptr->setJsonObject_Chinese(TTool::_JSON_parse_To_Obj_(state_str), i);
+		this->m_state_tank.append(state_ptr);
+	};
 
 	// > 状态节点列表
-	QStringList stateNodeTank_str = QStringList();
+	this->m_stateNode_tank.clear();
 	for (int i = 0; i < S_ActionSeqDataContainer::getInstance()->getActionSeqLength().realLen_stateNode; i++){
-		QJsonValue value = obj_actionSeq.value("状态节点-" + QString::number(i + 1));
-		stateNodeTank_str.append(value.toString());
+		QString stateNode_str = obj_actionSeq.value("状态节点-" + QString::number(i + 1)).toString();
+		C_COAS_StateNodePtr stateNode_ptr = C_COAS_StateNodePtr::create();
+		stateNode_ptr->setJsonObject_Chinese(TTool::_JSON_parse_To_Obj_(stateNode_str), i);
+		this->m_stateNode_tank.append(stateNode_ptr);
 	}
-	this->m_stateNode_tank = TTool::_QList_QStringToQJsonObject_(stateNodeTank_str);
 }

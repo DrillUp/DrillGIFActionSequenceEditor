@@ -4,6 +4,7 @@
 #include <QtWidgets>
 #include "ui_P_COAS_StatePart.h"
 
+#include "C_COAS_State.h"
 #include "Source/GraphModule/Widget/AnimPictureViewer/P_AnimPictureViewer.h"
 
 #include "Source/Utils/WidgetForm/RadioTable/P_RadioTable.h"
@@ -93,7 +94,7 @@ class P_COAS_StatePart : public QWidget
 	public:
 										//数据检查 - 执行检查
 										//		【说明】：此函数被父控件调用，当前控件不检查。
-		void checkData_StateDataList(QList<QJsonObject> stateDataList);
+		void checkData_StateDataList(QList<C_COAS_StatePtr> stateDataList);
 										//数据检查 - 获取检查信息
 		QStringList checkData_getErrorMessage();
 
@@ -101,14 +102,14 @@ class P_COAS_StatePart : public QWidget
 	//----窗口
 	public:
 		bool m_slotBlock_source;
-		QList<QJsonObject> m_stateDataList;
+		QList<C_COAS_StatePtr> m_stateDataList;
 	public:
 										//窗口 - 设置数据
 										//		【说明】：动作元只编辑数组元素，不改变数组长度。
-		void setData(QList<QJsonObject> stateDataList);
+		void setData(QList<C_COAS_StatePtr> stateDataList);
 										//窗口 - 取出数据
 										//		【说明】：外部接收后，还需要手动打包内容。
-		QList<QJsonObject> getData();
+		QList<C_COAS_StatePtr> getData();
 										//窗口 - 本地数据 -> ui数据
 		void putDataToUi();							
 										//窗口 - ui数据 -> 本地数据

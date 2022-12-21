@@ -249,13 +249,8 @@ QList<QFileInfo> S_ActionSeqDataContainer::getAllRelatedFile(){
 
 		// > 状态元资源
 		for (int j = 0; j < data->m_state_tank.count(); j++){
-			QJsonObject obj_state = data->m_state_tank.at(j);
-
-			// > 三层字符串解封
-			QString str_src = obj_state.value("资源-状态元").toString();
-			QStringList src_list = TTool::_JSON_parse_To_QListQString_(str_src);
-
-			fileName_list.append(src_list);
+			C_COAS_StatePtr state_ptr = data->m_state_tank.at(j);
+			fileName_list.append(state_ptr->gif_src);
 		}
 	}
 

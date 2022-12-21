@@ -270,9 +270,6 @@
     <Filter Include="源文件\【 工具箱 Utils】\辅助操作器（operater）\双表格字符串填写器">
       <UniqueIdentifier>{e0da4532-5bcc-491c-a213-744a5aad28a7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点关系表">
-      <UniqueIdentifier>{3fd7385c-2f28-41ad-97d8-ba909296f49e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（常规无向图）">
       <UniqueIdentifier>{f6674312-1fb5-43c6-bd0c-fc953203b2a1}</UniqueIdentifier>
     </Filter>
@@ -284,6 +281,9 @@
     </Filter>
     <Filter Include="源文件\【 动画序列 ActionSeqModule】\动画序列块\默认的状态元集合">
       <UniqueIdentifier>{1ebfb5f8-a24a-49a8-a3f1-37aef24aa4e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点_关系表">
+      <UniqueIdentifier>{3fd7385c-2f28-41ad-97d8-ba909296f49e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1040,14 +1040,8 @@
     <ClCompile Include="GeneratedFiles\Release\moc_P_COAS_StateNodePart.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ActionSeqModule\StateNodePart\C_COAS_StateNode.cpp">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点_树图</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ActionSeqModule\StateNodePart\C_COAS_StateNodeFactory.cpp">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点_树图</Filter>
-    </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\StateNodePart\RelationTable\W_COAS_StateNodeRelationTable.cpp">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点关系表</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点_关系表</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_W_COAS_StateNodeRelationTable.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -1060,6 +1054,15 @@
     </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\StatePart\C_COAS_State.cpp">
       <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态元块</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ActionSeqModule\StateNodePart\RelationTable\C_COAS_StateNodeRelation.cpp">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点_树图</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ActionSeqModule\StateNodePart\RelationTable\C_COAS_StateNodeRelationFactory.cpp">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点_树图</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ActionSeqModule\StateNodePart\C_COAS_StateNode.cpp">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1382,10 +1385,10 @@
       <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\StateNodePart\RelationTable\W_COAS_StateNodeRelationTable.h">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点关系表</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点_关系表</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\StateNodePart\RelationTable\W_COAS_StateNodeRelationTable.ui">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点关系表</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点_关系表</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -1590,12 +1593,6 @@
     <ClInclude Include="GeneratedFiles\ui_P_COAS_StateNodePart.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ActionSeqModule\StateNodePart\C_COAS_StateNode.h">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点_树图</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ActionSeqModule\StateNodePart\C_COAS_StateNodeFactory.h">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点_树图</Filter>
-    </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_W_COAS_StateNodeRelationTable.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
@@ -1604,6 +1601,15 @@
     </ClInclude>
     <ClInclude Include="Source\ActionSeqModule\StatePart\C_COAS_State.h">
       <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态元块</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ActionSeqModule\StateNodePart\RelationTable\C_COAS_StateNodeRelation.h">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点_树图</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ActionSeqModule\StateNodePart\RelationTable\C_COAS_StateNodeRelationFactory.h">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点_树图</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ActionSeqModule\StateNodePart\C_COAS_StateNode.h">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

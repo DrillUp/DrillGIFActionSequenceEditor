@@ -1,81 +1,55 @@
 ﻿#pragma once
 #include "stdafx.h"
 
-#include <QObject>
-#include "Source/Utils/WidgetFormSenior/NodeDataOfTree/C_TreeNode.h"
 
 /*
 -----==========================================================-----
-		类：		状态节点（图数据）.h
+		类：		状态节点 数据类.h
 		作者：		drill_up
-		所属模块：	工具模块
-		功能：		定义一个状态节点，用于存放状态节点、状态元数据。
-					功能基于 树节点，能进行树功能的解析。
+		所属模块：	动画序列模块
+		功能：		状态节点 的数据类。
 					（详细见cpp）
 -----==========================================================-----
 */
-class C_COAS_StateNodeFactory;
 CLASS_PTR(C_COAS_StateNode);
-class C_COAS_StateNode : public C_TreeNode{
+class C_COAS_StateNode{
 
 	public:
-							//【此类需要通过工厂来创建】
-		C_COAS_StateNode(QString id, QString factory_id, QString nodeName);	//构造函数
-		~C_COAS_StateNode();													//析构函数
+		C_COAS_StateNode();
+		~C_COAS_StateNode();
 		
-
 	//-----------------------------------
-	//----状态节点
-	protected:
-		bool m_isObjData_State;			//状态元数据
-		bool m_isObjData_StateNode;		//状态节点数据
-		QJsonObject m_curObjData;		//当前数据
+	//----数据
 	public:
-										//状态节点 - 设置状态元数据
-		void setObjData_State(QJsonObject data);
-										//状态节点 - 设置状态节点数据
-		void setObjData_StateNode(QJsonObject data);
-		
-										//状态节点 - 是否为状态元数据
-		bool isObjData_State();
-										//状态节点 - 是否为状态节点数据
-		bool isObjData_StateNode();
-										//状态节点 - 播放类型 - 状态元
-		bool isPlayType_State();
-										//状态节点 - 播放类型 - 状态节点
-		bool isPlayType_StateNode();
-										//状态节点 - 获取子节点 - 状态元
-		QStringList getChildList_State();
-										//状态节点 - 获取子节点 - 状态节点
-		QStringList getChildList_StateNode();
-										//状态节点 - 获取节点描述
-		QString getNodeDescription();
+		int id;								//序号
 
-	//-----------------------------------
-	//----类
+		QString name;						//常规 - 节点名称
+		QStringList tag_tank;				//常规 - 节点标签
+		int priority;						//常规 - 节点优先级
+		int proportion;						//常规 - 节点权重
+		bool canBeInterrupted;				//常规 - 可被动作元打断
+
+		QString play_type;					//播放列表 - 播放方式
+		QStringList play_randomStateSeq;	//播放列表 - 随机播放状态元
+		QStringList play_plainStateSeq;		//播放列表 - 顺序播放状态元
+		QStringList play_randomNodeSeq;		//播放列表 - 随机播放嵌套集合
+		QStringList play_plainNodeSeq;		//播放列表 - 顺序播放嵌套集合
+		int play_randomMax;					//播放列表 - 随机播放的次数上限
+
+		QString note;						//杂项 - 备注
 	public:
-										//类 - 获取类名
-		virtual QStringList classInherited() override;
-										//类 - 判断类
-		bool isClass_StateTreeNode();
-	protected:
-										//类 - 创建自己
-		virtual C_TreeNodePtr _factoryTree_newNode() override;
-										//类 - 获取类
-		virtual C_TreeNodePtr _factoryTree_getNodeById(QString node_id) override;
-										//类 - 获取工厂
-		virtual QSharedPointer<C_TreeNodeFactory> _factoryTree_get() override;
+								//数据 - 清除数据
+		void clearData();
+								//数据 - 判断空节点
+		bool isEmptyNode();
 
 	//-----------------------------------
 	//----类属性
 	public:
-										//复制数据 当前类 -> 目标类
-		virtual void copyTo(C_NodePtr data_to) override;
-										//复制数据 目标类 -> 当前类
-		virtual void copyFrom(C_NodePtr data_from) override;
-										//实体类 -> QJsonObject
-		virtual QJsonObject getJsonObject() override;
-										//QJsonObject -> 实体类
-		virtual void setJsonObject(QJsonObject obj) override;
-
+								//空判断
+		bool isNull();
+								//实体类 -> QJsonObject
+		QJsonObject getJsonObject_Chinese();
+								//QJsonObject -> 实体类
+		void setJsonObject_Chinese(QJsonObject obj, int id);
 };

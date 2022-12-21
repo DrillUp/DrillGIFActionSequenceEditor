@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "stdafx.h"
 
-#include "C_COAS_StateNode.h"
+#include "C_COAS_StateNodeRelation.h"
 #include "Source/Utils/WidgetFormSenior/NodeDataOfTree/C_TreeNodeFactory.h"
 
 /*
@@ -13,14 +13,14 @@
 					（详细见cpp）
 -----==========================================================-----
 */
-CLASS_PTR(C_COAS_StateNodeFactory);
-class C_COAS_StateNodeFactory : public C_TreeNodeFactory
+CLASS_PTR(C_COAS_StateNodeRelationFactory);
+class C_COAS_StateNodeRelationFactory : public C_TreeNodeFactory
 {
 
 	public:
 							//【此类创建后，需要手动加入到容器中】
-		C_COAS_StateNodeFactory();
-		~C_COAS_StateNodeFactory();
+		C_COAS_StateNodeRelationFactory();
+		~C_COAS_StateNodeRelationFactory();
 		
 	//-----------------------------------
 	//----工厂
@@ -29,25 +29,25 @@ class C_COAS_StateNodeFactory : public C_TreeNodeFactory
 		C_TreeNodePtr createTreeNode(QString nodeName) override;
 		C_TreeNodePtr createTreeNodeEmpty() override;
 										//工厂 - 创建 状态节点
-		C_COAS_StateNodePtr createStateTreeNode(QString nodeName);
-		C_COAS_StateNodePtr createStateTreeNodeEmpty();
+		C_COAS_StateNodeRelationPtr createStateTreeNode(QString nodeName);
+		C_COAS_StateNodeRelationPtr createStateTreeNodeEmpty();
 		
 
 	//-----------------------------------
 	//----状态节点容器
 	public:
 										//类容器 - 获取 - 全部（原装）
-		QList<C_COAS_StateNodePtr> getStateTreeNode_AllOrg();
+		QList<C_COAS_StateNodeRelationPtr> getStateTreeNode_AllOrg();
 										//类容器 - 获取 - 全部
-		QList<C_COAS_StateNodePtr> getStateTreeNode_All();
+		QList<C_COAS_StateNodeRelationPtr> getStateTreeNode_All();
 										//类容器 - 获取 - 全部Id
 		QStringList getStateTreeNode_AllId();
 										//类容器 - 获取 - 全部名称
 		QStringList getStateTreeNode_AllName();
 										//类容器 - 获取 - 根据ID
-		C_COAS_StateNodePtr getStateTreeNode_ById(QString StateTreeNode_id);
+		C_COAS_StateNodeRelationPtr getStateTreeNode_ById(QString StateTreeNode_id);
 										//类容器 - 获取 - 根据名称
-		C_COAS_StateNodePtr getStateTreeNode_ByName(QString StateTreeNode_name);
+		C_COAS_StateNodeRelationPtr getStateTreeNode_ByName(QString StateTreeNode_name);
 										//类容器 - 是否含ID
 		bool hasStateTreeNode_Id(QString StateTreeNode_id);
 										//类容器 - 是否含名称

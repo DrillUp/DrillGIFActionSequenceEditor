@@ -39,8 +39,8 @@ W_COAS_StateNodeRelationTable::W_COAS_StateNodeRelationTable(QWidget *parent)
 	//----初始化参数
 	this->m_availableStateDataList.clear();
 	this->m_availableStateNodeDataList.clear();
-	this->m_C_COAS_StateNodeFactory = C_COAS_StateNodeFactoryPtr::create();
-	S_NodeFactoryContainer::getInstance()->addFactory(this->m_C_COAS_StateNodeFactory);
+	this->m_C_COAS_StateNodeRelationFactory = C_COAS_StateNodeRelationFactoryPtr::create();
+	S_NodeFactoryContainer::getInstance()->addFactory(this->m_C_COAS_StateNodeRelationFactory);
 	this->m_errorBlock = false;
 
 	//-----------------------------------
@@ -52,8 +52,8 @@ W_COAS_StateNodeRelationTable::W_COAS_StateNodeRelationTable(QWidget *parent)
 }
 
 W_COAS_StateNodeRelationTable::~W_COAS_StateNodeRelationTable(){
-	S_NodeFactoryContainer::getInstance()->removeFactory(this->m_C_COAS_StateNodeFactory->getId());
-	this->m_C_COAS_StateNodeFactory.clear();
+	S_NodeFactoryContainer::getInstance()->removeFactory(this->m_C_COAS_StateNodeRelationFactory->getId());
+	this->m_C_COAS_StateNodeRelationFactory.clear();
 }
 
 
@@ -64,17 +64,17 @@ void W_COAS_StateNodeRelationTable::refreshTable(){
 	if (this->m_errorBlock == true){ return; }
 
 	// > 构建未成功情况
-	if (this->m_C_COAS_StateNodeFactory->hasTreeRoot() == false){
+	if (this->m_C_COAS_StateNodeRelationFactory->hasTreeRoot() == false){
 		//...
 		return;
 	}
 
 	// > 列
-	int tree_deep = this->m_C_COAS_StateNodeFactory->getTreeDeep();
+	int tree_deep = this->m_C_COAS_StateNodeRelationFactory->getTreeDeep();
 	this->setTableColumnCount(tree_deep);
 
 	// > 行
-	QList<C_TreeNodePtr> leaf_list = this->m_C_COAS_StateNodeFactory->getTreeLeafAll();
+	QList<C_TreeNodePtr> leaf_list = this->m_C_COAS_StateNodeRelationFactory->getTreeLeafAll();
 	ui.tableWidget->setRowCount(leaf_list.count());
 
 	// > 动画序列
@@ -84,10 +84,10 @@ void W_COAS_StateNodeRelationTable::refreshTable(){
 
 	// > 第N层遍历（从层1开始，层0为树根，不含叶子）
 	for (int i = 1; i < tree_deep; i++){
-		QList<C_TreeNodePtr> leaf_list = this->m_C_COAS_StateNodeFactory->getTreeNode_ByDeep(i);
+		QList<C_TreeNodePtr> leaf_list = this->m_C_COAS_StateNodeRelationFactory->getTreeNode_ByDeep(i);
 		int cur_row = 0;
 		for (int j = 0; j < leaf_list.count(); j++){
-			C_COAS_StateNodePtr stateNode = leaf_list.at(j).dynamicCast<C_COAS_StateNode>();
+			C_COAS_StateNodeRelationPtr stateNode = leaf_list.at(j).dynamicCast<C_COAS_StateNodeRelation>();
 
 			// > 叶子节点 暂时不画
 			if (stateNode->isTreeLeaf()){
@@ -129,9 +129,9 @@ void W_COAS_StateNodeRelationTable::refreshTable(){
 	}
 
 	// > 叶子单独绘制
-	QList<C_TreeNodePtr> leaf_all = this->m_C_COAS_StateNodeFactory->getTreeLeafAll();
+	QList<C_TreeNodePtr> leaf_all = this->m_C_COAS_StateNodeRelationFactory->getTreeLeafAll();
 	for (int j = 0; j < leaf_all.count(); j++){
-		C_COAS_StateNodePtr stateNode = leaf_all.at(j).dynamicCast<C_COAS_StateNode>();
+		C_COAS_StateNodeRelationPtr stateNode = leaf_all.at(j).dynamicCast<C_COAS_StateNodeRelation>();
 		QWidget* w = this->createItemByNodeData(stateNode);
 		ui.tableWidget->setCellWidget(j, tree_deep-1, w);
 	}
@@ -165,7 +165,7 @@ void W_COAS_StateNodeRelationTable::setTableColumnCount(int count){
 /*-------------------------------------------------
 		控件 - 设置状态节点
 */
-QWidget* W_COAS_StateNodeRelationTable::createItemByNodeData(C_COAS_StateNodePtr node){
+QWidget* W_COAS_StateNodeRelationTable::createItemByNodeData(C_COAS_StateNodeRelationPtr node){
 	QWidget* w = new QWidget(ui.tableWidget);
 	QHBoxLayout* layout = new QHBoxLayout(w);
 	layout->setContentsMargins(10,2,10,2);
@@ -180,7 +180,7 @@ QWidget* W_COAS_StateNodeRelationTable::createItemByNodeData(C_COAS_StateNodePtr
 	layout->setStretch(0, 1);
 
 	// > 标签后缀
-	if (node->isObjData_StateNode()){
+	if (node->isPtrData_StateNode()){
 		QLabel* label_suffix = new QLabel();
 		label_suffix->setText(node->getNodeDescription());
 		label_suffix->setStyleSheet("color:#DD2222;");
@@ -198,14 +198,14 @@ void W_COAS_StateNodeRelationTable::rebuildNodeFactory(){
 	if (this->m_errorBlock == true){ return; }
 
 	// > 树根
-	C_COAS_StateNodePtr root = this->m_C_COAS_StateNodeFactory->createStateTreeNode("动画序列");
+	C_COAS_StateNodeRelationPtr root = this->m_C_COAS_StateNodeRelationFactory->createStateTreeNode("动画序列");
 
 	// > 第一层节点
 	for (int i = 0; i < this->m_availableStateNodeDataList.count(); i++){
-		QJsonObject data = this->m_availableStateNodeDataList.at(i);
-		QString name = data["节点名称"].toString();
-		C_COAS_StateNodePtr next_node = this->m_C_COAS_StateNodeFactory->createStateTreeNode(name);
-		next_node->setObjData_StateNode(this->getStateNodeByName(name));
+		C_COAS_StateNodePtr node_ptr = this->m_availableStateNodeDataList.at(i);
+		QString name = node_ptr->name;
+		C_COAS_StateNodeRelationPtr next_node = this->m_C_COAS_StateNodeRelationFactory->createStateTreeNode(name);
+		next_node->setPtrData_StateNode(this->getStateNodeByName(name));
 		next_node->connectNode(root);
 		qDebug() << "树图-创建状态节点：" << name;
 
@@ -214,22 +214,22 @@ void W_COAS_StateNodeRelationTable::rebuildNodeFactory(){
 	}
 
 	// > 树根初始化
-	if (this->m_C_COAS_StateNodeFactory->hasIsolated() == true){
+	if (this->m_C_COAS_StateNodeRelationFactory->hasIsolated() == true){
 		QMessageBox::about(nullptr, "错误", "状态节点构建时出现孤岛型嵌套，请重新检查状态节点的嵌套情况。");
 		this->m_errorBlock = true;
 		return;
 	}
-	if (this->m_C_COAS_StateNodeFactory->isTree() == false){
+	if (this->m_C_COAS_StateNodeRelationFactory->isTree() == false){
 		QMessageBox::about(nullptr, "错误", "状态节点不构成树结构，存在死循环环路，请重新检查状态节点的嵌套情况。");
 		this->m_errorBlock = true;
 		return;
 	}
-	this->m_C_COAS_StateNodeFactory->setTreeRoot(root);
+	this->m_C_COAS_StateNodeRelationFactory->setTreeRoot(root);
 }
 /*-------------------------------------------------
 		数据 - 递归添加节点
 */
-void W_COAS_StateNodeRelationTable::createNode_Recursion(C_COAS_StateNodePtr node, int layer_deep){
+void W_COAS_StateNodeRelationTable::createNode_Recursion(C_COAS_StateNodeRelationPtr node, int layer_deep){
 	// 由于状态元、状态节点存在重复的情况，因此需要递归添加重复的数据
 	if (this->m_errorBlock == true){ return; }
 	if (layer_deep > 20){
@@ -239,12 +239,12 @@ void W_COAS_StateNodeRelationTable::createNode_Recursion(C_COAS_StateNodePtr nod
 	}
 	
 	// > 状态元数据情况（叶子节点，不操作）
-	if (node->isObjData_State()){
+	if (node->isPtrData_State()){
 		return;
 	}
 	
 	// > 状态节点数据情况（继续向下递归）
-	if (node->isObjData_StateNode()){
+	if (node->isPtrData_StateNode()){
 		
 		// > 子节点为状态元
 		if (node->isPlayType_State()){
@@ -252,8 +252,8 @@ void W_COAS_StateNodeRelationTable::createNode_Recursion(C_COAS_StateNodePtr nod
 			for (int i = 0; i < name_list.count(); i++){
 				QString name = name_list.at(i);
 				qDebug() << "树图-创建状态元：" << name;
-				C_COAS_StateNodePtr next_node = this->m_C_COAS_StateNodeFactory->createStateTreeNode(name);
-				next_node->setObjData_State(this->getStateByName(name));
+				C_COAS_StateNodeRelationPtr next_node = this->m_C_COAS_StateNodeRelationFactory->createStateTreeNode(name);
+				next_node->setPtrData_State(this->getStateByName(name));
 				next_node->connectNode(node);
 				this->createNode_Recursion(next_node, layer_deep + 1);
 			}
@@ -265,8 +265,8 @@ void W_COAS_StateNodeRelationTable::createNode_Recursion(C_COAS_StateNodePtr nod
 			for (int i = 0; i < name_list.count(); i++){
 				QString name = name_list.at(i);
 				qDebug() << "树图-创建状态节点：" << name;
-				C_COAS_StateNodePtr next_node = this->m_C_COAS_StateNodeFactory->createStateTreeNode(name);
-				next_node->setObjData_StateNode(this->getStateNodeByName(name));
+				C_COAS_StateNodeRelationPtr next_node = this->m_C_COAS_StateNodeRelationFactory->createStateTreeNode(name);
+				next_node->setPtrData_StateNode(this->getStateNodeByName(name));
 				next_node->connectNode(node);
 				this->createNode_Recursion(next_node, layer_deep+1);
 			}
@@ -278,23 +278,21 @@ void W_COAS_StateNodeRelationTable::createNode_Recursion(C_COAS_StateNodePtr nod
 /*-------------------------------------------------
 		数据 - 获取状态元
 */
-QJsonObject W_COAS_StateNodeRelationTable::getStateByName(QString name){
+C_COAS_StatePtr W_COAS_StateNodeRelationTable::getStateByName(QString name){
 	for (int i = 0; i < this->m_availableStateDataList.count(); i++){
-		QJsonObject data = this->m_availableStateDataList.at(i);
-		QString data_name = data["状态元名称"].toString();
-		if (data_name == name){
-			return data;
+		C_COAS_StatePtr state_ptr = this->m_availableStateDataList.at(i);
+		if (state_ptr->name == name){
+			return state_ptr;
 		}
 	}
-	return QJsonObject();
+	return C_COAS_StatePtr();
 }
-QList<QJsonObject> W_COAS_StateNodeRelationTable::getStateByNameList(QStringList name_list){
-	QList<QJsonObject> result_list;
+QList<C_COAS_StatePtr> W_COAS_StateNodeRelationTable::getStateByNameList(QStringList name_list){
+	QList<C_COAS_StatePtr> result_list;
 	for (int i = 0; i < this->m_availableStateDataList.count(); i++){
-		QJsonObject data = this->m_availableStateDataList.at(i);
-		QString name = data["状态元名称"].toString();
-		if (name_list.contains(name)){
-			result_list.append(data);
+		C_COAS_StatePtr state_ptr = this->m_availableStateDataList.at(i);
+		if (name_list.contains(state_ptr->name)){
+			result_list.append(state_ptr);
 		}
 	}
 	return result_list;
@@ -302,23 +300,21 @@ QList<QJsonObject> W_COAS_StateNodeRelationTable::getStateByNameList(QStringList
 /*-------------------------------------------------
 		数据 - 获取状态节点
 */
-QJsonObject W_COAS_StateNodeRelationTable::getStateNodeByName(QString name){
+C_COAS_StateNodePtr W_COAS_StateNodeRelationTable::getStateNodeByName(QString name){
 	for (int i = 0; i < this->m_availableStateNodeDataList.count(); i++){
-		QJsonObject data = this->m_availableStateNodeDataList.at(i);
-		QString data_name = data["节点名称"].toString();
-		if (data_name == name){
-			return data;
+		C_COAS_StateNodePtr node_ptr = this->m_availableStateNodeDataList.at(i);
+		if (node_ptr->name == name){
+			return node_ptr;
 		}
 	}
-	return QJsonObject();
+	return C_COAS_StateNodePtr();
 }
-QList<QJsonObject> W_COAS_StateNodeRelationTable::getStateNodeByNameList(QStringList name_list){
-	QList<QJsonObject> result_list;
+QList<C_COAS_StateNodePtr> W_COAS_StateNodeRelationTable::getStateNodeByNameList(QStringList name_list){
+	QList<C_COAS_StateNodePtr> result_list;
 	for (int i = 0; i < this->m_availableStateNodeDataList.count(); i++){
-		QJsonObject data = this->m_availableStateNodeDataList.at(i);
-		QString name = data["节点名称"].toString();
-		if (name_list.contains(name)){
-			result_list.append(data);
+		C_COAS_StateNodePtr node_ptr = this->m_availableStateNodeDataList.at(i);
+		if (name_list.contains(node_ptr->name)){
+			result_list.append(node_ptr);
 		}
 	}
 	return result_list;
@@ -328,26 +324,25 @@ QList<QJsonObject> W_COAS_StateNodeRelationTable::getStateNodeByNameList(QString
 /*-------------------------------------------------
 		窗口 - 设置数据（修改）
 */
-void W_COAS_StateNodeRelationTable::setData_StateData(QList<QJsonObject> data_list) {
+void W_COAS_StateNodeRelationTable::setData_StateData(QList<C_COAS_StatePtr> data_list) {
 	
 	// > 排除空对象
 	this->m_availableStateDataList.clear();
 	for (int i = 0; i < data_list.count(); i++){
-		QJsonObject data = data_list.at(i);
-		if (data["状态元名称"].toString() == ""){ continue; }
-		this->m_availableStateDataList.append(data);
+		C_COAS_StatePtr state_ptr = data_list.at(i);
+		if (state_ptr->name == ""){ continue; }
+		this->m_availableStateDataList.append(state_ptr);
 	}
 	this->putDataToUi();
 }
-void W_COAS_StateNodeRelationTable::setData_StateNodeData(QList<QJsonObject> data_list) {
+void W_COAS_StateNodeRelationTable::setData_StateNodeData(QList<C_COAS_StateNodePtr> data_list) {
 
 	// > 排除空对象
 	this->m_availableStateNodeDataList.clear();
 	for (int i = 0; i < data_list.count(); i++){
-		QJsonObject data = data_list.at(i);
-		bool isEmpty = Drill_COAS_Init::getInstance()->drill_COAS_checkStateNodeIsEmpty_Chinese(&data);	//空数据检查
-		if (isEmpty){ continue; }
-		this->m_availableStateNodeDataList.append(data);
+		C_COAS_StateNodePtr node_ptr = data_list.at(i);
+		if (node_ptr->isEmptyNode()){ continue; }
+		this->m_availableStateNodeDataList.append(node_ptr);
 	}
 	this->putDataToUi();
 }

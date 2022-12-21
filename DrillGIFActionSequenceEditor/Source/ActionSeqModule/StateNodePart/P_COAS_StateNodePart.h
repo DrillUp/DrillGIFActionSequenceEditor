@@ -4,6 +4,7 @@
 #include <QtWidgets>
 #include "ui_P_COAS_StateNodePart.h"
 
+#include "C_COAS_StateNode.h"
 #include "../StatePart/P_COAS_StatePart.h"
 #include "Source/Utils/WidgetForm/RadioTable/P_RadioTable.h"
 #include "Source/Utils/Operater/TwoTableStringFiller/P_TwoTableStringFiller.h"
@@ -103,14 +104,14 @@ class P_COAS_StateNodePart : public QWidget
 	//-----------------------------------
 	//----数据检查
 	protected:
-		QList<QJsonObject> m_temp_stateNodeDataList;
+		QList<C_COAS_StateNodePtr> m_temp_stateNodeDataList;
 		QStringList m_errorMessage;
 	public:
 										//数据检查 - 执行检查
 										//		【说明】：此函数被父控件调用，当前控件不检查。
-		void checkData_StateNodeDataList(QList<QJsonObject> stateDataList, QList<QJsonObject> stateNodeDataList);
+		void checkData_StateNodeDataList(QList<C_COAS_StatePtr> stateDataList, QList<C_COAS_StateNodePtr> stateNodeDataList);
 										//数据检查 - 递归检查节点
-		void searchNode_Recursion(QJsonObject node, int layer_deep);
+		void searchNode_Recursion(C_COAS_StateNodePtr node, int layer_deep);
 										//数据检查 - 获取检查信息
 		QStringList checkData_getErrorMessage();
 
@@ -118,14 +119,14 @@ class P_COAS_StateNodePart : public QWidget
 	//----窗口
 	public:
 		bool m_slotBlock_source;
-		QList<QJsonObject> m_stateNodeDataList;
+		QList<C_COAS_StateNodePtr> m_stateNodeDataList;
 	public:
 										//窗口 - 设置数据
 										//		【说明】：动作元只编辑数组元素，不改变数组长度。
-		void setData(QList<QJsonObject> stateNodeDataList);
+		void setData(QList<C_COAS_StateNodePtr> stateNodeDataList);
 										//窗口 - 取出数据
 										//		【说明】：外部接收后，还需要手动打包内容。
-		QList<QJsonObject> getData();
+		QList<C_COAS_StateNodePtr> getData();
 										//窗口 - 本地数据 -> ui数据
 		void putDataToUi();							
 										//窗口 - ui数据 -> 本地数据

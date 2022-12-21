@@ -73,20 +73,62 @@ bool C_COAS_State::isNull(){
 		实体类 -> QJsonObject
 */
 QJsonObject C_COAS_State::getJsonObject_Chinese(){
-	QJsonObject obj_actionSeq = QJsonObject();
+	QJsonObject obj = QJsonObject();
+	//obj.insert("id", this->id);
 
-	obj_actionSeq.insert("id", this->id);
-	obj_actionSeq.insert("name", this->name);
+	// > 常规
+	obj.insert("状态元名称", this->name);
+	obj.insert("状态元标签", TTool::_JSON_stringify_(this->tag_tank));
+	obj.insert("状态元优先级", QString::number(this->priority));
+	obj.insert("状态元权重", QString::number(this->proportion));
+	obj.insert("可被动作元打断", this->canBeInterrupted ? "true" : "false");
 
-	return obj_actionSeq;
+	// > GIF
+	obj.insert("资源-状态元", TTool::_JSON_stringify_(this->gif_src));
+	//		（资源文件夹，不需赋值）
+	QList<QString> gif_intervalTank_strList = TTool::_QList_IntToQString_(this->gif_intervalTank);
+	obj.insert("帧间隔-明细表", TTool::_JSON_stringify_(gif_intervalTank_strList));
+	obj.insert("帧间隔", this->gif_interval);
+	obj.insert("是否倒放", this->gif_back_run ? "true" : "false");
+	obj.insert("是否预加载", this->gif_preload ? "true" : "false");
+
+	// > 图像
+	obj.insert("图像-色调值", QString::number(this->tint));
+	obj.insert("图像-模糊边缘", this->smooth ? "true" : "false");
+
+	// > 杂项
+	obj.insert("备注", this->note);
+
+	return obj;
 }
 /*-------------------------------------------------
 		QJsonObject -> 实体类
 */
-void C_COAS_State::setJsonObject_Chinese(QJsonObject obj_actionSeq, int id){
-
-	// > 树数据
+void C_COAS_State::setJsonObject_Chinese(QJsonObject obj, int id){
 	this->id = id;
-	this->name = obj_actionSeq.value("name").toString();
 
+	// > 常规
+	this->name = obj.value("状态元名称").toString();
+	this->tag_tank = TTool::_JSON_parse_To_QListQString_(obj.value("状态元标签").toString());
+	this->priority = obj.value("状态元优先级").toString().toInt();
+	this->proportion = obj.value("状态元权重").toString("1").toInt();
+	this->canBeInterrupted = obj.value("可被动作元打断").toString() == "true";
+
+	// > GIF
+	QString gif_src_str = obj.value("资源-状态元").toString();
+	this->gif_src = TTool::_JSON_parse_To_QListQString_(gif_src_str);			//资源文件名
+	//		（资源文件夹，不需赋值）
+	QString gif_intervalTank_str = obj.value("帧间隔-明细表").toString();
+	QList<QString> gif_intervalTank_strList = TTool::_JSON_parse_To_QListQString_(gif_intervalTank_str);	//帧间隔-明细表
+	this->gif_intervalTank = TTool::_QList_QStringToInt_(gif_intervalTank_strList);
+	this->gif_interval = obj.value("帧间隔").toString().toInt();
+	this->gif_back_run = obj.value("是否倒放").toString() == "true";
+	this->gif_preload = obj.value("是否预加载").toString() == "true";
+
+	// > 图像
+	this->tint = obj.value("图像-色调值").toString().toInt();
+	this->smooth = obj.value("图像-模糊边缘").toString() == "true";
+
+	// > 杂项
+	this->note = obj.value("备注").toString();
 }
