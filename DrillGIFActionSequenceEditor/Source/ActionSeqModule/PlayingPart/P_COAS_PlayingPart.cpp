@@ -379,13 +379,23 @@ bool P_COAS_PlayingPart::isPlaying(){
 		按钮 - 播放
 */
 void P_COAS_PlayingPart::btn_play(){
+
+	// > 暂停
 	if (this->isPlaying() == true){
 		this->stopFrame();
 		return;
 	}
+
+	// > 启动前，强制保存其它块的数据
+	this->m_actionPart->local_saveCurIndexData();
+	this->m_statePart->local_saveCurIndexData();
+	this->m_stateNodePart->local_saveCurIndexData();
+
+	// > 校验数据
 	if (this->checkData() == false){
 		return;
 	}
+
 	this->startFrame();
 }
 /*-------------------------------------------------

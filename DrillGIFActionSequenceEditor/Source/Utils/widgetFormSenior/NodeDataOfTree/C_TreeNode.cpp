@@ -50,6 +50,10 @@ C_TreeNode::C_TreeNode(QString id, QString factory_id, QString nodeName) : C_Nod
 	// > 树节点
 	this->m_tree_curLayer = -1;
 	this->m_tree_childIdList.clear();
+
+	// > 错误
+	this->m_errorInRecursion = false;
+	this->m_errorMessage.clear();
 }
 
 C_TreeNode::~C_TreeNode(){
@@ -128,8 +132,11 @@ QList<C_TreeNodePtr> C_TreeNode::getChildNode_Current(){
 	return result_list;
 }
 QList<C_TreeNodePtr> C_TreeNode::getChildNode_Recursion(int layer_deep){
+	if (this->m_errorInRecursion == true){ return QList<C_TreeNodePtr>(); }
 	if (layer_deep > 40){
-		QMessageBox::about(nullptr, "提示", "C_TreeNode中函数getChildNode_Recursion递归次数过载，请重新检查树节点连接情况。");
+		this->m_errorMessage.append("C_TreeNode中函数getChildNode_Recursion递归次数过载，请重新检查树节点连接情况。");
+		qDebug() << "错误：" << this->m_errorMessage.last();
+		this->m_errorInRecursion = true;
 		return QList<C_TreeNodePtr>();
 	}
 	QList<C_TreeNodePtr> result_list;
@@ -148,8 +155,11 @@ QStringList C_TreeNode::getChildNodeId_Current(){
 	return this->m_tree_childIdList;
 }
 QStringList C_TreeNode::getChildNodeId_Recursion(int layer_deep){
+	if (this->m_errorInRecursion == true){ return QStringList(); }
 	if (layer_deep > 40){
-		QMessageBox::about(nullptr, "提示", "C_TreeNode中函数getChildNodeId_Recursion递归次数过载，请重新检查树节点连接情况。");
+		this->m_errorMessage.append("C_TreeNode中函数getChildNodeId_Recursion递归次数过载，请重新检查树节点连接情况。");
+		qDebug() << "错误：" << this->m_errorMessage.last();
+		this->m_errorInRecursion = true;
 		return QStringList();
 	}
 	QStringList result_list;
@@ -167,8 +177,11 @@ int C_TreeNode::getChildNodeCount_Current(){
 	return this->m_tree_childIdList.count();
 }
 int C_TreeNode::getChildNodeCount_Recursion(int layer_deep){
+	if (this->m_errorInRecursion == true){ return 0; }
 	if (layer_deep > 40){
-		QMessageBox::about(nullptr, "提示", "C_TreeNode中函数getChildNodeCount_Recursion递归次数过载，请重新检查树节点连接情况。");
+		this->m_errorMessage.append("C_TreeNode中函数getChildNodeCount_Recursion递归次数过载，请重新检查树节点连接情况。");
+		qDebug() << "错误：" << this->m_errorMessage.last();
+		this->m_errorInRecursion = true;
 		return 0;
 	}
 
@@ -201,8 +214,11 @@ QList<C_TreeNodePtr> C_TreeNode::getChildBranch_Current(){
 	return result_list;
 }
 QList<C_TreeNodePtr> C_TreeNode::getChildBranch_Recursion(int layer_deep){
+	if (this->m_errorInRecursion == true){ return QList<C_TreeNodePtr>(); }
 	if (layer_deep > 40){
-		QMessageBox::about(nullptr, "提示", "C_TreeNode中函数getChildNode_Recursion递归次数过载，请重新检查树节点连接情况。");
+		this->m_errorMessage.append("C_TreeNode中函数getChildNode_Recursion递归次数过载，请重新检查树节点连接情况。");
+		qDebug() << "错误：" << this->m_errorMessage.last();
+		this->m_errorInRecursion = true;
 		return QList<C_TreeNodePtr>();
 	}
 
@@ -238,8 +254,11 @@ QList<C_TreeNodePtr> C_TreeNode::getChildLeaf_Current(){
 	return result_list;
 }
 QList<C_TreeNodePtr> C_TreeNode::getChildLeaf_Recursion(int layer_deep){
+	if (this->m_errorInRecursion == true){ return QList<C_TreeNodePtr>(); }
 	if (layer_deep > 40){
-		QMessageBox::about(nullptr, "提示", "C_TreeNode中函数getChildNode_Recursion递归次数过载，请重新检查树节点连接情况。");
+		this->m_errorMessage.append("C_TreeNode中函数getChildLeaf_Recursion递归次数过载，请重新检查树节点连接情况。");
+		qDebug() << "错误：" << this->m_errorMessage.last();
+		this->m_errorInRecursion = true;
 		return QList<C_TreeNodePtr>();
 	}
 
@@ -259,6 +278,19 @@ QList<C_TreeNodePtr> C_TreeNode::getChildLeaf_Recursion(int layer_deep){
 		result_list.append(node->getChildLeaf_Recursion(layer_deep + 1));
 	}
 	return result_list;
+}
+
+/*-------------------------------------------------
+		错误 - 是否出现错误
+*/
+bool C_TreeNode::hasError(){
+	return this->m_errorMessage.count() > 0;
+}
+/*-------------------------------------------------
+		错误 - 获取错误信息
+*/
+QStringList C_TreeNode::getErrorMessage(){
+	return this->m_errorMessage;
 }
 
 

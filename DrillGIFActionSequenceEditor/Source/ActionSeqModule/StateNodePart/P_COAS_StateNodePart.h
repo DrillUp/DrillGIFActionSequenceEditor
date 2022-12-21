@@ -105,6 +105,7 @@ class P_COAS_StateNodePart : public QWidget
 	//----数据检查
 	protected:
 		QList<C_COAS_StateNodePtr> m_temp_stateNodeDataList;
+		bool m_errorInRecursion;
 		QStringList m_errorMessage;
 	public:
 										//数据检查 - 执行检查

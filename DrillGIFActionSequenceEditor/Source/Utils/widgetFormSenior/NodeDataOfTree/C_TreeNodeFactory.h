@@ -94,6 +94,17 @@ class C_TreeNodeFactory : public C_NodeFactory
 		int getTreeNodeIndex_ById(QString TreeNode_id);
 		int getTreeNodeIndex_ByName(QString TreeNode_name);
 		
+	//-----------------------------------
+	//----错误
+	protected:
+		bool m_errorInRecursion;
+		QStringList m_errorMessage;
+	public:
+										//错误 - 是否出现错误
+		bool hasError();
+										//错误 - 获取错误信息
+		QStringList getErrorMessage();
+
 
 	//-----------------------------------
 	//----类

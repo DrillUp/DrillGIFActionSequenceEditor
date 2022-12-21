@@ -500,6 +500,7 @@ void P_COAS_StateNodePart::local_loadIndexData(int index){
 */
 void P_COAS_StateNodePart::checkData_StateNodeDataList(QList<C_COAS_StatePtr> stateDataList, QList<C_COAS_StateNodePtr> stateNodeDataList){
 	this->m_errorMessage.clear();
+	this->m_errorInRecursion = false;
 	this->m_temp_stateNodeDataList = stateNodeDataList;
 
 	// > 空校验
@@ -592,8 +593,10 @@ void P_COAS_StateNodePart::checkData_StateNodeDataList(QList<C_COAS_StatePtr> st
 		数据检查 - 递归检查节点
 */
 void P_COAS_StateNodePart::searchNode_Recursion(C_COAS_StateNodePtr nodeData_ptr, int layer_deep){
+	if (this->m_errorInRecursion == true){ return; }
 	if (layer_deep > 20){
 		this->m_errorMessage.append("状态节点的嵌套中存在死循环，请重新检查状态节点的嵌套情况。");
+		this->m_errorInRecursion = true;
 		return;
 	}
 

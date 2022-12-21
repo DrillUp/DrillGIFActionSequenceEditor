@@ -34,6 +34,10 @@
 
 C_TreeNodeFactory::C_TreeNodeFactory() : C_NodeFactory(){
 	this->m_NodeTank.clear();
+
+	// > 错误
+	this->m_errorInRecursion = false;
+	this->m_errorMessage.clear();
 }
 C_TreeNodeFactory::~C_TreeNodeFactory() {
 }
@@ -87,8 +91,11 @@ void C_TreeNodeFactory::setTreeRoot(C_TreeNodePtr tree_node){
 		树关系 - 根据树根设置层级（私有）
 */
 void C_TreeNodeFactory::setTreeLayer_Recursion(C_TreeNodePtr tree_node, int layer){
+	if (this->m_errorInRecursion == true){ return; }
 	if (layer > 40){
-		QMessageBox::about(nullptr, "提示", "C_TreeNodeFactory中函数setTreeLayer_Recursion递归次数过载，请重新检查树节点连接情况。");
+		this->m_errorMessage.append("C_TreeNodeFactory中函数setTreeLayer_Recursion递归次数过载，请重新检查树节点连接情况。");
+		qDebug() << "错误：" << this->m_errorMessage.last();
+		this->m_errorInRecursion = true;
 		return;
 	}
 	if (tree_node->getTree_CurLayer() != -1){ return; }
@@ -285,6 +292,19 @@ int C_TreeNodeFactory::getTreeNodeIndex_ById(QString node_id){
 */
 int C_TreeNodeFactory::getTreeNodeIndex_ByName(QString node_name){
 	return C_NodeFactory::getNodeIndex_ByName(node_name);
+}
+
+/*-------------------------------------------------
+		错误 - 是否出现错误
+*/
+bool C_TreeNodeFactory::hasError(){
+	return this->m_errorMessage.count() > 0;
+}
+/*-------------------------------------------------
+		错误 - 获取错误信息
+*/
+QStringList C_TreeNodeFactory::getErrorMessage(){
+	return this->m_errorMessage;
 }
 
 

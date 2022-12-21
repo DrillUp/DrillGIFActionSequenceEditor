@@ -69,6 +69,18 @@ class C_TreeNode : public C_Node{
 		QList<C_TreeNodePtr> getChildLeaf_Recursion(int layer_deep = 0);
 		
 	//-----------------------------------
+	//----错误
+	protected:
+		bool m_errorInRecursion;
+		QStringList m_errorMessage;
+	public:
+										//错误 - 是否出现错误
+		bool hasError();
+										//错误 - 获取错误信息
+		QStringList getErrorMessage();
+
+
+	//-----------------------------------
 	//----类
 	public:
 										//类 - 获取类名
