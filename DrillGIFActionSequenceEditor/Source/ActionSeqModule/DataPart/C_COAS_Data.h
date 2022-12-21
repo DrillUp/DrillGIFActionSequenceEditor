@@ -34,6 +34,12 @@ class C_COAS_Data{
 	public:
 								//数据 - 清除数据
 		void clearTankData();
+								//数据 - 获取全部关联文件名（去重）
+		QStringList getFileNameList();
+								//数据 - 获取名称
+		QStringList getNameList_State();
+		QStringList getNameList_StateNode();
+		QStringList getNameList_Action();
 
 	//-----------------------------------
 	//----类属性

@@ -179,6 +179,12 @@ QJsonObject Drill_COAS_Init::drill_COAS_initSequence(QJsonObject dataFrom){
 	QJsonObject data = QJsonObject();
 	C_COAS_Length len = S_ActionSeqDataContainer::getInstance()->getActionSeqLength();
 
+	// > 基本数据
+	data["id"] = dataFrom["COAS_id"].toInt();
+	data["visible"] = true;
+	data["pause"] = false;
+	data["waitForPreload"] = true;
+
 	// > 容器 - 默认的状态元集合
 	QStringList state_default_randomSeq = TTool::_JSON_parse_To_QListQString_(dataFrom["默认的状态元集合"].toString(""));
 	data["state_default_randomSeq"] = TTool::_QJsonArray_QStringToA_(state_default_randomSeq);
@@ -190,14 +196,16 @@ QJsonObject Drill_COAS_Init::drill_COAS_initSequence(QJsonObject dataFrom){
 		state_tank.append(Drill_COAS_Init::drill_COAS_initState(obj));
 	}
 	data["state_tank"] = state_tank;
+	qDebug() << "状态元：" <<state_tank;
 
 	// > 容器 - 状态节点
 	QJsonArray stateNode_tank = QJsonArray();
 	for (int i = 0; i < len.realLen_stateNode; i++){
-		QJsonObject obj = TTool::_JSON_parse_To_Obj_(dataFrom["状态节点-" + QString::number(i + 1)].toString("{}"));
+		QJsonObject obj = TTool::_JSON_parse_To_Obj_(dataFrom["状态节点-" + QString::number(i+1)].toString("{}"));
 		stateNode_tank.append(Drill_COAS_Init::drill_COAS_initStateNode(obj));
 	}
 	data["stateNode_tank"] = stateNode_tank;
+	qDebug() << "状态节点：" << stateNode_tank;
 
 	// > 容器 - 动作元
 	QJsonArray act_tank = QJsonArray();
@@ -206,6 +214,7 @@ QJsonObject Drill_COAS_Init::drill_COAS_initSequence(QJsonObject dataFrom){
 		act_tank.append(Drill_COAS_Init::drill_COAS_initAct(obj));
 	}
 	data["act_tank"] = act_tank;
+	qDebug() << "动作元：" << act_tank;
 
 	return data;
 }

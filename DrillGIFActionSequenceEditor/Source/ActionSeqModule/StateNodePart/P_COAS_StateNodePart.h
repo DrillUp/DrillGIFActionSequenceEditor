@@ -18,6 +18,7 @@
 					（详细见cpp）
 -----==========================================================-----
 */
+class P_COAS_DataPart;
 class P_COAS_StateNodePart : public QWidget
 {
 	Q_OBJECT
@@ -62,6 +63,8 @@ class P_COAS_StateNodePart : public QWidget
 		void btn_moveDown();
 									//状态节点配置 - 手动配置
 		void btn_editConfig();
+									//状态节点配置 - 编辑默认的状态元集合
+		void btn_editDefaultRandomSeq();
 	private:
 									//状态节点配置 - 刷新配置
 		void configNameDataChanged();
@@ -115,6 +118,15 @@ class P_COAS_StateNodePart : public QWidget
 		void searchNode_Recursion(C_COAS_StateNodePtr node, int layer_deep);
 										//数据检查 - 获取检查信息
 		QStringList checkData_getErrorMessage();
+		
+
+	//-----------------------------------
+	//----父窗口
+	protected:
+		P_COAS_DataPart* m_parentPart;
+	public:
+										//父窗口 - 设置父窗口
+		void setParentPart(P_COAS_DataPart* part);
 
 	//-----------------------------------
 	//----窗口

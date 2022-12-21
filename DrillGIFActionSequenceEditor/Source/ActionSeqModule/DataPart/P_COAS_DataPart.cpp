@@ -40,6 +40,8 @@ P_COAS_DataPart::P_COAS_DataPart(QWidget *parent)
 	this->m_stateNodePart = new P_COAS_StateNodePart(this->m_statePart, parent);
 	this->m_actionPart = new P_COAS_ActionPart(parent);
 	this->m_playingPart = new P_COAS_PlayingPart(this->m_statePart, this->m_stateNodePart, this->m_actionPart, parent);
+	this->m_stateNodePart->setParentPart(this);
+	this->m_playingPart->setParentPart(this);
 
 	// > 可折叠选项卡
 	this->m_p_FoldableTabRelater = new P_FoldableTabRelater(ui.tabWidget);	//（ui中的只是示意，该工具类会重建tab）
@@ -128,7 +130,7 @@ void P_COAS_DataPart::local_saveCurIndexData(){
 	action_data->m_stateNode_tank = this->m_stateNodePart->getData();
 
 	// > 子控件 - 放映区
-	action_data->m_state_default_randomSeq = this->m_playingPart->getData_DefaultSeq();
+	//（无）
 	
 
 	// > 编辑标记
@@ -143,6 +145,7 @@ void P_COAS_DataPart::local_loadIndexData(int index){
 
 	// > 读取数据
 	C_COAS_DataPtr action_data = this->getActionSeqList().at(index);
+	this->m_cur_actionSeqIndex = index;
 	if (action_data.isNull()){ return; }
 
 	// > 子控件 - 标签
@@ -160,11 +163,8 @@ void P_COAS_DataPart::local_loadIndexData(int index){
 
 	// > 子控件 - 放映区
 	this->m_playingPart->stopFrame();
-	this->m_playingPart->setData_DefaultSeq(action_data->m_state_default_randomSeq);
-	this->m_playingPart->setData_CurIndex(index);
-	this->m_playingPart->refreshCurActionSeq();
+	this->m_playingPart->putDataToUi();
 
-	this->m_cur_actionSeqIndex = index;
 }
 
 
@@ -263,6 +263,12 @@ void P_COAS_DataPart::setPartGray(){
 void P_COAS_DataPart::stopPlaying(){
 	this->m_playingPart->stopFrame();
 }
+/*-------------------------------------------------
+		大控件 - 刷新表格
+*/
+void P_COAS_DataPart::refreshPlayingPartTable(){
+	this->m_playingPart->refreshTable();
+}
 
 
 /*-------------------------------------------------
@@ -291,15 +297,16 @@ C_COAS_Length P_COAS_DataPart::getData_ActionSeqLength(){
 */
 void P_COAS_DataPart::putDataToUi() {
 
-	// > 树结构初始化
+	// > 树结构 - 初始化
 	QJsonObject tree_config = S_ActionSeqDataContainer::getInstance()->getTreeConfig();
 	C_FCT_Config* config = dynamic_cast<C_FCT_Config*>(this->m_p_tree->createConfigData());
 	config->setJsonObject(tree_config, this->m_p_tree);		//（存储的数据需要在load前完成赋值）
 	this->m_p_tree->setConfigEx(config);
 
-	// > 树数据赋值
+	// > 树结构 - 数据赋值
 	QList<QJsonObject> tree_data = S_ActionSeqDataContainer::getInstance()->getTreeData();
 	this->m_p_tree->loadSource(tree_data, "COAS_id", "COAS_name", "COAS_type");
+
 
 	// > 编辑块置灰
 	this->setPartGray();	//（需要玩家重新选择一个动画序列）

@@ -43,7 +43,7 @@ class P_COAS_DataPart : public QWidget
 	//----本地数据的索引
 	protected:
 		int m_cur_actionSeqIndex;				//当前动画序列索引
-	protected:
+	public:
 									//数据 - 获取当前动画序列
 		C_COAS_DataPtr getCurrentData();
 									//数据 - 动画序列
@@ -76,8 +76,8 @@ class P_COAS_DataPart : public QWidget
 	//-----------------------------------
 	//----大控件
 	protected:
-		P_FoldableTabRelater* m_p_FoldableTabRelater;	//可折叠选项卡
-		P_COAS_ActionPart* m_actionPart;						//动作元块
+		P_FoldableTabRelater* m_p_FoldableTabRelater;		//可折叠选项卡
+		P_COAS_ActionPart* m_actionPart;					//动作元块
 		P_COAS_StatePart* m_statePart;						//状态元块
 		P_COAS_StateNodePart* m_stateNodePart;				//状态节点块
 		P_COAS_PlayingPart* m_playingPart;					//放映区
@@ -87,6 +87,8 @@ class P_COAS_DataPart : public QWidget
 		void setPartGray();
 										//大控件 - 停止播放
 		void stopPlaying();
+										//大控件 - 刷新表格
+		void refreshPlayingPartTable();
 
 	//-----------------------------------
 	//----窗口

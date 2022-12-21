@@ -1,8 +1,11 @@
 ﻿#include "stdafx.h"
 #include "P_COAS_StateNodePart.h"
 
-#include "RelationTable/W_COAS_StateNodeRelationTable.h"
+#include "../DataPart/P_COAS_DataPart.h"
+#include "../DataPart/DefaultRandomSeq/W_COAS_DefaultRandomSeq.h"
+
 #include "../Data/S_ActionSeqDataContainer.h"
+#include "RelationTable/W_COAS_StateNodeRelationTable.h"
 #include "Source/ProjectModule/S_ProjectManager.h"
 #include "Source/Utils/WidgetForm/QStringListEditor/W_QStringListEditor.h"
 #include "Source/Utils/Common/TTool.h"
@@ -58,6 +61,7 @@ P_COAS_StateNodePart::P_COAS_StateNodePart(P_COAS_StatePart* statePart, QWidget 
 	this->m_table->setItemOuterControlEnabled(true);	//开启右键菜单
 
 	// > 状态元块
+	this->m_parentPart = nullptr;
 	this->m_P_COAS_StatePart = statePart;
 
 	// > 双表格
@@ -75,7 +79,9 @@ P_COAS_StateNodePart::P_COAS_StateNodePart(P_COAS_StatePart* statePart, QWidget 
 	connect(ui.pushButton_checkLoop, &QPushButton::clicked, this, &P_COAS_StateNodePart::btn_checkData);
 	connect(ui.pushButton_relationTable, &QPushButton::clicked, this, &P_COAS_StateNodePart::btn_RelationTable);
 	connect(ui.pushButton_relationTable_2, &QPushButton::clicked, this, &P_COAS_StateNodePart::btn_RelationTable);
-
+	connect(ui.pushButton_editDefaultRandomSeq, &QPushButton::clicked, this, &P_COAS_StateNodePart::btn_editDefaultRandomSeq);
+	connect(ui.pushButton_editDefaultRandomSeq_2, &QPushButton::clicked, this, &P_COAS_StateNodePart::btn_editDefaultRandomSeq);
+	
 	// > 播放方式
 	connect(ui.comboBox_playType, &QComboBox::currentTextChanged, this, &P_COAS_StateNodePart::playTypeChanged);
 	connect(ui.pushButton_moveToLeft, &QPushButton::clicked, this, &P_COAS_StateNodePart::btn_moveToLeft);
@@ -319,6 +325,30 @@ void P_COAS_StateNodePart::btn_editConfig(){
 	if (d.exec() == QDialog::Accepted){
 		this->m_P_TwoTableStringFiller->setRightString(d.getData());
 		this->configNameDataChanged();
+	}
+}
+/*-------------------------------------------------
+		状态节点配置 - 播放默认的状态元集合
+*/
+void P_COAS_StateNodePart::btn_editDefaultRandomSeq(){
+	C_COAS_DataPtr data_ptr = this->m_parentPart->getCurrentData();
+	if (data_ptr.isNull()){ return; }
+
+	// > 资源检查
+	QStringList state_list = data_ptr->getNameList_State();
+	TTool::_QStringList_clearEmptyRows_(&state_list);
+	if (state_list.count() == 0){
+		QMessageBox::information(this, "提示", "该动画序列状态元全部为空。你需要配置至少一个 状态元 才能编辑。", QMessageBox::Yes);
+		return;
+	}
+
+	// > 窗口
+	W_COAS_DefaultRandomSeq d(this);
+	d.setWindowName("默认的状态元集合");
+	d.setData(state_list, data_ptr->m_state_default_randomSeq);
+	if (d.exec() == QDialog::Accepted){
+		data_ptr->m_state_default_randomSeq = d.getData();
+		this->m_parentPart->refreshPlayingPartTable();	//（刷新放映区表格内容）
 	}
 }
 /*-------------------------------------------------
@@ -629,6 +659,15 @@ void P_COAS_StateNodePart::searchNode_Recursion(C_COAS_StateNodePtr nodeData_ptr
 */
 QStringList P_COAS_StateNodePart::checkData_getErrorMessage(){
 	return this->m_errorMessage;
+}
+
+
+
+/*-------------------------------------------------
+		父窗口 - 设置父窗口
+*/
+void P_COAS_StateNodePart::setParentPart(P_COAS_DataPart* part){
+	this->m_parentPart = part;
 }
 
 

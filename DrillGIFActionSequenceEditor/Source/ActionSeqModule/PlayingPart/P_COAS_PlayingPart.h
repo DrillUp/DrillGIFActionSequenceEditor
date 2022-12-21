@@ -20,6 +20,7 @@
 					（详细见cpp）
 -----==========================================================-----
 */
+class P_COAS_DataPart;
 class P_COAS_PlayingPart : public QWidget
 {
 	Q_OBJECT
@@ -53,12 +54,6 @@ class P_COAS_PlayingPart : public QWidget
 		void editDefaultState();
 										//操作台 - 编辑临时的简单状态元
 		void editSimpleState();
-										//操作台 - 获取全部关联文件名（去重）
-		QStringList getRelatFileNameList();
-										//操作台 - 获取名称
-		QStringList getStateNameList();
-		QStringList getStateNodeNameList();
-		QStringList getActionNameList();
 										//操作台 - 刷新表格
 										//		【说明】：只刷新表格和显示名。
 		void refreshTable();
@@ -108,23 +103,18 @@ class P_COAS_PlayingPart : public QWidget
 	private:
 		Drill_COAS_MainController m_COAS_mainController;		//主控制数据项
 
+		
+	//-----------------------------------
+	//----父窗口
+	protected:
+		P_COAS_DataPart* m_parentPart;
+	public:
+										//父窗口 - 设置父窗口
+		void setParentPart(P_COAS_DataPart* part);
 
 	//-----------------------------------
 	//----窗口
 	public:
-		int m_actionSeq_curIndex;
-		QStringList local_defaultSeq;
-		QList<C_COAS_StatePtr> local_stateDataList;
-		QList<C_COAS_StateNodePtr> local_stateNodeDataList;
-		QList<C_COAS_ActionPtr> local_actionDataList;
-	public:
-										//窗口 - 刷新基于的数据
-		void refreshCurActionSeq();
-										//窗口 - 设置数据
-		void setData_DefaultSeq(QStringList defaultSeq);
-		void setData_CurIndex(int index);
-										//窗口 - 取出数据
-		QStringList getData_DefaultSeq();
 										//窗口 - 本地数据 -> ui数据
 		void putDataToUi();							
 										//窗口 - ui数据 -> 本地数据

@@ -105,6 +105,16 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #44
              </widget>
             </item>
             <item>
+             <widget class="QTableWidget" name="tableWidget">
+              <property name="styleSheet">
+               <string notr="true">
+QTableView::item:selected {
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #5C87D9, stop:0.505 #557CC7, stop:1 #5075BC);
+}</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QPushButton" name="pushButton_relationTable">
               <property name="text">
                <string>查看关系表</string>
@@ -122,12 +132,19 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #44
              </widget>
             </item>
             <item>
-             <widget class="QTableWidget" name="tableWidget">
-              <property name="styleSheet">
-               <string notr="true">
-QTableView::item:selected {
-	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #5C87D9, stop:0.505 #557CC7, stop:1 #5075BC);
-}</string>
+             <widget class="QPushButton" name="pushButton_editDefaultRandomSeq">
+              <property name="text">
+               <string>编辑默认的状态元集合</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../../drillgifactionsequenceeditor.qrc">
+                <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/menu/Common_Edit.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/menu/Common_Edit.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>26</width>
+                <height>26</height>
+               </size>
               </property>
              </widget>
             </item>
@@ -421,6 +438,14 @@ QTableView::item:selected {
                   <widget class="QPushButton" name="pushButton_relationTable_2">
                    <property name="text">
                     <string>查看关系表</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="pushButton_editDefaultRandomSeq_2">
+                   <property name="text">
+                    <string>编辑默认的
+状态元集合</string>
                    </property>
                   </widget>
                  </item>

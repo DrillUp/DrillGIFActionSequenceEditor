@@ -35,6 +35,59 @@ void C_COAS_Data::clearTankData(){
 	this->m_state_tank.clear();
 	this->m_stateNode_tank.clear();
 }
+/*-------------------------------------------------
+		数据 - 获取全部关联文件名（去重）
+*/
+QStringList C_COAS_Data::getFileNameList(){
+	QStringList result = QStringList();
+
+	// > 动作元资源
+	for (int i = 0; i < this->m_act_tank.count(); i++){
+		C_COAS_ActionPtr action_ptr = this->m_act_tank.at(i);
+		result.append(action_ptr->gif_src);
+	}
+
+	// > 状态元资源
+	for (int i = 0; i < this->m_state_tank.count(); i++){
+		C_COAS_StatePtr state_ptr = this->m_state_tank.at(i);
+		result.append(state_ptr->gif_src);
+	}
+
+	// > 状态节点资源
+	//（无资源）
+
+	// > 去重
+	result = result.toSet().toList();
+	return result;
+}
+/*-------------------------------------------------
+		数据 - 获取名称
+*/
+QStringList C_COAS_Data::getNameList_State(){
+	QStringList result = QStringList();
+	for (int i = 0; i < this->m_state_tank.count(); i++){
+		C_COAS_StatePtr state_ptr = this->m_state_tank.at(i);
+		result.append(state_ptr->name);
+	}
+	return result;
+}
+QStringList C_COAS_Data::getNameList_StateNode(){
+	QStringList result = QStringList();
+	for (int i = 0; i < this->m_stateNode_tank.count(); i++){
+		C_COAS_StateNodePtr stateNode_ptr = this->m_stateNode_tank.at(i);
+		result.append(stateNode_ptr->name);
+	}
+	return result;
+}
+QStringList C_COAS_Data::getNameList_Action(){
+	QStringList result = QStringList();
+	for (int i = 0; i < this->m_act_tank.count(); i++){
+		C_COAS_ActionPtr action_ptr = this->m_act_tank.at(i);
+		result.append(action_ptr->name);
+	}
+	return result;
+}
+
 
 /*-------------------------------------------------
 		空判断
@@ -69,7 +122,7 @@ QJsonObject C_COAS_Data::getJsonObject_Chinese(){
 			}
 		}
 	}
-	obj_actionSeq.insert("默认的状态元集合", TTool::_JSON_stringify_(this->m_state_default_randomSeq));
+	obj_actionSeq.insert("默认的状态元集合", TTool::_QJsonArray_QStringToA_(this->m_state_default_randomSeq));
 
 	// > 动作元列表
 	for (int i = 0; i < this->m_act_tank.count(); i++){

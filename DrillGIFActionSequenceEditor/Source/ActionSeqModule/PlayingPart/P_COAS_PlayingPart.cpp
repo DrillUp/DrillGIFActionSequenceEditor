@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "P_COAS_PlayingPart.h"
 
+#include "../DataPart/P_COAS_DataPart.h"
 #include "../DataPart/DefaultRandomSeq/W_COAS_DefaultRandomSeq.h"
 
 #include "Source/ActionSeqModule/Data/S_ActionSeqDataContainer.h"
@@ -36,10 +37,10 @@ P_COAS_PlayingPart::P_COAS_PlayingPart(P_COAS_StatePart* state_part, P_COAS_Stat
 
 	//-----------------------------------
 	//----初始化参数
-	this->m_actionSeq_curIndex = 0;
 	this->m_statePart = state_part;
 	this->m_stateNodePart = stateNode_part;
 	this->m_actionPart = action_part;
+	this->m_parentPart = nullptr;
 
 	// > 参数值
 	this->m_playing = false;					//正在播放
@@ -109,14 +110,11 @@ void P_COAS_PlayingPart::zoomValueChanged(double value){
 		操作台 - 编辑状态元集合
 */
 void P_COAS_PlayingPart::editDefaultState(){
-
-	// > 未播放时，刷新资源
-	if (this->isPlaying() == false){
-		this->refreshCurActionSeq();
-	}
+	C_COAS_DataPtr data_ptr = this->m_parentPart->getCurrentData();
+	if (data_ptr.isNull()){ return; }
 
 	// > 资源检查
-	QStringList state_list = this->getStateNameList();
+	QStringList state_list = data_ptr->getNameList_State();
 	TTool::_QStringList_clearEmptyRows_(&state_list);
 	if (state_list.count() == 0){
 		QMessageBox::information(this, "提示", "该动画序列状态元全部为空。你需要配置至少一个 状态元 才能编辑。", QMessageBox::Yes);
@@ -126,19 +124,21 @@ void P_COAS_PlayingPart::editDefaultState(){
 	// > 窗口
 	W_COAS_DefaultRandomSeq d(this);
 	d.setWindowName("默认的状态元集合");
-	d.setData(state_list, this->local_defaultSeq);
+	d.setData(state_list, data_ptr->m_state_default_randomSeq);
 	if (d.exec() == QDialog::Accepted){
-		this->local_defaultSeq = d.getData();
-		this->putDataToUi();
+		data_ptr->m_state_default_randomSeq = d.getData();
+		this->refreshTable();	//（刷新放映区表格内容）
 	}
 };
 /*-------------------------------------------------
 		操作台 - 编辑临时的简单状态元
 */
 void P_COAS_PlayingPart::editSimpleState(){
+	C_COAS_DataPtr data_ptr = this->m_parentPart->getCurrentData();
+	if (data_ptr.isNull()){ return; }
 	
 	// > 资源检查
-	QStringList state_list = this->getStateNameList();
+	QStringList state_list = data_ptr->getNameList_State();
 	TTool::_QStringList_clearEmptyRows_(&state_list);
 	if (state_list.count() == 0){
 		QMessageBox::information(this, "提示", "该动画序列状态元全部为空。你需要配置至少一个 状态元 才能编辑。", QMessageBox::Yes);
@@ -155,74 +155,24 @@ void P_COAS_PlayingPart::editSimpleState(){
 	}
 }
 /*-------------------------------------------------
-		操作台 - 获取名称
-*/
-QStringList P_COAS_PlayingPart::getStateNameList(){
-	QStringList result = QStringList();
-	for (int i = 0; i < this->local_stateDataList.count(); i++){
-		C_COAS_StatePtr state_ptr = this->local_stateDataList.at(i);
-		result.append(state_ptr->name);
-	}
-	return result;
-}
-QStringList P_COAS_PlayingPart::getStateNodeNameList(){
-	QStringList result = QStringList();
-	for (int i = 0; i < this->local_stateNodeDataList.count(); i++){
-		C_COAS_StateNodePtr node_ptr = this->local_stateNodeDataList.at(i);
-		result.append(node_ptr->name);
-	}
-	return result;
-}
-QStringList P_COAS_PlayingPart::getActionNameList(){
-	QStringList result = QStringList();
-	for (int i = 0; i < this->local_actionDataList.count(); i++){
-		C_COAS_ActionPtr action_ptr = this->local_actionDataList.at(i);
-		result.append(action_ptr->name);
-	}
-	return result;
-}
-/*-------------------------------------------------
-		操作台 - 获取全部关联文件名（去重）
-*/
-QStringList P_COAS_PlayingPart::getRelatFileNameList(){
-	QStringList result = QStringList();
-
-	// > 动作元资源
-	for (int i = 0; i < this->local_actionDataList.count(); i++){
-		C_COAS_ActionPtr action_ptr = this->local_actionDataList.at(i);
-		result.append(action_ptr->gif_src);
-	}
-
-	// > 状态元资源
-	for (int i = 0; i < this->local_stateDataList.count(); i++){
-		C_COAS_StatePtr state_ptr = this->local_stateDataList.at(i);
-		result.append(state_ptr->gif_src);
-	}
-
-	// > 状态节点资源
-	//（无资源）
-
-	// > 去重
-	result = result.toSet().toList();
-
-	return result;
-}
-/*-------------------------------------------------
 		操作台 - 刷新表格
 */
 void P_COAS_PlayingPart::refreshTable(){
+	C_COAS_DataPtr data_ptr = this->m_parentPart->getCurrentData();
+	if (data_ptr.isNull()){ return; }
 
 	// > 默认的状态元集合
-	QString text_default = "";
-	for (int i = 0; i < this->local_defaultSeq.count(); i++){
-		text_default.append("◆ ");
-		text_default.append(this->local_defaultSeq.at(i));
-		if (i < this->local_defaultSeq.count() - 1){
-			text_default.append("\n");
+	QString default_str = "";
+	QStringList default_list = data_ptr->m_state_default_randomSeq;
+	for (int i = 0; i < default_list.count(); i++){
+		default_str.append("◆ ");
+		default_str.append(default_list.at(i));
+		if (i < default_list.count() - 1){
+			default_str.append("\n");
 		}
 	}
-	if (this->local_defaultSeq.count() == 0){ text_default = "无"; }
-	ui.label_defaultState->setText(text_default);
+	if (default_list.count() == 0){ default_str = "无"; }
+	ui.label_defaultState->setText(default_str);
 
 	// > 临时的简单状态元集合
 	QString text_simple = "";
@@ -237,10 +187,10 @@ void P_COAS_PlayingPart::refreshTable(){
 	ui.label_simpleState->setText(text_simple);
 
 	// > 状态节点 列表名
-	this->m_table_state->setSource(this->getStateNodeNameList());
+	this->m_table_state->setSource(data_ptr->getNameList_StateNode());
 
 	// > 动作元 列表名
-	this->m_table_action->setSource(this->getActionNameList());
+	this->m_table_action->setSource(data_ptr->getNameList_Action());
 }
 
 
@@ -273,9 +223,11 @@ void P_COAS_PlayingPart::updateFrame(){
 		动画帧 - 数据检查
 */
 bool P_COAS_PlayingPart::checkData(){
-	this->m_statePart->checkData_StateDataList(this->local_stateDataList);
-	this->m_stateNodePart->checkData_StateNodeDataList(this->local_stateDataList, this->local_stateNodeDataList);
-	this->m_actionPart->checkData_ActionDataList(this->local_actionDataList);
+	C_COAS_DataPtr data_ptr = this->m_parentPart->getCurrentData();
+	if (data_ptr.isNull()){ return false; }
+	this->m_statePart->checkData_StateDataList(data_ptr->m_state_tank);
+	this->m_stateNodePart->checkData_StateNodeDataList(data_ptr->m_state_tank, data_ptr->m_stateNode_tank);
+	this->m_actionPart->checkData_ActionDataList(data_ptr->m_act_tank);
 	QStringList error_state = this->m_statePart->checkData_getErrorMessage();
 	QStringList error_stateNode = this->m_stateNodePart->checkData_getErrorMessage();
 	QStringList error_action = this->m_actionPart->checkData_getErrorMessage();
@@ -328,14 +280,18 @@ bool P_COAS_PlayingPart::checkData(){
 		动画帧 - 开始
 */
 void P_COAS_PlayingPart::startFrame(){
+	C_COAS_DataPtr data_ptr = this->m_parentPart->getCurrentData();
+	if (data_ptr.isNull()){ return; }
 
 	// > 开启计时器
 	this->m_timer->start(16);		//（由于不是生成gif模式，所以这里播放帧速度固定）
 	this->m_playing = true;
 
+	// > 强制刷新内容
+	this->putDataToUi();
+
 	// > 数据初始化
-	this->refreshCurActionSeq();
-	QStringList src_name = this->getRelatFileNameList();
+	QStringList src_name = data_ptr->getFileNameList();
 	QList<QFileInfo> scr_infoList = QList<QFileInfo>();
 	for (int i = 0; i < src_name.count(); i++){
 		scr_infoList.append(this->getSrcFileByName(src_name.at(i)));
@@ -446,83 +402,29 @@ void P_COAS_PlayingPart::updateIcon(){
 }
 
 
-
 /*-------------------------------------------------
-		窗口 - 设置数据
+		父窗口 - 设置父窗口
 */
-void P_COAS_PlayingPart::refreshCurActionSeq(){
-	this->local_stateDataList = this->m_statePart->getData();
-	this->local_stateNodeDataList = this->m_stateNodePart->getData();
-	this->local_actionDataList = this->m_actionPart->getData();
+void P_COAS_PlayingPart::setParentPart(P_COAS_DataPart* part){
+	this->m_parentPart = part;
+}
 
-	this->putDataToUi();
-}
-/*-------------------------------------------------
-		窗口 - 设置数据
-*/
-void P_COAS_PlayingPart::setData_DefaultSeq(QStringList defaultSeq) {
-	this->local_defaultSeq = defaultSeq;
-}
-void P_COAS_PlayingPart::setData_CurIndex(int index) {
-	this->m_actionSeq_curIndex = index;
-}
-/*-------------------------------------------------
-		窗口 - 取出数据
-*/
-QStringList P_COAS_PlayingPart::getData_DefaultSeq(){
-	this->putUiToData();
 
-	// > 校验
-	//...
-	
-	return this->local_defaultSeq;
-}
 /*-------------------------------------------------
 		窗口 - 本地数据 -> ui数据
 */
 void P_COAS_PlayingPart::putDataToUi() {
 
 
-	// > 动画序列数据 - 初始化
-	QJsonObject data = QJsonObject();
-	data["id"] = this->m_actionSeq_curIndex;
-	data["visible"] = true;
-	data["pause"] = false;
-	data["waitForPreload"] = true;
-
-	// > 动画序列数据 - 容器 - 状态元序列
-	QJsonArray state_tank = QJsonArray();
-	for (int i = 0; i < this->local_stateDataList.count(); i++){
-		C_COAS_StatePtr state_ptr = this->local_stateDataList.at(i);
-		state_tank.append(Drill_COAS_Init::drill_COAS_initState(state_ptr->getJsonObject_Chinese()));
-	}
-	data["state_tank"] = state_tank;
-
-	// > 动画序列数据 - 容器 - 状态节点序列
-	QJsonArray stateNode_tank = QJsonArray();
-	for (int i = 0; i < this->local_stateNodeDataList.count(); i++){
-		C_COAS_StateNodePtr node_ptr = this->local_stateNodeDataList.at(i);
-		stateNode_tank.append(Drill_COAS_Init::drill_COAS_initStateNode(node_ptr->getJsonObject_Chinese()));
-	}
-	data["stateNode_tank"] = stateNode_tank;
-
-	// > 动画序列数据 - 容器 - 动作元序列
-	QJsonArray act_tank = QJsonArray();
-	for (int i = 0; i < this->local_actionDataList.count(); i++){
-		C_COAS_ActionPtr action_ptr = this->local_actionDataList.at(i);
-		act_tank.append(Drill_COAS_Init::drill_COAS_initAct(action_ptr->getJsonObject_Chinese()));
-	}
-	data["act_tank"] = act_tank;
-
-	// > 动画序列数据 - 容器 - 默认的状态元集合
-	data["state_default_randomSeq"] = TTool::_QJsonArray_QStringToA_(this->local_defaultSeq);
-
 	// > 动画序列数据 - 打包并放置在全局参数中
-	Drill_COAS_Init::getInstance()->setCOASDataByIndex(this->m_actionSeq_curIndex, data);
-
+	C_COAS_DataPtr data_ptr = this->m_parentPart->getCurrentData();
+	if (data_ptr.isNull()){ return; }
+	QJsonObject COAS_data_Chinese = data_ptr->getJsonObject_Chinese();
+	QJsonObject COAS_data_English = Drill_COAS_Init::drill_COAS_initSequence(COAS_data_Chinese);
+	Drill_COAS_Init::getInstance()->setCOASDataByIndex(data_ptr->m_COAS_id, COAS_data_English);
 
 	// > 动画序列核心初始化
-	this->m_COAS_mainController = Drill_COAS_MainController(data);
+	this->m_COAS_mainController = Drill_COAS_MainController(COAS_data_English);
 	this->m_COAS_mainController.drill_COAS_update();
 	this->m_p_AnimPictureViewer->clearSource();
 	this->m_p_AnimPictureViewer->setAnimFile(this->getSrcFileByName(this->m_COAS_mainController._drill_curBitmapName));
@@ -535,6 +437,5 @@ void P_COAS_PlayingPart::putDataToUi() {
 		窗口 - ui数据 -> 本地数据
 */
 void P_COAS_PlayingPart::putUiToData() {
-	
-
+	//（无）
 }
