@@ -1682,6 +1682,9 @@
     <Text Include="Source\Utils\widgetFormSenior\NodeDataOfTree\程序入口.txt">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（树图）</Filter>
     </Text>
+    <Text Include="Source\ActionSeqModule\PlayingPart\放映区常见问题.txt">
+      <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\放映区</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\关于灵活分类树.docx">

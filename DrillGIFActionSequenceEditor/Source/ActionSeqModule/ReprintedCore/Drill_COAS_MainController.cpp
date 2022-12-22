@@ -82,7 +82,7 @@ void Drill_COAS_MainController::drill_initData_Main(){
 	// > 子插件用参数
 	if (data["waitForPreload"].isUndefined() == true){ data["waitForPreload"] = true; }		//预加载等待
 
-	this->_drill_data = data;	//（注意此处的c++指针，需要重新赋值）
+	this->_drill_data = data;	//（c++中，注意此处的指针，需要重新赋值）
 }
 /*-------------------------------------------------
 		动画序列 - 私有数据初始化
@@ -114,7 +114,7 @@ void Drill_COAS_MainController::drill_initPrivateData_Main(){
 	QJsonArray stateNode_tank = data["stateNode_tank"].toArray();
 	stateNode_tank.append(node_data);
 	data["stateNode_tank"] = stateNode_tank;
-	this->_drill_data = data;	//（注意此处的c++指针，需要重新赋值）
+	this->_drill_data = data;	//（c++中，注意此处的指针，需要重新赋值）
 
 	// > 状态节点
 	//this._drill_node_curName = "";	//（立刻变化，没有缓冲设置）

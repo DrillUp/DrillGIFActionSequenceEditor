@@ -9,6 +9,7 @@
 		作者：		drill_up
 		所属模块：	动画序列模块
 		功能：		动画序列核心插件的复刻类。
+					【此类为一个单例，只被 放映区 赋值并使用】
 					（详细见cpp）
 -----==========================================================-----
 */
@@ -32,14 +33,6 @@ class Drill_COAS_Init{
 		static QJsonObject drill_COAS_initAct(QJsonObject dataFrom);
 									//变量获取 - 动画序列（~struct~DrillCOASSequence）
 		static QJsonObject drill_COAS_initSequence(QJsonObject dataFrom);
-		
-	//-----------------------------------
-	//----C++数据容器
-	protected:
-		QList<QJsonObject> g_COAS_list;
-	public:
-									//C++数据容器 - 设置数据
-		void setCOASDataByIndex(int index, QJsonObject data);
 
 	//-----------------------------------
 	//----数据访问器
@@ -71,9 +64,18 @@ class Drill_COAS_Init{
 		void drill_COAS_checkStateNodeMiss(QJsonObject* sequence_data, QJsonObject* stateNode_data);
 									//数据校验器 - 数据空检查 状态节点
 		bool drill_COAS_checkStateNodeIsEmpty(QJsonObject* stateNode_data);
-		bool drill_COAS_checkStateNodeIsEmpty_Chinese(QJsonObject* stateNode_data);
 									//数据校验器 - 嵌套检查 状态节点
 		void drill_COAS_checkStateNodeRecursion(QJsonObject* sequence_data, QJsonObject* stateNode_data, int layer);
+		
+		
+	//-----------------------------------
+	//----C++数据容器
+	protected:
+		QList<QJsonObject> g_COAS_list;
+	public:
+									//C++数据容器 - 设置数据
+									//		【说明】：由于核心复刻类的所有容器都只由 放映区 使用，因此此函数也被放映区单独赋值，执行播放。
+		void setCOASDataByIndex(int index, QJsonObject data);
 
 };
 

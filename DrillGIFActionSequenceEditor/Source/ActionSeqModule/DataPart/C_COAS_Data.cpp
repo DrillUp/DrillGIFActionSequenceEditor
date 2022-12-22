@@ -36,6 +36,56 @@ void C_COAS_Data::clearTankData(){
 	this->m_stateNode_tank.clear();
 }
 /*-------------------------------------------------
+		数据 - 刷新容器大小
+*/
+void C_COAS_Data::refreshTankLength(C_COAS_Length len){
+	
+	// > 动作元刷新
+	if (this->m_act_tank.count() < len.realLen_action){
+		for (int i = this->m_act_tank.count(); i < len.realLen_action; i++){
+			C_COAS_ActionPtr action_ptr = C_COAS_ActionPtr::create();
+			action_ptr->setJsonObject_Chinese(TTool::_JSON_parse_To_Obj_(""), i);
+			this->m_act_tank.append(action_ptr);
+		};
+	}
+	if (this->m_act_tank.count() > len.realLen_action){
+		int count = this->m_act_tank.count() - len.realLen_action;
+		for (int i = 0; i < count; i++){
+			this->m_act_tank.removeLast();
+		};
+	}
+
+	// > 状态元刷新
+	if (this->m_state_tank.count() < len.realLen_state){
+		for (int i = this->m_state_tank.count(); i < len.realLen_state; i++){
+			C_COAS_StatePtr state_ptr = C_COAS_StatePtr::create();
+			state_ptr->setJsonObject_Chinese(TTool::_JSON_parse_To_Obj_(""), i);
+			this->m_state_tank.append(state_ptr);
+		};
+	}
+	if (this->m_state_tank.count() > len.realLen_state){
+		int count = this->m_state_tank.count() - len.realLen_state;
+		for (int i = 0; i < count; i++){
+			this->m_state_tank.removeLast();
+		};
+	}
+
+	// > 状态节点刷新
+	if (this->m_stateNode_tank.count() < len.realLen_stateNode){
+		for (int i = this->m_stateNode_tank.count(); i < len.realLen_stateNode; i++){
+			C_COAS_StateNodePtr node_ptr = C_COAS_StateNodePtr::create();
+			node_ptr->setJsonObject_Chinese(TTool::_JSON_parse_To_Obj_(""), i);
+			this->m_stateNode_tank.append(node_ptr);
+		};
+	}
+	if (this->m_stateNode_tank.count() > len.realLen_stateNode){
+		int count = this->m_stateNode_tank.count() - len.realLen_stateNode;
+		for (int i = 0; i < count; i++){
+			this->m_stateNode_tank.removeLast();
+		};
+	}
+}
+/*-------------------------------------------------
 		数据 - 获取全部关联文件名（去重）
 */
 QStringList C_COAS_Data::getFileNameList(){
@@ -99,6 +149,7 @@ bool C_COAS_Data::isNull(){
 }
 /*-------------------------------------------------
 		实体类 -> QJsonObject
+			【所有 列表/结构体 都需要转成JSON字符串，不能直接存QJsonObject/QJsonArray】
 */
 QJsonObject C_COAS_Data::getJsonObject_Chinese(){
 	QJsonObject obj_actionSeq = QJsonObject();
@@ -149,11 +200,12 @@ QJsonObject C_COAS_Data::getJsonObject_Chinese(){
 }
 /*-------------------------------------------------
 		QJsonObject -> 实体类
+			【所有 列表/结构体 在读取时，要先转字符串，再解析为可用对象】
 */
 void C_COAS_Data::setJsonObject_Chinese(QJsonObject obj_actionSeq){
 
 	// > 树数据
-	this->m_COAS_id = obj_actionSeq.value("COAS_id").toInt();
+	this->m_COAS_id = obj_actionSeq.value("COAS_id").toInt();	//（这个参数是特殊例外，其它参数都需要先转字符串）
 	this->m_COAS_name = obj_actionSeq.value("COAS_name").toString();
 	this->m_COAS_type = obj_actionSeq.value("COAS_type").toString();
 

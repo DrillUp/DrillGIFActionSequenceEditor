@@ -229,6 +229,12 @@ void S_ActionSeqDataContainer::refreshActionSeqLength(){
 			this->data_ActionSeqData.removeAt(i);
 		}
 	}
+
+	// > 刷新动画序列中 状态元、状态节点、动作元 内容
+	for (int i = 0; i < this->data_ActionSeqData.count(); i++){
+		C_COAS_DataPtr data = this->data_ActionSeqData.at(i);
+		data->refreshTankLength(this->data_ActionSeqLength);
+	}
 }
 /*-------------------------------------------------
 		数据 - 获取全部关联的文件

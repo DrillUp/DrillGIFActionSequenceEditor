@@ -10,14 +10,14 @@
 		作者：		drill_up
 		所属模块：	动画序列数据
 		功能：		动画序列核心插件的复刻类。
+					【此类为一个单例，只被 放映区 赋值并使用】
 
-		说明：		当前复刻版本：[v1.3]
-		目标：		->变量获取
+		说明：		当前复刻版本：[v1.5]
+		主功能：	->变量获取
 						->状态元（~struct~DrillCOASState）
+						->状态节点（~struct~DrillCOASStateNode）
 						->动作元（~struct~DrillCOASAct）
 						->动画序列（~struct~DrillCOASSequence）
-
-		使用方法：	直接调用静态方法即可。
 -----==========================================================-----
 */
 Drill_COAS_Init::Drill_COAS_Init(){
@@ -43,28 +43,14 @@ Drill_COAS_Init* Drill_COAS_Init::getInstance() {
 void Drill_COAS_Init::_init() {
 	this->g_COAS_list.clear();
 }
-/*-------------------------------------------------
-		C++数据容器 - 设置数据
-*/
-void Drill_COAS_Init::setCOASDataByIndex(int index, QJsonObject data){
-	if (index < 0){ return; }
-	if (index < this->g_COAS_list.count()){
-		this->g_COAS_list.replace(index, data);
-		return;
-	}
-	for (int i = this->g_COAS_list.count(); i < index; i++){
-		this->g_COAS_list.append(QJsonObject());
-	}
-	this->g_COAS_list.append(data);
-}
 
 
 /*-------------------------------------------------
 		变量获取 - 状态元（~struct~DrillCOASState）
+			【所有 列表/结构体 都需要先转字符串，再转QJsonArray/QJsonObject对象】
 */
 QJsonObject Drill_COAS_Init::drill_COAS_initState(QJsonObject dataFrom){
 	QJsonObject data = QJsonObject();
-	//【所有 列表/结构体 都需要先转字符串，再转QJsonArray/QJsonObject对象】
 
 	// > 常规
 	data["name"] = dataFrom["状态元名称"].toString("");
@@ -101,10 +87,10 @@ QJsonObject Drill_COAS_Init::drill_COAS_initState(QJsonObject dataFrom){
 }
 /*-------------------------------------------------
 		变量获取 - 状态节点（~struct~DrillCOASStateNode）
+			【所有 列表/结构体 都需要先转字符串，再转QJsonArray/QJsonObject对象】
 */
 QJsonObject Drill_COAS_Init::drill_COAS_initStateNode(QJsonObject dataFrom){
 	QJsonObject data = QJsonObject();
-	//【所有 列表/结构体 都需要先转字符串，再转QJsonArray/QJsonObject对象】
 
 	// > 常规
 	data["name"] = dataFrom["节点名称"].toString("");
@@ -139,10 +125,10 @@ QJsonObject Drill_COAS_Init::drill_COAS_initStateNode(QJsonObject dataFrom){
 }
 /*-------------------------------------------------
 		变量获取 - 动作元（~struct~DrillCOASAct）
+		【所有 列表/结构体 都需要先转字符串，再转QJsonArray/QJsonObject对象】
 */
 QJsonObject Drill_COAS_Init::drill_COAS_initAct(QJsonObject dataFrom){
 	QJsonObject data = QJsonObject();
-	//【所有 列表/结构体 都需要先转字符串，再转QJsonArray/QJsonObject对象】
 
 	// > 常规
 	data["name"] = dataFrom["动作元名称"].toString("");
@@ -177,11 +163,11 @@ QJsonObject Drill_COAS_Init::drill_COAS_initAct(QJsonObject dataFrom){
 }
 /*-------------------------------------------------
 		变量获取 - 动画序列（~struct~DrillCOASSequence）
+			【所有 列表/结构体 都需要先转字符串，再转QJsonArray/QJsonObject对象】
 */
 QJsonObject Drill_COAS_Init::drill_COAS_initSequence(QJsonObject dataFrom){
 	QJsonObject data = QJsonObject();
 	C_COAS_Length len = S_ActionSeqDataContainer::getInstance()->getActionSeqLength();
-	//【所有 列表/结构体 都需要先转字符串，再转QJsonArray/QJsonObject对象】
 
 	// > 基本数据
 	data["id"] = dataFrom["COAS_id"].toInt();
@@ -313,73 +299,27 @@ bool Drill_COAS_Init::drill_COAS_hasAct(int sequence_id, QString act_name){
 		数据校验器 - 检查 动画序列
 */
 void Drill_COAS_Init::drill_COAS_checkSequenceData(QJsonObject* sequence_data){
-	//...（暂不考虑）
+
+	//（此处不执行）
+
 }
 /*-------------------------------------------------
 		数据校验器 - 子节点空检查 状态节点
 */
 void Drill_COAS_Init::drill_COAS_checkStateNodeMiss(QJsonObject* sequence_data, QJsonObject* stateNode_data){
-	//...（暂不考虑）
+
+	//（此处不执行）
+	//（对应执行函数见 P_StateNodePart::checkData_StateNodeDataList ）
+
 }
 /*-------------------------------------------------
 		数据校验器 - 数据空检查 状态节点
 */
 bool Drill_COAS_Init::drill_COAS_checkStateNodeIsEmpty(QJsonObject* stateNode_data){
-	//（状态节点必须配置对应的 状态元或状态节点，否则为空）
-	if (stateNode_data == nullptr){ return true; }
-	if (stateNode_data->value("name").isUndefined()){ return true; }
-	if (stateNode_data->value("name").toString() == ""){ return true; }
-	if (stateNode_data->value("play_type").isUndefined()){ return true; }
 
-	if (stateNode_data->value("play_type").toString() == "随机播放状态元"){
-		if (stateNode_data->value("play_randomStateSeq").isUndefined()){ return true; }
-		if (stateNode_data->value("play_randomStateSeq").toArray().count() == 0){ return true; }
-		return false;
-	}
-	if (stateNode_data->value("play_type").toString() == "顺序播放状态元"){
-		if (stateNode_data->value("play_plainStateSeq").isUndefined()){ return true; }
-		if (stateNode_data->value("play_plainStateSeq").toArray().count() == 0){ return true; }
-		return false;
-	}
-	if (stateNode_data->value("play_type").toString() == "随机播放嵌套集合"){
-		if (stateNode_data->value("play_randomNodeSeq").isUndefined()){ return true; }
-		if (stateNode_data->value("play_randomNodeSeq").toArray().count() == 0){ return true; }
-		return false;
-	}
-	if (stateNode_data->value("play_type").toString() == "顺序播放嵌套集合"){
-		if (stateNode_data->value("play_plainNodeSeq").isUndefined()){ return true; }
-		if (stateNode_data->value("play_plainNodeSeq").toArray().count() == 0){ return true; }
-		return false;
-	}
-	return true;
-}
-bool Drill_COAS_Init::drill_COAS_checkStateNodeIsEmpty_Chinese(QJsonObject* stateNode_data){
-	//（状态节点必须配置对应的 状态元或状态节点，否则为空）
-	if (stateNode_data == nullptr){ return true; }
-	if (stateNode_data->value("节点名称").isUndefined()){ return true; }
-	if (stateNode_data->value("节点名称").toString() == ""){ return true; }
-	if (stateNode_data->value("播放方式").isUndefined()){ return true; }
+	//（此处不执行）
+	//（对应执行函数见 C_COAS_StateNode::isEmptyNode ）
 
-	if (stateNode_data->value("播放方式").toString() == "随机播放状态元"){
-		if (stateNode_data->value("随机播放状态元").isUndefined()){ return true; }
-		if (TTool::_JSON_parse_To_QListQString_(stateNode_data->value("随机播放状态元").toString()).count() == 0){ return true; }
-		return false;
-	}
-	if (stateNode_data->value("播放方式").toString() == "顺序播放状态元"){
-		if (stateNode_data->value("顺序播放状态元").isUndefined()){ return true; }
-		if (TTool::_JSON_parse_To_QListQString_(stateNode_data->value("顺序播放状态元").toString()).count() == 0){ return true; }
-		return false;
-	}
-	if (stateNode_data->value("播放方式").toString() == "随机播放嵌套集合"){
-		if (stateNode_data->value("随机播放嵌套集合").isUndefined()){ return true; }
-		if (TTool::_JSON_parse_To_QListQString_(stateNode_data->value("随机播放嵌套集合").toString()).count() == 0){ return true; }
-		return false;
-	}
-	if (stateNode_data->value("播放方式").toString() == "顺序播放嵌套集合"){
-		if (stateNode_data->value("顺序播放嵌套集合").isUndefined()){ return true; }
-		if (TTool::_JSON_parse_To_QListQString_(stateNode_data->value("顺序播放嵌套集合").toString()).count() == 0){ return true; }
-		return false;
-	}
 	return true;
 }
 /*-------------------------------------------------
@@ -390,4 +330,20 @@ void Drill_COAS_Init::drill_COAS_checkStateNodeRecursion(QJsonObject* sequence_d
 	//（此处不执行）
 	//（对应执行函数见 P_StateNodePart::checkData_StateNodeDataList ）
 
+}
+
+
+/*-------------------------------------------------
+		C++数据容器 - 设置数据
+*/
+void Drill_COAS_Init::setCOASDataByIndex(int index, QJsonObject data){
+	if (index < 0){ return; }
+	if (index < this->g_COAS_list.count()){
+		this->g_COAS_list.replace(index, data);
+		return;
+	}
+	for (int i = this->g_COAS_list.count(); i < index; i++){
+		this->g_COAS_list.append(QJsonObject());
+	}
+	this->g_COAS_list.append(data);
 }

@@ -4,6 +4,7 @@
 #include "../ActionPart/C_COAS_Action.h"
 #include "../StatePart/C_COAS_State.h"
 #include "../StateNodePart/C_COAS_StateNode.h"
+#include "../Data/LengthData/C_COAS_Length.h"
 
 /*
 -----==========================================================-----
@@ -34,6 +35,8 @@ class C_COAS_Data{
 	public:
 								//数据 - 清除数据
 		void clearTankData();
+								//数据 - 刷新容器大小
+		void refreshTankLength(C_COAS_Length len);
 								//数据 - 获取全部关联文件名（去重）
 		QStringList getFileNameList();
 								//数据 - 获取名称

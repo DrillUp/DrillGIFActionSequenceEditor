@@ -2319,6 +2319,7 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Source\ActionSeqModule\PlayingPart\放映区常见问题.txt" />
     <Text Include="Source\ActionSeqModule\reprintedCore\复刻说明.txt" />
     <Text Include="Source\DllModule\cximagecrt_drill\关于cximagecrt_drill.txt" />
     <Text Include="Source\DllModule\Dll模块说明.txt" />

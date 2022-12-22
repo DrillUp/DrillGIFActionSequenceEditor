@@ -80,7 +80,7 @@ void Drill_COAS_ActController::drill_initData_Act(){
 	// > 杂项
 	if (data["note"].isUndefined() == true){ data["note"] = ""; }					//杂项 - 备注
 
-	this->_drill_data = data;	//（注意此处的c++指针，需要重新赋值）
+	this->_drill_data = data;	//（c++中，注意此处的指针，需要重新赋值）
 }
 /*-------------------------------------------------
 		动作元 - 私有数据初始化

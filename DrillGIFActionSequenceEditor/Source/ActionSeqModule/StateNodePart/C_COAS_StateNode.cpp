@@ -92,6 +92,7 @@ bool C_COAS_StateNode::isNull(){
 }
 /*-------------------------------------------------
 		实体类 -> QJsonObject
+			【所有 列表/结构体 都需要转成JSON字符串，不能直接存QJsonObject/QJsonArray】
 */
 QJsonObject C_COAS_StateNode::getJsonObject_Chinese(){
 	QJsonObject obj = QJsonObject();
@@ -124,6 +125,7 @@ QJsonObject C_COAS_StateNode::getJsonObject_Chinese(){
 }
 /*-------------------------------------------------
 		QJsonObject -> 实体类
+			【所有 列表/结构体 在读取时，要先转字符串，再解析为可用对象】
 */
 void C_COAS_StateNode::setJsonObject_Chinese(QJsonObject obj, int id){
 	this->id = id;
@@ -132,17 +134,17 @@ void C_COAS_StateNode::setJsonObject_Chinese(QJsonObject obj, int id){
 	this->name = obj.value("节点名称").toString();
 
 	this->tag_tank = TTool::_JSON_parse_To_QListQString_(obj.value("节点标签").toString());
-	this->priority = obj.value("节点优先级").toString().toInt();
-	this->proportion = obj.value("节点权重").toString("1").toInt();
+	this->priority = obj.value("节点优先级").toString("0").toInt();
+	this->proportion = obj.value("节点权重").toString("40").toInt();
 	this->canBeInterrupted = obj.value("可被动作元打断").toString() == "true";
 
 	// > 播放列表
-	this->play_type = obj.value("播放方式").toString();
+	this->play_type = obj.value("播放方式").toString("随机播放状态元");
 	this->play_randomStateSeq = TTool::_JSON_parse_To_QListQString_(obj.value("随机播放状态元").toString());
 	this->play_plainStateSeq = TTool::_JSON_parse_To_QListQString_(obj.value("顺序播放状态元").toString());
 	this->play_randomNodeSeq = TTool::_JSON_parse_To_QListQString_(obj.value("随机播放嵌套集合").toString());
 	this->play_plainNodeSeq = TTool::_JSON_parse_To_QListQString_(obj.value("顺序播放嵌套集合").toString());
-	this->play_randomMax = obj.value("随机播放的次数上限").toString().toInt();
+	this->play_randomMax = obj.value("随机播放的次数上限").toString("1").toInt();
 
 	// > 杂项
 	this->note = obj.value("备注").toString();

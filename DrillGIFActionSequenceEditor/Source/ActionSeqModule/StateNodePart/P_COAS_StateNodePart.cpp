@@ -29,10 +29,8 @@
 						->列表
 						->索引
 						->窗口交互
-
-		使用方法：
-				>初始化
-
+						
+		使用方法：	见 P_COAS_DataPart 动画序列块对此块的初始化。
 -----==========================================================-----
 */
 P_COAS_StateNodePart::P_COAS_StateNodePart(P_COAS_StatePart* statePart, QWidget *parent)

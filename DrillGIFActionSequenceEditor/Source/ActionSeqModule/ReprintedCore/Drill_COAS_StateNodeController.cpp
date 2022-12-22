@@ -62,7 +62,6 @@ bool Drill_COAS_StateNodeController::isNull(){
 */
 void Drill_COAS_StateNodeController::drill_initData_Node(){
 	QJsonObject data = this->_drill_data;
-	qDebug() << data;
 
 	// > 常规
 	if (data["name"].isUndefined() == true){ data["name"] = ""; }								//节点名称
@@ -82,8 +81,7 @@ void Drill_COAS_StateNodeController::drill_initData_Node(){
 	// > 杂项
 	if (data["note"].isUndefined() == true){ data["note"] = ""; }											//杂项 - 备注
 
-	qDebug() << data;
-	this->_drill_data = data;	//（注意此处的c++指针，需要重新赋值）
+	this->_drill_data = data;	//（c++中，注意此处的指针，需要重新赋值）
 }
 /*-------------------------------------------------
 		数据 - 私有数据初始化
@@ -521,6 +519,6 @@ void Drill_COAS_StateNodeController::drill_COAS_setNewStateNameList(QStringList 
 	QJsonObject data = this->_drill_data;
 	data["play_type"] = "随机播放状态元";
 	data["play_randomStateSeq"] = TTool::_QJsonArray_QStringToA_(state_nameList);
-	this->_drill_data = data;		//（c++注意此处，data变化后需要强制赋值，因为不是指针修改）
+	this->_drill_data = data;	//（c++中，注意此处的指针，需要重新赋值）
 	this->drill_COAS_refreshNext();
 }
