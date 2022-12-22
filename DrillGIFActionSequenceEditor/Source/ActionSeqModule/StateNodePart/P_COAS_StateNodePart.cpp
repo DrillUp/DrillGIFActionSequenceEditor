@@ -234,6 +234,7 @@ QStringList P_COAS_StateNodePart::getNameList(){
 	QStringList result = QStringList();
 	for (int i = 0; i < this->m_stateNodeDataList.count(); i++){
 		C_COAS_StateNodePtr node_ptr = this->m_stateNodeDataList.at(i);
+		if (node_ptr.isNull()){ continue; }
 		result.append(node_ptr->name);
 	}
 	return result;

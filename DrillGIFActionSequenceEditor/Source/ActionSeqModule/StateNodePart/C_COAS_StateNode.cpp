@@ -116,7 +116,7 @@ QJsonObject C_COAS_StateNode::getJsonObject_Chinese(){
 	obj.insert("顺序播放状态元", TTool::_JSON_stringify_(this->play_plainStateSeq));
 	obj.insert("随机播放嵌套集合", TTool::_JSON_stringify_(this->play_randomNodeSeq));
 	obj.insert("顺序播放嵌套集合", TTool::_JSON_stringify_(this->play_plainNodeSeq));
-	obj.insert("随机播放的次数上限", this->play_randomMax);
+	obj.insert("随机播放的次数上限", QString::number(this->play_randomMax));
 
 	// > 杂项
 	obj.insert("备注", this->note);

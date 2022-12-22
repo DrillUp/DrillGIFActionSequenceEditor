@@ -111,7 +111,6 @@ QJsonObject Drill_COAS_Init::drill_COAS_initStateNode(QJsonObject dataFrom){
 	QStringList play_plainNodeSeq = TTool::_JSON_parse_To_QListQString_(dataFrom["顺序播放嵌套集合"].toString(""));
 	data["play_plainNodeSeq"] = TTool::_QJsonArray_QStringToA_(play_plainNodeSeq);
 	data["play_randomMax"] = dataFrom["随机播放的次数上限"].toString("5").toInt();
-	qDebug() << play_randomNodeSeq;
 
 	// > 杂项
 	QString temp = dataFrom["备注"].toString("");

@@ -165,6 +165,7 @@ void Drill_COAS_StateNodeController::drill_COAS_resetTimer(QJsonObject data){
 	if (data["play_type"].toString() == "顺序播放嵌套集合"){
 		this->_drill_tarIndex = data["play_plainNodeSeq"].toArray().count();
 	}
+	qDebug() << "重设：" << data["name"].toString() << " - " << QString::number(this->_drill_tarIndex) << "次";
 }
 /*-------------------------------------------------
 		状态节点 - 子节点 - 刷新子节点

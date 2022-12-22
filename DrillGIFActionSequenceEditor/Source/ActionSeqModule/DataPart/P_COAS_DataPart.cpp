@@ -195,7 +195,9 @@ void P_COAS_DataPart::op_clear(int index){
 	S_ProjectManager::getInstance()->setDirty();
 
 	// > 执行替换
-	this->getActionSeqList().at(index)->clearTankData();
+	C_COAS_DataPtr data_ptr = this->getActionSeqList().at(index);
+	data_ptr->clearTankData();
+	data_ptr->refreshTankLength(S_ActionSeqDataContainer::getInstance()->getActionSeqLength());
 	this->local_loadIndexData(index);
 
 	// > 更新树的名称
