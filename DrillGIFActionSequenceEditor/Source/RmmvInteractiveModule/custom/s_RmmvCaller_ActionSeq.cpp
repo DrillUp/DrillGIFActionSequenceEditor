@@ -120,8 +120,11 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 		QString COAS_context = file_COAS_file.readAll();
 		file_COAS_file.close();
 
-		// > 强制覆盖
+		// > 强制覆盖旧版本
 		if (COAS_context.contains("动作序列-%d")){
+			QFileInfo COAS_updateFile = QFileInfo(QApplication::applicationDirPath() + "/tools/Drill_CoreOfActionSequence.js");
+			S_TempFileManager::getInstance()->copy_File(COAS_updateFile, file_COAS_file);
+		}else if (COAS_context.contains("状态节点-%d") == false){
 			QFileInfo COAS_updateFile = QFileInfo(QApplication::applicationDirPath() + "/tools/Drill_CoreOfActionSequence.js");
 			S_TempFileManager::getInstance()->copy_File(COAS_updateFile, file_COAS_file);
 		}
@@ -215,6 +218,9 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 
 		le_data.initParam("Drill_CoreOfActionSequence", "状态元-%d", as_len.realLen_state);
 		script_context = S_LEConfigWriter::getInstance()->doOverwritePlugin(script_context, le_annotation->getParamByKey("状态元-%d"), le_data);
+
+		le_data.initParam("Drill_CoreOfActionSequence", "状态节点-%d", as_len.realLen_stateNode);
+		script_context = S_LEConfigWriter::getInstance()->doOverwritePlugin(script_context, le_annotation->getParamByKey("状态节点-%d"), le_data);
 
 		le_data.initParam("Drill_CoreOfActionSequence", "动作元-%d", as_len.realLen_action);
 		script_context = S_LEConfigWriter::getInstance()->doOverwritePlugin(script_context, le_annotation->getParamByKey("动作元-%d"), le_data);

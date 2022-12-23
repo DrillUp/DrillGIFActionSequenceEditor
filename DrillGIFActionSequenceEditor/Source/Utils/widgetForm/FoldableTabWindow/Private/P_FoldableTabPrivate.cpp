@@ -1,5 +1,5 @@
 ﻿#include "stdafx.h"
-#include "C_FoldableTabPrivate.h"
+#include "P_FoldableTabPrivate.h"
 
 /*
 -----==========================================================-----
@@ -9,19 +9,31 @@
 		功能：		折叠功能使用的私有类。
 -----==========================================================-----
 */
-C_FoldableTabPrivate::C_FoldableTabPrivate(){
+P_FoldableTabPrivate::P_FoldableTabPrivate(){
 	this->name = "";
 	this->partWidget = nullptr;
 	this->isInChildWindow = false;
-	this->param = QJsonObject();
+	this->option = QJsonObject();
 }
-C_FoldableTabPrivate::~C_FoldableTabPrivate(){
+P_FoldableTabPrivate::~P_FoldableTabPrivate(){
 }
 
 /*-------------------------------------------------
-		空判断
+		控件块 - 在选项卡中
 */
-bool C_FoldableTabPrivate::isEmpty(){
+bool P_FoldableTabPrivate::isInTab(){
+	return this->isInChildWindow == false;
+}
+/*-------------------------------------------------
+		控件块 - 在子窗口中
+*/
+bool P_FoldableTabPrivate::isInWindow(){
+	return this->isInChildWindow == true;
+}
+/*-------------------------------------------------
+		控件块 - 空判断
+*/
+bool P_FoldableTabPrivate::isEmpty(){
 	if (this->name == ""){ return true; }
 	if (this->partWidget == nullptr){ return true; }
 	return false;

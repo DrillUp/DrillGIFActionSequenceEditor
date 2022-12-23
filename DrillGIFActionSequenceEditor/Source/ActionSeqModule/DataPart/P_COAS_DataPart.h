@@ -89,6 +89,8 @@ class P_COAS_DataPart : public QWidget
 		void stopPlaying();
 										//大控件 - 刷新表格
 		void refreshPlayingPartTable();
+										//大控件 - 任意大控件被点击时
+		void partFocusIn(QString part_name);
 
 	//-----------------------------------
 	//----窗口

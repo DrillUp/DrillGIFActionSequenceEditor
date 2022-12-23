@@ -44,6 +44,7 @@ P_COAS_DataPart::P_COAS_DataPart(QWidget *parent)
 	this->m_p_FoldableTabRelater->addPart(" 状态节点  ", this->m_stateNodePart);
 	this->m_p_FoldableTabRelater->addPart(" 动作元  ", this->m_actionPart);
 	this->setPartGray();
+	connect(this->m_p_FoldableTabRelater, &P_FoldableTabRelater::signal_whenPartFocusIn, this, &P_COAS_DataPart::partFocusIn);
 
 	// > 树
 	this->m_p_tree = new P_FlexibleClassificationTree(ui.treeWidget_ActionSeq);
@@ -86,6 +87,7 @@ void P_COAS_DataPart::currentActionSeqChanged(QTreeWidgetItem* item, int id, QSt
 	// > 新数据填充
 	this->local_loadIndexData(id - 1);
 	
+
 	// > 树选择变化时，清理 放映区 的临时简单状态元
 	this->m_playingPart->clearSimpleState();
 }
@@ -266,6 +268,24 @@ void P_COAS_DataPart::stopPlaying(){
 */
 void P_COAS_DataPart::refreshPlayingPartTable(){
 	this->m_playingPart->refreshTable();
+}
+/*-------------------------------------------------
+		大控件 - 任意大控件被点击时
+*/
+void P_COAS_DataPart::partFocusIn(QString part_name){
+	
+	if (part_name == " 放映区  "){
+		//（不操作）
+	}
+	if (part_name == " 状态元  "){
+		//（不操作）
+	}
+	if (part_name == " 状态节点  "){
+		this->m_stateNodePart->stateNameChanged();	//（每次状态节点聚焦时，都刷新一次状态元名称列表）
+	}
+	if (part_name == " 动作元  "){
+		//（不操作）
+	}
 }
 
 

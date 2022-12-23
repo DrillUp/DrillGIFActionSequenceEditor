@@ -3,7 +3,7 @@
 #include "stdafx.h"
 
 #include "ui_W_FoldableTabChildWindow.h"
-#include "C_FoldableTabPrivate.h"
+#include "P_FoldableTabPrivate.h"
 
 /*
 -----==========================================================-----
@@ -21,20 +21,26 @@ class W_FoldableTabChildWindow : public QDialog
 	Q_OBJECT
 
 	public:
-		W_FoldableTabChildWindow(P_FoldableTabRelater* parentManager, C_FoldableTabPrivate* part, QWidget *parent = 0);
+		W_FoldableTabChildWindow(P_FoldableTabRelater* parentManager, P_FoldableTabPrivate* part, QWidget *parent = 0);
 		~W_FoldableTabChildWindow();
 		
 	//-----------------------------------
 	//----控件
 	private:
-		P_FoldableTabRelater* m_parentManager;
-		C_FoldableTabPrivate* m_part;
+		P_FoldableTabRelater* m_parentWidget;
+		P_FoldableTabPrivate* m_partWidget;
 		QHBoxLayout* m_layout;
+		QWindow* m_window;
 	public slots:
 										//控件 - 刷新子块控件
 		void refreshPart();
 										//控件 - 清理控件
 		void clearPart();
+										//控件 - 焦点变化
+		void dialogActiveChanged();
+	signals:
+										//信号 - 窗口被聚焦
+		void signal_windowActived(QString part_name);
 		
 	//-----------------------------------
 	//----窗口

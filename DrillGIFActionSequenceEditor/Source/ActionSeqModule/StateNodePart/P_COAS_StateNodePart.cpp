@@ -105,10 +105,28 @@ void P_COAS_StateNodePart::nameEdited(QString name){
 	// > 状态节点列表变化
 	this->m_table->modifyText_Selected(name);
 
+	// > 立即刷新名称到当前数据
+	if (this->m_last_index != -1){
+		C_COAS_StateNodePtr node_ptr = this->m_stateNodeDataList.at(this->m_last_index);
+		node_ptr->name = name;
+	}
+
 	// > 可选的状态节点变化
 	QString text = ui.comboBox_playType->currentText();
 	if (text == "随机播放嵌套集合" || text == "顺序播放嵌套集合"){
 		QStringList name_list = this->m_table->getAllText();//节点名称列表
+		TTool::_QStringList_clearEmptyRows_(&name_list);
+		this->m_P_TwoTableStringFiller->setLeftString(name_list);
+		this->m_P_TwoTableStringFiller->refreshTable();
+	}
+}
+/*-------------------------------------------------
+		控件 - 状态元名称变化
+*/
+void P_COAS_StateNodePart::stateNameChanged(){
+	QString text = ui.comboBox_playType->currentText();
+	if (text == "随机播放状态元" || text == "顺序播放状态元"){
+		QStringList name_list = this->m_P_COAS_StatePart->getNameList();//状态元名称列表
 		TTool::_QStringList_clearEmptyRows_(&name_list);
 		this->m_P_TwoTableStringFiller->setLeftString(name_list);
 		this->m_P_TwoTableStringFiller->refreshTable();

@@ -1,31 +1,32 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "p_RmmvCaller.h"
 
 #include "Source/MainModule/drillgifactionsequenceeditor.h"
 
+#include "Source/ActionSeqModule/Data/S_ActionSeqDataContainer.h"
 #include "Source/Utils/manager/callManager/s_CallManager.h"
 #include "Source/Utils/common/TTool.h"
 
 /*
 -----==========================================================-----
-		Àà£º		rmmv½»»¥Õß£¨¸¸Àà£©.cpp
-		°æ±¾£º		v1.01
-		ËùÊôÄ£¿é£º	½»»¥Ä£¿é
-		¹¦ÄÜ£º		ÓërmmvÈí¼ş½»»¥µÄµ¥Àı£¬Ö»°üº¬Ò»Ğ©»ù±¾¶ÀÁ¢µÄ²Ù×÷¡£
+		ç±»ï¼š		rmmväº¤äº’è€…ï¼ˆçˆ¶ç±»ï¼‰.cpp
+		ç‰ˆæœ¬ï¼š		v1.01
+		æ‰€å±æ¨¡å—ï¼š	äº¤äº’æ¨¡å—
+		åŠŸèƒ½ï¼š		ä¸rmmvè½¯ä»¶äº¤äº’çš„å•ä¾‹ï¼ŒåªåŒ…å«ä¸€äº›åŸºæœ¬ç‹¬ç«‹çš„æ“ä½œã€‚
 
-		ËµÃ÷£º		ÎªÁË±£Ö¤½Ó¿ÚÎ¨Ò»ĞÔ£¬
-					ÓërmmvÈí¼ş/ÎÄ¼şµÄËùÓĞÏà¹Ø²Ù×÷¶¼ÔÚ¸Ã½»»¥Ä£¿éÖĞ¡£
-					ÆäËûÄ£¿é¶¼²»ÄÜÖ±½ÓÓërmmv½»»¥£¬±ØĞë¾­¹ı¸Ã ¸¸Àà ½øĞĞ½»»¥¡£
+		è¯´æ˜ï¼š		ä¸ºäº†ä¿è¯æ¥å£å”¯ä¸€æ€§ï¼Œ
+					ä¸rmmvè½¯ä»¶/æ–‡ä»¶çš„æ‰€æœ‰ç›¸å…³æ“ä½œéƒ½åœ¨è¯¥äº¤äº’æ¨¡å—ä¸­ã€‚
+					å…¶ä»–æ¨¡å—éƒ½ä¸èƒ½ç›´æ¥ä¸rmmväº¤äº’ï¼Œå¿…é¡»ç»è¿‡è¯¥ çˆ¶ç±» è¿›è¡Œäº¤äº’ã€‚
 
-		Ä¿±ê£º		-> ´ò¿ªrmmv
-					-> ±£´ærmmv
-					-> ÔËĞĞrmmv
+		ç›®æ ‡ï¼š		-> æ‰“å¼€rmmv
+					-> ä¿å­˜rmmv
+					-> è¿è¡Œrmmv
 					
-		ÎÊÌâ£º		> ±ØĞë¹ØÁËrmmv±à¼­Æ÷£¬ÔÙ±£´æ²ÅÊÇ×î±£ÏÕÇÒÓĞĞ§µÄ·½·¨¡£
-					> ËäÈ»¿ÉÒÔ×öµ½ÈÃrmmv±£´æ£¬µ«ÊÇ±£´æºóÔÙĞŞ¸Ä£¬ÕâÊ±ºòrmmvÖĞµÄ±à¼­Æ÷Êı¾İÊÇ²»Í¬²½µÄ¡£
+		é—®é¢˜ï¼š		> å¿…é¡»å…³äº†rmmvç¼–è¾‘å™¨ï¼Œå†ä¿å­˜æ‰æ˜¯æœ€ä¿é™©ä¸”æœ‰æ•ˆçš„æ–¹æ³•ã€‚
+					> è™½ç„¶å¯ä»¥åšåˆ°è®©rmmvä¿å­˜ï¼Œä½†æ˜¯ä¿å­˜åå†ä¿®æ”¹ï¼Œè¿™æ—¶å€™rmmvä¸­çš„ç¼–è¾‘å™¨æ•°æ®æ˜¯ä¸åŒæ­¥çš„ã€‚
 
-		Ê¹ÓÃ·½·¨£º
-				>¼Ì³Ğ¸ÃÀà
+		ä½¿ç”¨æ–¹æ³•ï¼š
+				>ç»§æ‰¿è¯¥ç±»
 					
 -----==========================================================-----
 */
@@ -35,21 +36,21 @@ P_RmmvCaller::~P_RmmvCaller() {
 }
 
 /*-------------------------------------------------
-		rmmv - ´ò¿ªrmmv
+		rmmv - æ‰“å¼€rmmv
 */
 C_RmmvProjectData P_RmmvCaller::callRmmvSelect(){
 	QFileDialog fd;
-	fd.setWindowTitle("´ò¿ªrmmv¹¤³Ì");
-	fd.setAcceptMode(QFileDialog::AcceptOpen);		//¶Ô»°¿òÀàĞÍ£¨´ò¿ª/±£´æ£©£¨±£´æ»áÓĞÎÄ¼ş¸²¸ÇÌáÊ¾£©
-	fd.setDirectory(".");							//Ä¬ÈÏÄ¿Â¼
-	fd.setNameFilters(QStringList()					//ÎÄ¼ş¸ñÊ½
-		<< "rmmv¹¤³ÌÎÄ¼ş(*.rpgproject)"
+	fd.setWindowTitle("æ‰“å¼€rmmvå·¥ç¨‹");
+	fd.setAcceptMode(QFileDialog::AcceptOpen);		//å¯¹è¯æ¡†ç±»å‹ï¼ˆæ‰“å¼€/ä¿å­˜ï¼‰ï¼ˆä¿å­˜ä¼šæœ‰æ–‡ä»¶è¦†ç›–æç¤ºï¼‰
+	fd.setDirectory(".");							//é»˜è®¤ç›®å½•
+	fd.setNameFilters(QStringList()					//æ–‡ä»¶æ ¼å¼
+		<< "rmmvå·¥ç¨‹æ–‡ä»¶(*.rpgproject)"
 		);
 	fd.setViewMode(QFileDialog::Detail);
 
 	if (fd.exec() == QDialog::Accepted) {
 		if (fd.selectedFiles().empty()) {
-			//£¨Ã»ÓĞÑ¡ÔñÎÄ¼ş½øÈëµÄÇé¿ö£©
+			//ï¼ˆæ²¡æœ‰é€‰æ‹©æ–‡ä»¶è¿›å…¥çš„æƒ…å†µï¼‰
 			return C_RmmvProjectData();
 		}
 		QString file_path = fd.selectedFiles().at(0);
@@ -59,68 +60,75 @@ C_RmmvProjectData P_RmmvCaller::callRmmvSelect(){
 		return data;
 	}
 	else {
-		//£¨µã»÷¹Ø±Õ»òÕßÈ¡Ïû²Ù×÷µÄÇé¿ö£©
+		//ï¼ˆç‚¹å‡»å…³é—­æˆ–è€…å–æ¶ˆæ“ä½œçš„æƒ…å†µï¼‰
 		return C_RmmvProjectData();
 	}
 }
 
 /*-------------------------------------------------
-		´ò¿ªrmmv±à¼­Æ÷
+		æ‰“å¼€rmmvç¼–è¾‘å™¨
 */
 void P_RmmvCaller::callRmmvSoftware(C_RmmvProjectData rmmvProjectData){
 	QString rmmv_window_name = rmmvProjectData.getName() + " - RPG Maker MV";
 
-	// > ÒÑ´æÔÚÊ±£¬¼¤»î´°¿Ú
+	// > å·²å­˜åœ¨æ—¶ï¼Œæ¿€æ´»çª—å£
 	int num = S_CallManager::getInstance()->getWindowNum(rmmv_window_name);
 	if (num >= 1){
 		S_CallManager::getInstance()->activeWindow(rmmv_window_name);
 		return;
 	}
 	
-	// > ´ò¿ªÂ·¾¶
+	// > æ‰“å¼€è·¯å¾„
 	QDesktopServices::openUrl(QUrl("file:/" + rmmvProjectData.getRootPath() + "/Game.rpgproject"));
 }
 
 /*-------------------------------------------------
-		rmmv - ±£´ærmmv£¨ÈÃrmmvÏÈ±£´æ£¬È»ºó×Ô¼º´æ£©
+		rmmv - ä¿å­˜rmmvï¼ˆè®©rmmvå…ˆä¿å­˜ï¼Œç„¶åè‡ªå·±å­˜ï¼‰
 */
 void P_RmmvCaller::callRmmvSave(C_RmmvProjectData rmmvProjectData){
 	QString rmmv_window_name = rmmvProjectData.getName() + " - RPG Maker MV";
 
-	// > rmmvÊıÁ¿¼ì²é
+	// > rmmvæ•°é‡æ£€æŸ¥
 	int num = S_CallManager::getInstance()->getWindowNum(rmmv_window_name);
 	if (num > 1){
-		QMessageBox::warning(DrillGIFActionSequenceEditor::getInstance(), "´íÎó", "ÄãÍ¬Ê±¿ªÁË" + TTool::_auto_(num) + "¸öÒ»Ä£Ò»ÑùµÄrmmv¹¤³Ì´°¿Ú£¬ÇëÈ·±£Ö»ÓĞÒ»¸örmmv¹¤³Ì´°¿Ú¡£", QMessageBox::Yes);
+		QMessageBox::warning(DrillGIFActionSequenceEditor::getInstance(), "é”™è¯¯", "ä½ åŒæ—¶å¼€äº†" + TTool::_auto_(num) + "ä¸ªä¸€æ¨¡ä¸€æ ·çš„rmmvå·¥ç¨‹çª—å£ï¼Œè¯·ç¡®ä¿åªæœ‰ä¸€ä¸ªrmmvå·¥ç¨‹çª—å£ã€‚", QMessageBox::Yes);
 		return;
 	}else if (num == 0){
 		this->saveDataToRmmv(rmmvProjectData);
 		return;
 	}
 
-	// > rmmv±£´æ
+	// > rmmvä¿å­˜
 	HWND hwnd = S_CallManager::getInstance()->getWindow(rmmv_window_name);
 	int success = S_CallManager::getInstance()->callSave(hwnd);
 
-	// > ¹¤³Ì¸²¸Ç±£´æ
+	// > å·¥ç¨‹è¦†ç›–ä¿å­˜
 	this->saveDataToRmmv(rmmvProjectData);
 
-	// > ·µ»Ø½çÃæ
+	// > è¿”å›ç•Œé¢
 	S_CallManager::getInstance()->activeLocalWindow( DrillGIFActionSequenceEditor::getInstance() );
 	if (!success){
-		QMessageBox::warning(DrillGIFActionSequenceEditor::getInstance(), "´íÎó", "±£´æÊ§°Ü£¬ÇëÏÈ¹Ø±ÕÄãÔÚrmmvÖĞÕıÔÚ±à¼­µÄ´°¿Ú¡£", QMessageBox::Yes);
+		QMessageBox::warning(DrillGIFActionSequenceEditor::getInstance(), "é”™è¯¯", "ä¿å­˜å¤±è´¥ï¼Œè¯·å…ˆå…³é—­ä½ åœ¨rmmvä¸­æ­£åœ¨ç¼–è¾‘çš„çª—å£ã€‚", QMessageBox::Yes);
 		return;
 	}
 }
 /*-------------------------------------------------
-		rmmv - ±£´ærmmv£¨ÒªÇóÓÃ»§¹Ø±Õrmmv£¬²ÅÄÜ±£´æ£©
+		rmmv - ä¿å­˜rmmvï¼ˆè¦æ±‚ç”¨æˆ·å…³é—­rmmvï¼Œæ‰èƒ½ä¿å­˜ï¼‰
 */
 void P_RmmvCaller::callRmmvSave_RequestingClose(C_RmmvProjectData rmmvProjectData){
 	QString rmmv_window_name = rmmvProjectData.getName() + " - RPG Maker MV";
 
-	// > rmmvÊıÁ¿¼ì²é
+	// > rmmvæ•°é‡æ£€æŸ¥
 	int num = S_CallManager::getInstance()->getWindowNum(rmmv_window_name);
 	if (num >= 1){
-		QMessageBox::information(nullptr, "ÌáÊ¾", "±£´æÊ§°Ü¡£\nÓÉÓÚ¸üĞÂµÄÊı¾İ²»ÄÜÍ¬²½µ½ÒÑ´ò¿ªµÄrmmv±à¼­Æ÷ÖĞ£¬\nËùÒÔ±ØĞëÏÈ¹Ø±Õ¹¤³Ì\"" + rmmvProjectData.getName() + "\"£¬ÔÙ½øĞĞ±£´æ¡£", QMessageBox::Yes);
+		QMessageBox::information(nullptr, "æç¤º", "ä¿å­˜å¤±è´¥ã€‚\nç”±äºæ›´æ–°çš„æ•°æ®ä¸èƒ½åŒæ­¥åˆ°å·²æ‰“å¼€çš„rmmvç¼–è¾‘å™¨ä¸­ï¼Œ\næ‰€ä»¥å¿…é¡»å…ˆå…³é—­å·¥ç¨‹\"" + rmmvProjectData.getName() + "\"ï¼Œå†è¿›è¡Œä¿å­˜ã€‚", QMessageBox::Yes);
+		return;
+	}
+
+	// > æ•°ç»„é•¿åº¦æ£€æŸ¥
+	C_COAS_Length len = S_ActionSeqDataContainer::getInstance()->getActionSeqLength();
+	if (len.isNull()){
+		QMessageBox::information(nullptr, "æç¤º", "ä¿å­˜å¤±è´¥ã€‚\nè¯·é‡æ–°æ£€æŸ¥æ•°ç»„é•¿åº¦ï¼ŒåŠ¨ç”»åºåˆ—ã€çŠ¶æ€å…ƒã€çŠ¶æ€èŠ‚ç‚¹ã€åŠ¨ä½œå…ƒé•¿åº¦å¿…é¡»è¦åœ¨4ä»¥ä¸Šã€‚", QMessageBox::Yes);
 		return;
 	}
 
@@ -128,32 +136,32 @@ void P_RmmvCaller::callRmmvSave_RequestingClose(C_RmmvProjectData rmmvProjectDat
 }
 
 /*-------------------------------------------------
-		rmmv - ÔËĞĞrmmv
+		rmmv - è¿è¡Œrmmv
 */
 void P_RmmvCaller::callRmmvRun(C_RmmvProjectData rmmvProjectData){
 	QString rmmv_window_name = rmmvProjectData.getName() + " - RPG Maker MV";
 
-	//>¹¤³ÌÊıÁ¿¼ì²é
+	//>å·¥ç¨‹æ•°é‡æ£€æŸ¥
 	int num = S_CallManager::getInstance()->getWindowNum(rmmv_window_name);
 	if (num > 1){
-		QMessageBox::warning(DrillGIFActionSequenceEditor::getInstance(), "´íÎó", "ÄãÍ¬Ê±¿ªÁË" + TTool::_auto_(num) + "¸öÒ»Ä£Ò»ÑùµÄrmmv¹¤³Ì´°¿Ú£¬ÇëÈ·±£Ö»ÓĞÒ»¸örmmv¹¤³Ì´°¿Ú¡£", QMessageBox::Yes);
+		QMessageBox::warning(DrillGIFActionSequenceEditor::getInstance(), "é”™è¯¯", "ä½ åŒæ—¶å¼€äº†" + TTool::_auto_(num) + "ä¸ªä¸€æ¨¡ä¸€æ ·çš„rmmvå·¥ç¨‹çª—å£ï¼Œè¯·ç¡®ä¿åªæœ‰ä¸€ä¸ªrmmvå·¥ç¨‹çª—å£ã€‚", QMessageBox::Yes);
 		return;
 	}else if (num == 0){
 
-		// ...£¨ĞèÒªÕÒµ½Ò»¸öºÏÊÊµÄ·½·¨£¬ÔÚÃ»ÓĞrmmv´°¿ÚÊ±£¬Æô¶¯rmmv£©
+		// ...ï¼ˆéœ€è¦æ‰¾åˆ°ä¸€ä¸ªåˆé€‚çš„æ–¹æ³•ï¼Œåœ¨æ²¡æœ‰rmmvçª—å£æ—¶ï¼Œå¯åŠ¨rmmvï¼‰
 
-		QMessageBox::warning(DrillGIFActionSequenceEditor::getInstance(), "´íÎó", "ÄãÃ»ÓĞ´ò¿ªrmmvÈí¼ş¡£", QMessageBox::Yes);
+		QMessageBox::warning(DrillGIFActionSequenceEditor::getInstance(), "é”™è¯¯", "ä½ æ²¡æœ‰æ‰“å¼€rmmvè½¯ä»¶ã€‚", QMessageBox::Yes);
 		return;
 	}
 
-	//>¹¤³ÌÔËĞĞ
+	//>å·¥ç¨‹è¿è¡Œ
 	HWND hwnd = S_CallManager::getInstance()->getWindow(rmmv_window_name);
 	int success = S_CallManager::getInstance()->callRun(hwnd);
 
-	//>·µ»Ø½çÃæ
+	//>è¿”å›ç•Œé¢
 	S_CallManager::getInstance()->activeLocalWindow(DrillGIFActionSequenceEditor::getInstance());
 	if (!success){
-		QMessageBox::warning(DrillGIFActionSequenceEditor::getInstance(), "´íÎó", "ÔËĞĞÊ§°Ü£¬ÇëÏÈ¹Ø±ÕÄãÔÚrmmvÖĞÕıÔÚ±à¼­µÄ´°¿Ú¡£", QMessageBox::Yes);
+		QMessageBox::warning(DrillGIFActionSequenceEditor::getInstance(), "é”™è¯¯", "è¿è¡Œå¤±è´¥ï¼Œè¯·å…ˆå…³é—­ä½ åœ¨rmmvä¸­æ­£åœ¨ç¼–è¾‘çš„çª—å£ã€‚", QMessageBox::Yes);
 		return;
 	}
 }

@@ -33,6 +33,8 @@ class P_COAS_ActionPart : public QWidget
 	protected:
 		QStringList m_curTagTank;
 	public slots:
+									//控件 - 表单变化
+		void nameEdited(QString name);
 									//控件 - 修改标签列表
 		void btn_editTagTank();
 									//控件 - 刷新标签显示

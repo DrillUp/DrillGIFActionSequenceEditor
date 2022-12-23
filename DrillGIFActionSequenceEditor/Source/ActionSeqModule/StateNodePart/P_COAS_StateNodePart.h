@@ -40,6 +40,8 @@ class P_COAS_StateNodePart : public QWidget
 		void btn_checkData();
 									//控件 - 表单变化
 		void nameEdited(QString name);
+									//控件 - 状态元名称变化
+		void stateNameChanged();
 									//控件 - 刷新
 		void refreshTagTank();
 		

@@ -95,11 +95,11 @@ void W_PicturePartitioner::refreshGridLine(){
 	int f_height = qFloor( height / row );
 
 	this->m_p_SinglePictureViewer->setGridLine(column, row);	//（刷新网格，只流程页1中刷新）
-
+	
 	if (f_width * column != width || f_height * row != height){
-		ui.label_cutTip->setVisible(true);
+		ui.label_cutTip->setText("◆ 由于值不能被整除，所以切割的帧会丢失一些边缘像素。");
 	}else{
-		ui.label_cutTip->setVisible(false);
+		ui.label_cutTip->setText("◆ 值能被整除。");
 	}
 	QString text = QString::number(f_width) + "x" + QString::number(f_height) + "  (" + QString::number(row*column) + "个)";
 	ui.label_framePic_wh->setText(text);

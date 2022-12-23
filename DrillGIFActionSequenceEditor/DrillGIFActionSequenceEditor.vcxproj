@@ -842,7 +842,7 @@
     <ClCompile Include="Source\Utils\widgetFormSenior\NodeData\S_NodeFactoryContainer.cpp" />
     <ClCompile Include="Source\Utils\widgetFormSenior\ObjectSortController\c_ObjectSortData.cpp" />
     <ClCompile Include="Source\Utils\widgetFormSenior\ObjectSortController\p_ObjectSortController.cpp" />
-    <ClCompile Include="Source\Utils\widgetForm\FoldableTabWindow\Private\C_FoldableTabPrivate.cpp" />
+    <ClCompile Include="Source\Utils\widgetForm\FoldableTabWindow\Private\P_FoldableTabPrivate.cpp" />
     <ClCompile Include="Source\Utils\widgetForm\FoldableTabWindow\Private\W_FoldableTabChildWindow.cpp" />
     <ClCompile Include="Source\Utils\widgetForm\FoldableTabWindow\P_FoldableTabRelater.cpp" />
     <ClCompile Include="Source\Utils\widgetForm\PictureSelector\C_PiSConfig.cpp" />
@@ -2126,7 +2126,6 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp" "-fstdafx.h" "-f../../Source/Utils/widgetForm/FoldableTabWindow/P_FoldableTabRelater.h"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_SVG_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtSvg"</Command>
     </CustomBuild>
-    <ClInclude Include="Source\Utils\widgetForm\FoldableTabWindow\Private\C_FoldableTabPrivate.h" />
     <CustomBuild Include="Source\Utils\widgetForm\FoldableTabWindow\Private\W_FoldableTabChildWindow.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing W_FoldableTabChildWindow.h...</Message>
@@ -2145,6 +2144,7 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp" "-fstdafx.h" "-f../../Source/Utils/widgetForm/FoldableTabWindow/Private/W_FoldableTabChildWindow.h"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_SVG_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtSvg"</Command>
     </CustomBuild>
+    <ClInclude Include="Source\Utils\widgetForm\FoldableTabWindow\Private\P_FoldableTabPrivate.h" />
     <ClInclude Include="Source\Utils\widgetForm\PictureSelector\C_PiSConfig.h" />
     <CustomBuild Include="Source\Utils\widgetForm\PictureSelector\P_PictureSelector.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

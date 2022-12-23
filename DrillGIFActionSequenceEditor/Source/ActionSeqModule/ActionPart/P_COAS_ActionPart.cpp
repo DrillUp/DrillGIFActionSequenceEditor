@@ -88,7 +88,7 @@ P_COAS_ActionPart::P_COAS_ActionPart(QWidget *parent)
 	connect(ui.pushButton_tagTank, &QPushButton::clicked, this, &P_COAS_ActionPart::btn_editTagTank);
 
 	// > 表单变化绑定
-	connect(ui.lineEdit_name, &QLineEdit::textEdited, this->m_table, &P_RadioTable::modifyText_Selected);
+	connect(ui.lineEdit_name, &QLineEdit::textEdited, this, &P_COAS_ActionPart::nameEdited);
 	connect(ui.lineEdit_name, &QLineEdit::textChanged, this->m_p_AnimationListEditor, &P_AnimationListEditor::setExportName);
 	connect(ui.checkBox_gif_back_run, &QCheckBox::toggled, this->m_p_AnimationListPlayer, &P_AnimationListPlayer::setPlayBackRun);
 
@@ -110,6 +110,20 @@ P_COAS_ActionPart::~P_COAS_ActionPart(){
 }
 
 
+/*-------------------------------------------------
+		控件 - 表单变化
+*/
+void P_COAS_ActionPart::nameEdited(QString name){
+
+	// > 状态节点列表变化
+	this->m_table->modifyText_Selected(name);
+
+	// > 立即刷新名称到当前数据
+	if (this->m_last_index != -1){
+		C_COAS_ActionPtr action_ptr = this->m_actionDataList.at(this->m_last_index);
+		action_ptr->name = name;
+	}
+}
 /*-------------------------------------------------
 		控件 - 修改标签列表
 */
