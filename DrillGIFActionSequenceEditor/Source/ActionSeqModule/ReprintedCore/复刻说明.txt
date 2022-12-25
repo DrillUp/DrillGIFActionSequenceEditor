@@ -8,3 +8,4 @@
 	核心插件修改时，注意同步复刻类中的内容。
 
 	Drill_COAS_Init中：【所有 列表/结构体 都需要先转字符串，再转QJsonArray/QJsonObject对象】
+	对象完成后，导出到rm中，如果rm能够识别并编辑json格式，说明QJsonArray/QJsonObject对象转换正确。

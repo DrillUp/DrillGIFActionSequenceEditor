@@ -99,7 +99,7 @@ QJsonObject C_COAS_StateNode::getJsonObject_Chinese(){
 	//obj.insert("id", this->id);
 
 	// > 空对象情况（直接返回，节约存储空间）
-	if (this->name == "" && this->play_type == ""){
+	if (this->isEmptyNode()){
 		return obj;
 	}
 

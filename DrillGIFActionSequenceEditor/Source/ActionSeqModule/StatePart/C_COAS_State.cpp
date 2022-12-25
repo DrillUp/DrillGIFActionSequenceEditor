@@ -94,7 +94,7 @@ QJsonObject C_COAS_State::getJsonObject_Chinese(){
 	//		（资源文件夹，不需赋值）
 	QList<QString> gif_intervalTank_strList = TTool::_QList_IntToQString_(this->gif_intervalTank);
 	obj.insert("帧间隔-明细表", TTool::_JSON_stringify_(gif_intervalTank_strList));
-	obj.insert("帧间隔", this->gif_interval);
+	obj.insert("帧间隔", QString::number(this->gif_interval));
 	obj.insert("是否倒放", this->gif_back_run ? "true" : "false");
 	obj.insert("是否预加载", this->gif_preload ? "true" : "false");
 
