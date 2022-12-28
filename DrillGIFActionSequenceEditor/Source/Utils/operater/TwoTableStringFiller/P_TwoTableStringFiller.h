@@ -76,5 +76,14 @@ class P_TwoTableStringFiller : public QObject
 		void moveUpRightString();
 									//数据 - 右边数据下移
 		void moveDownRightString();
+		
+
+	//-----------------------------------
+	//----快捷键
+	protected:
+									//快捷键 - 事件
+		bool eventFilter(QObject *target, QEvent *event);
+									//快捷键 - 删除
+		void shortcut_deleteData();
 
 };
