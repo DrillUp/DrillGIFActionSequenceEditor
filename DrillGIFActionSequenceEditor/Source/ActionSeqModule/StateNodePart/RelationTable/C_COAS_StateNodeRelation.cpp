@@ -63,6 +63,18 @@ bool C_COAS_StateNodeRelation::isPlayType_StateNode(){
 	return this->m_curPtrData_StateNode->play_type == "随机播放嵌套集合" || 
 		this->m_curPtrData_StateNode->play_type == "顺序播放嵌套集合";
 }
+//状态节点 - 播放类型 - 随机播放
+bool C_COAS_StateNodeRelation::isPlayType_RandomPlay(){
+	if (this->isPtrData_StateNode() == false){ return false; }
+	return this->m_curPtrData_StateNode->play_type == "随机播放状态元" ||
+		this->m_curPtrData_StateNode->play_type == "随机播放嵌套集合";
+}
+//状态节点 - 播放类型 - 顺序播放
+bool C_COAS_StateNodeRelation::isPlayType_PlainPlay(){
+	if (this->isPtrData_StateNode() == false){ return false; }
+	return this->m_curPtrData_StateNode->play_type == "顺序播放状态元" ||
+		this->m_curPtrData_StateNode->play_type == "顺序播放嵌套集合";
+}
 //状态节点 - 获取子节点 - 状态元
 QStringList C_COAS_StateNodeRelation::getChildList_State(){
 	if (this->isPtrData_StateNode() == false){ return QStringList(); }
@@ -85,11 +97,20 @@ QStringList C_COAS_StateNodeRelation::getChildList_StateNode(){
 	}
 	return QStringList();
 }
-//状态节点 - 获取节点描述
-QString C_COAS_StateNodeRelation::getNodeDescription(){
+//状态节点 - 获取节点描述（前缀）
+QString C_COAS_StateNodeRelation::getNodeDescriptionPrefix(){
+	if (this->isPtrData_StateNode()){
+		return QString::number(this->m_curPtrData_StateNode->proportion);
+	}
+	if (this->isPtrData_State()){
+		return QString::number(this->m_curPtrData_State->proportion);
+	}
+	return "";
+}
+//状态节点 - 获取节点描述（后缀）
+QString C_COAS_StateNodeRelation::getNodeDescriptionSuffix(){
 	if (this->isPtrData_StateNode() == false){ return ""; }
-	if (this->m_curPtrData_StateNode->play_type == "随机播放状态元" || 
-		this->m_curPtrData_StateNode->play_type == "随机播放嵌套集合"){
+	if (this->isPlayType_RandomPlay()){
 		int max_num = this->m_curPtrData_StateNode->play_randomMax;
 		return "R" + QString::number(max_num)+"→";
 	}

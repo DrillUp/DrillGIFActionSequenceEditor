@@ -44,7 +44,7 @@
       <string notr="true">color:#999999;</string>
      </property>
      <property name="text">
-      <string>表中红色的&quot;L&quot;表示顺序播放，&quot;R1&quot;、&quot;R2&quot;表示随机播放1次、2次。</string>
+      <string>表中红色的&quot;L&quot;表示顺序播放，&quot;R1&quot;、&quot;R2&quot;表示随机播放1次、2次。灰色的数字，表示随机播放时的权重。</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>

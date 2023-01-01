@@ -43,16 +43,22 @@ class C_COAS_StateNodeRelation : public C_TreeNode{
 		bool isPtrData_State();
 										//状态节点 - 是否为状态节点数据
 		bool isPtrData_StateNode();
-										//状态节点 - 播放类型 - 状态元
+										//状态节点 - 播放类型 - 播放状态元
 		bool isPlayType_State();
-										//状态节点 - 播放类型 - 状态节点
+										//状态节点 - 播放类型 - 播放状态节点
 		bool isPlayType_StateNode();
+										//状态节点 - 播放类型 - 随机播放
+		bool isPlayType_RandomPlay();
+										//状态节点 - 播放类型 - 顺序播放
+		bool isPlayType_PlainPlay();
 										//状态节点 - 获取子节点 - 状态元
 		QStringList getChildList_State();
 										//状态节点 - 获取子节点 - 状态节点
 		QStringList getChildList_StateNode();
-										//状态节点 - 获取节点描述
-		QString getNodeDescription();
+										//状态节点 - 获取节点描述（前缀）
+		QString getNodeDescriptionPrefix();
+										//状态节点 - 获取节点描述（后缀）
+		QString getNodeDescriptionSuffix();
 
 	//-----------------------------------
 	//----类

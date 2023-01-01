@@ -171,22 +171,40 @@ QWidget* W_COAS_StateNodeRelationTable::createItemByNodeData(C_COAS_StateNodeRel
 	layout->setContentsMargins(10,2,10,2);
 	layout->setSpacing(10);
 	w->setLayout(layout);
+	int cur_col = 0;
+
+	// > 标签前缀（需要根据父节点来判断）
+	C_TreeNodePtr p_node = node->getTree_Parent();
+	if (p_node.isNull() == false){
+		C_COAS_StateNodeRelationPtr parent_node = p_node.dynamicCast<C_COAS_StateNodeRelation>();
+		if (parent_node->isPlayType_RandomPlay()){
+			QLabel* label_prefix = new QLabel();
+			label_prefix->setText(node->getNodeDescriptionPrefix());
+			label_prefix->setStyleSheet("color:#999999;");
+
+			layout->addWidget(label_prefix);
+			layout->setStretch(cur_col, 0);
+			cur_col += 1;
+		}
+	}
 
 	// > 单独的标签
 	QLabel* label_name = new QLabel();
 	QString name = node->getName();
 	label_name->setText(name);
 	layout->addWidget(label_name);
-	layout->setStretch(0, 1);
+	layout->setStretch(cur_col, 1);
+	cur_col += 1;
 
 	// > 标签后缀
 	if (node->isPtrData_StateNode()){
 		QLabel* label_suffix = new QLabel();
-		label_suffix->setText(node->getNodeDescription());
+		label_suffix->setText(node->getNodeDescriptionSuffix());
 		label_suffix->setStyleSheet("color:#DD2222;");
 
 		layout->addWidget(label_suffix);
-		layout->setStretch(1, 0);
+		layout->setStretch(cur_col, 0);
+		cur_col += 1;
 	}
 	return w;
 }
