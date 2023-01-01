@@ -292,6 +292,16 @@ bool P_TwoTableStringFiller::eventFilter(QObject *target, QEvent *event){
 	if (target == this->m_rightTable) {
 		if (event->type() == QEvent::KeyPress) {
 			QKeyEvent* keyEvent = dynamic_cast<QKeyEvent*>(event);
+			if (keyEvent->modifiers() & Qt::ControlModifier){
+				if (keyEvent->key() == Qt::Key_C){
+					this->shortcut_copyData();
+					return true;
+				}
+				if (keyEvent->key() == Qt::Key_V){
+					this->shortcut_pasteData();
+					return true;
+				}
+			}
 			if (keyEvent->key() == Qt::Key_Delete){
 				this->shortcut_deleteData();
 				return true;
@@ -299,6 +309,31 @@ bool P_TwoTableStringFiller::eventFilter(QObject *target, QEvent *event){
 		}
 	}
 	return QObject::eventFilter(target, event);
+}
+/*-------------------------------------------------
+		快捷键 - 复制
+*/
+void P_TwoTableStringFiller::shortcut_copyData(){
+	QList<QTableWidgetSelectionRange> range = this->m_rightTable->selectedRanges();
+	if (range.size() == 0) { return; }
+	int pos = range.at(0).topRow();
+	this->m_copyed_data = this->m_rightTank.at(pos);
+	if (this->m_copyed_data != ""){		//（启用粘贴功能）
+		//...（暂无粘贴按钮）
+	}
+}
+/*-------------------------------------------------
+		快捷键 - 粘贴
+*/
+void P_TwoTableStringFiller::shortcut_pasteData(){
+	if (this->m_copyed_data == ""){ return; }
+	QList<QTableWidgetSelectionRange> range = this->m_rightTable->selectedRanges();
+	if (range.size() == 0) { return; }
+	int pos = range.at(0).topRow();
+	QString data = this->m_copyed_data;	//（直接粘贴相同文本）
+	this->m_rightTank.insert(pos + 1, data);
+	this->refreshTable();
+	this->m_rightTable->selectRow(pos);
 }
 /*-------------------------------------------------
 		快捷键 - 删除
@@ -309,4 +344,5 @@ void P_TwoTableStringFiller::shortcut_deleteData(){
 	int pos = range.at(0).topRow();
 	this->m_rightTank.removeAt(pos);
 	this->refreshTable();
+	this->m_rightTable->selectRow(pos-1);
 }

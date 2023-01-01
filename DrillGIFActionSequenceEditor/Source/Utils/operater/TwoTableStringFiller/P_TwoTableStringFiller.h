@@ -81,8 +81,14 @@ class P_TwoTableStringFiller : public QObject
 	//-----------------------------------
 	//----快捷键
 	protected:
+		QString m_copyed_data;
+	protected:
 									//快捷键 - 事件
 		bool eventFilter(QObject *target, QEvent *event);
+									//快捷键 - 复制
+		virtual void shortcut_copyData();
+									//快捷键 - 粘贴
+		virtual void shortcut_pasteData();
 									//快捷键 - 删除
 		void shortcut_deleteData();
 
