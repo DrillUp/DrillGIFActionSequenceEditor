@@ -47,6 +47,8 @@ P_TwoTableStringFiller::P_TwoTableStringFiller(QTableWidget *parent_left, QTable
 	this->m_rightTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	this->m_rightTable->setSelectionMode(QAbstractItemView::ExtendedSelection);			//（多选）
 
+	this->m_rightTable->installEventFilter(this);
+
 	//-----------------------------------
 	//----事件绑定
 	connect(this->m_leftTable, &QTableWidget::itemSelectionChanged, this, &P_TwoTableStringFiller::clearSelectionRight);
@@ -280,4 +282,31 @@ void P_TwoTableStringFiller::moveDownRightString(){
 	// > 刷新选中
 	this->m_rightTable->clearSelection();
 	this->m_rightTable->selectRow(pos + 1);
+}
+
+/*-------------------------------------------------
+		快捷键 - 事件
+*/
+bool P_TwoTableStringFiller::eventFilter(QObject *target, QEvent *event){
+
+	if (target == this->m_rightTable) {
+		if (event->type() == QEvent::KeyPress) {
+			QKeyEvent* keyEvent = dynamic_cast<QKeyEvent*>(event);
+			if (keyEvent->key() == Qt::Key_Delete){
+				this->shortcut_deleteData();
+				return true;
+			}
+		}
+	}
+	return QObject::eventFilter(target, event);
+}
+/*-------------------------------------------------
+		快捷键 - 删除
+*/
+void P_TwoTableStringFiller::shortcut_deleteData(){
+	QList<QTableWidgetSelectionRange> range = this->m_rightTable->selectedRanges();
+	if (range.size() == 0) { return; }
+	int pos = range.at(0).topRow();
+	this->m_rightTank.removeAt(pos);
+	this->refreshTable();
 }
