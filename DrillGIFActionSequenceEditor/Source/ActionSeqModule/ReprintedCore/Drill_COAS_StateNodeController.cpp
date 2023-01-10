@@ -505,10 +505,32 @@ QString Drill_COAS_StateNodeController::drill_COAS_getCurStateName(){
 QString Drill_COAS_StateNodeController::drill_COAS_getCurStateName_AllRoot(){
 	QJsonObject data = this->_drill_data;
 	if (this->drill_COAS_isTypeState()){
-		return data["name"].toString() + " > " + this->_drill_curState->drill_COAS_getCurStateName();
+		QString context = data["name"].toString();
+		if (context != "默认的状态元集合" &&
+			context != "简单状态元集合"){
+			context.append("(");
+			context.append(QString::number(this->_drill_curIndex + 1));
+			context.append("/");
+			context.append(QString::number(this->_drill_tarIndex));
+			context.append(")");
+		}
+		context.append(" > ");
+		context.append(this->_drill_curState->drill_COAS_getCurStateName());
+		return context;
 	}
 	if (this->drill_COAS_isTypeNode()){
-		return data["name"].toString() + " > " + this->_drill_curNode->drill_COAS_getCurStateName_AllRoot();
+		QString context = data["name"].toString();
+		if (context != "默认的状态元集合" &&
+			context != "简单状态元集合"){
+			context.append("(");
+			context.append(QString::number(this->_drill_curIndex + 1));
+			context.append("/");
+			context.append(QString::number(this->_drill_tarIndex));
+			context.append(")");
+		}
+		context.append(" > ");
+		context.append(this->_drill_curNode->drill_COAS_getCurStateName_AllRoot());
+		return context;
 	}
 	return "";
 }
@@ -518,6 +540,7 @@ QString Drill_COAS_StateNodeController::drill_COAS_getCurStateName_AllRoot(){
 void Drill_COAS_StateNodeController::drill_COAS_setNewStateNameList(QStringList state_nameList){
 	if (state_nameList.count() == 0){ return; }
 	QJsonObject data = this->_drill_data;
+	data["name"] = "简单状态元集合";
 	data["play_type"] = "随机播放状态元";
 	data["play_randomStateSeq"] = TTool::_QJsonArray_QStringToA_(state_nameList);
 	this->_drill_data = data;	//（c++中，注意此处的指针，需要重新赋值）
