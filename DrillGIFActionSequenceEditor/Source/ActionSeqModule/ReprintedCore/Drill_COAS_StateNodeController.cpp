@@ -437,6 +437,20 @@ bool Drill_COAS_StateNodeController::drill_COAS_isTypeNode(){
 		this->_drill_data["play_type"].toString() == "顺序播放嵌套集合";
 }
 /*-------------------------------------------------
+		状态节点 - 节点 - 当前是否为 随机播放【开放函数】
+*/
+bool Drill_COAS_StateNodeController::drill_COAS_isRandomPlay(){
+	return this->_drill_data["play_type"].toString() == "随机播放状态元" ||
+		this->_drill_data["play_type"].toString() == "随机播放嵌套集合";
+}
+/*-------------------------------------------------
+		状态节点 - 节点 - 当前是否为 顺序播放【开放函数】
+*/
+bool Drill_COAS_StateNodeController::drill_COAS_isPlainPlay(){
+	return this->_drill_data["play_type"].toString() == "顺序播放状态元" ||
+		this->_drill_data["play_type"].toString() == "顺序播放嵌套集合";
+}
+/*-------------------------------------------------
 		状态节点 - 节点 - 设置父数据id【开放函数】
 */
 void Drill_COAS_StateNodeController::drill_COAS_setParentDataId(int data_id){
@@ -506,8 +520,7 @@ QString Drill_COAS_StateNodeController::drill_COAS_getCurStateName_AllRoot(){
 	QJsonObject data = this->_drill_data;
 	if (this->drill_COAS_isTypeState()){
 		QString context = data["name"].toString();
-		if (context != "默认的状态元集合" &&
-			context != "简单状态元集合"){
+		if (this->drill_COAS_isPlainPlay() ){
 			context.append("(");
 			context.append(QString::number(this->_drill_curIndex + 1));
 			context.append("/");
@@ -520,8 +533,7 @@ QString Drill_COAS_StateNodeController::drill_COAS_getCurStateName_AllRoot(){
 	}
 	if (this->drill_COAS_isTypeNode()){
 		QString context = data["name"].toString();
-		if (context != "默认的状态元集合" &&
-			context != "简单状态元集合"){
+		if (this->drill_COAS_isPlainPlay()){
 			context.append("(");
 			context.append(QString::number(this->_drill_curIndex + 1));
 			context.append("/");

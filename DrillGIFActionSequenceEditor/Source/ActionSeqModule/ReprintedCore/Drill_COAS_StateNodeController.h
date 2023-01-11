@@ -73,6 +73,10 @@ class Drill_COAS_StateNodeController{
 		bool drill_COAS_isTypeState();
 									//状态节点 - 节点 - 当前是否为 集合类型【开放函数】
 		bool drill_COAS_isTypeNode();
+									//状态节点 - 节点 - 当前是否为 随机播放【开放函数】
+		bool drill_COAS_isRandomPlay();
+									//状态节点 - 节点 - 当前是否为 顺序播放【开放函数】
+		bool drill_COAS_isPlainPlay();
 									//状态节点 - 节点 - 设置父数据id【开放函数】
 		void drill_COAS_setParentDataId(int data_id);
 									//状态节点 - 节点 - 设置当前层数【开放函数】
