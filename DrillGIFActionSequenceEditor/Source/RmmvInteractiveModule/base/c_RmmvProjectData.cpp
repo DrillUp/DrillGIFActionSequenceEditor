@@ -1,18 +1,21 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "C_RmmvProjectData.h"
 
 /*
 -----==========================================================-----
-		Àà£º		rmmv¹¤³ÌÊı¾İ ÊµÌåÀà.cpp
-		°æ±¾£º		v1.01	¡¾´ËÀà²»ÔÙ¸üĞÂ¡¿
-		ËùÊôÄ£¿é£º	½»»¥Ä£¿é
-		¹¦ÄÜ£º		¹¤³Ì»ù±¾ĞÅÏ¢Êı¾İ¡£
+		ç±»ï¼š		rmmvå·¥ç¨‹æ•°æ® å®ä½“ç±».cpp
+		ç‰ˆæœ¬ï¼š		v1.02ã€æ­¤ç±»ä¸å†æ›´æ–°ã€‘
+		æ‰€å±æ¨¡å—ï¼š	äº¤äº’æ¨¡å—
+		åŠŸèƒ½ï¼š		å·¥ç¨‹åŸºæœ¬ä¿¡æ¯æ•°æ®ã€‚
+
+		è¯´æ˜ï¼š		ä½ ä¹Ÿå¯ä»¥ç›´æ¥ç”¨é™æ€æ–¹æ³•è·å–åˆ°è¯¥ç±»æ•°æ®ï¼š
+					C_RmmvProjectData data = C_RmmvProjectData::callRmmvSelectDialog()
 -----==========================================================-----
 */
 C_RmmvProjectData::C_RmmvProjectData(){
-	this->name = "";			//¹¤³ÌÃû
-	this->version = "";			//¹¤³Ì°æ±¾
-	this->path = "";			//¹¤³Ì¸ùÂ·¾¶
+	this->name = "";			//å·¥ç¨‹å
+	this->version = "";			//å·¥ç¨‹ç‰ˆæœ¬
+	this->path = "";			//å·¥ç¨‹æ ¹è·¯å¾„
 
 	this->optional_backup = true;
 }
@@ -21,30 +24,30 @@ C_RmmvProjectData::~C_RmmvProjectData(){
 
 
 /*-------------------------------------------------
-		Êı¾İ - ½âÎö¹¤³ÌÎÄ¼ş
+		æ•°æ® - è§£æå·¥ç¨‹æ–‡ä»¶
 */
 void C_RmmvProjectData::initFromFile(QString full_filePath){
-	QString dir_path = QFileInfo(full_filePath).absolutePath();		//»ñÈ¡¸ùÄ¿Â¼
+	QString dir_path = QFileInfo(full_filePath).absolutePath();		//è·å–æ ¹ç›®å½•
 
-	// > ¶ÁÈ¡¹¤³ÌÎÄ¼ş
+	// > è¯»å–å·¥ç¨‹æ–‡ä»¶
 	QFile project_file(full_filePath);
 	if (!project_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-		QMessageBox::warning(nullptr, "´íÎó", "Î´ÕÒµ½Game.rpgprojectÎÄ¼ş¡£", QMessageBox::Yes);
+		QMessageBox::warning(nullptr, "é”™è¯¯", "æœªæ‰¾åˆ°Game.rpgprojectæ–‡ä»¶ã€‚", QMessageBox::Yes);
 		return;
 	}
 	QString version = project_file.readAll();
 	project_file.close();
 
-	// > ¶ÁÈ¡indexÎÄ¼ş
+	// > è¯»å–indexæ–‡ä»¶
 	QFile index_file(dir_path + "/index.html");
 	if (!index_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-		QMessageBox::warning(nullptr, "´íÎó", "Î´ÕÒµ½index.htmlÎÄ¼ş¡£", QMessageBox::Yes);
+		QMessageBox::warning(nullptr, "é”™è¯¯", "æœªæ‰¾åˆ°index.htmlæ–‡ä»¶ã€‚", QMessageBox::Yes);
 		return;
 	}
 	QString index_context = index_file.readAll();
 	index_file.close();
 
-	// > ½âÎö³öÃû³Æ
+	// > è§£æå‡ºåç§°
 	int i_a = index_context.indexOf("<title>") + 7;
 	int i_b = index_context.indexOf("</title>", i_a);
 	this->name = index_context.mid(i_a, i_b - i_a);
@@ -52,25 +55,25 @@ void C_RmmvProjectData::initFromFile(QString full_filePath){
 	this->path = dir_path;
 }
 /*-------------------------------------------------
-		Êı¾İ - »ñÈ¡¹¤³ÌÃû³Æ
+		æ•°æ® - è·å–å·¥ç¨‹åç§°
 */
 QString C_RmmvProjectData::getName(){
 	return this->name;
 }
 /*-------------------------------------------------
-		Êı¾İ - »ñÈ¡¹¤³Ì°æ±¾
+		æ•°æ® - è·å–å·¥ç¨‹ç‰ˆæœ¬
 */
 QString C_RmmvProjectData::getVersion(){
 	return this->version;
 }
 /*-------------------------------------------------
-		Êı¾İ - »ñÈ¡¹¤³Ì¸ùÂ·¾¶
+		æ•°æ® - è·å–å·¥ç¨‹æ ¹è·¯å¾„
 */
 QString C_RmmvProjectData::getRootPath(){
 	return this->path;
 }
 /*-------------------------------------------------
-		Êı¾İ - ÅĞ¶Ï¹¤³ÌÊÇ·ñ´æÔÚ
+		æ•°æ® - åˆ¤æ–­å·¥ç¨‹æ˜¯å¦å­˜åœ¨
 */
 bool C_RmmvProjectData::isProjectExist(){
 	if (QFileInfo(this->path).exists() == false){ return false; }
@@ -78,35 +81,71 @@ bool C_RmmvProjectData::isProjectExist(){
 	return true;
 }
 
+
 /*-------------------------------------------------
-		¿ÕÅĞ¶Ï
+		å¿«æ·æ“ä½œ - å¯ç”¨æ–‡ä»¶é€‰æ‹© è·å–è¯¥ç±»æ•°æ®
+*/
+C_RmmvProjectData C_RmmvProjectData::callRmmvSelectDialog(){
+	QFileDialog fd;
+	fd.setWindowTitle("æ‰“å¼€rmmvå·¥ç¨‹");
+	fd.setAcceptMode(QFileDialog::AcceptOpen);		//å¯¹è¯æ¡†ç±»å‹ï¼ˆæ‰“å¼€/ä¿å­˜ï¼‰
+	fd.setDirectory(".");							//é»˜è®¤ç›®å½•
+	fd.setNameFilters(QStringList()					//æ–‡ä»¶æ ¼å¼
+		<< "rmmvå·¥ç¨‹æ–‡ä»¶(*.rpgproject)"
+		);
+	fd.setViewMode(QFileDialog::Detail);
+
+	if (fd.exec() == QDialog::Accepted) {
+		if (fd.selectedFiles().empty()) {
+			//ï¼ˆæ²¡æœ‰é€‰æ‹©æ–‡ä»¶è¿›å…¥çš„æƒ…å†µï¼‰
+			return C_RmmvProjectData();
+		}
+		QString file_path = fd.selectedFiles().at(0);
+
+		C_RmmvProjectData data = C_RmmvProjectData();
+		data.initFromFile(file_path);
+		return data;
+	
+	}else {
+		//ï¼ˆç‚¹å‡»å…³é—­æˆ–è€…å–æ¶ˆæ“ä½œçš„æƒ…å†µï¼‰
+		return C_RmmvProjectData();
+	}
+}
+
+
+/*-------------------------------------------------
+		ç©ºåˆ¤æ–­
 */
 bool C_RmmvProjectData::isNull(){
 	return this->name == "" || this->path == "";
 }
 /*-------------------------------------------------
-		ÔËËã·ûÖØÔØ
+		è¿ç®—ç¬¦é‡è½½
 */
 const bool C_RmmvProjectData::operator== (const C_RmmvProjectData& a)const {
-	return this->name == a.name;
+	return this->path == a.path;
 }
 /*-------------------------------------------------
-		ÊµÌåÀà -> QJsonObject
+		å®ä½“ç±» -> QJsonObject
 */
 QJsonObject C_RmmvProjectData::getJsonObject(){
 	QJsonObject obj = QJsonObject();
+	
 	obj.insert("name", this->name);
-	obj.insert("version", this->version); 
+	obj.insert("version", this->version);
 	obj.insert("path", this->path);
+
 	obj.insert("optional_backup", this->optional_backup);
+
 	return obj;
 }
 /*-------------------------------------------------
-		QJsonObject -> ÊµÌåÀà
+		QJsonObject -> å®ä½“ç±»
 */
 void C_RmmvProjectData::setJsonObject(QJsonObject obj){
 	this->name = obj.value("name").toString();
 	this->version = obj.value("version").toString();
 	this->path = obj.value("path").toString();
+
 	this->optional_backup = obj.value("optional_backup").toBool();
 }

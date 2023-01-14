@@ -57,9 +57,10 @@ bool S_RmmvCaller_ActionSeq::loadAllRmmvFile(C_RmmvProjectData rmmvProjectData) 
 
 	// > 读取插件文件
 	QFileInfo plugin_info = S_RmmvDataContainer::getInstance()->getRmmvFile_PluginsData();
-	QFile plugin_file(plugin_info.absoluteFilePath());
+	QString plugin_path = plugin_info.absoluteFilePath();
+	QFile plugin_file(plugin_path);
 	if (!plugin_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-		QMessageBox::warning(nullptr, "错误", "未找到plugins.js文件。", QMessageBox::Yes);
+		QMessageBox::warning(nullptr, "错误", "未找到plugins.js文件。\n请确认文件是否存在：" + plugin_path, QMessageBox::Yes);
 		return false;
 	}
 	QString plugin_context = plugin_file.readAll();
@@ -68,9 +69,10 @@ bool S_RmmvCaller_ActionSeq::loadAllRmmvFile(C_RmmvProjectData rmmvProjectData) 
 
 	// > 读取系统文件
 	QFileInfo system_info = S_RmmvDataContainer::getInstance()->getRmmvFile_System();
-	QFile system_file(system_info.absoluteFilePath());
+	QString system_path = system_info.absoluteFilePath();
+	QFile system_file(system_path);
 	if (!system_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-		QMessageBox::warning(nullptr, "错误", "未找到system.js文件。", QMessageBox::Yes);
+		QMessageBox::warning(nullptr, "错误", "未找到system.js文件。\n请确认文件是否存在：" + system_path, QMessageBox::Yes);
 		return false;
 	}
 	QString system_context = system_file.readAll();// （暂无操作）
@@ -133,9 +135,10 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 	// ---------------------------------------------
 	// > 读取插件文件内容
 	QFileInfo plugin_info = S_RmmvDataContainer::getInstance()->getRmmvFile_PluginsData();
-	QFile plugin_file(plugin_info.absoluteFilePath());
+	QString plugin_path = plugin_info.absoluteFilePath();
+	QFile plugin_file(plugin_path);
 	if (!plugin_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-		QMessageBox::warning(nullptr, "错误", "无法打开plugins.js文件。", QMessageBox::Yes);
+		QMessageBox::warning(nullptr, "错误", "无法打开plugins.js文件，读取插件信息失败。\n请确认文件是否存在：" + plugin_path, QMessageBox::Yes);
 		return ;
 	}
 	QString plugin_context = plugin_file.readAll();
@@ -175,7 +178,7 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 	// ---------------------------------------------
 	// > 写入文件
 	if (!plugin_file.open(QIODevice::Truncate | QIODevice::WriteOnly | QIODevice::Text)) {
-		QMessageBox::warning(nullptr, "错误", "无法打开plugins.js文件。", QMessageBox::Yes);
+		QMessageBox::warning(nullptr, "错误", "无法打开plugins.js文件，写入插件信息失败。", QMessageBox::Yes);
 		return;
 	}
 	QString new_context = S_PluginDataContainer::getInstance()->writePluginData(); 
@@ -190,7 +193,7 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 
 	// ---------------------------------------------
 	// > 文件清空
-	QString src_path = rmmvProjectData.getRootPath() + "/img/Special__actionSeq";
+	QString src_path = S_RmmvDataContainer::getInstance()->getRmmvProjectData().getRootPath() + "/img/Special__actionSeq";
 	S_TempFileManager::getInstance()->remove_Dir(src_path);
 
 	// > 文件转移
@@ -226,16 +229,19 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 		script_context = S_LEConfigWriter::getInstance()->doOverwritePlugin(script_context, le_annotation->getParamByKey("动作元-%d"), le_data);
 
 		// > 写入脚本
-		if (script_context != "" &&
-			script_file.open(QIODevice::Truncate | QIODevice::WriteOnly | QIODevice::Text)) {
-
-			QTextStream write_stream(&script_file);
-			QTextCodec *codec2 = QTextCodec::codecForName("utf-8");
-			write_stream.flush();
-			write_stream.setCodec(codec2);
-			write_stream.seek(0);
-			write_stream << script_context;
-			script_file.close();
+		if (script_context != ""){
+			QFile script_file2(pluginScript_info.absoluteFilePath());
+			if (!script_file2.open(QIODevice::Truncate | QIODevice::WriteOnly | QIODevice::Text)) {
+				//（读取失败时，不操作）
+			}else{
+				QTextStream write_stream(&script_file2);
+				QTextCodec *codec2 = QTextCodec::codecForName("utf-8");
+				write_stream.flush();
+				write_stream.setCodec(codec2);
+				write_stream.seek(0);
+				write_stream << script_context;
+				script_file2.close();
+			}
 		}
 	}
 
@@ -266,7 +272,7 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 	write_stream2.setCodec(codec3);
 	write_stream2.seek(0);				//光标从0开始写入
 	write_stream2 << explain_context;
-	plugin_file.close();
+	explain_file.close();
 
 	QMessageBox::information(nullptr, "提示", "保存成功。", QMessageBox::Yes);
 }

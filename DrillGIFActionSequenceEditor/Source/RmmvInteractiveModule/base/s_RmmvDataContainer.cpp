@@ -1,13 +1,13 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "s_RmmvDataContainer.h"
 
 /*
 -----==========================================================-----
-		Àà£º		rmmv½»»¥ Êý¾ÝÈÝÆ÷.cpp
-		°æ±¾£º		v1.01	¡¾´ËÀà²»ÔÙ¸üÐÂ¡¿
-		ËùÊôÄ£¿é£º	½»»¥Ä£¿é
-		¹¦ÄÜ£º		¡¾Ö»´æ´¢¡¿rmmv¹¤³ÌÊý¾ÝµÄÈÝÆ÷¡£
-					²¢Ìá¹©Ò»ÏµÁÐ¹¤³ÌÎÄ¼þµÄ»ñÈ¡¹¦ÄÜ¡£
+		ç±»ï¼š		rmmväº¤äº’ æ•°æ®å®¹å™¨.cpp
+		ç‰ˆæœ¬ï¼š		v1.02ã€æ­¤ç±»ä¸å†æ›´æ–°ã€‘
+		æ‰€å±žæ¨¡å—ï¼š	äº¤äº’æ¨¡å—
+		åŠŸèƒ½ï¼š		ã€åªå­˜å‚¨ã€‘rmmvå·¥ç¨‹æ•°æ®çš„å®¹å™¨ã€‚
+					å¹¶æä¾›ä¸€ç³»åˆ—å·¥ç¨‹æ–‡ä»¶çš„èŽ·å–åŠŸèƒ½ã€‚
 -----==========================================================-----
 */
 S_RmmvDataContainer::S_RmmvDataContainer(){
@@ -17,7 +17,7 @@ S_RmmvDataContainer::~S_RmmvDataContainer() {
 }
 
 /* --------------------------------------------------------------
-----------RmmvFileManager µ¥Àý
+----------RmmvFileManager å•ä¾‹
 */
 S_RmmvDataContainer* S_RmmvDataContainer::cur_container = NULL;
 S_RmmvDataContainer* S_RmmvDataContainer::getInstance() {
@@ -28,20 +28,20 @@ S_RmmvDataContainer* S_RmmvDataContainer::getInstance() {
 }
 
 /*-------------------------------------------------
-		Êý¾Ý - ÐÞ¸Ä
+		æ•°æ® - ä¿®æ”¹
 */
 void S_RmmvDataContainer::modify(C_RmmvProjectData data){
 	this->data_RmmvProjectData = data;
 }
 /*-------------------------------------------------
-		Êý¾Ý - »ñÈ¡
+		æ•°æ® - èŽ·å–
 */
 C_RmmvProjectData S_RmmvDataContainer::getRmmvProjectData(){
 	return this->data_RmmvProjectData;
 }
 
 /*-------------------------------------------------
-		Êý¾Ý - »ñÈ¡ÎÄ¼þ
+		æ•°æ® - èŽ·å–æ–‡ä»¶
 */
 QFileInfo S_RmmvDataContainer::getRmmvFile_Plugin(QString plugin_name){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
@@ -52,7 +52,7 @@ QFileInfo S_RmmvDataContainer::getRmmvFile_PluginsData(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
 	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/js/plugins.js");
 }
-//Êý¾Ý - »ñÈ¡ÎÄ¼þ - µØÍ¼
+//æ•°æ® - èŽ·å–æ–‡ä»¶ - åœ°å›¾
 QFileInfo S_RmmvDataContainer::getRmmvFile_Map(int i){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
 	QString name = QString("Map%1").arg(i, 3, 10, QLatin1Char('0'));
@@ -62,67 +62,67 @@ QFileInfo S_RmmvDataContainer::getRmmvFile_MapInfos(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
 	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/MapInfos.json");
 }
-//Êý¾Ý - »ñÈ¡ÎÄ¼þ - ½ÇÉ«
+//æ•°æ® - èŽ·å–æ–‡ä»¶ - è§’è‰²
 QFileInfo S_RmmvDataContainer::getRmmvFile_Actors(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
 	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/Actors.json");
 }
-//Êý¾Ý - »ñÈ¡ÎÄ¼þ - Ö°Òµ
+//æ•°æ® - èŽ·å–æ–‡ä»¶ - èŒä¸š
 QFileInfo S_RmmvDataContainer::getRmmvFile_Classes(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
 	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/Classes.json");
 }
-//Êý¾Ý - »ñÈ¡ÎÄ¼þ - ÎïÆ·
+//æ•°æ® - èŽ·å–æ–‡ä»¶ - ç‰©å“
 QFileInfo S_RmmvDataContainer::getRmmvFile_Items(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
 	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/Items.json");
 }
-//Êý¾Ý - »ñÈ¡ÎÄ¼þ - ¼¼ÄÜ
+//æ•°æ® - èŽ·å–æ–‡ä»¶ - æŠ€èƒ½
 QFileInfo S_RmmvDataContainer::getRmmvFile_Skills(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
 	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/Skills.json");
 }
-//Êý¾Ý - »ñÈ¡ÎÄ¼þ - ÎäÆ÷
+//æ•°æ® - èŽ·å–æ–‡ä»¶ - æ­¦å™¨
 QFileInfo S_RmmvDataContainer::getRmmvFile_Weapons(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
 	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/Weapons.json");
 }
-//Êý¾Ý - »ñÈ¡ÎÄ¼þ - »¤¼×
+//æ•°æ® - èŽ·å–æ–‡ä»¶ - æŠ¤ç”²
 QFileInfo S_RmmvDataContainer::getRmmvFile_Armors(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
 	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/Armors.json");
 }
-//Êý¾Ý - »ñÈ¡ÎÄ¼þ - ×´Ì¬
+//æ•°æ® - èŽ·å–æ–‡ä»¶ - çŠ¶æ€
 QFileInfo S_RmmvDataContainer::getRmmvFile_States(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
 	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/States.json");
 }
-//Êý¾Ý - »ñÈ¡ÎÄ¼þ - µÐÈË
+//æ•°æ® - èŽ·å–æ–‡ä»¶ - æ•Œäºº
 QFileInfo S_RmmvDataContainer::getRmmvFile_Enemies(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
 	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/Enemies.json");
 }
-//Êý¾Ý - »ñÈ¡ÎÄ¼þ - µÐÈº
+//æ•°æ® - èŽ·å–æ–‡ä»¶ - æ•Œç¾¤
 QFileInfo S_RmmvDataContainer::getRmmvFile_Troops(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
 	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/Troops.json");
 }
-//Êý¾Ý - »ñÈ¡ÎÄ¼þ - ¹«¹²ÊÂ¼þ
+//æ•°æ® - èŽ·å–æ–‡ä»¶ - å…¬å…±äº‹ä»¶
 QFileInfo S_RmmvDataContainer::getRmmvFile_CommonEvents(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
 	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/CommonEvents.json");
 }
-//Êý¾Ý - »ñÈ¡ÎÄ¼þ - ¶¯»­
+//æ•°æ® - èŽ·å–æ–‡ä»¶ - åŠ¨ç”»
 QFileInfo S_RmmvDataContainer::getRmmvFile_Animations(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
 	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/Animations.json");
 }
-//Êý¾Ý - »ñÈ¡ÎÄ¼þ - Í¼¿é
+//æ•°æ® - èŽ·å–æ–‡ä»¶ - å›¾å—
 QFileInfo S_RmmvDataContainer::getRmmvFile_Tilesets(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
 	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/Tilesets.json");
 }
-//Êý¾Ý - »ñÈ¡ÎÄ¼þ - ÏµÍ³
+//æ•°æ® - èŽ·å–æ–‡ä»¶ - ç³»ç»Ÿ
 QFileInfo S_RmmvDataContainer::getRmmvFile_System(){
 	if (this->data_RmmvProjectData.isNull()){ return QFileInfo(); }
 	return QFileInfo(this->data_RmmvProjectData.getRootPath() + "/data/System.json");
@@ -130,35 +130,35 @@ QFileInfo S_RmmvDataContainer::getRmmvFile_System(){
 
 
 /*-----------------------------------
-		Êý¾Ý - »ñÈ¡´æ´¢µÄÃû³Æ
+		æ•°æ® - èŽ·å–å­˜å‚¨çš„åç§°
 */
 QString S_RmmvDataContainer::getSaveName() {
 	return "S_RmmvDataContainer";
 }
 /*-----------------------------------
-		Êý¾Ý - Çå³ýµ±Ç°¹ÜÀíÆ÷Êý¾Ý
+		æ•°æ® - æ¸…é™¤å½“å‰ç®¡ç†å™¨æ•°æ®
 */
 void S_RmmvDataContainer::clearAllData() {
 	this->data_RmmvProjectData = C_RmmvProjectData();
 }
 /*-----------------------------------
-		Êý¾Ý - È«²¿¼¤ÀøÔ´Êý¾Ý -> QJsonObject
+		æ•°æ® - å…¨éƒ¨æ¿€åŠ±æºæ•°æ® -> QJsonObject
 */
 QJsonObject S_RmmvDataContainer::getAllDataOfJsonObject(){
 	QJsonObject obj_all = QJsonObject();
 
-	obj_all.insert("C_RmmvProjectData", this->data_RmmvProjectData.getJsonObject());	//rmmv¹¤³ÌÊý¾Ý
+	obj_all.insert("C_RmmvProjectData", this->data_RmmvProjectData.getJsonObject());	//rmmvå·¥ç¨‹æ•°æ®
 	
 	return obj_all;
 }
 
 /*-----------------------------------
-		Êý¾Ý - QJsonObject -> È«²¿¼¤ÀøÔ´Êý¾Ý
+		æ•°æ® - QJsonObject -> å…¨éƒ¨æ¿€åŠ±æºæ•°æ®
 */
 void S_RmmvDataContainer::setAllDataFromJsonObject(QJsonObject obj_all){
 	this->clearAllData();
 
-	QJsonObject obj_RmmvProjectData = obj_all.value("C_RmmvProjectData").toObject();	//rmmv¹¤³ÌÊý¾Ý
+	QJsonObject obj_RmmvProjectData = obj_all.value("C_RmmvProjectData").toObject();	//rmmvå·¥ç¨‹æ•°æ®
 	this->data_RmmvProjectData.setJsonObject(obj_RmmvProjectData);
 
 	emit dataAllReloaded();

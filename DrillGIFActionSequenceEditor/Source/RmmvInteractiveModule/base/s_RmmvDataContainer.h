@@ -1,16 +1,16 @@
-#pragma once
+ï»¿#pragma once
 #include "Source/ProjectModule/storage/s_StorageManagerTemplate.h"
 
 #include "../base/c_RmmvProjectData.h"
 
 /*
 -----==========================================================-----
-		Àà£º		rmmv½»»¥ Êı¾İÈİÆ÷.h
-		°æ±¾£º		v1.01	¡¾´ËÀà²»ÔÙ¸üĞÂ¡¿
-		ËùÊôÄ£¿é£º	½»»¥Ä£¿é
-		¹¦ÄÜ£º		¡¾Ö»´æ´¢¡¿rmmv¹¤³ÌÊı¾İµÄÈİÆ÷¡£
-					²¢Ìá¹©Ò»ÏµÁĞ¹¤³ÌÎÄ¼şµÄ»ñÈ¡¹¦ÄÜ¡£
-					£¨ÏêÏ¸¼û.cpp£©
+		ç±»ï¼š		rmmväº¤äº’ æ•°æ®å®¹å™¨.h
+		ç‰ˆæœ¬ï¼š		v1.02ã€æ­¤ç±»ä¸å†æ›´æ–°ã€‘
+		æ‰€å±æ¨¡å—ï¼š	äº¤äº’æ¨¡å—
+		åŠŸèƒ½ï¼š		ã€åªå­˜å‚¨ã€‘rmmvå·¥ç¨‹æ•°æ®çš„å®¹å™¨ã€‚
+					å¹¶æä¾›ä¸€ç³»åˆ—å·¥ç¨‹æ–‡ä»¶çš„è·å–åŠŸèƒ½ã€‚
+					ï¼ˆè¯¦ç»†è§.cppï¼‰
 -----==========================================================-----
 */
 
@@ -21,72 +21,72 @@ class S_RmmvDataContainer : public QObject, public S_StorageManagerTemplate
 	public:
 		S_RmmvDataContainer();
 		~S_RmmvDataContainer();
-		static S_RmmvDataContainer* cur_container;		//µ¥Àı
-		static S_RmmvDataContainer* getInstance();		//µ¥Àı£¬»ñÈ¡×Ô¼º
+		static S_RmmvDataContainer* cur_container;		//å•ä¾‹
+		static S_RmmvDataContainer* getInstance();		//å•ä¾‹ï¼Œè·å–è‡ªå·±
 		
 	//-----------------------------------
-	//----Êı¾İ
+	//----æ•°æ®
 	private:
 		C_RmmvProjectData data_RmmvProjectData;
 	public:
-										//Êı¾İ - ĞŞ¸Ä
+										//æ•°æ® - ä¿®æ”¹
 		void modify(C_RmmvProjectData data);
-										//Êı¾İ - »ñÈ¡
+										//æ•°æ® - è·å–
 		C_RmmvProjectData getRmmvProjectData();
 	
 	//-----------------------------------
-	//----Êı¾İÎÄ¼ş
+	//----æ•°æ®æ–‡ä»¶
 	public:
-										//Êı¾İ - »ñÈ¡ÎÄ¼ş - ²å¼ş
+										//æ•°æ® - è·å–æ–‡ä»¶ - æ’ä»¶
 		QFileInfo getRmmvFile_Plugin(QString plugin_name);
-										//Êı¾İ - »ñÈ¡ÎÄ¼ş - ²å¼şÊı¾İ
+										//æ•°æ® - è·å–æ–‡ä»¶ - æ’ä»¶æ•°æ®
 		QFileInfo getRmmvFile_PluginsData();
-										//Êı¾İ - »ñÈ¡ÎÄ¼ş - µØÍ¼
+										//æ•°æ® - è·å–æ–‡ä»¶ - åœ°å›¾
 		QFileInfo getRmmvFile_Map(int i);
 		QFileInfo getRmmvFile_MapInfos();
-										//Êı¾İ - »ñÈ¡ÎÄ¼ş - ½ÇÉ«
+										//æ•°æ® - è·å–æ–‡ä»¶ - è§’è‰²
 		QFileInfo getRmmvFile_Actors();
-										//Êı¾İ - »ñÈ¡ÎÄ¼ş - Ö°Òµ
+										//æ•°æ® - è·å–æ–‡ä»¶ - èŒä¸š
 		QFileInfo getRmmvFile_Classes();
-										//Êı¾İ - »ñÈ¡ÎÄ¼ş - ÎïÆ·
+										//æ•°æ® - è·å–æ–‡ä»¶ - ç‰©å“
 		QFileInfo getRmmvFile_Items();
-										//Êı¾İ - »ñÈ¡ÎÄ¼ş - ¼¼ÄÜ
+										//æ•°æ® - è·å–æ–‡ä»¶ - æŠ€èƒ½
 		QFileInfo getRmmvFile_Skills();
-										//Êı¾İ - »ñÈ¡ÎÄ¼ş - ÎäÆ÷
+										//æ•°æ® - è·å–æ–‡ä»¶ - æ­¦å™¨
 		QFileInfo getRmmvFile_Weapons();
-										//Êı¾İ - »ñÈ¡ÎÄ¼ş - »¤¼×
+										//æ•°æ® - è·å–æ–‡ä»¶ - æŠ¤ç”²
 		QFileInfo getRmmvFile_Armors();
-										//Êı¾İ - »ñÈ¡ÎÄ¼ş - ×´Ì¬
+										//æ•°æ® - è·å–æ–‡ä»¶ - çŠ¶æ€
 		QFileInfo getRmmvFile_States();
-										//Êı¾İ - »ñÈ¡ÎÄ¼ş - µĞÈË
+										//æ•°æ® - è·å–æ–‡ä»¶ - æ•Œäºº
 		QFileInfo getRmmvFile_Enemies();
-										//Êı¾İ - »ñÈ¡ÎÄ¼ş - µĞÈº
+										//æ•°æ® - è·å–æ–‡ä»¶ - æ•Œç¾¤
 		QFileInfo getRmmvFile_Troops();
-										//Êı¾İ - »ñÈ¡ÎÄ¼ş - ¹«¹²ÊÂ¼ş
+										//æ•°æ® - è·å–æ–‡ä»¶ - å…¬å…±äº‹ä»¶
 		QFileInfo getRmmvFile_CommonEvents();
-										//Êı¾İ - »ñÈ¡ÎÄ¼ş - ¶¯»­
+										//æ•°æ® - è·å–æ–‡ä»¶ - åŠ¨ç”»
 		QFileInfo getRmmvFile_Animations();
-										//Êı¾İ - »ñÈ¡ÎÄ¼ş - Í¼¿é
+										//æ•°æ® - è·å–æ–‡ä»¶ - å›¾å—
 		QFileInfo getRmmvFile_Tilesets();
-										//Êı¾İ - »ñÈ¡ÎÄ¼ş - ÏµÍ³
+										//æ•°æ® - è·å–æ–‡ä»¶ - ç³»ç»Ÿ
 		QFileInfo getRmmvFile_System();
 		
 
 	//-----------------------------------
-	//----ĞÅºÅ
+	//----ä¿¡å·
 	signals:
-										//ĞÅºÅ - ´æ´¢Êı¾İ±»¶ÁÈ¡
+										//ä¿¡å· - å­˜å‚¨æ•°æ®è¢«è¯»å–
 		void dataAllReloaded();
 
 	//-----------------------------------
-	//----´æ´¢Êı¾İ£¨¼Ì³Ğ£©
+	//----å­˜å‚¨æ•°æ®ï¼ˆç»§æ‰¿ï¼‰
 	public:
-										//Êı¾İ - »ñÈ¡´æ´¢µÄÃû³Æ
+										//æ•°æ® - è·å–å­˜å‚¨çš„åç§°
 		QString getSaveName();
-										//Êı¾İ - Çå³ıµ±Ç°¹ÜÀíÆ÷Êı¾İ
+										//æ•°æ® - æ¸…é™¤å½“å‰ç®¡ç†å™¨æ•°æ®
 		void clearAllData();
-										//Êı¾İ - È«²¿¼¤ÀøÔ´Êı¾İ -> QJsonObject
+										//æ•°æ® - å…¨éƒ¨æ¿€åŠ±æºæ•°æ® -> QJsonObject
 		QJsonObject getAllDataOfJsonObject();
-										//Êı¾İ - QJsonObject -> È«²¿¼¤ÀøÔ´Êı¾İ
+										//æ•°æ® - QJsonObject -> å…¨éƒ¨æ¿€åŠ±æºæ•°æ®
 		void setAllDataFromJsonObject(QJsonObject obj);
 };

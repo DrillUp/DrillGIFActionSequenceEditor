@@ -1,13 +1,13 @@
-#pragma once
+ï»¿#pragma once
 
 #include "p_RmmvCaller.h"
 
 /*
 -----==========================================================-----
-		Àà£º		rmmv½»»¥Õß£¨¶¯»­ĞòÁĞ ×¨ÓÃ£©.h
-		ËùÊôÄ£¿é£º	½»»¥Ä£¿é
-		¹¦ÄÜ£º		Óërmmv½»»¥µÄÄ£¿é£¬Ö»¿¼ÂÇ ¶¯»­ĞòÁĞ Ïà¹ØÎÄ¼ş¡£
-					£¨ÏêÏ¸¼û.cpp£©
+		ç±»ï¼š		rmmväº¤äº’è€…ï¼ˆåŠ¨ç”»åºåˆ— ä¸“ç”¨ï¼‰.h
+		æ‰€å±æ¨¡å—ï¼š	äº¤äº’æ¨¡å—
+		åŠŸèƒ½ï¼š		ä¸rmmväº¤äº’çš„æ¨¡å—ï¼Œåªè€ƒè™‘ åŠ¨ç”»åºåˆ— ç›¸å…³æ–‡ä»¶ã€‚
+					ï¼ˆè¯¦ç»†è§.cppï¼‰
 -----==========================================================-----
 */
 
@@ -18,25 +18,25 @@ class S_RmmvCaller_ActionSeq : public P_RmmvCaller
 	public:
 		S_RmmvCaller_ActionSeq();
 		~S_RmmvCaller_ActionSeq();
-		static S_RmmvCaller_ActionSeq* cur_manager;			//µ¥Àı
-		static S_RmmvCaller_ActionSeq* getInstance();		//µ¥Àı£¬»ñÈ¡×Ô¼º
-		void init();										//³õÊ¼»¯
+		static S_RmmvCaller_ActionSeq* cur_manager;			//å•ä¾‹
+		static S_RmmvCaller_ActionSeq* getInstance();		//å•ä¾‹ï¼Œè·å–è‡ªå·±
+		void init();										//åˆå§‹åŒ–
 		
 	//-----------------------------------
-	//----¹¤³Ì
+	//----å·¥ç¨‹
 	public:
-										//¹¤³Ì - ´ò¿ªrmmv£¨¼Ì³Ğ£©
-		virtual C_RmmvProjectData callRmmvSelect();
+										//å·¥ç¨‹ - æ‰“å¼€rmmvï¼ˆç»§æ‰¿ï¼‰
+		virtual C_RmmvProjectData callRmmvSelect() override;
 
-										//¹¤³Ì - ¶ÁÈ¡È«²¿Ïà¹Ø¹¤³ÌÎÄ¼ş
-										//		¡¾ËµÃ÷¡¿£º¶ÁÈ¡Ê§°Ü·µ»Øfalse
+										//å·¥ç¨‹ - è¯»å–å…¨éƒ¨ç›¸å…³å·¥ç¨‹æ–‡ä»¶
+										//		ã€è¯´æ˜ã€‘ï¼šè¯»å–å¤±è´¥è¿”å›false
 		bool loadAllRmmvFile(C_RmmvProjectData rmmvProjectData);
-										//¹¤³Ì - ¸²¸Ç×ÊÔ´ÎÄ¼ş
+										//å·¥ç¨‹ - è¦†ç›–èµ„æºæ–‡ä»¶
 		void coverSourceFileToTemp(C_RmmvProjectData rmmvProjectData);
 
 
 	protected:
-										//¹¤³Ì - ±£´æ²Ù×÷£¨¸²¸Çµ½rmmv£©
-		virtual void saveDataToRmmv(C_RmmvProjectData rmmvProjectData);
+										//å·¥ç¨‹ - ä¿å­˜æ“ä½œï¼ˆè¦†ç›–åˆ°rmmvï¼‰
+		virtual void saveDataToRmmv(C_RmmvProjectData rmmvProjectData) override;
 
 };
