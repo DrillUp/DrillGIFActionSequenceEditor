@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "W_ALEConfigEdit.h"
 
 #include "../c_ALEData.h"
@@ -6,13 +6,13 @@
 
 /*
 -----==========================================================-----
-		Àà£º		¶¯»­Ö¡ÉèÖÃ ´°¿Ú.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		±à¼­¶¯»­Ö¡µÄÕûÌåuiÉèÖÃ¡£
+		ç±»ï¼š		åŠ¨ç”»å¸§è®¾ç½® çª—å£.cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±žæ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		ç¼–è¾‘åŠ¨ç”»å¸§çš„æ•´ä½“uiè®¾ç½®ã€‚
 
-		Ê¹ÓÃ·½·¨£º
-				>´ò¿ª´°¿Ú
+		ä½¿ç”¨æ–¹æ³•ï¼š
+				>æ‰“å¼€çª—å£
 					W_ALEConfigEdit d;
 					d.setDataInModifyMode(this->getConfigParam());
 					if (d.exec() == QDialog::Accepted){
@@ -26,33 +26,33 @@ W_ALEConfigEdit::W_ALEConfigEdit(QWidget *parent)
 	ui.setupUi(this);
 
 	//-----------------------------------
-	//----³õÊ¼»¯²ÎÊý
+	//----åˆå§‹åŒ–å‚æ•°
 	this->m_slotBlock = false;
 	
 	//-----------------------------------
-	//----³õÊ¼»¯ui
+	//----åˆå§‹åŒ–ui
 	ui.comboBox_sizeMode->clear();
 	ui.comboBox_sizeMode->setView(new QListView());
-	ui.comboBox_sizeMode->addItems(QStringList() << "´ó" << "ÖÐ" << "Ð¡");
+	ui.comboBox_sizeMode->addItems(QStringList() << "å¤§" << "ä¸­" << "å°");
 	ui.comboBox_unit->clear();
 	ui.comboBox_unit->setView(new QListView());
-	ui.comboBox_unit->addItems(QStringList() << "Ö¡µ¥Î»£¨1Ãë60Ö¡£©" << "Ãëµ¥Î»£¨1Ãë100Ö¡£©" );
+	ui.comboBox_unit->addItems(QStringList() << "å¸§å•ä½ï¼ˆ1ç§’60å¸§ï¼‰" << "ç§’å•ä½ï¼ˆ1ç§’100å¸§ï¼‰" );
 	ui.comboBox_frameUnit->clear();
 	ui.comboBox_frameUnit->setView(new QListView());
 	ui.comboBox_frameUnit->addItems(QStringList()
-		<< "1Ö¡" << "2Ö¡" << "3Ö¡" << "4Ö¡" << "5Ö¡"
-		<< "10Ö¡" << "20Ö¡" << "30Ö¡" << "40Ö¡" << "50Ö¡"
-		<< "100Ö¡" << "500Ö¡" << "×Ô¶¨Òå");
+		<< "1å¸§" << "2å¸§" << "3å¸§" << "4å¸§" << "8å¸§" << "12å¸§"
+		<< "5å¸§" << "10å¸§" << "15å¸§" << "20å¸§" << "30å¸§" << "40å¸§" << "60å¸§"
+		<< "120å¸§" << "600å¸§" << "è‡ªå®šä¹‰");
 	ui.comboBox_secondUnit->clear();
 	ui.comboBox_secondUnit->setView(new QListView());
 	ui.comboBox_secondUnit->addItems(QStringList()
-		<< "0.01Ãë" << "0.02Ãë" << "0.03Ãë" << "0.04Ãë" << "0.05Ãë"
-		<< "0.10Ãë" << "0.20Ãë" << "0.30Ãë" << "0.40Ãë" << "0.50Ãë"
-		<< "1.00Ãë" << "5.00Ãë" << "×Ô¶¨Òå");
+		<< "0.01ç§’" << "0.02ç§’" << "0.03ç§’" << "0.04ç§’" << "0.08ç§’" << "0.12ç§’"
+		<< "0.05ç§’" << "0.10ç§’" << "0.15ç§’" << "0.20ç§’" << "0.30ç§’" << "0.40ç§’" << "0.60ç§’"
+		<< "1.20ç§’" << "6.00ç§’" << "è‡ªå®šä¹‰");
 	TTool::_chinese_(ui.buttonBox);
 
 	//-----------------------------------
-	//----ÊÂ¼þ°ó¶¨
+	//----äº‹ä»¶ç»‘å®š
 	connect(ui.checkBox, &QCheckBox::toggled, this, &W_ALEConfigEdit::checkBoxChanged);
 	connect(ui.buttonBox, &QDialogButtonBox::accepted, this, &W_ALEConfigEdit::acceptData);
 
@@ -68,7 +68,7 @@ W_ALEConfigEdit::~W_ALEConfigEdit(){
 }
 
 /*-------------------------------------------------
-		»Ø³µÊÂ¼þ¹ýÂË
+		å›žè½¦äº‹ä»¶è¿‡æ»¤
 */
 void W_ALEConfigEdit::keyPressEvent(QKeyEvent *event) {
 	if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
@@ -79,108 +79,120 @@ void W_ALEConfigEdit::keyPressEvent(QKeyEvent *event) {
 }
 
 /*-------------------------------------------------
-		¿Ø¼þ - ¹´Ñ¡ÇÐ»»
+		æŽ§ä»¶ - å‹¾é€‰åˆ‡æ¢
 */
 void W_ALEConfigEdit::checkBoxChanged(bool checked){
 	if (ui.checkBox->isChecked()){
-		ui.checkBox->setText("ÏÔÊ¾");
+		ui.checkBox->setText("æ˜¾ç¤º");
 	}else{
-		ui.checkBox->setText("²»ÏÔÊ¾");
+		ui.checkBox->setText("ä¸æ˜¾ç¤º");
 	}
 }
 /*-------------------------------------------------
-		¿Ø¼þ - Ñ¡ÔñÊý×Ö
+		æŽ§ä»¶ - é€‰æ‹©æ•°å­—
 */
 void W_ALEConfigEdit::timeSelected_frameUnit(QString text){
 	if (this->m_slotBlock == true){ return; }
 	this->m_slotBlock = true;
 
-	if (text == "1Ö¡"){ ui.spinBox_frameUnit->setValue(1); }
-	if (text == "2Ö¡"){ ui.spinBox_frameUnit->setValue(2); }
-	if (text == "3Ö¡"){ ui.spinBox_frameUnit->setValue(3); }
-	if (text == "4Ö¡"){ ui.spinBox_frameUnit->setValue(4); }
-	if (text == "5Ö¡"){ ui.spinBox_frameUnit->setValue(5); }
-	if (text == "10Ö¡"){ ui.spinBox_frameUnit->setValue(10); }
-	if (text == "20Ö¡"){ ui.spinBox_frameUnit->setValue(20); }
-	if (text == "30Ö¡"){ ui.spinBox_frameUnit->setValue(30); }
-	if (text == "40Ö¡"){ ui.spinBox_frameUnit->setValue(40); }
-	if (text == "50Ö¡"){ ui.spinBox_frameUnit->setValue(50); }
-	if (text == "100Ö¡"){ ui.spinBox_frameUnit->setValue(100); }
-	if (text == "500Ö¡"){ ui.spinBox_frameUnit->setValue(500); }
+	if (text == "1å¸§"){ ui.spinBox_frameUnit->setValue(1); }
+	if (text == "2å¸§"){ ui.spinBox_frameUnit->setValue(2); }
+	if (text == "3å¸§"){ ui.spinBox_frameUnit->setValue(3); }
+	if (text == "4å¸§"){ ui.spinBox_frameUnit->setValue(4); }
+	if (text == "8å¸§"){ ui.spinBox_frameUnit->setValue(8); }
+	if (text == "12å¸§"){ ui.spinBox_frameUnit->setValue(12); }
+	if (text == "5å¸§"){ ui.spinBox_frameUnit->setValue(5); }
+	if (text == "10å¸§"){ ui.spinBox_frameUnit->setValue(10); }
+	if (text == "15å¸§"){ ui.spinBox_frameUnit->setValue(15); }
+	if (text == "20å¸§"){ ui.spinBox_frameUnit->setValue(20); }
+	if (text == "30å¸§"){ ui.spinBox_frameUnit->setValue(30); }
+	if (text == "40å¸§"){ ui.spinBox_frameUnit->setValue(40); }
+	if (text == "60å¸§"){ ui.spinBox_frameUnit->setValue(60); }
+	if (text == "120å¸§"){ ui.spinBox_frameUnit->setValue(120); }
+	if (text == "600å¸§"){ ui.spinBox_frameUnit->setValue(600); }
 
 	this->m_slotBlock = false;
 }
 /*-------------------------------------------------
-		¿Ø¼þ - ±à¼­Êý×Ö
+		æŽ§ä»¶ - ç¼–è¾‘æ•°å­—
 */
 void W_ALEConfigEdit::timeEdited_frameUnit(int value){
 	if (this->m_slotBlock == true){ return; }
 	this->m_slotBlock = true;
 
-	if (value == 1){ ui.comboBox_frameUnit->setCurrentText("1Ö¡"); }
-	else if (value == 2){ ui.comboBox_frameUnit->setCurrentText("2Ö¡"); }
-	else if (value == 3){ ui.comboBox_frameUnit->setCurrentText("3Ö¡"); }
-	else if (value == 4){ ui.comboBox_frameUnit->setCurrentText("4Ö¡"); }
-	else if (value == 5){ ui.comboBox_frameUnit->setCurrentText("5Ö¡"); }
-	else if (value == 10){ ui.comboBox_frameUnit->setCurrentText("10Ö¡"); }
-	else if (value == 20){ ui.comboBox_frameUnit->setCurrentText("20Ö¡"); }
-	else if (value == 30){ ui.comboBox_frameUnit->setCurrentText("30Ö¡"); }
-	else if (value == 40){ ui.comboBox_frameUnit->setCurrentText("40Ö¡"); }
-	else if (value == 50){ ui.comboBox_frameUnit->setCurrentText("50Ö¡"); }
-	else if (value == 100){ ui.comboBox_frameUnit->setCurrentText("100Ö¡"); }
-	else if (value == 500){ ui.comboBox_frameUnit->setCurrentText("500Ö¡"); }
-	else{ ui.comboBox_frameUnit->setCurrentText("×Ô¶¨Òå"); }
+	if (value == 1){ ui.comboBox_frameUnit->setCurrentText("1å¸§"); }
+	else if (value == 2){ ui.comboBox_frameUnit->setCurrentText("2å¸§"); }
+	else if (value == 3){ ui.comboBox_frameUnit->setCurrentText("3å¸§"); }
+	else if (value == 4){ ui.comboBox_frameUnit->setCurrentText("4å¸§"); }
+	else if (value == 8){ ui.comboBox_frameUnit->setCurrentText("8å¸§"); }
+	else if (value == 12){ ui.comboBox_frameUnit->setCurrentText("12å¸§"); }
+	else if (value == 5){ ui.comboBox_frameUnit->setCurrentText("5å¸§"); }
+	else if (value == 10){ ui.comboBox_frameUnit->setCurrentText("10å¸§"); }
+	else if (value == 15){ ui.comboBox_frameUnit->setCurrentText("15å¸§"); }
+	else if (value == 20){ ui.comboBox_frameUnit->setCurrentText("20å¸§"); }
+	else if (value == 30){ ui.comboBox_frameUnit->setCurrentText("30å¸§"); }
+	else if (value == 40){ ui.comboBox_frameUnit->setCurrentText("40å¸§"); }
+	else if (value == 60){ ui.comboBox_frameUnit->setCurrentText("60å¸§"); }
+	else if (value == 120){ ui.comboBox_frameUnit->setCurrentText("120å¸§"); }
+	else if (value == 600){ ui.comboBox_frameUnit->setCurrentText("600å¸§"); }
+	else{ ui.comboBox_frameUnit->setCurrentText("è‡ªå®šä¹‰"); }
 
 	this->m_slotBlock = false;
 }
 /*-------------------------------------------------
-		¿Ø¼þ - Ñ¡ÔñÊý×Ö
+		æŽ§ä»¶ - é€‰æ‹©æ•°å­—
 */
 void W_ALEConfigEdit::timeSelected_secondUnit(QString text){
 	if (this->m_slotBlock == true){ return; }
 	this->m_slotBlock = true;
 
-	if (text == "0.01Ãë"){ ui.doubleSpinBox_secondUnit->setValue(0.01); }
-	if (text == "0.02Ãë"){ ui.doubleSpinBox_secondUnit->setValue(0.02); }
-	if (text == "0.03Ãë"){ ui.doubleSpinBox_secondUnit->setValue(0.03); }
-	if (text == "0.04Ãë"){ ui.doubleSpinBox_secondUnit->setValue(0.04); }
-	if (text == "0.05Ãë"){ ui.doubleSpinBox_secondUnit->setValue(0.05); }
-	if (text == "0.10Ãë"){ ui.doubleSpinBox_secondUnit->setValue(0.1); }
-	if (text == "0.20Ãë"){ ui.doubleSpinBox_secondUnit->setValue(0.2); }
-	if (text == "0.30Ãë"){ ui.doubleSpinBox_secondUnit->setValue(0.3); }
-	if (text == "0.40Ãë"){ ui.doubleSpinBox_secondUnit->setValue(0.4); }
-	if (text == "0.50Ãë"){ ui.doubleSpinBox_secondUnit->setValue(0.5); }
-	if (text == "1.00Ãë"){ ui.doubleSpinBox_secondUnit->setValue(1); }
-	if (text == "5.00Ãë"){ ui.doubleSpinBox_secondUnit->setValue(5); }
+	if (text == "0.01ç§’"){ ui.doubleSpinBox_secondUnit->setValue(0.01); }
+	if (text == "0.02ç§’"){ ui.doubleSpinBox_secondUnit->setValue(0.02); }
+	if (text == "0.03ç§’"){ ui.doubleSpinBox_secondUnit->setValue(0.03); }
+	if (text == "0.04ç§’"){ ui.doubleSpinBox_secondUnit->setValue(0.04); }
+	if (text == "0.08ç§’"){ ui.doubleSpinBox_secondUnit->setValue(0.08); }
+	if (text == "0.12ç§’"){ ui.doubleSpinBox_secondUnit->setValue(0.12); }
+	if (text == "0.05ç§’"){ ui.doubleSpinBox_secondUnit->setValue(0.05); }
+	if (text == "0.10ç§’"){ ui.doubleSpinBox_secondUnit->setValue(0.1); }
+	if (text == "0.15ç§’"){ ui.doubleSpinBox_secondUnit->setValue(0.15); }
+	if (text == "0.20ç§’"){ ui.doubleSpinBox_secondUnit->setValue(0.2); }
+	if (text == "0.30ç§’"){ ui.doubleSpinBox_secondUnit->setValue(0.3); }
+	if (text == "0.40ç§’"){ ui.doubleSpinBox_secondUnit->setValue(0.4); }
+	if (text == "0.60ç§’"){ ui.doubleSpinBox_secondUnit->setValue(0.6); }
+	if (text == "1.20ç§’"){ ui.doubleSpinBox_secondUnit->setValue(1.2); }
+	if (text == "6.00ç§’"){ ui.doubleSpinBox_secondUnit->setValue(6); }
 	
 	this->m_slotBlock = false;
 }
 /*-------------------------------------------------
-		¿Ø¼þ - ±à¼­Êý×Ö
+		æŽ§ä»¶ - ç¼–è¾‘æ•°å­—
 */
 void W_ALEConfigEdit::timeEdited_secondUnit(double value){
 	if (this->m_slotBlock == true){ return; }
 	this->m_slotBlock = true;
 
-	if (value == 0.01){ ui.comboBox_secondUnit->setCurrentText("0.01Ãë"); }
-	else if (value == 0.02){ ui.comboBox_secondUnit->setCurrentText("0.02Ãë"); }
-	else if (value == 0.03){ ui.comboBox_secondUnit->setCurrentText("0.03Ãë"); }
-	else if (value == 0.04){ ui.comboBox_secondUnit->setCurrentText("0.04Ãë"); }
-	else if (value == 0.05){ ui.comboBox_secondUnit->setCurrentText("0.05Ãë"); }
-	else if (value == 0.1){ ui.comboBox_secondUnit->setCurrentText("0.10Ãë"); }
-	else if (value == 0.2){ ui.comboBox_secondUnit->setCurrentText("0.20Ãë"); }
-	else if (value == 0.3){ ui.comboBox_secondUnit->setCurrentText("0.30Ãë"); }
-	else if (value == 0.4){ ui.comboBox_secondUnit->setCurrentText("0.40Ãë"); }
-	else if (value == 0.5){ ui.comboBox_secondUnit->setCurrentText("0.50Ãë"); }
-	else if (value == 1){ ui.comboBox_secondUnit->setCurrentText("1.00Ãë"); }
-	else if (value == 5){ ui.comboBox_secondUnit->setCurrentText("5.00Ãë"); }
-	else{ ui.comboBox_secondUnit->setCurrentText("×Ô¶¨Òå"); }
+	if (value == 0.01){ ui.comboBox_secondUnit->setCurrentText("0.01ç§’"); }
+	else if (value == 0.02){ ui.comboBox_secondUnit->setCurrentText("0.02ç§’"); }
+	else if (value == 0.03){ ui.comboBox_secondUnit->setCurrentText("0.03ç§’"); }
+	else if (value == 0.04){ ui.comboBox_secondUnit->setCurrentText("0.04ç§’"); }
+	else if (value == 0.08){ ui.comboBox_secondUnit->setCurrentText("0.08ç§’"); }
+	else if (value == 0.12){ ui.comboBox_secondUnit->setCurrentText("0.12ç§’"); }
+	else if (value == 0.05){ ui.comboBox_secondUnit->setCurrentText("0.05ç§’"); }
+	else if (value == 0.1){ ui.comboBox_secondUnit->setCurrentText("0.10ç§’"); }
+	else if (value == 0.15){ ui.comboBox_secondUnit->setCurrentText("0.15ç§’"); }
+	else if (value == 0.2){ ui.comboBox_secondUnit->setCurrentText("0.20ç§’"); }
+	else if (value == 0.3){ ui.comboBox_secondUnit->setCurrentText("0.30ç§’"); }
+	else if (value == 0.4){ ui.comboBox_secondUnit->setCurrentText("0.40ç§’"); }
+	else if (value == 0.6){ ui.comboBox_secondUnit->setCurrentText("0.60ç§’"); }
+	else if (value == 1.2){ ui.comboBox_secondUnit->setCurrentText("1.20ç§’"); }
+	else if (value == 6){ ui.comboBox_secondUnit->setCurrentText("6.00ç§’"); }
+	else{ ui.comboBox_secondUnit->setCurrentText("è‡ªå®šä¹‰"); }
 
 	this->m_slotBlock = false;
 }
 
 /*-------------------------------------------------
-		´°¿Ú - ÉèÖÃÊý¾Ý£¨ÐÞ¸Ä£©
+		çª—å£ - è®¾ç½®æ•°æ®ï¼ˆä¿®æ”¹ï¼‰
 */
 void W_ALEConfigEdit::setDataInModifyMode(C_ALEConfig config, int unit) {
 	this->local_config = config;
@@ -188,19 +200,19 @@ void W_ALEConfigEdit::setDataInModifyMode(C_ALEConfig config, int unit) {
 	this->putDataToUi();
 }
 /*-------------------------------------------------
-		´°¿Ú - È¡³öÊý¾Ý
+		çª—å£ - å–å‡ºæ•°æ®
 */
 C_ALEConfig W_ALEConfigEdit::getData(){
 	return this->local_config;
 };
 /*-------------------------------------------------
-		´°¿Ú - È¡³öÊý¾Ý£¨µ¥Î»£©
+		çª—å£ - å–å‡ºæ•°æ®ï¼ˆå•ä½ï¼‰
 */
 int W_ALEConfigEdit::getDataUnit(){
 	return this->local_unit;
 };
 /*-------------------------------------------------
-		´°¿Ú - ±¾µØÊý¾Ý -> uiÊý¾Ý
+		çª—å£ - æœ¬åœ°æ•°æ® -> uiæ•°æ®
 */
 void W_ALEConfigEdit::putDataToUi() {
 	ui.comboBox_sizeMode->setCurrentText(this->local_config.getSizeMode());
@@ -218,9 +230,11 @@ void W_ALEConfigEdit::putDataToUi() {
 	int value = this->local_config.m_defaultInterval;
 	ui.spinBox_frameUnit->setValue(value);
 	ui.doubleSpinBox_secondUnit->setValue(value*0.01);
+	this->timeEdited_frameUnit(value);
+	this->timeEdited_secondUnit(value*0.01);
 };
 /*-------------------------------------------------
-		´°¿Ú - uiÊý¾Ý -> ±¾µØÊý¾Ý
+		çª—å£ - uiæ•°æ® -> æœ¬åœ°æ•°æ®
 */
 void W_ALEConfigEdit::putUiToData() {
 	this->local_config.setSizeMode(ui.comboBox_sizeMode->currentText());
@@ -235,7 +249,7 @@ void W_ALEConfigEdit::putUiToData() {
 	}
 };
 /*-------------------------------------------------
-		´°¿Ú - Ìá½»Êý¾Ý£¨Ð£Ñé£©
+		çª—å£ - æäº¤æ•°æ®ï¼ˆæ ¡éªŒï¼‰
 */
 void W_ALEConfigEdit::acceptData(){
 	this->putUiToData();
