@@ -236,18 +236,18 @@ QPixmap I_APVScene::rotateColor(QPixmap pixmap, int rotate_offset){
 
 	// > 图片颜色矩阵转换
 	//		参考：https://blog.csdn.net/qq_43081702/article/details/110656227 
-	uint8_t* rgba = img.bits();
+	uint8_t* rgb = img.bits();
 	double* temp_arr = new double[3];
 	int size = img.width()*img.height() * 4;
 	for (int i = 0; i < size; i += 4){
-		this->rgbToHsl(rgba[i + 0], rgba[i + 1], rgba[i + 2], temp_arr);
-		double h = (int)(temp_arr[0] + rotate_offset) % 360;
+		this->rgbToHsl(rgb[i + 0], rgb[i + 1], rgb[i + 2], temp_arr);
+		double h = fmod((temp_arr[0] + rotate_offset), 360);
 		double s = temp_arr[1];
 		double l = temp_arr[2];
 		this->hslToRgb(h, s, l, temp_arr);
-		rgba[i + 0] = temp_arr[0];
-		rgba[i + 1] = temp_arr[1];
-		rgba[i + 2] = temp_arr[2];
+		rgb[i + 0] = temp_arr[0];
+		rgb[i + 1] = temp_arr[1];
+		rgb[i + 2] = temp_arr[2];
 	}
 	delete temp_arr;
 	//（原函数：Bitmap.prototype.rotateHue）
@@ -283,7 +283,7 @@ void I_APVScene::rgbToHsl(int r, int g, int b, double* result_arr){
 
 	if (delta > 0){
 		if (r == cmax){
-			h = 60 * ((int)((g - b) / delta + 6) % 6);
+			h = 60 * fmod(((g - b) / delta + 6), 6);
 		}
 		else if (g == cmax){
 			h = 60 * ((b - r) / delta + 2);
@@ -293,8 +293,8 @@ void I_APVScene::rgbToHsl(int r, int g, int b, double* result_arr){
 		}
 		s = delta / (255 - qAbs(2 * l - 255));
 	}
-	result_arr[0] = h; 
-	result_arr[1] = s; 
+	result_arr[0] = h;
+	result_arr[1] = s;
 	result_arr[2] = l;
 }
 /*-------------------------------------------------
@@ -302,7 +302,7 @@ void I_APVScene::rgbToHsl(int r, int g, int b, double* result_arr){
 */
 void I_APVScene::hslToRgb(double h, double s, double l, double* result_arr){
 	int c = (255 - qAbs(2 * l - 255)) * s;
-	int x = c * (1 - qAbs((int)(h / 60) % 2 - 1));
+	int x = c * (1 - qAbs(fmod(h / 60, 2) - 1));
 	int m = l - c / 2;
 	int cm = c + m;
 	int xm = x + m;
