@@ -295,16 +295,34 @@ QStringList C_TreeNode::getErrorMessage(){
 
 
 /*-------------------------------------------------
-		类 - 获取类名
+		访问器 - 获取子类类名
 */
-QStringList C_TreeNode::classInherited(){
-	return C_Node::classInherited() << "C_TreeNode";
+QString C_TreeNode::get__CLASS_NAME__(){
+	return "C_TreeNode";
+}
+/*-------------------------------------------------
+		访问器 - 获取子类类名（中文名）
+*/
+QString C_TreeNode::get__CLASS_NAME__Chinese(){
+	return "树节点";
+}
+/*-------------------------------------------------
+		访问器 - 获取所有继承的类名
+*/
+QStringList C_TreeNode::get__CLASS_INHERITED_LIST__(){
+	return C_Node::get__CLASS_INHERITED_LIST__() << "C_TreeNode";
+}
+/*-------------------------------------------------
+		访问器 - 是否继承了某类
+*/
+bool C_TreeNode::get__CLASS_IS_INSTANCE_OF__(QString class_name){
+	return this->get__CLASS_INHERITED_LIST__().contains(class_name);
 }
 /*-------------------------------------------------
 		类 - 判断类
 */
 bool C_TreeNode::isClass_TreeNode(){
-	return this->classIsInstanceOf("C_TreeNode");
+	return this->get__CLASS_IS_INSTANCE_OF__("C_TreeNode");
 }
 /*-------------------------------------------------
 		类 - 创建自己
@@ -341,7 +359,7 @@ C_TreeNodePtr C_TreeNode::_factoryTree_getNodeById(QString node_id){
 */
 C_TreeNodeFactoryPtr C_TreeNode::_factoryTree_get(){
 	C_NodeFactoryPtr factory = S_NodeFactoryContainer::getInstance()->getFactory_ById(this->factory_id);
-	if (factory->classIsInstanceOf("C_TreeNodeFactory") == false){ return C_TreeNodeFactoryPtr(); }
+	if (factory->get__CLASS_IS_INSTANCE_OF__("C_TreeNodeFactory") == false){ return C_TreeNodeFactoryPtr(); }
 	return factory.dynamicCast<C_TreeNodeFactory>();
 }
 
@@ -351,7 +369,7 @@ C_TreeNodeFactoryPtr C_TreeNode::_factoryTree_get(){
 */
 void C_TreeNode::copyTo(C_NodePtr data_to){
 	C_Node::copyTo(data_to);
-	if (data_to->classIsInstanceOf("C_TreeNode") == false){ return; }
+	if (data_to->get__CLASS_IS_INSTANCE_OF__("C_TreeNode") == false){ return; }
 	C_TreeNodePtr treeData_to = data_to.dynamicCast<C_TreeNode>();
 
 	// > 树节点
@@ -363,7 +381,7 @@ void C_TreeNode::copyTo(C_NodePtr data_to){
 */
 void C_TreeNode::copyFrom(C_NodePtr data_from){
 	C_Node::copyFrom(data_from);
-	if (data_from->classIsInstanceOf("C_TreeNode") == false){ return; }
+	if (data_from->get__CLASS_IS_INSTANCE_OF__("C_TreeNode") == false){ return; }
 	C_TreeNodePtr treeData_from = data_from.dynamicCast<C_TreeNode>();
 
 	// > 树节点
@@ -373,8 +391,8 @@ void C_TreeNode::copyFrom(C_NodePtr data_from){
 /*-------------------------------------------------
 		实体类 -> QJsonObject
 */
-QJsonObject C_TreeNode::getJsonObject(){
-	QJsonObject obj = C_Node::getJsonObject();
+QJsonObject C_TreeNode::getJsonObject_childData(){
+	QJsonObject obj = C_Node::getJsonObject_childData();
 
 	// > 树节点
 	obj.insert("m_tree_curLayer", this->m_tree_curLayer);
@@ -385,8 +403,8 @@ QJsonObject C_TreeNode::getJsonObject(){
 /*-------------------------------------------------
 		QJsonObject -> 实体类
 */
-void C_TreeNode::setJsonObject(QJsonObject obj){
-	C_Node::setJsonObject(obj);
+void C_TreeNode::setJsonObject_childData(QJsonObject obj){
+	C_Node::setJsonObject_childData(obj);
 
 	// > 树节点
 	if (obj.value("m_tree_curLayer").isUndefined() == false){ this->m_tree_curLayer = obj.value("m_tree_curLayer").toInt(); }

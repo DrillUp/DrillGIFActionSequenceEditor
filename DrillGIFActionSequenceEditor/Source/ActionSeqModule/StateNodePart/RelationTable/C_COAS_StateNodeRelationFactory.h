@@ -61,8 +61,14 @@ class C_COAS_StateNodeRelationFactory : public C_TreeNodeFactory
 	//-----------------------------------
 	//----类
 	public:
-										//类 - 获取类名
-		virtual QStringList classInherited() override;
+										//访问器 - 获取子类类名
+		virtual QString get__CLASS_NAME__() override;
+										//访问器 - 获取子类类名（中文名）
+		virtual QString get__CLASS_NAME__Chinese() override;
+										//访问器 - 获取所有继承的类名
+		virtual QStringList get__CLASS_INHERITED_LIST__() override;
+										//访问器 - 是否继承了某类
+		virtual bool get__CLASS_IS_INSTANCE_OF__(QString class_name) override;
 										//类 - 判断类
 		bool isClass_StateTreeNodeFactory();
 
@@ -70,9 +76,9 @@ class C_COAS_StateNodeRelationFactory : public C_TreeNodeFactory
 	//----类属性
 	public:
 										//实体类 -> QJsonObject
-		virtual QJsonObject getJsonObject() override;
+		virtual QJsonObject getJsonObject_childData() override;
 										//QJsonObject -> 实体类
-		virtual void setJsonObject(QJsonObject obj) override;
+		virtual void setJsonObject_childData(QJsonObject obj) override;
 
 };
 

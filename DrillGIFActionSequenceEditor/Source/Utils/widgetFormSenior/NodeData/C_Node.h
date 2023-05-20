@@ -2,12 +2,12 @@
 #include "stdafx.h"
 
 #include <QObject>
-
+#include "Source/ProjectModule/Container/C_ContainerDataBase.h"
 
 /*
 -----==========================================================-----
 		类：		节点.h
-		版本：		v1.01
+		版本：		v1.02
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		定义一个节点，用于描述无向图。
@@ -16,7 +16,7 @@
 */
 class C_NodeFactory;
 CLASS_PTR(C_Node);
-class C_Node{
+class C_Node : public C_ContainerDataBase{
 
 	public:
 							//【此类需要通过工厂来创建】
@@ -68,23 +68,23 @@ class C_Node{
 	//-----------------------------------
 	//----类
 	protected:
-		QString id;							//标识
 		QString name;						//名称
 		QString factory_id;					//工厂标识
 	public:
-										//类 - 访问器 - 标识
-		void setId(QString id);
-		QString getId();
 										//类 - 访问器 - 名称
 		void setName(QString nodeName);
 		QString getName();
 										//类 - 访问器 - 工厂标识
 		void setFactoryId(QString factory_id);
 		QString getFactoryId();
-										//类 - 获取类名
-		QString className();
-		bool classIsInstanceOf(QString className);
-		virtual QStringList classInherited();
+										//访问器 - 获取子类类名
+		virtual QString get__CLASS_NAME__() override;
+										//访问器 - 获取子类类名（中文名）
+		virtual QString get__CLASS_NAME__Chinese() override;
+										//访问器 - 获取所有继承的类名
+		virtual QStringList get__CLASS_INHERITED_LIST__() override;
+										//访问器 - 是否继承了某类
+		virtual bool get__CLASS_IS_INSTANCE_OF__(QString class_name) override;
 										//类 - 判断类
 		bool isClass_Node();
 	protected:
@@ -109,8 +109,8 @@ class C_Node{
 										//复制数据 目标类 -> 当前类
 		virtual void copyFrom(C_NodePtr data_from);
 										//实体类 -> QJsonObject
-		virtual QJsonObject getJsonObject();
+		virtual QJsonObject getJsonObject_childData();
 										//QJsonObject -> 实体类
-		virtual void setJsonObject(QJsonObject obj);
+		virtual void setJsonObject_childData(QJsonObject obj);
 
 };

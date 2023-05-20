@@ -309,23 +309,41 @@ QStringList C_TreeNodeFactory::getErrorMessage(){
 
 
 /*-------------------------------------------------
-		类 - 获取类名
+		访问器 - 获取子类类名
 */
-QStringList C_TreeNodeFactory::classInherited(){
-	return C_NodeFactory::classInherited() << "C_TreeNodeFactory";
+QString C_TreeNodeFactory::get__CLASS_NAME__(){
+	return "C_TreeNodeFactory";
+}
+/*-------------------------------------------------
+		访问器 - 获取子类类名（中文名）
+*/
+QString C_TreeNodeFactory::get__CLASS_NAME__Chinese(){
+	return "树节点工厂";
+}
+/*-------------------------------------------------
+		访问器 - 获取所有继承的类名
+*/
+QStringList C_TreeNodeFactory::get__CLASS_INHERITED_LIST__(){
+	return C_NodeFactory::get__CLASS_INHERITED_LIST__() << "C_TreeNodeFactory";
+}
+/*-------------------------------------------------
+		访问器 - 是否继承了某类
+*/
+bool C_TreeNodeFactory::get__CLASS_IS_INSTANCE_OF__(QString class_name){
+	return this->get__CLASS_INHERITED_LIST__().contains(class_name);
 }
 /*-------------------------------------------------
 		类 - 判断类
 */
 bool C_TreeNodeFactory::isClass_TreeNodeFactory(){
-	return this->classIsInstanceOf("C_TreeNodeFactory");
+	return this->get__CLASS_IS_INSTANCE_OF__("C_TreeNodeFactory");
 }
 
 /*-------------------------------------------------
 		实体类 -> QJsonObject
 */
-QJsonObject C_TreeNodeFactory::getJsonObject(){
-	QJsonObject obj = C_NodeFactory::getJsonObject();
+QJsonObject C_TreeNodeFactory::getJsonObject_childData(){
+	QJsonObject obj = C_NodeFactory::getJsonObject_childData();
 
 	// > 树节点容器
 	//（暂无）
@@ -335,8 +353,8 @@ QJsonObject C_TreeNodeFactory::getJsonObject(){
 /*-------------------------------------------------
 		QJsonObject -> 实体类
 */
-void C_TreeNodeFactory::setJsonObject(QJsonObject obj){
-	C_NodeFactory::setJsonObject(obj);
+void C_TreeNodeFactory::setJsonObject_childData(QJsonObject obj){
+	C_NodeFactory::setJsonObject_childData(obj);
 
 	// > 树节点容器
 	//（暂无）

@@ -9,7 +9,7 @@
 /*
 -----==========================================================-----
 		类：		节点.cpp
-		版本：		v1.01
+		版本：		v1.02
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		定义一个节点，用于描述无向图。
@@ -30,7 +30,7 @@
 					bool result = this->m_C_NodeFactoryPtr->hasIsolated();		//是否含孤岛
 -----==========================================================-----
 */
-C_Node::C_Node(QString id, QString factory_id, QString nodeName){
+C_Node::C_Node(QString id, QString factory_id, QString nodeName) : C_ContainerDataBase(){
 	
 	// > 类
 	this->id = id;							//标识
@@ -175,15 +175,6 @@ void C_Node::disconnectSelf(){
 
 
 /*-------------------------------------------------
-		类 - 访问器 - 标识
-*/
-void C_Node::setId(QString id){
-	this->id = id;
-}
-QString C_Node::getId(){
-	return this->id;
-}
-/*-------------------------------------------------
 		类 - 访问器 - 名称
 */
 void C_Node::setName(QString nodeName){
@@ -202,22 +193,34 @@ QString C_Node::getFactoryId(){
 	return this->factory_id;
 }
 /*-------------------------------------------------
-		类 - 获取类名
+		访问器 - 获取子类类名
 */
-QString C_Node::className(){
-	return this->classInherited().last();
+QString C_Node::get__CLASS_NAME__(){
+	return "C_Node";
 }
-bool C_Node::classIsInstanceOf(QString className){
-	return this->classInherited().contains(className);
+/*-------------------------------------------------
+		访问器 - 获取子类类名（中文名）
+*/
+QString C_Node::get__CLASS_NAME__Chinese(){
+	return "节点";
 }
-QStringList C_Node::classInherited(){
-	return QStringList() << "C_Node";
+/*-------------------------------------------------
+		访问器 - 获取所有继承的类名
+*/
+QStringList C_Node::get__CLASS_INHERITED_LIST__(){
+	return C_ContainerDataBase::get__CLASS_INHERITED_LIST__() << "C_Node";
+}
+/*-------------------------------------------------
+		访问器 - 是否继承了某类
+*/
+bool C_Node::get__CLASS_IS_INSTANCE_OF__(QString class_name){
+	return this->get__CLASS_INHERITED_LIST__().contains(class_name);
 }
 /*-------------------------------------------------
 		类 - 判断类
 */
 bool C_Node::isClass_Node(){
-	return this->classIsInstanceOf("C_Node");
+	return this->get__CLASS_IS_INSTANCE_OF__("C_Node");
 }
 /*-------------------------------------------------
 		类 - 创建自己
@@ -251,9 +254,8 @@ const bool C_Node::operator== (const C_Node& a)const {
 		判断空
 */
 bool C_Node::isNull(){
-	if (this->id == ""){ return true; }
 	if (this->name == ""){ return true; }
-	return false;
+	return C_ContainerDataBase::isNull();
 }
 /*-------------------------------------------------
 		复制对象
@@ -298,11 +300,10 @@ void C_Node::copyFrom(C_NodePtr data_from){
 /*-------------------------------------------------
 		实体类 -> QJsonObject
 */
-QJsonObject C_Node::getJsonObject(){
-	QJsonObject obj = QJsonObject();
+QJsonObject C_Node::getJsonObject_childData(){
+	QJsonObject obj;
 
 	// > 类
-	obj.insert("id", this->id);
 	obj.insert("name", this->name);
 	obj.insert("factory_id", this->factory_id);
 
@@ -317,10 +318,9 @@ QJsonObject C_Node::getJsonObject(){
 /*-------------------------------------------------
 		QJsonObject -> 实体类
 */
-void C_Node::setJsonObject(QJsonObject obj){
+void C_Node::setJsonObject_childData(QJsonObject obj){
 
 	// > 类
-	if (obj.value("id").isUndefined() == false){ this->id = obj.value("id").toString(); }
 	if (obj.value("name").isUndefined() == false){ this->name = obj.value("name").toString(); }
 	if (obj.value("factory_id").isUndefined() == false){ this->factory_id = obj.value("factory_id").toString(); }
 

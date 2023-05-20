@@ -123,23 +123,41 @@ int C_COAS_StateNodeRelationFactory::getStateTreeNodeIndex_ByName(QString node_n
 
 
 /*-------------------------------------------------
-		类 - 获取类名
+		访问器 - 获取子类类名
 */
-QStringList C_COAS_StateNodeRelationFactory::classInherited(){
-	return C_NodeFactory::classInherited() << "C_COAS_StateNodeRelationFactory";
+QString C_COAS_StateNodeRelationFactory::get__CLASS_NAME__(){
+	return "C_COAS_StateNodeRelationFactory";
+}
+/*-------------------------------------------------
+		访问器 - 获取子类类名（中文名）
+*/
+QString C_COAS_StateNodeRelationFactory::get__CLASS_NAME__Chinese(){
+	return "状态节点（图数据）";
+}
+/*-------------------------------------------------
+		访问器 - 获取所有继承的类名
+*/
+QStringList C_COAS_StateNodeRelationFactory::get__CLASS_INHERITED_LIST__(){
+	return C_TreeNodeFactory::get__CLASS_INHERITED_LIST__() << "C_COAS_StateNodeRelationFactory";
+}
+/*-------------------------------------------------
+		访问器 - 是否继承了某类
+*/
+bool C_COAS_StateNodeRelationFactory::get__CLASS_IS_INSTANCE_OF__(QString class_name){
+	return this->get__CLASS_INHERITED_LIST__().contains(class_name);
 }
 /*-------------------------------------------------
 		类 - 判断类
 */
 bool C_COAS_StateNodeRelationFactory::isClass_StateTreeNodeFactory(){
-	return this->classIsInstanceOf("C_COAS_StateNodeRelationFactory");
+	return this->get__CLASS_IS_INSTANCE_OF__("C_COAS_StateNodeRelationFactory");
 }
 
 /*-------------------------------------------------
 		实体类 -> QJsonObject
 */
-QJsonObject C_COAS_StateNodeRelationFactory::getJsonObject(){
-	QJsonObject obj = C_NodeFactory::getJsonObject();
+QJsonObject C_COAS_StateNodeRelationFactory::getJsonObject_childData(){
+	QJsonObject obj = C_NodeFactory::getJsonObject_childData();
 
 	// > 树节点容器
 	//（暂无）
@@ -149,8 +167,8 @@ QJsonObject C_COAS_StateNodeRelationFactory::getJsonObject(){
 /*-------------------------------------------------
 		QJsonObject -> 实体类
 */
-void C_COAS_StateNodeRelationFactory::setJsonObject(QJsonObject obj){
-	C_NodeFactory::setJsonObject(obj);
+void C_COAS_StateNodeRelationFactory::setJsonObject_childData(QJsonObject obj){
+	C_NodeFactory::setJsonObject_childData(obj);
 
 	// > 树节点容器
 	//（暂无）

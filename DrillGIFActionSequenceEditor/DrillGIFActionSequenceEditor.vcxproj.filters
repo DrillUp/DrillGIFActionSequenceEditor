@@ -87,12 +87,6 @@
     <Filter Include="源文件\【 项目管理模块 ProjectModule】">
       <UniqueIdentifier>{850e5c2d-13fb-48ce-97ac-a1a21f40d1c3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 项目管理模块 ProjectModule】\存储文件">
-      <UniqueIdentifier>{412c7763-d6d1-4bfc-a05c-0a7adec7522d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\【 项目管理模块 ProjectModule】\项目数据">
-      <UniqueIdentifier>{1620f03b-d882-4ce6-bca9-463c378addd5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块">
       <UniqueIdentifier>{dbc4af67-097d-4f45-9731-029b0bf00775}</UniqueIdentifier>
     </Filter>
@@ -125,9 +119,6 @@
     </Filter>
     <Filter Include="源文件\【 主窗体 MainModule】\首页提示">
       <UniqueIdentifier>{c8169de7-8770-43b2-a8b3-25deb5eab36f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\【 项目管理模块 ProjectModule】\存储文件-全局">
-      <UniqueIdentifier>{e3075032-6f58-489b-857d-ebe1e5450b98}</UniqueIdentifier>
     </Filter>
     <Filter Include="源文件\【 动画序列 ActionSeqModule】">
       <UniqueIdentifier>{f5f343cf-ad4f-47e0-a294-4d22e35b468c}</UniqueIdentifier>
@@ -164,9 +155,6 @@
     </Filter>
     <Filter Include="源文件\【 插件模块 PluginModule】\插件注解读取器（无）">
       <UniqueIdentifier>{0aa113a6-ba17-4464-bf00-d737bd54718d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\【 项目管理模块 ProjectModule】\项目数据\扩展块">
-      <UniqueIdentifier>{33781442-7407-4895-8eeb-d65b1f622dfb}</UniqueIdentifier>
     </Filter>
     <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）">
       <UniqueIdentifier>{28219431-f7bf-41a6-896b-3af9d5ef37fb}</UniqueIdentifier>
@@ -264,9 +252,6 @@
     <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\字符串列表编辑器">
       <UniqueIdentifier>{b6b126b4-5d32-43a4-9231-7c8c784db4b2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 项目管理模块 ProjectModule】\Temp文件夹">
-      <UniqueIdentifier>{77b5d387-e75a-4d81-9751-d8f8900abd80}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\【 工具箱 Utils】\辅助操作器（operater）\双表格字符串填写器">
       <UniqueIdentifier>{e0da4532-5bcc-491c-a213-744a5aad28a7}</UniqueIdentifier>
     </Filter>
@@ -284,6 +269,24 @@
     </Filter>
     <Filter Include="源文件\【 动画序列 ActionSeqModule】\动画序列块\状态节点块\状态节点_关系表">
       <UniqueIdentifier>{3fd7385c-2f28-41ad-97d8-ba909296f49e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 项目管理模块 ProjectModule】\Temp文件夹（File）">
+      <UniqueIdentifier>{77b5d387-e75a-4d81-9751-d8f8900abd80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 项目管理模块 ProjectModule】\存储文件（Storage）">
+      <UniqueIdentifier>{412c7763-d6d1-4bfc-a05c-0a7adec7522d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 项目管理模块 ProjectModule】\存储文件-全局（StorageGlobal）">
+      <UniqueIdentifier>{e3075032-6f58-489b-857d-ebe1e5450b98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 项目管理模块 ProjectModule】\项目数据（Data）">
+      <UniqueIdentifier>{1620f03b-d882-4ce6-bca9-463c378addd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 项目管理模块 ProjectModule】\项目数据（Data）\扩展块">
+      <UniqueIdentifier>{33781442-7407-4895-8eeb-d65b1f622dfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 项目管理模块 ProjectModule】\数据容器（Container）">
+      <UniqueIdentifier>{81ed7e5c-ea31-40ca-8ac6-9ba987a905d6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -828,10 +831,10 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\ProjectModule\Data\C_ProjectData.cpp">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据（Data）</Filter>
     </ClCompile>
     <ClCompile Include="Source\ProjectModule\Data\P_ProjectCreate.cpp">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据（Data）</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_P_ProjectCreate.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -840,7 +843,7 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\ProjectModule\Data\W_ProjectCreate.cpp">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据（Data）</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_W_ProjectCreate.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -849,7 +852,7 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\ProjectModule\Data\ExtendPart\W_ProjectNote.cpp">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据\扩展块</Filter>
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据（Data）\扩展块</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_W_ProjectNote.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -858,7 +861,7 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\ProjectModule\File\S_TempFileManager.cpp">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\Temp文件夹</Filter>
+      <Filter>源文件\【 项目管理模块 ProjectModule】\Temp文件夹（File）</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_S_TempFileManager.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -867,7 +870,7 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\ProjectModule\Storage\S_StorageManager.cpp">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件</Filter>
+      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件（Storage）</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_S_StorageManager.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -876,10 +879,10 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\ProjectModule\Storage\S_StorageManagerTemplate.cpp">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件</Filter>
+      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件（Storage）</Filter>
     </ClCompile>
     <ClCompile Include="Source\ProjectModule\StorageGlobal\S_IniManager.cpp">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件-全局</Filter>
+      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件-全局（StorageGlobal）</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_S_IniManager.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -896,12 +899,6 @@
     <ClCompile Include="Source\Utils\operater\TwoTableStringFiller\P_TwoTableStringFiller.cpp">
       <Filter>源文件\【 工具箱 Utils】\辅助操作器（operater）\双表格字符串填写器</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_C_NodeFactory.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_C_NodeFactory.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_S_NodeFactoryContainer.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -915,9 +912,6 @@
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（树图）</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utils\widgetFormSenior\NodeData\C_Node.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（常规无向图）</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\widgetFormSenior\NodeData\C_NodeFactory.cpp">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（常规无向图）</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utils\widgetFormSenior\NodeData\S_NodeFactoryContainer.cpp">
@@ -1063,6 +1057,12 @@
     </ClCompile>
     <ClCompile Include="Source\Utils\widgetForm\FoldableTabWindow\Private\P_FoldableTabPrivate.cpp">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\可折叠选项卡\私有类</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ProjectModule\Container\C_ContainerDataBase.cpp">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\数据容器（Container）</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\NodeData\C_NodeFactory.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（常规无向图）</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1295,37 +1295,34 @@
       <Filter>源文件\【 项目管理模块 ProjectModule】</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ProjectModule\Data\P_ProjectCreate.h">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据（Data）</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ProjectModule\Data\P_ProjectCreate.ui">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据（Data）</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ProjectModule\Data\W_ProjectCreate.h">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据（Data）</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ProjectModule\Data\W_ProjectCreate.ui">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据（Data）</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ProjectModule\Data\ExtendPart\W_ProjectNote.h">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据\扩展块</Filter>
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据（Data）\扩展块</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ProjectModule\Data\ExtendPart\W_ProjectNote.ui">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据\扩展块</Filter>
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据（Data）\扩展块</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ProjectModule\File\S_TempFileManager.h">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\Temp文件夹</Filter>
+      <Filter>源文件\【 项目管理模块 ProjectModule】\Temp文件夹（File）</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ProjectModule\Storage\S_StorageManager.h">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件</Filter>
+      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件（Storage）</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ProjectModule\StorageGlobal\S_IniManager.h">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件-全局</Filter>
+      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件-全局（StorageGlobal）</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\Utils\operater\TwoTableStringFiller\P_TwoTableStringFiller.h">
       <Filter>源文件\【 工具箱 Utils】\辅助操作器（operater）\双表格字符串填写器</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetFormSenior\NodeData\C_NodeFactory.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（常规无向图）</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\Utils\widgetFormSenior\NodeData\S_NodeFactoryContainer.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（常规无向图）</Filter>
@@ -1531,7 +1528,7 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\ProjectModule\Data\C_ProjectData.h">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据</Filter>
+      <Filter>源文件\【 项目管理模块 ProjectModule】\项目数据（Data）</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_P_ProjectCreate.h">
       <Filter>Generated Files</Filter>
@@ -1543,7 +1540,7 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\ProjectModule\Storage\S_StorageManagerTemplate.h">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件</Filter>
+      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件（Storage）</Filter>
     </ClInclude>
     <ClInclude Include="Source\Utils\widgetFormSenior\NodeDataOfTree\C_TreeNode.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（树图）</Filter>
@@ -1610,6 +1607,12 @@
     </ClInclude>
     <ClInclude Include="Source\Utils\widgetForm\FoldableTabWindow\Private\P_FoldableTabPrivate.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\可折叠选项卡\私有类</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ProjectModule\Container\C_ContainerDataBase.h">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\数据容器（Container）</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\widgetFormSenior\NodeData\C_NodeFactory.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（常规无向图）</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

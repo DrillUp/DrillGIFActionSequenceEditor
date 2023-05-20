@@ -123,16 +123,34 @@ QString C_COAS_StateNodeRelation::getNodeDescriptionSuffix(){
 
 
 /*-------------------------------------------------
-		类 - 获取类名
+		访问器 - 获取子类类名
 */
-QStringList C_COAS_StateNodeRelation::classInherited(){
-	return C_Node::classInherited() << "C_COAS_StateNodeRelation";
+QString C_COAS_StateNodeRelation::get__CLASS_NAME__(){
+	return "C_COAS_StateNodeRelation";
+}
+/*-------------------------------------------------
+		访问器 - 获取子类类名（中文名）
+*/
+QString C_COAS_StateNodeRelation::get__CLASS_NAME__Chinese(){
+	return "状态节点（图数据）";
+}
+/*-------------------------------------------------
+		访问器 - 获取所有继承的类名
+*/
+QStringList C_COAS_StateNodeRelation::get__CLASS_INHERITED_LIST__(){
+	return C_TreeNode::get__CLASS_INHERITED_LIST__() << "C_COAS_StateNodeRelation";
+}
+/*-------------------------------------------------
+		访问器 - 是否继承了某类
+*/
+bool C_COAS_StateNodeRelation::get__CLASS_IS_INSTANCE_OF__(QString class_name){
+	return this->get__CLASS_INHERITED_LIST__().contains(class_name);
 }
 /*-------------------------------------------------
 		类 - 判断类
 */
 bool C_COAS_StateNodeRelation::isClass_StateTreeNode(){
-	return this->classIsInstanceOf("C_COAS_StateNodeRelation");
+	return this->get__CLASS_IS_INSTANCE_OF__("C_COAS_StateNodeRelation");
 }
 /*-------------------------------------------------
 		类 - 创建自己
@@ -151,7 +169,7 @@ C_TreeNodePtr C_COAS_StateNodeRelation::_factoryTree_getNodeById(QString node_id
 */
 C_TreeNodeFactoryPtr C_COAS_StateNodeRelation::_factoryTree_get(){
 	C_NodeFactoryPtr factory = S_NodeFactoryContainer::getInstance()->getFactory_ById(this->factory_id);
-	if (factory->classIsInstanceOf("C_COAS_StateNodeRelationFactory") == false){ return C_COAS_StateNodeRelationFactoryPtr(); }
+	if (factory->get__CLASS_IS_INSTANCE_OF__("C_COAS_StateNodeRelationFactory") == false){ return C_COAS_StateNodeRelationFactoryPtr(); }
 	return factory.dynamicCast<C_COAS_StateNodeRelationFactory>();
 }
 
@@ -161,7 +179,7 @@ C_TreeNodeFactoryPtr C_COAS_StateNodeRelation::_factoryTree_get(){
 */
 void C_COAS_StateNodeRelation::copyTo(C_NodePtr data_to){
 	C_TreeNode::copyTo(data_to);
-	if (data_to->classIsInstanceOf("C_COAS_StateNodeRelation") == false){ return; }
+	if (data_to->get__CLASS_IS_INSTANCE_OF__("C_COAS_StateNodeRelation") == false){ return; }
 	C_COAS_StateNodeRelationPtr treeData_to = data_to.dynamicCast<C_COAS_StateNodeRelation>();
 
 	//（不操作）
@@ -171,7 +189,7 @@ void C_COAS_StateNodeRelation::copyTo(C_NodePtr data_to){
 */
 void C_COAS_StateNodeRelation::copyFrom(C_NodePtr data_from){
 	C_TreeNode::copyFrom(data_from);
-	if (data_from->classIsInstanceOf("C_COAS_StateNodeRelation") == false){ return; }
+	if (data_from->get__CLASS_IS_INSTANCE_OF__("C_COAS_StateNodeRelation") == false){ return; }
 	C_COAS_StateNodeRelationPtr treeData_from = data_from.dynamicCast<C_COAS_StateNodeRelation>();
 
 	//（不操作）
@@ -179,8 +197,8 @@ void C_COAS_StateNodeRelation::copyFrom(C_NodePtr data_from){
 /*-------------------------------------------------
 		实体类 -> QJsonObject
 */
-QJsonObject C_COAS_StateNodeRelation::getJsonObject(){
-	QJsonObject obj = C_TreeNode::getJsonObject();
+QJsonObject C_COAS_StateNodeRelation::getJsonObject_childData(){
+	QJsonObject obj = C_TreeNode::getJsonObject_childData();
 
 	//（不操作）
 
@@ -189,8 +207,8 @@ QJsonObject C_COAS_StateNodeRelation::getJsonObject(){
 /*-------------------------------------------------
 		QJsonObject -> 实体类
 */
-void C_COAS_StateNodeRelation::setJsonObject(QJsonObject obj){
-	C_TreeNode::setJsonObject(obj);
+void C_COAS_StateNodeRelation::setJsonObject_childData(QJsonObject obj){
+	C_TreeNode::setJsonObject_childData(obj);
 
 	//（不操作）
 }

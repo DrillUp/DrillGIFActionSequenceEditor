@@ -5,7 +5,7 @@
 /*
 -----==========================================================-----
 		类：		节点工厂.cpp
-		版本：		v1.01
+		版本：		v1.02
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		定义一个节点工厂+节点容器，用于描述/存放无向图。
@@ -28,7 +28,7 @@
 -----==========================================================-----
 */
 
-C_NodeFactory::C_NodeFactory(){
+C_NodeFactory::C_NodeFactory() : C_ContainerDataBase(){
 
 	// > 类
 	QString id = QUuid::createUuid().toString();
@@ -375,34 +375,34 @@ int C_NodeFactory::getNodeIndex_ByName(QString node_name){
 
 
 /*-------------------------------------------------
-		类 - 设置ID
+		访问器 - 获取子类类名
 */
-void C_NodeFactory::setId(QString id){
-	this->id = id;
+QString C_NodeFactory::get__CLASS_NAME__(){
+	return "C_NodeFactory";
 }
 /*-------------------------------------------------
-		类 - 获取ID
+		访问器 - 获取子类类名（中文名）
 */
-QString C_NodeFactory::getId(){
-	return this->id;
+QString C_NodeFactory::get__CLASS_NAME__Chinese(){
+	return "节点工厂";
 }
 /*-------------------------------------------------
-		类 - 获取类名
+		访问器 - 获取所有继承的类名
 */
-QString C_NodeFactory::className(){
-	return this->classInherited().last();
+QStringList C_NodeFactory::get__CLASS_INHERITED_LIST__(){
+	return C_ContainerDataBase::get__CLASS_INHERITED_LIST__() << "C_NodeFactory";
 }
-bool C_NodeFactory::classIsInstanceOf(QString className){
-	return this->classInherited().contains(className);
-}
-QStringList C_NodeFactory::classInherited(){
-	return QStringList() << "C_NodeFactory";
+/*-------------------------------------------------
+		访问器 - 是否继承了某类
+*/
+bool C_NodeFactory::get__CLASS_IS_INSTANCE_OF__(QString class_name){
+	return this->get__CLASS_INHERITED_LIST__().contains(class_name);
 }
 /*-------------------------------------------------
 		类 - 判断类
 */
 bool C_NodeFactory::isClass_NodeFactory(){
-	return this->classIsInstanceOf("C_NodeFactory");
+	return this->get__CLASS_IS_INSTANCE_OF__("C_NodeFactory");
 }
 
 
@@ -416,17 +416,13 @@ const bool C_NodeFactory::operator== (const C_NodeFactory& a)const {
 		判断空
 */
 bool C_NodeFactory::isNull(){
-	if (this->id == ""){ return true; }
-	return false;
+	return C_ContainerDataBase::isNull();
 }
 /*-------------------------------------------------
 		实体类 -> QJsonObject
 */
-QJsonObject C_NodeFactory::getJsonObject(){
-	QJsonObject obj = QJsonObject();
-
-	// > 类
-	obj.insert("id", this->id);
+QJsonObject C_NodeFactory::getJsonObject_childData(){
+	QJsonObject obj;
 
 	// > 容器
 	QJsonArray arr;
@@ -441,10 +437,7 @@ QJsonObject C_NodeFactory::getJsonObject(){
 /*-------------------------------------------------
 		QJsonObject -> 实体类
 */
-void C_NodeFactory::setJsonObject(QJsonObject obj){
-
-	// > 类
-	if (obj.value("id").isUndefined() == false){ this->id = obj.value("id").toString(); }
+void C_NodeFactory::setJsonObject_childData(QJsonObject obj){
 
 	// > 容器
 	if (obj.value("m_NodeTank").isUndefined() == false){

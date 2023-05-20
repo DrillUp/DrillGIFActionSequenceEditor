@@ -3,11 +3,10 @@
 
 #include "C_Node.h"
 
-
 /*
 -----==========================================================-----
 		类：		节点工厂.h
-		版本：		v1.01
+		版本：		v1.02
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		定义一个节点工厂+节点容器，用于描述/存放无向图。
@@ -15,10 +14,9 @@
 					（详细见cpp）
 -----==========================================================-----
 */
+
 CLASS_PTR(C_NodeFactory);
-class C_NodeFactory : public QObject
-{
-	Q_OBJECT
+class C_NodeFactory : public C_ContainerDataBase{
 
 	public:
 							//【此类创建后，需要手动加入到容器中】
@@ -91,17 +89,15 @@ class C_NodeFactory : public QObject
 
 	//-----------------------------------
 	//----类
-	protected:
-		QString id;						//标识
 	public:
-										//类 - 设置ID
-		void setId(QString id);
-										//类 - 获取ID
-		QString getId();
-										//类 - 获取类名
-		QString className();
-		bool classIsInstanceOf(QString className);
-		virtual QStringList classInherited();
+										//访问器 - 获取子类类名
+		virtual QString get__CLASS_NAME__() override;
+										//访问器 - 获取子类类名（中文名）
+		virtual QString get__CLASS_NAME__Chinese() override;
+										//访问器 - 获取所有继承的类名
+		virtual QStringList get__CLASS_INHERITED_LIST__() override;
+										//访问器 - 是否继承了某类
+		virtual bool get__CLASS_IS_INSTANCE_OF__(QString class_name) override;
 										//类 - 判断类
 		bool isClass_NodeFactory();
 		
@@ -113,8 +109,8 @@ class C_NodeFactory : public QObject
 										//判断空
 		bool isNull();
 										//实体类 -> QJsonObject
-		virtual QJsonObject getJsonObject();
+		virtual QJsonObject getJsonObject_childData();
 										//QJsonObject -> 实体类
-		virtual void setJsonObject(QJsonObject obj);
+		virtual void setJsonObject_childData(QJsonObject obj);
 };
 
