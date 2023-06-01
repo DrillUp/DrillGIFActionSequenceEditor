@@ -1709,6 +1709,9 @@
     <Text Include="Source\ActionSeqModule\PlayingPart\放映区常见问题.txt">
       <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块\放映区</Filter>
     </Text>
+    <Text Include="Source\GraphModule\Item\MaskBackgroundGenerator\程序入口.txt">
+      <Filter>源文件\【 图形模块 GraphModule】\贴图（Item）\马赛克生成器</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Utils\widgetFormSenior\flexibleClassificationTree\关于灵活分类树.docx">

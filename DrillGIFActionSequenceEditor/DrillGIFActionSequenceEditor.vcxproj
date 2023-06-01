@@ -2330,6 +2330,7 @@
     <Text Include="Source\DllModule\cximagecrt_drill\关于cximagecrt_drill.txt" />
     <Text Include="Source\DllModule\Dll模块说明.txt" />
     <Text Include="Source\GraphModule\Item\GridLineItem\程序入口.txt" />
+    <Text Include="Source\GraphModule\Item\MaskBackgroundGenerator\程序入口.txt" />
     <Text Include="Source\GraphModule\Item\MaskBackgroundItem\程序入口.txt" />
     <Text Include="Source\GraphModule\Middleware\MatrixBlockSelector\程序入口.txt" />
     <Text Include="Source\GraphModule\Middleware\MouseResizeController\程序入口.txt" />
