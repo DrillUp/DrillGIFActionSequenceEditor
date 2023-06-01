@@ -72,7 +72,7 @@ void P_MBS_Selector::initGraphicsView(QGraphicsView* view){
 	this->m_view->setCursor(QCursor(Qt::PointingHandCursor));		//设置手形
 
 	// > 选中方块 部件
-	this->m_blockTank = QList<I_MBS_Block*>();
+	this->m_blockTank.clear();
 	this->m_cur_mouseState = 0;
 	this->m_mousePressed = false;
 }
@@ -159,7 +159,7 @@ void P_MBS_Selector::setBlock(QPoint matrix_pos, int state){
 		填涂 - 获取指定状态位的全部点
 */
 QList<QPoint> P_MBS_Selector::getPointList(int state){
-	QList<QPoint> result_list = QList<QPoint>();
+	QList<QPoint> result_list;
 
 	// > 状态位 =0 时
 	if (state == 0){

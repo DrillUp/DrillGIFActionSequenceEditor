@@ -1,18 +1,18 @@
-	��ע�⣬ͼ��ģ��Ĺ���ȫ���� CodePieceQT�ʼ� Ϊ׼�������޸��ڱʼ���ǿ����
-	�����ֹ����У����ʼ���û�е�cpp�ļ�������Ҫ���ӵ��ʼ��У����̶������Ƽ��ɡ�
+	【注意，图形模块的工具全部以 CodePieceQT笔记 为准，所有修改在笔记中强化】
+	【部分工程有，而笔记中没有的cpp文件，不需要添加到笔记中，工程独立控制即可】
 			
-	������ڣ���ͼ����
+	程序入口（贴图）：
 		P_GridLineItem.cpp
 		P_GridLineItem.h
 		
-		һ����װ�õ������߹�����������scene����ʱʹ�á�
-		�������Ը������������ɶ�� QGraphicsLineItem ��
+		一个封装好的网格线工厂容器，在scene中随时使用。
+		工厂可以根据输入项生成多个 QGraphicsLineItem 。
 
 
-	��������
-		QList<QGraphicsLineItem*> �߶����б�
-		�����ṩ �߶���
+	交互对象：
+		QList<QGraphicsLineItem*> 线对象列表
+		工厂提供 线对象。
 
 
-	˽���ࣺ
-		��
+	私有类：
+		无

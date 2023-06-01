@@ -76,7 +76,7 @@ P_MBS_Selector* I_PPaView::getMatrixBlockSelector(){
 		点选器 - 获取切割都图片
 */
 QList<QPixmap> I_PPaView::getCutBitmap(){
-	QList<QPixmap> result_list = QList<QPixmap>();
+	QList<QPixmap> result_list;
 	QPixmap src_bitmap = this->m_scene->m_bitmap;
 	QList<QPoint> p_list = this->m_p_MatrixBlockSelector->getPointList(1);	//获取勾选的状态位
 	for (int i = 0; i < p_list.count(); i++){

@@ -51,7 +51,7 @@ QString C_PiSConfig::getLineExpand(){
 		实体类 -> QJsonObject
 */
 QJsonObject C_PiSConfig::getJsonObject(){
-	QJsonObject obj = QJsonObject();
+	QJsonObject obj;
 	obj.insert("m_zeroFill", this->m_zeroFill);
 	obj.insert("m_zeroFillCount", this->m_zeroFillCount);
 	obj.insert("m_zeroFillChar", QString(this->m_zeroFillChar));

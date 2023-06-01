@@ -352,7 +352,7 @@ bool P_PictureCombiner::isSizeFit(){
 		块 - 设置数据
 */
 void P_PictureCombiner::setData(QList<QFileInfo> file_tank){
-	this->local_bitmapTank = QList<QPixmap>();
+	this->local_bitmapTank.clear();
 	for (int i = 0; i < file_tank.count(); i++){
 		QFileInfo info = file_tank.at(i);
 		QImage image = QImage(info.absoluteFilePath());

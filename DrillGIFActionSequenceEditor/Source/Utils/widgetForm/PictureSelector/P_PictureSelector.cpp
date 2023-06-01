@@ -7,7 +7,7 @@
 /*
 -----==========================================================-----
 		类：		单选/多选 图片列.cpp
-		版本：		v1.01
+		版本：		v1.02
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		将图片全部显示，并能单选/多选。
@@ -35,12 +35,12 @@ P_PictureSelector::P_PictureSelector(QListWidget *parent)
 	//----参数初始化
 	this->m_listWidget = parent;									//图片列对象
 	this->m_listWidgetStyle = this->m_listWidget->styleSheet();		//图片列默认样式
-	this->m_itemTank = QList<QListWidgetItem*>();					//控件列表
-	this->m_widgetTank = QList<QWidget*>();							//控件列表
+	this->m_itemTank.clear();										//控件列表
+	this->m_widgetTank.clear();										//控件列表
 	this->m_last_index = -1;										//上一个选中的索引项
 
 	// > 数据
-	this->m_config = C_PiSConfig();
+	this->m_config;
 
 	//-----------------------------------
 	//----ui初始化
@@ -170,7 +170,7 @@ void P_PictureSelector::clearAll(){
 	this->m_last_index = -1;
 
 	// > 图片列设置
-	this->m_config = C_PiSConfig();
+	this->m_config;
 
 }
 
@@ -255,7 +255,7 @@ void P_PictureSelector::event_itemSelectionChanged(QList<QListWidgetItem*> selec
 		资源数据 - 设置数据
 */
 void P_PictureSelector::setSource(QList<QFileInfo> file_list) {
-	this->m_org_bitmapList = QList<QPixmap>();
+	this->m_org_bitmapList.clear();
 	for (int i = 0; i < file_list.count(); i++){
 		QFileInfo info = file_list.at(i);
 		QImage image = QImage(info.absoluteFilePath());
@@ -321,7 +321,7 @@ void P_PictureSelector::selectIndex_Multi(QList<int> index_list){
 		选中 - 获取选中数据（多选时）
 */
 QList<int> P_PictureSelector::getSelectedIndex_Multi(){
-	QList<int> result_list = QList<int>();
+	QList<int> result_list;
 	for (int i = 0; i < this->m_itemTank.count(); i++){
 		if (this->m_itemTank.at(i)->isSelected()){
 			result_list.push_back(i);

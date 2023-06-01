@@ -49,7 +49,7 @@ void I_APVScene::init(){
 	this->m_maskBackground = nullptr;
 
 	// > 部件
-	this->m_animList = QList<QGraphicsPixmapItem*>();
+	this->m_animList.clear();
 	this->m_curFrame = -1;
 	this->m_curTint = 0;
 
@@ -127,7 +127,7 @@ void I_APVScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent){
 		资源 - 设置资源
 */
 void I_APVScene::setSource(QList<QFileInfo> file_list){
-	QList<QPixmap> bitmap_list = QList<QPixmap>();
+	QList<QPixmap> bitmap_list;
 	for (int i = 0; i < file_list.count(); i++){
 		QFileInfo info = file_list.at(i);
 		QImage image = QImage(info.absoluteFilePath());

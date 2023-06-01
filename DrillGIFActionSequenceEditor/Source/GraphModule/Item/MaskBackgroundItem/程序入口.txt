@@ -1,4 +1,4 @@
-﻿	【注意，图形模块的工具全部以 CodePieceQT笔记 为准，所有修改在笔记中强化】
+	【注意，图形模块的工具全部以 CodePieceQT笔记 为准，所有修改在笔记中强化】
 			
 	程序入口（贴图）：
 		I_MaskBackgroundItem.cpp

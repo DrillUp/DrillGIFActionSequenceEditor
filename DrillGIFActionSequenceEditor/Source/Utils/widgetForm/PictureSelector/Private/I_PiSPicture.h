@@ -6,7 +6,7 @@
 
 /*
 -----==========================================================-----
-		类：		图片单控件.cpp
+		类：		单图片元素.cpp
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		使得标签带有多个按钮，这些按钮相当于勾选框。
@@ -25,9 +25,9 @@ class I_PiSPicture : public QWidget
 	//-----------------------------------
 	//----控件
 	private:
-		int m_pixmapWidth;
-		int m_pixmapHeight;
-		QPixmap m_pixmap;
+		QPixmap m_pixmapOrg;		//原图像（不需要传指针，QPixmap提供了"隐式数据共享"）
+		int m_width;				//元素宽度
+		int m_height;				//元素高度
 	public:
 									//控件 - 设置图片
 		void setPixmap(QPixmap pixmap);
@@ -44,8 +44,6 @@ class I_PiSPicture : public QWidget
 	protected:
 									//绘制 - 绘制图片
 		void paintEvent(QPaintEvent*);
-									//绘制 - 绘制马赛克方块
-		QPixmap getBitmapMaskBackground();
 
 };
 

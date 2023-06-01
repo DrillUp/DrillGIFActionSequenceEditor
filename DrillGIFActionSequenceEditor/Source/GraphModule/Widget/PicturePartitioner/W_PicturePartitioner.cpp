@@ -95,7 +95,7 @@ void W_PicturePartitioner::refreshGridLine(){
 	int f_height = qFloor( height / row );
 
 	this->m_p_SinglePictureViewer->setGridLine(column, row);	//（刷新网格，只流程页1中刷新）
-	
+
 	if (f_width * column != width || f_height * row != height){
 		ui.label_cutTip->setText("◆ 由于值不能被整除，所以切割的帧会丢失一些边缘像素。");
 	}else{

@@ -7,7 +7,7 @@
 /*
 -----==========================================================-----
 		类：		马赛克背景.h
-		版本：		v1.04
+		版本：		v1.05
 		作者：		drill_up
 		所属模块：	图形模块
 		功能：		提供一个直接生成背景的item对象。
@@ -32,16 +32,7 @@ class I_MaskBackgroundItem : public QGraphicsPixmapItem
 		void setBackground_oneColor(int width, int height, int block_width, int block_height, QColor color = QColor(255, 255, 255), int opacity = 30);
 											//背景 - 设置背景（双色）
 		void setBackground_twoColor(int width, int height, int block_width, int block_height, QColor color1, QColor color2);
-
-											//背景 - 获取图像（单色）
-		QPixmap getBackgroundPixmap_oneColor(int width, int height, int block_width, int block_height, QColor color, int opacity = 30);
-											//背景 - 获取图像（双色）
-		QPixmap getBackgroundPixmap_twoColor(int width, int height, int block_width, int block_height, QColor color1, QColor color2);
 		
-											//背景 - 获取单格宽度
-		int getBlockWidth();
-											//背景 - 获取单格高度
-		int getBlockHeight();
 
 };
 

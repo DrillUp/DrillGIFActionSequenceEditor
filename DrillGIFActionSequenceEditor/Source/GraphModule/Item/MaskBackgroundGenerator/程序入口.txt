@@ -1,0 +1,16 @@
+	【注意，图形模块的工具全部以 CodePieceQT笔记 为准，所有修改在笔记中强化】
+			
+	程序入口（单例）：
+		S_MaskBackgroundGenerator.cpp
+		S_MaskBackgroundGenerator.h
+		
+		通过单例能获取到一个绘制了马赛克背景的贴图QPixmap。
+
+
+	交互对象：
+		C_MaskBackgroundGeneratorConfig.cpp	（可选）
+		C_MaskBackgroundGeneratorConfig.h	（可选）
+
+
+	私有类：
+		无

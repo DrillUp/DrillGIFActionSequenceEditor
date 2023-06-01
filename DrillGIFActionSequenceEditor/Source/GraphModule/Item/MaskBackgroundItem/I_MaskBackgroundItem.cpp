@@ -1,11 +1,13 @@
 ﻿#include "stdafx.h"
 #include "I_MaskBackgroundItem.h"
 
+#include "Source/GraphModule/Item/MaskBackgroundGenerator/S_MaskBackgroundGenerator.h"
+
 
 /*
 -----==========================================================-----
 		类：		马赛克背景.cpp
-		版本：		v1.04
+		版本：		v1.05
 		作者：		drill_up
 		所属模块：	图形模块
 		功能：		提供一个直接生成背景的item对象。
@@ -46,8 +48,8 @@ void I_MaskBackgroundItem::init(){
 void I_MaskBackgroundItem::setBackground_oneColor(int width, int height, int block_width, int block_height, QColor color, int opacity){
 	this->m_blockWidth = block_width;
 	this->m_blockHeight = block_height;
-	QPixmap bitmap = this->getBackgroundPixmap_oneColor(width, height, block_width, block_height, color, opacity);
-	this->setPixmap(bitmap);
+	QPixmap pixmap = S_MaskBackgroundGenerator::getInstance()->getMaskBackground_OneColor(width, height, block_width, block_height, color, opacity);
+	this->setPixmap(pixmap);
 }
 /*-------------------------------------------------
 		背景 - 设置背景（双色）
@@ -55,62 +57,6 @@ void I_MaskBackgroundItem::setBackground_oneColor(int width, int height, int blo
 void I_MaskBackgroundItem::setBackground_twoColor(int width, int height, int block_width, int block_height, QColor color1, QColor color2){
 	this->m_blockWidth = block_width;
 	this->m_blockHeight = block_height;
-	QPixmap bitmap = this->getBackgroundPixmap_twoColor(width, height, block_width, block_height, color1, color2);
-	this->setPixmap(bitmap);
-}
-
-/*-------------------------------------------------
-		背景 - 获取图像（单色）
-*/
-QPixmap I_MaskBackgroundItem::getBackgroundPixmap_oneColor(int ww, int hh, int pw, int ph, QColor color, int opacity){
-
-	QPixmap bitmap = QPixmap(ww, hh);				//画板
-	QPainter painter(&bitmap);						//画家
-	bitmap.fill(color);								//填充底色
-
-	painter.setPen(QPen(QColor(0, 0, 0, 0)));
-	painter.setBrush(QBrush(QColor(0, 0, 0, opacity), Qt::BrushStyle::SolidPattern));
-	int i_count = qCeil(ww / (double)pw);
-	int j_count = qCeil(hh / (double)ph);
-	for (int i = 0; i < i_count; i++){
-		for (int j = 0; j < j_count; j++){
-			painter.drawRect(i*pw + 0, j*ph + 0, pw * 0.5, ph * 0.5);
-			painter.drawRect(i*pw + pw*0.5, j*ph + ph * 0.5, pw * 0.5, ph * 0.5);
-		}
-	}
-	painter.end();
-	//（注意，painter.fillRect函数是无效的！）
-
-	return bitmap;
-}
-/*-------------------------------------------------
-		背景 - 获取图像（双色）
-*/
-QPixmap I_MaskBackgroundItem::getBackgroundPixmap_twoColor(int ww, int hh, int pw, int ph, QColor color1, QColor color2){
-
-	QPixmap bitmap = QPixmap(ww, hh);
-	bitmap.setMask(QBitmap(bitmap));				//打开alpha层
-	bitmap.fill(Qt::transparent);					//透明背景
-	QPainter painter(&bitmap);						//画家
-
-	int i_count = qCeil(ww / (double)pw);
-	int j_count = qCeil(hh / (double)ph);
-	painter.setPen(QPen(QColor(0, 0, 0, 0)));
-	painter.setBrush(QBrush(color1, Qt::BrushStyle::SolidPattern));
-	for (int i = 0; i < i_count; i++){
-		for (int j = 0; j < j_count; j++){
-			painter.drawRect(i*pw + 0, j*ph + 0, pw * 0.5, ph * 0.5);
-			painter.drawRect(i*pw + pw*0.5, j*ph + ph * 0.5, pw * 0.5, ph * 0.5);
-		}
-	}
-	painter.setBrush(QBrush(color2, Qt::BrushStyle::SolidPattern));
-	for (int i = 0; i < i_count; i++){
-		for (int j = 0; j < j_count; j++){
-			painter.drawRect(i*pw + 0, j*ph + ph * 0.5, pw * 0.5, ph * 0.5);
-			painter.drawRect(i*pw + pw*0.5, j*ph + 0, pw * 0.5, ph * 0.5);
-		}
-	}
-	painter.end();
-
-	return bitmap;
+	QPixmap pixmap = S_MaskBackgroundGenerator::getInstance()->getMaskBackground_TwoColor(width, height, block_width, block_height, color1, 255, color2, 255);
+	this->setPixmap(pixmap);
 }

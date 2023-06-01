@@ -53,8 +53,8 @@ void P_MRe_Controller::initGraphicsView(QGraphicsView* view){
 
 	// > 鼠标拖拽
 	this->m_mousePressed = false;
-	this->m_mousePos = QPoint();
-	this->m_mousePosLast = QPoint();
+	this->m_mousePos = QPoint(0, 0);
+	this->m_mousePosLast = QPoint(0, 0);
 }
 
 /*-------------------------------------------------

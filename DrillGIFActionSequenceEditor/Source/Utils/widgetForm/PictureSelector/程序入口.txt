@@ -1,4 +1,4 @@
-﻿	【注意，对象选择器的全部以 CodePieceQT笔记 为准，所有修改在笔记中强化】
+	【注意，对象选择器的全部以 CodePieceQT笔记 为准，所有修改在笔记中强化】
 			
 	程序入口（独立控件块）：
 		P_PictureSelector.cpp
