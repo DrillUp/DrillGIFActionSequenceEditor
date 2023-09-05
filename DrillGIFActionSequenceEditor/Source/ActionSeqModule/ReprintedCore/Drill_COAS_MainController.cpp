@@ -359,6 +359,12 @@ QStringList Drill_COAS_MainController::drill_controllerMain_getNodeData_AllName(
 	return result_list;
 }
 /*-------------------------------------------------
+		D管理状态节点 - 获取当前状态元对象【开放函数】
+*/
+Drill_COAS_StateController* Drill_COAS_MainController::drill_controllerMain_Node_getCurState(){
+	return this->_drill_node_curController->drill_controllerNode_getState();
+}
+/*-------------------------------------------------
 		D管理状态节点 - 获取当前状态元名称【开放函数】
 */
 QString Drill_COAS_MainController::drill_controllerMain_Node_getCurStateName(){
@@ -409,8 +415,8 @@ bool Drill_COAS_MainController::drill_controllerMain_setAnnotation(QString annot
 	return false;
 }
 /*-------------------------------------------------
-		D管理状态节点 - 操作 - 播放状态元 根据标签列表【开放函数】
-bool Drill_COAS_MainController::drill_controllerMain_setAnnotation(QStringList annotation_list){
+		D管理状态节点 - 操作 - 只播放状态元 根据标签列表（旧）【开放函数】
+bool Drill_COAS_MainController::drill_controllerMain_setAnnotationList(QStringList annotation_list){
 
 	// > 找到符合注解数量最多的状态元名
 	int max_fit_count = 0;			//（最大符合数量）
@@ -551,6 +557,12 @@ QStringList Drill_COAS_MainController::drill_controllerMain_getActData_AllName()
 	return result_list;
 }
 /*-------------------------------------------------
+		E管理动作元 - 获取当前动作元对象【开放函数】
+*/
+Drill_COAS_ActController* Drill_COAS_MainController::drill_controllerMain_Act_getCurAct(){
+	return this->_drill_act_curController;
+}
+/*-------------------------------------------------
 		E管理动作元 - 获取当前动作元名称【开放函数】
 */
 QString Drill_COAS_MainController::drill_controllerMain_Act_getCurName(){
@@ -565,6 +577,7 @@ void Drill_COAS_MainController::drill_controllerMain_Act_setAct(QString act_name
 	// > 检查高优先级状态元
 	if (this->_drill_act_curName == ""){
 		QJsonObject data_act = this->drill_controllerMain_getActData_ByName(act_name);
+		if (data_act.isEmpty()){ return; }
 		int state_priority = this->drill_controllerMain_Node_getCurPriority();
 		if (state_priority > data_act["priority"].toInt()){	//（同级的动作元可以覆盖状态元）
 			return;

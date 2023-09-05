@@ -110,7 +110,9 @@ class Drill_COAS_MainController{
 		QJsonObject drill_controllerMain_getNodeData_ByName(QString stateNode_name);
 									//D管理状态节点 - 获取数据 - 全部名称【开放函数】
 		QStringList drill_controllerMain_getNodeData_AllName();
-
+		
+									//D管理状态节点 - 获取当前状态元对象【开放函数】
+		Drill_COAS_StateController* drill_controllerMain_Node_getCurState();
 									//D管理状态节点 - 获取当前状态元名称【开放函数】
 		QString drill_controllerMain_Node_getCurStateName();
 									//D管理状态节点 - 获取当前状态元名称（全路径）【开放函数】
@@ -127,9 +129,9 @@ class Drill_COAS_MainController{
 									//D管理状态节点 - 操作 - 播放状态元/状态节点 根据标签【开放函数】
 									//		【说明】：播放不成功时(没有标签)，返回false。
 		bool drill_controllerMain_setAnnotation(QString annotation);
-									//D管理状态节点 - 操作 - 播放状态元 根据标签列表【开放函数】
+									//D管理状态节点 - 操作 - 只播放状态元 根据标签列表（旧）【开放函数】
 									//		【说明】：播放不成功时(没有标签)，返回false。
-		bool drill_controllerMain_setAnnotation(QStringList annotation_list);
+		//bool drill_controllerMain_setAnnotationList(QStringList annotation_list);
 
 	//-----------------------------------
 	//----E管理动作元
@@ -145,7 +147,9 @@ class Drill_COAS_MainController{
 		QJsonObject drill_controllerMain_getActData_ByName(QString state_name);
 									//E管理动作元 - 获取数据 - 全部名称【开放函数】
 		QStringList drill_controllerMain_getActData_AllName();
-
+		
+									//E管理动作元 - 获取当前动作元对象【开放函数】
+		Drill_COAS_ActController* drill_controllerMain_Act_getCurAct();
 									//E管理动作元 - 获取当前动作元名称【开放函数】
 		QString drill_controllerMain_Act_getCurName();
 

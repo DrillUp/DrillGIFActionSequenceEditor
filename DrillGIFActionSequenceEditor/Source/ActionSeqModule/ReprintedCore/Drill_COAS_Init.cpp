@@ -52,7 +52,7 @@ void Drill_COAS_Init::_init() {
 QJsonObject Drill_COAS_Init::drill_COAS_initState(QJsonObject dataFrom){
 	QJsonObject data = QJsonObject();
 
-	// > 常规
+	// > A主体
 	data["name"] = dataFrom["状态元名称"].toString("");
 	QStringList tag_tank = TTool::_JSON_parse_To_QListQString_(dataFrom["状态元标签"].toString(""));
 	data["tag_tank"] = TTool::_QJsonArray_QStringToA_(tag_tank);
@@ -60,7 +60,19 @@ QJsonObject Drill_COAS_Init::drill_COAS_initState(QJsonObject dataFrom){
 	data["proportion"] = dataFrom["状态元权重"].toString("40").toInt();
 	data["canBeInterrupted"] = dataFrom["可被动作元打断"].toString("false") == "true";
 
-	// > GIF
+	// > A主体 - 杂项
+	QString temp = dataFrom["备注"].toString("");
+	if (temp[0] == '\"'){
+		temp = temp.mid(1, temp.count() - 2);
+		temp = temp.replace(QRegExp("\\\\"), "\\");
+	}
+	data["note"] = temp;
+
+	// > B输出数据
+	data["tint"] = dataFrom["图像-色调值"].toString("0").toInt();
+	data["smooth"] = dataFrom["图像-模糊边缘"].toString("false") == "true";
+
+	// > C播放GIF
 	QStringList gif_src = TTool::_JSON_parse_To_QListQString_(dataFrom["资源-状态元"].toString(""));
 	data["gif_src"] = TTool::_QJsonArray_QStringToA_(gif_src);
 	QStringList gif_intervalTank = TTool::_JSON_parse_To_QListQString_(dataFrom["帧间隔-明细表"].toString(""));
@@ -71,18 +83,6 @@ QJsonObject Drill_COAS_Init::drill_COAS_initState(QJsonObject dataFrom){
 	data["gif_back_run"] = dataFrom["是否倒放"].toString("false") == "true";
 	data["gif_preload"] = dataFrom["是否预加载"].toString("false") == "true";
 
-	// > 图像
-	data["tint"] = dataFrom["图像-色调值"].toString("0").toInt();
-	data["smooth"] = dataFrom["图像-模糊边缘"].toString("false") == "true";
-
-	// > 杂项
-	QString temp = dataFrom["备注"].toString("");
-	if (temp[0] == '\"'){
-		temp = temp.mid(1, temp.count()-2);
-		temp = temp.replace(QRegExp("\\\\"), "\\");
-	}
-	data["note"] = temp;
-
 	return data;
 }
 /*-------------------------------------------------
@@ -92,7 +92,7 @@ QJsonObject Drill_COAS_Init::drill_COAS_initState(QJsonObject dataFrom){
 QJsonObject Drill_COAS_Init::drill_COAS_initStateNode(QJsonObject dataFrom){
 	QJsonObject data = QJsonObject();
 
-	// > 常规
+	// > A主体
 	data["name"] = dataFrom["节点名称"].toString("");
 	QStringList tag_tank = TTool::_JSON_parse_To_QListQString_(dataFrom["节点标签"].toString(""));
 	data["tag_tank"] = TTool::_QJsonArray_QStringToA_(tag_tank);
@@ -100,7 +100,15 @@ QJsonObject Drill_COAS_Init::drill_COAS_initStateNode(QJsonObject dataFrom){
 	data["proportion"] = dataFrom["节点权重"].toString("40").toInt();
 	data["canBeInterrupted"] = dataFrom["可被动作元打断"].toString("false") == "true";
 
-	// > 播放列表
+	// > A主体 - 杂项
+	QString temp = dataFrom["备注"].toString("");
+	if (temp[0] == '\"'){
+		temp = temp.mid(1, temp.count() - 2);
+		temp = temp.replace(QRegExp("\\\\"), "\\");
+	}
+	data["note"] = temp;
+
+	// > C节点
 	data["play_type"] = dataFrom["播放方式"].toString("随机播放状态元");
 	QStringList play_randomStateSeq = TTool::_JSON_parse_To_QListQString_(dataFrom["随机播放状态元"].toString(""));
 	data["play_randomStateSeq"] = TTool::_QJsonArray_QStringToA_(play_randomStateSeq);
@@ -112,14 +120,6 @@ QJsonObject Drill_COAS_Init::drill_COAS_initStateNode(QJsonObject dataFrom){
 	data["play_plainNodeSeq"] = TTool::_QJsonArray_QStringToA_(play_plainNodeSeq);
 	data["play_randomMax"] = dataFrom["随机播放的次数上限"].toString("5").toInt();
 
-	// > 杂项
-	QString temp = dataFrom["备注"].toString("");
-	if (temp[0] == '\"'){
-		temp = temp.mid(1, temp.count() - 2);
-		temp = temp.replace(QRegExp("\\\\"), "\\");
-	}
-	data["note"] = temp;
-
 	return data;
 }
 /*-------------------------------------------------
@@ -129,13 +129,25 @@ QJsonObject Drill_COAS_Init::drill_COAS_initStateNode(QJsonObject dataFrom){
 QJsonObject Drill_COAS_Init::drill_COAS_initAct(QJsonObject dataFrom){
 	QJsonObject data = QJsonObject();
 
-	// > 常规
+	// > A主体
 	data["name"] = dataFrom["动作元名称"].toString("");
 	QStringList tag_tank = TTool::_JSON_parse_To_QListQString_(dataFrom["动作元标签"].toString(""));
 	data["tag_tank"] = TTool::_QJsonArray_QStringToA_(tag_tank);
 	data["priority"] = dataFrom["动作元优先级"].toString("20").toInt();
 
-	// > GIF
+	// > A主体 - 杂项
+	QString temp = dataFrom["备注"].toString("");
+	if (temp[0] == '\"'){
+		temp = temp.mid(1, temp.count() - 2);
+		temp = temp.replace(QRegExp("\\\\"), "\\");
+	}
+	data["note"] = temp;
+
+	// > B输出数据
+	data["tint"] = dataFrom["图像-色调值"].toString("0").toInt();
+	data["smooth"] = dataFrom["图像-模糊边缘"].toString("false") == "true";
+
+	// > C播放GIF
 	QStringList gif_src = TTool::_JSON_parse_To_QListQString_(dataFrom["资源-动作元"].toString(""));
 	data["gif_src"] = TTool::_QJsonArray_QStringToA_(gif_src);
 	QStringList gif_intervalTank = TTool::_JSON_parse_To_QListQString_(dataFrom["帧间隔-明细表"].toString(""));
@@ -145,18 +157,6 @@ QJsonObject Drill_COAS_Init::drill_COAS_initAct(QJsonObject dataFrom){
 	data["gif_interval"] = dataFrom["帧间隔"].toString("4").toInt();
 	data["gif_back_run"] = dataFrom["是否倒放"].toString("false") == "true";
 	data["gif_preload"] = dataFrom["是否预加载"].toString("false") == "true";
-
-	// > 图像
-	data["tint"] = dataFrom["图像-色调值"].toString("0").toInt();
-	data["smooth"] = dataFrom["图像-模糊边缘"].toString("false") == "true";
-
-	// > 杂项
-	QString temp = dataFrom["备注"].toString("");
-	if (temp[0] == '\"'){
-		temp = temp.mid(1, temp.count() - 2);
-		temp = temp.replace(QRegExp("\\\\"), "\\");
-	}
-	data["note"] = temp;
 
 	return data;
 }
@@ -168,18 +168,12 @@ QJsonObject Drill_COAS_Init::drill_COAS_initSequence(QJsonObject dataFrom){
 	QJsonObject data = QJsonObject();
 	C_COAS_Length len = S_ActionSeqDataContainer::getInstance()->getActionSeqLength();
 
-	// > 基本数据
+	// > A主体
 	data["id"] = dataFrom["COAS_id"].toInt();
 	data["visible"] = true;
 	data["pause"] = false;
-	data["waitForPreload"] = true;
 
-	// > 容器 - 默认的状态元集合
-	QStringList state_default_randomSeq = TTool::_JSON_parse_To_QListQString_(dataFrom["默认的状态元集合"].toString(""));
-	data["state_default_randomSeq"] = TTool::_QJsonArray_QStringToA_(state_default_randomSeq);
-	qDebug() << state_default_randomSeq;
-
-	// > 容器 - 状态元
+	// > C管理状态元 - 状态元容器
 	QJsonArray state_tank = QJsonArray();
 	for (int i = 0; i < len.realLen_state; i++){
 		QJsonObject obj = TTool::_JSON_parse_To_Obj_(dataFrom["状态元-"+QString::number(i+1)].toString("{}"));
@@ -188,7 +182,7 @@ QJsonObject Drill_COAS_Init::drill_COAS_initSequence(QJsonObject dataFrom){
 	data["state_tank"] = state_tank;
 	//qDebug() << "状态元：" <<state_tank;
 
-	// > 容器 - 状态节点
+	// > D管理状态节点 - 状态节点容器
 	QJsonArray stateNode_tank = QJsonArray();
 	for (int i = 0; i < len.realLen_stateNode; i++){
 		QJsonObject obj = TTool::_JSON_parse_To_Obj_(dataFrom["状态节点-" + QString::number(i+1)].toString("{}"));
@@ -197,7 +191,12 @@ QJsonObject Drill_COAS_Init::drill_COAS_initSequence(QJsonObject dataFrom){
 	data["stateNode_tank"] = stateNode_tank;
 	//qDebug() << "状态节点：" << stateNode_tank;
 
-	// > 容器 - 动作元
+	// > D管理状态节点 - 默认的状态元集合
+	QStringList state_default_randomSeq = TTool::_JSON_parse_To_QListQString_(dataFrom["默认的状态元集合"].toString(""));
+	data["state_default_randomSeq"] = TTool::_QJsonArray_QStringToA_(state_default_randomSeq);
+	qDebug() << state_default_randomSeq;
+
+	// > E管理动作元 - 动作元容器
 	QJsonArray act_tank = QJsonArray();
 	for (int i = 0; i < len.realLen_action; i++){
 		QJsonObject obj = TTool::_JSON_parse_To_Obj_(dataFrom["动作元-" + QString::number(i+1)].toString("{}"));
@@ -205,6 +204,10 @@ QJsonObject Drill_COAS_Init::drill_COAS_initSequence(QJsonObject dataFrom){
 	}
 	data["act_tank"] = act_tank;
 	//qDebug() << "动作元：" << act_tank;
+
+	// > F管理装饰器
+	data["waitForPreload"] = true;
+	data["bitmapRefreshFrame"] = true;
 
 	return data;
 }
