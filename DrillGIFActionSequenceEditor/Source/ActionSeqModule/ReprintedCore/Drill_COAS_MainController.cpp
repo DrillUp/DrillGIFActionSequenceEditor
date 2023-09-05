@@ -11,7 +11,7 @@
 		功能：		> 定义一个专门控制 动画序列 的数据类。
 					> 该类可被存到存档中。
 					
-		说明：		当前复刻版本：[v1.5]
+		说明：		当前复刻版本：[v1.6]
 -----==========================================================-----
 */
 Drill_COAS_MainController::Drill_COAS_MainController(){
@@ -22,9 +22,9 @@ Drill_COAS_MainController::Drill_COAS_MainController(){
 	this->_drill_controllerSerial = this->_drill_controllerSerial.replace("-", "");
 	this->_drill_node_curController = nullptr;
 	this->_drill_act_curController = nullptr;
-	this->drill_initData_Main();										//初始化数据
-	this->drill_initPrivateData_Main();									//私有数据初始化
-	this->drill_COAS_resetData_Main(this->_drill_data);
+	this->drill_controllerMain_initData();								//初始化数据
+	this->drill_controllerMain_initChild();								//初始化子功能
+	this->drill_controllerMain_resetData(this->_drill_data);
 	//$gameTemp._drill_COAS_lastCreatedMainController = this;			//（记录上一个动画序列）
 }
 Drill_COAS_MainController::Drill_COAS_MainController(QJsonObject data){
@@ -35,9 +35,9 @@ Drill_COAS_MainController::Drill_COAS_MainController(QJsonObject data){
 	this->_drill_controllerSerial = this->_drill_controllerSerial.replace("-", "");
 	this->_drill_node_curController = nullptr;
 	this->_drill_act_curController = nullptr;
-	this->drill_initData_Main();										//初始化数据
-	this->drill_initPrivateData_Main();									//私有数据初始化
-	this->drill_COAS_resetData_Main(this->_drill_data);
+	this->drill_controllerMain_initData();								//初始化数据
+	this->drill_controllerMain_initChild();								//初始化子功能
+	this->drill_controllerMain_resetData(this->_drill_data);
 	//$gameTemp._drill_COAS_lastCreatedMainController = this;			//（记录上一个动画序列）
 }
 Drill_COAS_MainController::~Drill_COAS_MainController(){
@@ -47,95 +47,60 @@ Drill_COAS_MainController::~Drill_COAS_MainController(){
 /*-------------------------------------------------
 		动画序列 - 帧刷新【标准函数】
 */
-void Drill_COAS_MainController::drill_COAS_update(){
+void Drill_COAS_MainController::drill_controllerMain_update(){
 	if (this->isNull()){ return; }
 	if (this->_drill_data["pause"].toBool(false)){ return; }
-	this->_drill_curTime += 1;				//帧刷新 - 时间流逝
-	this->drill_COAS_updateStateNode();		//帧刷新 - 状态节点
-	this->drill_COAS_updateAct();			//帧刷新 - 动画序列
+	this->drill_controllerMain_updateAttr();			//帧刷新 - A主体
+														//帧刷新 - B输出数据（无）
+														//帧刷新 - C管理状态元（无）
+	this->drill_controllerMain_updateStateAndNode();	//帧刷新 - D管理状态节点
+	this->drill_controllerMain_updateAct();				//帧刷新 - E管理动作元
+														//帧刷新 - F管理装饰器（无）
 }
-/*-------------------------------------------------
-		动画序列 - 空判断
-*/
-bool Drill_COAS_MainController::isNull(){
-	return this->_drill_data.isEmpty();
-}
-
-
 /*-------------------------------------------------
 		动画序列 - 初始化数据【标准默认值】
 */
-void Drill_COAS_MainController::drill_initData_Main(){
+void Drill_COAS_MainController::drill_controllerMain_initData(){
 	QJsonObject data = this->_drill_data;
 
-	// > 常规
-	if (data["id"].isUndefined() == true){ data["id"] = -1; }						//标识
-	if (data["visible"].isUndefined() == true){ data["visible"] = true; }			//显示情况
-	if (data["pause"].isUndefined() == true){ data["pause"] = false; }				//暂停情况
-	
-	// > 容器
-	if (data["state_tank"].isUndefined() == true){ data["state_tank"] = QJsonArray(); }								//容器 - 状态元
-	if (data["stateNode_tank"].isUndefined() == true){ data["stateNode_tank"] = QJsonArray(); }						//容器 - 状态节点
-	if (data["act_tank"].isUndefined() == true){ data["act_tank"] = QJsonArray(); }									//容器 - 动画序列
-	if (data["state_default_randomSeq"].isUndefined() == true){ data["state_default_randomSeq"] = QJsonArray(); }	//默认的状态元集合
+	// > A主体
+	if (data["id"].isUndefined() == true){ data["id"] = -1; }						//A主体 - 标识
+	if (data["visible"].isUndefined() == true){ data["visible"] = true; }			//A主体 - 显示情况
+	if (data["pause"].isUndefined() == true){ data["pause"] = false; }				//A主体 - 暂停情况
 
-	// > 子插件用参数
-	if (data["waitForPreload"].isUndefined() == true){ data["waitForPreload"] = true; }		//预加载等待
+	// > B输出数据（无）
+
+	// > C管理状态元
+	if (data["state_tank"].isUndefined() == true){ data["state_tank"] = QJsonArray(); }								//C管理状态元 - 容器
+
+	// > D管理状态节点
+	if (data["stateNode_tank"].isUndefined() == true){ data["stateNode_tank"] = QJsonArray(); }						//D管理状态节点 - 容器
+	if (data["state_default_randomSeq"].isUndefined() == true){ data["state_default_randomSeq"] = QJsonArray(); }	//D管理状态节点 - 默认的状态元集合
+
+	// > E管理动作元
+	if (data["act_tank"].isUndefined() == true){ data["act_tank"] = QJsonArray(); }									//E管理动作元 - 容器
+
+	// > F管理装饰器（子插件用）
+	if (data["waitForPreload"].isUndefined() == true){ data["waitForPreload"] = true; }								//F管理装饰器 - 预加载等待
+	if (data["bitmapRefreshFrame"].isUndefined() == true){ data["bitmapRefreshFrame"] = true; }						//F管理装饰器 - bitmap刷新框架开关
 
 	this->_drill_data = data;	//（c++中，注意此处的指针，需要重新赋值）
 }
 /*-------------------------------------------------
-		动画序列 - 私有数据初始化
+		动画序列 - 初始化子功能
 */
-void Drill_COAS_MainController::drill_initPrivateData_Main(){
-	QJsonObject data = this->_drill_data;
-
-	// > 常规
-	this->_drill_curTime = 0;										//常规 - 当前时间
-	this->_drill_needDestroy = false;								//常规 - 销毁
-	this->_drill_checkArrayEnabled = true;							//常规 - 校验数据是否为数组
-
-	// > GIF - 输出数据
-	this->_drill_curBitmapName = "";								//输出数据 - 当前的对象名
-	this->_drill_curBitmapPath = "";								//输出数据 - 当前的路径
-	this->_drill_curBitmapTint = 0;									//输出数据 - 当前的色调
-	this->_drill_curBitmapSmooth = false;							//输出数据 - 当前的模糊
-
-
-	// > 默认的状态元集合
-	QJsonObject node_data;
-	node_data["name"] = "默认的状态元集合";
-	node_data["priority"] = 0;
-	node_data["proportion"] = 40;
-	node_data["play_type"] = "随机播放状态元";
-	node_data["play_randomStateSeq"] = data["state_default_randomSeq"];
-	node_data["play_randomMax"] = 5;
-	node_data["note"] = "";
-	QJsonArray stateNode_tank = data["stateNode_tank"].toArray();
-	stateNode_tank.append(node_data);
-	data["stateNode_tank"] = stateNode_tank;
-	this->_drill_data = data;	//（c++中，注意此处的指针，需要重新赋值）
-
-	// > 状态节点
-	//this._drill_node_curName = "";	//（立刻变化，没有缓冲设置）
-	this->_drill_node_curSerial = "";	//（注意，序列号在c++中为字符串）
-	this->_drill_node_curController = new Drill_COAS_StateNodeController(node_data);
-	this->_drill_node_curController->drill_COAS_setParentDataId(data["id"].toInt());
-	this->_drill_node_curController->drill_COAS_setLayer(0);
-
-	// > 动作元
-	this->_drill_act_curName = "";
-	this->_drill_act_curSerial = "";	//（注意，序列号在c++中为字符串）
-	this->_drill_act_curController = new Drill_COAS_ActController();
-	this->_drill_act_interrupt = false;
-
-	// > 数据量查看
-	qDebug() << node_data;
+void Drill_COAS_MainController::drill_controllerMain_initChild(){
+	this->drill_controllerMain_initAttr();			//初始化子功能 - A主体
+	this->drill_controllerMain_initBitmapParam();	//初始化子功能 - B输出数据
+	this->drill_controllerMain_initState();			//初始化子功能 - C管理状态元
+	this->drill_controllerMain_initNode();			//初始化子功能 - D管理状态节点
+	this->drill_controllerMain_initAct();			//初始化子功能 - E管理动作元
+	this->drill_controllerMain_initDecorator();		//初始化子功能 - F管理装饰器
 }
 /*-------------------------------------------------
-		动画序列 - 重设数据（私有）
+		动画序列 - 重设数据【标准函数】
 */
-void Drill_COAS_MainController::drill_COAS_resetData_Main(QJsonObject data){
+void Drill_COAS_MainController::drill_controllerMain_resetData(QJsonObject data){
 
 	// > 判断数据重复情况
 	if (this->_drill_data.isEmpty() == false){
@@ -164,13 +129,55 @@ void Drill_COAS_MainController::drill_COAS_resetData_Main(QJsonObject data){
 	this->_drill_controllerSerial = this->_drill_controllerSerial.replace("{", "");
 	this->_drill_controllerSerial = this->_drill_controllerSerial.replace("}", "");
 	this->_drill_controllerSerial = this->_drill_controllerSerial.replace("-", "");
-	this->drill_initData_Main();											//初始化数据
-	this->drill_initPrivateData_Main();										//私有数据初始化
+	this->drill_controllerMain_initData();									//初始化数据
+	this->drill_controllerMain_initChild();									//初始化子功能
 }
 /*-------------------------------------------------
-		动画序列 - 校验数据是否为数组
+		动画序列 - 显示/隐藏【标准函数】
 */
-void Drill_COAS_MainController::drill_COAS_checkArray(QJsonValue arr){
+void Drill_COAS_MainController::drill_controllerMain_setVisible(bool visible){
+	QJsonObject data = this->_drill_data;
+	data["visible"] = visible;
+	this->_drill_data = data;			//（此函数c++中未使用）
+}
+/*-------------------------------------------------
+		动画序列 - 暂停/继续【标准函数】
+*/
+void Drill_COAS_MainController::drill_controllerMain_setPause(bool pause){
+	QJsonObject data = this->_drill_data;
+	data["pause"] = pause;
+	this->_drill_data = data;			//（此函数c++中未使用）
+}
+/*-------------------------------------------------
+		动画序列 - 设置销毁【标准函数】
+*/
+void Drill_COAS_MainController::drill_controllerMain_destroy(){
+	this->_drill_needDestroy = true;	//（此函数c++中未使用）
+}
+/*-------------------------------------------------
+		动画序列 - 空判断
+*/
+bool Drill_COAS_MainController::isNull(){
+	return this->_drill_data.isEmpty();
+}
+
+
+
+
+
+	
+/*-------------------------------------------------
+		A主体 - 初始化子功能
+*/
+void Drill_COAS_MainController::drill_controllerMain_initAttr(){
+	this->_drill_curTime = 0;						//A主体 - 当前时间
+	this->_drill_needDestroy = false;				//A主体 - 销毁
+	this->_drill_checkArrayEnabled = true;			//A主体 - 校验数据是否为数组
+}
+/*-------------------------------------------------
+		A主体 - 校验数据是否为数组
+*/
+void Drill_COAS_MainController::drill_controllerMain_checkArray(QJsonValue arr){
 	if( this->_drill_checkArrayEnabled != true ){ return; }
 		
 	if (arr.isArray()){
@@ -183,19 +190,43 @@ void Drill_COAS_MainController::drill_COAS_checkArray(QJsonValue arr){
 		this->_drill_checkArrayEnabled = false;
 	}	
 }
+/*-------------------------------------------------
+		A主体 - 帧刷新
+*/
+void Drill_COAS_MainController::drill_controllerMain_updateAttr(){
 
+	// > 时间流逝
+	this->_drill_curTime += 1;
+}
 
 
 /*-------------------------------------------------
-		动画序列-状态元 - 获取数据 - 全部【开放函数】
+		B输出数据 - 初始化子功能
 */
-QJsonArray Drill_COAS_MainController::drill_COAS_getStateData_All(){
+void Drill_COAS_MainController::drill_controllerMain_initBitmapParam(){
+	this->_drill_curBitmapName = "";				//B输出数据 - 当前的资源名
+	this->_drill_curBitmapPath = "";				//B输出数据 - 当前的路径
+	this->_drill_curBitmapTint = 0;					//B输出数据 - 当前的色调
+	this->_drill_curBitmapSmooth = false;			//B输出数据 - 当前的模糊
+}
+
+
+/*-------------------------------------------------
+		C管理状态元 - 初始化子功能
+*/
+void Drill_COAS_MainController::drill_controllerMain_initState(){
+	//（无）
+}
+/*-------------------------------------------------
+		C管理状态元 - 获取数据 - 全部【开放函数】
+*/
+QJsonArray Drill_COAS_MainController::drill_controllerMain_getStateData_All(){
 	return this->_drill_data["state_tank"].toArray();
 }
 /*-------------------------------------------------
-		动画序列-状态元 - 获取数据 - 根据名称【开放函数】
+		C管理状态元 - 获取数据 - 根据名称【开放函数】
 */
-QJsonObject Drill_COAS_MainController::drill_COAS_getStateData_ByName(QString state_name){
+QJsonObject Drill_COAS_MainController::drill_controllerMain_getStateData_ByName(QString state_name){
 	if (state_name == ""){ return QJsonObject(); }
 	QJsonObject data = this->_drill_data;
 	QJsonArray state_tank = data["state_tank"].toArray();
@@ -208,9 +239,9 @@ QJsonObject Drill_COAS_MainController::drill_COAS_getStateData_ByName(QString st
 	return QJsonObject();
 }
 /*-------------------------------------------------
-		动画序列-状态元 - 获取数据 - 全部名称【开放函数】
+		C管理状态元 - 获取数据 - 全部名称【开放函数】
 */
-QStringList Drill_COAS_MainController::drill_COAS_getStateData_AllName(){
+QStringList Drill_COAS_MainController::drill_controllerMain_getStateData_AllName(){
 	QJsonObject data = this->_drill_data;
 	QStringList result_list;
 	QJsonArray state_tank = data["state_tank"].toArray();
@@ -225,15 +256,82 @@ QStringList Drill_COAS_MainController::drill_COAS_getStateData_AllName(){
 
 
 /*-------------------------------------------------
-		动画序列-状态节点 - 获取数据 - 全部【开放函数】
+		D管理状态节点 - 初始化子功能
 */
-QJsonArray Drill_COAS_MainController::drill_COAS_getStateNodeData_All(){
+void Drill_COAS_MainController::drill_controllerMain_initNode(){
+	QJsonObject data = this->_drill_data;
+
+	// > 默认的状态元集合
+	QJsonObject node_data;
+	node_data["name"] = "默认的状态元集合";
+	node_data["priority"] = 0;
+	node_data["proportion"] = 40;
+	node_data["play_type"] = "随机播放状态元";
+	node_data["play_randomStateSeq"] = data["state_default_randomSeq"];
+	node_data["play_randomMax"] = 5;
+	node_data["note"] = "";
+	QJsonArray stateNode_tank = data["stateNode_tank"].toArray();
+	stateNode_tank.append(node_data);
+	data["stateNode_tank"] = stateNode_tank;
+	this->_drill_data = data;	//（c++中，注意此处的指针，需要重新赋值）
+
+	// > 状态节点
+	//this._drill_node_curName = "";	//（立刻变化，没有缓冲设置）
+	this->_drill_node_curSerial = "";	//（注意，序列号在c++中为字符串）
+	this->_drill_node_curController = new Drill_COAS_StateNodeController(node_data);
+	this->_drill_node_curController->drill_controllerNode_setParentDataId(data["id"].toInt());
+	this->_drill_node_curController->drill_controllerNode_setLayer(0);
+
+	// > 数据量查看
+	qDebug() << node_data;
+}
+/*-------------------------------------------------
+		D管理状态节点 - 帧刷新
+*/
+void Drill_COAS_MainController::drill_controllerMain_updateStateAndNode(){
+	if (this->drill_controllerMain_Act_isPlayingAct() == true){ return; }		//动作播放时，不操作
+	
+	// > 动作元打断
+	if (this->_drill_act_interrupt == true){
+		this->_drill_act_interrupt = false;
+		if (this->_drill_node_curController->drill_controllerNode_canBeInterrupted()){
+			this->_drill_node_curController->drill_controllerNode_resetTimer();
+			this->_drill_node_curController->drill_controllerNode_refreshNext();
+		}
+	}
+
+	// > 状态节点 数据刷新情况
+	if (this->_drill_node_curSerial != this->_drill_node_curController->_drill_controllerSerial){
+		this->_drill_node_curController->drill_controllerNode_resetTimer();
+		this->_drill_node_curController->drill_controllerNode_refreshNext();
+		this->_drill_node_curSerial = this->_drill_node_curController->_drill_controllerSerial;
+	}
+
+	// > 状态节点 播放完毕情况
+	if (this->_drill_node_curController->drill_controllerNode_isEnd() == true){
+		this->_drill_node_curController->drill_controllerNode_resetTimer();
+		this->_drill_node_curController->drill_controllerNode_refreshNext();
+	}
+
+	// > 状态节点 - 帧刷新
+	this->_drill_node_curController->drill_controllerNode_update();
+
+	// > 状态节点 - B输出数据
+	this->_drill_curBitmapName = this->_drill_node_curController->drill_controllerNode_curBitmapName();
+	this->_drill_curBitmapPath = this->_drill_node_curController->drill_controllerNode_curBitmapPath();
+	this->_drill_curBitmapTint = this->_drill_node_curController->drill_controllerNode_curBitmapTint();
+	this->_drill_curBitmapSmooth = this->_drill_node_curController->drill_controllerNode_curBitmapSmooth();
+}
+/*-------------------------------------------------
+		D管理状态节点 - 获取数据 - 全部【开放函数】
+*/
+QJsonArray Drill_COAS_MainController::drill_controllerMain_getNodeData_All(){
 	return this->_drill_data["stateNode_tank"].toArray();
 }
 /*-------------------------------------------------
-		动画序列-状态节点 - 获取数据 - 根据名称【开放函数】
+		D管理状态节点 - 获取数据 - 根据名称【开放函数】
 */
-QJsonObject Drill_COAS_MainController::drill_COAS_getStateNodeData_ByName(QString stateNode_name){
+QJsonObject Drill_COAS_MainController::drill_controllerMain_getNodeData_ByName(QString stateNode_name){
 	if (stateNode_name == ""){ return QJsonObject(); }
 	QJsonObject data = this->_drill_data;
 	QJsonArray stateNode_tank = data["stateNode_tank"].toArray();
@@ -246,9 +344,9 @@ QJsonObject Drill_COAS_MainController::drill_COAS_getStateNodeData_ByName(QStrin
 	return QJsonObject();
 }
 /*-------------------------------------------------
-		动画序列-状态节点 - 获取数据 - 全部名称【开放函数】
+		D管理状态节点 - 获取数据 - 全部名称【开放函数】
 */
-QStringList Drill_COAS_MainController::drill_COAS_getStateNodeData_AllName(){
+QStringList Drill_COAS_MainController::drill_controllerMain_getNodeData_AllName(){
 	QJsonObject data = this->_drill_data;
 	QStringList result_list;
 	QJsonArray stateNode_tank = data["stateNode_tank"].toArray();
@@ -261,92 +359,63 @@ QStringList Drill_COAS_MainController::drill_COAS_getStateNodeData_AllName(){
 	return result_list;
 }
 /*-------------------------------------------------
-		动画序列-状态节点 - 帧刷新
+		D管理状态节点 - 获取当前状态元名称【开放函数】
 */
-void Drill_COAS_MainController::drill_COAS_updateStateNode(){
-	if (this->drill_COAS_isPlayingAct() == true){ return; }		//动作播放时，不操作
-	
-	// > 动作元打断
-	if (this->_drill_act_interrupt == true){
-		this->_drill_act_interrupt = false;
-		if (this->_drill_node_curController->drill_COAS_canBeInterrupted()){
-			this->_drill_node_curController->drill_COAS_resetTimer();
-			this->_drill_node_curController->drill_COAS_refreshNext();
-		}
-	}
-
-	// > 状态节点 数据刷新情况
-	if (this->_drill_node_curSerial != this->_drill_node_curController->_drill_controllerSerial){
-		this->_drill_node_curController->drill_COAS_resetTimer();
-		this->_drill_node_curController->drill_COAS_refreshNext();
-		this->_drill_node_curSerial = this->_drill_node_curController->_drill_controllerSerial;
-	}
-
-	// > 状态节点 播放完毕情况
-	if (this->_drill_node_curController->drill_COAS_isNodeEnd() == true){
-		this->_drill_node_curController->drill_COAS_resetTimer();
-		this->_drill_node_curController->drill_COAS_refreshNext();
-	}
-
-	// > 状态节点 帧刷新
-	this->_drill_node_curController->drill_COAS_update();
-	this->_drill_curBitmapName = this->_drill_node_curController->drill_COAS_curBitmapName();
-	this->_drill_curBitmapPath = this->_drill_node_curController->drill_COAS_curBitmapPath();
-	this->_drill_curBitmapTint = this->_drill_node_curController->drill_COAS_curBitmapTint();
-	this->_drill_curBitmapSmooth = this->_drill_node_curController->drill_COAS_curBitmapSmooth();
+QString Drill_COAS_MainController::drill_controllerMain_Node_getCurStateName(){
+	return this->_drill_node_curController->drill_controllerNode_getStateName();
 }
 /*-------------------------------------------------
-		动画序列-状态节点 - 操作 - 获取当前状态元名称【开放函数】
+		D管理状态节点 - 获取当前状态元名称（全路径）【开放函数】
 */
-QString Drill_COAS_MainController::drill_COAS_getCurStateName(){
-	return this->_drill_node_curController->drill_COAS_getCurStateName();
+QString Drill_COAS_MainController::drill_controllerMain_Node_getCurStateName_AllRoot(){
+	return this->_drill_node_curController->drill_controllerNode_getStateName_AllRoot();
 }
 /*-------------------------------------------------
-		动画序列-状态节点 - 操作 - 获取当前状态元名称（全路径）【开放函数】
+		D管理状态节点 - 获取当前优先级【开放函数】
 */
-QString Drill_COAS_MainController::drill_COAS_getCurStateName_AllRoot(){
-	return this->_drill_node_curController->drill_COAS_getCurStateName_AllRoot();
+int Drill_COAS_MainController::drill_controllerMain_Node_getCurPriority(){
+	return this->_drill_node_curController->drill_controllerNode_getPriority();
 }
 /*-------------------------------------------------
-		动画序列-状态节点 - 操作 - 获取当前状态元优先级【开放函数】
+		D管理状态节点 - 操作 - 播放默认的状态元集合【开放函数】
 */
-int Drill_COAS_MainController::drill_COAS_getCurStatePriority(){
-	return this->_drill_node_curController->drill_COAS_getCurStatePriority();
+void Drill_COAS_MainController::drill_controllerMain_setStateNodeDefault(){
+	this->drill_controllerMain_setStateNode("默认的状态元集合");
 }
 /*-------------------------------------------------
-		动画序列-状态节点 - 操作 - 播放默认的状态元集合【开放函数】
+		D管理状态节点 - 操作 - 播放状态节点【开放函数】
 */
-void Drill_COAS_MainController::drill_COAS_setStateNodeDefault(){
-	this->drill_COAS_setStateNode("默认的状态元集合");
-}
-/*-------------------------------------------------
-		动画序列-状态节点 - 操作 - 播放状态节点【开放函数】
-*/
-void Drill_COAS_MainController::drill_COAS_setStateNode(QString node_name){
+void Drill_COAS_MainController::drill_controllerMain_setStateNode(QString node_name){
 	QJsonObject data = this->_drill_data;
-	QJsonObject node_data = this->drill_COAS_getStateNodeData_ByName(node_name);
+	QJsonObject node_data = this->drill_controllerMain_getNodeData_ByName(node_name);
 	if (node_data.isEmpty()){ return; }
-	this->_drill_node_curController->drill_COAS_resetData_Node(node_data);				//集合 - 重设数据
-	this->_drill_node_curController->drill_COAS_setParentDataId(data["id"].toInt());	//集合 - 设置父数据id
-	this->_drill_node_curController->drill_COAS_setLayer(0);							//集合 - 设置当前层数
-	this->_drill_node_curController->drill_COAS_refreshNext();							//集合 - 刷新子节点
+	this->_drill_node_curController->drill_controllerNode_resetData(node_data);					//集合 - 重设数据
+	this->_drill_node_curController->drill_controllerNode_setParentDataId(data["id"].toInt());	//集合 - 设置父数据id
+	this->_drill_node_curController->drill_controllerNode_setLayer(0);							//集合 - 设置当前层数
+	this->_drill_node_curController->drill_controllerNode_refreshNext();						//集合 - 刷新子节点
 }
 /*-------------------------------------------------
-		动画序列-状态节点 - 操作 - 播放简单状态元集合【开放函数】
+		D管理状态节点 - 操作 - 播放简单状态元集合【开放函数】
 */
-void Drill_COAS_MainController::drill_COAS_setSimpleStateNode(QStringList state_nameList){
-	//this->drill_COAS_checkArray(state_nameList);	//（不需要检查）
+void Drill_COAS_MainController::drill_controllerMain_setSimpleStateNode(QStringList state_nameList){
+	//this->drill_controllerMain_checkArray(state_nameList);	//（不需要检查）
 	this->_drill_node_curController->drill_COAS_setNewStateNameList(state_nameList);
 }
 /*-------------------------------------------------
-		动画序列-状态节点 - 操作 - 播放状态元 根据标签【开放函数】
+		D管理状态节点 - 操作 - 播放状态元/状态节点 根据标签【开放函数】
 */
-bool Drill_COAS_MainController::drill_COAS_setAnnotation(QStringList annotation_list){
+bool Drill_COAS_MainController::drill_controllerMain_setAnnotation(QString annotation){
+	//（此函数在c++中未使用）
+	return false;
+}
+/*-------------------------------------------------
+		D管理状态节点 - 操作 - 播放状态元 根据标签列表【开放函数】
+bool Drill_COAS_MainController::drill_controllerMain_setAnnotation(QStringList annotation_list){
 
 	// > 找到符合注解数量最多的状态元名
 	int max_fit_count = 0;			//（最大符合数量）
 	QList<QJsonObject> fit_seq;		//（最大符合的索引列表）
-	QJsonArray stateData_list = this->drill_COAS_getStateData_All();
+	QJsonArray stateData_list = this->drill_controllerMain_getStateData_All();
 	for( int i = 0; i < stateData_list.count(); i++){
 		QJsonObject stateData = stateData_list[i].toObject();
 		QStringList tag_tank = TTool::_QJsonArray_AToQString_(stateData["tag_tank"].toArray());
@@ -395,21 +464,66 @@ bool Drill_COAS_MainController::drill_COAS_setAnnotation(QStringList annotation_
 	}
 
 	// > 播放简单状态元集合
-	this->drill_COAS_setSimpleStateNode(stateName_list);
+	this->drill_controllerMain_setSimpleStateNode(stateName_list);
 	return true;
 }
+*/
 
 
 /*-------------------------------------------------
-		动画序列-动作元 - 获取数据 - 全部【开放函数】
+		E管理动作元 - 初始化子功能
 */
-QJsonArray Drill_COAS_MainController::drill_COAS_getActData_All(){
+void Drill_COAS_MainController::drill_controllerMain_initAct(){
+
+	// > 动作元
+	this->_drill_act_curName = "";
+	this->_drill_act_curSerial = "";	//（注意，序列号在c++中为字符串）
+	this->_drill_act_curController = new Drill_COAS_ActController();
+	this->_drill_act_interrupt = false;
+}
+/*-------------------------------------------------
+		E管理动作元 - 帧刷新
+*/
+void Drill_COAS_MainController::drill_controllerMain_updateAct(){
+	if (this->drill_controllerMain_Act_isPlayingAct() == false){ return; }	//动作未播放时，不操作
+
+	// > 动作元打断 锁
+	this->_drill_act_interrupt = true;
+
+	// > 动作元 数据刷新情况
+	if (this->_drill_act_curSerial != this->_drill_act_curController->_drill_controllerSerial){
+		QJsonObject data_act = this->drill_controllerMain_getActData_ByName(this->_drill_act_curName);
+		if (data_act.isEmpty() == false){
+			this->_drill_act_curController->drill_controllerAct_resetData(data_act);
+		}
+		this->_drill_act_curSerial = this->_drill_act_curController->_drill_controllerSerial;
+	}
+
+	// > 动作元 播放完毕情况
+	if (this->_drill_act_curController->drill_controllerAct_isEnd() == true){
+		this->_drill_act_curName = "";
+		this->_drill_act_curSerial = "";
+	}
+
+	// > 动作元 - 帧刷新
+	this->_drill_act_curController->drill_controllerAct_update();
+
+	// > 动作元 - B输出数据
+	this->_drill_curBitmapName = this->_drill_act_curController->drill_controllerAct_curBitmapName();
+	this->_drill_curBitmapPath = this->_drill_act_curController->drill_controllerAct_curBitmapPath();
+	this->_drill_curBitmapTint = this->_drill_act_curController->drill_controllerAct_curBitmapTint();
+	this->_drill_curBitmapSmooth = this->_drill_act_curController->drill_controllerAct_curBitmapSmooth();
+}
+/*-------------------------------------------------
+		E管理动作元 - 获取数据 - 全部【开放函数】
+*/
+QJsonArray Drill_COAS_MainController::drill_controllerMain_getActData_All(){
 	return this->_drill_data["act_tank"].toArray();
 }
 /*-------------------------------------------------
-		动画序列-动作元 - 获取数据 - 根据名称【开放函数】
+		E管理动作元 - 获取数据 - 根据名称【开放函数】
 */
-QJsonObject Drill_COAS_MainController::drill_COAS_getActData_ByName(QString stateNode_name){
+QJsonObject Drill_COAS_MainController::drill_controllerMain_getActData_ByName(QString stateNode_name){
 	if (stateNode_name == ""){ return QJsonObject(); }
 	QJsonObject data = this->_drill_data;
 	QJsonArray act_tank = data["act_tank"].toArray();
@@ -422,9 +536,9 @@ QJsonObject Drill_COAS_MainController::drill_COAS_getActData_ByName(QString stat
 	return QJsonObject();
 }
 /*-------------------------------------------------
-		动画序列-动作元 - 获取数据 - 全部名称【开放函数】
+		E管理动作元 - 获取数据 - 全部名称【开放函数】
 */
-QStringList Drill_COAS_MainController::drill_COAS_getActData_AllName(){
+QStringList Drill_COAS_MainController::drill_controllerMain_getActData_AllName(){
 	QJsonObject data = this->_drill_data;
 	QStringList result_list;
 	QJsonArray act_tank = data["act_tank"].toArray();
@@ -437,58 +551,21 @@ QStringList Drill_COAS_MainController::drill_COAS_getActData_AllName(){
 	return result_list;
 }
 /*-------------------------------------------------
-		动画序列-动作元 - 帧刷新
+		E管理动作元 - 获取当前动作元名称【开放函数】
 */
-void Drill_COAS_MainController::drill_COAS_updateAct(){
-	if (this->drill_COAS_isPlayingAct() == false){ return; }	//动作未播放时，不操作
-
-	// > 动作元打断 锁
-	this->_drill_act_interrupt = true;
-
-	// > 动作元 数据刷新情况
-	if (this->_drill_act_curSerial != this->_drill_act_curController->_drill_controllerSerial){
-		QJsonObject data_act = this->drill_COAS_getActData_ByName(this->_drill_act_curName);
-		if (data_act.isEmpty() == false){
-			this->_drill_act_curController->drill_COAS_resetData_Act(data_act);
-		}
-		this->_drill_act_curSerial = this->_drill_act_curController->_drill_controllerSerial;
-	}
-
-	// > 动作元 播放完毕情况
-	if (this->_drill_act_curController->drill_COAS_isActEnd() == true){
-		this->_drill_act_curName = "";
-		this->_drill_act_curSerial = "";
-	}
-
-	// > 动作元 帧刷新
-	this->_drill_act_curController->drill_COAS_update();
-	this->_drill_curBitmapName = this->_drill_act_curController->drill_COAS_curBitmapName();
-	this->_drill_curBitmapPath = this->_drill_act_curController->drill_COAS_curBitmapPath();
-	this->_drill_curBitmapTint = this->_drill_act_curController->drill_COAS_curBitmapTint();
-	this->_drill_curBitmapSmooth = this->_drill_act_curController->drill_COAS_curBitmapSmooth();
-}
-/*-------------------------------------------------
-		动画序列-动作元 - 判断播放
-*/
-bool Drill_COAS_MainController::drill_COAS_isPlayingAct(){
-	return this->_drill_act_curName != "";
-}
-/*-------------------------------------------------
-		动画序列-动作元 - 操作 - 获取当前动作元名称【开放函数】
-*/
-QString Drill_COAS_MainController::drill_COAS_getCurActName(){
+QString Drill_COAS_MainController::drill_controllerMain_Act_getCurName(){
 	return this->_drill_act_curName;
 }
 /*-------------------------------------------------
-		动画序列-动作元 - 操作 - 播放动作元【开放函数】
+		E管理动作元 - 操作 - 播放动作元【开放函数】
 */
-void Drill_COAS_MainController::drill_COAS_setAct(QString act_name){
+void Drill_COAS_MainController::drill_controllerMain_Act_setAct(QString act_name){
 	if (this->_drill_act_curName == act_name){ return; }
 
 	// > 检查高优先级状态元
 	if (this->_drill_act_curName == ""){
-		QJsonObject data_act = this->drill_COAS_getActData_ByName(act_name);
-		int state_priority = this->drill_COAS_getCurStatePriority();
+		QJsonObject data_act = this->drill_controllerMain_getActData_ByName(act_name);
+		int state_priority = this->drill_controllerMain_Node_getCurPriority();
 		if (state_priority > data_act["priority"].toInt()){	//（同级的动作元可以覆盖状态元）
 			return;
 		}
@@ -496,8 +573,8 @@ void Drill_COAS_MainController::drill_COAS_setAct(QString act_name){
 
 	// > 动作正在播放时
 	if (this->_drill_act_curName != ""){
-		QJsonObject data_act = this->drill_COAS_getActData_ByName(act_name);
-		QJsonObject cur_act = this->drill_COAS_getActData_ByName(this->_drill_act_curName);
+		QJsonObject data_act = this->drill_controllerMain_getActData_ByName(act_name);
+		QJsonObject cur_act = this->drill_controllerMain_getActData_ByName(this->_drill_act_curName);
 
 		if (cur_act["priority"].toInt() >= data_act["priority"].toInt()){	//（只能覆盖小的优先级，不包括同级）
 			return;
@@ -507,12 +584,25 @@ void Drill_COAS_MainController::drill_COAS_setAct(QString act_name){
 	this->_drill_act_curName = act_name;
 }
 /*-------------------------------------------------
-		动画序列-动作元 - 操作 - 立刻终止动作【开放函数】
+		E管理动作元 - 操作 - 立刻终止动作【开放函数】
 */
-void Drill_COAS_MainController::drill_COAS_stopAct(){
+void Drill_COAS_MainController::drill_controllerMain_Act_stopAct(){
 	this->_drill_act_curName = "";
 	this->_drill_act_curSerial = "";
 }
+/*-------------------------------------------------
+		E管理动作元 - 操作 - 是否正在播放动作元【开放函数】
+*/
+bool Drill_COAS_MainController::drill_controllerMain_Act_isPlayingAct(){
+	return this->_drill_act_curName != "";
+}
 
+
+/*-------------------------------------------------
+		F管理装饰器 - 初始化子功能
+*/
+void Drill_COAS_MainController::drill_controllerMain_initDecorator(){
+	//（无）
+}
 
 

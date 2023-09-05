@@ -208,7 +208,7 @@ void P_COAS_PlayingPart::updateFrame(){
 
 
 	// > 帧刷新
-	this->m_COAS_mainController.drill_COAS_update();
+	this->m_COAS_mainController.drill_controllerMain_update();
 
 
 	// > 播放图片（每帧）
@@ -220,9 +220,9 @@ void P_COAS_PlayingPart::updateFrame(){
 
 	// > 显示当前状态
 	ui.label_actionSeqId->setText(QString::number( this->m_COAS_mainController._drill_data["id"].toInt() ));
-	ui.label_curStateName->setText(this->m_COAS_mainController.drill_COAS_getCurStateName());
-	ui.label_curActionName->setText(this->m_COAS_mainController.drill_COAS_getCurActName());
-	ui.label_allRoot->setText(this->m_COAS_mainController.drill_COAS_getCurStateName_AllRoot());
+	ui.label_curStateName->setText(this->m_COAS_mainController.drill_controllerMain_Node_getCurStateName());
+	ui.label_curActionName->setText(this->m_COAS_mainController.drill_controllerMain_Act_getCurName());
+	ui.label_allRoot->setText(this->m_COAS_mainController.drill_controllerMain_Node_getCurStateName_AllRoot());
 
 }
 /*-------------------------------------------------
@@ -362,27 +362,27 @@ void P_COAS_PlayingPart::btn_play(){
 		按钮 - 播放默认的状态元集合
 */
 void P_COAS_PlayingPart::btn_playDefaultState(){
-	this->m_COAS_mainController.drill_COAS_setStateNodeDefault();
+	this->m_COAS_mainController.drill_controllerMain_setStateNodeDefault();
 }
 /*-------------------------------------------------
 		按钮 - 播放简单状态元
 */
 void P_COAS_PlayingPart::btn_playSimpleStateNode(){
-	this->m_COAS_mainController.drill_COAS_setSimpleStateNode(this->m_temp_simpleState);
+	this->m_COAS_mainController.drill_controllerMain_setSimpleStateNode(this->m_temp_simpleState);
 }
 /*-------------------------------------------------
 		按钮 - 播放状态节点
 */
 void P_COAS_PlayingPart::btn_playStateNode(){
 	QString node_name = this->m_table_state->getSelectedText();
-	this->m_COAS_mainController.drill_COAS_setStateNode(node_name);
+	this->m_COAS_mainController.drill_controllerMain_setStateNode(node_name);
 }
 /*-------------------------------------------------
 		按钮 - 播放动作元
 */
 void P_COAS_PlayingPart::btn_playAction(){
 	QString action_name = this->m_table_action->getSelectedText();
-	this->m_COAS_mainController.drill_COAS_setAct(action_name);
+	this->m_COAS_mainController.drill_controllerMain_Act_setAct(action_name);
 }
 /*-------------------------------------------------
 		按钮 - 刷新播放图标
@@ -431,7 +431,7 @@ void P_COAS_PlayingPart::putDataToUi() {
 
 	// > 动画序列核心初始化
 	this->m_COAS_mainController = Drill_COAS_MainController(COAS_data_English);
-	this->m_COAS_mainController.drill_COAS_update();
+	this->m_COAS_mainController.drill_controllerMain_update();
 	this->m_p_AnimPictureViewer->clearSource();
 	this->m_p_AnimPictureViewer->setAnimFile(this->getSrcFileByName(this->m_COAS_mainController._drill_curBitmapName));
 	this->m_p_AnimPictureViewer->setTint(this->m_COAS_mainController._drill_curBitmapTint);

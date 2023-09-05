@@ -26,64 +26,82 @@ class Drill_COAS_StateController{
 		QJsonObject _drill_data;			
 		QString		_drill_controllerSerial;
 
-		int			_drill_curTime;					//常规 - 当前时间
-		bool		_drill_needDestroy;				//常规 - 销毁
+		int			_drill_curTime;					//A主体 - 当前时间
+		bool		_drill_needDestroy;				//A主体 - 销毁
 
-		QString		_drill_curBitmapName;			//输出数据 - 当前的对象名
-		QString		_drill_curBitmapPath;			//输出数据 - 当前的路径
-		int			_drill_curBitmapTint;			//输出数据 - 当前的色调
-		bool		_drill_curBitmapSmooth;			//输出数据 - 当前的模糊
+		QString		_drill_curBitmapName;			//B输出数据 - 当前的资源名
 		
-		int			_drill_curTickTime;				//播放 - 当前累计时间
-		int			_drill_curIndex;				//播放 - 当前索引
-		int			_drill_tarIndex;				//播放 - 索引结束位置
-
-		QJsonArray	_drill_curIntervalTank;			//帧间隔列表
-
-	public:
-									//数据 - 初始化数据【标准默认值】
-		void drill_initData_State();
-									//数据 - 私有数据初始化
-		void drill_initPrivateData_State();
-									//数据 - 空判断
-		bool isNull();
-
-	//-----------------------------------
-	//----标准函数
-	public:
-									//状态元 - 帧刷新【标准函数】
-									//		【说明】：需要父类手动执行。
-		void drill_COAS_update();
-									//状态元 - 重设数据【标准函数】
-		void drill_COAS_resetData_State(QJsonObject data);
-									//状态元 - 播放时间重置
-		void drill_COAS_resetTimer(QJsonObject data = QJsonObject());
-
-	//-----------------------------------
-	//----开放函数
-	public:
-									//状态元 - 输出数据 - 当前的对象名【开放函数】
-		QString drill_COAS_curBitmapName();
-									//状态元 - 输出数据 - 当前的路径【开放函数】
-		QString drill_COAS_curBitmapPath();
-									//状态元 - 输出数据 - 当前的色调【开放函数】
-		int drill_COAS_curBitmapTint();
-									//状态元 - 输出数据 - 当前的模糊【开放函数】
-		bool drill_COAS_curBitmapSmooth();
-									//状态元 - 节点 - 当前状态元名称【开放函数】
-		QString drill_COAS_getCurStateName();
-									//状态元 - 节点 - 当前状态元优先级【开放函数】
-		int drill_COAS_getCurStatePriority();
-									//状态元 - 节点 - 可被动作元打断【开放函数】
-		int drill_COAS_canBeInterrupted();
-									//状态元 - 节点 - 是否结束播放【开放函数】
-		bool drill_COAS_isStateEnd();
+		int			_drill_curTickTime;				//C播放GIF - 当前累计时间
+		int			_drill_curIndex;				//C播放GIF - 当前索引
+		int			_drill_tarIndex;				//C播放GIF - 索引结束位置
+		QJsonArray	_drill_curIntervalTank;			//C播放GIF - 帧间隔列表
+		
 
 	//-----------------------------------
 	//----状态元
 	public:
-									//状态元 - 帧刷新状态元
-		void drill_COAS_updateState();
+									//状态元 - 初始化数据【标准默认值】
+		void drill_controllerState_initData();
+									//状态元 - 初始化子功能
+		void drill_controllerState_initChild();
+									//状态元 - 帧刷新【标准函数】
+									//		【说明】：需要父类手动执行。
+		void drill_controllerState_update();
+									//状态元 - 重设数据【标准函数】
+		void drill_controllerState_resetData(QJsonObject data);
+									//状态元 - 空判断
+		bool isNull();
+
+	//-----------------------------------
+	//----开放函数
+	public:
+									//A主体 - 当前名称【开放函数】
+		QString drill_controllerState_getName();
+									//A主体 - 当前优先级【开放函数】
+		int drill_controllerState_getPriority();
+									//A主体 - 可被动作元打断【开放函数】
+		int drill_controllerState_canBeInterrupted();
+
+									//B输出数据 - 当前的资源名【开放函数】
+		QString drill_controllerState_curBitmapName();
+									//B输出数据 - 当前的路径【开放函数】
+		QString drill_controllerState_curBitmapPath();
+									//B输出数据 - 当前的色调【开放函数】
+		int drill_controllerState_curBitmapTint();
+									//B输出数据 - 当前的模糊【开放函数】
+		bool drill_controllerState_curBitmapSmooth();
+
+									//C播放GIF - 是否结束播放【开放函数】
+		bool drill_controllerState_isEnd();
+									//C播放GIF - 重置播放【开放函数】
+		void drill_controllerState_resetTimer();
+									//C播放GIF - 设置指定帧【开放函数】
+		void drill_controllerState_setCurIndex(int index);
+		
+
+	//-----------------------------------
+	//----A主体
+	public:
+									//A主体 - 初始化子功能
+		void drill_controllerState_initAttr();
+									//A主体 - 帧刷新
+		void drill_controllerState_updateAttr();
+
+	//-----------------------------------
+	//----B输出数据
+	public:
+									//B输出数据 - 初始化子功能
+		void drill_controllerState_initBitmapParam();
+
+	//-----------------------------------
+	//----C播放GIF
+	public:
+									//C播放GIF - 初始化子功能
+		void drill_controllerState_initGIF();
+									//C播放GIF - 设置指定帧
+		void drill_controllerState_setCurIndex_Private(int index);
+									//C播放GIF - 帧刷新（状态元）
+		void drill_controllerState_updateGIF();
 
 };
 

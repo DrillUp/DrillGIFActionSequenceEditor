@@ -11,7 +11,7 @@
 		功能：		> 定义一个专门控制 状态元 的数据类。
 					> 该类可被存到存档中。
 					
-		说明：		当前复刻版本：[v1.5]
+		说明：		当前复刻版本：[v1.6]
 -----==========================================================-----
 */
 Drill_COAS_StateController::Drill_COAS_StateController(){
@@ -20,9 +20,9 @@ Drill_COAS_StateController::Drill_COAS_StateController(){
 	this->_drill_controllerSerial = this->_drill_controllerSerial.replace("{", "");
 	this->_drill_controllerSerial = this->_drill_controllerSerial.replace("}", "");
 	this->_drill_controllerSerial = this->_drill_controllerSerial.replace("-", "");
-	this->drill_initData_State();										//初始化数据
-	this->drill_initPrivateData_State();								//私有数据初始化
-	this->drill_COAS_resetData_State(this->_drill_data);
+	this->drill_controllerState_initData();								//初始化数据
+	this->drill_controllerState_initChild();							//初始化子功能
+	this->drill_controllerState_resetData(this->_drill_data);
 }
 Drill_COAS_StateController::Drill_COAS_StateController(QJsonObject data){
 	this->_drill_data = data;											//深拷贝数据
@@ -30,9 +30,9 @@ Drill_COAS_StateController::Drill_COAS_StateController(QJsonObject data){
 	this->_drill_controllerSerial = this->_drill_controllerSerial.replace("{", "");
 	this->_drill_controllerSerial = this->_drill_controllerSerial.replace("}", "");
 	this->_drill_controllerSerial = this->_drill_controllerSerial.replace("-", "");
-	this->drill_initData_State();										//初始化数据
-	this->drill_initPrivateData_State();								//私有数据初始化
-	this->drill_COAS_resetData_State(this->_drill_data);
+	this->drill_controllerState_initData();								//初始化数据
+	this->drill_controllerState_initChild();							//初始化子功能
+	this->drill_controllerState_resetData(this->_drill_data);
 }
 Drill_COAS_StateController::~Drill_COAS_StateController(){
 }
@@ -41,80 +41,55 @@ Drill_COAS_StateController::~Drill_COAS_StateController(){
 /*-------------------------------------------------
 		状态元 - 帧刷新【标准函数】
 */
-void Drill_COAS_StateController::drill_COAS_update(){
+void Drill_COAS_StateController::drill_controllerState_update(){
 	if (this->isNull()){ return; }
-	this->_drill_curTime += 1;				//时间+1
-	this->drill_COAS_updateState();			//刷新状态元
+	this->drill_controllerState_updateAttr();		//帧刷新 - A主体
+													//帧刷新 - B输出数据（无）
+	this->drill_controllerState_updateGIF();		//帧刷新 - C播放GIF
 }
-/*-------------------------------------------------
-		状态元 - 空判断
-*/
-bool Drill_COAS_StateController::isNull(){
-	return this->_drill_data.isEmpty();
-}
-
-
 /*-------------------------------------------------
 		状态元 - 初始化数据【标准默认值】
 */
-void Drill_COAS_StateController::drill_initData_State(){
+void Drill_COAS_StateController::drill_controllerState_initData(){
 	QJsonObject data = this->_drill_data;
 
-	// > 常规
-	if (data["name"].isUndefined() == true){ data["name"] = ""; }								//状态元名称
-	if (data["tag_tank"].isUndefined() == true){ data["tag_tank"] = QJsonArray(); }				//状态元标签
-	if (data["priority"].isUndefined() == true){ data["priority"] = 0; }						//状态元优先级
-	if (data["proportion"].isUndefined() == true){ data["proportion"] = 40; }					//状态元权重
-	if (data["canBeInterrupted"].isUndefined() == true){ data["canBeInterrupted"] = false; }	//可被动作元打断
+	// > A主体
+	if (data["name"].isUndefined() == true){ data["name"] = ""; }								//A主体 - 名称
+	if (data["tag_tank"].isUndefined() == true){ data["tag_tank"] = QJsonArray(); }				//A主体 - 标签
+	if (data["priority"].isUndefined() == true){ data["priority"] = 0; }						//A主体 - 优先级
+	if (data["proportion"].isUndefined() == true){ data["proportion"] = 40; }					//A主体 - 权重
+	if (data["canBeInterrupted"].isUndefined() == true){ data["canBeInterrupted"] = false; }	//A主体 - 可被动作元打断
+	if (data["note"].isUndefined() == true){ data["note"] = ""; }								//A主体 - 备注
 
-	// > GIF
-	if (data["gif_src"].isUndefined() == true){ data["gif_src"] = QJsonArray(); }							//GIF - 资源
-	if (data["gif_src_file"].isUndefined() == true){ data["gif_src_file"] = "img/Special__actionSeq/"; }	//GIF - 资源文件夹
-	if (data["gif_intervalTank"].isUndefined() == true){ data["gif_intervalTank"] = QJsonArray(); }			//GIF - 帧间隔-明细表
-	if (data["gif_interval"].isUndefined() == true){ data["gif_interval"] = 4; }							//GIF - 帧间隔
-	if (data["gif_back_run"].isUndefined() == true){ data["gif_back_run"] = false; }						//GIF - 是否倒放
-	if (data["gif_preload"].isUndefined() == true){ data["gif_preload"] = false; }							//GIF - 是否预加载
+	// > B输出数据
+	if (data["tint"].isUndefined() == true){ data["tint"] = 0; }								//B输出数据 - 色调值
+	if (data["smooth"].isUndefined() == true){ data["smooth"] = false; }						//B输出数据 - 模糊边缘
 
-	// > 图像
-	if (data["tint"].isUndefined() == true){ data["tint"] = 0; }					//图像 - 色调值
-	if (data["smooth"].isUndefined() == true){ data["smooth"] = false; }			//图像 - 模糊边缘
-
-	// > 杂项
-	if (data["note"].isUndefined() == true){ data["note"] = ""; }					//杂项 - 备注
+	// > C播放GIF
+	if (data["gif_src"].isUndefined() == true){ data["gif_src"] = QJsonArray(); }							//C播放GIF - 资源
+	if (data["gif_src_file"].isUndefined() == true){ data["gif_src_file"] = "img/Special__actionSeq/"; }	//C播放GIF - 资源文件夹
+	if (data["gif_intervalTank"].isUndefined() == true){ data["gif_intervalTank"] = QJsonArray(); }			//C播放GIF - 帧间隔-明细表
+	if (data["gif_interval"].isUndefined() == true){ data["gif_interval"] = 4; }							//C播放GIF - 帧间隔
+	if (data["gif_back_run"].isUndefined() == true){ data["gif_back_run"] = false; }						//C播放GIF - 是否倒放
+	if (data["gif_preload"].isUndefined() == true){ data["gif_preload"] = false; }							//C播放GIF - 是否预加载
 
 	this->_drill_data = data;	//（c++中，注意此处的指针，需要重新赋值）
 }
 /*-------------------------------------------------
-		状态元 - 私有数据初始化
+		状态元 - 初始化子功能
 */
-void Drill_COAS_StateController::drill_initPrivateData_State(){
-	QJsonObject data = this->_drill_data;
-
-	// > 常规
-	this->_drill_curTime = 0;										//常规 - 当前时间
-	this->_drill_needDestroy = false;								//常规 - 销毁
-
-	// > 播放时间重置
-	this->drill_COAS_resetTimer(data);
-
-	// > GIF - 帧间隔列表 计算
-	this->_drill_curIntervalTank = QJsonArray();
-	for (int i = 0; i < data["gif_src"].toArray().count(); i++){
-		int interval = data["gif_interval"].toInt();
-		QJsonArray gif_intervalTank = data["gif_intervalTank"].toArray();
-		if (i < gif_intervalTank.count()){
-			interval = gif_intervalTank[i].toInt();
-		}
-		this->_drill_curIntervalTank.append(interval);
-	}
+void Drill_COAS_StateController::drill_controllerState_initChild(){
+	this->drill_controllerState_initAttr();			//初始化子功能 - A主体
+	this->drill_controllerState_initBitmapParam();	//初始化子功能 - B输出数据
+	this->drill_controllerState_initGIF();			//初始化子功能 - C播放GIF
 }
 /*-------------------------------------------------
 		状态元 - 重设数据（私有）
 */
-void Drill_COAS_StateController::drill_COAS_resetData_State(QJsonObject data){
+void Drill_COAS_StateController::drill_controllerState_resetData(QJsonObject data){
 
-	// > 播放时间重置
-	this->drill_COAS_resetTimer(data);
+	// > C播放GIF - 重置播放
+	this->drill_controllerState_setCurIndex_Private(0);
 
 	// > 判断数据重复情况
 	if (this->_drill_data.isEmpty() == false){
@@ -143,30 +118,153 @@ void Drill_COAS_StateController::drill_COAS_resetData_State(QJsonObject data){
 	this->_drill_controllerSerial = this->_drill_controllerSerial.replace("{", "");
 	this->_drill_controllerSerial = this->_drill_controllerSerial.replace("}", "");
 	this->_drill_controllerSerial = this->_drill_controllerSerial.replace("-", "");
-	this->drill_initData_State();											//初始化数据
-	this->drill_initPrivateData_State();									//私有数据初始化
+	this->drill_controllerState_initData();									//初始化数据
+	this->drill_controllerState_initChild();								//初始化子功能
 }
 /*-------------------------------------------------
-		状态元 - 播放时间重置
+		状态元 - 空判断
 */
-void Drill_COAS_StateController::drill_COAS_resetTimer(QJsonObject data){
-	if (data.isEmpty()){ data = this->_drill_data; }
+bool Drill_COAS_StateController::isNull(){
+	return this->_drill_data.isEmpty();
+}
 
-	// > GIF - 输出数据
-	this->_drill_curBitmapName = "";								//输出数据 - 当前的对象名
-	this->_drill_curBitmapPath = data["gif_src_file"].toString();	//输出数据 - 当前的路径
-	this->_drill_curBitmapTint = data["tint"].toInt();				//输出数据 - 当前的色调
-	this->_drill_curBitmapSmooth = data["smooth"].toBool();			//输出数据 - 当前的模糊
 
-	// > GIF - 播放
-	this->_drill_curTickTime = 0;									//播放 - 当前累计时间
-	this->_drill_curIndex = 0;										//播放 - 当前索引
-	this->_drill_tarIndex = data["gif_src"].toArray().count();		//播放 - 索引结束位置
+/*-------------------------------------------------
+		A主体 - 当前名称【开放函数】
+*/
+QString Drill_COAS_StateController::drill_controllerState_getName(){
+	return this->_drill_data["name"].toString();
 }
 /*-------------------------------------------------
-		状态元 - 帧刷新状态元
+		A主体 - 当前优先级【开放函数】
 */
-void Drill_COAS_StateController::drill_COAS_updateState(){
+int Drill_COAS_StateController::drill_controllerState_getPriority(){
+	return this->_drill_data["priority"].toInt();
+}
+/*-------------------------------------------------
+		A主体 - 可被动作元打断【开放函数】
+*/
+int Drill_COAS_StateController::drill_controllerState_canBeInterrupted(){
+	return this->_drill_data["canBeInterrupted"].toBool();
+}
+
+/*-------------------------------------------------
+		B输出数据 - 当前的资源名【开放函数】
+*/
+QString Drill_COAS_StateController::drill_controllerState_curBitmapName(){
+	return this->_drill_curBitmapName;
+}
+/*-------------------------------------------------
+		B输出数据 - 当前的路径【开放函数】
+*/
+QString Drill_COAS_StateController::drill_controllerState_curBitmapPath(){
+	return this->_drill_data["gif_src_file"].toString();
+}
+/*-------------------------------------------------
+		B输出数据 - 当前的色调【开放函数】
+*/
+int Drill_COAS_StateController::drill_controllerState_curBitmapTint(){
+	return this->_drill_data["tint"].toInt();
+}
+/*-------------------------------------------------
+		B输出数据 - 当前的模糊【开放函数】
+*/
+bool Drill_COAS_StateController::drill_controllerState_curBitmapSmooth(){
+	return this->_drill_data["smooth"].toBool();
+}
+
+/*-------------------------------------------------
+		C播放GIF - 是否结束播放【开放函数】
+*/
+bool Drill_COAS_StateController::drill_controllerState_isEnd(){
+	return this->_drill_curIndex >= this->_drill_tarIndex;
+}
+/*-------------------------------------------------
+		C播放GIF - 重置播放【开放函数】
+*/
+void Drill_COAS_StateController::drill_controllerState_resetTimer(){
+	this->drill_controllerState_setCurIndex_Private(0);
+}
+/*-------------------------------------------------
+		C播放GIF - 设置指定帧【开放函数】
+*/
+void Drill_COAS_StateController::drill_controllerState_setCurIndex(int index){
+	this->drill_controllerState_setCurIndex_Private(index);
+}
+
+
+/*-------------------------------------------------
+		A主体 - 初始化子功能
+*/
+void Drill_COAS_StateController::drill_controllerState_initAttr(){
+	this->_drill_curTime = 0;						//A主体 - 当前时间
+	this->_drill_needDestroy = false;				//A主体 - 销毁
+}
+/*-------------------------------------------------
+		A主体 - 帧刷新
+*/
+void Drill_COAS_StateController::drill_controllerState_updateAttr(){
+
+	// > 时间流逝
+	this->_drill_curTime += 1;
+}
+
+
+/*-------------------------------------------------
+		B输出数据 - 初始化子功能
+*/
+void Drill_COAS_StateController::drill_controllerState_initBitmapParam(){
+	this->_drill_curBitmapName = "";		//B输出数据 - 当前的资源名
+											//B输出数据 - 当前的路径（从数据中直接获取）
+											//B输出数据 - 当前的色调（从数据中直接获取）
+											//B输出数据 - 当前的模糊（从数据中直接获取）
+}
+
+
+/*-------------------------------------------------
+		C播放GIF - 初始化子功能
+*/
+void Drill_COAS_StateController::drill_controllerState_initGIF(){
+	QJsonObject data = this->_drill_data;
+
+	// > 播放参数
+	this->_drill_curTickTime = 0;			//播放参数 - 当前累计时间
+	this->_drill_curIndex = 0;				//播放参数 - 当前索引
+	this->_drill_tarIndex = 0;				//播放参数 - 索引结束位置
+	if (data["gif_src"].isUndefined() == false){
+		this->_drill_tarIndex = data["gif_src"].toArray().count();
+	}
+
+	// > 帧间隔列表 计算
+	this->_drill_curIntervalTank = QJsonArray();
+	for (int i = 0; i < data["gif_src"].toArray().count(); i++){
+		int interval = data["gif_interval"].toInt();
+		QJsonArray gif_intervalTank = data["gif_intervalTank"].toArray();
+		if (i < gif_intervalTank.count()){
+			interval = gif_intervalTank[i].toInt();
+		}
+		this->_drill_curIntervalTank.append(interval);
+	}
+}
+/*-------------------------------------------------
+		C播放GIF - 设置指定帧
+*/
+void Drill_COAS_StateController::drill_controllerState_setCurIndex_Private(int index){
+	if (index >= this->_drill_tarIndex){
+		index = this->_drill_tarIndex - 1;
+	}
+
+	// > B输出数据 - 重设对象名
+	this->_drill_curBitmapName = "";
+
+	// > 播放参数
+	this->_drill_curTickTime = 0;				//播放参数 - 当前累计时间
+	this->_drill_curIndex = index;				//播放参数 - 当前索引
+}
+/*-------------------------------------------------
+		C播放GIF - 帧刷新（状态元）
+*/
+void Drill_COAS_StateController::drill_controllerState_updateGIF(){
 	QJsonObject data = this->_drill_data;
 
 	// > 当前索引
@@ -187,62 +285,9 @@ void Drill_COAS_StateController::drill_COAS_updateState(){
 		this->_drill_curTickTime = 0;
 	}
 
-	// > 输出数据
+	// > B输出数据 - 记录对象名
 	this->_drill_curBitmapName = data["gif_src"].toArray()[cur_index].toString();
-	this->_drill_curBitmapPath = data["gif_src_file"].toString();
-	this->_drill_curBitmapTint = data["tint"].toInt();
-	this->_drill_curBitmapSmooth = data["smooth"].toBool();
 
 	// > 当前累计时间+1
 	this->_drill_curTickTime += 1;
-}
-
-
-/*-------------------------------------------------
-		状态元 - 输出数据 - 当前的对象名【开放函数】
-*/
-QString Drill_COAS_StateController::drill_COAS_curBitmapName(){
-	return this->_drill_curBitmapName;
-}
-/*-------------------------------------------------
-		状态元 - 输出数据 - 当前的路径【开放函数】
-*/
-QString Drill_COAS_StateController::drill_COAS_curBitmapPath(){
-	return this->_drill_curBitmapPath;
-}
-/*-------------------------------------------------
-		状态元 - 输出数据 - 当前的色调【开放函数】
-*/
-int Drill_COAS_StateController::drill_COAS_curBitmapTint(){
-	return this->_drill_curBitmapTint;
-}
-/*-------------------------------------------------
-		状态元 - 输出数据 - 当前的模糊【开放函数】
-*/
-bool Drill_COAS_StateController::drill_COAS_curBitmapSmooth(){
-	return this->_drill_curBitmapSmooth;
-}
-/*-------------------------------------------------
-		状态元 - 节点 - 当前状态元名称【开放函数】
-*/
-QString Drill_COAS_StateController::drill_COAS_getCurStateName(){
-	return this->_drill_data["name"].toString();
-}
-/*-------------------------------------------------
-		状态元 - 节点 - 当前状态元优先级【开放函数】
-*/
-int Drill_COAS_StateController::drill_COAS_getCurStatePriority(){
-	return this->_drill_data["priority"].toInt();
-}
-/*-------------------------------------------------
-		状态元 - 节点 - 可被动作元打断【开放函数】
-*/
-int Drill_COAS_StateController::drill_COAS_canBeInterrupted(){
-	return this->_drill_data["canBeInterrupted"].toBool();
-}
-/*-------------------------------------------------
-		状态元 - 节点 - 是否结束播放【开放函数】
-*/
-bool Drill_COAS_StateController::drill_COAS_isStateEnd(){
-	return this->_drill_curIndex >= this->_drill_tarIndex;
 }

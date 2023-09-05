@@ -26,58 +26,79 @@ class Drill_COAS_ActController{
 		QJsonObject _drill_data;			
 		QString		_drill_controllerSerial;
 
-		int			_drill_curTime;					//常规 - 当前时间
-		bool		_drill_needDestroy;				//常规 - 销毁
+		int			_drill_curTime;					//A主体 - 当前时间
+		bool		_drill_needDestroy;				//A主体 - 销毁
 
-		QString		_drill_curBitmapName;			//输出数据 - 当前的对象名
-		QString		_drill_curBitmapPath;			//输出数据 - 当前的路径
-		int			_drill_curBitmapTint;			//输出数据 - 当前的色调
-		bool		_drill_curBitmapSmooth;			//输出数据 - 当前的模糊
+		QString		_drill_curBitmapName;			//B输出数据 - 当前的资源名
 		
-		int			_drill_curTickTime;				//播放 - 当前累计时间
-		int			_drill_curIndex;				//播放 - 当前索引
-		int			_drill_tarIndex;				//播放 - 索引结束位置
-
-		QJsonArray	_drill_curIntervalTank;			//帧间隔列表
-
-	public:
-									//数据 - 初始化数据【标准默认值】
-		void drill_initData_Act();
-									//数据 - 私有数据初始化
-		void drill_initPrivateData_Act();
-									//数据 - 空判断
-		bool isNull();
-
+		int			_drill_curTickTime;				//C播放GIF - 当前累计时间
+		int			_drill_curIndex;				//C播放GIF - 当前索引
+		int			_drill_tarIndex;				//C播放GIF - 索引结束位置
+		QJsonArray	_drill_curIntervalTank;			//C播放GIF - 帧间隔列表
+		
 	//-----------------------------------
-	//----标准函数
+	//----动作元
 	public:
+									//动作元 - 初始化数据【标准默认值】
+		void drill_controllerAct_initData();
+									//动作元 - 初始化子功能
+		void drill_controllerAct_initChild();
 									//动作元 - 帧刷新【标准函数】
 									//		【说明】：需要父类手动执行。
-		void drill_COAS_update();
+		void drill_controllerAct_update();
 									//动作元 - 重设数据【标准函数】
-		void drill_COAS_resetData_Act(QJsonObject data);
-									//动作元 - 播放时间重置
-		void drill_COAS_resetTimer(QJsonObject data = QJsonObject());
+		void drill_controllerAct_resetData(QJsonObject data);
+									//动作元 - 空判断
+		bool isNull();
 
 	//-----------------------------------
 	//----开放函数
 	public:
-									//动作元 - 输出数据 - 当前的对象名【开放函数】
-		QString drill_COAS_curBitmapName();
-									//动作元 - 输出数据 - 当前的路径【开放函数】
-		QString drill_COAS_curBitmapPath();
-									//动作元 - 输出数据 - 当前的色调【开放函数】
-		int drill_COAS_curBitmapTint();
-									//动作元 - 输出数据 - 当前的模糊【开放函数】
-		bool drill_COAS_curBitmapSmooth();
-									//动作元 - 节点 - 是否结束播放【开放函数】
-		bool drill_COAS_isActEnd();
+									//A主体 - 当前名称【开放函数】
+		QString drill_controllerAct_getName();
+									//A主体 - 当前优先级【开放函数】
+		int drill_controllerAct_getPriority();
+
+									//B输出数据 - 当前的资源名【开放函数】
+		QString drill_controllerAct_curBitmapName();
+									//B输出数据 - 当前的路径【开放函数】
+		QString drill_controllerAct_curBitmapPath();
+									//B输出数据 - 当前的色调【开放函数】
+		int drill_controllerAct_curBitmapTint();
+									//B输出数据 - 当前的模糊【开放函数】
+		bool drill_controllerAct_curBitmapSmooth();
+
+									//C播放GIF - 是否结束播放【开放函数】
+		bool drill_controllerAct_isEnd();
+									//C播放GIF - 重置播放【开放函数】
+		void drill_controllerAct_resetTimer();
+									//C播放GIF - 设置指定帧【开放函数】
+		void drill_controllerAct_setCurIndex(int index);
+		
 
 	//-----------------------------------
-	//----动作元
+	//----A主体
 	public:
-									//动作元 - 帧刷新动作元
-		void drill_COAS_updateAct();
+									//A主体 - 初始化子功能
+		void drill_controllerAct_initAttr();
+									//A主体 - 帧刷新
+		void drill_controllerAct_updateAttr();
+
+	//-----------------------------------
+	//----B输出数据
+	public:
+									//B输出数据 - 初始化子功能
+		void drill_controllerAct_initBitmapParam();
+
+	//-----------------------------------
+	//----C播放GIF
+	public:
+									//C播放GIF - 初始化子功能
+		void drill_controllerAct_initGIF();
+									//C播放GIF - 设置指定帧
+		void drill_controllerAct_setCurIndex_Private(int index);
+									//C播放GIF - 帧刷新（动作元）
+		void drill_controllerAct_updateGIF();
 
 };
 
