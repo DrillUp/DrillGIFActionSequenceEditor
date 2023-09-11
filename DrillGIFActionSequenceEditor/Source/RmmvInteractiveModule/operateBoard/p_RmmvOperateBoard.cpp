@@ -1,22 +1,22 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "p_RmmvOperateBoard.h"
 
 #include "../custom/s_RmmvCaller_ActionSeq.h"
 
 /*
 -----==========================================================-----
-		Àà£º		²Ù×÷Ãæ°å.cpp
-		°æ±¾£º		v1.01
-		ËùÊôÄ£¿é£º	½»»¥Ä£¿é
-		¹¦ÄÜ£º		¸Ã²¿·ÖÌá¹©rmmvµÄ½»»¥°´Å¥¹¦ÄÜ¡£
+		ç±»ï¼š		æ“ä½œé¢æ¿.cpp
+		ç‰ˆæœ¬ï¼š		v1.01
+		æ‰€å±æ¨¡å—ï¼š	äº¤äº’æ¨¡å—
+		åŠŸèƒ½ï¼š		è¯¥éƒ¨åˆ†æä¾›rmmvçš„äº¤äº’æŒ‰é’®åŠŸèƒ½ã€‚
 		
-		Ä¿±ê£º		> ´ò¿ªrmmv°´Å¥
-					> rmmv½»»¥ÏÔÊ¾µÄÊı¾İ
-					> ±£´ærmmv°´Å¥
-					> ÔËĞĞrmmv°´Å¥
+		ç›®æ ‡ï¼š		> æ‰“å¼€rmmvæŒ‰é’®
+					> rmmväº¤äº’æ˜¾ç¤ºçš„æ•°æ®
+					> ä¿å­˜rmmvæŒ‰é’®
+					> è¿è¡ŒrmmvæŒ‰é’®
 
-		Ê¹ÓÃ·½·¨£º
-				>³õÊ¼»¯
+		ä½¿ç”¨æ–¹æ³•ï¼š
+				>åˆå§‹åŒ–
 
 -----==========================================================-----
 */
@@ -26,14 +26,14 @@ P_RmmvOperateBoard::P_RmmvOperateBoard(QWidget *parent)
 	ui.setupUi(this);
 
 	//-----------------------------------
-	//----³õÊ¼»¯²ÎÊı
+	//----åˆå§‹åŒ–å‚æ•°
 
 	//-----------------------------------
-	//----³õÊ¼»¯ui
+	//----åˆå§‹åŒ–ui
 
 
 	//-----------------------------------
-	//----ÊÂ¼ş°ó¶¨
+	//----äº‹ä»¶ç»‘å®š
 	connect(ui.toolButton_select, &QPushButton::clicked, this, &P_RmmvOperateBoard::selectRmmv);
 	connect(ui.toolButton_import, &QPushButton::clicked, this, &P_RmmvOperateBoard::importRmmv);
 	connect(ui.toolButton_save, &QPushButton::clicked, this, &P_RmmvOperateBoard::saveToRmmv);
@@ -49,7 +49,7 @@ P_RmmvOperateBoard::~P_RmmvOperateBoard(){
 
 
 /*-------------------------------------------------
-		¿Ø¼ş - Ñ¡Ôñrmmv
+		æ§ä»¶ - é€‰æ‹©rmmv
 */
 void P_RmmvOperateBoard::selectRmmv(){
 	this->local_rmmvData = S_RmmvCaller_ActionSeq::getInstance()->callRmmvSelect();
@@ -57,7 +57,7 @@ void P_RmmvOperateBoard::selectRmmv(){
 	ui.lineEdit_name->setText(this->local_rmmvData.getName());
 }
 /*-------------------------------------------------
-		¿Ø¼ş - Ë¢ĞÂrmmv²Ù×÷¿ÉÓÃ
+		æ§ä»¶ - åˆ·æ–°rmmvæ“ä½œå¯ç”¨
 */
 void P_RmmvOperateBoard::refreshRmmvEnable(){
 	if (ui.lineEdit_name->text() == ""){
@@ -67,7 +67,7 @@ void P_RmmvOperateBoard::refreshRmmvEnable(){
 	}
 }
 /*-------------------------------------------------
-		¿Ø¼ş - ´ò¿ªrmmv±à¼­Æ÷
+		æ§ä»¶ - æ‰“å¼€rmmvç¼–è¾‘å™¨
 */
 void P_RmmvOperateBoard::openRmmvSoftware(){
 	if (this->local_rmmvData.isNull()){ return; }
@@ -75,11 +75,11 @@ void P_RmmvOperateBoard::openRmmvSoftware(){
 	S_RmmvCaller_ActionSeq::getInstance()->callRmmvSoftware(this->local_rmmvData);
 }
 /*-------------------------------------------------
-		¿Ø¼ş - µ¼ÈërmmvÊı¾İ
+		æ§ä»¶ - å¯¼å…¥rmmvæ•°æ®
 */
 void P_RmmvOperateBoard::importRmmv(){
 	if (this->local_rmmvData.isNull()){ return; }
-	if (QMessageBox::information(this, "ÌáÊ¾", "´Ë²Ù×÷»á´Órmmv¹¤³ÌÖĞ¶ÁÈ¡Êı¾İ£¬²¢¸²¸Çµ½µ±Ç°Êı¾İ£¬µ±Ç°µÄ¶¯»­ĞòÁĞÊı¾İ½«È«²¿¶ªÊ§£¬ÊÇ·ñ¼ÌĞø?", "¼ÌĞø", "È¡Ïû", 0, 1) == 1){
+	if (QMessageBox::information(this, "æç¤º", "æ­¤æ“ä½œä¼šä»rmmvå·¥ç¨‹ä¸­è¯»å–æ•°æ®ï¼Œå¹¶è¦†ç›–åˆ°å½“å‰æ•°æ®ï¼Œå½“å‰çš„åŠ¨ç”»åºåˆ—æ•°æ®å°†å…¨éƒ¨ä¸¢å¤±ï¼Œæ˜¯å¦ç»§ç»­?", "ç»§ç»­", "å–æ¶ˆ", 0, 1) == 1){
 		return;
 	}
 
@@ -87,16 +87,19 @@ void P_RmmvOperateBoard::importRmmv(){
 	S_RmmvCaller_ActionSeq::getInstance()->coverSourceFileToTemp(this->local_rmmvData);
 }
 /*-------------------------------------------------
-		¿Ø¼ş - ±£´æµ½rmmv
+		æ§ä»¶ - ä¿å­˜åˆ°rmmv
 */
 void P_RmmvOperateBoard::saveToRmmv(){
 	if (this->local_rmmvData.isNull()){ return; }
+	if (QMessageBox::information(this, "æç¤º", "æ˜¯å¦è¦ä¿å­˜åˆ°rmmvå·¥ç¨‹ï¼Ÿ\nä¿å­˜æ—¶ä¼šè‡ªåŠ¨å¤‡ä»½ plugins_bak.jsæ–‡ä»¶ å’Œ\n /img/Special__actionSeq_bakæ–‡ä»¶å¤¹ï¼Œå¦‚æœè¯¯æ“ä½œï¼Œå¯ä»¥æ”¹å›åŸæ¥çš„æ–‡ä»¶ã€‚", "æ‰§è¡Œä¿å­˜", "å–æ¶ˆ", 0, 1) == 1){
+		return;
+	}
 
-	// > ÒªÇó¹Ø±Õ±à¼­Æ÷²ÅÄÜ´æ
+	// > è¦æ±‚å…³é—­ç¼–è¾‘å™¨æ‰èƒ½å­˜
 	S_RmmvCaller_ActionSeq::getInstance()->callRmmvSave_RequestingClose(this->local_rmmvData);
 }
 /*-------------------------------------------------
-		¿Ø¼ş - ÔËĞĞrmmv
+		æ§ä»¶ - è¿è¡Œrmmv
 */
 void P_RmmvOperateBoard::runRmmv(){
 	if (this->local_rmmvData.isNull()){ return; }
@@ -106,21 +109,21 @@ void P_RmmvOperateBoard::runRmmv(){
 
 
 /*-------------------------------------------------
-		´°¿Ú - ÉèÖÃÊı¾İ
+		çª—å£ - è®¾ç½®æ•°æ®
 */
 void P_RmmvOperateBoard::setData(C_RmmvProjectData actionData) {
 	this->local_rmmvData = actionData;
 	this->putDataToUi();
 }
 /*-------------------------------------------------
-		´°¿Ú - È¡³öÊı¾İ
+		çª—å£ - å–å‡ºæ•°æ®
 */
 C_RmmvProjectData P_RmmvOperateBoard::getData(){
 	this->putUiToData();
 	return this->local_rmmvData;
 }
 /*-------------------------------------------------
-		´°¿Ú - ±¾µØÊı¾İ -> uiÊı¾İ
+		çª—å£ - æœ¬åœ°æ•°æ® -> uiæ•°æ®
 */
 void P_RmmvOperateBoard::putDataToUi() {
 
@@ -129,7 +132,7 @@ void P_RmmvOperateBoard::putDataToUi() {
 	ui.checkBox->setChecked(this->local_rmmvData.optional_backup);
 }
 /*-------------------------------------------------
-		´°¿Ú - uiÊı¾İ -> ±¾µØÊı¾İ
+		çª—å£ - uiæ•°æ® -> æœ¬åœ°æ•°æ®
 */
 void P_RmmvOperateBoard::putUiToData() {
 	

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>550</width>
-    <height>371</height>
+    <height>388</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -193,7 +193,8 @@
       <item>
        <widget class="QCheckBox" name="checkBox">
         <property name="text">
-         <string>修改plugins.js文件前，自动备份bak文件</string>
+         <string>导出数据到rmmv文件前，
+备份plugins.js文件和/img/Special__actionSeq文件夹</string>
         </property>
         <property name="checked">
          <bool>true</bool>

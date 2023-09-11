@@ -150,6 +150,12 @@ void S_RmmvCaller_ActionSeq::saveDataToRmmv(C_RmmvProjectData rmmvProjectData){
 	if (rmmvProjectData.optional_backup == true){
 		S_TempFileManager::getInstance()->copy_File(plugin_info, plugin_info.absolutePath() + "/plugins_bak.js");
 	}
+	// > 备份文件夹
+	QString img_path = S_RmmvDataContainer::getInstance()->getRmmvProjectData().getRootPath() + "/img/Special__actionSeq";
+	if (rmmvProjectData.optional_backup == true){
+		S_TempFileManager::getInstance()->remove_Dir(img_path + "_bak");
+		S_TempFileManager::getInstance()->copy_Dir(img_path, img_path + "_bak");
+	}
 
 
 	// ---------------------------------------------
