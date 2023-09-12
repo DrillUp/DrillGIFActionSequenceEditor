@@ -56,10 +56,10 @@ P_COAS_StatePart::P_COAS_StatePart(QWidget *parent)
 	this->m_table->setItemOuterControlEnabled(true);	//开启右键菜单
 
 	// > 动画帧
-	this->m_p_AnimationListEditor = new P_AnimationListEditor(ui.listWidget);
-	this->m_p_AnimationListEditor->setSource(C_ALEData());
+	this->m_p_AnimationListEditor = new P_ALE_Editor(ui.listWidget);
+	this->m_p_AnimationListEditor->setSource(C_ALE_DataSet());
 
-	C_ALEConfig config = C_ALEConfig();
+	C_ALE_Config config = C_ALE_Config();
 	this->m_p_AnimationListEditor->setConfigParam_ALE(config);
 
 	// > 动画帧播放器
@@ -81,20 +81,20 @@ P_COAS_StatePart::P_COAS_StatePart(QWidget *parent)
 	connect(this->m_table, &P_RadioTable::menuPasteItemTriggered, this, &P_COAS_StatePart::shortcut_pasteData);
 	connect(this->m_table, &P_RadioTable::menuCopyItemTriggered, this, &P_COAS_StatePart::shortcut_copyData);
 	connect(this->m_table, &P_RadioTable::menuClearItemTriggered, this, &P_COAS_StatePart::shortcut_clearData);
-	connect(this->m_p_AnimationListEditor, &P_AnimationListEditor::selectedIndexChanged_Multi, this, &P_COAS_StatePart::tableChanged_Multi);
+	connect(this->m_p_AnimationListEditor, &P_ALE_Editor::signal_selectedIndexChanged_Multiple, this, &P_COAS_StatePart::tableChanged_Multi);
 
 	// > 标签列表编辑
 	connect(ui.pushButton_tagTank, &QPushButton::clicked, this, &P_COAS_StatePart::btn_editTagTank);
 
 	// > 表单变化绑定
 	connect(ui.lineEdit_name, &QLineEdit::textEdited, this, &P_COAS_StatePart::nameEdited);
-	connect(ui.lineEdit_name, &QLineEdit::textChanged, this->m_p_AnimationListEditor, &P_AnimationListEditor::setExportName);
+	connect(ui.lineEdit_name, &QLineEdit::textChanged, this->m_p_AnimationListEditor, &P_ALE_Editor::setExportName);
 	connect(ui.checkBox_gif_back_run, &QCheckBox::toggled, this->m_p_AnimationListPlayer, &P_AnimationListPlayer::setPlayBackRun);
 
 	// > 图片查看块 - 连接帧切换
-	connect(this->m_p_AnimationListEditor, &P_AnimationListEditor::currentIndexChanged, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::setAnimFrame);
+	connect(this->m_p_AnimationListEditor, &P_ALE_Editor::signal_currentIndexChanged_Single, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::setAnimFrame);
 	// > 图片查看块 - 连接资源切换
-	connect(this->m_p_AnimationListEditor, &P_AnimationListEditor::animBitmapChanged, this, &P_COAS_StatePart::bitmapChanged);
+	connect(this->m_p_AnimationListEditor, &P_ALE_Editor::signal_SourceBitmapChanged, this, &P_COAS_StatePart::bitmapChanged);
 	// > 图片查看块 - 着色器
 	connect(ui.horizontalSlider_tint, &QAbstractSlider::valueChanged, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::setTint );
 	// > 图片查看块 - 缩放
@@ -155,7 +155,7 @@ void P_COAS_StatePart::tableChanged_Multi(QList<int> index_list){
 		动画帧 - 资源切换
 */
 void P_COAS_StatePart::bitmapChanged(){
-	C_ALEData data = this->m_p_AnimationListEditor->getSource();
+	C_ALE_DataSet data = this->m_p_AnimationListEditor->getSource();
 	this->m_p_AnimPictureViewer->setSource(data.getAllFile());
 }
 /*-------------------------------------------------
@@ -297,7 +297,7 @@ void P_COAS_StatePart::local_saveCurIndexData(){
 	state_ptr->canBeInterrupted = ui.checkBox_canBeInterrupted->isChecked();
 
 	// > GIF
-	C_ALEData ALE_data = this->m_p_AnimationListEditor->getSource();
+	C_ALE_DataSet ALE_data = this->m_p_AnimationListEditor->getSource();
 	state_ptr->gif_src.clear();
 	QList<QFileInfo> info_list = ALE_data.getAllFile();
 	for (int i = 0; i < info_list.count(); i++){
@@ -341,7 +341,7 @@ void P_COAS_StatePart::local_loadIndexData(int index){
 
 	// > GIF
 	QString gif_src_file = S_ActionSeqDataContainer::getInstance()->getActionSeqDir();
-	C_ALEData data = C_ALEData();
+	C_ALE_DataSet data = C_ALE_DataSet();
 	data.setData_Id(index);
 	data.setSource(gif_src_file, state_ptr->gif_src);
 	data.setInterval(state_ptr->gif_interval, state_ptr->gif_intervalTank);

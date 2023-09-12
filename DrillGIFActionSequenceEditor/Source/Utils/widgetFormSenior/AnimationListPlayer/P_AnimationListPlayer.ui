@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>P_AnimationListPlayer</class>
+ <widget class="QWidget" name="P_AnimationListPlayer">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>367</width>
+    <height>37</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+QToolButton{
+	padding:2px;
+	border: 1px solid transparent;
+	background: rgba(255,255,255,0);
+}
+QToolButton:hover{
+	border-radius:1px;
+	border:1px solid #f2ca58;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #fdecad, stop:0.3 #fde48c, stop:0.9 #fce58c, stop:1 #fdfadf )
+}
+QToolButton:pressed{
+	border-radius:1px;
+	border:1px solid #f2ca58;
+	background-color: #FDF4BF;
+}
+</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QWidget" name="widget_controlArea" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <property name="spacing">
+       <number>2</number>
+      </property>
+      <property name="leftMargin">
+       <number>2</number>
+      </property>
+      <property name="topMargin">
+       <number>2</number>
+      </property>
+      <property name="rightMargin">
+       <number>2</number>
+      </property>
+      <property name="bottomMargin">
+       <number>2</number>
+      </property>
+      <item>
+       <widget class="QComboBox" name="combo">
+        <item>
+         <property name="text">
+          <string>播放一次</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>播放三次</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>永久循环</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButton_jumpToStart">
+        <property name="toolTip">
+         <string>跳至首帧</string>
+        </property>
+        <property name="text">
+         <string>跳至首帧</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/player/Play_Start.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/player/Play_Start.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>24</width>
+          <height>24</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButton_last">
+        <property name="toolTip">
+         <string>上一帧</string>
+        </property>
+        <property name="text">
+         <string>上一帧</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/player/Play_Last.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/player/Play_Last.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>24</width>
+          <height>24</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButton_play">
+        <property name="toolTip">
+         <string>播放</string>
+        </property>
+        <property name="text">
+         <string>播放</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/player/Play_Run.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/player/Play_Run.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>24</width>
+          <height>24</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButton_next">
+        <property name="toolTip">
+         <string>下一帧</string>
+        </property>
+        <property name="text">
+         <string>下一帧</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/player/Play_Next.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/player/Play_Next.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>24</width>
+          <height>24</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButton_new">
+        <property name="toolTip">
+         <string>添加帧</string>
+        </property>
+        <property name="text">
+         <string>添加帧</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/menu/Common_New.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/menu/Common_New.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>24</width>
+          <height>24</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButton_ExportGIF">
+        <property name="toolTip">
+         <string>导出GIF</string>
+        </property>
+        <property name="text">
+         <string>导出GIF</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/menu/ExportGIF.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/menu/ExportGIF.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>24</width>
+          <height>24</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButton_setting">
+        <property name="toolTip">
+         <string>播放器设置</string>
+        </property>
+        <property name="text">
+         <string>播放器设置</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/menu/Common_Setting.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/menu/Common_Setting.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>24</width>
+          <height>24</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../../../../code_piece_qtutil.qrc"/>
+ </resources>
+ <connections/>
+</ui>

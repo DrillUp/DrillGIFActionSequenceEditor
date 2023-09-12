@@ -4,7 +4,7 @@
 /*
 -----==========================================================-----
 		类：		马赛克生成器.cpp
-		版本：		v1.01
+		版本：		v1.02
 		作者：		drill_up
 		所属模块：	图形模块
 		功能：		根据配置生成马赛克贴图。
@@ -35,6 +35,16 @@ S_MaskBackgroundGenerator* S_MaskBackgroundGenerator::getInstance() {
 /*-------------------------------------------------
 		生成器 - 设置背景（单色）
 */
+QPixmap S_MaskBackgroundGenerator::getMaskBackground_OneColor(int width, int height, int block_width, int block_height){
+	C_MaskBackgroundGeneratorConfig config;
+	config.setMaskBackground_OneColor(width, height, block_width, block_height);
+	return this->getMaskBackground(config);
+}
+QPixmap S_MaskBackgroundGenerator::getMaskBackground_OneColor(int width, int height, int block_width, int block_height, QColor color){
+	C_MaskBackgroundGeneratorConfig config;
+	config.setMaskBackground_OneColor(width, height, block_width, block_height, color);
+	return this->getMaskBackground(config);
+}
 QPixmap S_MaskBackgroundGenerator::getMaskBackground_OneColor(int width, int height, int block_width, int block_height, QColor color, int opacity){
 	C_MaskBackgroundGeneratorConfig config;
 	config.setMaskBackground_OneColor(width, height, block_width, block_height, color, opacity);
@@ -43,9 +53,9 @@ QPixmap S_MaskBackgroundGenerator::getMaskBackground_OneColor(int width, int hei
 /*-------------------------------------------------
 		生成器 - 设置背景（双色）
 */
-QPixmap S_MaskBackgroundGenerator::getMaskBackground_TwoColor(int width, int height, int block_width, int block_height, QColor a_color, int a_opacity, QColor b_color, int b_opacity){
+QPixmap S_MaskBackgroundGenerator::getMaskBackground_TwoColor(int width, int height, int block_width, int block_height, QColor a_color, QColor b_color){
 	C_MaskBackgroundGeneratorConfig config;
-	config.setMaskBackground_TwoColor(width, height, block_width, block_height, a_color, a_opacity, b_color, b_opacity);
+	config.setMaskBackground_TwoColor(width, height, block_width, block_height, a_color, b_color);
 	return this->getMaskBackground(config);
 }
 /*-------------------------------------------------
@@ -85,25 +95,35 @@ QPixmap S_MaskBackgroundGenerator::createMaskBackground(C_MaskBackgroundGenerato
 
 	// > 单色
 	if (config.mode == 0){
-		QColor a_color = config.a_color;
-		a_color.setAlpha(255);
+		QColor background_color = config.background_color;
+		background_color.setAlpha(255);
 
 		// > 准备画布
 		QPixmap pixmap = QPixmap(ww, hh);
-		pixmap.fill(a_color);					//指定色背景
+		pixmap.fill(background_color);			//指定色背景
 		QPainter painter(&pixmap);				//画家
 
 		// > 开始绘制
 		int i_count = qCeil(ww / (double)pw);
 		int j_count = qCeil(hh / (double)ph);
 		painter.setPen(QPen(QColor(0, 0, 0, 0)));
-		painter.setBrush(QBrush(QColor(0, 0, 0, config.after_opacity), Qt::BrushStyle::SolidPattern));
+		painter.setBrush(QBrush(QColor(0, 0, 0, config.blackBlock_opacity), Qt::BrushStyle::SolidPattern));
 		for (int i = 0; i < i_count; i++){
 			for (int j = 0; j < j_count; j++){
 				painter.drawRect(i*pw + 0, j*ph + 0, pw * 0.5, ph * 0.5);
 				painter.drawRect(i*pw + pw*0.5, j*ph + ph * 0.5, pw * 0.5, ph * 0.5);
 			}
 		}
+
+		// > 描边
+		if (config.stroke_enabled == true){
+			QPen pen(config.stroke_color);
+			pen.setWidth(config.stroke_width);
+			painter.setPen(pen);
+			painter.setBrush(QBrush(QColor(0, 0, 0, 0)));
+			painter.drawRect(0, 0, ww, hh);
+		}
+
 		painter.end();
 		return pixmap;
 	}
@@ -111,26 +131,40 @@ QPixmap S_MaskBackgroundGenerator::createMaskBackground(C_MaskBackgroundGenerato
 	// > 双色
 	if (config.mode == 1){
 		QColor a_color = config.a_color;
-		a_color.setAlpha(255);
 		QColor b_color = config.b_color;
-		b_color.setAlpha(config.after_opacity);
 
 		// > 准备画布
 		QPixmap pixmap = QPixmap(ww, hh);
-		pixmap.fill(a_color);					//指定色背景
 		QPainter painter(&pixmap);				//画家
 
 		// > 开始绘制
 		int i_count = qCeil(ww / (double)pw);
 		int j_count = qCeil(hh / (double)ph);
 		painter.setPen(QPen(QColor(0, 0, 0, 0)));
+		painter.setBrush(QBrush(a_color, Qt::BrushStyle::SolidPattern));
+		for (int i = 0; i < i_count; i++){
+			for (int j = 0; j < j_count; j++){
+				painter.drawRect(i*pw + 0,      j*ph + ph * 0.5, pw * 0.5, ph * 0.5);
+				painter.drawRect(i*pw + pw*0.5, j*ph + 0,        pw * 0.5, ph * 0.5);
+			}
+		}
 		painter.setBrush(QBrush(b_color, Qt::BrushStyle::SolidPattern));
 		for (int i = 0; i < i_count; i++){
 			for (int j = 0; j < j_count; j++){
-				painter.drawRect(i*pw + 0, j*ph + 0, pw * 0.5, ph * 0.5);
+				painter.drawRect(i*pw + 0,      j*ph + 0,        pw * 0.5, ph * 0.5);
 				painter.drawRect(i*pw + pw*0.5, j*ph + ph * 0.5, pw * 0.5, ph * 0.5);
 			}
 		}
+
+		// > 描边
+		if (config.stroke_enabled == true){
+			QPen pen(config.stroke_color);
+			pen.setWidth(config.stroke_width);
+			painter.setPen(pen);
+			painter.setBrush(QBrush(QColor(0, 0, 0, 0)));
+			painter.drawRect(0, 0, ww, hh);
+		}
+		
 		painter.end();
 		return pixmap;
 	}

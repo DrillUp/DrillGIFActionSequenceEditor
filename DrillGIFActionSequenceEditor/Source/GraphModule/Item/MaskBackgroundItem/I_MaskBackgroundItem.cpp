@@ -57,6 +57,6 @@ void I_MaskBackgroundItem::setBackground_oneColor(int width, int height, int blo
 void I_MaskBackgroundItem::setBackground_twoColor(int width, int height, int block_width, int block_height, QColor color1, QColor color2){
 	this->m_blockWidth = block_width;
 	this->m_blockHeight = block_height;
-	QPixmap pixmap = S_MaskBackgroundGenerator::getInstance()->getMaskBackground_TwoColor(width, height, block_width, block_height, color1, 255, color2, 255);
+	QPixmap pixmap = S_MaskBackgroundGenerator::getInstance()->getMaskBackground_TwoColor(width, height, block_width, block_height, color1, color2);
 	this->setPixmap(pixmap);
 }

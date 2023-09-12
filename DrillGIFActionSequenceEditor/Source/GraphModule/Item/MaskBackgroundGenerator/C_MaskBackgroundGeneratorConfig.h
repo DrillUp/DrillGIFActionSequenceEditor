@@ -8,7 +8,7 @@
 /*
 -----==========================================================-----
 		类：		马赛克生成器 配置数据.h
-		版本：		v1.01
+		版本：		v1.02
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		马赛克生成器执行的 配置设置。
@@ -22,6 +22,7 @@ class C_MaskBackgroundGeneratorConfig{
 		C_MaskBackgroundGeneratorConfig();
 		~C_MaskBackgroundGeneratorConfig();
 		
+
 	//-----------------------------------
 	//----数据
 	public:
@@ -29,18 +30,37 @@ class C_MaskBackgroundGeneratorConfig{
 		int height;						//贴图高度
 		int blockWidth;					//马赛克方块宽度
 		int blockHeight;				//马赛克方块高度
-		int mode;						//马赛克模式（0:单色，1:双色）
 		
-		QColor a_color;					//颜色A
-		QColor b_color;					//颜色B
-		int after_opacity;				//后加颜色的透明度
+	//-----------------------------------
+	//----填涂
 	public:
-										//背景 - 设置背景（单色）
-										//		【说明】：单色即先背景涂满颜色，再涂黑色块，透明度为黑色的透明度。
-		void setMaskBackground_OneColor(int width, int height, int block_width, int block_height, QColor color = QColor(255, 255, 255), int opacity = 30);
-										//背景 - 设置背景（双色）
-										//		【说明】：双色即先背景涂满颜色A，再涂颜色B，透明度为颜色B的透明度。
-		void setMaskBackground_TwoColor(int width, int height, int block_width, int block_height, QColor a_color, int a_opacity, QColor b_color, int b_opacity);
+		int mode;						//填涂模式（0:单色，1:双色）
+		QColor background_color;		//单色 - 背景色
+		int blackBlock_opacity;			//单色 - 黑色块透明度
+		QColor a_color;					//双色 - 颜色A
+		QColor b_color;					//双色 - 颜色B
+	public:
+										//填涂 - 设置（单色）
+										//		【说明】：单色即先背景涂满底色(back_color)，再涂黑色块(blackBlock_opacity)，透明度为黑色块的透明度。
+		void setMaskBackground_OneColor(int width, int height, int block_width, int block_height);
+		void setMaskBackground_OneColor(int width, int height, int block_width, int block_height, QColor background_color);
+		void setMaskBackground_OneColor(int width, int height, int block_width, int block_height, QColor background_color, int blackBlock_opacity);
+										//填涂 - 设置（双色）
+										//		【说明】：双色即颜色A和颜色B交替填涂。
+		void setMaskBackground_TwoColor(int width, int height, int block_width, int block_height, QColor a_color, QColor b_color);
+		
+
+	//-----------------------------------
+	//----描边（只外框描边）
+	public:
+		bool stroke_enabled;			//描边 - 开关
+		QColor stroke_color;			//描边 - 线颜色
+		int stroke_width;				//描边 - 线厚度
+	public:
+										//描边 - 设置
+										//		【说明】：给贴图的最外层进行一层描边。
+		void setMaskBackground_Stroke(QColor stroke_color, int stroke_width);
+
 
 	//-----------------------------------
 	//----类属性

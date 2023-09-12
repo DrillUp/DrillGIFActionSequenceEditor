@@ -8,7 +8,7 @@
 #include "Source/GraphModule/Widget/AnimPictureViewer/P_AnimPictureViewer.h"
 
 #include "Source/Utils/WidgetForm/RadioTable/P_RadioTable.h"
-#include "Source/Utils/WidgetFormSenior/AnimationListEditor/p_AnimationListEditor.h"
+#include "Source/Utils/WidgetFormSenior/AnimationListEditor/P_ALE_Editor.h"
 #include "Source/Utils/WidgetFormSenior/AnimationListPlayer/p_AnimationListPlayer.h"
 
 /*
@@ -43,7 +43,7 @@ class P_COAS_ActionPart : public QWidget
 	//-----------------------------------
 	//----动画帧
 	public:
-		P_AnimationListEditor* m_p_AnimationListEditor;
+		P_ALE_Editor* m_p_AnimationListEditor;
 		P_AnimationListPlayer* m_p_AnimationListPlayer;
 		P_AnimPictureViewer* m_p_AnimPictureViewer;
 	public:

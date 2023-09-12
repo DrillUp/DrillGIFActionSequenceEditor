@@ -7,7 +7,7 @@
 /*
 -----==========================================================-----
 		类：		马赛克生成器.cpp
-		版本：		v1.01
+		版本：		v1.02
 		作者：		drill_up
 		所属模块：	图形模块
 		功能：		根据配置生成马赛克贴图。
@@ -28,13 +28,16 @@ class S_MaskBackgroundGenerator : public QObject
 	//-----------------------------------
 	//----生成器
 	public:
-											//生成器 - 设置背景（单色）
-											//		【说明】：单色即先背景涂满颜色，再涂黑色块，透明度为黑色的透明度。
-		QPixmap getMaskBackground_OneColor(int width, int height, int block_width, int block_height, QColor color = QColor(255, 255, 255), int opacity = 30);
-											//生成器 - 设置背景（双色）
-											//		【说明】：双色即先背景涂满颜色A，再涂颜色B，透明度为颜色B的透明度。
-		QPixmap getMaskBackground_TwoColor(int width, int height, int block_width, int block_height, QColor a_color, int a_opacity, QColor b_color, int b_opacity);
-											//生成器 - 获取马赛克贴图
+											//生成器 - 获取背景（单色）
+											//		【说明】：单色即先背景涂满底色(back_color)，再涂黑色块(blackBlock_opacity)，透明度为黑色块的透明度。
+		QPixmap getMaskBackground_OneColor(int width, int height, int block_width, int block_height);
+		QPixmap getMaskBackground_OneColor(int width, int height, int block_width, int block_height, QColor background_color);
+		QPixmap getMaskBackground_OneColor(int width, int height, int block_width, int block_height, QColor background_color, int blackBlock_opacity);
+											//生成器 - 获取背景（双色）
+											//		【说明】：双色即颜色A和颜色B交替填涂。
+		QPixmap getMaskBackground_TwoColor(int width, int height, int block_width, int block_height, QColor a_color, QColor b_color );
+											//生成器 - 获取背景（高级配置）
+											//		【说明】：其它马赛克背景的配置，使用对象类赋值。
 		QPixmap getMaskBackground(C_MaskBackgroundGeneratorConfig config);
 		
 	//-----------------------------------

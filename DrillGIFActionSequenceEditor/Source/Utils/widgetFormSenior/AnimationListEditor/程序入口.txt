@@ -1,0 +1,61 @@
+	【注意，对象选择器的全部以 CodePieceQT笔记 为准，所有修改在笔记中强化】
+			
+	程序入口（独立控件块）：
+		P_AnimationListEditor.cpp
+		P_AnimationListEditor.h
+		注意，该 列表控件 被装饰后，最好对该控件块进行交互，不要与 列表控件 进行直接交互。
+		该控件的【图标路径】见变量：this->m_iconSrcPath
+
+		继承于P_PictureSelector图片选择块。
+		部分继承的方法会被 私有化 ，需要调用新函数来代替。
+		这里含一个特殊的信号：allFrameDeleted，全部帧被删除情况
+		快捷键函数需要外部父类进行调用。
+		
+	可拆卸脚本：
+		1. GIF的生成与拆解：
+			S_GIFManager.h
+			S_cximageManager.h
+		2. 序列大图的生成与拆解：
+			W_PictureCombiner.h
+			W_PicturePartitioner.h
+		上述的两个组件可以选择不添加（要修改脚本），也可以选择都添加（但是会关联一堆外部库）。
+
+	交互对象：
+		1.	C_ALEConfig.cpp
+			C_ALEConfig.h
+			动画帧的配置。继承于C_PiSConfig。
+
+		2.	C_ALEData.cpp
+			C_ALEData.h
+			数据交互类，注意，获取后list中的元素顺序不一样也算作已修改。
+
+	基于：
+		P_PictureSelector.cpp
+		P_PictureSelector.h
+		S_GIFManager.cpp
+		S_GIFManager.h
+	
+	私有类：
+		P_ALEBlock.cpp
+		P_ALEBlock.h
+		继承于P_PiSBlock，在该控件块上，扩展一些控件。
+
+		W_ALEDataEdit.cpp
+		W_ALEDataEdit.h
+		W_ALEDataEdit.ui
+		编辑动画帧的单帧、多帧配置，耦合度高。不要把窗口拿出来用。
+
+		W_ALEConfigEdit.cpp
+		W_ALEConfigEdit.h
+		W_ALEConfigEdit.ui
+		编辑动画帧的整体ui设置，相对独立。窗口可以拿出来用，也可以直接调用openWindoW_setConfigParam函数。
+
+	大坑：
+		1. QListWidget就是个垃圾控件。
+		2. 【设置item的QWidget不能撑开控件。】通过图标 横向 挤压，字符\n 纵向 挤压，才能勉强将控件完全撑开。
+		3. 【insertItem没用】，还好数据和ui是分离的，设置addItem，然后刷新item，就能实现撑开添加。
+		
+	诡异问题：
+		【iconMode下出问题】，listMode没问题。
+		直接additem，滚动条会被理所当然地撑开，但是使用oP_append之后（后期additem），滚动条总会 漏 一个item。
+		初步确认，不是oP_append的问题，改变config，rebuild重新addItem之后，一样会出现此问题。
