@@ -196,21 +196,24 @@ void P_COAS_StatePart::currentIndexChanged(int index){
 		快捷键 - 事件
 */
 void P_COAS_StatePart::keyPressEvent(QKeyEvent *event){
+	
+	// > 动画帧编辑块 的快捷键
+	bool success = this->m_p_AnimationListEditor->event_shortcut_keyPress(event);
+	if (success){ return; }
+
+	// > 当前 快捷键
 	if (event->modifiers() & Qt::ControlModifier){
 		if (event->key() == Qt::Key_C){
-			this->m_p_AnimationListEditor->shortcut_copy();
 			this->shortcut_copyData();
 		}
 		if (event->key() == Qt::Key_V){
-			this->m_p_AnimationListEditor->shortcut_paste();
 			this->shortcut_pasteData();
 		}
 		if (event->key() == Qt::Key_A){
-			this->m_p_AnimationListEditor->shortcut_selectAll();
+			//...
 		}
 	}
 	if (event->key() == Qt::Key_Delete){
-		this->m_p_AnimationListEditor->shortcut_delete();
 		this->shortcut_clearData();
 	}
 }

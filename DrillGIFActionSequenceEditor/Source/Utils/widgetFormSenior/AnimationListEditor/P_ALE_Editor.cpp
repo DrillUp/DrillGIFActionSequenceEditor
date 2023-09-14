@@ -108,9 +108,36 @@ P_ALE_Editor::~P_ALE_Editor(){
 
 
 /*-------------------------------------------------
-		控件 - 每项建立控件（覆写）
+		工厂 - 建立一个元胞（覆写）
 */
-QWidget* P_ALE_Editor::createPictureWidget(int i, QPixmap pixmap){
+I_PiS_Cell* P_ALE_Editor::createPictureCell(int i, QPixmap pixmap){
+
+	// > 控件 - 建立图片块
+	P_PictureBlock* widget = this->createPictureWidget(i, pixmap);
+
+	// > 项 - 建立项
+	QListWidgetItem* item = this->createPictureItem();
+
+
+	// > 元胞
+	I_PiS_Cell* cell = new I_PiS_Cell();
+	cell->index_Title = i;
+	cell->index_OrgBitmap = i;
+	cell->item = item;
+	cell->widget = widget;
+
+	return cell;
+}
+/*-------------------------------------------------
+		工厂 - 建立一个项（覆写）
+*/
+QListWidgetItem* P_ALE_Editor::createPictureItem(){
+	return P_PiS_Selector::createPictureItem();
+}
+/*-------------------------------------------------
+		工厂 - 建立一个控件（覆写）
+*/
+P_PictureBlock* P_ALE_Editor::createPictureWidget(int i, QPixmap pixmap){
 	int item_height = this->m_config.getItemHeight();
 
 	// > 建立图片块
@@ -131,10 +158,17 @@ QWidget* P_ALE_Editor::createPictureWidget(int i, QPixmap pixmap){
 	return widget;
 }
 /*-------------------------------------------------
+		控件 - 重建UI
+*/
+void P_ALE_Editor::rebuildUI(){
+	P_PiS_Selector::rebuildUI();
+	//（暂无）
+}
+/*-------------------------------------------------
 		控件 - 清理控件
 */
-void P_ALE_Editor::clearItems(){
-	P_PiS_Selector::clearItems();
+void P_ALE_Editor::clearCells(){
+	P_PiS_Selector::clearCells();
 	//（暂无）
 }
 /*-------------------------------------------------
@@ -198,7 +232,7 @@ void P_ALE_Editor::openWindow_setConfigParam(){
 
 
 /*-------------------------------------------------
-		事件 - 右键事件（零个、单个、多个）
+		鼠标事件 - 右键事件（零个、单个、多个）
 */
 void P_ALE_Editor::event_itemRightClicked(QList<QListWidgetItem*> item_list){
 	P_PiS_Selector::event_itemRightClicked(item_list);
@@ -268,7 +302,7 @@ void P_ALE_Editor::event_itemRightClicked(QList<QListWidgetItem*> item_list){
 		
 	/*-------------------------点击单个-----------------------------*/
 	}else if (item_list.count() == 1){
-		int pos = this->m_itemTank.indexOf( item_list.at(0) );
+		int pos = this->getCellIndexByItem( item_list.at(0) );
 		if (pos == -1){ return; }
 
 		action = new QAction("左移", this);
@@ -283,7 +317,7 @@ void P_ALE_Editor::event_itemRightClicked(QList<QListWidgetItem*> item_list){
 		action->setData(pos);
 		connect(action, &QAction::triggered, this, &P_ALE_Editor::op_moveRightInAction);
 		menu->addAction(action);
-		if (pos + 1 >= this->m_itemTank.count()){ action->setEnabled(false); }
+		if (pos + 1 >= this->m_cellTank.count()){ action->setEnabled(false); }
 
 		menu->addSeparator();
 		
@@ -401,7 +435,7 @@ void P_ALE_Editor::event_itemRightClicked(QList<QListWidgetItem*> item_list){
 		QList<int> pos_list;
 		for (int i = 0; i < item_list.count(); i++){
 			QListWidgetItem* item = item_list.at(i);
-			int pos = this->m_itemTank.indexOf(item);
+			int pos = this->getCellIndexByItem(item);
 			if (pos == -1){ continue; }
 			if (pos < front_pos){ front_pos = pos; }
 			pos_list.append( pos );
@@ -524,7 +558,7 @@ void P_ALE_Editor::event_itemRightClicked(QList<QListWidgetItem*> item_list){
 
 }
 /*-------------------------------------------------
-		事件 - 圈选变化事件（单个、多个）
+		鼠标事件 - 圈选变化事件（单个、多个）
 */
 void P_ALE_Editor::event_itemSelectionChanged(QList<QListWidgetItem*> selected_item_list){
 	P_PiS_Selector::event_itemSelectionChanged(selected_item_list);
@@ -590,17 +624,17 @@ void P_ALE_Editor::op_append(QString gif_src){
 	QFileInfo info = this->m_data.getFile(index);
 	QImage image = QImage(info.absoluteFilePath());
 	QPixmap pixmap = QPixmap::fromImage(image);
-	this->m_org_bitmapList.append(pixmap);
+	//this->m_org_bitmapList.append(pixmap);	//（暂时不改变贴图列表）
 
-	// > 控件添加
-	QListWidgetItem* item = this->createPictureItem();
-	this->m_parent->addItem(item);
-	this->m_itemTank.append(item);
 
-	// > 建立控件
-	QWidget* widget = this->createPictureWidget(index, pixmap);
-	this->m_parent->setItemWidget(item, widget);
-	this->m_widgetTank.append(widget);
+	// > 建立元胞
+	I_PiS_Cell* cell = this->createPictureCell(index, pixmap);
+	this->m_cellTank.append(cell);
+
+	// > 添加 - 项
+	this->m_parent->addItem(cell->item);
+	// > 添加 - 控件
+	this->m_parent->setItemWidget(cell->item, cell->widget);
 
 	//（不需要刷）
 
@@ -622,17 +656,17 @@ void P_ALE_Editor::op_insert(int index, QStringList gif_src_list, QList<int> int
 		QFileInfo info = this->m_data.getFile(index + i);
 		QImage image = QImage(info.absoluteFilePath());
 		QPixmap pixmap = QPixmap::fromImage(image);
-		this->m_org_bitmapList.insert(index + i, pixmap);
+		//this->m_org_bitmapList.insert(index + i, pixmap);	//（暂时不改变贴图列表）
 
-		// > 控件添加
-		QListWidgetItem* item = this->createPictureItem();
-		this->m_parent->addItem(item);		//【insertItem有bug，只能add】
-		this->m_itemTank.append(item);
 
-		// > 建立控件
-		QWidget* widget = this->createPictureWidget(index, pixmap);
-		this->m_parent->setItemWidget(item, widget);
-		this->m_widgetTank.append(widget);
+		// > 建立元胞
+		I_PiS_Cell* cell = this->createPictureCell(index, pixmap);
+		this->m_cellTank.insert(index + i, cell);
+
+		// > 添加 - 项
+		this->m_parent->addItem(cell->item);
+		// > 添加 - 控件
+		this->m_parent->setItemWidget(cell->item, cell->widget);
 	}
 
 	// > 强制全刷
@@ -645,6 +679,7 @@ void P_ALE_Editor::op_insert(int index, QStringList gif_src_list, QList<int> int
 */
 void P_ALE_Editor::op_remove(QList<int> index_list){
 	if (this->m_data.isNull()){ return; }
+	if (index_list.count() == 0){ return; }
 	qSort(index_list);	//（排序）
 
 	// > 倒序删除
@@ -656,23 +691,26 @@ void P_ALE_Editor::op_remove(QList<int> index_list){
 		this->m_data.op_remove(index);
 
 		// > 图形移除
-		this->m_org_bitmapList.removeAt(index);
+		//this->m_org_bitmapList.removeAt(index);	//（暂时不改变贴图列表）
 
 		// > 控件移除
 		this->m_parent->takeItem(index);
-		QListWidgetItem* item = this->m_itemTank.at(index);
-		QWidget* widget = this->m_widgetTank.at(index);
-		this->m_itemTank.removeAt(index);
-		this->m_widgetTank.removeAt(index);
-		delete item;
-		delete widget;
+
+
+		// > 获取元胞
+		I_PiS_Cell* cell = this->m_cellTank.at(index);
+		this->m_cellTank.removeAt(index);
+
+		delete cell->item;
+		delete cell->widget;
+		delete cell;
 	}
 
 	// > 清除复制项
 	this->m_copyedList.clear();
 
 	// > 取消选择
-	if (this->m_itemTank.count() == 0){
+	if (this->m_cellTank.count() == 0){
 		emit signal_allFrameDeleted();
 	}else{
 		this->selectIndex_Single(index - 1);
@@ -691,7 +729,7 @@ void P_ALE_Editor::op_swap(int index_a, int index_b){
 	this->m_data.op_swap(index_a, index_b);
 
 	// > 图形交换
-	this->m_org_bitmapList.swap(index_a, index_b);
+	//this->m_org_bitmapList.swap(index_a, index_b);	//（暂时不改变贴图列表）
 	
 	// > 交换后，ui刷新
 	this->op_refresh(index_a);
@@ -725,8 +763,8 @@ void P_ALE_Editor::op_swap(int index_a, int index_b){
 */
 void P_ALE_Editor::op_refresh(int index){
 	if (index < 0){ return; }
-	if (index >= this->m_widgetTank.count() ){ return; }
-	P_AnimationBlock* widget = dynamic_cast<P_AnimationBlock*>(this->m_widgetTank.at(index));
+	if (index >= this->m_cellTank.count()){ return; }
+	P_AnimationBlock* widget = dynamic_cast<P_AnimationBlock*>(this->m_cellTank.at(index));
 	if (this->m_config.m_zeroFill == true){		//（刷新计数）
 		widget->setTitle(TTool::_zeroFill_(index + 1, this->m_config.m_zeroFillCount, QLatin1Char(this->m_config.m_zeroFillChar.toLatin1())));
 	}else{
@@ -736,7 +774,7 @@ void P_ALE_Editor::op_refresh(int index){
 	widget->setFrameText(this->m_data.getIntervalString(index));	//（刷新帧）
 }
 void P_ALE_Editor::op_refreshAll(int startAt){
-	for (int i = startAt; i < this->m_itemTank.count(); i++){
+	for (int i = startAt; i < this->m_cellTank.count(); i++){
 		this->op_refresh(i);
 	}
 }
@@ -983,7 +1021,7 @@ void P_ALE_Editor::op_selectAllInAction(){
 */
 void P_ALE_Editor::op_selectOddInAction(){
 	QList<int> index_list;
-	for (int i = 0; i < this->m_itemTank.count(); i++){
+	for (int i = 0; i < this->m_cellTank.count(); i++){
 		if (i%2 == 0){
 			index_list.append(i);
 		}
@@ -995,7 +1033,7 @@ void P_ALE_Editor::op_selectOddInAction(){
 */
 void P_ALE_Editor::op_selectEvenInAction(){
 	QList<int> index_list;
-	for (int i = 0; i < this->m_itemTank.count(); i++){
+	for (int i = 0; i < this->m_cellTank.count(); i++){
 		if (i % 2 == 1){
 			index_list.append(i);
 		}
@@ -1048,7 +1086,7 @@ void P_ALE_Editor::op_moveLeftInAction(){
 void P_ALE_Editor::op_moveRightInAction(){
 	QAction* cur_action = qobject_cast<QAction*>(sender());		//从action里面取出数据
 	int index = cur_action->data().value<int>();
-	if (index + 1 >= this->m_itemTank.count() ){ return; }
+	if (index + 1 >= this->m_cellTank.count()){ return; }
 	this->op_swap(index, index + 1);
 	this->selectIndex_Single(index+1);	//（选中）
 }
@@ -1197,7 +1235,7 @@ void P_ALE_Editor::op_exportSelected_PicInAction(){
 */
 void P_ALE_Editor::op_exportAll_PicInAction(){
 	QList<int> selected_list;
-	for (int i = 0; i < this->m_itemTank.count(); i++){
+	for (int i = 0; i < this->m_cellTank.count(); i++){
 		selected_list.append(i);
 	}
 	if (selected_list.count() == 0){ return; }
@@ -1238,7 +1276,7 @@ void P_ALE_Editor::op_exportAll_GIFInAction(){
 
 	// > 选择项
 	QList<int> selected_list;
-	for (int i = 0; i < this->m_itemTank.count(); i++){
+	for (int i = 0; i < this->m_cellTank.count(); i++){
 		selected_list.append(i);
 	}
 	if (selected_list.count() == 0){ QMessageBox::warning(this->m_parent, "提示", "需要至少一个动画帧才能生成GIF。", QMessageBox::Yes); return; }
@@ -1289,7 +1327,7 @@ void P_ALE_Editor::op_exportAll_SeqPicInAction(){
 
 	// > 选择项
 	QList<int> selected_list;
-	for (int i = 0; i < this->m_itemTank.count(); i++){
+	for (int i = 0; i < this->m_cellTank.count(); i++){
 		selected_list.append(i);
 	}
 	if (selected_list.count() < 2 ){ QMessageBox::warning(this->m_parent, "提示", "需要至少两个动画帧才能生成序列大图。", QMessageBox::Yes); return; }
@@ -1312,7 +1350,7 @@ void P_ALE_Editor::op_exportAll_SeqPicInAction(){
 
 
 /*-------------------------------------------------
-		编辑窗口 - 选择多张图片（导入）
+		文件选择窗口 - 选择多张图片（导入）
 */
 QStringList P_ALE_Editor::openQFileDialog_getPicFileList(){
 	QStringList result_list;
@@ -1331,7 +1369,7 @@ QStringList P_ALE_Editor::openQFileDialog_getPicFileList(){
 	}
 }
 /*-------------------------------------------------
-		编辑窗口 - 选择GIF（导入）
+		文件选择窗口 - 选择GIF（导入）
 */
 QString P_ALE_Editor::openQFileDialog_getGIFFile(){
 	QString result = "";
@@ -1350,7 +1388,7 @@ QString P_ALE_Editor::openQFileDialog_getGIFFile(){
 	}
 }
 /*-------------------------------------------------
-		编辑窗口 - 选择序列大图（导入）
+		文件选择窗口 - 选择序列大图（导入）
 */
 QString P_ALE_Editor::openQFileDialog_getSeqPicFile(){
 	QString result = "";
@@ -1369,7 +1407,7 @@ QString P_ALE_Editor::openQFileDialog_getSeqPicFile(){
 	}
 }
 /*-------------------------------------------------
-		编辑窗口 - 选择GIF（导出）
+		文件选择窗口 - 选择GIF（导出）
 */
 QString P_ALE_Editor::openQFileDialog_exportGIFFile(){
 	QString target_file = "";
@@ -1390,7 +1428,7 @@ QString P_ALE_Editor::openQFileDialog_exportGIFFile(){
 	return target_file;
 }
 /*-------------------------------------------------
-		编辑窗口 - 选择PNG（导出）
+		文件选择窗口 - 选择PNG（导出）
 */
 QString P_ALE_Editor::openQFileDialog_exportPNGFile(QString name_suffix){
 	QString target_file = "";
@@ -1411,7 +1449,7 @@ QString P_ALE_Editor::openQFileDialog_exportPNGFile(QString name_suffix){
 	return target_file;
 }
 /*-------------------------------------------------
-		编辑窗口 - 选择文件夹（导出）
+		文件选择窗口 - 选择文件夹（导出）
 */
 QString P_ALE_Editor::openQFileDialog_exportDir(){
 	QString target_dir = "";
@@ -1421,43 +1459,71 @@ QString P_ALE_Editor::openQFileDialog_exportDir(){
 }
 
 
+
+/*-------------------------------------------------
+		快捷键 - 事件绑定
+*/
+bool P_ALE_Editor::event_shortcut_keyPress(QKeyEvent *event){
+
+	// > 父控件没有焦点则直接跳出
+	if (this->m_parent->hasFocus() == false){ return false; }
+
+	// > 键位监听
+	if (event->modifiers() & Qt::ControlModifier){
+		if (event->key() == Qt::Key_C){
+			this->shortcut_copy();
+			return true;
+		}
+		if (event->key() == Qt::Key_V){
+			this->shortcut_paste();
+			return true;
+		}
+		if (event->key() == Qt::Key_A){
+			this->shortcut_selectAll();
+			return true;
+		}
+	}
+	if (event->key() == Qt::Key_Delete){
+		this->shortcut_delete();
+		return true;
+	}
+
+	return false;
+}
 /*-------------------------------------------------
 		快捷键 - 全选
 */
 void P_ALE_Editor::shortcut_selectAll(){
-	if (this->m_parent->hasFocus() == false){ return; }
 	this->m_parent->selectAll();
-
 }
 /*-------------------------------------------------
 		快捷键 - 复制
 */
 void P_ALE_Editor::shortcut_copy(){
-	if (this->m_parent->hasFocus() == false){ return; }
-
-	QList<int> index_list = this->getSelectedIndex_Multiple();
-	this->m_copyedList = this->m_data.getFile_Multi(index_list);
+	//QList<int> index_list = this->getSelectedIndex_Multiple();
+	//this->m_copyedList = this->m_data.getFile_Multi(index_list);
 }
 /*-------------------------------------------------
 		快捷键 - 粘贴
 */
 void P_ALE_Editor::shortcut_paste(){
-	if (this->m_parent->hasFocus() == false){ return; }
 	if (this->m_copyedList.count() == 0){ return; }
 
+	/*
 	QStringList file_name_list;
 	for (int i = 0; i < this->m_copyedList.count(); i++){
 		file_name_list.append(this->m_copyedList.at(i).completeBaseName());
 	}
+
 	int pos = this->getSelectedIndex_Single();
 	this->op_insert(pos, file_name_list);
-	
+	*/
+
 }
 /*-------------------------------------------------
 		快捷键 - 删除
 */
 void P_ALE_Editor::shortcut_delete(){
-	if (this->m_parent->hasFocus() == false){ return; }
 	QList<int> index_list = this->getSelectedIndex_Multiple();
 	this->op_remove(index_list);
 }

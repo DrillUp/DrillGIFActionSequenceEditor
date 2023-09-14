@@ -1,9 +1,8 @@
 ﻿#pragma once
 #include "stdafx.h"
 
-#include <QKeyEvent>
 #include <QListWidget>
-
+#include "Private/I_PiS_Cell.h"
 #include "C_PiS_Config.h"
 
 /*
@@ -28,8 +27,12 @@ class P_PiS_Selector : public QObject
 	//-----------------------------------
 	//----工厂
 	protected:
-										//工厂 - 建立一个图片控件
-		virtual QWidget* createPictureWidget(int i, QPixmap pixmap);
+										//工厂 - 建立一个元胞
+		virtual I_PiS_Cell* createPictureCell(int i, QPixmap pixmap);
+										//工厂 - 建立一个项
+		virtual QListWidgetItem* createPictureItem();
+										//工厂 - 建立一个控件
+		virtual P_PictureBlock* createPictureWidget(int i, QPixmap pixmap);
 		
 	//-----------------------------------
 	//----父控件
@@ -40,18 +43,19 @@ class P_PiS_Selector : public QObject
 	//-----------------------------------
 	//----控件
 	protected:
-		QList<QListWidgetItem*> m_itemTank;		//项列表
-		QList<QWidget*> m_widgetTank;			//控件列表【必须要存，不然取出的Widget会自动销毁】
+		QList<I_PiS_Cell*> m_cellTank;			//元胞列表
 		int m_last_index;						//上一个选中的索引项
 	public:
 										//控件 - 重建UI（如果图片多，不建议反复调用）
-		void rebuildUI();
-										//控件 - 建立项
-		virtual QListWidgetItem* createPictureItem();
+		virtual void rebuildUI();
 										//控件 - 清理项
-		virtual void clearItems();
+		virtual void clearCells();
 										//控件 - 清理全部
 		virtual void clearAll();
+	protected:
+										//控件 - 获取元胞索引
+		int getCellIndexByItem(QListWidgetItem* item);
+		int getCellIndexByWidget(P_PictureBlock* widget);
 
 	//-----------------------------------
 	//----鼠标事件

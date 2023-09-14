@@ -23,18 +23,30 @@ class P_ALE_Editor : public P_PiS_Selector
 		P_ALE_Editor(QListWidget *parent);		//构造函数
 		~P_ALE_Editor();						//析构函数
 		
+
+	//-----------------------------------
+	//----工厂
+	protected:
+										//工厂 - 建立一个元胞
+										//		【说明】：元胞包含了下面的 项 和 控件 创建函数的调用。
+		virtual I_PiS_Cell* createPictureCell(int i, QPixmap pixmap) override;
+										//工厂 - 建立一个项
+		virtual QListWidgetItem* createPictureItem() override;
+										//工厂 - 建立一个控件
+		virtual P_PictureBlock* createPictureWidget(int i, QPixmap pixmap) override;
+
+
 	//-----------------------------------
 	//----控件
 	protected:
 		QString m_iconSrcPath;
 	public:
-										//控件 - 每项建立控件（覆写）
-		virtual QWidget* createPictureWidget(int i, QPixmap pixmap);
+										//控件 - 重建UI（如果图片多，不建议反复调用）
+		virtual void rebuildUI() override;
 										//控件 - 清理控件
-		virtual void clearItems();
-	protected:
+		virtual void clearCells() override;
 										//控件 - 清理全部
-		virtual void clearAll();
+		virtual void clearAll() override;
 		
 	public:
 	signals:
@@ -51,9 +63,9 @@ class P_ALE_Editor : public P_PiS_Selector
 		C_ALE_Config getConfigParam_ALE();
 	protected:
 											//动画帧设置 - 设置参数（不开放）
-		virtual void setConfigParam(C_PiS_Config config);
+		virtual void setConfigParam(C_PiS_Config config) override;
 											//动画帧设置 - 取出参数（不开放）
-		virtual C_PiS_Config getConfigParam();
+		virtual C_PiS_Config getConfigParam() override;
 	public slots:
 											//动画帧设置 - 窗口编辑ui设置
 		void openWindow_setConfigParam();
@@ -62,9 +74,9 @@ class P_ALE_Editor : public P_PiS_Selector
 	//----鼠标事件
 	protected:
 										//鼠标事件 - 右键事件（零个、单个、多个）
-		virtual void event_itemRightClicked(QList<QListWidgetItem*> item_list);
+		virtual void event_itemRightClicked(QList<QListWidgetItem*> item_list) override;
 										//鼠标事件 - 圈选变化事件（单个、多个）
-		virtual void event_itemSelectionChanged(QList<QListWidgetItem*> selected_item_list);
+		virtual void event_itemSelectionChanged(QList<QListWidgetItem*> selected_item_list) override;
 
 
 	//-----------------------------------
@@ -74,7 +86,7 @@ class P_ALE_Editor : public P_PiS_Selector
 		C_ALE_DataSet::DATA_UNIT m_unit;			//单位
 	protected:
 										//资源数据 - 设置贴图（继承）（不开放）
-		virtual void setSourceBitmap(QList<QPixmap> bitmap_list);
+		virtual void setSourceBitmap(QList<QPixmap> bitmap_list) override;
 	public:
 										//资源数据 - 设置数据（注意，数据中的id要赋值）
 		void setSource(C_ALE_DataSet data);
@@ -182,6 +194,10 @@ class P_ALE_Editor : public P_PiS_Selector
 	//-----------------------------------
 	//----快捷键
 	public:
+									//快捷键 - 事件绑定
+									//		【说明】：快捷键无法绑定到父控件，此函数需要通过 父类执行 绑定事件。触发快捷键成功则返回true。
+		bool event_shortcut_keyPress(QKeyEvent *event);
+	protected:
 									//快捷键 - 全选
 		void shortcut_selectAll();
 									//快捷键 - 复制

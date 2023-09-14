@@ -32,7 +32,7 @@ class P_AnimationListPlayer : public QWidget
 	private:
 		bool m_playing;					//正在播放
 		bool m_backRun;					//是否倒放
-		QTimer* m_timer;				//计时器
+		QTimer* m_timer = nullptr;		//计时器
 		int m_curFrame;					//当前时间帧
 		QList<int> m_IndexFrame;		//动画帧的时间帧数
 		int m_IndexFrameCount;			//总时间帧数
@@ -105,7 +105,7 @@ class P_AnimationListPlayer : public QWidget
 	//-----------------------------------
 	//----编辑器
 	private:
-		P_ALE_Editor* m_animEditor;
+		P_ALE_Editor* m_animEditor = nullptr;
 	public:
 										//编辑器 - 设置
 		void setAnimationListEditor(P_ALE_Editor* animEditor);

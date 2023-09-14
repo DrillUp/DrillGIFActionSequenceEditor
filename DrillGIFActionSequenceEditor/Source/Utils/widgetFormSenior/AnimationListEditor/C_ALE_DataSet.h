@@ -28,6 +28,7 @@ class C_ALE_DataSet {
 	protected:
 		int id;								//标识
 		DATA_UNIT m_unit;					//单位
+
 		QList<QString> gif_src;				//资源文件名
 		QString gif_src_file;				//资源文件夹
 		QList<int> gif_intervalTank;		//帧间隔-明细表

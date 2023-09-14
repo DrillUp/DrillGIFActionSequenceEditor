@@ -2,12 +2,12 @@
 #include "S_ProjectWindowManager.h"
 
 #include "Data/C_ProjectData.h"
-
-#include "DrillGIFActionSequenceEditor.h"
+#include PROJECT_INCLUDE
 
 /*
 -----==========================================================-----
 		类：		项目管理 - 窗口管理.cpp
+		作者：		drill_up
 		所属模块：	项目管理模块
 		功能：		对打开、编辑窗口进行操作，包括响应相关控制。
 					【窗口】
@@ -39,10 +39,9 @@ S_ProjectWindowManager* S_ProjectWindowManager::getInstance() {
 void S_ProjectWindowManager::newProject() {
 
 	bool is_success = S_ProjectManager::getInstance()->newProject();
-
 	// > 工程内容变化时
-	if (is_success) {
-		//...
+	if (is_success) { 
+		//... 
 	}
 }
 /*-------------------------------------------------
@@ -54,7 +53,7 @@ void S_ProjectWindowManager::openProject() {
 
 	// > 工程内容变化时
 	if (is_success) {
-		//...
+		//... 
 	}
 }
 /*-------------------------------------------------
@@ -76,9 +75,14 @@ void S_ProjectWindowManager::saveAs() {
 		窗口 - 打开工程笔记
 */
 void S_ProjectWindowManager::openModifyWindowNote(){
+	C_ProjectData p_data = S_ProjectManager::getInstance()->data_ProjectData;
+
 	W_ProjectNote d(PROJECT_INSTANCE);
-	d.setData(S_ProjectManager::getInstance()->data_ProjectData.note);
+	d.setData(p_data.author, p_data.note);
 	if (d.exec() == QDialog::Accepted) {
-		S_ProjectManager::getInstance()->data_ProjectData.note = d.getData();
+
+		// > 直接对工程数据赋值
+		S_ProjectManager::getInstance()->data_ProjectData.author = d.getData_author();
+		S_ProjectManager::getInstance()->data_ProjectData.note = d.getData_note();
 	}
 }

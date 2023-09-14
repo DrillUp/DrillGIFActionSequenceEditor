@@ -81,7 +81,7 @@ void DrillGIFActionSequenceEditor::_init() {
 	connect(ui.toolButton_rmmv, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::openWindowRmmvInteractive);
 	connect(ui.toolButton_userManual, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::openUserManual);
 	connect(ui.toolButton_about, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::openAbout);
-	connect(S_ProjectManager::getInstance(), &S_ProjectManager::changeWindowTitle, this, &DrillGIFActionSequenceEditor::changeWindowTitle);
+	connect(S_ProjectManager::getInstance(), &S_ProjectManager::signal_titleChanged, this, &DrillGIFActionSequenceEditor::changeWindowTitle);
 	// （注意rmmv交互的数据要最先连接，这样在存档读取时不会乱序）
 	connect(S_RmmvDataContainer::getInstance(), &S_RmmvDataContainer::dataAllReloaded, this, &DrillGIFActionSequenceEditor::rmmvInteractiveDataLoaded);
 	connect(S_ActionSeqDataContainer::getInstance(), &S_ActionSeqDataContainer::dataAllReloaded, this, &DrillGIFActionSequenceEditor::actionSeqDataLoaded);

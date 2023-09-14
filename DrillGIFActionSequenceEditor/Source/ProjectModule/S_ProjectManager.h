@@ -7,7 +7,8 @@
 /*
 -----==========================================================-----
 		类：		项目管理.h
-		版本：		v1.15
+		版本：		v1.17
+		作者：		drill_up
 		所属模块：	项目管理模块
 		功能：		项目管理相关数据、相关操作都在这里主要控制。
 					（详细见cpp）
@@ -51,11 +52,14 @@ class S_ProjectManager : public QObject, public S_StorageManagerTemplate
 		bool isLocked();
 										//全局 - 判断修改
 		bool isDirty();
-
-	signals:							//全局 - 修改名称
-		void changeWindowTitle(QString title);
-	signals:							//全局 - 锁定变化
-		void lockChanged(bool isLock);
+		
+	signals:
+										//全局 - 名称变化（信号）
+		void signal_titleChanged(QString title);
+										//全局 - 修改变化（信号）
+		void signal_dirtyChanged(bool dirty);
+										//全局 - 锁定变化（信号）
+		void signal_lockChanged(bool isLock);
 	
 	//-----------------------------------
 	//----项目
@@ -85,11 +89,11 @@ class S_ProjectManager : public QObject, public S_StorageManagerTemplate
 
 	signals:
 										//项目 - 项目新建清空后（信号）
-		void newProjectFinished();
+		void signal_newProjectFinished();
 										//项目 - 项目打开后（信号）
-		void openProjectFinished();
+		void signal_openProjectFinished();
 										//项目 - 项目保存后（信号）
-		void saveProjectFinished();
+		void signal_saveProjectFinished();
 
 	private:
 										//#项目 - 清除项目数据
@@ -102,7 +106,7 @@ class S_ProjectManager : public QObject, public S_StorageManagerTemplate
 		void createSaveFile();
 										//#项目 - 读取（文件）
 		void readSaveFile();
-										//#项目 - 获取文件（根据后缀，F:/aaa/bbb.suf完整路径）
+										//项目 - 获取文件（根据后缀，F:/aaa/bbb.suf完整路径）
 		QString getOneFileBySuffix(QString url,QString suffix);	
 		
 

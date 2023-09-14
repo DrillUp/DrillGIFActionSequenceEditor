@@ -834,6 +834,7 @@
     <ClCompile Include="Source\Utils\widgetForm\FoldableTabWindow\P_FoldableTabRelater.cpp" />
     <ClCompile Include="Source\Utils\widgetForm\PictureBlock\P_PictureBlock.cpp" />
     <ClCompile Include="Source\Utils\widgetForm\PictureSelector\C_PiS_Config.cpp" />
+    <ClCompile Include="Source\Utils\widgetForm\PictureSelector\Private\I_PiS_Cell.cpp" />
     <ClCompile Include="Source\Utils\widgetForm\PictureSelector\P_PiS_Selector.cpp" />
     <ClCompile Include="Source\Utils\widgetForm\QStringListEditor\W_QStringEditor.cpp" />
     <ClCompile Include="Source\Utils\widgetForm\QStringListEditor\W_QStringListEditor.cpp" />
@@ -2189,6 +2190,32 @@
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing P_PiS_Selector.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp" "-fstdafx.h" "-f../../Source/Utils/widgetForm/PictureSelector/P_PiS_Selector.h"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_SVG_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtSvg"</Command>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetForm\PictureSelector\Private\I_PiS_Cell.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Command>
     </CustomBuild>
     <ClInclude Include="Source\Utils\widgetForm\RadioTable\C_RaTConfig.h" />
     <CustomBuild Include="Source\Utils\widgetForm\RadioTable\P_RadioTable.h">

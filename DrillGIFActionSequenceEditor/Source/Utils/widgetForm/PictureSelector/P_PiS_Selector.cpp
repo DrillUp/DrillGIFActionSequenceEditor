@@ -1,7 +1,6 @@
 ﻿#include "stdafx.h"
 #include "P_PiS_Selector.h"
 
-#include "Source/Utils/WidgetForm/PictureBlock/P_PictureBlock.h"
 #include "Source/Utils/Common/TTool.h"
 
 /*
@@ -51,8 +50,7 @@ P_PiS_Selector::P_PiS_Selector(QListWidget *parent)
 	this->m_parentStyle = this->m_parent->styleSheet();	//父控件样式
 	
 	// > 控件
-	this->m_itemTank.clear();							//项列表
-	this->m_widgetTank.clear();							//控件列表
+	this->m_cellTank.clear();							//元胞列表
 	this->m_last_index = -1;							//上一个选中的索引项
 
 	// > 鼠标事件
@@ -97,10 +95,49 @@ P_PiS_Selector::~P_PiS_Selector(){
 /*-------------------------------------------------
 		工厂 - 建立一个图片控件
 */
-QWidget* P_PiS_Selector::createPictureWidget(int i, QPixmap pixmap){
+I_PiS_Cell* P_PiS_Selector::createPictureCell(int i, QPixmap pixmap){
+
+	// > 控件 - 建立图片块
+	P_PictureBlock* widget = this->createPictureWidget(i,pixmap);
+	
+	// > 项 - 建立项
+	QListWidgetItem* item = this->createPictureItem();
+
+
+	// > 元胞
+	I_PiS_Cell* cell = new I_PiS_Cell();
+	cell->index_Title = i;
+	cell->index_OrgBitmap = i;
+	cell->item = item;
+	cell->widget = widget;
+
+	return cell;
+}
+/*-------------------------------------------------
+		工厂 - 建立一个项
+*/
+QListWidgetItem* P_PiS_Selector::createPictureItem(){
 	int item_height = this->m_config.getItemHeight();
 
-	// > 建立图片块
+	// > 项 - 建立项
+	QListWidgetItem* item = new QListWidgetItem(this->m_parent);
+
+	// > 项 - 撑开每项
+	//QPixmap temp_bitmap(item_height, 1);				//（iconMode中，用图标撑开横向，图标不能撑开纵向）
+	//temp_bitmap.fill(Qt::white);						//（现在是listMode了，所以不需要了。）
+	//item->setIcon(QIcon(temp_bitmap));				//
+	item->setText(this->m_config.getLineExpand());		//（用换行符撑开纵向）
+	item->setSizeHint(QSize(this->m_config.getItemHeight(), this->m_config.getItemHeight()));	//（如果不撑开，选中的 蓝色方块 会紊乱）
+
+	return item;
+}
+/*-------------------------------------------------
+		工厂 - 建立一个控件
+*/
+P_PictureBlock* P_PiS_Selector::createPictureWidget(int i, QPixmap pixmap){
+	int item_height = this->m_config.getItemHeight();
+
+	// > 控件 - 建立图片块
 	P_PictureBlock* widget = new P_PictureBlock(item_height, item_height, this->m_parent);
 	if (this->m_config.m_zeroFill == true){
 		widget->setTitle(TTool::_zeroFill_(i + 1, this->m_config.m_zeroFillCount, QLatin1Char(this->m_config.m_zeroFillChar.toLatin1())));
@@ -108,12 +145,13 @@ QWidget* P_PiS_Selector::createPictureWidget(int i, QPixmap pixmap){
 		widget->setTitle(QString::number(i + 1));
 	}
 
-	// > 绘制图片
+	// > 控件 - 绘制图片
 	widget->setPixmap(pixmap);
 	widget->setMaskEnabled(this->m_config.m_isMaskEnabled);
-	
+
 	return widget;
 }
+
 
 
 /*-------------------------------------------------
@@ -124,8 +162,7 @@ void P_PiS_Selector::rebuildUI() {
 	int item_height = this->m_config.getItemHeight();
 
 	// > 清理
-	this->m_itemTank.clear();
-	this->m_widgetTank.clear();
+	this->m_cellTank.clear();
 	this->m_parent->clear();
 
 	// > 单选/多选切换
@@ -147,19 +184,15 @@ void P_PiS_Selector::rebuildUI() {
 	this->m_parent->setIconSize(QSize(item_height, 1));	//（图标大小）
 	for (int i = 0; i < this->m_org_bitmapList.count(); i++){
 
-		// > 建立项
-		QListWidgetItem* item = this->createPictureItem();
+		// > 建立元胞
+		I_PiS_Cell* cell = this->createPictureCell(i, this->m_org_bitmapList.at(i));
+		this->m_cellTank.append(cell);
 
-		// > 每项添加
-		this->m_parent->addItem(item);
-		this->m_itemTank.append(item);
+		// > 添加 - 项
+		this->m_parent->addItem(cell->item);
 
-		// > 建立控件（必须在addItem后面）
-		QWidget* widget = this->createPictureWidget(i, this->m_org_bitmapList.at(i));
-
-		// > 添加到 列表控件
-		this->m_parent->setItemWidget(item, widget);
-		this->m_widgetTank.append(widget);
+		// > 添加 - 控件（必须在addItem后面）
+		this->m_parent->setItemWidget(cell->item, cell->widget);
 	}
 
 
@@ -175,32 +208,19 @@ void P_PiS_Selector::rebuildUI() {
 	}
 }
 /*-------------------------------------------------
-		控件 - 建立图片项
-*/
-QListWidgetItem* P_PiS_Selector::createPictureItem(){
-	QListWidgetItem* item = new QListWidgetItem(this->m_parent);
-	int item_height = this->m_config.getItemHeight();
-
-	// > 撑开每项
-	//QPixmap temp_bitmap(item_height, 1);				//（iconMode中，用图标撑开横向，图标不能撑开纵向）
-	//temp_bitmap.fill(Qt::white);						//（现在是listMode了，所以不需要了。）
-	//item->setIcon(QIcon(temp_bitmap));				//
-	item->setText(this->m_config.getLineExpand());		//（用换行符撑开纵向）
-	item->setSizeHint(QSize(this->m_config.getItemHeight(), this->m_config.getItemHeight()));	//（如果不撑开，选中的 蓝色方块 会紊乱）
-
-	return item;
-}
-/*-------------------------------------------------
 		控件 - 清理项
 */
-void P_PiS_Selector::clearItems(){
+void P_PiS_Selector::clearCells(){
 
 	// > 清理 - 父控件
 	this->m_parent->clear();
 
 	// > 清理 - 控件
-	this->m_itemTank.clear();
-	this->m_widgetTank.clear();
+	for (int i = this->m_cellTank.count() - 1; i >= 0; i--){
+		I_PiS_Cell* cell = this->m_cellTank.at(i);
+		delete cell;
+	}
+	this->m_cellTank.clear();
 	this->m_last_index = -1;
 
 	// > 清理 - 鼠标事件
@@ -222,8 +242,11 @@ void P_PiS_Selector::clearAll(){
 	this->m_parent->clear();
 
 	// > 清理 - 控件
-	this->m_itemTank.clear();
-	this->m_widgetTank.clear();
+	for (int i = this->m_cellTank.count()-1; i >= 0; i--){
+		I_PiS_Cell* cell = this->m_cellTank.at(i);
+		delete cell;
+	}
+	this->m_cellTank.clear();
 	this->m_last_index = -1;
 
 	// > 清理 - 鼠标事件
@@ -235,6 +258,27 @@ void P_PiS_Selector::clearAll(){
 	// > 清理 - 资源数据
 	this->m_org_bitmapList.clear();
 
+}
+/*-------------------------------------------------
+		控件 - 获取元胞索引
+*/
+int P_PiS_Selector::getCellIndexByItem(QListWidgetItem* item){
+	for (int i = 0; i < this->m_cellTank.count(); i++){
+		I_PiS_Cell* cell = this->m_cellTank.at(i);
+		if (cell->item == item){
+			return i;
+		}
+	}
+	return -1;
+}
+int P_PiS_Selector::getCellIndexByWidget(P_PictureBlock* widget){
+	for (int i = 0; i < this->m_cellTank.count(); i++){
+		I_PiS_Cell* cell = this->m_cellTank.at(i);
+		if (cell->widget == widget){
+			return i;
+		}
+	}
+	return -1;
 }
 
 
@@ -338,10 +382,12 @@ QList<QPixmap> P_PiS_Selector::getSourceBitmap(){
 */
 void P_PiS_Selector::selectIndex_Single(int index){
 	if (index < 0){ index = 0; }
-	if (index >= this->m_itemTank.count()){ index = this->m_itemTank.count() - 1; }
+	if (index >= this->m_cellTank.count()){ index = this->m_cellTank.count() - 1; }
 
-	for (int i = 0; i < this->m_itemTank.count(); i++){
-		QListWidgetItem* item = this->m_itemTank.at(i);
+	for (int i = 0; i < this->m_cellTank.count(); i++){
+		I_PiS_Cell* cell = this->m_cellTank.at(i);
+		QListWidgetItem* item = cell->item;
+		if (item == nullptr){ continue; }
 		if (i == index){
 			item->setSelected(true);
 			this->m_parent->scrollToItem(item);
@@ -354,8 +400,11 @@ void P_PiS_Selector::selectIndex_Single(int index){
 		选中 - 获取选中数据
 */
 int P_PiS_Selector::getSelectedIndex_Single(){
-	for (int i = 0; i < this->m_itemTank.count(); i++){
-		if (this->m_itemTank.at(i)->isSelected()){
+	for (int i = 0; i < this->m_cellTank.count(); i++){
+		I_PiS_Cell* cell = this->m_cellTank.at(i);
+		QListWidgetItem* item = cell->item;
+		if (item == nullptr){ continue; }
+		if (item->isSelected()){
 			return i;
 		}
 	}
@@ -366,8 +415,9 @@ int P_PiS_Selector::getSelectedIndex_Single(){
 		选中 - 设置选中（多选时）
 */
 void P_PiS_Selector::selectIndex_Multiple(QList<int> index_list){
-	for (int i = 0; i < this->m_itemTank.count(); i++){
-		QListWidgetItem* item = this->m_itemTank.at(i);
+	for (int i = 0; i < this->m_cellTank.count(); i++){
+		I_PiS_Cell* cell = this->m_cellTank.at(i);
+		QListWidgetItem* item = cell->item;
 		if (index_list.contains( i )){
 			item->setSelected(true);
 			this->m_parent->scrollToItem(item);
@@ -381,8 +431,11 @@ void P_PiS_Selector::selectIndex_Multiple(QList<int> index_list){
 */
 QList<int> P_PiS_Selector::getSelectedIndex_Multiple(){
 	QList<int> result_list;
-	for (int i = 0; i < this->m_itemTank.count(); i++){
-		if (this->m_itemTank.at(i)->isSelected()){
+	for (int i = 0; i < this->m_cellTank.count(); i++){
+		I_PiS_Cell* cell = this->m_cellTank.at(i);
+		QListWidgetItem* item = cell->item;
+		if (item == nullptr){ continue; }
+		if (item->isSelected()){
 			result_list.push_back(i);
 		}
 	}
@@ -410,5 +463,5 @@ void P_PiS_Selector::selectStart(){
 		选中 - 选中尾项
 */
 void P_PiS_Selector::selectEnd(){
-	this->selectIndex_Single(this->m_itemTank.count()-1);
+	this->selectIndex_Single(this->m_cellTank.count() - 1);
 }

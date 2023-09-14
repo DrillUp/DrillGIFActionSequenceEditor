@@ -294,6 +294,9 @@
     <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类">
       <UniqueIdentifier>{3e8638cd-2436-4f93-824f-735c605c9626}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块[PiS]\私有类">
+      <UniqueIdentifier>{26cbaefb-a56f-4d12-ab68-4ebd2cdbe918}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -1067,6 +1070,9 @@
     <ClCompile Include="Source\Utils\widgetFormSenior\AnimationBlock\P_AnimationBlock.cpp">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧单块</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Utils\widgetForm\PictureSelector\Private\I_PiS_Cell.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块[PiS]\私有类</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="drillgifactionsequenceeditor.qrc">
@@ -1386,6 +1392,9 @@
     </CustomBuild>
     <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListPlayer\P_AnimationListPlayer.ui">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧播放器</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetForm\PictureSelector\Private\I_PiS_Cell.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块[PiS]\私有类</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>

@@ -13,9 +13,10 @@
 C_ALE_DataSet::C_ALE_DataSet() {
 	this->id = -1;								//标识
 	this->m_unit = DATA_UNIT::FrameUnit;		//单位（默认1秒60帧）
-	this->gif_src;			//资源文件名
+
+	this->gif_src;								//资源文件名
 	this->gif_src_file = "";					//资源文件夹
-	this->gif_intervalTank;		//帧间隔列表
+	this->gif_intervalTank;						//帧间隔列表
 	this->gif_interval = 4;						//帧间隔
 }
 C_ALE_DataSet::~C_ALE_DataSet(){

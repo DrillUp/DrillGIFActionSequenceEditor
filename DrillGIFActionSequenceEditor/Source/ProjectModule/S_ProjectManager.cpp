@@ -8,12 +8,15 @@
 #include "Storage/S_StorageManager.h"
 #include "StorageGlobal/S_IniManager.h"
 #include "File/S_TempFileManager.h"
+#include PROJECT_INCLUDE
 
-#include "DrillGIFActionSequenceEditor.h"
+//【注意该cpp中带#号的函数，可能有自定义的工程控制代码】
+
 /*
 -----==========================================================-----
 		类：		项目管理.cpp
-		版本：		v1.15
+		版本：		v1.17
+		作者：		drill_up
 		所属模块：	项目管理模块
 		功能：		项目管理相关数据、相关操作都在这里主要控制。
 					> 基本功能
@@ -42,8 +45,9 @@
 							要求含有存储功能的类必须继承实现存储模板的4个方法。
 							数据结构类需要实现"getJsonObject"方法和"setJsonObject"方法，确保所有数据类都能够转成json数据。
 			
-		注意事项：	1.该管理器需要修改窗口名字，会发送信号。
-					2.PROJECT_SUFFIX 在c_ProjectData类中定义。
+		注意事项：	1. 该管理器需要修改窗口名字，会发送信号。
+					2. PROJECT_SUFFIX 在C_ProjectData类中定义。
+					3. 【注意该cpp中带#号的函数，可能有自定义的工程控制代码】。
 -----==========================================================-----
 */
 
@@ -82,6 +86,7 @@ S_ProjectManager* S_ProjectManager::getInstance() {
 void S_ProjectManager::setDirty() {
 	if (this->m_isDirty == false) {
 		this->m_isDirty = true;
+		emit signal_dirtyChanged(true);
 		this->changeTitle();
 	}
 }
@@ -90,7 +95,7 @@ void S_ProjectManager::setDirty() {
 */
 void S_ProjectManager::addLock(QWidget* widget) {
 	if (this->m_lockingWidgets.size() == 0) {
-		emit lockChanged(true);
+		emit signal_lockChanged(true);
 	}
 	this->m_lockingWidgets.push_back(widget);
 }
@@ -100,7 +105,7 @@ void S_ProjectManager::addLock(QWidget* widget) {
 void S_ProjectManager::removeLock(QWidget* widget) {
 	this->m_lockingWidgets.removeOne(widget);
 	if (this->m_lockingWidgets.size() == 0) {
-		emit lockChanged(false);
+		emit signal_lockChanged(false);
 	}
 }
 /* --------------------------------------------------------------
@@ -116,7 +121,7 @@ void S_ProjectManager::changeTitle(){
 	if (this->m_isDirty) {
 		title += "*";
 	}
-	emit changeWindowTitle(title);
+	emit signal_titleChanged(title);
 }
 /* --------------------------------------------------------------
 		全局 - 判断锁定
@@ -136,7 +141,7 @@ bool S_ProjectManager::isDirty() {
 bool S_ProjectManager::dirtyTip() {
 
 	if (this->m_isDirty) {
-		switch (QMessageBox::question(PROJECT_INSTANCE, "提示", "当前有未保存的修改，是否保存？", "保存", "不保存", "取消", 0)) {
+		switch (QMessageBox::question(PROJECT_INSTANCE, tr("提示"), tr("当前有未保存的修改，是否保存？"), tr("保存"), tr("不保存"), tr("取消"), 0)) {
 		case 0:
 			return this->saveProject();
 		case 1:
@@ -162,7 +167,7 @@ bool S_ProjectManager::newProject() {
 
 	this->clearProject();					//清理项目
 	this->changeTitle();					//修改标题
-	emit newProjectFinished();				//项目新建清空后（信号）
+	emit signal_newProjectFinished();		//项目新建清空后（信号）
 
 	return true;
 }
@@ -179,10 +184,10 @@ bool S_ProjectManager::openProject() {
 	// > 用户选择项目文件
 	QString file_path;
 	QFileDialog fd;
-	fd.setWindowTitle("打开项目");
+	fd.setWindowTitle(tr("打开项目"));
 	fd.setAcceptMode(QFileDialog::AcceptOpen);
 	fd.setDirectory(this->data_ProjectData.getParentPath());	
-	fd.setNameFilters(QStringList()	<< QString("项目文件(*.") + PROJECT_SUFFIX + ")");
+	fd.setNameFilters(QStringList() << QString(tr("项目文件(*.")) + PROJECT_SUFFIX + ")");
 	fd.setViewMode(QFileDialog::Detail);
 	if (fd.exec() == QDialog::Accepted) {
 		if (fd.selectedFiles().empty()) {
@@ -271,7 +276,7 @@ bool S_ProjectManager::saveAs() {
 
 	W_ProjectCreate d(PROJECT_INSTANCE);
 	d.setDataInModifyMode(this->data_ProjectData);
-	d.setWindowTitle("项目另存为");
+	d.setWindowTitle(tr("项目另存为"));
 	bool accepted = d.exec();
 	if (accepted == QDialog::Accepted) {
 		this->data_ProjectData = d.getData();	//刷新项目数据
@@ -302,12 +307,16 @@ void S_ProjectManager::clearProject() {
 
 	// > 项目所有参数初始化
 	S_StorageManager::getInstance()->clearAllApplicationData();		//清理存储数据
-	this->data_ProjectData = C_ProjectData();						//清理当前项目数据
+	this->data_ProjectData.clear();									//清理当前项目数据
 	this->m_isDirty = false;										//清理项目修改痕迹
+	emit signal_dirtyChanged(false);
 
 	// > 清除缓存数据
 	S_TempFileManager::getInstance()->removeAllTempFile();
 
+	// > 清理输出窗口
+	//S_ConsoleManager::getInstance()->clearContents();
+	//S_ConsoleManager::getInstance()->append(tr("----开始新工程----"));
 }
 
 /* --------------------------------------------------------------
@@ -329,7 +338,7 @@ void S_ProjectManager::openProjectDirectly(QString open_path) {
 	// > 复制文件到temp中
 	bool success = S_TempFileManager::getInstance()->copyResourceToTemp_Dir(this->data_ProjectData.getProjectFilePath());
 	if (success == false){
-		QMessageBox message(QMessageBox::Information, "提示", "当前项目中包含非法文件路径，打开失败。\n请将工程文件移动至一个空的文件夹中，再打开工程。");
+		QMessageBox message(QMessageBox::Information, tr("提示"), tr("当前项目中包含非法文件路径，打开失败。\n请将工程文件移动至一个空的文件夹中，再打开工程。"));
 		message.exec();
 		return;
 	}
@@ -338,10 +347,10 @@ void S_ProjectManager::openProjectDirectly(QString open_path) {
 	this->readSaveFile();
 
 	// > 修改窗口项目名
-	emit changeWindowTitle(this->data_ProjectData.getSoftname() + " - " + this->data_ProjectData.getName());
+	emit signal_titleChanged(this->data_ProjectData.getSoftname() + " - " + this->data_ProjectData.getName());
 
 	// > 项目打开后（信号）
-	emit openProjectFinished();
+	emit signal_openProjectFinished();
 }
 /* --------------------------------------------------------------
 		#项目 - 保存（目标文件夹）
@@ -361,10 +370,11 @@ void S_ProjectManager::saveAll(QString url) {
 
 	// > 清理痕迹
 	this->m_isDirty = false;
+	emit signal_dirtyChanged(false);
 	this->changeTitle();
 
 	// > 项目保存后（信号）
-	emit saveProjectFinished();
+	emit signal_saveProjectFinished();
 }
 /* --------------------------------------------------------------
 		#项目 - 保存（文件）
@@ -400,7 +410,7 @@ void S_ProjectManager::readSaveFile() {
 
 
 /* --------------------------------------------------------------
-		#项目 - 获取文件（根据后缀，F:/aaa/bbb.suf完整路径）
+		项目 - 获取文件（根据后缀，F:/aaa/bbb.suf完整路径）
 */
 QString S_ProjectManager::getOneFileBySuffix(QString url, QString suffix) {
 	suffix = suffix.replace(".", "");
@@ -428,7 +438,7 @@ QString S_ProjectManager::getSaveName() {
 */
 void S_ProjectManager::clearAllData() {
 	
-	this->data_ProjectData = C_ProjectData();
+	this->data_ProjectData.clear();
 	
 }
 
@@ -436,9 +446,9 @@ void S_ProjectManager::clearAllData() {
 		数据 - 全部求解需求数据 -> QJsonObject
 */
 QJsonObject S_ProjectManager::getAllDataOfJsonObject(){
-	QJsonObject obj_all = QJsonObject();
+	QJsonObject obj_all;
 
-	QJsonObject obj_ProjectData = QJsonObject();			//项目管理数据
+	QJsonObject obj_ProjectData;			//项目管理数据
 	obj_ProjectData.insert("type", "ProjectData");
 	obj_ProjectData.insert("data", this->data_ProjectData.getJsonObject());
 
@@ -531,12 +541,12 @@ void S_ProjectManager::removeHistoryDir(int index){
 */
 void S_ProjectManager::saveHistory(){
 
-	QStringList project_list = QStringList();
+	QStringList project_list;
 	for (int i = 0; i < this->m_historyProjectTank.count(); i++){
 		QFileInfo info = this->m_historyProjectTank.at(i);
 		project_list.append(info.absoluteFilePath());
 	}
-	QStringList dir_list = QStringList();
+	QStringList dir_list;
 	for (int i = 0; i < this->m_historyDirTank.count(); i++){
 		QDir dir = this->m_historyDirTank.at(i);
 		dir_list.append(dir.absolutePath());
