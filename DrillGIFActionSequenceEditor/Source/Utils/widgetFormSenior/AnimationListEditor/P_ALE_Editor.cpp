@@ -22,7 +22,8 @@
 		版本：		v1.04
 		作者：		drill_up
 		所属模块：	工具模块
-		功能：		将图片全部显示，并能单选/多选。
+		功能：		将图片全部显示，并能单选/多选。（ALE全称：Animation_List_Editor）
+					【底层基于QListWidget的item和widget，与QGraphics无关】
 					【注意一个特殊的信号：allFrameDeleted，全部帧被删除情况】
 
 		子功能：	-> 文本选择
