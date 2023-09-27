@@ -44,7 +44,9 @@ class Drill_COAS_MainController{
 		QString		_drill_act_curSerial;							//E管理动作元 - 当前序列号
 		Drill_COAS_ActController* _drill_act_curController;			//E管理动作元 - 当前控制器
 		bool		_drill_act_interrupt;							//E管理动作元 - 打断设置
-		
+
+		double		_drill_curSpeed;								//G变速播放 - 当前速度
+
 	//-----------------------------------
 	//----动画序列
 	public:
@@ -165,6 +167,14 @@ class Drill_COAS_MainController{
 	public:
 									//F管理装饰器 - 初始化子功能
 		void drill_controllerMain_initDecorator();
+		
+	//-----------------------------------
+	//----G变速播放
+	public:
+									//G变速播放 - 初始化子功能
+		void drill_controllerMain_initSpeed();
+									//G变速播放 - 帧刷新
+		void drill_controllerMain_updateSpeed();
 
 
 };

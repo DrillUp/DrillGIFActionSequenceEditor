@@ -50,6 +50,7 @@ Drill_COAS_MainController::~Drill_COAS_MainController(){
 void Drill_COAS_MainController::drill_controllerMain_update(){
 	if (this->isNull()){ return; }
 	if (this->_drill_data["pause"].toBool(false)){ return; }
+	this->drill_controllerMain_updateSpeed();			//帧刷新 - G变速播放
 	this->drill_controllerMain_updateAttr();			//帧刷新 - A主体
 														//帧刷新 - B输出数据（无）
 														//帧刷新 - C管理状态元（无）
@@ -84,6 +85,8 @@ void Drill_COAS_MainController::drill_controllerMain_initData(){
 	if (data["waitForPreload"].isUndefined() == true){ data["waitForPreload"] = true; }								//F管理装饰器 - 预加载等待
 	if (data["bitmapRefreshFrame"].isUndefined() == true){ data["bitmapRefreshFrame"] = true; }						//F管理装饰器 - bitmap刷新框架开关
 
+	// > G变速播放（无）
+
 	this->_drill_data = data;	//（c++中，注意此处的指针，需要重新赋值）
 }
 /*-------------------------------------------------
@@ -96,6 +99,7 @@ void Drill_COAS_MainController::drill_controllerMain_initChild(){
 	this->drill_controllerMain_initNode();			//初始化子功能 - D管理状态节点
 	this->drill_controllerMain_initAct();			//初始化子功能 - E管理动作元
 	this->drill_controllerMain_initDecorator();		//初始化子功能 - F管理装饰器
+	this->drill_controllerMain_initSpeed();			//初始化子功能 - G变速播放
 }
 /*-------------------------------------------------
 		动画序列 - 重设数据【标准函数】
@@ -616,6 +620,29 @@ bool Drill_COAS_MainController::drill_controllerMain_Act_isPlayingAct(){
 */
 void Drill_COAS_MainController::drill_controllerMain_initDecorator(){
 	//（无）
+}
+
+
+/*-------------------------------------------------
+		G变速播放 - 初始化子功能
+*/
+void Drill_COAS_MainController::drill_controllerMain_initSpeed(){
+	this->_drill_curSpeed = 1;
+}
+/*-------------------------------------------------
+		G变速播放 - 帧刷新
+*/
+void Drill_COAS_MainController::drill_controllerMain_updateSpeed(){
+
+	Drill_COAS_StateController* state = this->drill_controllerMain_Node_getCurState();
+	if (state != nullptr){
+		state->_drill_curSpeed = this->_drill_curSpeed;
+	}
+
+	Drill_COAS_ActController* act = this->_drill_act_curController;
+	if (act != nullptr){
+		act->_drill_curSpeed = this->_drill_curSpeed;
+	}
 }
 
 

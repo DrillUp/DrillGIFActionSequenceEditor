@@ -31,10 +31,12 @@ class Drill_COAS_ActController{
 
 		QString		_drill_curBitmapName;			//B输出数据 - 当前的资源名
 		
-		int			_drill_curTickTime;				//C播放GIF - 当前累计时间
+		double		_drill_curTickTime;				//C播放GIF - 当前累计时间
 		int			_drill_curIndex;				//C播放GIF - 当前索引
 		int			_drill_tarIndex;				//C播放GIF - 索引结束位置
 		QJsonArray	_drill_curIntervalTank;			//C播放GIF - 帧间隔列表
+
+		double		_drill_curSpeed;				//D变速播放 - 当前速度
 		
 	//-----------------------------------
 	//----动作元
@@ -99,7 +101,12 @@ class Drill_COAS_ActController{
 		void drill_controllerAct_setCurIndex_Private(int index);
 									//C播放GIF - 帧刷新（动作元）
 		void drill_controllerAct_updateGIF();
-
+		
+	//-----------------------------------
+	//----D变速播放
+	public:
+									//D变速播放 - 初始化子功能
+		void drill_controllerAct_initSpeed();
 };
 
 #endif // Drill_COAS_ActController_H

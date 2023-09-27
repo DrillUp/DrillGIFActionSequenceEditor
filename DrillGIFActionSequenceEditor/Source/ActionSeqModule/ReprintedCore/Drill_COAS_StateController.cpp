@@ -46,6 +46,7 @@ void Drill_COAS_StateController::drill_controllerState_update(){
 	this->drill_controllerState_updateAttr();		//帧刷新 - A主体
 													//帧刷新 - B输出数据（无）
 	this->drill_controllerState_updateGIF();		//帧刷新 - C播放GIF
+													//帧刷新 - D变速播放（无）
 }
 /*-------------------------------------------------
 		状态元 - 初始化数据【标准默认值】
@@ -73,6 +74,8 @@ void Drill_COAS_StateController::drill_controllerState_initData(){
 	if (data["gif_back_run"].isUndefined() == true){ data["gif_back_run"] = false; }						//C播放GIF - 是否倒放
 	if (data["gif_preload"].isUndefined() == true){ data["gif_preload"] = false; }							//C播放GIF - 是否预加载
 
+	// > D变速播放（无）
+
 	this->_drill_data = data;	//（c++中，注意此处的指针，需要重新赋值）
 }
 /*-------------------------------------------------
@@ -82,6 +85,7 @@ void Drill_COAS_StateController::drill_controllerState_initChild(){
 	this->drill_controllerState_initAttr();			//初始化子功能 - A主体
 	this->drill_controllerState_initBitmapParam();	//初始化子功能 - B输出数据
 	this->drill_controllerState_initGIF();			//初始化子功能 - C播放GIF
+	this->drill_controllerState_initSpeed();		//初始化子功能 - D变速播放
 }
 /*-------------------------------------------------
 		状态元 - 重设数据（私有）
@@ -289,5 +293,13 @@ void Drill_COAS_StateController::drill_controllerState_updateGIF(){
 	this->_drill_curBitmapName = data["gif_src"].toArray()[cur_index].toString();
 
 	// > 当前累计时间+1
-	this->_drill_curTickTime += 1;
+	this->_drill_curTickTime += this->_drill_curSpeed;
+}
+
+
+/*-------------------------------------------------
+		D变速播放 - 初始化子功能
+*/
+void Drill_COAS_StateController::drill_controllerState_initSpeed(){
+	this->_drill_curSpeed = 1;
 }
