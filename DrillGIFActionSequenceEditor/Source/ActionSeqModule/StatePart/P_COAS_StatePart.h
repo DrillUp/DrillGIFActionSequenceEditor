@@ -35,6 +35,8 @@ class P_COAS_StatePart : public QWidget
 	public slots:
 									//控件 - 表单变化
 		void nameEdited(QString name);
+									//控件 - 倒放勾选框变化
+		void backRunChanged(bool checked);
 									//控件 - 修改标签列表
 		void btn_editTagTank();
 									//控件 - 刷新

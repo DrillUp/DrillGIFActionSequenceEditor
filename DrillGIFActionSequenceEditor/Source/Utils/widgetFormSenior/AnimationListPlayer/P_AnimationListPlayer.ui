@@ -94,8 +94,8 @@ QToolButton:pressed{
          <string>跳至首帧</string>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/player/Play_Start.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/player/Play_Start.png</iconset>
+         <iconset resource="../../../../CodePieceQT_Graph.qrc">
+          <normaloff>:/CodePieceQT_Graph/Resources/icon/player/Play_Start.png</normaloff>:/CodePieceQT_Graph/Resources/icon/player/Play_Start.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -114,8 +114,8 @@ QToolButton:pressed{
          <string>上一帧</string>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/player/Play_Last.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/player/Play_Last.png</iconset>
+         <iconset resource="../../../../CodePieceQT_Graph.qrc">
+          <normaloff>:/CodePieceQT_Graph/Resources/icon/player/Play_Last.png</normaloff>:/CodePieceQT_Graph/Resources/icon/player/Play_Last.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -134,8 +134,8 @@ QToolButton:pressed{
          <string>播放</string>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/player/Play_Run.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/player/Play_Run.png</iconset>
+         <iconset resource="../../../../CodePieceQT_Graph.qrc">
+          <normaloff>:/CodePieceQT_Graph/Resources/icon/player/Play_Run.png</normaloff>:/CodePieceQT_Graph/Resources/icon/player/Play_Run.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -154,8 +154,28 @@ QToolButton:pressed{
          <string>下一帧</string>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/player/Play_Next.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/player/Play_Next.png</iconset>
+         <iconset resource="../../../../CodePieceQT_Graph.qrc">
+          <normaloff>:/CodePieceQT_Graph/Resources/icon/player/Play_Next.png</normaloff>:/CodePieceQT_Graph/Resources/icon/player/Play_Next.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>24</width>
+          <height>24</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButton_backRun">
+        <property name="toolTip">
+         <string>播放顺序</string>
+        </property>
+        <property name="text">
+         <string>播放顺序</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../../../CodePieceQT_Graph.qrc">
+          <normaloff>:/CodePieceQT_Graph/Resources/icon/menu/Common_Right.png</normaloff>:/CodePieceQT_Graph/Resources/icon/menu/Common_Right.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -174,8 +194,8 @@ QToolButton:pressed{
          <string>添加帧</string>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/menu/Common_New.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/menu/Common_New.png</iconset>
+         <iconset resource="../../../../CodePieceQT_Graph.qrc">
+          <normaloff>:/CodePieceQT_Graph/Resources/icon/menu/Common_New.png</normaloff>:/CodePieceQT_Graph/Resources/icon/menu/Common_New.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -194,8 +214,8 @@ QToolButton:pressed{
          <string>导出GIF</string>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/menu/ExportGIF.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/menu/ExportGIF.png</iconset>
+         <iconset resource="../../../../CodePieceQT_Graph.qrc">
+          <normaloff>:/CodePieceQT_Graph/Resources/icon/menu/ExportGIF.png</normaloff>:/CodePieceQT_Graph/Resources/icon/menu/ExportGIF.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -214,8 +234,8 @@ QToolButton:pressed{
          <string>播放器设置</string>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/menu/Common_Setting.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/menu/Common_Setting.png</iconset>
+         <iconset resource="../../../../CodePieceQT_Graph.qrc">
+          <normaloff>:/CodePieceQT_Graph/Resources/icon/menu/Common_Setting.png</normaloff>:/CodePieceQT_Graph/Resources/icon/menu/Common_Setting.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -231,7 +251,7 @@ QToolButton:pressed{
   </layout>
  </widget>
  <resources>
-  <include location="../../../../code_piece_qtutil.qrc"/>
+  <include location="../../../../CodePieceQT_Graph.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -1,64 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>W_ALEDataEdit</class>
- <widget class="QDialog" name="W_ALEDataEdit">
+ <class>W_ALE_CellDataMultiple</class>
+ <widget class="QDialog" name="W_ALE_CellDataMultiple">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>350</width>
-    <height>210</height>
+    <width>520</width>
+    <height>420</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>编辑帧</string>
+   <string>编辑多帧</string>
   </property>
   <property name="styleSheet">
    <string notr="true">
 QComboBox QAbstractItemView::item { min-height: 26px;}</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="1,0,0">
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
-      <string>当前帧</string>
+      <string>帧数据（只读，不可修改）</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout" columnstretch="1,2,0">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_zeroFillChar">
-        <property name="text">
-         <string>当前资源</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="lineEdit">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QPushButton" name="pushButton">
-        <property name="text">
-         <string>浏览</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0" colspan="3">
-       <widget class="Line" name="line">
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="1" column="1">
+       <widget class="QPushButton" name="pushButton_openParentDir">
         <property name="minimumSize">
          <size>
           <width>0</width>
-          <height>12</height>
+          <height>26</height>
          </size>
         </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+        <property name="text">
+         <string>打开动画帧文件夹</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="0" colspan="3">
+      <item row="1" column="0">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="QTableWidget" name="tableWidget">
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::NoSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectRows</enum>
+        </property>
+        <attribute name="verticalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
+        <column>
+         <property name="text">
+          <string>序号</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>资源名称</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>帧时间</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_edit">
+     <property name="title">
+      <string>批量修改帧时间</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+     <layout class="QGridLayout" name="gridLayout" columnstretch="1,0">
+      <item row="0" column="0" colspan="2">
        <widget class="QStackedWidget" name="stackedWidget">
         <property name="currentIndex">
          <number>0</number>
@@ -86,6 +124,12 @@ QComboBox QAbstractItemView::item { min-height: 26px;}</string>
           </item>
           <item row="0" column="1">
            <widget class="QComboBox" name="comboBox_frameUnit">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>26</height>
+             </size>
+            </property>
             <item>
              <property name="text">
               <string>自定义</string>
@@ -95,6 +139,12 @@ QComboBox QAbstractItemView::item { min-height: 26px;}</string>
           </item>
           <item row="1" column="1">
            <widget class="QSpinBox" name="spinBox_frameUnit">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>26</height>
+             </size>
+            </property>
             <property name="suffix">
              <string>帧</string>
             </property>
@@ -109,7 +159,7 @@ QComboBox QAbstractItemView::item { min-height: 26px;}</string>
          </layout>
         </widget>
         <widget class="QWidget" name="page_secondUnit">
-         <layout class="QGridLayout" name="gridLayout_2" columnstretch="1,2">
+         <layout class="QGridLayout" name="gridLayout_4" columnstretch="1,2">
           <property name="leftMargin">
            <number>0</number>
           </property>
@@ -131,6 +181,12 @@ QComboBox QAbstractItemView::item { min-height: 26px;}</string>
           </item>
           <item row="0" column="1">
            <widget class="QComboBox" name="comboBox_secondUnit">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>26</height>
+             </size>
+            </property>
             <item>
              <property name="text">
               <string>自定义</string>
@@ -140,6 +196,12 @@ QComboBox QAbstractItemView::item { min-height: 26px;}</string>
           </item>
           <item row="1" column="1">
            <widget class="QDoubleSpinBox" name="doubleSpinBox_secondUnit">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>26</height>
+             </size>
+            </property>
             <property name="suffix">
              <string>秒</string>
             </property>
@@ -162,19 +224,6 @@ QComboBox QAbstractItemView::item { min-height: 26px;}</string>
     </widget>
    </item>
    <item>
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item>
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -191,12 +240,12 @@ QComboBox QAbstractItemView::item { min-height: 26px;}</string>
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>W_ALEDataEdit</receiver>
+   <receiver>W_ALE_CellDataMultiple</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>345</x>
-     <y>303</y>
+     <x>340</x>
+     <y>240</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

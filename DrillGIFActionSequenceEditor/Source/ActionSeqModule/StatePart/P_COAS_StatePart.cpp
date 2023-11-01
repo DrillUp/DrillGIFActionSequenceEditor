@@ -57,7 +57,6 @@ P_COAS_StatePart::P_COAS_StatePart(QWidget *parent)
 
 	// > 动画帧
 	this->m_p_AnimationListEditor = new P_ALE_Editor(ui.listWidget);
-	this->m_p_AnimationListEditor->setSource(C_ALE_DataSet());
 
 	C_ALE_Config config = C_ALE_Config();
 	this->m_p_AnimationListEditor->setConfigParam_ALE(config);
@@ -88,13 +87,14 @@ P_COAS_StatePart::P_COAS_StatePart(QWidget *parent)
 
 	// > 表单变化绑定
 	connect(ui.lineEdit_name, &QLineEdit::textEdited, this, &P_COAS_StatePart::nameEdited);
-	connect(ui.lineEdit_name, &QLineEdit::textChanged, this->m_p_AnimationListEditor, &P_ALE_Editor::setExportName);
-	connect(ui.checkBox_gif_back_run, &QCheckBox::toggled, this->m_p_AnimationListPlayer, &P_AnimationListPlayer::setPlayBackRun);
+	connect(ui.lineEdit_name, &QLineEdit::textChanged, this->m_p_AnimationListEditor, &P_ALE_Editor::setCustomExportName);
+	connect(ui.checkBox_gif_back_run, &QCheckBox::toggled, this->m_p_AnimationListPlayer, &P_AnimationListPlayer::setBackRun);			//正向设置
+	connect(this->m_p_AnimationListPlayer, &P_AnimationListPlayer::signal_backRunChanged, this, &P_COAS_StatePart::backRunChanged);		//反向被设置
 
 	// > 图片查看块 - 连接帧切换
 	connect(this->m_p_AnimationListEditor, &P_ALE_Editor::signal_currentIndexChanged_Single, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::setAnimFrame);
 	// > 图片查看块 - 连接资源切换
-	connect(this->m_p_AnimationListEditor, &P_ALE_Editor::signal_SourceBitmapChanged, this, &P_COAS_StatePart::bitmapChanged);
+	connect(this->m_p_AnimationListEditor, &P_ALE_Editor::signal_picListChanged, this, &P_COAS_StatePart::bitmapChanged);
 	// > 图片查看块 - 着色器
 	connect(ui.horizontalSlider_tint, &QAbstractSlider::valueChanged, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::setTint );
 	// > 图片查看块 - 缩放
@@ -122,6 +122,13 @@ void P_COAS_StatePart::nameEdited(QString name){
 		C_COAS_StatePtr state_ptr = this->m_stateDataList.at(this->m_last_index);
 		state_ptr->name = name;
 	}
+}
+/*-------------------------------------------------
+		控件 - 倒放勾选框变化
+*/
+void P_COAS_StatePart::backRunChanged(bool checked){
+	if (ui.checkBox_gif_back_run->isChecked() == checked){ return; }
+	ui.checkBox_gif_back_run->setChecked(checked);
 }
 /*-------------------------------------------------
 		控件 - 修改标签列表
@@ -155,8 +162,12 @@ void P_COAS_StatePart::tableChanged_Multi(QList<int> index_list){
 		动画帧 - 资源切换
 */
 void P_COAS_StatePart::bitmapChanged(){
-	C_ALE_DataSet data = this->m_p_AnimationListEditor->getSource();
-	this->m_p_AnimPictureViewer->setSource(data.getAllFile());
+	QStringList pic_list = this->m_p_AnimationListEditor->getCurrentData_PicList();
+	QList<QFileInfo> file_list;
+	for (int i = 0; i < pic_list.count(); i++){
+		file_list.append(QFileInfo(pic_list.at(i)));
+	}
+	this->m_p_AnimPictureViewer->setSource(file_list);
 }
 /*-------------------------------------------------
 		动画帧 - 缩放比例切换
@@ -300,11 +311,11 @@ void P_COAS_StatePart::local_saveCurIndexData(){
 	state_ptr->canBeInterrupted = ui.checkBox_canBeInterrupted->isChecked();
 
 	// > GIF
-	C_ALE_DataSet ALE_data = this->m_p_AnimationListEditor->getSource();
+	C_ALE_DataSet ALE_data = this->m_p_AnimationListEditor->getDataSet_ALE();
 	state_ptr->gif_src.clear();
-	QList<QFileInfo> info_list = ALE_data.getAllFile();
-	for (int i = 0; i < info_list.count(); i++){
-		state_ptr->gif_src.append(info_list.at(i).completeBaseName());
+	QStringList pic_list = ALE_data.getData_PicList();
+	for (int i = 0; i < pic_list.count(); i++){
+		state_ptr->gif_src.append(QFileInfo(pic_list.at(i)).completeBaseName());
 	}
 	//		（资源文件夹，不需赋值）
 	state_ptr->gif_interval = ALE_data.getData_IntervalDefault();
@@ -345,10 +356,9 @@ void P_COAS_StatePart::local_loadIndexData(int index){
 	// > GIF
 	QString gif_src_file = S_ActionSeqDataContainer::getInstance()->getActionSeqDir();
 	C_ALE_DataSet data = C_ALE_DataSet();
-	data.setData_Id(index);
 	data.setSource(gif_src_file, state_ptr->gif_src);
 	data.setInterval(state_ptr->gif_interval, state_ptr->gif_intervalTank);
-	this->m_p_AnimationListEditor->setSource(data);
+	this->m_p_AnimationListEditor->setDataSet_ALE(data);
 	this->m_p_AnimationListEditor->selectStart();
 	ui.checkBox_gif_back_run->setChecked(state_ptr->gif_back_run);
 	ui.checkBox_gif_preload->setChecked(state_ptr->gif_preload);

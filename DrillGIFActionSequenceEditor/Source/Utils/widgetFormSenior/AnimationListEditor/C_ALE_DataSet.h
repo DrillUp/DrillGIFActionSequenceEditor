@@ -1,137 +1,117 @@
 ﻿#pragma once
 #include "stdafx.h"
 #include <QList>
+#include "Source/Utils/WidgetForm/PictureListEditor/C_PLE_DataSet.h"
 
 /*
 -----==========================================================-----
-		类：		动画帧 数据类.h
+		类：		动画帧编辑块 数据类.h
 		作者：		drill_up
 		所属模块：	工具模块
-		功能：		动画帧 的数据类。
-					注意，只有五项。如果有其他数据合并，想办法另起一个类。
+		功能：		动画帧编辑块 的数据类。
+					【该数据类只用于传值，所以不需要 ID或名称 的标识】
 					（详细见cpp）
 -----==========================================================-----
 */
-class C_ALE_DataSet {
+
+class C_ALE_DataSet : public C_PLE_DataSet
+{
 
 	public:
 		C_ALE_DataSet();
 		~C_ALE_DataSet();
 		
+
 	//-----------------------------------
-	//----数据
+	//----主流程
+	public:
+											//主流程 - 设置资源
+											//		【参数1】：文件父目录
+											//		【参数2】：文件名（不带文件后缀，文件可重名）
+											//		【说明】：此流程会赋值 父路径 和 资源文件 的参数。
+		void setSource(QString pic_file, QList<QString> pic_name_list);
+											//主流程 - 设置帧间隔数据
+											//		【参数1】：默认帧间隔
+											//		【参数2】：帧间隔明细表
+											//		【说明】：此流程会赋值 默认帧间隔 和 帧间隔明细表 的参数。需要在setSource或setPicList之后执行。
+		void setInterval(int gif_interval, QList<int> gif_intervalTank);
+
+
+	//-----------------------------------
+	//----父路径（全局数据，继承于PLE）
+	//
+	//		（暂无子类函数）
+
+
+	//-----------------------------------
+	//----动画帧单位（全局数据）
 	public:
 		enum DATA_UNIT{	
 			FrameUnit,		//帧单位（1秒60帧）
 			SecondUnit,		//秒单位（1秒100帧）
 		};
 	protected:
-		int id;								//标识
-		DATA_UNIT m_unit;					//单位
-
-		QList<QString> gif_src;				//资源文件名
-		QString gif_src_file;				//资源文件夹
-		QList<int> gif_intervalTank;		//帧间隔-明细表
-		int gif_interval;					//帧间隔
-		
-	//-----------------------------------
-	//----设置
+		DATA_UNIT m_unit;
 	public:
-											//访问器 - 设置标识
-		void setData_Id(int id);
-											//访问器 - 设置文件父目录
-		void setData_ParentFile(QString gif_src_file);
-											//访问器 - 设置默认帧间隔
-		void setData_IntervalDefault(int gif_interval);
-											//访问器 - 设置单位
+											//动画帧单位 - 设置
 											//		【说明】：数据单位以编辑器的为准。单位变化并不影响实际存储的帧间隔。
 		void setData_Unit(C_ALE_DataSet::DATA_UNIT unit);
-
-											//接口 - 设置资源
-											//		【参数1】：文件父目录
-											//		【参数2】：不带文件后缀，文件可重名
-		void setSource(QString gif_src_file, QList<QString> gif_src);
-
-											//接口 - 设置帧间隔
-											//		【参数1】：默认帧间隔
-											//		【参数2】：帧间隔 明细表
-		void setInterval(int gif_interval, QList<int> gif_intervalTank);
-											//接口 - 设置默认帧间隔
-											//		【参数】：默认帧间隔
-											//		【说明】：与原默认帧间隔一样的值，会被统一改变。
-		void setIntervalDefaultWithFit(int gif_interval);
-
-
-	protected:
-		void checkInterval();
-		void checkIntervalValue();
-
-	//-----------------------------------
-	//----获取
-	public:
-											//访问器 - 获取标识
-		int getData_Id();
-											//访问器 - 获取默认帧间隔
-		int getData_IntervalDefault();
-											//访问器 - 获取帧间隔明细表
-		QList<int> getData_IntervalTank();
-											//访问器 - 单位
+											//动画帧单位 - 获取
 											//		【说明】：数据单位以编辑器的为准。单位变化并不影响实际存储的帧间隔。
 		C_ALE_DataSet::DATA_UNIT getData_Unit();
-
-											//接口 - 获取文件
-		QFileInfo getFile(int index);
-											//接口 - 获取文件（多个）
-		QList<QFileInfo> getFile_Multi(QList<int> index_list);
-											//接口 - 获取全部文件
-		QList<QFileInfo> getAllFile();
-											//接口 - 获取文件数量
-		int getFileCount();
-											//接口 - 获取文件路径（F:/aaa/vvv ）
-		QString getFileRoot();
-											//接口 - 检查文件（不带文件后缀）
-		bool hasFileName(QString file_name);
-
-											//接口 - 获取默认帧间隔（含单位转换）
-		double getIntervalDefaultWithUnit();
-											//接口 - 获取帧间隔（含单位转换）
-		double getIntervalWithUnit(int index);
-		QList<double> getIntervalWithUnit_Multi(QList<int> index_list);
-											//接口 - 获取帧间隔明细表（含单位转换）
-		QList<double> getIntervalTankWithUnit();
-											//接口 - 获取帧间隔文本（"0.01"，实际帧为 0.01666 * n ）
-		QString getIntervalString(int index);
-
-	protected:
-		double intervalUnitTransform(int interval);
 		
 
 	//-----------------------------------
-	//----操作
+	//----默认帧间隔（全局数据）
+	protected:
+		int m_gif_interval;
 	public:
-									//操作 - 添加
-		void op_append(QString gif_src);
-		void op_insert(int index, QString gif_src);
-		void op_insert(int index, QStringList gif_src_list, QList<int> interval_list = QList<int>());
-									//操作 - 替换
-		void op_replace(int index, QString gif_src);
-		void op_replace_interval(int index, int interval);
-		void op_replace_interval(QList<int> index, int interval);
-									//操作 - 移除
-		void op_remove(int index);
-									//操作 - 交换位置
-		void op_swap(int index_a, int index_b);
+											//默认帧间隔 - 设置
+		void setData_IntervalDefault(int gif_interval);
+											//默认帧间隔 - 获取
+		int getData_IntervalDefault();
+											//默认帧间隔 - 修改默认帧间隔
+											//		【说明】：与原默认帧间隔一样的值，会被统一改变。
+											//		【说明】：此处为 改数据 中的默认帧间隔。改Cell的见P_ALE_Editor。
+		void setIntervalDefaultInAll(int gif_interval);
+		
+		
+	//-----------------------------------
+	//----帧间隔明细表
+	protected:
+		QList<int> m_gif_intervalTank;
 	public:
-									//复制文件
-		static bool copyFile(QString filePath_from, QString filePath_to);
+											//帧间隔明细表 - 设置（原数据）
+		void setData_IntervalTank(QList<int> gif_intervalTank);
+											//帧间隔明细表 - 获取（原数据）
+		QList<int> getData_IntervalTank();
+	public:
+											//帧间隔明细表 - 自适应 - 获取（含自适应）
+											//		【说明】：明细表 原数据的数组长度 可能与 图片资源长度 不一致，所以需要获取自适应数据。
+		QList<int> getData_IntervalTank_WithFit();
+											//帧间隔明细表 - 自适应 - 执行自适应转换
+		static QList<int> converterFit_getIntervalList(QList<int> intervalValueList, int default_interval, int pic_count);
+		
+	public:
+											//帧间隔明细表 - 单位 - 获取（含单位转换）
+		double getData_IntervalTankOne_WithUnit(int index);
+		QList<double> getData_IntervalTankList_WithUnit(QList<int> index_list);
+		QList<double> getData_IntervalTankAll_WithUnit();
+											//帧间隔明细表 - 单位 - 执行单位转换
+		static double converterUnit_getInterval(int intervalValue, C_ALE_DataSet::DATA_UNIT unit);
+		static QList<double> converterUnit_getIntervalList(QList<int> intervalValueList, C_ALE_DataSet::DATA_UNIT unit);
+
+											//帧间隔明细表 - 单位 - 获取描述文本（"0.01"，实际帧为 0.01666 * n ）
+		QString getDescriptionString(int intervalValue);
+											//帧间隔明细表 - 单位 - 执行描述文本转换
+		static QString converterUnit_getDescriptionString(int intervalValue, C_ALE_DataSet::DATA_UNIT unit);
+
 
 	//-----------------------------------
 	//----类属性
 	public:
-									//空判断
-		bool isNull();
-									//实体类 -> QJsonObject
-		QJsonObject getJsonObject();
-									//QJsonObject -> 实体类
-		void setJsonObject(QJsonObject obj);
+												//实体类 -> QJsonObject
+		virtual QJsonObject getJsonObject() override;
+												//QJsonObject -> 实体类
+		virtual void setJsonObject(QJsonObject obj) override;
 };

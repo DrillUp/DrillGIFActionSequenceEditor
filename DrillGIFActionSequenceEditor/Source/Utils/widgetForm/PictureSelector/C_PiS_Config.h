@@ -11,6 +11,7 @@
 					（详细见cpp）
 -----==========================================================-----
 */
+
 class C_PiS_Config{
 
 	public:
@@ -24,14 +25,29 @@ class C_PiS_Config{
 		int m_zeroFillCount;			//零填充 - 位数
 		QChar m_zeroFillChar;			//零填充 - 填充的字符
 
-		int m_height;					//控件 - 图片单块高度
 		bool m_isMaskEnabled;			//控件 - 是否显示马赛克背景
+		bool m_isMaskBorderEnabled;		//控件 - 是否显示马赛克背景边线
+
 		bool m_isMultiSelect;			//控件 - 是否多选
+
+	//-----------------------------------
+	//----尺寸
+	protected:
+		QString m_size_mode;			//尺寸 - 模式（小、中、大、自定义）
+		int m_size_customHeight;		//尺寸 - 自定义单块高度
 	public:
-									//数据 - 获取图片高度
-		int getItemHeight();
-									//数据 - 获取换行字符串（\n 撑开选中的 蓝色方块）
-		QString getLineExpand();
+									//尺寸 - 设置模式（小、中、大）
+		void setSize_Mode(QString sizeMode);
+									//尺寸 - 设置模式（自定义）
+		void setSize_Custom(int customHeight);
+									//尺寸 - 获取模式
+		QString getSize_Mode();
+									//尺寸 - 获取单块高度
+		int getSize_ItemHeight();
+									//尺寸 - 获取父对象高度
+		int getSize_ParentHeight();
+									//尺寸 - 获取换行字符串（\n 撑开选中的 蓝色方块）
+		QString getSize_LineExpand();
 		
 	//-----------------------------------
 	//----类属性

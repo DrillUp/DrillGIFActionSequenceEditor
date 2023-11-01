@@ -1,71 +1,77 @@
 ﻿#include "stdafx.h"
-#include "W_ALEDataEdit.h"
+#include "W_ALE_CellDataMultiple.h"
 
+#include "../C_ALE_DataSet.h"
 #include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
-		类：		动画帧编辑 窗口.cpp
+		类：		编辑数据-多选 窗口.cpp
 		作者：		drill_up
 		所属模块：	工具模块
-		功能：		编辑动画帧的一些配置。
-					注意，这是对象选择器的私有配置窗口。一般不外用。
+		功能：		编辑数据-多选 的配置窗口。
 
 		使用方法：
-				>打开窗口
-					W_ALEDataEdit d;
+				> 打开窗口
+					W_ALE_CellDataMultiple d;
 					d.setDataInModifyMode(this->getConfigParam());
 					if (d.exec() == QDialog::Accepted){
 						this->setConfigParam( d.getData() );
 					}
 -----==========================================================-----
 */
-
-W_ALEDataEdit::W_ALEDataEdit(QWidget *parent)
+W_ALE_CellDataMultiple::W_ALE_CellDataMultiple(QWidget *parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
 
 	//-----------------------------------
 	//----初始化参数
-	this->local_index = -1;
-	this->local_index_list;
 	this->m_slotBlock = false;
 	
 	//-----------------------------------
 	//----初始化ui
+
+	// > 表格
+	ui.tableWidget->horizontalHeader()->resizeSection(0, 60);
+	ui.tableWidget->horizontalHeader()->resizeSection(1, 200);
+	ui.tableWidget->horizontalHeader()->resizeSection(2, 100);
+
+	// > 数字设置
 	ui.comboBox_frameUnit->clear();
 	ui.comboBox_frameUnit->setView(new QListView());
 	ui.comboBox_frameUnit->addItems(QStringList()
-		<< "1帧" << "2帧" << "3帧" << "4帧" << "8帧" << "12帧"
+		<< "1帧" << "2帧" << "3帧" << "4帧" << "6帧" << "8帧" << "12帧"
 		<< "5帧" << "10帧" << "15帧" << "20帧" << "30帧" << "40帧" << "60帧"
 		<< "120帧" << "600帧" << "自定义");
 	ui.comboBox_secondUnit->clear();
 	ui.comboBox_secondUnit->setView(new QListView());
 	ui.comboBox_secondUnit->addItems(QStringList()
-		<< "0.01秒" << "0.02秒" << "0.03秒" << "0.04秒" << "0.08秒" << "0.12秒"
+		<< "0.01秒" << "0.02秒" << "0.03秒" << "0.04秒" << "0.06秒" << "0.08秒" << "0.12秒"
 		<< "0.05秒" << "0.10秒" << "0.15秒" << "0.20秒" << "0.30秒" << "0.40秒" << "0.60秒"
 		<< "1.20秒" << "6.00秒" << "自定义");
+
+	// > 按钮文本转换
 	TTool::_chinese_(ui.buttonBox);
 
 	//-----------------------------------
 	//----事件绑定
-	connect(ui.pushButton, &QPushButton::clicked, this, &W_ALEDataEdit::chooseFile);
-	connect(ui.buttonBox, &QDialogButtonBox::accepted, this, &W_ALEDataEdit::acceptData);
-
-	connect(ui.comboBox_frameUnit, &QComboBox::currentTextChanged, this, &W_ALEDataEdit::timeSelected_frameUnit);
+	connect(ui.comboBox_frameUnit, &QComboBox::currentTextChanged, this, &W_ALE_CellDataMultiple::timeSelected_frameUnit);
 	connect(ui.spinBox_frameUnit, SIGNAL(valueChanged(int)), this, SLOT(timeEdited_frameUnit(int)));
-	connect(ui.comboBox_secondUnit, &QComboBox::currentTextChanged, this, &W_ALEDataEdit::timeSelected_secondUnit);
+	connect(ui.comboBox_secondUnit, &QComboBox::currentTextChanged, this, &W_ALE_CellDataMultiple::timeSelected_secondUnit);
 	connect(ui.doubleSpinBox_secondUnit, SIGNAL(valueChanged(double)), this, SLOT(timeEdited_secondUnit(double)));
-}
 
-W_ALEDataEdit::~W_ALEDataEdit(){
+	connect(ui.pushButton_openParentDir, &QPushButton::clicked, this, &W_ALE_CellDataMultiple::openParentDir);
+	connect(ui.buttonBox, &QDialogButtonBox::accepted, this, &W_ALE_CellDataMultiple::acceptData);
+
+}
+W_ALE_CellDataMultiple::~W_ALE_CellDataMultiple(){
 }
 
 /*-------------------------------------------------
-		回车事件过滤
+		控件 - 回车过滤
 */
-void W_ALEDataEdit::keyPressEvent(QKeyEvent *event) {
+void W_ALE_CellDataMultiple::keyPressEvent(QKeyEvent *event) {
 	if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
 		this->focusNextChild();
 	}else{
@@ -74,46 +80,33 @@ void W_ALEDataEdit::keyPressEvent(QKeyEvent *event) {
 }
 
 /*-------------------------------------------------
-		控件 - 选择文件（单张）
+		控件 - 刷新表格
 */
-void W_ALEDataEdit::chooseFile(){
-	if (this->local_index == -1){ return; }
-
-	QString result = "";
-	QFileDialog fd;
-	fd.setWindowTitle("选择单张图片");
-	fd.setAcceptMode(QFileDialog::AcceptOpen);
-	fd.setNameFilters(QStringList() << "图片(*.png)");
-	fd.setViewMode(QFileDialog::Detail);
-	fd.setFileMode(QFileDialog::ExistingFile);		//单个文件
-	if (fd.exec() == QDialog::Accepted) {
-		if (fd.selectedFiles().empty()){ return ; }
-		result = fd.selectedFiles().at(0);
-	}else {
-		return ;
+void W_ALE_CellDataMultiple::refreshTable(){
+	
+	ui.tableWidget->clearContents();
+	ui.tableWidget->setRowCount(this->m_dataList.count());
+	for (int i = 0; i < this->m_dataList.count(); i++){
+		C_AnimationBlockDataPtr dataPtr = this->m_dataList.at(i);
+		ui.tableWidget->setItem(i, 0, new QTableWidgetItem(QString::number(dataPtr->m_titleNum)));
+		ui.tableWidget->setItem(i, 1, new QTableWidgetItem(QFileInfo(dataPtr->m_bitmapPath).completeBaseName()));
+		QString frame_text = C_ALE_DataSet::converterUnit_getDescriptionString(dataPtr->m_intervalValue, this->m_unit);
+		ui.tableWidget->setItem(i, 2, new QTableWidgetItem(frame_text));
 	}
-
-	// > 重复文件
-	QFileInfo fileinfo(result);
-	QString file_name = fileinfo.completeBaseName();
-	if (this->local_data.hasFileName(file_name) ||						//含有重名文件 
-		this->local_data.getFileRoot() == fileinfo.absolutePath()){	//在同一个文件夹下
-		this->local_data.op_replace(this->local_index,file_name);
-		ui.lineEdit->setText(file_name);
-		return;
-	}
-
-	// > 不重复文件
-	C_ALE_DataSet::copyFile(fileinfo.absoluteFilePath(), this->local_data.getFileRoot() + "/" + fileinfo.fileName());
-	this->local_data.op_replace(this->local_index, file_name);
-	ui.lineEdit->setText(file_name);
-
+}
+/*-------------------------------------------------
+		控件 - 打开动画帧文件夹
+*/
+void W_ALE_CellDataMultiple::openParentDir(){
+	QDesktopServices::openUrl(QUrl("file:/" + this->m_parentDir + "/"));
 }
 
+
+
 /*-------------------------------------------------
-		控件 - 选择数字
+		控件 - 选择数字（帧单位）
 */
-void W_ALEDataEdit::timeSelected_frameUnit(QString text){
+void W_ALE_CellDataMultiple::timeSelected_frameUnit(QString text){
 	if (this->m_slotBlock == true){ return; }
 	this->m_slotBlock = true;
 
@@ -121,6 +114,7 @@ void W_ALEDataEdit::timeSelected_frameUnit(QString text){
 	if (text == "2帧"){ ui.spinBox_frameUnit->setValue(2); }
 	if (text == "3帧"){ ui.spinBox_frameUnit->setValue(3); }
 	if (text == "4帧"){ ui.spinBox_frameUnit->setValue(4); }
+	if (text == "6帧"){ ui.spinBox_frameUnit->setValue(6); }
 	if (text == "8帧"){ ui.spinBox_frameUnit->setValue(8); }
 	if (text == "12帧"){ ui.spinBox_frameUnit->setValue(12); }
 	if (text == "5帧"){ ui.spinBox_frameUnit->setValue(5); }
@@ -136,9 +130,9 @@ void W_ALEDataEdit::timeSelected_frameUnit(QString text){
 	this->m_slotBlock = false;
 }
 /*-------------------------------------------------
-		控件 - 编辑数字
+		控件 - 编辑数字（帧单位）
 */
-void W_ALEDataEdit::timeEdited_frameUnit(int value){
+void W_ALE_CellDataMultiple::timeEdited_frameUnit(int value){
 	if (this->m_slotBlock == true){ return; }
 	this->m_slotBlock = true;
 
@@ -146,6 +140,7 @@ void W_ALEDataEdit::timeEdited_frameUnit(int value){
 	else if (value == 2){ ui.comboBox_frameUnit->setCurrentText("2帧"); }
 	else if (value == 3){ ui.comboBox_frameUnit->setCurrentText("3帧"); }
 	else if (value == 4){ ui.comboBox_frameUnit->setCurrentText("4帧"); }
+	else if (value == 6){ ui.comboBox_frameUnit->setCurrentText("6帧"); }
 	else if (value == 8){ ui.comboBox_frameUnit->setCurrentText("8帧"); }
 	else if (value == 12){ ui.comboBox_frameUnit->setCurrentText("12帧"); }
 	else if (value == 5){ ui.comboBox_frameUnit->setCurrentText("5帧"); }
@@ -162,9 +157,9 @@ void W_ALEDataEdit::timeEdited_frameUnit(int value){
 	this->m_slotBlock = false;
 }
 /*-------------------------------------------------
-		控件 - 选择数字
+		控件 - 选择数字（秒单位）
 */
-void W_ALEDataEdit::timeSelected_secondUnit(QString text){
+void W_ALE_CellDataMultiple::timeSelected_secondUnit(QString text){
 	if (this->m_slotBlock == true){ return; }
 	this->m_slotBlock = true;
 
@@ -172,6 +167,7 @@ void W_ALEDataEdit::timeSelected_secondUnit(QString text){
 	if (text == "0.02秒"){ ui.doubleSpinBox_secondUnit->setValue(0.02); }
 	if (text == "0.03秒"){ ui.doubleSpinBox_secondUnit->setValue(0.03); }
 	if (text == "0.04秒"){ ui.doubleSpinBox_secondUnit->setValue(0.04); }
+	if (text == "0.06秒"){ ui.doubleSpinBox_secondUnit->setValue(0.06); }
 	if (text == "0.08秒"){ ui.doubleSpinBox_secondUnit->setValue(0.08); }
 	if (text == "0.12秒"){ ui.doubleSpinBox_secondUnit->setValue(0.12); }
 	if (text == "0.05秒"){ ui.doubleSpinBox_secondUnit->setValue(0.05); }
@@ -187,9 +183,9 @@ void W_ALEDataEdit::timeSelected_secondUnit(QString text){
 	this->m_slotBlock = false;
 }
 /*-------------------------------------------------
-		控件 - 编辑数字
+		控件 - 编辑数字（秒单位）
 */
-void W_ALEDataEdit::timeEdited_secondUnit(double value){
+void W_ALE_CellDataMultiple::timeEdited_secondUnit(double value){
 	if (this->m_slotBlock == true){ return; }
 	this->m_slotBlock = true;
 
@@ -197,6 +193,7 @@ void W_ALEDataEdit::timeEdited_secondUnit(double value){
 	else if (value == 0.02){ ui.comboBox_secondUnit->setCurrentText("0.02秒"); }
 	else if (value == 0.03){ ui.comboBox_secondUnit->setCurrentText("0.03秒"); }
 	else if (value == 0.04){ ui.comboBox_secondUnit->setCurrentText("0.04秒"); }
+	else if (value == 0.06){ ui.comboBox_secondUnit->setCurrentText("0.06秒"); }
 	else if (value == 0.08){ ui.comboBox_secondUnit->setCurrentText("0.08秒"); }
 	else if (value == 0.12){ ui.comboBox_secondUnit->setCurrentText("0.12秒"); }
 	else if (value == 0.05){ ui.comboBox_secondUnit->setCurrentText("0.05秒"); }
@@ -213,94 +210,71 @@ void W_ALEDataEdit::timeEdited_secondUnit(double value){
 	this->m_slotBlock = false;
 }
 
+
 /*-------------------------------------------------
 		窗口 - 设置数据（修改）
 */
-void W_ALEDataEdit::setDataInModifyMode_One(C_ALE_DataSet data, int index) {
-	this->local_data = data;
-	this->local_index = index;
-	this->putDataToUi();
-}
-void W_ALEDataEdit::setDataInModifyMode_Multi(C_ALE_DataSet data, QList<int> index_list) {
-	this->local_data = data;
-	this->local_index_list = index_list;
+void W_ALE_CellDataMultiple::setDataInModifyMode(QList<C_AnimationBlockDataPtr> data_list, C_ALE_DataSet::DATA_UNIT unit, QString parent_dir, int defaultInterval){
+	this->m_dataList = data_list;
+	this->m_unit = unit;
+	this->m_parentDir = parent_dir;
+	this->m_defaultInterval = defaultInterval;
 	this->putDataToUi();
 }
 /*-------------------------------------------------
 		窗口 - 取出数据
 */
-C_ALE_DataSet W_ALEDataEdit::getData(){
-	return this->local_data;
+QList<C_AnimationBlockDataPtr> W_ALE_CellDataMultiple::getData(){
+	return this->m_dataList;
 };
 /*-------------------------------------------------
 		窗口 - 本地数据 -> ui数据
 */
-void W_ALEDataEdit::putDataToUi() {
+void W_ALE_CellDataMultiple::putDataToUi() {
 
 	// > 单位
-	if (this->local_data.getData_Unit() == C_ALE_DataSet::FrameUnit){
+	if (this->m_unit == C_ALE_DataSet::FrameUnit){
 		ui.stackedWidget->setCurrentIndex(0);
 	}
-	if (this->local_data.getData_Unit() == C_ALE_DataSet::SecondUnit){
+	if (this->m_unit == C_ALE_DataSet::SecondUnit){
 		ui.stackedWidget->setCurrentIndex(1);
 	}
 
-	// > 单帧编辑时
-	if (this->local_index != -1){
+	// > 默认帧间隔值（只读）
+	int value = this->m_defaultInterval;
+	ui.spinBox_frameUnit->setValue(value);
+	ui.doubleSpinBox_secondUnit->setValue(value*0.01);
 
-		ui.pushButton->setEnabled(true);
-		QString file_name = this->local_data.getFile(local_index).completeBaseName();
-		ui.lineEdit->setText(file_name);
+	// > 刷新UI
+	this->timeEdited_frameUnit(value);
+	this->timeEdited_secondUnit(value*0.01);
 
-		int value = this->local_data.getData_IntervalTank().at(local_index);
-		ui.spinBox_frameUnit->setValue(value);
-		ui.doubleSpinBox_secondUnit->setValue(value*0.01);
-		this->timeEdited_frameUnit(value);
-		this->timeEdited_secondUnit(value*0.01);
-
-	// > 多帧编辑时
-	}else{
-
-		ui.pushButton->setEnabled(false);
-		ui.lineEdit->setText("（多个帧资源）");
-
-		int value = this->local_data.getData_IntervalTank().at(local_index_list.at(0));
-		ui.spinBox_frameUnit->setValue(value);
-		ui.doubleSpinBox_secondUnit->setValue(value*0.01);
-		this->timeEdited_frameUnit(value);
-		this->timeEdited_secondUnit(value*0.01);
-
-	}
+	this->refreshTable();
 };
 /*-------------------------------------------------
 		窗口 - ui数据 -> 本地数据
 */
-void W_ALEDataEdit::putUiToData() {
-	//（图片资源直接赋值）
+void W_ALE_CellDataMultiple::putUiToData() {
 
-	// > 帧单位时
-	if (this->local_data.getData_Unit() == C_ALE_DataSet::FrameUnit){
-		if (this->local_index != -1){
-			this->local_data.op_replace_interval(local_index, ui.spinBox_frameUnit->value());
-		}
-		else{
-			this->local_data.op_replace_interval(local_index_list, ui.spinBox_frameUnit->value());
-		}
-	}
-	// > 秒单位时
-	if (this->local_data.getData_Unit() == C_ALE_DataSet::SecondUnit){
-		if (this->local_index != -1){
-			this->local_data.op_replace_interval(local_index, ui.doubleSpinBox_secondUnit->value() * 100);
-		}
-		else{
-			this->local_data.op_replace_interval(local_index_list, ui.doubleSpinBox_secondUnit->value() * 100);
+	if (ui.groupBox_edit->isChecked()){
+		for (int i = 0; i < this->m_dataList.count(); i++){
+			C_AnimationBlockDataPtr data = this->m_dataList.at(i);
+
+			// > 帧单位时
+			if (this->m_unit == C_ALE_DataSet::FrameUnit){
+				data->m_intervalValue = ui.spinBox_frameUnit->value();
+			}
+			// > 秒单位时
+			if (this->m_unit == C_ALE_DataSet::SecondUnit){
+				data->m_intervalValue = ui.doubleSpinBox_secondUnit->value() * 100;
+			}
 		}
 	}
 };
 /*-------------------------------------------------
 		窗口 - 提交数据（校验）
 */
-void W_ALEDataEdit::acceptData(){
+void W_ALE_CellDataMultiple::acceptData(){
 	this->putUiToData();
 
 	this->accept();

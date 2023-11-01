@@ -7,358 +7,254 @@
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		动画帧编辑块 的数据类。
-					注意，只有五项。如果有其他数据合并，想办法另起一个类。
+					【该数据类只用于传值，所以不需要 ID或名称 的标识】
 -----==========================================================-----
 */
-C_ALE_DataSet::C_ALE_DataSet() {
-	this->id = -1;								//标识
-	this->m_unit = DATA_UNIT::FrameUnit;		//单位（默认1秒60帧）
 
-	this->gif_src;								//资源文件名
-	this->gif_src_file = "";					//资源文件夹
-	this->gif_intervalTank;						//帧间隔列表
-	this->gif_interval = 4;						//帧间隔
+C_ALE_DataSet::C_ALE_DataSet()
+	: C_PLE_DataSet()
+{
+
+	// > 动画帧单位（全局数据）
+	this->m_unit = DATA_UNIT::FrameUnit;
+
+	// > 默认帧间隔（全局数据）
+	this->m_gif_interval = 4;
+
+	// > 帧间隔明细表
+	this->m_gif_intervalTank.clear();
 }
 C_ALE_DataSet::~C_ALE_DataSet(){
 }
 
+
+
 /*-------------------------------------------------
-		访问器 - 标识
+		主流程 - 设置资源
 */
-void C_ALE_DataSet::setData_Id(int id){
-	this->id = id;
+void C_ALE_DataSet::setSource(QString pic_file, QList<QString> pic_name_list){
+	//（目前该函数与 父类函数 一模一样）
+	pic_file = QDir(pic_file).absolutePath();	//（去掉末尾的"/"）
+
+	// > 设置父路径
+	this->setData_ParentDir(pic_file);
+
+	// > 设置资源
+	this->picPath_list.clear();
+	for (int i = 0; i < pic_name_list.count(); i++){
+		QString path;
+		path.append(pic_file);
+		path.append("/");
+		path.append(pic_name_list.at(i));
+		path.append(".png");
+		this->picPath_list.append(path);
+	}
 }
 /*-------------------------------------------------
-		访问器 - 设置文件父目录
+		主流程 - 设置帧间隔数据
 */
-void C_ALE_DataSet::setData_ParentFile(QString gif_src_file){
-	this->gif_src_file = gif_src_file;
+void C_ALE_DataSet::setInterval(int gif_interval, QList<int> gif_intervalTank){
+	this->setData_IntervalDefault( gif_interval );
+	this->setData_IntervalTank( gif_intervalTank );
 }
+
+
 /*-------------------------------------------------
-		访问器 - 设置默认帧间隔
-*/
-void C_ALE_DataSet::setData_IntervalDefault(int gif_interval){
-	this->gif_interval = gif_interval;
-	this->checkIntervalValue();
-}
-/*-------------------------------------------------
-		访问器 - 设置单位
+		动画帧单位 - 设置
 */
 void C_ALE_DataSet::setData_Unit(C_ALE_DataSet::DATA_UNIT unit){
 	this->m_unit = unit;
 }
 /*-------------------------------------------------
-		接口 - 设置资源
-*/
-void C_ALE_DataSet::setSource(QString gif_src_file, QList<QString> gif_src){
-	this->gif_src_file = gif_src_file;
-	this->gif_src = gif_src;
-	this->checkInterval();
-}
-/*-------------------------------------------------
-		接口 - 设置帧间隔
-*/
-void C_ALE_DataSet::setInterval(int gif_interval, QList<int> gif_intervalTank){
-	this->gif_interval = gif_interval;
-	this->gif_intervalTank = gif_intervalTank;
-	this->checkInterval();
-}
-/*-------------------------------------------------
-		接口 - 设置默认帧间隔（统一改变）
-*/
-void C_ALE_DataSet::setIntervalDefaultWithFit(int gif_interval){
-	int old_interval = this->gif_interval;
-	this->gif_interval = gif_interval;
-	this->checkIntervalValue();
-	for (int i = 0; i < this->gif_intervalTank.count(); i++){	//（替换掉所有默认的旧帧间隔）
-		if (this->gif_intervalTank.at(i) == old_interval){
-			this->gif_intervalTank.replace(i, gif_interval);
-		}
-	}
-}
-/*-------------------------------------------------
-		私有 - 检查帧间隔（私有）
-*/
-void C_ALE_DataSet::checkInterval(){
-	this->checkIntervalValue();
-
-	for (int i = this->gif_intervalTank.count(); i < this->gif_src.count(); i++){
-		this->gif_intervalTank.append(this->gif_interval);	//（自动填充 默认帧间隔）
-	}
-
-	if (this->gif_intervalTank.count() > this->gif_src.count()){
-		int out_count = this->gif_intervalTank.count() - this->gif_src.count();
-		for (int i = 0; i < out_count; i++){
-			this->gif_intervalTank.removeLast();
-		}
-	}
-}
-/*-------------------------------------------------
-		私有 - 校验帧间隔（私有）
-*/
-void C_ALE_DataSet::checkIntervalValue(){
-
-	// > 默认值不能为零
-	if (this->gif_interval == 0){ this->gif_interval = 4; }
-}
-
-
-/*-------------------------------------------------
-		访问器 - 获取标识
-*/
-int C_ALE_DataSet::getData_Id(){
-	return this->id;
-}
-/*-------------------------------------------------
-		访问器 - 获取帧间隔
-*/
-int C_ALE_DataSet::getData_IntervalDefault(){
-	return this->gif_interval;
-}
-/*-------------------------------------------------
-		访问器 - 获取帧间隔明细表
-*/
-QList<int> C_ALE_DataSet::getData_IntervalTank(){
-	return this->gif_intervalTank;
-}
-/*-------------------------------------------------
-		访问器 - 单位
+		动画帧单位 - 获取
 */
 C_ALE_DataSet::DATA_UNIT C_ALE_DataSet::getData_Unit(){
 	return this->m_unit;
 }
 
-/*-------------------------------------------------
-		接口 - 获取文件
-*/
-QFileInfo C_ALE_DataSet::getFile(int index){
-	if (index < 0){ return QFileInfo(); }
-	if (index >= this->getFileCount()){ return QFileInfo(); }
 
-	QString path = this->gif_src_file;
-	if (path.at(path.length() - 1) != '/'){ path += "/"; }
-	path += this->gif_src.at(index);
-	path += ".png";
-	return QFileInfo(path);
-}
-QList<QFileInfo> C_ALE_DataSet::getFile_Multi(QList<int> index_list){
-	QList<QFileInfo> result_list;
-	for (int i = 0; i < index_list.count(); i++){
-		result_list.append(this->getFile(index_list.at(i)));
-	}
-	return result_list;
-}
-QList<QFileInfo> C_ALE_DataSet::getAllFile(){
-	QList<QFileInfo> result_list;
-	for (int i = 0; i < this->gif_src.count(); i++){
-		result_list.append(this->getFile(i));
-	}
-	return result_list;
-}
-int C_ALE_DataSet::getFileCount(){
-	return this->gif_src.count();
+/*-------------------------------------------------
+		默认帧间隔 - 设置
+*/
+void C_ALE_DataSet::setData_IntervalDefault(int gif_interval){
+	if (gif_interval == 0){ return; }		//（不允许赋值零）
+	this->m_gif_interval = gif_interval;
 }
 /*-------------------------------------------------
-		接口 - 获取文件路径（F:/aaa/vvv ）
+		默认帧间隔 - 获取
 */
-QString C_ALE_DataSet::getFileRoot(){
-	QString path = this->gif_src_file;
-	if (path.at(path.length() - 1) == '/'){ path = path.mid(0, path.count() - 1); }
-	return path;
+int C_ALE_DataSet::getData_IntervalDefault(){
+	return this->m_gif_interval;
 }
 /*-------------------------------------------------
-		接口 - 检查文件（不带文件后缀）
+		默认帧间隔 - 修改默认帧间隔
 */
-bool C_ALE_DataSet::hasFileName(QString file_name){
-	return this->gif_src.contains(file_name);
+void C_ALE_DataSet::setIntervalDefaultInAll(int gif_interval){
+	if (gif_interval == 0){ return; }		//（不允许赋值零）
+	int old_interval = this->m_gif_interval;
+	this->m_gif_interval = gif_interval;
+	for (int i = 0; i < this->m_gif_intervalTank.count(); i++){	//（替换掉所有默认的旧帧间隔）
+		if (this->m_gif_intervalTank.at(i) == old_interval){
+			this->m_gif_intervalTank.replace(i, gif_interval);
+		}
+	}
+}
+
+
+/*-------------------------------------------------
+		帧间隔明细表 - 获取（原数据）
+*/
+void C_ALE_DataSet::setData_IntervalTank(QList<int> gif_intervalTank){
+	this->m_gif_intervalTank = gif_intervalTank;
+}
+/*-------------------------------------------------
+		帧间隔明细表 - 获取（原数据）
+*/
+QList<int> C_ALE_DataSet::getData_IntervalTank(){
+	return this->m_gif_intervalTank;
 }
 
 /*-------------------------------------------------
-		接口 - 获取帧间隔（含单位转换）
+		帧间隔明细表 - 自适应 - 获取（含自适应）
 */
-double C_ALE_DataSet::getIntervalDefaultWithUnit(){
-	return this->intervalUnitTransform(this->gif_interval);
+QList<int> C_ALE_DataSet::getData_IntervalTank_WithFit(){
+	return C_ALE_DataSet::converterFit_getIntervalList(this->m_gif_intervalTank, this->m_gif_interval, this->getData_PicListCount());
 }
 /*-------------------------------------------------
-		访问器 - 获取帧间隔（含单位转换）
+		帧间隔明细表 - 自适应 - 执行自适应转换
 */
-double C_ALE_DataSet::getIntervalWithUnit(int index){
-	if (index < 0){ return this->getIntervalDefaultWithUnit(); }
-	if (index >= this->gif_intervalTank.count()){ return this->getIntervalDefaultWithUnit(); }
-	return this->intervalUnitTransform(this->gif_intervalTank.at(index));
+QList<int> C_ALE_DataSet::converterFit_getIntervalList(QList<int> intervalValueList, int default_interval, int pic_count){
+
+	// > 多出时，填充默认帧间隔
+	for (int i = intervalValueList.count(); i < pic_count; i++){
+		intervalValueList.append(default_interval);
+	}
+
+	// > 缺少时，移除帧间隔
+	if (intervalValueList.count() > pic_count){
+		int out_count = intervalValueList.count() - pic_count;
+		for (int i = 0; i < out_count; i++){
+			intervalValueList.removeLast();
+		}
+	}
+
+	return intervalValueList;
 }
-QList<double> C_ALE_DataSet::getIntervalWithUnit_Multi(QList<int> index_list){
+
+/*-------------------------------------------------
+		帧间隔明细表 - 单位 - 获取（含单位转换）
+*/
+double C_ALE_DataSet::getData_IntervalTankOne_WithUnit(int index){
+
+	// > 若越界，则返回默认帧间隔
+	if (index < 0 || index >= this->m_gif_intervalTank.count()){
+		return C_ALE_DataSet::converterUnit_getInterval(this->m_gif_interval, this->m_unit); 
+	}
+	return C_ALE_DataSet::converterUnit_getInterval(this->m_gif_intervalTank.at(index), this->m_unit);
+}
+QList<double> C_ALE_DataSet::getData_IntervalTankList_WithUnit(QList<int> index_list){
 	QList<double> result_list;
 	for (int i = 0; i < index_list.count(); i++){
-		double interval = this->getIntervalWithUnit(index_list.at(i));
+		double interval = this->getData_IntervalTankOne_WithUnit(index_list.at(i));
 		result_list.append(interval);
 	}
 	return result_list;
 }
-/*-------------------------------------------------
-		接口 - 获取帧间隔明细表（含单位转换）
-*/
-QList<double> C_ALE_DataSet::getIntervalTankWithUnit(){
+QList<double> C_ALE_DataSet::getData_IntervalTankAll_WithUnit(){
 	QList<double> result_list;
-	for (int i = 0; i < this->gif_intervalTank.count(); i++){
-		double interval = this->intervalUnitTransform(this->gif_intervalTank.at(i));
+	for (int i = 0; i < this->m_gif_intervalTank.count(); i++){
+		double interval = C_ALE_DataSet::converterUnit_getInterval(this->m_gif_intervalTank.at(i), this->m_unit);
 		result_list.append( interval );
 	}
 	return result_list;
 }
 /*-------------------------------------------------
-		接口 - 获取帧间隔文本
+		帧间隔明细表 - 单位 - 执行单位转换
 */
-QString C_ALE_DataSet::getIntervalString(int index){
-	int interval = this->gif_interval;
-	if (index >= 0 && index < this->getFileCount()){
-		interval = this->gif_intervalTank.at(index);
+double C_ALE_DataSet::converterUnit_getInterval(int intervalValue, C_ALE_DataSet::DATA_UNIT unit){
+	
+	// > 秒单位：0.0100秒
+	if (unit == DATA_UNIT::SecondUnit){
+		return intervalValue*1.000;
+	}
+	// > 帧单位：0.0166秒
+	if (unit == DATA_UNIT::FrameUnit){
+		return intervalValue*1.666;
 	}
 
+	return intervalValue;
+}
+QList<double> C_ALE_DataSet::converterUnit_getIntervalList(QList<int> intervalValueList, C_ALE_DataSet::DATA_UNIT unit){
+	QList<double> result_list;
+	for (int i = 0; i < intervalValueList.count(); i++){
+		int intervalValue = intervalValueList.at(i);
+		result_list.append(C_ALE_DataSet::converterUnit_getInterval(intervalValue, unit));
+	}
+	return result_list;
+}
+
+
+/*-------------------------------------------------
+		帧间隔明细表 - 单位 - 获取描述文本
+*/
+QString C_ALE_DataSet::getDescriptionString(int intervalValue){
+	return C_ALE_DataSet::converterUnit_getDescriptionString(intervalValue, this->m_unit);
+}
+/*-------------------------------------------------
+		帧间隔明细表 - 单位 - 执行描述文本转换
+*/
+QString C_ALE_DataSet::converterUnit_getDescriptionString(int intervalValue, C_ALE_DataSet::DATA_UNIT unit){
+	
 	// > 秒单位：0.0100秒
-	if (this->m_unit == DATA_UNIT::SecondUnit){
-		return QString::number(interval*0.01)+"秒";	
+	if (unit == DATA_UNIT::SecondUnit){
+		return QString::number(intervalValue*0.01) + "秒";
 	}
 
 	// > 帧单位：0.0166秒
-	return QString::number(interval) + "帧";
-}
-/*-------------------------------------------------
-		私有 - 单位转换
-*/
-double C_ALE_DataSet::intervalUnitTransform(int interval){
-
-	// > 秒单位：0.0100秒
-	if (this->m_unit == DATA_UNIT::SecondUnit){
-		return interval*1.000;
-	}
-	// > 帧单位：0.0166秒
-	if (this->m_unit == DATA_UNIT::FrameUnit){
-		return interval*1.666;
-	}
-
-	return interval;
+	return QString::number(intervalValue) + "帧";
 }
 
 
-/*-------------------------------------------------
-		操作 - 添加
-*/
-void C_ALE_DataSet::op_append(QString gif_src){
-	this->gif_src.append(gif_src);
-	this->gif_intervalTank.append(gif_interval);
-}
-void C_ALE_DataSet::op_insert(int index, QString gif_src){
-	this->gif_src.insert(index, gif_src);
-	this->gif_intervalTank.insert(index,gif_interval);
-}
-void C_ALE_DataSet::op_insert(int index, QStringList gif_src_list, QList<int> interval_list){
-	for (int i = 0; i < gif_src_list.count(); i++){
-
-		// > 资源
-		this->gif_src.insert(index + i, gif_src_list.at(i));
-		
-		// > 帧间隔
-		int interval = gif_interval;
-		if (i < interval_list.count()){ interval = interval_list.at(i); }
-		this->gif_intervalTank.insert(index + i, interval);
-	}
-}
-/*-------------------------------------------------
-		操作 - 替换
-*/
-void C_ALE_DataSet::op_replace(int index, QString gif_src){
-	this->gif_src.replace(index, gif_src);
-}
-void C_ALE_DataSet::op_replace_interval(int index, int interval){
-	this->gif_intervalTank.replace(index, interval);
-}
-void C_ALE_DataSet::op_replace_interval(QList<int> index_list, int interval){
-	for (int i = 0; i < index_list.count(); i++){
-		this->gif_intervalTank.replace(index_list.at(i), interval);
-	}
-}
-/*-------------------------------------------------
-		操作 - 移除
-*/
-void C_ALE_DataSet::op_remove(int index){
-	this->gif_src.removeAt(index);
-	this->gif_intervalTank.removeAt(index);
-}
-/*-------------------------------------------------
-		操作 - 交换位置
-*/
-void C_ALE_DataSet::op_swap(int index_a, int index_b){
-	this->gif_src.swap(index_a, index_b);
-	this->gif_intervalTank.swap(index_a, index_b);
-}
-
-
-/*-------------------------------------------------
-		操作 - 复制文件（取自 tempFile 代码片段）
-*/
-bool C_ALE_DataSet::copyFile(QString filePath_from, QString filePath_to) {
-	QFileInfo info_from(filePath_from);
-	QFileInfo info_to(filePath_to);
-	QFile file_from(info_from.absoluteFilePath());
-	QFile file_to(info_to.absoluteFilePath());
-	if (info_from.absoluteFilePath() == info_to.absoluteFilePath()){ return true; }		//（相同路径跳过）
-
-	if (!file_from.open(QIODevice::ReadOnly)) { return false; }
-	if (!file_to.open(QIODevice::WriteOnly | QIODevice::Truncate)) { return false; }
-
-	QByteArray ba = file_from.readAll();
-	file_to.write(ba);
-	file_from.close();
-	file_to.close();
-	return true;
-}
-
-
-/*-------------------------------------------------
-		空判断
-*/
-bool C_ALE_DataSet::isNull(){
-	return this->id == -1;
-}
 /*-------------------------------------------------
 		实体类 -> QJsonObject
 */
 QJsonObject C_ALE_DataSet::getJsonObject(){
-	QJsonObject obj;
+	QJsonObject obj = C_PLE_DataSet::getJsonObject();
 
-	QJsonArray arr_1;
-	for (int i = 0; i < this->gif_src.count(); i++){ arr_1.append(this->gif_src.at(i)); }
-	obj.insert("gif_src", arr_1);
-	QJsonArray arr_2;
-	for (int i = 0; i < this->gif_intervalTank.count(); i++){ arr_2.append(this->gif_intervalTank.at(i)); }
-	obj.insert("gif_intervalTank", arr_2);
+	// > 动画帧单位（全局数据）
+	obj.insert("m_unit", this->m_unit);
 
-	obj.insert("id", this->id);
-	obj.insert("gif_src_file", this->gif_src_file);//（temp文件夹中的配置，实际用不上）
-	obj.insert("gif_interval", this->gif_interval);
+	// > 默认帧间隔（全局数据）
+	obj.insert("m_gif_interval", this->m_gif_interval);
+
+	// > 帧间隔明细表
+	QJsonArray arr;
+	for (int i = 0; i < this->m_gif_intervalTank.count(); i++){
+		arr.append(this->m_gif_intervalTank.at(i));
+	}
+	obj.insert("m_gif_intervalTank", arr);
+
 	return obj;
 }
 /*-------------------------------------------------
 		QJsonObject -> 实体类
 */
 void C_ALE_DataSet::setJsonObject(QJsonObject obj){
-	if (obj.value("gif_src").isUndefined() == false){
-		this->gif_src.clear();
-		QJsonArray arr = obj.value("gif_src").toArray();
+	C_PLE_DataSet::setJsonObject(obj);
+
+	// > 动画帧单位（全局数据）
+	this->m_unit = (C_ALE_DataSet::DATA_UNIT)obj.value("m_unit").toInt();
+
+	// > 默认帧间隔（全局数据）
+	this->m_gif_interval = obj.value("m_gif_interval").toInt(4);	//（不允许赋值零）
+
+	// > 帧间隔明细表
+	if (obj.value("m_gif_intervalTank").isUndefined() == false){
+		this->m_gif_intervalTank.clear();
+		QJsonArray arr = obj.value("m_gif_intervalTank").toArray();
 		for (int i = 0; i < arr.count(); i++){
-			this->gif_src.append(arr.at(i).toString());
-		}
-	}
-	if (obj.value("gif_intervalTank").isUndefined() == false){
-		this->gif_intervalTank.clear();
-		QJsonArray arr = obj.value("gif_intervalTank").toArray();
-		for (int i = 0; i < arr.count(); i++){
-			this->gif_intervalTank.append(arr.at(i).toInt());
+			this->m_gif_intervalTank.append(arr.at(i).toInt());
 		}
 	}
 
-	if (obj.value("id").isUndefined() == false){ this->id = obj.value("id").toInt(); }
-	if (obj.value("gif_src_file").isUndefined() == false){ this->gif_src_file = obj.value("gif_src_file").toString(); }
-	if (obj.value("gif_interval").isUndefined() == false){ this->gif_interval = obj.value("gif_interval").toInt(); }
 }

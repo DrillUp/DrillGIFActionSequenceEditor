@@ -4,6 +4,7 @@
 
 #include <QtWidgets>
 #include "ui_P_PictureBlock.h"
+#include "C_PictureBlockData.h"
 
 /*
 -----==========================================================-----
@@ -20,46 +21,74 @@ class P_PictureBlock : public QWidget
 	Q_OBJECT
 
 	public:
-		P_PictureBlock(int width, int height, QWidget* parent = 0);	//构造函数
-		~P_PictureBlock();											//析构函数
+		P_PictureBlock(QWidget* parent = 0);		//构造函数
+		~P_PictureBlock();							//析构函数
 
 
 	//-----------------------------------
 	//----控件
 	protected:
-		int m_width;
-		int m_height;
+		C_PictureBlockDataPtr m_dataPtr;
 	public:
-									//控件 - 设置标题
-		void setTitle(QString title);
-		QString getTitle();
-									//控件 - 获取画布高宽
+									//控件 - 设置数据
+									//		【说明】：创建单块后，需要手动执行此函数进行初始化。（数据对象也要先初始化）
+		virtual void setDataPtr(C_PictureBlockDataPtr data);
+									//控件 - 获取数据
+									//		【说明】：图片单块的函数可以直接修改到数据；但如果直接修改了数据，则要手动刷新 图片单块 。
+		C_PictureBlockDataPtr getDataPtr();
+									//控件 - 刷新UI
+									//		【说明】：可以多次调用刷新UI。
+		virtual void refreshUI();
+		
+
+	//-----------------------------------
+	//----画布
+	public:
+									//画布 - 设置高宽
+									//		【说明】：修改高宽后，必然执行 刷新UI。
+		void setSize(int width, int height);
+									//画布 - 获取高宽
 		int getDrawingWidth();
 		int getDrawingHeight();
+									//画布 - 刷新
+		virtual void refreshSize();
 		
+
+	//-----------------------------------
+	//----标题
+	public:
+									//标题 - 设置
+		void setTitle(QString title);
+		void setTitleNum(int title_num);
+		void setTitleNumWithZeroFill(int title_num, int zeroFillCount, QChar zeroFillChar);
+		QString getTitle();
+		int getTitleNum();
+									//标题 - 刷新
+		void refreshTitle();
+									//标题 - 设置颜色
+		void setTitleColorType(QString type);
+		QString getTitleColorType();
+									//标题 - 修改颜色
+		void setTitleColor(QColor color_a, QColor color_b);
+									//标题 - 刷新颜色
+		void refreshTitleColor();
 		
+
 	//-----------------------------------
 	//----图片
-	protected:
-		QPixmap m_pixmapOrg;		//图片（不需要传指针，QPixmap提供了"隐式数据共享"）
 	public:
 									//图片 - 设置
-		void setPixmap(QPixmap pixmap);
-		QPixmap getPixmap();
+		void setBitmapPath(QString bitmapPath);
+		QString getBitmapPath();
 									//图片 - 刷新
 		void refreshPixmap();
 	
 
 	//-----------------------------------
 	//----马赛克背景
-	protected:
-		bool m_maskEnabled;			//马赛克 开关
-		int m_maskWidth;			//马赛克 块宽
-		int m_maskHeight;			//马赛克 块高
-		QColor m_maskColor;			//马赛克 颜色
 	public:
 									//马赛克背景 - 设置
-		void setMaskEnabled(bool maskEnabled);
+		void setMaskConfig(bool maskEnabled, bool borderEnabled);
 									//马赛克背景 - 刷新
 		void refreshMask();
 

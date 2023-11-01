@@ -1,22 +1,28 @@
 ﻿#pragma once
 #include "stdafx.h"
-#include "Source/Utils/WidgetForm/PictureSelector/P_PiS_Selector.h"
+#include "Source/Utils/WidgetForm/PictureListEditor/P_PLE_Editor.h"
+#include "Source/Utils/WidgetFormSenior/AnimationBlock/C_AnimationBlockData.h"
 #include "C_ALE_Config.h"
 #include "C_ALE_DataSet.h"
+
+#include "Private/W_ALE_GIFReader_TypeChoose.h"
+#include "Private/W_ALE_GIFWriter_TypeChoose.h"
 #include <QKeyEvent>
 
 /*
 -----==========================================================-----
 		类：		动画帧编辑块.cpp
-		版本：		v1.04
+		版本：		v1.10
 		作者：		drill_up
 		所属模块：	工具模块
-		功能：		将图片全部显示，并能单选/多选。（ALE全称：Animation_List_Editor）
+		功能：		将图片全部显示，能多选、编辑图片。（PLE全称：Picture_List_Editor）
 					【底层基于QListWidget的item和widget，与QGraphics无关】
+					【编辑块固定为 多选 】
 					（详细见cpp）
 -----==========================================================-----
 */
-class P_ALE_Editor : public P_PiS_Selector
+
+class P_ALE_Editor : public P_PLE_Editor
 {
 	Q_OBJECT
 
@@ -28,184 +34,203 @@ class P_ALE_Editor : public P_PiS_Selector
 	//-----------------------------------
 	//----工厂
 	protected:
-										//工厂 - 建立一个元胞
-										//		【说明】：元胞包含了下面的 项 和 控件 创建函数的调用。
-		virtual I_PiS_Cell* createPictureCell(int i, QPixmap pixmap) override;
-										//工厂 - 建立一个项
-		virtual QListWidgetItem* createPictureItem() override;
-										//工厂 - 建立一个控件
-		virtual P_PictureBlock* createPictureWidget(int i, QPixmap pixmap) override;
+										//工厂 - 建立一个元胞数据（覆写）
+		virtual C_PictureBlockDataPtr createPictureCellData() override;
+										//工厂 - 建立一个元胞（覆写）
+		virtual I_PiS_Cell* createPictureCell(C_PictureBlockDataPtr data) override;
+										//工厂 - 刷新元胞（覆写）
+		virtual void refreshPictureCell(int index) override;
 
 
 	//-----------------------------------
 	//----控件
 	protected:
-		QString m_iconSrcPath;
+										//控件 - 重建UI（不开放）
+										//		【说明】：此功能包含rebuildUI原操作。
+		virtual void rebuildUI_ALE(QStringList bitmapPath_list, QList<int> interval_list);
+		virtual void rebuildUI(QStringList bitmapPath_list) override;
 	public:
-										//控件 - 重建UI（如果图片多，不建议反复调用）
-		virtual void rebuildUI() override;
+										//控件 - 刷新UI
+		virtual void refreshUI() override;
 										//控件 - 清理控件
 		virtual void clearCells() override;
 										//控件 - 清理全部
 		virtual void clearAll() override;
-		
-	public:
-	signals:
-										//控件 - 全部帧被删除（信号）
-		void signal_allFrameDeleted();
+
 
 	//-----------------------------------
-	//----动画帧设置
+	//----块数据
+	protected:
+		//QString m_dataSet_parentDir;				//资源父路径（全局数据，来自父类）
+		C_ALE_DataSet::DATA_UNIT m_dataSet_unit;	//单位（全局数据）
+		int m_dataSet_defaultInterval;				//默认帧间隔（全局数据）
+													//（列表数据都放在cell里面，全局数据才放这里）
+	public:
+											//块数据 - 设置数据
+		virtual void setDataSet_ALE(C_ALE_DataSet data);
+											//块数据 - 获取数据
+											//		【说明】：该函数指在 完成动画帧后/点击提交后，返回的打包好的数据。
+		virtual C_ALE_DataSet getDataSet_ALE();
+											//块数据 - 获取当前数据 - 单位
+											//		【说明】：该函数指在 编辑动画帧时，获取到的临时数据。
+		C_ALE_DataSet::DATA_UNIT getCurrentData_Unit();
+											//块数据 - 获取当前数据 - 帧列表
+											//		【说明】：该函数指在 编辑动画帧时，获取到的临时数据。
+		QList<int> getCurrentData_IntervalList();
+	protected:
+											//块数据 - 设置参数（不开放）
+		virtual void setDataSet_PLE(C_PLE_DataSet data) override;
+											//块数据 - 取出参数（不开放）
+		virtual C_PLE_DataSet getDataSet_PLE() override;
+
+
+	//-----------------------------------
+	//----块配置
 	protected:
 		C_ALE_Config m_config_ALE;
 	public:
-		void setConfigParam_ALE(C_ALE_Config config);
-											//动画帧设置 - 取出参数
-		C_ALE_Config getConfigParam_ALE();
+											//块配置 - 设置参数
+		virtual void setConfigParam_ALE(C_ALE_Config config);
+											//块配置 - 取出参数
+		virtual C_ALE_Config getConfigParam_ALE();
 	protected:
-											//动画帧设置 - 设置参数（不开放）
+											//块配置 - 设置参数（不开放）
+		virtual void setConfigParam_PLE(C_PLE_Config config) override;
+											//块配置 - 取出参数（不开放）
+		virtual C_PLE_Config getConfigParam_PLE() override;
+											//块配置 - 设置参数（不开放）
 		virtual void setConfigParam(C_PiS_Config config) override;
-											//动画帧设置 - 取出参数（不开放）
+											//块配置 - 取出参数（不开放）
 		virtual C_PiS_Config getConfigParam() override;
 	public slots:
-											//动画帧设置 - 窗口编辑ui设置
-		void openWindow_setConfigParam();
+											//块配置 - 窗口编辑ui设置
+		void openWindow_setConfigParam_ALE();
 		
+
 	//-----------------------------------
 	//----鼠标事件
 	protected:
-										//鼠标事件 - 右键事件（零个、单个、多个）
-		virtual void event_itemRightClicked(QList<QListWidgetItem*> item_list) override;
 										//鼠标事件 - 圈选变化事件（单个、多个）
 		virtual void event_itemSelectionChanged(QList<QListWidgetItem*> selected_item_list) override;
+										//鼠标事件 - 右键事件（零个、单个、多个）
+		virtual void event_itemRightClicked(QList<QListWidgetItem*> item_list) override;
+
+										//右键菜单 - 零个（覆写）（点击空白处）
+		virtual QMenu* createMenu_selectNone() override;
+										//右键菜单 - 单个（覆写）
+		virtual QMenu* createMenu_selectSingle(int pos) override;
+										//右键菜单 - 多个（覆写）
+		virtual QMenu* createMenu_selectMultiple(QList<int> pos_list) override;
+		
+										//右键菜单 - action - 编辑数据-单选
+		void action_openWindow_CellDataSingle_ALE();
+										//右键菜单 - action - 编辑数据-多选
+		void action_openWindow_CellDataMultiple_ALE();
+										//右键菜单 - action - 编辑数据-全局
+		void action_openWindow_CellDataGlobal_ALE();
+
+										//右键菜单 - 操作 - 修改默认帧间隔
+										//		【说明】：与原默认帧间隔一样的值，会被统一改变。
+										//		【说明】：此处为 改Cell 中的默认帧间隔。改数据的见C_ALE_DataSet。
+		void setIntervalDefaultInAll(int gif_interval);
+
+		
+	//-----------------------------------
+	//----基函数（添加/删除）
+	//
+	//		（暂无子类函数）
 
 
 	//-----------------------------------
-	//----资源数据
+	//----导入图片
 	protected:
-		C_ALE_DataSet m_data;						//配置
-		C_ALE_DataSet::DATA_UNIT m_unit;			//单位
+									//导入图片 - 复制文件到文件夹
+									//		【说明】：此过程会去掉一些已选择的文件，注意返回值。
+		virtual QStringList importPic_addToParentDir(QStringList file_list) override;
+		
+	//-----------------------------------
+	//----导出图片
+	//
+	//		（暂无子类函数）
+
+
+	//-----------------------------------
+	//----基函数（复制/粘贴）
 	protected:
-										//资源数据 - 设置贴图（继承）（不开放）
-		virtual void setSourceBitmap(QList<QPixmap> bitmap_list) override;
+									//基函数（复制/粘贴） - 复制（覆写）
+		virtual void base_copy(QList<int> index_list) override;
+									//基函数（复制/粘贴） - 粘贴（覆写）
+		virtual void base_paste(int index) override;
+	protected:
+									//action - 是否可以粘贴（不开放）
+		virtual bool action_isEnablePaste_PLE() override;
 	public:
-										//资源数据 - 设置数据（注意，数据中的id要赋值）
-		void setSource(C_ALE_DataSet data);
-										//资源数据 - 获取数据
-		C_ALE_DataSet getSource();
-										//资源数据 - 设置单位
-										//			【说明】：数据的单位以编辑块的为准。
-		void setUnit(C_ALE_DataSet::DATA_UNIT unit);
-										//资源数据 - 获取单位
-										//			【说明】：数据的单位以编辑块的为准。
-		C_ALE_DataSet::DATA_UNIT getUnit();
+									//action - 是否可以粘贴
+		virtual bool action_isEnablePaste_ALE();
 		
-	//-----------------------------------
-	//----资源数据（操作）
-	protected:
-		QList<QFileInfo> m_copyedList;
-	protected:
-									//操作 - 添加【此处 绕开了 insertItem 的bug，代码结构会比较复杂】
-		void op_append(QString gif_src);
-		void op_insert(int index, QStringList gif_src_list, QList<int> interval_list = QList<int>() );
-									//操作 - 移除
-		void op_remove(QList<int> index_list);
-									//操作 - 交换位置
-		void op_swap(int index_a, int index_b);
-									//操作 - 刷新贴图内容
-		void op_refresh(int index);
-		void op_refreshAll(int startAt = 0);
-		
-	public slots:
-									//action - 添加帧（点击空白处）
-		void op_appendInAction();
-									//action - 添加帧（点击帧时）
-		void op_insertInAction();
-									//action - 添加帧（GIF）
-		void op_insertGIFInAction();
-									//action - 添加帧（序列大图）
-		void op_insertSeqPicInAction();
-									//action - 删除帧（单个和多个）
-		void op_removeInAction();
-									//action - 复制（单个和多个）
-		void op_copyInAction();
-									//action - 粘贴（单个和多个）
-		void op_pasteInAction();
-									//action - 左移
-		void op_moveLeftInAction();
-									//action - 右移
-		void op_moveRightInAction();
-									//action - 编辑帧
-		void op_editOneInAction();
-									//action - 编辑帧时间
-		void op_editMultiInAction();
-									//action - 全选
-		void op_selectAllInAction();
-									//action - 选奇数
-		void op_selectOddInAction();
-									//action - 选偶数
-		void op_selectEvenInAction();
-		
-	//-----------------------------------
-	//----资源数据（导出）
-	protected:
-		QString m_exportName;
-	public:
-									//导出 - 导出单图
-		void op_exportPic(int index, QFileInfo target_file);
-									//导出 - 导出多图
-		void op_exportPic_Multi(QList<int> index_list, QDir target_dir);
-									//导出 - 导出GIF
-		void op_exportGIF_Multi(QList<int> index_list, QFileInfo target_file, int writerMethod);
-	public slots:
-									//导出 - 设置导出名称
-		void setExportName(QString name);
-									//action - 导出单图
-		void op_exportSingle_PicInAction();
-									//action - 导出多图
-		void op_exportSelected_PicInAction();
-									//action - 导出全部图
-		void op_exportAll_PicInAction();
-									//action - 导出GIF - 选中项
-		void op_exportSelected_GIFInAction();
-									//action - 导出GIF - 全部项
-		void op_exportAll_GIFInAction();
-									//action - 导出序列大图 - 选中项
-		void op_exportSelected_SeqPicInAction();
-									//action - 导出序列大图 - 全部项
-		void op_exportAll_SeqPicInAction();
 
-		
-	//-----------------------------------
-	//----文件选择窗口
-	protected:
-									//文件选择窗口 - 选择多张图片（导入）
-		QStringList openQFileDialog_getPicFileList();
-									//文件选择窗口 - 选择GIF（导入）
-		QString openQFileDialog_getGIFFile();
-									//文件选择窗口 - 选择序列大图（导入）
-		QString openQFileDialog_getSeqPicFile();
-									//文件选择窗口 - 选择GIF（导出）
-		QString openQFileDialog_exportGIFFile();
-									//文件选择窗口 - 选择png（导出）
-		QString openQFileDialog_exportPNGFile(QString name_suffix = "动画帧");
-									//文件选择窗口 - 选择文件夹（导出）
-		QString openQFileDialog_exportDir();
-	
 	//-----------------------------------
 	//----快捷键
-	public:
-									//快捷键 - 事件绑定
-									//		【说明】：快捷键无法绑定到父控件，此函数需要通过 父类执行 绑定事件。触发快捷键成功则返回true。
-		bool event_shortcut_keyPress(QKeyEvent *event);
+	//
+	//		（暂无子类函数）
+
+
+
+	//-----------------------------------
+	//----导入GIF
+	public slots:
+									//action - 添加GIF
+		void action_appendGIF_ALE();
+		void action_insertGIF_ALE();
 	protected:
-									//快捷键 - 全选
-		void shortcut_selectAll();
-									//快捷键 - 复制
-		void shortcut_copy();
-									//快捷键 - 粘贴
-		void shortcut_paste();
-									//快捷键 - 删除
-		void shortcut_delete();
+									//导入GIF - 选择文件
+		QString importGIF_openQFileDialog();
+									//导入GIF - 文件 转 图片单块
+									//		【参数1】：文件列表
+									//		【参数2】：帧间隔列表
+		QList<C_PictureBlockDataPtr> importGIF_getCellListByFileList(QList<QFileInfo> file_list, QList<int> interval_list);
+		
+	//-----------------------------------
+	//----导出GIF
+	public:
+									//action - 导出GIF（单张）
+		void action_exportGIF_Single();
+									//action - 导出GIF（多张）
+		void action_exportGIF_Multiple();
+									//action - 导出GIF（全部）
+		void action_exportGIF_All();
+	protected:
+									//导出GIF - 选择文件
+		QString exportGIF_openQFileDialog_File(QString defaultFile_name = "动图");
+									//导出GIF - 执行导出
+		void exportGIF_exportToFile(QFileInfo tar_file, int writerMethod, QList<C_AnimationBlockDataPtr> cellData_list);
+
+
+		
+	//-----------------------------------
+	//----导入序列大图
+	public slots:
+									//action - 添加序列大图
+		void action_appendSeq_ALE();
+		void action_insertSeq_ALE(); 
+	protected:
+									//导入序列大图 - 选择文件
+		QString importSeq_openQFileDialog();
+									//导入序列大图 - 文件 转 图片单块
+									//		【参数】：文件列表
+		QList<C_PictureBlockDataPtr> importSeq_getCellListByFileList(QStringList file_list);
+		
+	//-----------------------------------
+	//----导出序列大图
+	public:
+									//action - 导出序列大图（单张）
+		void action_exportSeq_Single();
+									//action - 导出序列大图（多张）
+		void action_exportSeq_Multiple();
+									//action - 导出序列大图（全部）
+		void action_exportSeq_All();
+	protected:
+									//导出序列大图 - 选择文件
+		QString exportSeq_openQFileDialog_File(QString defaultFile_name = "序列大图");
 
 };

@@ -1,26 +1,26 @@
 ﻿#include "stdafx.h"
-#include "W_ALEConfigEdit.h"
+#include "W_ALE_CellDataGlobal.h"
 
 #include "../C_ALE_DataSet.h"
 #include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
-		类：		动画帧设置 窗口.cpp
+		类：		编辑数据-全局 窗口.cpp
 		作者：		drill_up
 		所属模块：	工具模块
-		功能：		编辑动画帧的整体ui设置。
+		功能：		编辑数据-全局 的配置窗口。
 
 		使用方法：
 				>打开窗口
-					W_ALEConfigEdit d;
+					W_ALE_CellDataGlobal d;
 					d.setDataInModifyMode(this->getConfigParam());
 					if (d.exec() == QDialog::Accepted){
 						this->setConfigParam( d.getData() );
 					}
 -----==========================================================-----
 */
-W_ALEConfigEdit::W_ALEConfigEdit(QWidget *parent)
+W_ALE_CellDataGlobal::W_ALE_CellDataGlobal(QWidget *parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
@@ -31,46 +31,47 @@ W_ALEConfigEdit::W_ALEConfigEdit(QWidget *parent)
 	
 	//-----------------------------------
 	//----初始化ui
-	ui.comboBox_sizeMode->clear();
-	ui.comboBox_sizeMode->setView(new QListView());
-	ui.comboBox_sizeMode->addItems(QStringList() << "大" << "中" << "小");
+
+	// > 单位设置
 	ui.comboBox_unit->clear();
 	ui.comboBox_unit->setView(new QListView());
 	ui.comboBox_unit->addItems(QStringList() << "帧单位（1秒60帧）" << "秒单位（1秒100帧）" );
+
+	// > 数字设置
 	ui.comboBox_frameUnit->clear();
 	ui.comboBox_frameUnit->setView(new QListView());
 	ui.comboBox_frameUnit->addItems(QStringList()
-		<< "1帧" << "2帧" << "3帧" << "4帧" << "8帧" << "12帧"
+		<< "1帧" << "2帧" << "3帧" << "4帧" << "6帧" << "8帧" << "12帧"
 		<< "5帧" << "10帧" << "15帧" << "20帧" << "30帧" << "40帧" << "60帧"
 		<< "120帧" << "600帧" << "自定义");
 	ui.comboBox_secondUnit->clear();
 	ui.comboBox_secondUnit->setView(new QListView());
 	ui.comboBox_secondUnit->addItems(QStringList()
-		<< "0.01秒" << "0.02秒" << "0.03秒" << "0.04秒" << "0.08秒" << "0.12秒"
+		<< "0.01秒" << "0.02秒" << "0.03秒" << "0.04秒" << "0.06秒" << "0.08秒" << "0.12秒"
 		<< "0.05秒" << "0.10秒" << "0.15秒" << "0.20秒" << "0.30秒" << "0.40秒" << "0.60秒"
 		<< "1.20秒" << "6.00秒" << "自定义");
+
+	// > 按钮文本转换
 	TTool::_chinese_(ui.buttonBox);
 
 	//-----------------------------------
 	//----事件绑定
-	connect(ui.checkBox, &QCheckBox::toggled, this, &W_ALEConfigEdit::checkBoxChanged);
-	connect(ui.buttonBox, &QDialogButtonBox::accepted, this, &W_ALEConfigEdit::acceptData);
-
-	connect(ui.comboBox_frameUnit, &QComboBox::currentTextChanged, this, &W_ALEConfigEdit::timeSelected_frameUnit);
+	connect(ui.comboBox_frameUnit, &QComboBox::currentTextChanged, this, &W_ALE_CellDataGlobal::timeSelected_frameUnit);
 	connect(ui.spinBox_frameUnit, SIGNAL(valueChanged(int)), this, SLOT(timeEdited_frameUnit(int)));
-	connect(ui.comboBox_secondUnit, &QComboBox::currentTextChanged, this, &W_ALEConfigEdit::timeSelected_secondUnit);
+	connect(ui.comboBox_secondUnit, &QComboBox::currentTextChanged, this, &W_ALE_CellDataGlobal::timeSelected_secondUnit);
 	connect(ui.doubleSpinBox_secondUnit, SIGNAL(valueChanged(double)), this, SLOT(timeEdited_secondUnit(double)));
 
-	this->checkBoxChanged(true);
+	connect(ui.buttonBox, &QDialogButtonBox::accepted, this, &W_ALE_CellDataGlobal::acceptData);
+
+}
+W_ALE_CellDataGlobal::~W_ALE_CellDataGlobal(){
 }
 
-W_ALEConfigEdit::~W_ALEConfigEdit(){
-}
 
 /*-------------------------------------------------
-		回车事件过滤
+		控件 - 回车过滤
 */
-void W_ALEConfigEdit::keyPressEvent(QKeyEvent *event) {
+void W_ALE_CellDataGlobal::keyPressEvent(QKeyEvent *event) {
 	if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
 		this->focusNextChild();
 	}else{
@@ -79,19 +80,9 @@ void W_ALEConfigEdit::keyPressEvent(QKeyEvent *event) {
 }
 
 /*-------------------------------------------------
-		控件 - 勾选切换
+		控件 - 选择数字（帧单位）
 */
-void W_ALEConfigEdit::checkBoxChanged(bool checked){
-	if (ui.checkBox->isChecked()){
-		ui.checkBox->setText("显示");
-	}else{
-		ui.checkBox->setText("不显示");
-	}
-}
-/*-------------------------------------------------
-		控件 - 选择数字
-*/
-void W_ALEConfigEdit::timeSelected_frameUnit(QString text){
+void W_ALE_CellDataGlobal::timeSelected_frameUnit(QString text){
 	if (this->m_slotBlock == true){ return; }
 	this->m_slotBlock = true;
 
@@ -99,6 +90,7 @@ void W_ALEConfigEdit::timeSelected_frameUnit(QString text){
 	if (text == "2帧"){ ui.spinBox_frameUnit->setValue(2); }
 	if (text == "3帧"){ ui.spinBox_frameUnit->setValue(3); }
 	if (text == "4帧"){ ui.spinBox_frameUnit->setValue(4); }
+	if (text == "6帧"){ ui.spinBox_frameUnit->setValue(6); }
 	if (text == "8帧"){ ui.spinBox_frameUnit->setValue(8); }
 	if (text == "12帧"){ ui.spinBox_frameUnit->setValue(12); }
 	if (text == "5帧"){ ui.spinBox_frameUnit->setValue(5); }
@@ -114,9 +106,9 @@ void W_ALEConfigEdit::timeSelected_frameUnit(QString text){
 	this->m_slotBlock = false;
 }
 /*-------------------------------------------------
-		控件 - 编辑数字
+		控件 - 编辑数字（帧单位）
 */
-void W_ALEConfigEdit::timeEdited_frameUnit(int value){
+void W_ALE_CellDataGlobal::timeEdited_frameUnit(int value){
 	if (this->m_slotBlock == true){ return; }
 	this->m_slotBlock = true;
 
@@ -124,6 +116,7 @@ void W_ALEConfigEdit::timeEdited_frameUnit(int value){
 	else if (value == 2){ ui.comboBox_frameUnit->setCurrentText("2帧"); }
 	else if (value == 3){ ui.comboBox_frameUnit->setCurrentText("3帧"); }
 	else if (value == 4){ ui.comboBox_frameUnit->setCurrentText("4帧"); }
+	else if (value == 6){ ui.comboBox_frameUnit->setCurrentText("6帧"); }
 	else if (value == 8){ ui.comboBox_frameUnit->setCurrentText("8帧"); }
 	else if (value == 12){ ui.comboBox_frameUnit->setCurrentText("12帧"); }
 	else if (value == 5){ ui.comboBox_frameUnit->setCurrentText("5帧"); }
@@ -140,9 +133,9 @@ void W_ALEConfigEdit::timeEdited_frameUnit(int value){
 	this->m_slotBlock = false;
 }
 /*-------------------------------------------------
-		控件 - 选择数字
+		控件 - 选择数字（秒单位）
 */
-void W_ALEConfigEdit::timeSelected_secondUnit(QString text){
+void W_ALE_CellDataGlobal::timeSelected_secondUnit(QString text){
 	if (this->m_slotBlock == true){ return; }
 	this->m_slotBlock = true;
 
@@ -150,6 +143,7 @@ void W_ALEConfigEdit::timeSelected_secondUnit(QString text){
 	if (text == "0.02秒"){ ui.doubleSpinBox_secondUnit->setValue(0.02); }
 	if (text == "0.03秒"){ ui.doubleSpinBox_secondUnit->setValue(0.03); }
 	if (text == "0.04秒"){ ui.doubleSpinBox_secondUnit->setValue(0.04); }
+	if (text == "0.06秒"){ ui.doubleSpinBox_secondUnit->setValue(0.06); }
 	if (text == "0.08秒"){ ui.doubleSpinBox_secondUnit->setValue(0.08); }
 	if (text == "0.12秒"){ ui.doubleSpinBox_secondUnit->setValue(0.12); }
 	if (text == "0.05秒"){ ui.doubleSpinBox_secondUnit->setValue(0.05); }
@@ -165,9 +159,9 @@ void W_ALEConfigEdit::timeSelected_secondUnit(QString text){
 	this->m_slotBlock = false;
 }
 /*-------------------------------------------------
-		控件 - 编辑数字
+		控件 - 编辑数字（秒单位）
 */
-void W_ALEConfigEdit::timeEdited_secondUnit(double value){
+void W_ALE_CellDataGlobal::timeEdited_secondUnit(double value){
 	if (this->m_slotBlock == true){ return; }
 	this->m_slotBlock = true;
 
@@ -175,6 +169,7 @@ void W_ALEConfigEdit::timeEdited_secondUnit(double value){
 	else if (value == 0.02){ ui.comboBox_secondUnit->setCurrentText("0.02秒"); }
 	else if (value == 0.03){ ui.comboBox_secondUnit->setCurrentText("0.03秒"); }
 	else if (value == 0.04){ ui.comboBox_secondUnit->setCurrentText("0.04秒"); }
+	else if (value == 0.06){ ui.comboBox_secondUnit->setCurrentText("0.06秒"); }
 	else if (value == 0.08){ ui.comboBox_secondUnit->setCurrentText("0.08秒"); }
 	else if (value == 0.12){ ui.comboBox_secondUnit->setCurrentText("0.12秒"); }
 	else if (value == 0.05){ ui.comboBox_secondUnit->setCurrentText("0.05秒"); }
@@ -194,64 +189,66 @@ void W_ALEConfigEdit::timeEdited_secondUnit(double value){
 /*-------------------------------------------------
 		窗口 - 设置数据（修改）
 */
-void W_ALEConfigEdit::setDataInModifyMode(C_ALE_Config config, int unit) {
-	this->local_config = config;
-	this->local_unit = unit;
+void W_ALE_CellDataGlobal::setDataInModifyMode(int defaultInterval, C_ALE_DataSet::DATA_UNIT unit) {
+	this->m_defaultInterval = defaultInterval;
+	this->m_unit = unit;
 	this->putDataToUi();
 }
 /*-------------------------------------------------
-		窗口 - 取出数据
+		窗口 - 取出数据（默认间隔值）
 */
-C_ALE_Config W_ALEConfigEdit::getData(){
-	return this->local_config;
+int W_ALE_CellDataGlobal::getData_DefaultInterval(){
+	return this->m_defaultInterval;
 };
 /*-------------------------------------------------
 		窗口 - 取出数据（单位）
 */
-int W_ALEConfigEdit::getDataUnit(){
-	return this->local_unit;
+C_ALE_DataSet::DATA_UNIT W_ALE_CellDataGlobal::getData_Unit(){
+	return this->m_unit;
 };
 /*-------------------------------------------------
 		窗口 - 本地数据 -> ui数据
 */
-void W_ALEConfigEdit::putDataToUi() {
-	ui.comboBox_sizeMode->setCurrentText(this->local_config.getSizeMode());
-	ui.checkBox->setChecked(this->local_config.m_isMaskEnabled);
-	this->checkBoxChanged(true);
+void W_ALE_CellDataGlobal::putDataToUi() {
 
-	ui.comboBox_unit->setCurrentIndex(this->local_unit);
-	if (this->local_unit == C_ALE_DataSet::FrameUnit){
+	// > 单位
+	ui.comboBox_unit->setCurrentIndex(this->m_unit);
+	if (this->m_unit == C_ALE_DataSet::FrameUnit){
 		ui.stackedWidget->setCurrentIndex(0);
 	}
-	if (this->local_unit == C_ALE_DataSet::SecondUnit){
+	if (this->m_unit == C_ALE_DataSet::SecondUnit){
 		ui.stackedWidget->setCurrentIndex(1);
 	}
 
-	int value = this->local_config.m_defaultInterval;
+	// > 默认帧间隔值
+	int value = this->m_defaultInterval;
 	ui.spinBox_frameUnit->setValue(value);
 	ui.doubleSpinBox_secondUnit->setValue(value*0.01);
+
+	// > 刷新UI
 	this->timeEdited_frameUnit(value);
 	this->timeEdited_secondUnit(value*0.01);
 };
 /*-------------------------------------------------
 		窗口 - ui数据 -> 本地数据
 */
-void W_ALEConfigEdit::putUiToData() {
-	this->local_config.setSizeMode(ui.comboBox_sizeMode->currentText());
-	this->local_config.m_isMaskEnabled = ui.checkBox->isChecked();
-	this->local_unit = ui.comboBox_unit->currentIndex();
+void W_ALE_CellDataGlobal::putUiToData() {
 
-	if (this->local_unit == C_ALE_DataSet::FrameUnit){
-		this->local_config.m_defaultInterval = ui.spinBox_frameUnit->value();
+	// > 单位
+	this->m_unit = (C_ALE_DataSet::DATA_UNIT)ui.comboBox_unit->currentIndex();
+
+	// > 默认帧间隔值
+	if (this->m_unit == C_ALE_DataSet::FrameUnit){
+		this->m_defaultInterval = ui.spinBox_frameUnit->value();
 	}
-	if (this->local_unit == C_ALE_DataSet::SecondUnit){
-		this->local_config.m_defaultInterval = ui.doubleSpinBox_secondUnit->value() * 100;
+	if (this->m_unit == C_ALE_DataSet::SecondUnit){
+		this->m_defaultInterval = ui.doubleSpinBox_secondUnit->value() * 100;
 	}
 };
 /*-------------------------------------------------
 		窗口 - 提交数据（校验）
 */
-void W_ALEConfigEdit::acceptData(){
+void W_ALE_CellDataGlobal::acceptData(){
 	this->putUiToData();
 
 	this->accept();

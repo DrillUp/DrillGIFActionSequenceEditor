@@ -3,13 +3,13 @@
 	-------------------------------------
 
 	程序入口：
-		P_ALE_Editor.cpp
-		P_ALE_Editor.h
+		P_PLE_Editor.cpp
+		P_PLE_Editor.h
 		程序提供了一个 控件块的装饰器 ，需要装饰父控件对象 QListWidget 。
 		
 	输入输出对象（数据类）：
-		C_ALE_DataSet.cpp
-		C_ALE_DataSet.h
+		C_PLE_DataSet.cpp
+		C_PLE_DataSet.h
 
 	输入输出对象（配置类）：
 		C_PiS_Config.cpp

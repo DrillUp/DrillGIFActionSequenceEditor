@@ -18,17 +18,41 @@ class P_AnimationBlock : public P_PictureBlock
 {
 
 	public:
-		P_AnimationBlock(int width, int height, QWidget* parent = 0);	//构造函数
-		~P_AnimationBlock();											//析构函数
-
+		P_AnimationBlock(QWidget* parent = 0);		//构造函数
+		~P_AnimationBlock();						//析构函数
+		
 
 	//-----------------------------------
 	//----控件
-	private:
+	public:
+									//控件 - 刷新UI（继承）
+		virtual void refreshUI() override;
+
+	//-----------------------------------
+	//----画布
+	public:
+									//画布 - 刷新（继承）
+		virtual void refreshSize() override;
+
+
+	//-----------------------------------
+	//----帧文本
+	protected:
 		QLabel* m_FrameLabel;
 	public:
-								//控件 - 设置帧文本
-		void setFrameText(QString name);
+									//帧文本 - 设置
+		void setFrameLabel_Text(QString name);
+
+	//-----------------------------------
+	//----帧文本样式
+	protected:
+		bool m_isBold;
+	public:
+									//帧文本样式 - 字体加粗
+		void setFrameLabel_Bold(bool enabled);
+	protected:
+									//帧文本样式 - 刷新样式
+		void refreshFrameLabelStyle();
 		
 };
 

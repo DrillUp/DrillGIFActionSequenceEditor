@@ -297,6 +297,33 @@
     <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块[PiS]\私有类">
       <UniqueIdentifier>{26cbaefb-a56f-4d12-ab68-4ebd2cdbe918}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片编辑块[PLE]">
+      <UniqueIdentifier>{610fe4bc-163c-4f67-9a2d-a9f0a4905a03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片编辑块[PLE]\私有类">
+      <UniqueIdentifier>{d7b50d60-e99b-4476-a295-666391b60373}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片缓存容器">
+      <UniqueIdentifier>{41461373-1cf4-417b-8ce4-0abdda4b1d99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\GIF功能窗口">
+      <UniqueIdentifier>{9b515274-4eeb-4214-842b-e04372690987}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑UI配置">
+      <UniqueIdentifier>{19547ad7-ca32-4e84-ba20-b75841ccc271}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑数据-单选">
+      <UniqueIdentifier>{fc92681d-5dbf-49db-8dc5-8de55e45b1c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑数据-多选">
+      <UniqueIdentifier>{36b5aa3b-6351-4c21-b5d6-5a6cd910f6e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑数据-全局">
+      <UniqueIdentifier>{45f1f94c-875b-4668-883a-def5140ef624}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\文件夹管理器">
+      <UniqueIdentifier>{94af6bd5-9b83-4578-83fe-307fea1b83df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -1007,6 +1034,45 @@
     <ClCompile Include="GeneratedFiles\Release\moc_P_PiS_Selector.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\AnimationListPlayer\P_AnimationListPlayer.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧播放器</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_P_AnimationListPlayer.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_P_AnimationListPlayer.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\AnimationBlock\P_AnimationBlock.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧单块</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetForm\PictureSelector\Private\I_PiS_Cell.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块[PiS]\私有类</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetForm\PictureListEditor\C_PLE_Config.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片编辑块[PLE]</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetForm\PictureListEditor\C_PLE_DataSet.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片编辑块[PLE]</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetForm\PictureListEditor\P_PLE_Editor.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片编辑块[PLE]</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_P_PLE_Editor.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_P_PLE_Editor.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetForm\PictureBlock\C_PictureBlockData.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片单块</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetForm\PictureBitmapCache\S_PictureBitmapCache.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片缓存容器</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\AnimationBlock\C_AnimationBlockData.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧单块</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Utils\widgetFormSenior\AnimationListEditor\C_ALE_Config.cpp">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]</Filter>
     </ClCompile>
@@ -1022,56 +1088,74 @@
     <ClCompile Include="GeneratedFiles\Release\moc_P_ALE_Editor.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALEConfigEdit.cpp">
+    <ClCompile Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\I_ALE_Cell.cpp">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_W_ALEConfigEdit.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_W_ALE_CellDataGlobal.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_W_ALEConfigEdit.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_W_ALE_CellDataGlobal.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALEDataEdit.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_W_ALEDataEdit.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_W_ALE_CellDataMultiple.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_W_ALEDataEdit.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_W_ALE_CellDataMultiple.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALEGIFReaderType.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_W_ALEGIFReaderType.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_W_ALE_CellDataSingle.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_W_ALEGIFReaderType.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_W_ALE_CellDataSingle.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALEGIFWriterType.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_W_ALEGIFWriterType.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_W_ALE_Config.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_W_ALEGIFWriterType.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_W_ALE_Config.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Utils\widgetFormSenior\AnimationListPlayer\P_AnimationListPlayer.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧播放器</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_P_AnimationListPlayer.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_W_ALE_GIFReader_TypeChoose.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_P_AnimationListPlayer.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_W_ALE_GIFReader_TypeChoose.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Utils\widgetFormSenior\AnimationBlock\P_AnimationBlock.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧单块</Filter>
+    <ClCompile Include="GeneratedFiles\Debug\moc_W_ALE_GIFWriter_TypeChoose.cpp">
+      <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Utils\widgetForm\PictureSelector\Private\I_PiS_Cell.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块[PiS]\私有类</Filter>
+    <ClCompile Include="GeneratedFiles\Release\moc_W_ALE_GIFWriter_TypeChoose.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\S_ALE_FileManager.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\文件夹管理器</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALE_CellDataGlobal.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑数据-全局</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALE_CellDataMultiple.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑数据-多选</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALE_CellDataSingle.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑数据-单选</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALE_GIFReader_TypeChoose.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\GIF功能窗口</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALE_GIFWriter_TypeChoose.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\GIF功能窗口</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALE_Config.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑UI配置</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\widgetForm\PictureListEditor\Private\S_PLE_FileManager.cpp">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片编辑块[PLE]\私有类</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_S_PLE_FileManager.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_S_PLE_FileManager.cpp">
+      <Filter>Generated Files\Release</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1360,33 +1444,6 @@
     <CustomBuild Include="Source\Utils\widgetForm\PictureSelector\P_PiS_Selector.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块[PiS]</Filter>
     </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListEditor\P_ALE_Editor.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALEConfigEdit.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALEConfigEdit.ui">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALEDataEdit.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALEDataEdit.ui">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALEGIFReaderType.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALEGIFReaderType.ui">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALEGIFWriterType.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALEGIFWriterType.ui">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类</Filter>
-    </CustomBuild>
     <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListPlayer\P_AnimationListPlayer.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧播放器</Filter>
     </CustomBuild>
@@ -1395,6 +1452,51 @@
     </CustomBuild>
     <CustomBuild Include="Source\Utils\widgetForm\PictureSelector\Private\I_PiS_Cell.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块[PiS]\私有类</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetForm\PictureListEditor\P_PLE_Editor.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片编辑块[PLE]</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListEditor\P_ALE_Editor.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALE_CellDataGlobal.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑数据-全局</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALE_CellDataGlobal.ui">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑数据-全局</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALE_CellDataMultiple.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑数据-多选</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALE_CellDataMultiple.ui">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑数据-多选</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALE_CellDataSingle.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑数据-单选</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALE_CellDataSingle.ui">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑数据-单选</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALE_GIFReader_TypeChoose.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\GIF功能窗口</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALE_GIFReader_TypeChoose.ui">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\GIF功能窗口</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALE_GIFWriter_TypeChoose.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\GIF功能窗口</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALE_GIFWriter_TypeChoose.ui">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\GIF功能窗口</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALE_Config.ui">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑UI配置</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALE_Config.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑UI配置</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\widgetForm\PictureListEditor\Private\S_PLE_FileManager.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片编辑块[PLE]\私有类</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -1605,29 +1707,56 @@
     <ClInclude Include="Source\Utils\widgetForm\PictureSelector\C_PiS_Config.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片选择块[PiS]</Filter>
     </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_P_AnimationListPlayer.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\widgetFormSenior\AnimationBlock\P_AnimationBlock.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧单块</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\widgetForm\PictureListEditor\C_PLE_Config.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片编辑块[PLE]</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\widgetForm\PictureListEditor\C_PLE_DataSet.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片编辑块[PLE]</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\widgetForm\PictureBlock\C_PictureBlockData.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片单块</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\widgetForm\PictureBitmapCache\S_PictureBitmapCache.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片缓存容器</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\widgetFormSenior\AnimationBlock\C_AnimationBlockData.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧单块</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Utils\widgetFormSenior\AnimationListEditor\C_ALE_Config.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]</Filter>
     </ClInclude>
     <ClInclude Include="Source\Utils\widgetFormSenior\AnimationListEditor\C_ALE_DataSet.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_W_ALEConfigEdit.h">
+    <ClInclude Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\I_ALE_Cell.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_W_ALE_CellDataGlobal.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_W_ALEDataEdit.h">
+    <ClInclude Include="GeneratedFiles\ui_W_ALE_CellDataMultiple.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_W_ALEGIFReaderType.h">
+    <ClInclude Include="GeneratedFiles\ui_W_ALE_CellDataSingle.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_W_ALEGIFWriterType.h">
+    <ClInclude Include="GeneratedFiles\ui_W_ALE_Config.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_P_AnimationListPlayer.h">
+    <ClInclude Include="GeneratedFiles\ui_W_ALE_GIFReader_TypeChoose.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Utils\widgetFormSenior\AnimationBlock\P_AnimationBlock.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧单块</Filter>
+    <ClInclude Include="GeneratedFiles\ui_W_ALE_GIFWriter_TypeChoose.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\S_ALE_FileManager.h">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\文件夹管理器</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1705,6 +1834,12 @@
     </Text>
     <Text Include="Source\Utils\widgetFormSenior\AnimationListPlayer\程序入口.txt">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧播放器</Filter>
+    </Text>
+    <Text Include="Source\Utils\widgetForm\PictureListEditor\程序入口.txt">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片编辑块[PLE]</Filter>
+    </Text>
+    <Text Include="Source\Utils\widgetForm\PictureBlock\程序入口.txt">
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\图片单块</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

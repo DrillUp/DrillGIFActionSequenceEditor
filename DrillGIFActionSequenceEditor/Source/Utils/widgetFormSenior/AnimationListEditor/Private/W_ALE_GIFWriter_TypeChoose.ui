@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>W_ALEGIFReaderType</class>
- <widget class="QDialog" name="W_ALEGIFReaderType">
+ <class>W_ALE_GIFWriter_TypeChoose</class>
+ <widget class="QDialog" name="W_ALE_GIFWriter_TypeChoose">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
-    <height>179</height>
+    <width>535</width>
+    <height>216</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>读取方式</string>
+   <string>生成方式</string>
   </property>
   <property name="styleSheet">
    <string notr="true">
@@ -24,7 +24,7 @@ QComboBox QAbstractItemView::item { min-height: 26px;}</string>
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>选择GIF读取器</string>
+      <string>选择GIF生成器</string>
      </property>
      <layout class="QGridLayout" name="gridLayout" columnstretch="1">
       <item row="3" column="0">
@@ -33,15 +33,15 @@ QComboBox QAbstractItemView::item { min-height: 26px;}</string>
          <string notr="true">color: rgb(150, 150, 150);</string>
         </property>
         <property name="text">
-         <string>读取透明GIF不会重影，但是遇到压缩过的GIF时，会出现图片失真情况。
-</string>
+         <string>可以生成透明的GIF，文件较小，但是生成结果会明显降低图片的清晰度，
+失真程度较大。</string>
         </property>
        </widget>
       </item>
       <item row="0" column="0">
        <widget class="QRadioButton" name="radioButton">
         <property name="text">
-         <string>QImageReader读取</string>
+         <string>一般生成</string>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -51,7 +51,7 @@ QComboBox QAbstractItemView::item { min-height: 26px;}</string>
       <item row="2" column="0">
        <widget class="QRadioButton" name="radioButton_2">
         <property name="text">
-         <string>cximage读取</string>
+         <string>cximage生成</string>
         </property>
        </widget>
       </item>
@@ -61,8 +61,8 @@ QComboBox QAbstractItemView::item { min-height: 26px;}</string>
          <string notr="true">color: rgb(150, 150, 150);</string>
         </property>
         <property name="text">
-         <string>读取图片不会失真，但是读取透明GIF时，会出现重影问题。
- </string>
+         <string>透明部分默认填白，生成不透明的GIF；图片不会失真，但帧数多时文件
+会非常大。</string>
         </property>
        </widget>
       </item>
@@ -86,7 +86,7 @@ QComboBox QAbstractItemView::item { min-height: 26px;}</string>
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>W_ALEGIFReaderType</receiver>
+   <receiver>W_ALE_GIFWriter_TypeChoose</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

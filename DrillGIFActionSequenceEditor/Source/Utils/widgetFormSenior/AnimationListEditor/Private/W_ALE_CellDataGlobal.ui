@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>W_ALEConfigEdit</class>
- <widget class="QDialog" name="W_ALEConfigEdit">
+ <class>W_ALE_CellDataGlobal</class>
+ <widget class="QDialog" name="W_ALE_CellDataGlobal">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>350</width>
-    <height>260</height>
+    <width>450</width>
+    <height>250</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>动画帧设置</string>
+   <string>编辑帧设置</string>
   </property>
   <property name="styleSheet">
    <string notr="true">
@@ -19,75 +19,12 @@ QComboBox QAbstractItemView::item { min-height: 26px;}</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QGroupBox" name="groupBox_2">
-     <property name="title">
-      <string>ui设置</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_2" columnstretch="1,2">
-      <item row="0" column="1">
-       <widget class="QComboBox" name="comboBox_sizeMode">
-        <item>
-         <property name="text">
-          <string>大</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>中</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>小</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>显示尺寸</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>网格背景</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QCheckBox" name="checkBox">
-        <property name="text">
-         <string>显示</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>帧</string>
+      <string>默认帧时间</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout" columnstretch="1,2">
-      <item row="0" column="1">
-       <widget class="QComboBox" name="comboBox_unit">
-        <item>
-         <property name="text">
-          <string>帧单位（1秒60帧）</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>秒单位（1秒100帧）</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item row="2" column="0" colspan="2">
+     <layout class="QGridLayout" name="gridLayout" columnstretch="1,0">
+      <item row="0" column="0" colspan="2">
        <widget class="QStackedWidget" name="stackedWidget">
         <property name="currentIndex">
          <number>0</number>
@@ -115,6 +52,12 @@ QComboBox QAbstractItemView::item { min-height: 26px;}</string>
           </item>
           <item row="0" column="1">
            <widget class="QComboBox" name="comboBox_frameUnit">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>26</height>
+             </size>
+            </property>
             <item>
              <property name="text">
               <string>自定义</string>
@@ -124,6 +67,12 @@ QComboBox QAbstractItemView::item { min-height: 26px;}</string>
           </item>
           <item row="1" column="1">
            <widget class="QSpinBox" name="spinBox_frameUnit">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>26</height>
+             </size>
+            </property>
             <property name="suffix">
              <string>帧</string>
             </property>
@@ -160,6 +109,12 @@ QComboBox QAbstractItemView::item { min-height: 26px;}</string>
           </item>
           <item row="0" column="1">
            <widget class="QComboBox" name="comboBox_secondUnit">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>26</height>
+             </size>
+            </property>
             <item>
              <property name="text">
               <string>自定义</string>
@@ -169,6 +124,12 @@ QComboBox QAbstractItemView::item { min-height: 26px;}</string>
           </item>
           <item row="1" column="1">
            <widget class="QDoubleSpinBox" name="doubleSpinBox_secondUnit">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>26</height>
+             </size>
+            </property>
             <property name="suffix">
              <string>秒</string>
             </property>
@@ -187,18 +148,40 @@ QComboBox QAbstractItemView::item { min-height: 26px;}</string>
         </widget>
        </widget>
       </item>
-      <item row="0" column="0">
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>单位</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,2">
+      <item>
        <widget class="QLabel" name="label_frameUnit_2">
         <property name="text">
-         <string>时间单位</string>
+         <string>单位</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="0" colspan="2">
-       <widget class="Line" name="line">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+      <item>
+       <widget class="QComboBox" name="comboBox_unit">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>26</height>
+         </size>
         </property>
+        <item>
+         <property name="text">
+          <string>帧单位（1秒60帧）</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>秒单位（1秒100帧）</string>
+         </property>
+        </item>
        </widget>
       </item>
      </layout>
@@ -234,7 +217,7 @@ QComboBox QAbstractItemView::item { min-height: 26px;}</string>
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>W_ALEConfigEdit</receiver>
+   <receiver>W_ALE_CellDataGlobal</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
