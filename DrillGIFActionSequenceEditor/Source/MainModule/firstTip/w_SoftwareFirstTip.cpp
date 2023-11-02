@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "W_SoftwareFirstTip.h"
 
 #include "../drillgifactionsequenceeditor.h"
@@ -7,17 +7,17 @@
 
 /*
 -----==========================================================-----
-		Àà£º		Ê×Ò³ÌáÊ¾¿ò.cpp
-		ËùÊôÄ£¿é£º	Ö÷´°ÌåÄ£¿é
-		¹¦ÄÜ£º		Ê×Ò³ÌáÊ¾¿ò¡£
+		ç±»ï¼š		é¦–é¡µæç¤ºæ¡†.cpp
+		æ‰€å±žæ¨¡å—ï¼š	ä¸»çª—ä½“æ¨¡å—
+		åŠŸèƒ½ï¼š		é¦–é¡µæç¤ºæ¡†ã€‚
 
-		Ê¹ÓÃ·½·¨£º
-				>´ò¿ª´°¿Ú
+		ä½¿ç”¨æ–¹æ³•ï¼š
+				> æ‰“å¼€çª—å£
 					W_SoftwareFirstTip d;
 					d.exec();
-
 -----==========================================================-----
 */
+
 W_SoftwareFirstTip::W_SoftwareFirstTip(QWidget *parent)
 	: QDialog(parent)
 {
@@ -28,7 +28,7 @@ W_SoftwareFirstTip::W_SoftwareFirstTip(QWidget *parent)
 W_SoftwareFirstTip::~W_SoftwareFirstTip(){
 }
 /*-------------------------------------------------
-		µ¥Àý
+		å•ä¾‹
 */
 W_SoftwareFirstTip* W_SoftwareFirstTip::cur_instance = NULL;
 W_SoftwareFirstTip* W_SoftwareFirstTip::getInstance() {
@@ -38,18 +38,18 @@ W_SoftwareFirstTip* W_SoftwareFirstTip::getInstance() {
 	return cur_instance;
 }
 /*-------------------------------------------------
-		³õÊ¼»¯
+		åˆå§‹åŒ–
 */
 void W_SoftwareFirstTip::_init() {
 
 	//-----------------------------------
-	//----ÊÂ¼þ°ó¶¨
+	//----äº‹ä»¶ç»‘å®š
 	connect(ui.toolButton, &QToolButton::clicked, this, &W_SoftwareFirstTip::openUserManual);
 	connect(ui.buttonBox, SIGNAL(accepted()), this, SLOT(acceptData()));
 	connect(ui.buttonBox, SIGNAL(rejected()), this, SLOT(rejectData()));
 
 	//-----------------------------------
-	//----ui³õÊ¼»¯
+	//----uiåˆå§‹åŒ–
 	TTool::_chinese_(ui.buttonBox);
 
 	
@@ -57,26 +57,32 @@ void W_SoftwareFirstTip::_init() {
 
 
 /* --------------------------------------------------------------
-		¿Ø¼þ - ÓÃ»§ÊÖ²á
+		æŽ§ä»¶ - ç”¨æˆ·æ‰‹å†Œ
 */
 void W_SoftwareFirstTip::openUserManual() {
 	QString sPath = qApp->applicationDirPath();
 
-	QString docx = sPath + "/help/¹ØÓÚGIF¶¯»­ÐòÁÐºËÐÄ±à¼­Æ÷.docx";
+	QString docx = sPath + "/help/å…³äºŽGIFåŠ¨ç”»åºåˆ—æ ¸å¿ƒç¼–è¾‘å™¨.docx";
 	if (QFileInfo(docx).exists()){
 		QDesktopServices::openUrl(QUrl("file:/" + docx)); 
 	}else{
-		QMessageBox::warning(this, "´íÎó", "ÎÄµµ\"¹ØÓÚGIF¶¯»­ÐòÁÐºËÐÄ±à¼­Æ÷.docx\"²»¼ûÁË¡£", QMessageBox::Yes);
+		QMessageBox::warning(this, "é”™è¯¯", "æ–‡æ¡£\"å…³äºŽGIFåŠ¨ç”»åºåˆ—æ ¸å¿ƒç¼–è¾‘å™¨.docx\"ä¸è§äº†ã€‚", QMessageBox::Yes);
 	}
 
 }
 
 
+/* --------------------------------------------------------------
+		çª—å£ - æäº¤æ•°æ®
+*/
 void W_SoftwareFirstTip::acceptData(){
-	//(ÎÞ²Ù×÷)
+	//(æ— æ“ä½œ)
 
 	this->accept();
 }
+/* --------------------------------------------------------------
+		çª—å£ - å–æ¶ˆæ•°æ®
+*/
 void W_SoftwareFirstTip::rejectData(){
 
 	if (ui.checkBox->isChecked() == true){
@@ -86,7 +92,7 @@ void W_SoftwareFirstTip::rejectData(){
 	this->reject();
 }
 /* --------------------------------------------------------------
-		¿Ø¼þ - ´°¿Ú¹Ø±ÕÊÂ¼þ£¨µã»÷¹Ø±Õ°´Å¥£©
+		çª—å£ - çª—å£å…³é—­äº‹ä»¶ï¼ˆç‚¹å‡»å…³é—­æŒ‰é’®ï¼‰
 */
 void W_SoftwareFirstTip::closeEvent(QCloseEvent *event){
 	this->rejectData();

@@ -2,6 +2,7 @@
 #include "drillgifactionsequenceeditor.h"
 
 #include "about/w_SoftwareAbout.h"
+#include "birthDayTip/w_SoftwareBirthDayTip.h"
 #include "Source/RmmvInteractiveModule/OperateBoard/W_RmmvOperateBoard.h"
 #include "Source/RmmvInteractiveModule/Base/S_RmmvDataContainer.h"
 #include "Source/ActionSeqModule/Data/S_ActionSeqDataContainer.h"
@@ -86,6 +87,12 @@ void DrillGIFActionSequenceEditor::_init() {
 	connect(S_RmmvDataContainer::getInstance(), &S_RmmvDataContainer::dataAllReloaded, this, &DrillGIFActionSequenceEditor::rmmvInteractiveDataLoaded);
 	connect(S_ActionSeqDataContainer::getInstance(), &S_ActionSeqDataContainer::dataAllReloaded, this, &DrillGIFActionSequenceEditor::actionSeqDataLoaded);
 
+
+	// > 生日彩蛋
+	W_SoftwareBirthDayTip d(this);
+	if (d.isInBirthDay()){
+		d.exec();
+	}
 }
 
 /*-------------------------------------------------

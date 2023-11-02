@@ -1,55 +1,65 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "W_SoftwareAbout.h"
 
-#include "Source/ProjectModule/s_ProjectManager.h"
+#include "../versionLog/w_SoftwareVersionLog.h"
+#include "Source/ProjectModule/Data/C_ProjectData.h"
 #include "Source/Utils/common/TTool.h"
-
 
 /*
 -----==========================================================-----
-		Àà£º		¹ØÓÚ´°¿Ú.cpp
-		ËùÊôÄ£¿é£º	Ö÷´°ÌåÄ£¿é
-		¹¦ÄÜ£º		¹ØÓÚ´°¿Ú¡£
+		ç±»ï¼š		å…³äºçª—å£.cpp
+		æ‰€å±æ¨¡å—ï¼š	ä¸»çª—ä½“æ¨¡å—
+		åŠŸèƒ½ï¼š		å…³äºçª—å£ã€‚
 
-		Ê¹ÓÃ·½·¨£º
-				>´ò¿ª´°¿Ú
+		ä½¿ç”¨æ–¹æ³•ï¼š
+				> æ‰“å¼€çª—å£
 					W_SoftwareAbout d;
 					d.exec();
-
 -----==========================================================-----
 */
+
 W_SoftwareAbout::W_SoftwareAbout(QWidget *parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
 
 	//-----------------------------------
-	//----ÊÂ¼ş°ó¶¨
+	//----äº‹ä»¶ç»‘å®š
 	connect(ui.toolButton, &QToolButton::clicked, this, &W_SoftwareAbout::openUserManual);
+	connect(ui.toolButton_2, &QToolButton::clicked, this, &W_SoftwareAbout::openVersionLog);
 
 	//-----------------------------------
-	//----ui³õÊ¼»¯
+	//----uiåˆå§‹åŒ–
+
+	// > æ ‡é¢˜å—æ–‡æœ¬
+	ui.label_title->setText("GIFåŠ¨ç”»åºåˆ—ç¼–è¾‘å™¨ï¼ˆ" + C_ProjectData::version + "ï¼‰");
+
+	// > æŒ‰é’®ç»„
 	TTool::_chinese_(ui.buttonBox);
 
-	ui.label_title->setText("GIF¶¯»­ĞòÁĞ±à¼­Æ÷£¨" + S_ProjectManager::getInstance()->data_ProjectData.version + "£©");
-
 }
-
 W_SoftwareAbout::~W_SoftwareAbout(){
 }
 
 
 /* --------------------------------------------------------------
-		¿Ø¼ş - ÓÃ»§ÊÖ²á
+		æ§ä»¶ - ç”¨æˆ·æ‰‹å†Œ
 */
 void W_SoftwareAbout::openUserManual() {
 	QString sPath = qApp->applicationDirPath();
 
-	QString docx = sPath + "/help/¹ØÓÚGIF¶¯»­ĞòÁĞºËĞÄ±à¼­Æ÷.docx";
+	QString docx = sPath + "/help/å…³äºGIFåŠ¨ç”»åºåˆ—æ ¸å¿ƒç¼–è¾‘å™¨.docx";
 	if (QFileInfo(docx).exists()){
 		QDesktopServices::openUrl(QUrl("file:/" + docx)); 
 	}else{
-		QMessageBox::warning(this, "´íÎó", "ÎÄµµ\"¹ØÓÚGIF¶¯»­ĞòÁĞºËĞÄ±à¼­Æ÷.docx\"²»¼ûÁË¡£", QMessageBox::Yes);
+		QMessageBox::warning(this, "é”™è¯¯", "æ–‡æ¡£\"å…³äºGIFåŠ¨ç”»åºåˆ—æ ¸å¿ƒç¼–è¾‘å™¨.docx\"ä¸è§äº†ã€‚", QMessageBox::Yes);
 	}
 
+}
+/* --------------------------------------------------------------
+		æ§ä»¶ - æ›´æ–°æ—¥å¿—
+*/
+void W_SoftwareAbout::openVersionLog(){
+	W_SoftwareVersionLog d(this);
+	d.exec();
 }

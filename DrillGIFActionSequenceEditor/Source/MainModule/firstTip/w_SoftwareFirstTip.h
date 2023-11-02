@@ -1,4 +1,4 @@
-#ifndef W_SoftwareFirstTip_H
+ï»¿#ifndef W_SoftwareFirstTip_H
 #define W_SoftwareFirstTip_H
 
 #include <QtWidgets/QDialog>
@@ -6,10 +6,10 @@
 
 /*
 -----==========================================================-----
-		Àà£º		Ê×Ò³ÌáÊ¾¿ò.h
-		ËùÊôÄ£¿é£º	Ö÷´°ÌåÄ£¿é
-		¹¦ÄÜ£º		Ê×Ò³ÌáÊ¾¿ò¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		é¦–é¡µæç¤ºæ¡†.h
+		æ‰€å±æ¨¡å—ï¼š	ä¸»çª—ä½“æ¨¡å—
+		åŠŸèƒ½ï¼š		é¦–é¡µæç¤ºæ¡†ã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 
@@ -18,25 +18,26 @@ class W_SoftwareFirstTip : public QDialog
 	Q_OBJECT
 
 	public:
-		W_SoftwareFirstTip(QWidget *parent = 0);		//¹¹Ôìº¯Êı
-		~W_SoftwareFirstTip();							//Îö¹¹º¯Êı
-		static W_SoftwareFirstTip* cur_instance;		//µ¥Àı
-		static W_SoftwareFirstTip* getInstance();		//µ¥Àı£¬»ñÈ¡×Ô¼º
-		void _init();									//³õÊ¼»¯
+		W_SoftwareFirstTip(QWidget *parent = 0);		//æ„é€ å‡½æ•°
+		~W_SoftwareFirstTip();							//ææ„å‡½æ•°
+		static W_SoftwareFirstTip* cur_instance;		//å•ä¾‹
+		static W_SoftwareFirstTip* getInstance();		//å•ä¾‹ï¼Œè·å–è‡ªå·±
+		void _init();									//åˆå§‹åŒ–
 		
 	//-----------------------------------
-	//----¿Ø¼ş		
+	//----æ§ä»¶		
 	public:		
-									//¿Ø¼ş - °ïÖúÎÄµµ
+									//æ§ä»¶ - å¸®åŠ©æ–‡æ¡£
 		void openUserManual();
 		
 	//-----------------------------------
-	//----´°¿Ú
+	//----çª—å£
 	public slots:		
-								//°´Å¥×éÊÂ¼ş
+									//çª—å£ - æäº¤æ•°æ®
 		void acceptData();
+									//çª—å£ - å–æ¶ˆæ•°æ®
 		void rejectData();
-								//´°¿Ú¹Ø±ÕÊÂ¼ş£¨µã»÷¹Ø±Õ°´Å¥£©
+									//çª—å£ - çª—å£å…³é—­äº‹ä»¶ï¼ˆç‚¹å‡»å…³é—­æŒ‰é’®ï¼‰
 		void closeEvent(QCloseEvent *event);
 
 	private:
@@ -44,4 +45,4 @@ class W_SoftwareFirstTip : public QDialog
 		
 };
 
-#endif // W_QExpressionTest_H
+#endif // W_SoftwareFirstTip_H

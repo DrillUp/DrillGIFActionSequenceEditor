@@ -112,7 +112,7 @@ padding:4px;</string>
        <number>0</number>
       </property>
       <item row="2" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0">
+       <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0">
         <property name="leftMargin">
          <number>9</number>
         </property>
@@ -135,6 +135,26 @@ padding:4px;</string>
           </property>
           <property name="text">
            <string>帮助文档</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../../drillgifactionsequenceeditor.qrc">
+            <normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/nav/Help.png</normaloff>:/DrillGIFActionSequenceEditor/Resources/icons/nav/Help.png</iconset>
+          </property>
+          <property name="toolButtonStyle">
+           <enum>Qt::ToolButtonTextBesideIcon</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="toolButton_2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>版本日志</string>
           </property>
           <property name="icon">
            <iconset resource="../../../drillgifactionsequenceeditor.qrc">
@@ -177,7 +197,7 @@ padding:4px;</string>
 作者： Drill_up
 制作时间： 2021.1 - 2021.3
 　　　　　 2022.10 - 2022.12
-　　　　　 2023.10 - 2023.11
+　　　　　 2023.9 - 2023.11
 
 此软件为个人兴趣开发哦，并且源码公开。
 如果你有好的建议和想法，可以和我提哦！</string>
