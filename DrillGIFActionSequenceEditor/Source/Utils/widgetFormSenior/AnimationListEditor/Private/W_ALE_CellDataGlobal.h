@@ -42,6 +42,7 @@ class W_ALE_CellDataGlobal : public QDialog
 	protected:
 		bool m_slotBlock;
 		int m_defaultInterval;				//默认间隔值
+		int m_defaultInterval_org;			//默认间隔值（编辑前）
 		C_ALE_DataSet::DATA_UNIT m_unit;	//单位
 	public:
 										//窗口 - 设置数据（修改）

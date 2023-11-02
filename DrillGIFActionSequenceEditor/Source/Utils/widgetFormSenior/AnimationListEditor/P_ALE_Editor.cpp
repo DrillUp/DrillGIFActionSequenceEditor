@@ -117,6 +117,7 @@ void P_ALE_Editor::rebuildUI_ALE(QStringList bitmapPath_list, QList<int> interva
 		I_ALE_Cell* cell = dynamic_cast<I_ALE_Cell*>(cell_PiS);
 		C_AnimationBlockDataPtr cellData = cell->getBlockDataPtr_ALE();
 		cellData->m_intervalValue = interval_list.at(i);
+		this->refreshPictureCell(i);
 	}
 }
 void P_ALE_Editor::rebuildUI(QStringList bitmapPath_list){
@@ -165,6 +166,9 @@ void P_ALE_Editor::setDataSet_ALE(C_ALE_DataSet data) {
 	QStringList pic_list = data.getData_PicList();
 	QList<int> interval_list = data.getData_IntervalTank_WithFit();
 	this->rebuildUI_ALE(pic_list, interval_list);	//（重建UI）
+
+	// > 数据重置信号
+	emit signal_dataSetReloaded();
 }
 /*-------------------------------------------------
 		块数据 - 获取数据

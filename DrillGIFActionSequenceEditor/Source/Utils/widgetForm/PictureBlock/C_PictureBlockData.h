@@ -43,7 +43,7 @@ class C_PictureBlockData{
 	//-----------------------------------
 	//----图片
 	public:
-		QString m_bitmapPath;				//资源路径
+		QString m_bitmapPath;				//资源路径（完整的全路径）
 	public:
 											//图片 - 获取贴图
 		QPixmap getBitmap();

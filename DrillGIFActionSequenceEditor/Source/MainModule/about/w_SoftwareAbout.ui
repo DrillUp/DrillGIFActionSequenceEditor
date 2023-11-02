@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>300</height>
+    <height>320</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -175,8 +175,9 @@ padding:4px;</string>
            <property name="text">
             <string>GIF动画序列编辑器（DrillGIFActionSequenceEditor）
 作者： Drill_up
-制作时间： 2021.1 - 2021.3、 2022.10 - 2022.12
-
+制作时间： 2021.1 - 2021.3
+　　　　　 2022.10 - 2022.12
+　　　　　 2023.10 - 2023.11
 
 此软件为个人兴趣开发哦，并且源码公开。
 如果你有好的建议和想法，可以和我提哦！</string>

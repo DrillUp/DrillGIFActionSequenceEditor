@@ -28,6 +28,7 @@ class S_PictureBitmapCache{
 										//容器 - 清理全部
 		void clearAll();
 										//容器 - 添加路径
+										//		【说明】：此函数重复调用会刷新QPixmap。因此需要先用hasPath判断一下再添加。
 		void addPath(QString path);
 										//容器 - 是否含有路径
 		bool hasPath(QString path);

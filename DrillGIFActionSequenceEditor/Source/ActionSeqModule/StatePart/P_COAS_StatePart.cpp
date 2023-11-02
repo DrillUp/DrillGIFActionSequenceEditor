@@ -95,6 +95,7 @@ P_COAS_StatePart::P_COAS_StatePart(QWidget *parent)
 	connect(this->m_p_AnimationListEditor, &P_ALE_Editor::signal_currentIndexChanged_Single, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::setAnimFrame);
 	// > 图片查看块 - 连接资源切换
 	connect(this->m_p_AnimationListEditor, &P_ALE_Editor::signal_picListChanged, this, &P_COAS_StatePart::bitmapChanged);
+	connect(this->m_p_AnimationListEditor, &P_ALE_Editor::signal_dataSetReloaded, this, &P_COAS_StatePart::bitmapChanged);
 	// > 图片查看块 - 着色器
 	connect(ui.horizontalSlider_tint, &QAbstractSlider::valueChanged, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::setTint );
 	// > 图片查看块 - 缩放

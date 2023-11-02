@@ -73,6 +73,7 @@ class I_APVScene : public QGraphicsScene
 		int getTint();
 	protected:
 									//着色器 - 旋转色彩
+									//		【说明】：此函数会返回一个新的QPixmap，不会影响原来的。
 		QPixmap rotateColor(QPixmap pixmap,int rotate_offset);
 									//着色器 - rgb模式转hsl模式
 		void rgbToHsl(int r, int g, int b, double* result_arr);

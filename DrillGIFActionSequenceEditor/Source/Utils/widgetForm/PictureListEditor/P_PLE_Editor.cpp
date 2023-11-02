@@ -118,6 +118,9 @@ void P_PLE_Editor::setDataSet_PLE(C_PLE_DataSet data) {
 	// > 资源文件
 	QStringList pic_list = data.getData_PicList();
 	this->rebuildUI(pic_list);	//（重建UI）
+
+	// > 数据重置信号
+	emit signal_dataSetReloaded();
 }
 /*-------------------------------------------------
 		块数据 - 获取数据

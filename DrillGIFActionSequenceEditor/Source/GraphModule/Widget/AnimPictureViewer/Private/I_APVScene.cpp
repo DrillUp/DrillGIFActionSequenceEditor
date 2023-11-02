@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "I_APVScene.h"
 
+#include "Source/Utils/widgetForm/PictureBitmapCache/S_PictureBitmapCache.h"
 #include <QPixmap>
 
 /*
@@ -127,13 +128,28 @@ void I_APVScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent){
 		资源 - 设置资源
 */
 void I_APVScene::setSource(QList<QFileInfo> file_list){
+
+	//// > 根据资源获取bitmap（常规创建）
+	//QList<QPixmap> bitmap_list;
+	//for (int i = 0; i < file_list.count(); i++){
+	//	QFileInfo info = file_list.at(i);
+	//	QImage image = QImage(info.absoluteFilePath());
+	//	QPixmap pixmap = QPixmap::fromImage(image);
+	//	bitmap_list.append(pixmap);
+	//}
+
+	// > 根据资源获取bitmap（从缓存容器中获取）
 	QList<QPixmap> bitmap_list;
 	for (int i = 0; i < file_list.count(); i++){
-		QFileInfo info = file_list.at(i);
-		QImage image = QImage(info.absoluteFilePath());
-		QPixmap pixmap = QPixmap::fromImage(image);
+		QString file_path = file_list.at(i).absoluteFilePath();
+		if (S_PictureBitmapCache::getInstance()->hasPath(file_path) == false){
+			S_PictureBitmapCache::getInstance()->addPath(file_path);
+		}
+		QPixmap pixmap = S_PictureBitmapCache::getInstance()->getBitmapByPath(file_path);
 		bitmap_list.append(pixmap);
 	}
+
+	// > 资源赋值
 	this->m_fileList = file_list;
 	this->m_bitmapList = bitmap_list;
 	this->rebuildScene();

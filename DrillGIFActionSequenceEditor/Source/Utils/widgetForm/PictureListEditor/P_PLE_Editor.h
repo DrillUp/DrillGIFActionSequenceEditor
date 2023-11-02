@@ -65,6 +65,11 @@ class P_PLE_Editor : public P_PiS_Selector
 											//块数据 - 获取当前数据 - 图片列表
 											//		【说明】：该函数指在 编辑图片时，获取到的临时数据。
 		QStringList getCurrentData_PicList();
+	public:
+	signals:
+											//块数据 - 数据重置（信号）
+											//		【说明】：数据被设置时，发出的信号。
+		void signal_dataSetReloaded();
 
 
 	//-----------------------------------
@@ -160,7 +165,8 @@ class P_PLE_Editor : public P_PiS_Selector
 	public:
 	signals:
 									//导入图片 - 文件夹变化（信号）
-									//		【说明】：导入图片后，文件夹变化的信号。如果要更精确的文件名变化，可以去使用S_PLE_FileManager的信号。
+									//		【说明】：导入图片后，文件夹变化的信号。不包括setDataSet的情况。
+									//		【说明】：如果要更精确的文件名变化，可以去使用S_PLE_FileManager的信号。
 		void signal_picListChanged();
 		
 	//-----------------------------------

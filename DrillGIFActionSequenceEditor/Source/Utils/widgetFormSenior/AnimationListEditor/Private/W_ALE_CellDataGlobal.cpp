@@ -191,6 +191,7 @@ void W_ALE_CellDataGlobal::timeEdited_secondUnit(double value){
 */
 void W_ALE_CellDataGlobal::setDataInModifyMode(int defaultInterval, C_ALE_DataSet::DATA_UNIT unit) {
 	this->m_defaultInterval = defaultInterval;
+	this->m_defaultInterval_org = defaultInterval;
 	this->m_unit = unit;
 	this->putDataToUi();
 }
@@ -250,6 +251,34 @@ void W_ALE_CellDataGlobal::putUiToData() {
 */
 void W_ALE_CellDataGlobal::acceptData(){
 	this->putUiToData();
+
+	// > 校验
+	if (this->m_defaultInterval_org != this->m_defaultInterval){
+
+		QString context;
+		context.append("你修改了默认帧间隔，确定将所有\"");
+		if (this->m_unit == C_ALE_DataSet::FrameUnit){
+			context.append(QString::number(this->m_defaultInterval_org));
+			context.append("帧");
+		}
+		if (this->m_unit == C_ALE_DataSet::SecondUnit){
+			context.append(QString::number(this->m_defaultInterval_org*0.01));
+			context.append("秒");
+		}
+		context.append("\"的动画帧修改为\"");
+		if (this->m_unit == C_ALE_DataSet::FrameUnit){
+			context.append(QString::number(this->m_defaultInterval));
+			context.append("帧");
+		}
+		if (this->m_unit == C_ALE_DataSet::SecondUnit){
+			context.append(QString::number(this->m_defaultInterval*0.01));
+			context.append("秒");
+		}
+		context.append("\"吗？");
+		if (QMessageBox::question(nullptr, "提示", context, "修改", "取消", 0) == 1) {
+			return;
+		}
+	}
 
 	this->accept();
 };
