@@ -345,6 +345,8 @@ void P_AnimationListPlayer::setAnimationListEditor(P_ALE_Editor* animEditor){
 
 	// > 按钮连接
 	connect(this, &P_AnimationListPlayer::signal_frameIndexChanged, this->m_animEditor, &P_ALE_Editor::selectIndex_Single);				//播放器 索引 信号连接
+	connect(this, &P_AnimationListPlayer::signal_frameIndexChanged, this->m_animEditor, &P_ALE_Editor::scrollToSelected);				//播放器 滚动到索引 信号连接
+	
 	connect(this, &P_AnimationListPlayer::signal_frameButton_homing, this->m_animEditor, &P_ALE_Editor::selectStart);					//播放器 切至首帧 信号连接
 	connect(this, &P_AnimationListPlayer::signal_frameButton_last, this->m_animEditor, &P_ALE_Editor::selectLast);						//播放器 上一帧 信号连接
 	connect(this, &P_AnimationListPlayer::signal_frameButton_next, this->m_animEditor, &P_ALE_Editor::selectNext);						//播放器 下一帧 信号连接

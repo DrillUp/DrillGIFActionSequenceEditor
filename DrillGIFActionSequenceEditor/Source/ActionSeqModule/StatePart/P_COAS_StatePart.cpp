@@ -94,7 +94,7 @@ P_COAS_StatePart::P_COAS_StatePart(QWidget *parent)
 	// > 图片查看块 - 连接帧切换
 	connect(this->m_p_AnimationListEditor, &P_ALE_Editor::signal_currentIndexChanged_Single, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::setAnimFrame);
 	// > 图片查看块 - 连接资源切换
-	connect(this->m_p_AnimationListEditor, &P_ALE_Editor::signal_picListChanged, this, &P_COAS_StatePart::bitmapChanged);
+	connect(this->m_p_AnimationListEditor, &P_ALE_Editor::signal_cellChanged, this, &P_COAS_StatePart::bitmapChanged);
 	connect(this->m_p_AnimationListEditor, &P_ALE_Editor::signal_dataSetReloaded, this, &P_COAS_StatePart::bitmapChanged);
 	// > 图片查看块 - 着色器
 	connect(ui.horizontalSlider_tint, &QAbstractSlider::valueChanged, this->m_p_AnimPictureViewer, &P_AnimPictureViewer::setTint );
@@ -169,6 +169,10 @@ void P_COAS_StatePart::bitmapChanged(){
 		file_list.append(QFileInfo(pic_list.at(i)));
 	}
 	this->m_p_AnimPictureViewer->setSource(file_list);
+
+	// > 显示选中的帧
+	int index = this->m_p_AnimationListEditor->getSelectedIndex_Single();
+	if (index > 0){ this->m_p_AnimPictureViewer->setAnimFrame(index); }
 }
 /*-------------------------------------------------
 		动画帧 - 缩放比例切换

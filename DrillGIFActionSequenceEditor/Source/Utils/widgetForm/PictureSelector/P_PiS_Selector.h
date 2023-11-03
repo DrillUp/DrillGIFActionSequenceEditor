@@ -132,6 +132,8 @@ class P_PiS_Selector : public QObject
 		void selectStart();
 										//选中 - 选中尾项
 		void selectEnd();
+										//选中 - 滚动到选中项
+		void scrollToSelected();
 
 	public:
 										//选中 - 获取选中数据

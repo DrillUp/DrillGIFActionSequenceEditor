@@ -551,7 +551,7 @@ void P_PiS_Selector::selectIndex_Multiple(QList<int> index_list){
 		QListWidgetItem* item = cell->item;
 		if (index_list.contains( i )){
 			item->setSelected(true);
-			//this->m_parent->scrollToItem(item);	//（不要控制滚动条）
+			//this->m_parent->scrollToItem(item);	//（不要控制滚动条，外部手动调用scrollToSelected）
 		}
 	}
 }
@@ -604,6 +604,19 @@ void P_PiS_Selector::selectStart(){
 */
 void P_PiS_Selector::selectEnd(){
 	this->selectIndex_Single(this->m_cellTank.count() - 1);
+}
+/*-------------------------------------------------
+		选中 - 聚焦选中项
+*/
+void P_PiS_Selector::scrollToSelected(){
+	for (int i = this->m_cellTank.count()-1; i >= 0; i--){
+		I_PiS_Cell* cell = this->m_cellTank.at(i);
+		QListWidgetItem* item = cell->item;
+		if (item->isSelected()){
+			this->m_parent->scrollToItem(item);
+			break;
+		}
+	}
 }
 
 
