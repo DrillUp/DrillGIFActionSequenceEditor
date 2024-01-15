@@ -44,7 +44,8 @@ void W_SoftwareFirstTip::_init() {
 
 	//-----------------------------------
 	//----事件绑定
-	connect(ui.toolButton, &QToolButton::clicked, this, &W_SoftwareFirstTip::openUserManual);
+	connect(ui.toolButton, &QToolButton::clicked, this, &W_SoftwareFirstTip::openUserManual_1);
+	connect(ui.toolButton_2, &QToolButton::clicked, this, &W_SoftwareFirstTip::openUserManual_2);
 	connect(ui.buttonBox, SIGNAL(accepted()), this, SLOT(acceptData()));
 	connect(ui.buttonBox, SIGNAL(rejected()), this, SLOT(rejectData()));
 
@@ -57,18 +58,29 @@ void W_SoftwareFirstTip::_init() {
 
 
 /* --------------------------------------------------------------
-		控件 - 用户手册
+		控件 - 帮助文档
 */
-void W_SoftwareFirstTip::openUserManual() {
+void W_SoftwareFirstTip::openUserManual_1() {
 	QString sPath = qApp->applicationDirPath();
+	QString docx_name = "关于GIF动画序列核心编辑器（入门篇）.docx";
 
-	QString docx = sPath + "/help/关于GIF动画序列核心编辑器.docx";
+	QString docx = sPath + "/help/" + docx_name;
 	if (QFileInfo(docx).exists()){
 		QDesktopServices::openUrl(QUrl("file:/" + docx)); 
 	}else{
-		QMessageBox::warning(this, "错误", "文档\"关于GIF动画序列核心编辑器.docx\"不见了。", QMessageBox::Yes);
+		QMessageBox::warning(this, "错误", "文档\"" + docx_name + "\"不见了。", QMessageBox::Yes);
 	}
+}
+void W_SoftwareFirstTip::openUserManual_2() {
+	QString sPath = qApp->applicationDirPath();
+	QString docx_name = "关于GIF动画序列核心编辑器（高级篇）.docx";
 
+	QString docx = sPath + "/help/" + docx_name;
+	if (QFileInfo(docx).exists()){
+		QDesktopServices::openUrl(QUrl("file:/" + docx));
+	}else{
+		QMessageBox::warning(this, "错误", "文档\"" + docx_name + "\"不见了。", QMessageBox::Yes);
+	}
 }
 
 

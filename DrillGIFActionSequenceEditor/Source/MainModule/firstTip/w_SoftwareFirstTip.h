@@ -27,8 +27,10 @@ class W_SoftwareFirstTip : public QDialog
 	//-----------------------------------
 	//----控件		
 	public:		
-									//控件 - 帮助文档
-		void openUserManual();
+									//控件 - 帮助文档1
+		void openUserManual_1();
+									//控件 - 帮助文档2
+		void openUserManual_2();
 		
 	//-----------------------------------
 	//----窗口

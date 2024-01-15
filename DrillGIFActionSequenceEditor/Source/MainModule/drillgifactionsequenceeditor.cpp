@@ -80,7 +80,7 @@ void DrillGIFActionSequenceEditor::_init() {
 	connect(ui.toolButton_save, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::saveProject);
 	connect(ui.toolButton_saveAs, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::saveAsProject);
 	connect(ui.toolButton_rmmv, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::openWindowRmmvInteractive);
-	connect(ui.toolButton_userManual, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::openUserManual);
+	connect(ui.toolButton_userManual, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::openUserManual_menu);
 	connect(ui.toolButton_about, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::openAbout);
 	connect(S_ProjectManager::getInstance(), &S_ProjectManager::signal_titleChanged, this, &DrillGIFActionSequenceEditor::changeWindowTitle);
 	// （注意rmmv交互的数据要最先连接，这样在存档读取时不会乱序）
@@ -200,25 +200,55 @@ void DrillGIFActionSequenceEditor::changeWindowTitle(QString title){
 	this->setWindowTitle(title);
 }
 /* --------------------------------------------------------------
-		控件 - 用户手册
-*/
-void DrillGIFActionSequenceEditor::openUserManual() {
-	QString sPath = qApp->applicationDirPath();
-
-	QString docx = sPath + "/help/关于GIF动画序列核心编辑器.docx";
-	if (QFileInfo(docx).exists()){
-		QDesktopServices::openUrl(QUrl("file:/" + docx)); 
-	}else{
-		QMessageBox::warning(this, "错误", "文档\"关于GIF动画序列核心编辑器.docx\"不见了。", QMessageBox::Yes);
-	}
-
-}
-/* --------------------------------------------------------------
 		控件 - 关于...
 */
 void DrillGIFActionSequenceEditor::openAbout() {
 	W_SoftwareAbout d(this);
 	d.exec();
+}
+/* --------------------------------------------------------------
+		控件 - 帮助文档
+*/
+void DrillGIFActionSequenceEditor::openUserManual_menu() {
+	QToolButton* cur_btn = qobject_cast<QToolButton*>(this->sender());		//从action里面取出数据指针
+	QMenu *menu = new QMenu();
+	QAction *action;
+
+	action = new QAction("关于GIF动画序列核心编辑器（入门篇）.docx", this);
+	action->setIcon(QIcon(QRC_IconSrcPath + "/nav/Help.png"));
+	connect(action, &QAction::triggered, this, &DrillGIFActionSequenceEditor::openUserManual_1);
+	menu->addAction(action);
+
+	action = new QAction("关于GIF动画序列核心编辑器（高级篇）.docx", this);
+	action->setIcon(QIcon(QRC_IconSrcPath + "/nav/Help.png"));
+	connect(action, &QAction::triggered, this, &DrillGIFActionSequenceEditor::openUserManual_2);
+	menu->addAction(action);
+
+	QPoint p = cur_btn->mapToGlobal(QPoint(0, 0));
+	p.setY(p.y() + cur_btn->height());
+	menu->exec(p);
+}
+void DrillGIFActionSequenceEditor::openUserManual_1() {
+	QString sPath = qApp->applicationDirPath();
+	QString docx_name = "关于GIF动画序列核心编辑器（入门篇）.docx";
+
+	QString docx = sPath + "/help/" + docx_name;
+	if (QFileInfo(docx).exists()){
+		QDesktopServices::openUrl(QUrl("file:/" + docx)); 
+	}else{
+		QMessageBox::warning(this, "错误", "文档\"" + docx_name + "\"不见了。", QMessageBox::Yes);
+	}
+}
+void DrillGIFActionSequenceEditor::openUserManual_2() {
+	QString sPath = qApp->applicationDirPath();
+	QString docx_name = "关于GIF动画序列核心编辑器（高级篇）.docx";
+
+	QString docx = sPath + "/help/" + docx_name;
+	if (QFileInfo(docx).exists()){
+		QDesktopServices::openUrl(QUrl("file:/" + docx));
+	}else{
+		QMessageBox::warning(this, "错误", "文档\"" + docx_name + "\"不见了。", QMessageBox::Yes);
+	}
 }
 
 

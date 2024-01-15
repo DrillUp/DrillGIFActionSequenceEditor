@@ -23,10 +23,14 @@ class W_SoftwareAbout : public QDialog
 		
 	//-----------------------------------
 	//----控件		
-	public:		
-									//控件 - 帮助文档
-		void openUserManual();
-									//控件 - 更新日志
+	public:
+								//控件 - 帮助文档菜单
+		void openUserManual_menu();
+								//控件 - 帮助文档1
+		void openUserManual_1();
+								//控件 - 帮助文档2
+		void openUserManual_2();
+								//控件 - 更新日志
 		void openVersionLog();
 		
 	//-----------------------------------
