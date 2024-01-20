@@ -60,12 +60,13 @@ P_COAS_PlayingPart::P_COAS_PlayingPart(P_COAS_StatePart* state_part, P_COAS_Stat
 	C_RaTConfig rat_config = C_RaTConfig();
 	rat_config.zeroFillCount = 2;
 	rat_config.rowHeight = 22;
+	rat_config.isMultiSelect = false;
 	this->m_table_action->setConfigParam(rat_config);	//固定参数
 	this->m_table_action->setItemOuterControlEnabled(false);
 	C_RaTConfig rat_config2 = C_RaTConfig();
 	rat_config2.zeroFillCount = 2;
 	rat_config2.rowHeight = 22;
-	rat_config2.isMultiSelect = true;
+	rat_config2.isMultiSelect = false;
 	this->m_table_state->setConfigParam(rat_config2);
 	this->m_table_state->setItemOuterControlEnabled(false);
 

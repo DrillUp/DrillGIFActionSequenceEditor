@@ -25,7 +25,7 @@ C_ProjectData::~C_ProjectData(){
 }
 
 QString C_ProjectData::softname = "GIF动画序列编辑器";	//软件名
-QString C_ProjectData::version = "v1.30";				//软件版本
+QString C_ProjectData::version = "v1.31";				//软件版本
 QString C_ProjectData::version_serial = "";				//软件版本号
 
 
