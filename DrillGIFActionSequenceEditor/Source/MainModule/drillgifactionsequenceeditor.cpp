@@ -140,6 +140,8 @@ void DrillGIFActionSequenceEditor::actionSeqDataLoaded(){
 		控件 - 动画序列数据重建
 */
 void DrillGIFActionSequenceEditor::rebuildActionSeqData(){
+	ui.main_widget->setEnabled(false);	 //（重要配置锁定控件）
+
 	W_COAS_Length d(this);
 	d.setDataInModifyMode(S_ActionSeqDataContainer::getInstance()->getActionSeqLength());
 	if (d.exec() == QDialog::Accepted){
@@ -150,6 +152,8 @@ void DrillGIFActionSequenceEditor::rebuildActionSeqData(){
 		this->actionSeqDataLoaded();
 		this->m_P_COAS_DataPart->setPartGray();
 	}
+
+	ui.main_widget->setEnabled(true);	 //（重要配置解锁控件）
 }
 /*-------------------------------------------------
 		控件 - 新建项目
@@ -164,7 +168,11 @@ void DrillGIFActionSequenceEditor::newProject(){
 		控件 - 打开项目
 */
 void DrillGIFActionSequenceEditor::openProject(){
+	ui.main_widget->setEnabled(false);	 //（重要配置锁定控件）
+
 	S_ProjectManager::getInstance()->openProject();
+
+	ui.main_widget->setEnabled(true);	 //（重要配置解锁控件）
 }
 /*-------------------------------------------------
 		控件 - 保存项目

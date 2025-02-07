@@ -1,16 +1,17 @@
-#ifndef W_FCT_Classify_H
+ï»¿#ifndef W_FCT_Classify_H
 #define W_FCT_Classify_H
+#include "stdafx.h"
 
 #include "ui_W_FCT_Classify.h"
-#include "c_FCT_Classify.h"
-#include "../p_FlexibleClassificationTree.h"
+#include "C_FCT_Classify.h"
+#include "../P_FlexibleClassificationTree.h"
 
 /*
 -----==========================================================-----
-		Àà£º		ÖÖÀà ÅäÖÃ´°¿Ú.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		ÖÖÀàµÄÉèÖÃÄÚÈİÔÚ¸Ã´°¿ÚÉèÖÃ¡£
+		ç±»ï¼š		ç§ç±» é…ç½®çª—å£.cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		ç§ç±»çš„è®¾ç½®å†…å®¹åœ¨è¯¥çª—å£è®¾ç½®ã€‚
 -----==========================================================-----
 */
 
@@ -23,31 +24,31 @@ class W_FCT_Classify : public QDialog
 		~W_FCT_Classify();
 		
 	//-----------------------------------
-	//----¸¸¿Ø¼ş
+	//----çˆ¶æ§ä»¶
 	protected:
 		P_FlexibleClassificationTree* m_parentObj;
 
 	//-----------------------------------
-	//----´°¿Ú
+	//----çª—å£
 	public:
 		bool isAddMode;
 		C_FCT_Classify* m_dataPtr;
 	public:
-										//´°¿Ú - ÉèÖÃÊı¾İ£¨Ìí¼Ó£©
+										//çª—å£ - è®¾ç½®æ•°æ®ï¼ˆæ·»åŠ ï¼‰
 		void setDataInAddMode();
-										//´°¿Ú - ÉèÖÃÊı¾İ£¨ĞŞ¸Ä£©
+										//çª—å£ - è®¾ç½®æ•°æ®ï¼ˆä¿®æ”¹ï¼‰
 		void setDataInModifyMode(C_FCT_Classify* p);
-										//´°¿Ú - È¡³öÊı¾İ
+										//çª—å£ - å–å‡ºæ•°æ®
 		C_FCT_Classify* getData();
-										//´°¿Ú - ±¾µØÊı¾İ -> uiÊı¾İ
+										//çª—å£ - æœ¬åœ°æ•°æ® -> uiæ•°æ®
 		virtual void putDataToUi();							
-										//´°¿Ú - uiÊı¾İ -> ±¾µØÊı¾İ
+										//çª—å£ - uiæ•°æ® -> æœ¬åœ°æ•°æ®
 		virtual void putUiToData();
 
 	public slots:
-										//´°¿Ú - Ğ£ÑéÊı¾İ
+										//çª—å£ - æ ¡éªŒæ•°æ®
 		virtual bool checkData();
-										//´°¿Ú - Ìá½»Êı¾İ
+										//çª—å£ - æäº¤æ•°æ®
 		void acceptData();	
 
 	private:

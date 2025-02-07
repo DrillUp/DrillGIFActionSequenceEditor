@@ -1,15 +1,16 @@
-#ifndef I_FCTLeaf_H
+ï»¿#ifndef I_FCTLeaf_H
 #define I_FCTLeaf_H
+#include "stdafx.h"
 
-#include "Source/Utils/common/TTool.h"
-#include "c_FPT_Config.h"
+#include "Source/Utils/Common/TTool.h"
+#include "C_FPT_Config.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Ò¶×Ó.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		Ò¶×Ó¿Ø¼şÀà¡£
+		ç±»ï¼š		å¶å­.cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		å¶å­æ§ä»¶ç±»ã€‚
 -----==========================================================-----
 */
 class I_FPT_Leaf : public QTreeWidgetItem{
@@ -19,22 +20,22 @@ class I_FPT_Leaf : public QTreeWidgetItem{
 		~I_FPT_Leaf();
 
 	//-----------------------------------
-	//----Êı¾İ
-		TTOOL_DATA_PROPERTY(int, Id);							//±êÊ¶
-		TTOOL_DATA_PROPERTY(QString, Name);						//Ãû³Æ
-		TTOOL_DATA_PROPERTY(QString, Type);						//ËùÊôÀàĞÍ
+	//----æ•°æ®
+		TTOOL_DATA_PROPERTY(int, Id);							//æ ‡è¯†
+		TTOOL_DATA_PROPERTY(QString, Name);						//åç§°
+		TTOOL_DATA_PROPERTY(QString, Type);						//æ‰€å±ç±»å‹
 
-		TTOOL_DATA_PROPERTY(QString, Leaf_name_Symbol);			//Ãû³Æ·ÖÖ§ - Ê××ÖÄ¸±êÊ¶
+		TTOOL_DATA_PROPERTY(QString, Leaf_name_Symbol);			//åç§°åˆ†æ”¯ - é¦–å­—æ¯æ ‡è¯†
 	
 	protected:
-		C_FPT_Config* m_config;		//Ê÷ÉèÖÃ
+		C_FPT_Config* m_config;		//æ ‘è®¾ç½®
 
 	//-----------------------------------
-	//----¿Ø¼ş
+	//----æ§ä»¶
 	public:
-										//¿Ø¼ş - »ñÈ¡ÏÔÊ¾ÎÄ±¾
+										//æ§ä»¶ - è·å–æ˜¾ç¤ºæ–‡æœ¬
 		QString getShowingText();
-										//¿Ø¼ş - ¸ù¾İÊı¾İ×ÔÎÒË¢ĞÂ
+										//æ§ä»¶ - æ ¹æ®æ•°æ®è‡ªæˆ‘åˆ·æ–°
 		void refreshItemSelf();	
 
 };

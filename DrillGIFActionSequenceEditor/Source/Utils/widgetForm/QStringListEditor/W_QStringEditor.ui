@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>327</width>
-    <height>129</height>
+    <width>320</width>
+    <height>104</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,6 +17,18 @@
    <item>
     <widget class="QWidget" name="widget_params" native="true">
      <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,4,0">
+      <property name="leftMargin">
+       <number>1</number>
+      </property>
+      <property name="topMargin">
+       <number>3</number>
+      </property>
+      <property name="rightMargin">
+       <number>1</number>
+      </property>
+      <property name="bottomMargin">
+       <number>1</number>
+      </property>
       <item>
        <widget class="QLabel" name="label_prefix">
         <property name="text">

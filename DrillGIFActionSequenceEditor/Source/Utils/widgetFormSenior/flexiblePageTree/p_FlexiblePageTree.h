@@ -1,23 +1,24 @@
-#pragma once
+ï»¿#pragma once
+#include "stdafx.h"
 
 #include <QKeyEvent>
 #include <QTreeWidget>
 
-#include "private/i_FPT_Branch.h"
-#include "private/i_FPT_Leaf.h"
-#include "private/c_FPT_Config.h"
-#include "private/w_FPT_Config.h"
+#include "Private/I_FPT_Branch.h"
+#include "Private/I_FPT_Leaf.h"
+#include "Private/C_FPT_Config.h"
+#include "Private/W_FPT_Config.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Áé»î·ÖÀàÊ÷.cpp
-		°æ±¾£º		v1.04
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		ÄÜ¹»ÏÔÊ¾Ò»¶ÑÊı¾İ£¬²¢ÇÒ½«ÕâĞ©Êı¾İ·ÖÀà»ò×ªÒÆµ½²»Í¬µÄÊ÷Ö¦ÖĞ£¬±ãÓÚ²éÑ¯¡£
-					×¢Òâ£¬¸ÃÊ÷±»×°ÊÎºó£¬ĞèÒª¶Ô¸Ã¿Ø¼ş¿é½øĞĞ½»»¥£¬²»Òª¶ÔÊ÷½øĞĞÖ±½Ó½»»¥¡£
-					¡¾°üº¬id·ÖÖ§¡¢Ãû³Æ·ÖÖ§£¬²»º¬ÖÖÀà·ÖÖ§¡¿
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		çµæ´»åˆ†ç±»æ ‘.cpp
+		ç‰ˆæœ¬ï¼š		v1.05
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		èƒ½å¤Ÿæ˜¾ç¤ºä¸€å †æ•°æ®ï¼Œå¹¶ä¸”å°†è¿™äº›æ•°æ®åˆ†ç±»æˆ–è½¬ç§»åˆ°ä¸åŒçš„æ ‘æä¸­ï¼Œä¾¿äºæŸ¥è¯¢ã€‚
+					æ³¨æ„ï¼Œè¯¥æ ‘è¢«è£…é¥°åï¼Œéœ€è¦å¯¹è¯¥æ§ä»¶å—è¿›è¡Œäº¤äº’ï¼Œä¸è¦å¯¹æ ‘è¿›è¡Œç›´æ¥äº¤äº’ã€‚
+					ã€åŒ…å«idåˆ†æ”¯ã€åç§°åˆ†æ”¯ï¼Œä¸å«ç§ç±»åˆ†æ”¯ã€‘
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 class P_ObjectSortController;
@@ -27,184 +28,207 @@ class P_FlexiblePageTree : public QObject
 	Q_OBJECT
 
 	public:
-		P_FlexiblePageTree(QTreeWidget *parent );	//¹¹Ôìº¯Êı
-		~P_FlexiblePageTree();						//Îö¹¹º¯Êı
+		P_FlexiblePageTree(QTreeWidget *parent );	//æ„é€ å‡½æ•°
+		~P_FlexiblePageTree();						//ææ„å‡½æ•°
 		
 
 	//-----------------------------------
-	//----¹¤³§£¨×ÓÀà¼Ì³Ğ¸²Ğ´ÓÃ½Ó¿Ú£©
+	//----å·¥å‚ï¼ˆå­ç±»ç»§æ‰¿è¦†å†™ç”¨æ¥å£ï¼‰
 	public:
-											//¹¤³§ - ´´½¨ Ê÷ÉèÖÃ Êı¾İ£¨¿É¸²Ğ´£©
+											//å·¥å‚ - åˆ›å»º æ ‘è®¾ç½® æ•°æ®ï¼ˆå¯è¦†å†™ï¼‰
 		virtual C_FPT_Config* createConfigData();
-											//¹¤³§ - ´´½¨ Ê÷ÉèÖÃ ±à¼­´°¿Ú£¨¿É¸²Ğ´£©
+											//å·¥å‚ - åˆ›å»º æ ‘è®¾ç½® ç¼–è¾‘çª—å£ï¼ˆå¯è¦†å†™ï¼‰
 		virtual W_FPT_Config* createConfigWindow();
-											//¹¤³§ - ´´½¨ Ò¶×Ó¿Ø¼ş£¨¿É¸²Ğ´£©
+											//å·¥å‚ - åˆ›å»º å¶å­æ§ä»¶ï¼ˆå¯è¦†å†™ï¼‰
 		virtual I_FPT_Leaf* createFCTLeaf();
-											//¹¤³§ - ´´½¨ Ê÷Ö¦¿Ø¼ş£¨¿É¸²Ğ´£©
+											//å·¥å‚ - åˆ›å»º æ ‘ææ§ä»¶ï¼ˆå¯è¦†å†™ï¼‰
 		virtual I_FPT_Branch* createFCTBranch();
 
 	//-----------------------------------
-	//----Ê÷¶ÔÏó
+	//----æ ‘å¯¹è±¡
 	protected:
-		QTreeWidget* m_tree;				//Ê÷¶ÔÏó
-		QString m_treeStyle;				//Ê÷Ä¬ÈÏÑùÊ½
+		QTreeWidget* m_tree;				//æ ‘å¯¹è±¡
+		QString m_treeStyle;				//æ ‘é»˜è®¤æ ·å¼
 	public:
-									//Ê÷¶ÔÏó - »ñÈ¡Ê÷
+									//æ ‘å¯¹è±¡ - è·å–æ ‘
 		QTreeWidget* getTree();
-									//Ê÷¶ÔÏó - Ë¢ĞÂÊ÷
+									//æ ‘å¯¹è±¡ - åˆ·æ–°æ ‘
 		void refreshTreeUi();
-									//Ê÷¶ÔÏó - ÇåÀíÈ«²¿£¨²»º¬Ê÷ÅäÖÃ£©
+									//æ ‘å¯¹è±¡ - æ¸…ç†å…¨éƒ¨ï¼ˆä¸å«æ ‘é…ç½®ï¼‰
 		virtual void clearAll();
 	protected:
-									//Ê÷¶ÔÏó - Ë¢ĞÂÊ÷ - ·ÖÖ§
+									//æ ‘å¯¹è±¡ - åˆ·æ–°æ ‘ - åˆ†æ”¯
 		virtual void refreshTreeUi_special();
-									//Ê÷¶ÔÏó - Ë¢ĞÂÊ÷ - ·ÖÖ§ - ID·ÖÖ§
+									//æ ‘å¯¹è±¡ - åˆ·æ–°æ ‘ - åˆ†æ”¯ - IDåˆ†æ”¯
 		virtual void refreshTreeUi_id_inc();
-									//Ê÷¶ÔÏó - Ë¢ĞÂÊ÷ - ·ÖÖ§ - Ãû³Æ·ÖÖ§
+									//æ ‘å¯¹è±¡ - åˆ·æ–°æ ‘ - åˆ†æ”¯ - åç§°åˆ†æ”¯
 		virtual void refreshTreeUi_name_inc();
 
 	//-----------------------------------
-	//----Ò¶×Ó
+	//----å¶å­
 	protected:
-		QList<I_FPT_Leaf*> m_leafItem;		//Ò¶×ÓÁĞ±í
+		QList<I_FPT_Leaf*> m_leafItem;		//å¶å­åˆ—è¡¨
 	public:
-									//Ò¶×Ó - »ñÈ¡ - »ñÈ¡¶ÔÏó£¨¸ù¾İID£©
+									//å¶å­ - è·å– - è·å–å¯¹è±¡ï¼ˆæ ¹æ®IDï¼‰
 		I_FPT_Leaf* getLeafById(int id);
 		I_FPT_Leaf* getLeafByName(QString name);
-									//Ò¶×Ó - »ñÈ¡ - Ãû³Æ
+									//å¶å­ - è·å– - åç§°
 		QString getLeafName(int id);
-									//Ò¶×Ó - »ñÈ¡ - ÅĞ¶ÏÒ¶×Ó
+									//å¶å­ - è·å– - åˆ¤æ–­å¶å­
 		bool hasLeafName(QString name);
-									//Ò¶×Ó - »ñÈ¡ - ÅĞ¶Ï¶ÔÏó
+									//å¶å­ - è·å– - åˆ¤æ–­å¯¹è±¡
 		bool isLeaf(QTreeWidgetItem* item);
 		bool isLeafList(QList<QTreeWidgetItem*> item_list);
 	public slots:
-									//Ò¶×Ó - ¡¾Íâ²¿ĞŞ¸Ä¡¿Ò¶×ÓÃû³Æ
+									//å¶å­ - ã€å¤–éƒ¨ä¿®æ”¹ã€‘å¶å­åç§°
 		virtual void outerModifyLeafName(int id, QString name);
-									//Ò¶×Ó - ¡¾Íâ²¿ĞŞ¸Ä¡¿Ò¶×ÓÀàĞÍ
+									//å¶å­ - ã€å¤–éƒ¨ä¿®æ”¹ã€‘å¶å­ç±»å‹
 		virtual void outerModifyLeafType(int id, QString type);
-									//Ò¶×Ó - ¡¾Íâ²¿ĞŞ¸Ä¡¿Ñ¡ÖĞµÄÒ¶×ÓÃû³Æ£¨Ñ¡Ê÷Ö¦²»Ó°Ïì£¬Ö»¼ÇÂ¼Ò¶×Ó£©
+									//å¶å­ - ã€å¤–éƒ¨ä¿®æ”¹ã€‘é€‰ä¸­çš„å¶å­åç§°ï¼ˆé€‰æ ‘æä¸å½±å“ï¼Œåªè®°å½•å¶å­ï¼‰
 		virtual void outerModifySelectedLeafName( QString name);
-									//Ò¶×Ó - ¡¾Íâ²¿ĞŞ¸Ä¡¿Ñ¡ÖĞµÄÒ¶×ÓÀàĞÍ£¨Ñ¡Ê÷Ö¦²»Ó°Ïì£¬Ö»¼ÇÂ¼Ò¶×Ó£©
+									//å¶å­ - ã€å¤–éƒ¨ä¿®æ”¹ã€‘é€‰ä¸­çš„å¶å­ç±»å‹ï¼ˆé€‰æ ‘æä¸å½±å“ï¼Œåªè®°å½•å¶å­ï¼‰
 		virtual void outerModifySelectedLeafType( QString type);
 
 	//-----------------------------------
-	//----Ê÷Ö¦
+	//----æ ‘æ
 	protected:
-		QList<I_FPT_Branch*> m_branchItem;	//Ê÷Ö¦ÁĞ±í
+		QList<I_FPT_Branch*> m_branchItem;	//æ ‘æåˆ—è¡¨
 	public:
-									//Ê÷Ö¦ - »ñÈ¡Ê÷Ö¦£¨Ãû³Æ·ÖÖ§×¨ÓÃ£©
+									//æ ‘æ - è·å–æ ‘æï¼ˆåç§°åˆ†æ”¯ä¸“ç”¨ï¼‰
 		I_FPT_Branch* getBranchByNameSymbol(QString symbol);
-									//Ê÷Ö¦ - »ñÈ¡ - ÅĞ¶Ï¶ÔÏó
+									//æ ‘æ - è·å– - åˆ¤æ–­å¯¹è±¡
 		bool isBranch(QTreeWidgetItem* item);
 		bool isBranchList(QList<QTreeWidgetItem*> item_list);
 		
 	//-----------------------------------
-	//----Ñ¡ÖĞ
+	//----é€‰ä¸­
 	protected:
 		QTreeWidgetItem* m_last_selectedItem;
 		I_FPT_Leaf* m_last_selectedLeaf;
+	public:
 	signals:
-									//Ñ¡ÖĞ - Ê÷½Úµã±ä»¯£¨ĞÅºÅ£©
-									//		¡¾ËµÃ÷¡¿£º°üÀ¨Ò¶×ÓºÍÊ÷Ö¦¡£
-		void currentItemChanged(QTreeWidgetItem* item);
-									//Ñ¡ÖĞ - Ò¶×Ó±ä»¯£¨ĞÅºÅ£©
-		void currentLeafChanged(QTreeWidgetItem* item, int id, QString name);
+									//é€‰ä¸­ - æ ‘èŠ‚ç‚¹å˜åŒ–ï¼ˆä¿¡å·ï¼‰
+									//		ã€è¯´æ˜ã€‘ï¼šåŒ…æ‹¬å¶å­å’Œæ ‘æã€‚
+		void signal_currentItemChanged(QTreeWidgetItem* item);
+	public:
+	signals:
+									//é€‰ä¸­ - å¶å­å˜åŒ–ï¼ˆä¿¡å·ï¼‰
+		void signal_currentLeafChanged(QTreeWidgetItem* item, int id, QString name);
 
 
 	//-----------------------------------
-	//----Ê÷ÊÂ¼ş
+	//----æ ‘äº‹ä»¶
 	public:
-		bool m_slotBlock;					//²Û×èÈû
+		bool m_slotBlock;					//æ§½é˜»å¡
 	public slots:
-											//µ¥»÷ÊÂ¼ş
+											//å•å‡»äº‹ä»¶
 		void sltItemClicked(QTreeWidgetItem *item, int index);
-											//Ë«»÷ÊÂ¼ş
+											//åŒå‡»äº‹ä»¶
 		void sltItemDoubleClicked(QTreeWidgetItem *item, int index);
-											//ÓÒ¼üÊÂ¼ş
+											//å³é”®äº‹ä»¶
 		void sltItemRightClicked(QPoint point);
-											//È¦Ñ¡±ä»¯ÊÂ¼ş
+											//åœˆé€‰å˜åŒ–äº‹ä»¶
 		void sltItemSelectionChanged();
 		
 	//-----------------------------------
-	//----ÓÒ¼ü²Ëµ¥
+	//----å³é”®èœå•
 	protected:
-		QMenu* m_mainMenu;						//ÓÒ¼ü²Ëµ¥
-		QMenu* m_modeMenu;						//·ÖÖ§²Ëµ¥
-		bool m_leafOuterControlEnabled;			//²Ëµ¥ - ¿ª¹Ø
-		bool m_leafOuterControl_CopyActive;		//²Ëµ¥ - ¸´ÖÆ¼¤»î
-		bool m_leafOuterControl_PasteActive;	//²Ëµ¥ - Õ³Ìù¼¤»î
-		bool m_leafOuterControl_ClearActive;	//²Ëµ¥ - Çå¿Õ¼¤»î
+		QMenu* m_mainMenu;						//å³é”®èœå•
+		QMenu* m_modeMenu;						//åˆ†æ”¯èœå•
+		bool m_leafOuterControlEnabled;			//èœå• - å¼€å…³
+		bool m_leafOuterControl_CopyActive;		//èœå• - å¤åˆ¶æ¿€æ´»
+		bool m_leafOuterControl_PasteActive;	//èœå• - ç²˜è´´æ¿€æ´»
+		bool m_leafOuterControl_ClearActive;	//èœå• - æ¸…ç©ºæ¿€æ´»
 	public:
-											//ÓÒ¼ü²Ëµ¥ - Ò»¼¶²Ëµ¥
+											//å³é”®èœå• - ä¸€çº§èœå•
 		virtual void drawMenuMain();
 		virtual void drawMenuMainLast();
-											//ÓÒ¼ü²Ëµ¥ - ¶ş¼¶²Ëµ¥£¨Ä£Ê½£©
+											//å³é”®èœå• - äºŒçº§èœå•ï¼ˆæ¨¡å¼ï¼‰
 		virtual void drawMenuMode();
 	public slots:
-											//ÓÒ¼ü²Ëµ¥ - ¿ª¹Ø£¨Ä¬ÈÏ¿ªÆô£©
+											//å³é”®èœå• - å¼€å…³ï¼ˆé»˜è®¤å¼€å¯ï¼‰
 		void setLeafOuterControlEnabled(bool enabled);
-											//ÓÒ¼ü²Ëµ¥ - ¼¤»î¿ØÖÆ
+											//å³é”®èœå• - æ¿€æ´»æ§åˆ¶
 		void setLeafOuterControl_CopyActive(bool enabled);
 		void setLeafOuterControl_PasteActive(bool enabled);
 		void setLeafOuterControl_ClearActive(bool enabled);
-											//ÓÒ¼ü²Ëµ¥ - ¸´ÖÆ°´ÏÂ
+											//å³é”®èœå• - å¤åˆ¶æŒ‰ä¸‹
 		void menuCopyLeafInAction();
-											//ÓÒ¼ü²Ëµ¥ - Õ³Ìù°´ÏÂ
+											//å³é”®èœå• - ç²˜è´´æŒ‰ä¸‹
 		void menuPasteLeafInAction();
-											//ÓÒ¼ü²Ëµ¥ - Çå¿Õ°´ÏÂ
+											//å³é”®èœå• - æ¸…ç©ºæŒ‰ä¸‹
 		void menuClearLeafInAction();
+	public:
 	signals:
-											//ÓÒ¼ü²Ëµ¥ - ¸´ÖÆ°´ÏÂ£¨ĞÅºÅ£©
-		void menuCopyLeafTriggered(int id);
-											//ÓÒ¼ü²Ëµ¥ - Õ³Ìù°´ÏÂ£¨ĞÅºÅ£©
-		void menuPasteLeafTriggered(int id);
-											//ÓÒ¼ü²Ëµ¥ - Çå¿Õ°´ÏÂ£¨ĞÅºÅ£©
-		void menuClearLeafTriggered(int id);
+											//å³é”®èœå• - å¤åˆ¶æŒ‰ä¸‹ï¼ˆä¿¡å·ï¼‰
+		void signal_menuCopyLeafTriggered(int id);
+	public:
+	signals:
+											//å³é”®èœå• - ç²˜è´´æŒ‰ä¸‹ï¼ˆä¿¡å·ï¼‰
+		void signal_menuPasteLeafTriggered(int id);
+	public:
+	signals:
+											//å³é”®èœå• - æ¸…ç©ºæŒ‰ä¸‹ï¼ˆä¿¡å·ï¼‰
+		void signal_menuClearLeafTriggered(int id);
 
 		
 	//-----------------------------------
-	//----Êı¾İ£¨Ê÷ÉèÖÃ£©
+	//----æ•°æ®ï¼ˆæ ‘è®¾ç½®ï¼‰
 	protected:
-		C_FPT_Config* m_config;			//Ê÷ÉèÖÃ
+		C_FPT_Config* m_config;			//æ ‘è®¾ç½®
 	public:
-										//Ê÷ÉèÖÃ - ÉèÖÃ²ÎÊı
+										//æ ‘è®¾ç½® - è®¾ç½®å‚æ•°
 		virtual void setConfig(C_FPT_Config* config);
-										//Ê÷ÉèÖÃ - È¡³ö²ÎÊı
+										//æ ‘è®¾ç½® - å–å‡ºå‚æ•°
 		virtual C_FPT_Config* getConfig();
-										//Ê÷ÉèÖÃ - ÇĞ»»Ä£Ê½
+										//æ ‘è®¾ç½® - åˆ‡æ¢æ¨¡å¼
 		void changeSortMode(QString sortMode);
 		void changeSortModeInAction();
-										//Ê÷ÉèÖÃ - »ñÈ¡µ±Ç°Ä£Ê½
+										//æ ‘è®¾ç½® - è·å–å½“å‰æ¨¡å¼
 		QString getCurrentSortMode();
 	protected slots:
-										//Ê÷ÉèÖÃ - ±à¼­´°¿Ú
+										//æ ‘è®¾ç½® - ç¼–è¾‘çª—å£
 		void openConfigParamWindow();
 		
 	//-----------------------------------
-	//----Êı¾İ£¨×ÊÔ´Êı¾İ£©
+	//----æ•°æ®ï¼ˆèµ„æºæ•°æ®ï¼‰
 	protected:
-		P_ObjectSortController* m_source_ObjectSortController;		//Êı¾İÅÅĞò¹ÜÀíÆ÷
-		QList<C_ObjectSortData> m_source_list;						//½âÎöµÄÊı¾İ£¨¸ÃÊı¾İ»áÔÚ±¾µØ±»ĞŞ¸Ä£©
+		P_ObjectSortController* m_source_ObjectSortController;		//æ•°æ®æ’åºç®¡ç†å™¨
+		QList<C_ObjectSortData> m_source_list;						//è§£æçš„æ•°æ®ï¼ˆè¯¥æ•°æ®ä¼šåœ¨æœ¬åœ°è¢«ä¿®æ”¹ï¼‰
 	public:
-										//×ÊÔ´Êı¾İ - ÔØÈë
-										//			£¨±ØĞë·ÅÔÚsetData³õÊ¼»¯º¯ÊıºóÃæ£©
-										//			£¨ÓÉÓÚ±ØĞëÒªµş¼ÓĞŞ¸ÄÅÅĞòÄÚÈİ£¬ËùÒÔÕâÀï²»ÊÇÖ¸Õë¡££©
+										//èµ„æºæ•°æ® - è½½å…¥
+										//			ï¼ˆå¿…é¡»æ”¾åœ¨setDataåˆå§‹åŒ–å‡½æ•°åé¢ï¼‰
+										//			ï¼ˆç”±äºå¿…é¡»è¦å åŠ ä¿®æ”¹æ’åºå†…å®¹ï¼Œæ‰€ä»¥è¿™é‡Œä¸æ˜¯æŒ‡é’ˆã€‚ï¼‰
 		void loadSource(QList<QJsonObject> obj_list);
 		void loadSource(QList<QJsonObject> obj_list, QString id_symbol, QString name_symbol, QString type_symbol);
-										//×ÊÔ´Êı¾İ - »ñÈ¡Ñ¡ÖĞµÄÊı¾İ£¨ÈôÑ¡µÄÊÇÊ÷Ö¦£¬·µ»Ø-1»ò""£©
+										//èµ„æºæ•°æ® - è·å–é€‰ä¸­çš„æ•°æ®ï¼ˆè‹¥é€‰çš„æ˜¯æ ‘æï¼Œè¿”å›-1æˆ–""ï¼‰
 		int getSelectedSourceId();
 		QString getSelectedSourceName();
 		QString getSelectedSourceType();
 	protected:
-										//×ÊÔ´Êı¾İ - »ñÈ¡Ñ¡ÖĞµÄ¶ÔÏó£¨Ë½ÓĞ£©
+										//èµ„æºæ•°æ® - è·å–é€‰ä¸­çš„å¯¹è±¡ï¼ˆç§æœ‰ï¼‰
 		C_ObjectSortData* getSelectedSource();
 	protected slots:
-										//×ÊÔ´Êı¾İ - ÖØ½¨Êı¾İ£¨Ë½ÓĞ£©
+										//èµ„æºæ•°æ® - é‡å»ºæ•°æ®ï¼ˆç§æœ‰ï¼‰
 		virtual void rebuildTreeData();
-										//×ÊÔ´Êı¾İ - ÖØ½¨Êı¾İ_ID·ÖÖ§£¨Ë½ÓĞ£©
+										//èµ„æºæ•°æ® - é‡å»ºæ•°æ®_IDåˆ†æ”¯ï¼ˆç§æœ‰ï¼‰
 		void rebuildTreeData_id_inc();
-										//×ÊÔ´Êı¾İ - ÖØ½¨Êı¾İ_Ãû³Æ·ÖÖ§£¨Ë½ÓĞ£©
+										//èµ„æºæ•°æ® - é‡å»ºæ•°æ®_åç§°åˆ†æ”¯ï¼ˆç§æœ‰ï¼‰
 		void rebuildTreeData_name_inc();
+
+	//-----------------------------------
+	//----çª—å£é”
+	protected:
+		int m_config_windowLockNum;
+	protected:
+										//çª—å£é” - çª—å£æ•°é‡+1
+		void windowLock_incOne();
+										//çª—å£é” - çª—å£æ•°é‡-1
+		void windowLock_decOne();
+	public:
+	signals:
+										//çª—å£é” - æ˜¯å¦å¼¹å‡ºä»»ä½•çª—å£ï¼ˆä¿¡å·ï¼‰
+										//		ã€è¯´æ˜ã€‘ï¼šè¯¥æ ‘å¼¹å‡ºä¸€ä¸ªçª—å£ä¼šå‘é€trueï¼Œç»§ç»­å¼¹å‡ºå¤šä¸ªä¸ä¼šå‘é€ï¼Œåªæœ‰å…¨éƒ¨çª—å£å…³é—­åæ‰å‘falseã€‚
+		void signal_anyWindowLocked(bool locked);
 
 };

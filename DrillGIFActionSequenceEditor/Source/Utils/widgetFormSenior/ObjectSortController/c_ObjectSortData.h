@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 
 /*
 -----==========================================================-----
-		Àà£º		ÅÅÐòÊý¾ÝÀà.h
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		ÓÃÓÚÅÅÐòµÄ¶ÔÏóÊý¾Ý¡£
-					£¨¸ÃÀà²»º¬QJsonObjectµÄ»Ø×ª£¬ÒòÎªsymbol±êÊ¶²»Ã÷È·£©
+		ç±»ï¼š		æŽ’åºæ•°æ®ç±».h
+		æ‰€å±žæ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		ç”¨äºŽæŽ’åºçš„å¯¹è±¡æ•°æ®ã€‚
+					ï¼ˆè¯¥ç±»ä¸å«QJsonObjectçš„å›žè½¬ï¼Œå› ä¸ºsymbolæ ‡è¯†ä¸æ˜Žç¡®ï¼‰
 -----==========================================================-----
 */
 class C_ObjectSortData{
@@ -15,17 +15,17 @@ class C_ObjectSortData{
 		~C_ObjectSortData();
 
 	public:
-		int arrIndex;			//Êý×éÖÐËùÔÚÎ»ÖÃ
+		int arrIndex;			//æ•°ç»„ä¸­æ‰€åœ¨ä½ç½®
 		int id;					//ID
-		QString name;			//Ãû³Æ
-		QString type;			//ËùÊô·ÖÀà
+		QString name;			//åç§°
+		QString type;			//æ‰€å±žåˆ†ç±»
 	
 	public:	
-									//ÔËËã·ûÖØÔØ
+									//è¿ç®—ç¬¦é‡è½½
 		const bool operator== (const C_ObjectSortData& a)const;
-									//¿ÕÅÐ¶Ï
+									//ç©ºåˆ¤æ–­
 		bool isNull();
-									//QJsonObject -> ÊµÌåÀà
+									//QJsonObject -> å®žä½“ç±»
 		void setJsonObject(QJsonObject obj);
 		void setJsonObject(QJsonObject obj, QString id_symbol, QString name_symbol, QString type_symbol);
 };

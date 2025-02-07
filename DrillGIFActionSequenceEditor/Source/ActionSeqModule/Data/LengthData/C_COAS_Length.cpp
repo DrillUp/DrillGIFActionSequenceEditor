@@ -15,10 +15,10 @@
 */
 C_COAS_Length::C_COAS_Length(){
 
-	this->realLen_actionSeq = 40;		//长度 - 动画序列
+	this->realLen_actionSeq = 80;		//长度 - 动画序列
 	this->realLen_action = 20;			//长度 - 动作元
-	this->realLen_state = 30;			//长度 - 状态元
-	this->realLen_stateNode = 30;		//长度 - 状态节点
+	this->realLen_state = 50;			//长度 - 状态元
+	this->realLen_stateNode = 50;		//长度 - 状态节点
 }
 C_COAS_Length::~C_COAS_Length(){
 }

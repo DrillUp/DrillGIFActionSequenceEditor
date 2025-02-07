@@ -1,17 +1,17 @@
-#include "stdafx.h"
-#include "w_FCT_ClassifySelector.h"
+ï»¿#include "stdafx.h"
+#include "W_FCT_ClassifySelector.h"
 
-#include "c_FCT_Config.h"
-#include "c_FCT_Classify.h"
-#include "w_FCT_Classify.h"
-#include "Source/Utils/common/TTool.h"
+#include "C_FCT_Config.h"
+#include "C_FCT_Classify.h"
+#include "W_FCT_Classify.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
-		Àà£º		ÖÖÀà Ñ¡Ôñ´°¿Ú.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		ÖÖÀàµÄÉèÖÃÄÚÈİÔÚ¸Ã´°¿ÚÉèÖÃ¡£
+		ç±»ï¼š		ç§ç±» é€‰æ‹©çª—å£.cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		ç§ç±»çš„è®¾ç½®å†…å®¹åœ¨è¯¥çª—å£è®¾ç½®ã€‚
 -----==========================================================-----
 */
 
@@ -21,32 +21,46 @@ W_FCT_ClassifySelector::W_FCT_ClassifySelector(P_FlexibleClassificationTree *p_o
 	ui.setupUi(this);
 
 	//-----------------------------------
-	//----³õÊ¼»¯²ÎÊı
+	//----åˆå§‹åŒ–å‚æ•°
 	this->m_parentObj = p_obj;
 
 	//-----------------------------------
-	//----ÊÂ¼ş°ó¶¨
-	connect(ui.pushButton, &QPushButton::clicked, this->m_parentObj, &P_FlexibleClassificationTree::addClassifyInAction);
+	//----äº‹ä»¶ç»‘å®š
+	connect(ui.pushButton, &QPushButton::clicked, this, &W_FCT_ClassifySelector::addClassifyInAction);
 	connect(ui.buttonBox, &QDialogButtonBox::accepted, this, &W_FCT_ClassifySelector::acceptData);
 
 	//-----------------------------------
-	//----³õÊ¼»¯ui
-	ui.tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);				//ÁĞ×ÔÊÊÓ¦
+	//----åˆå§‹åŒ–ui
+	ui.tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);				//åˆ—è‡ªé€‚åº”
 	TTool::_chinese_(ui.buttonBox);
 
 }
 W_FCT_ClassifySelector::~W_FCT_ClassifySelector(){
 }
 
-
 /*-------------------------------------------------
-		´°¿Ú - ÉèÖÃÊı¾İ£¨ĞŞ¸Ä£©
+		æ§ä»¶ - æ·»åŠ ç±»å‹
 */
-void W_FCT_ClassifySelector::setData(C_FCT_Config* config, QString last_selectedName) {
-	this->m_configPtr = config;
-	this->setWindowTitle("ÒÆ¶¯µ½");
+void W_FCT_ClassifySelector::addClassifyInAction(){
+	this->m_parentObj->addClassifyInAction();
+	this->refreshTable();
+}
+/*-------------------------------------------------
+		æ§ä»¶ - åˆ·æ–°åˆ—è¡¨
+*/
+void W_FCT_ClassifySelector::refreshTable(){
+	if (this->m_configPtr == nullptr){ return; }
 
-	// > Ë¢ĞÂÁĞ±í
+	// > è®°å½•ä¹‹å‰çš„é€‰æ‹©
+	QList<int> last_selected_index;
+	for (int i = 0; i < ui.tableWidget->rowCount(); i++){
+		QTableWidgetItem* item = ui.tableWidget->item(i,0);
+		if (item->isSelected()){
+			last_selected_index.append(i);
+		}
+	}
+
+	// > åˆ·æ–°åˆ—è¡¨
 	QList<C_FCT_Classify*> c_list = this->m_configPtr->get_classify_DataList();
 	ui.tableWidget->clearContents();
 	ui.tableWidget->setRowCount(c_list.count());
@@ -56,26 +70,49 @@ void W_FCT_ClassifySelector::setData(C_FCT_Config* config, QString last_selected
 		ui.tableWidget->setItem(i, 0, new QTableWidgetItem(name));
 	}
 
-	// > Ñ¡ÔñÖ®Ç°Ñ¡ÖĞµÄ
+	// > é‡æ–°é€‰æ‹©
+	for (int i = 0; i < ui.tableWidget->rowCount(); i++){
+		QTableWidgetItem* item = ui.tableWidget->item(i, 0);
+		if (last_selected_index.contains(i)){
+			item->setSelected(true);
+			ui.tableWidget->scrollToItem(item);
+		}else{
+			item->setSelected(false);
+		}
+	}
+}
+
+/*-------------------------------------------------
+		çª—å£ - è®¾ç½®æ•°æ®ï¼ˆä¿®æ”¹ï¼‰
+*/
+void W_FCT_ClassifySelector::setData(C_FCT_Config* config, QString last_selectedName) {
+	this->m_configPtr = config;
+	this->setWindowTitle("ç§»åŠ¨åˆ°");
+
+	// > åˆ·æ–°åˆ—è¡¨
+	this->refreshTable();
+
+	// > é€‰æ‹©æŒ‡å®šé¡¹
+	QList<C_FCT_Classify*> c_list = this->m_configPtr->get_classify_DataList();
 	if (last_selectedName != ""){
 		for (int i = 0; i < c_list.count(); i++){
 			C_FCT_Classify* c_c = c_list.at(i);
 			if (c_c->getName() == last_selectedName){
 				ui.tableWidget->selectRow(i);
+				break;
 			}
 		}
 	}
-
 }
 
 /*-------------------------------------------------
-		´°¿Ú - È¡³öÊı¾İ
+		çª—å£ - å–å‡ºæ•°æ®
 */
 QString W_FCT_ClassifySelector::getSelectedData(){
 
 	QList<QTableWidgetSelectionRange> range = ui.tableWidget->selectedRanges();
 	if (range.size() == 0) {
-		QMessageBox::warning(this, ("ÌáÊ¾"), ("ÇëÑ¡ÔñÒ»ĞĞ¡£"));
+		QMessageBox::warning(this, ("æç¤º"), ("è¯·é€‰æ‹©ä¸€è¡Œã€‚"));
 		return "";
 	}
 	int pos = range.at(0).topRow();
@@ -84,10 +121,10 @@ QString W_FCT_ClassifySelector::getSelectedData(){
 };
 
 /*-------------------------------------------------
-		´°¿Ú - Ìá½»Êı¾İ£¨Ğ£Ñé£©
+		çª—å£ - æäº¤æ•°æ®ï¼ˆæ ¡éªŒï¼‰
 */
 void W_FCT_ClassifySelector::acceptData(){
-	//£¨ÎŞ²Ù×÷£©
+	//ï¼ˆæ— æ“ä½œï¼‰
 
 	this->accept();
 };

@@ -1,52 +1,52 @@
-	��ע�⣬����ѡ������ȫ���� code_piece_qt�ʼ� Ϊ׼�������޸��ڱʼ���ǿ����
+	【注意，对象选择器的全部以 CodePieceQT笔记 为准，所有修改在笔记中强化】
 			
-	������ڣ������ؼ��飩��
-		p_FlexibleClassificationTree.cpp	���ɼ̳У��̳���P_FlexiblePageTree��
-		p_FlexibleClassificationTree.h
-		���� ID��֧�����Ʒ�֧�������֧ ��
+	程序入口（独立控件块）：
+		P_FlexibleClassificationTree.cpp	（可继承，继承于P_FlexiblePageTree）
+		P_FlexibleClassificationTree.h
+		包含 ID分支、名称分支、种类分支 。
 
-		ע�⣬������װ�κ���Ҫ�Ըÿؼ�����н�������Ҫ��������ֱ�ӽ�����
-		�����ġ�ͼ��·�������ڳ�����QRC_IconSrcPath
+		注意，该树被装饰后，需要对该控件块进行交互，不要对树进行直接交互。
+		该树的【图标路径】基于常量：QRC_IconSrcPath
 		
 
-	��������
-		�����Կ���ͼ ������������.vsdx �� �����������ϵ��
-		1.	��Դ���ݣ�QList<QJsonObject>��
-			ֻ������ȡ id��name��type ��
-			���ڲ��Ỻ��3�����ݣ��������������������ݽ���ȫ�ؽ���
+	交互对象：
+		【可以看看图 关于灵活分类树.vsdx 的 树输入输出关系】
+		1.	资源数据（QList<QJsonObject>）
+			只读。获取 id、name、type 。
+			树内部会缓存3个数据，不输出。根据载入的数据进行全重建。
 			
-		2.	�����ã�C_FCT_Config��
-			ע�⣬C_FCT_Config �̳��� C_FPT_Config
-			���Լ��ı仯������б��棬�´δ򿪺������������ݲ��䡣
+		2.	树配置（C_FCT_Config）
+			注意，C_FCT_Config 继承于 C_FPT_Config
+			树自己的变化，会进行保存，下次打开后，树的种类数据不变。
 			
-		3.	�����źţ����ơ�ճ������գ�
-			��Ҳ���Թر��Ҽ��˵������������ܡ���"�Ҽ��˵�"��
+		3.	发射信号（复制、粘贴、清空）
+			你也可以关闭右键菜单的这三个功能。见"右键菜单"。
 
-		4.	�޸ĵ���Դ����Ƭ�Σ��Զ����֧�� QList<C_ObjectSortData>��
-			�б�����ʾ�ı��type��ֻ��type��
-			�������л��޸ķ��࣬�ⲿ���޸�Ƭ�α��������ֳ������ɸ����Լ�ѡ���Ƿ���ܲ����档
+		4.	修改的资源数据片段（自定义分支， QList<C_ObjectSortData>）
+			列表中显示改变的type。只改type。
+			由于树中会修改分类，这部分修改片段被单独划分出来，由父类自己选择是否接受并保存。
 
-	˽���ࣺ
-		1.	c_FCT_Config.cpp	���ɼ̳У��̳���C_FPT_Config��
-			c_FCT_Config.h
+	私有类：
+		1.	C_FCT_Config.cpp	（可继承，继承于C_FPT_Config）
+			C_FCT_Config.h
 
-		2.	c_FCT_Classify.cpp	���ɼ̳У�
-			c_FCT_Classify.h
-			w_FCT_Classify.cpp	���ɼ̳У�
-			w_FCT_Classify.h
-			w_FCT_Classify.ui
+		2.	C_FCT_Classify.cpp	（可继承）
+			C_FCT_Classify.h
+			W_FCT_Classify.cpp	（可继承）
+			W_FCT_Classify.h
+			W_FCT_Classify.ui
 
-			w_FCT_ClassifySelector.cpp
-			w_FCT_ClassifySelector.h
-			w_FCT_ClassifySelector.ui
+			W_FCT_ClassifySelector.cpp
+			W_FCT_ClassifySelector.h
+			W_FCT_ClassifySelector.ui
 
-		3.	c_ObjectSortData.cpp
-			c_ObjectSortData.h
-			p_ObjectSortController.cpp
-			p_ObjectSortController.h
-			��ѡ�����е����� ��������� �Ĺ��ܡ���
+		3.	C_ObjectSortData.cpp
+			C_ObjectSortData.h
+			P_ObjectSortController.cpp
+			P_ObjectSortController.h
+			（选择器中调用了 排序控制器 的功能。）
 
-	��д����ʱ�䣺
-		> ����1���ڽ�����ϸ����ݣ�˳���Ż� ����ѡ������
-		> ���� ����ѡ��������������� �Ļ����ϣ����ǻ��� ����3�� ��ʱ��żܹ���ɡ�
-		> 2021-10-16 ���õ�������3�죬�ɹ������ ���� �� �ɼ̳ж���
+	编写所用时间：
+		> 花了1星期进行类细节起草，顺带优化 对象选择器。
+		> 在有 对象选择器、排序控制器 的基础上，还是花了 整整3天 的时间才架构完成。
+		> 2021-10-16 又用掉了整整3天，成功分离出 工厂 和 可继承对象。

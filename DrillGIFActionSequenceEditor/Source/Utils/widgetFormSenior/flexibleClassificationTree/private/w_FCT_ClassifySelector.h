@@ -1,16 +1,17 @@
-#ifndef W_FCT_ClassifySelector_H
+ï»¿#ifndef W_FCT_ClassifySelector_H
 #define W_FCT_ClassifySelector_H
+#include "stdafx.h"
 
 #include "ui_W_FCT_ClassifySelector.h"
-#include "c_FCT_Classify.h"
-#include "../p_FlexibleClassificationTree.h"
+#include "C_FCT_Classify.h"
+#include "../P_FlexibleClassificationTree.h"
 
 /*
 -----==========================================================-----
-		Àà£º		ÖÖÀà Ñ¡Ôñ´°¿Ú.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		ÖÖÀàµÄÉèÖÃÄÚÈİÔÚ¸Ã´°¿ÚÉèÖÃ¡£
+		ç±»ï¼š		ç§ç±» é€‰æ‹©çª—å£.cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		ç§ç±»çš„è®¾ç½®å†…å®¹åœ¨è¯¥çª—å£è®¾ç½®ã€‚
 -----==========================================================-----
 */
 
@@ -23,22 +24,27 @@ class W_FCT_ClassifySelector : public QDialog
 		~W_FCT_ClassifySelector();
 		
 	//-----------------------------------
-	//----¸¸¿Ø¼ş
+	//----æ§ä»¶
 	protected:
 		P_FlexibleClassificationTree* m_parentObj;
+	public:
+										//æ§ä»¶ - æ·»åŠ ç±»å‹
+		void addClassifyInAction();
+										//æ§ä»¶ - åˆ·æ–°åˆ—è¡¨
+		void refreshTable();
 
 	//-----------------------------------
-	//----´°¿Ú
+	//----çª—å£
 	protected:
-		C_FCT_Config* m_configPtr;
+		C_FCT_Config* m_configPtr = nullptr;
 	public:
-										//´°¿Ú - ÉèÖÃÊı¾İ£¨ĞŞ¸Ä£©
-		void setData( C_FCT_Config* config, QString last_selectedName = "");
-										//´°¿Ú - È¡³öÊı¾İ
+										//çª—å£ - è®¾ç½®æ•°æ®ï¼ˆä¿®æ”¹ï¼‰
+		void setData(C_FCT_Config* config, QString last_selectedName = "");
+										//çª—å£ - å–å‡ºæ•°æ®
 		QString getSelectedData();
 
 	public slots:
-										//´°¿Ú - Ìá½»Êı¾İ£¨Ğ£Ñé£©
+										//çª—å£ - æäº¤æ•°æ®ï¼ˆæ ¡éªŒï¼‰
 		void acceptData();	
 
 	private:

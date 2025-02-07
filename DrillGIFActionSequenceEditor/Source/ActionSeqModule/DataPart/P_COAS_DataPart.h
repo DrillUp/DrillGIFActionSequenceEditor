@@ -31,6 +31,7 @@ class P_COAS_DataPart : public QWidget
 		P_COAS_DataPart(QWidget *parent = 0);
 		~P_COAS_DataPart();
 		
+
 	//-----------------------------------
 	//----动画序列 全数据
 	protected:
@@ -39,6 +40,7 @@ class P_COAS_DataPart : public QWidget
 										//全数据 - 树选择变化
 		void currentActionSeqChanged(QTreeWidgetItem* item, int id, QString name);
 		
+
 	//-----------------------------------
 	//----本地数据的索引
 	protected:

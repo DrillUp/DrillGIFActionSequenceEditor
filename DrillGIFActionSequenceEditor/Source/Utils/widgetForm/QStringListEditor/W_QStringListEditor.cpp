@@ -7,7 +7,7 @@
 /*
 -----==========================================================-----
 		类：		字符串编辑列表 窗口.cpp
-		版本：		v1.06
+		版本：		v1.07
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		数据编辑的字符串列表控制。
@@ -270,8 +270,10 @@ void W_QStringListEditor::refreshWindow(){
 
 	// > 描述
 	ui.label_description->setText(this->m_paramListDescription);
-	if (this->m_paramListDescription == ""){
+	if (this->m_paramListDescription.isEmpty()){
 		ui.label_description->setVisible(false);
+	}else{
+		ui.label_description->setVisible(true);
 	}
 
 	// > 窗口大小

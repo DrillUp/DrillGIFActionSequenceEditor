@@ -1,5 +1,5 @@
 ﻿#include "stdafx.h"
-#include "c_FCT_Classify.h"
+#include "C_FCT_Classify.h"
 
 /*
 -----==========================================================-----
@@ -70,7 +70,7 @@ void C_FCT_Classify::copyBaseDataFrom(C_FCT_Classify* base){
 		实体类 -> QJsonObject
 */
 QJsonObject C_FCT_Classify::getJsonObject(){
-	QJsonObject obj = QJsonObject();
+	QJsonObject obj;
 
 	// > 基本数据
 	obj.insert("name", this->name);

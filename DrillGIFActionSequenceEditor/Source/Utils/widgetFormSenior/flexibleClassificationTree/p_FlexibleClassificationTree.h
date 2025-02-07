@@ -1,16 +1,17 @@
-#pragma once
+ï»¿#pragma once
+#include "stdafx.h"
 
-#include "../flexiblePageTree/P_FlexiblePageTree.h"
+#include "../FlexiblePageTree/P_FlexiblePageTree.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Áé»î·ÖÀàÊ÷£¨º¬×Ô¶¨Òå·ÖÖ§£©.cpp
-		°æ±¾£º		v1.04
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		ÄÜ¹»ÏÔÊ¾Ò»¶ÑÊı¾İ£¬²¢ÇÒ½«ÕâĞ©Êı¾İ·ÖÀà»ò×ªÒÆµ½²»Í¬µÄÊ÷Ö¦ÖĞ£¬±ãÓÚ²éÑ¯¡£
-					×¢Òâ£¬¸ÃÊ÷±»×°ÊÎºó£¬ĞèÒª¶Ô¸Ã¿Ø¼ş¿é½øĞĞ½»»¥£¬²»Òª¶ÔÊ÷½øĞĞÖ±½Ó½»»¥¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		çµæ´»åˆ†ç±»æ ‘ï¼ˆå«è‡ªå®šä¹‰åˆ†æ”¯ï¼‰.cpp
+		ç‰ˆæœ¬ï¼š		v1.05
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		èƒ½å¤Ÿæ˜¾ç¤ºä¸€å †æ•°æ®ï¼Œå¹¶ä¸”å°†è¿™äº›æ•°æ®åˆ†ç±»æˆ–è½¬ç§»åˆ°ä¸åŒçš„æ ‘æä¸­ï¼Œä¾¿äºæŸ¥è¯¢ã€‚
+					æ³¨æ„ï¼Œè¯¥æ ‘è¢«è£…é¥°åï¼Œéœ€è¦å¯¹è¯¥æ§ä»¶å—è¿›è¡Œäº¤äº’ï¼Œä¸è¦å¯¹æ ‘è¿›è¡Œç›´æ¥äº¤äº’ã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 class C_FCT_Config;
@@ -21,137 +22,137 @@ class P_FlexibleClassificationTree : public P_FlexiblePageTree
 	Q_OBJECT
 
 	public:
-		P_FlexibleClassificationTree(QTreeWidget *parent);		//¹¹Ôìº¯Êı
-		~P_FlexibleClassificationTree();						//Îö¹¹º¯Êı
+		P_FlexibleClassificationTree(QTreeWidget *parent);		//æ„é€ å‡½æ•°
+		~P_FlexibleClassificationTree();						//ææ„å‡½æ•°
 		
 
 	//-----------------------------------
-	//----¹¤³§£¨×ÓÀà¼Ì³Ğ¸²Ğ´ÓÃ½Ó¿Ú£©
+	//----å·¥å‚ï¼ˆå­ç±»ç»§æ‰¿è¦†å†™ç”¨æ¥å£ï¼‰
 	public:
-											//¹¤³§ - ´´½¨ Ê÷ÉèÖÃ Êı¾İ£¨¸²Ğ´¸¸Àà£©
+											//å·¥å‚ - åˆ›å»º æ ‘è®¾ç½® æ•°æ®ï¼ˆè¦†å†™çˆ¶ç±»ï¼‰
 		virtual C_FPT_Config* createConfigData();
-											//¹¤³§ - ´´½¨ ÖÖÀà Êı¾İ£¨¿É¸²Ğ´£©
+											//å·¥å‚ - åˆ›å»º ç§ç±» æ•°æ®ï¼ˆå¯è¦†å†™ï¼‰
 		virtual C_FCT_Classify* createClassifyData();
-											//¹¤³§ - ´´½¨ ÖÖÀà ±à¼­´°¿Ú£¨¿É¸²Ğ´£©
+											//å·¥å‚ - åˆ›å»º ç§ç±» ç¼–è¾‘çª—å£ï¼ˆå¯è¦†å†™ï¼‰
 		virtual W_FCT_Classify* createClassifyWindow();
 		
 	//-----------------------------------
-	//----Ê÷¶ÔÏó
+	//----æ ‘å¯¹è±¡
 	public:
-									//Ê÷¶ÔÏó - ÇåÀíÈ«²¿
+									//æ ‘å¯¹è±¡ - æ¸…ç†å…¨éƒ¨
 		virtual void clearAll() override;
 	protected:
-									//Ê÷¶ÔÏó - Ë¢ĞÂÊ÷ - ·ÖÖ§
+									//æ ‘å¯¹è±¡ - åˆ·æ–°æ ‘ - åˆ†æ”¯
 		virtual void refreshTreeUi_special() override;
-									//Ê÷¶ÔÏó - Ë¢ĞÂÊ÷ - ·ÖÖ§ - ×Ô¶¨Òå·ÖÖ§_idµİÔö
+									//æ ‘å¯¹è±¡ - åˆ·æ–°æ ‘ - åˆ†æ”¯ - è‡ªå®šä¹‰åˆ†æ”¯_idé€’å¢
 		virtual void refreshTreeUi_classify_idInc();
-									//Ê÷¶ÔÏó - Ë¢ĞÂÊ÷ - ·ÖÖ§ - ×Ô¶¨Òå·ÖÖ§_Ãû³ÆµİÔö
+									//æ ‘å¯¹è±¡ - åˆ·æ–°æ ‘ - åˆ†æ”¯ - è‡ªå®šä¹‰åˆ†æ”¯_åç§°é€’å¢
 		virtual void refreshTreeUi_classify_nameInc();
 		
 
 	//-----------------------------------
-	//----Ò¶×Ó
+	//----å¶å­
 	public:
-									//Ò¶×Ó - »ñÈ¡ - ¸ù¾İÖÖÀà»ñÈ¡
+									//å¶å­ - è·å– - æ ¹æ®ç§ç±»è·å–
 		QList<I_FPT_Leaf*> getLeafByType(QString type);
-									//Ò¶×Ó - »ñÈ¡ - ÖÖÀà
+									//å¶å­ - è·å– - ç§ç±»
 		QString getLeafType(int id);
 	public slots:
-									//Ò¶×Ó - ¡¾Íâ²¿ĞŞ¸Ä¡¿Ò¶×ÓÃû³Æ
+									//å¶å­ - ã€å¤–éƒ¨ä¿®æ”¹ã€‘å¶å­åç§°
 		virtual void outerModifyLeafName(int id, QString name);
-									//Ò¶×Ó - ¡¾Íâ²¿ĞŞ¸Ä¡¿Ò¶×ÓÀàĞÍ
+									//å¶å­ - ã€å¤–éƒ¨ä¿®æ”¹ã€‘å¶å­ç±»å‹
 		virtual void outerModifyLeafType(int id, QString type);
-									//Ò¶×Ó - ¡¾Íâ²¿ĞŞ¸Ä¡¿Ñ¡ÖĞµÄÒ¶×ÓÃû³Æ£¨Ñ¡Ê÷Ö¦²»Ó°Ïì£¬Ö»¼ÇÂ¼Ò¶×Ó£©
+									//å¶å­ - ã€å¤–éƒ¨ä¿®æ”¹ã€‘é€‰ä¸­çš„å¶å­åç§°ï¼ˆé€‰æ ‘æä¸å½±å“ï¼Œåªè®°å½•å¶å­ï¼‰
 		virtual void outerModifySelectedLeafName( QString name);
-									//Ò¶×Ó - ¡¾Íâ²¿ĞŞ¸Ä¡¿Ñ¡ÖĞµÄÒ¶×ÓÀàĞÍ£¨Ñ¡Ê÷Ö¦²»Ó°Ïì£¬Ö»¼ÇÂ¼Ò¶×Ó£©
+									//å¶å­ - ã€å¤–éƒ¨ä¿®æ”¹ã€‘é€‰ä¸­çš„å¶å­ç±»å‹ï¼ˆé€‰æ ‘æä¸å½±å“ï¼Œåªè®°å½•å¶å­ï¼‰
 		virtual void outerModifySelectedLeafType( QString type);
 		
 		
 	//-----------------------------------
-	//----Ê÷Ö¦
+	//----æ ‘æ
 	public:
-									//Ê÷Ö¦ - »ñÈ¡Ê÷Ö¦£¨×Ô¶¨Òå·ÖÖ§×¨ÓÃ£©
+									//æ ‘æ - è·å–æ ‘æï¼ˆè‡ªå®šä¹‰åˆ†æ”¯ä¸“ç”¨ï¼‰
 		I_FPT_Branch* getBranchByTypeName(QString classify_name);
 
 
 	//-----------------------------------
-	//----Êı¾İ£¨ÖÖÀà·ÖÖ§£©
+	//----æ•°æ®ï¼ˆç§ç±»åˆ†æ”¯ï¼‰
 	public slots:
-									//ÖÖÀà - Ìí¼Ó
+									//ç§ç±» - æ·»åŠ 
 		void addClassify(C_FCT_Classify* classify);
-									//ÖÖÀà - Ìí¼Ó£¨action£©
+									//ç§ç±» - æ·»åŠ ï¼ˆactionï¼‰
 		void addClassifyInAction();
-									//ÖÖÀà - Ìí¼Ó - ÑéÖ¤ĞÂÖÖÀà
+									//ç§ç±» - æ·»åŠ  - éªŒè¯æ–°ç§ç±»
 		void addClassifyDistinguishedList(QStringList new_classify_nameList);
-									//ÖÖÀà - ĞŞ¸Ä
+									//ç§ç±» - ä¿®æ”¹
 		void modifyClassify(QString classify_name, C_FCT_Classify* classify);
-									//ÖÖÀà - ĞŞ¸Ä£¨action£©
+									//ç§ç±» - ä¿®æ”¹ï¼ˆactionï¼‰
 		void modifyClassifyInAction();
-									//ÖÖÀà - È¥³ı
+									//ç§ç±» - å»é™¤
 		void removeClassify(QString classify_name);
-									//ÖÖÀà - È¥³ı£¨action£©
+									//ç§ç±» - å»é™¤ï¼ˆactionï¼‰
 		void removeClassifyInAction();
 		void removeClassifyListInAction();
-									//ÖÖÀà - ÉÏÒÆ
+									//ç§ç±» - ä¸Šç§»
 		void moveUpInAction();
-									//ÖÖÀà - ÏÂÒÆ
+									//ç§ç±» - ä¸‹ç§»
 		void moveDownInAction();
-									//ÖÖÀà - »ñÈ¡ - ÊÇ·ñÎª×Ô¶¨Òå·ÖÖ§
+									//ç§ç±» - è·å– - æ˜¯å¦ä¸ºè‡ªå®šä¹‰åˆ†æ”¯
 		bool isClassifyMode();
-									//ÖÖÀà - »ñÈ¡ - È«²¿ÖÖÀàÃû
+									//ç§ç±» - è·å– - å…¨éƒ¨ç§ç±»å
 		QStringList getAllClassifyName();
 	protected:
-									//ÖÖÀà - ´Ó±¾µØÊı¾İÖĞ£¬¶ÁÈ¡ÖÖÀàÁĞ±í
+									//ç§ç±» - ä»æœ¬åœ°æ•°æ®ä¸­ï¼Œè¯»å–ç§ç±»åˆ—è¡¨
 		void appendClassifyData_FromLocalObj();
 	
 	//-----------------------------------
-	//----Êı¾İ£¨ĞŞ¸ÄµÄÊı¾İ£©
+	//----æ•°æ®ï¼ˆä¿®æ”¹çš„æ•°æ®ï¼‰
 	protected:
 		QList<C_ObjectSortData> m_changedSource;
 	public:
-										//ĞŞ¸ÄµÄÊı¾İ - ¡¾ÄÚ²¿ĞŞ¸Ä¡¿Ò¶×ÓµÄÀàĞÍ
+										//ä¿®æ”¹çš„æ•°æ® - ã€å†…éƒ¨ä¿®æ”¹ã€‘å¶å­çš„ç±»å‹
 		void innerModifyLeafType(int id, QString type);
 		void innerModifyLeafTypeInAction();
-										//ĞŞ¸ÄµÄÊı¾İ - »ñÈ¡Ò¶×ÓµÄÀàĞÍ
+										//ä¿®æ”¹çš„æ•°æ® - è·å–å¶å­çš„ç±»å‹
 		QString getLeafTypeById(int id);
-										//ĞŞ¸ÄµÄÊı¾İ - ¼ÇÂ¼ĞŞ¸Ä£¨Ö»¸Ätype²ÎÊı£©
+										//ä¿®æ”¹çš„æ•°æ® - è®°å½•ä¿®æ”¹ï¼ˆåªæ”¹typeå‚æ•°ï¼‰
 		void appendChangedSource(C_ObjectSortData data);
-										//ĞŞ¸ÄµÄÊı¾İ - ĞŞ¸ÄµÄÊı¾İ£¨Ö»¸Ätype²ÎÊı£©
+										//ä¿®æ”¹çš„æ•°æ® - ä¿®æ”¹çš„æ•°æ®ï¼ˆåªæ”¹typeå‚æ•°ï¼‰
 		QList<C_ObjectSortData> getChangedSource();
 
 
 	//-----------------------------------
-	//----ÓÒ¼ü²Ëµ¥
+	//----å³é”®èœå•
 	public:
-											//ÓÒ¼ü²Ëµ¥ - Ò»¼¶²Ëµ¥
+											//å³é”®èœå• - ä¸€çº§èœå•
 		virtual void drawMenuMain() override;
 		virtual void drawMenuMainLast() override;
-											//ÓÒ¼ü²Ëµ¥ - ¶ş¼¶²Ëµ¥£¨Ä£Ê½£©
+											//å³é”®èœå• - äºŒçº§èœå•ï¼ˆæ¨¡å¼ï¼‰
 		virtual void drawMenuMode() override;
 		
 		
 	//-----------------------------------
-	//----Êı¾İ£¨Ê÷ÉèÖÃ£©
+	//----æ•°æ®ï¼ˆæ ‘è®¾ç½®ï¼‰
 	protected:
-										//Ê÷ÉèÖÃ - ÉèÖÃ²ÎÊı
+										//æ ‘è®¾ç½® - è®¾ç½®å‚æ•°
 		virtual void setConfig(C_FPT_Config* config) override;
-										//Ê÷ÉèÖÃ - È¡³ö²ÎÊı
+										//æ ‘è®¾ç½® - å–å‡ºå‚æ•°
 		virtual C_FPT_Config* getConfig() override;
 	public:
-										//Ê÷ÉèÖÃ - ÉèÖÃ²ÎÊıEx
+										//æ ‘è®¾ç½® - è®¾ç½®å‚æ•°Ex
 		virtual void setConfigEx(C_FCT_Config* config);
-										//Ê÷ÉèÖÃ - È¡³ö²ÎÊıEx
+										//æ ‘è®¾ç½® - å–å‡ºå‚æ•°Ex
 		virtual C_FCT_Config* getConfigEx();
 
 
 	//-----------------------------------
-	//----Êı¾İ£¨×ÊÔ´Êı¾İ£©
+	//----æ•°æ®ï¼ˆèµ„æºæ•°æ®ï¼‰
 	protected slots:
-										//×ÊÔ´Êı¾İ - ÖØ½¨Êı¾İ£¨Ë½ÓĞ£©
+										//èµ„æºæ•°æ® - é‡å»ºæ•°æ®ï¼ˆç§æœ‰ï¼‰
 		virtual void rebuildTreeData() override;
-										//×ÊÔ´Êı¾İ - ÖØ½¨Êı¾İ_×Ô¶¨Òå·ÖÖ§_idµİÔö£¨Ë½ÓĞ£©
+										//èµ„æºæ•°æ® - é‡å»ºæ•°æ®_è‡ªå®šä¹‰åˆ†æ”¯_idé€’å¢ï¼ˆç§æœ‰ï¼‰
 		void rebuildTreeData_classify_idInc();
-										//×ÊÔ´Êı¾İ - ÖØ½¨Êı¾İ_×Ô¶¨Òå·ÖÖ§_Ãû³ÆµİÔö£¨Ë½ÓĞ£©
+										//èµ„æºæ•°æ® - é‡å»ºæ•°æ®_è‡ªå®šä¹‰åˆ†æ”¯_åç§°é€’å¢ï¼ˆç§æœ‰ï¼‰
 		void rebuildTreeData_classify_nameInc();
 
 };

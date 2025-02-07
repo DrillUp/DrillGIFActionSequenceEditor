@@ -1,25 +1,25 @@
-#include "stdafx.h"
-#include "p_ObjectSortController.h"
+ï»¿#include "stdafx.h"
+#include "P_ObjectSortController.h"
 
-#include "Source/Utils/manager/chineseManager/s_ChineseManager.h"
+#include "Source/Utils/Manager/ChineseManager/S_ChineseManager.h"
 
 /*
 -----==========================================================-----
-		Àà£º		¶ÔÏóÅÅĞò ¿ØÖÆÆ÷.cpp
-		°æ±¾£º		v1.02
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		ÄÜ½«Ö¸¶¨ÊäÈëµÄÁĞ±í½øĞĞÅÅĞò£¬·µ»ØÅÅĞò×ø±ê¡¢Ò²¿ÉÌá¹©·ÖÒ³¹¦ÄÜ¡£
-					ÉèÖÃÊı¾İ£¨setData£©Ê±£¬¡¾¿ØÖÆÆ÷²ÅÅÅĞòÒ»´Î¡¿£¬»áÖØË¢¿ØÖÆÆ÷µÄËùÓĞÊı¾İ¡£
+		ç±»ï¼š		å¯¹è±¡æ’åº æ§åˆ¶å™¨.cpp
+		ç‰ˆæœ¬ï¼š		v1.02
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		èƒ½å°†æŒ‡å®šè¾“å…¥çš„åˆ—è¡¨è¿›è¡Œæ’åºï¼Œè¿”å›æ’åºåæ ‡ã€ä¹Ÿå¯æä¾›åˆ†é¡µåŠŸèƒ½ã€‚
+					è®¾ç½®æ•°æ®ï¼ˆsetDataï¼‰æ—¶ï¼Œã€æ§åˆ¶å™¨æ‰æ’åºä¸€æ¬¡ã€‘ï¼Œä¼šé‡åˆ·æ§åˆ¶å™¨çš„æ‰€æœ‰æ•°æ®ã€‚
 					
-		½á¹¹£º		> ·ÖÒ³´¦Àí
-					> Ìí¼ÓtypeÀà£¬¿É¸ù¾İ·ÖÀàÀ´Ñ¡Ôñ
+		ç»“æ„ï¼š		> åˆ†é¡µå¤„ç†
+					> æ·»åŠ typeç±»ï¼Œå¯æ ¹æ®åˆ†ç±»æ¥é€‰æ‹©
 
-		Ê¹ÓÃ·½·¨£º
-				> ³õÊ¼»¯
+		ä½¿ç”¨æ–¹æ³•ï¼š
+				> åˆå§‹åŒ–
 					this->m_p_ObjectSortController = new P_ObjectSortController();
 					this->m_p_ObjectSortController->setData_FromObject(obj_list, id_symbol, name_symbol, type_symbol);
-				> »ñÈ¡id·ÖÒ³
+				> è·å–idåˆ†é¡µ
 					index_list = this->m_p_ObjectSortController->get_IdInc_PageIndexList( this->cur_selectIndex_page, 30 );
 					
 -----==========================================================-----
@@ -30,19 +30,19 @@ P_ObjectSortController::P_ObjectSortController(QWidget *parent)
 {
 
 	//-----------------------------------
-	//----³õÊ¼»¯²ÎÊı
+	//----åˆå§‹åŒ–å‚æ•°
 	this->local_org_objList = nullptr;
-	this->local_org_dataList = QList<C_ObjectSortData*>();
-	this->m_symbol_id = "id";	//£¨Ä¬ÈÏĞ¡Ğ´£¬setDataÊ±»áÍ³Ò»£©
+	this->local_org_dataList.clear();
+	this->m_symbol_id = "id";	//ï¼ˆé»˜è®¤å°å†™ï¼ŒsetDataæ—¶ä¼šç»Ÿä¸€ï¼‰
 	this->m_symbol_name = "name";
 	this->m_symbol_type = "type";
 
-	this->local_dataList_orderBy_IdInc = QList<C_ObjectSortData*>();
-	this->local_dataList_orderBy_IdDec = QList<C_ObjectSortData*>();
-	this->local_dataList_orderBy_NameInc = QList<C_ObjectSortData*>();
-	this->local_dataList_orderBy_NameDec = QList<C_ObjectSortData*>();
-	this->local_dataList_orderBy_TypeAndId = QList<C_ObjectSortData*>();
-	this->local_dataList_orderBy_TypeAndName = QList<C_ObjectSortData*>();
+	this->local_dataList_orderBy_IdInc.clear();
+	this->local_dataList_orderBy_IdDec.clear();
+	this->local_dataList_orderBy_NameInc.clear();
+	this->local_dataList_orderBy_NameDec.clear();
+	this->local_dataList_orderBy_TypeAndId.clear();
+	this->local_dataList_orderBy_TypeAndName.clear();
 	
 }
 
@@ -52,13 +52,13 @@ P_ObjectSortController::~P_ObjectSortController(){
 
 
 /*-------------------------------------------------
-		Êı¾İ - ÉèÖÃÊı¾İ£¨¶ÔÏóÁĞ±í£©
+		æ•°æ® - è®¾ç½®æ•°æ®ï¼ˆå¯¹è±¡åˆ—è¡¨ï¼‰
 */
 void P_ObjectSortController::setData_FromObject(QList<QJsonObject>* obj_list) {
 	this->local_org_objList = obj_list;
 	if (this->local_org_objList->count() == 0){ return; }
 
-	// > È·¶¨µÚÒ»¸öobjµÄ±êÊ¶Ãû
+	// > ç¡®å®šç¬¬ä¸€ä¸ªobjçš„æ ‡è¯†å
 	QJsonObject first_obj = obj_list->at(0);
 	if (first_obj.isEmpty()){ return; }
 	QJsonValue v_id = first_obj.value("id");
@@ -68,16 +68,16 @@ void P_ObjectSortController::setData_FromObject(QList<QJsonObject>* obj_list) {
 	QString name = first_obj.value("name").toString();
 	if (name == ""){ this->m_symbol_name = "Name"; name = first_obj.value("Name").toString(); }
 	if (name == ""){ this->m_symbol_name = "NAME"; name = first_obj.value("NAME").toString(); }
-	if (name == ""){ this->m_symbol_name = "name"; }	//£¨±£³ÖÔ­±êÊ¶£©
+	if (name == ""){ this->m_symbol_name = "name"; }	//ï¼ˆä¿æŒåŸæ ‡è¯†ï¼‰
 	QString type = first_obj.value("type").toString();
 	if (type == ""){ this->m_symbol_type = "Type"; type = first_obj.value("Type").toString(); }
 	if (type == ""){ this->m_symbol_type = "TYPE"; type = first_obj.value("TYPE").toString(); }
-	if (type == ""){ this->m_symbol_type = "type"; }	//£¨±£³ÖÔ­±êÊ¶£©
+	if (type == ""){ this->m_symbol_type = "type"; }	//ï¼ˆä¿æŒåŸæ ‡è¯†ï¼‰
 
-	// > ×¼±¸ÁĞ±íÖµ
-	QList<int> id_list = QList<int>();
-	QList<QString> name_list = QList<QString>();
-	QList<QString> type_list = QList<QString>();
+	// > å‡†å¤‡åˆ—è¡¨å€¼
+	QList<int> id_list;
+	QList<QString> name_list;
+	QList<QString> type_list;
 	for (int i = 0; i < obj_list->count(); i++){
 		QJsonObject obj = obj_list->at(i);
 		if (obj.isEmpty()){ continue; }
@@ -96,22 +96,22 @@ void P_ObjectSortController::setData_FromObject(QList<QJsonObject>* obj_list) {
 		type_list.push_back(type);
 	}
 
-	// > ÉèÖÃ£¨»ù±¾ÁĞ±í£©
+	// > è®¾ç½®ï¼ˆåŸºæœ¬åˆ—è¡¨ï¼‰
 	this->setData_FromBasic(id_list, name_list, type_list);
 }
 void P_ObjectSortController::setData_FromObject(QList<QJsonObject>* obj_list, QString id_symbol, QString name_symbol, QString type_symbol){
 	this->local_org_objList = obj_list;
 	if (this->local_org_objList->count() == 0){ return; }
 
-	// > È·¶¨±êÊ¶Ãû
+	// > ç¡®å®šæ ‡è¯†å
 	this->m_symbol_id = id_symbol;
 	this->m_symbol_name = name_symbol;
 	this->m_symbol_type = type_symbol;
 
-	// > ×¼±¸ÁĞ±íÖµ
-	QList<int> id_list = QList<int>();
-	QList<QString> name_list = QList<QString>();
-	QList<QString> type_list = QList<QString>();
+	// > å‡†å¤‡åˆ—è¡¨å€¼
+	QList<int> id_list;
+	QList<QString> name_list;
+	QList<QString> type_list;
 	for (int i = 0; i < obj_list->count(); i++){
 		QJsonObject obj = obj_list->at(i);
 		if (obj.isEmpty()){ continue; }
@@ -130,18 +130,18 @@ void P_ObjectSortController::setData_FromObject(QList<QJsonObject>* obj_list, QS
 		type_list.push_back(type);
 	}
 
-	// > ÉèÖÃ£¨»ù±¾ÁĞ±í£©
+	// > è®¾ç½®ï¼ˆåŸºæœ¬åˆ—è¡¨ï¼‰
 	this->setData_FromBasic(id_list, name_list, type_list);
 }
 /*-------------------------------------------------
-		Êı¾İ - ÉèÖÃÊı¾İ£¨ÅÅĞòÊı¾İÁĞ±í£©
+		æ•°æ® - è®¾ç½®æ•°æ®ï¼ˆæ’åºæ•°æ®åˆ—è¡¨ï¼‰
 */
 void P_ObjectSortController::setData_FromSortData(QList<C_ObjectSortData> sort_data_list) {
 
-	// > ×¼±¸ÁĞ±íÖµ
-	QList<int> id_list = QList<int>();
-	QList<QString> name_list = QList<QString>();
-	QList<QString> type_list = QList<QString>();
+	// > å‡†å¤‡åˆ—è¡¨å€¼
+	QList<int> id_list;
+	QList<QString> name_list;
+	QList<QString> type_list;
 	for (int i = 0; i < sort_data_list.count(); i++){
 		C_ObjectSortData data = sort_data_list.at(i);
 		id_list.append(data.id);
@@ -149,15 +149,15 @@ void P_ObjectSortController::setData_FromSortData(QList<C_ObjectSortData> sort_d
 		type_list.append(data.type);
 	}
 
-	// > ÉèÖÃ£¨»ù±¾ÁĞ±í£©
+	// > è®¾ç½®ï¼ˆåŸºæœ¬åˆ—è¡¨ï¼‰
 	this->setData_FromBasic(id_list, name_list, type_list);
 }
 /*-------------------------------------------------
-		Êı¾İ - ÉèÖÃÊı¾İ£¨»ù±¾ÁĞ±í£©
+		æ•°æ® - è®¾ç½®æ•°æ®ï¼ˆåŸºæœ¬åˆ—è¡¨ï¼‰
 */
 void P_ObjectSortController::setData_FromBasic(QList<int> id_list, QList<QString> name_list) {
 	if (id_list.count() != name_list.count()){ return; }
-	QStringList type_list = QStringList();
+	QStringList type_list;
 	for (int i = 0; i < id_list.count(); i++){
 		type_list.append("");
 	}
@@ -167,10 +167,10 @@ void P_ObjectSortController::setData_FromBasic(QList<int> id_list, QList<QString
 	if (id_list.count() != name_list.count()){ return; }
 	if (id_list.count() != type_list.count()){ return; }
 
-	// > ÇåÀíÊı¾İ
+	// > æ¸…ç†æ•°æ®
 	this->clearAll();
 
-	// > Êı¾İ¸³Öµ
+	// > æ•°æ®èµ‹å€¼
 	for (int i = 0; i < id_list.count(); i++){
 		int id = id_list.at(i);
 		QString name = name_list.at(i);
@@ -180,7 +180,7 @@ void P_ObjectSortController::setData_FromBasic(QList<int> id_list, QList<QString
 	}
 }
 /*-------------------------------------------------
-		Êı¾İ - ÇåÀíÊı¾İ
+		æ•°æ® - æ¸…ç†æ•°æ®
 */
 void P_ObjectSortController::clearAll() {
 
@@ -198,13 +198,13 @@ void P_ObjectSortController::clearAll() {
 
 }
 /*-------------------------------------------------
-		Êı¾İ - »ñÈ¡Êı¾İÊıÁ¿
+		æ•°æ® - è·å–æ•°æ®æ•°é‡
 */
 int P_ObjectSortController::getDataCount(){
 	return this->local_org_dataList.count();
 }
 /*-------------------------------------------------
-		Êı¾İ - ĞŞ¸Ä±êÊ¶Ãû
+		æ•°æ® - ä¿®æ”¹æ ‡è¯†å
 */
 void P_ObjectSortController::modifySymbol(QString id_symbol, QString name_symbol, QString type_symbol){
 	this->m_symbol_id = id_symbol;
@@ -212,7 +212,7 @@ void P_ObjectSortController::modifySymbol(QString id_symbol, QString name_symbol
 	this->m_symbol_type = type_symbol;
 }
 /*-------------------------------------------------
-		Êı¾İ - »ñÈ¡±êÊ¶Ãû
+		æ•°æ® - è·å–æ ‡è¯†å
 */
 QString P_ObjectSortController::getSymbolId(){
 	return this->m_symbol_id;
@@ -224,19 +224,19 @@ QString P_ObjectSortController::getSymbolType(){
 	return this->m_symbol_type;
 }
 /*-------------------------------------------------
-		Êı¾İ - ÉèÖÃµÄÊı¾İÊÇ·ñÎªJsonObject¶ÔÏó
+		æ•°æ® - è®¾ç½®çš„æ•°æ®æ˜¯å¦ä¸ºJsonObjectå¯¹è±¡
 */
 bool P_ObjectSortController::isObjectData(){
 	return this->local_org_objList != nullptr;
 }
 /*-------------------------------------------------
-		Êı¾İ - ¸ù¾İË÷ÒıĞòÁĞ£¬»ñÈ¡µ½Êı¾İ
+		æ•°æ® - æ ¹æ®ç´¢å¼•åºåˆ—ï¼Œè·å–åˆ°æ•°æ®
 */
 C_ObjectSortData* P_ObjectSortController::getSortData_ByIndex(int arrIndex){
 	return this->local_org_dataList.at(arrIndex);
 }
 QList<C_ObjectSortData*> P_ObjectSortController::getSortDataList_ByIndex(QList<int> arrIndex_list){
-	QList<C_ObjectSortData*> result_list = QList<C_ObjectSortData*>();
+	QList<C_ObjectSortData*> result_list;
 	for (int i = 0; i < arrIndex_list.count(); i++){
 		int index = arrIndex_list.at(i);
 		result_list.push_back(this->local_org_dataList.at(index));
@@ -248,7 +248,7 @@ QJsonObject P_ObjectSortController::getObjectData_ByIndex(int arrIndex){
 }
 QList<QJsonObject> P_ObjectSortController::getObjectDataList_ByIndex(QList<int> arrIndex_list){
 	if (this->local_org_objList == nullptr){ return QList<QJsonObject>(); }
-	QList<QJsonObject> result_list = QList<QJsonObject>();
+	QList<QJsonObject> result_list;
 	for (int i = 0; i < arrIndex_list.count(); i++){
 		int index = arrIndex_list.at(i);
 		result_list.push_back(this->local_org_objList->at(index));
@@ -259,7 +259,7 @@ QList<QJsonObject> P_ObjectSortController::getObjectDataList_ByIndex(QList<int> 
 
 
 /*-------------------------------------------------
-		IDÅÅĞò
+		IDæ’åº
 */
 bool P_ObjectSortController_sortBy_IdInc(const C_ObjectSortData* a, const C_ObjectSortData* b){
 	return a->id < b->id;
@@ -268,20 +268,20 @@ bool P_ObjectSortController_sortBy_IdDec(const C_ObjectSortData* a, const C_Obje
 	return a->id > b->id;
 }
 /*-------------------------------------------------
-		ID - ³õÊ¼»¯£¨×Ô¶¯£©
+		ID - åˆå§‹åŒ–ï¼ˆè‡ªåŠ¨ï¼‰
 */
 void P_ObjectSortController::initSort_Id_IfRequire(){
 	if (this->local_dataList_orderBy_IdInc.count() != 0){ return; }
 	if (this->local_dataList_orderBy_IdDec.count() != 0){ return; }
 
-	// > idÁĞ±í¸³Öµ²¢ÅÅĞò
+	// > idåˆ—è¡¨èµ‹å€¼å¹¶æ’åº
 	this->local_dataList_orderBy_IdInc = this->local_org_dataList;
 	this->local_dataList_orderBy_IdDec = this->local_org_dataList;
 	qSort(this->local_dataList_orderBy_IdInc.begin(), this->local_dataList_orderBy_IdInc.end(), P_ObjectSortController_sortBy_IdInc);
 	qSort(this->local_dataList_orderBy_IdDec.begin(), this->local_dataList_orderBy_IdDec.end(), P_ObjectSortController_sortBy_IdDec);
 }
 /*-------------------------------------------------
-		ID - »ñÈ¡Ë÷ÒıĞòÁĞ£¨ÉıĞò£©
+		ID - è·å–ç´¢å¼•åºåˆ—ï¼ˆå‡åºï¼‰
 */
 QList<int> P_ObjectSortController::get_IdInc_IndexSeq(){
 	this->initSort_Id_IfRequire();
@@ -292,7 +292,7 @@ QList<int> P_ObjectSortController::get_IdInc_IndexSeq(int bottom, int top){
 	if (top < bottom){ int pos = top; top = bottom; bottom = pos; }
 	if (top > this->local_org_dataList.count() - 1){ top = this->local_org_dataList.count() - 1; }
 
-	QList<int> index_list = QList<int>();
+	QList<int> index_list;
 	for (int i = bottom; i <= top; i++){
 		int index = this->local_dataList_orderBy_IdInc.at(i)->arrIndex;
 		index_list.push_back(index);
@@ -300,7 +300,7 @@ QList<int> P_ObjectSortController::get_IdInc_IndexSeq(int bottom, int top){
 	return index_list;
 }
 /*-------------------------------------------------
-		ID - »ñÈ¡Ë÷ÒıĞòÁĞ£¨½µĞò£©
+		ID - è·å–ç´¢å¼•åºåˆ—ï¼ˆé™åºï¼‰
 */
 QList<int> P_ObjectSortController::get_IdDec_IndexSeq(){
 	this->initSort_Id_IfRequire();
@@ -311,7 +311,7 @@ QList<int> P_ObjectSortController::get_IdDec_IndexSeq(int bottom, int top){
 	if (top < bottom){ int pos = top; top = bottom; bottom = pos; }
 	if (top > this->local_org_dataList.count() - 1){ top = this->local_org_dataList.count() - 1; }
 
-	QList<int> index_list = QList<int>();
+	QList<int> index_list;
 	for (int i = bottom; i <= top; i++){
 		int index = this->local_dataList_orderBy_IdDec.at(i)->arrIndex;
 		index_list.push_back(index);
@@ -319,11 +319,11 @@ QList<int> P_ObjectSortController::get_IdDec_IndexSeq(int bottom, int top){
 	return index_list;
 }
 /*-------------------------------------------------
-		ID - »ñÈ¡Ö¸¶¨Ò³µÄË÷ÒıĞòÁĞ£¨ÉıĞò£©
+		ID - è·å–æŒ‡å®šé¡µçš„ç´¢å¼•åºåˆ—ï¼ˆå‡åºï¼‰
 */
 QList<int> P_ObjectSortController::get_IdInc_PageIndexList(int page_index, int page_per_count){
 	this->initSort_Id_IfRequire();
-	QList<int> result_list = QList<int>();
+	QList<int> result_list;
 	int all_count = this->local_org_dataList.count();
 	int page_count = qCeil((double)all_count/page_per_count);
 
@@ -338,11 +338,11 @@ QList<int> P_ObjectSortController::get_IdInc_PageIndexList(int page_index, int p
 	return result_list;
 }
 /*-------------------------------------------------
-		ID - »ñÈ¡Ö¸¶¨Ò³µÄË÷ÒıĞòÁĞ£¨½µĞò£©
+		ID - è·å–æŒ‡å®šé¡µçš„ç´¢å¼•åºåˆ—ï¼ˆé™åºï¼‰
 */
 QList<int> P_ObjectSortController::get_IdDec_PageIndexList(int page_index, int page_per_count){
 	this->initSort_Id_IfRequire();
-	QList<int> result_list = QList<int>();
+	QList<int> result_list;
 	int all_count = this->local_org_dataList.count();
 	int page_count = qCeil((double)all_count / page_per_count);
 
@@ -361,7 +361,7 @@ QList<int> P_ObjectSortController::get_IdDec_PageIndexList(int page_index, int p
 
 
 /*-------------------------------------------------
-		Ãû³ÆÅÅĞò
+		åç§°æ’åº
 */
 bool P_ObjectSortController_sortBy_NameInc(const C_ObjectSortData* a, const C_ObjectSortData* b){
 	if (a->name == ""){ return false; }
@@ -374,19 +374,19 @@ bool P_ObjectSortController_sortBy_NameDec(const C_ObjectSortData* a, const C_Ob
 	return a->name.toLocal8Bit() > b->name.toLocal8Bit();
 }
 /*-------------------------------------------------
-		Ãû³Æ - ³õÊ¼»¯£¨×Ô¶¯£©
+		åç§° - åˆå§‹åŒ–ï¼ˆè‡ªåŠ¨ï¼‰
 */
 void P_ObjectSortController::initSort_Name_IfRequire(){
 	if (this->local_dataList_orderBy_NameInc.count() != 0){ return; }
 	if (this->local_dataList_orderBy_NameDec.count() != 0){ return; }
 
-	// > Ãû³ÆÁĞ±í¸³Öµ²¢ÅÅĞò
+	// > åç§°åˆ—è¡¨èµ‹å€¼å¹¶æ’åº
 	this->local_dataList_orderBy_NameInc = this->local_org_dataList;
 	this->local_dataList_orderBy_NameDec = this->local_org_dataList;
 	qSort(this->local_dataList_orderBy_NameInc.begin(), this->local_dataList_orderBy_NameInc.end(), P_ObjectSortController_sortBy_NameInc);
 	qSort(this->local_dataList_orderBy_NameDec.begin(), this->local_dataList_orderBy_NameDec.end(), P_ObjectSortController_sortBy_NameDec);
 
-	// > ĞòÁĞÎ»ÖÃ
+	// > åºåˆ—ä½ç½®
 	this->m_firstCharSeq = "";
 	for (int i = 0; i < this->local_dataList_orderBy_NameInc.count(); i++){
 		QString name = this->local_dataList_orderBy_NameInc.at(i)->name;
@@ -397,7 +397,7 @@ void P_ObjectSortController::initSort_Name_IfRequire(){
 
 }
 /*-------------------------------------------------
-		Ãû³Æ - »ñÈ¡Ë÷ÒıĞòÁĞ£¨ÉıĞò£©
+		åç§° - è·å–ç´¢å¼•åºåˆ—ï¼ˆå‡åºï¼‰
 */
 QList<int> P_ObjectSortController::get_NameInc_IndexSeq(){
 	this->initSort_Name_IfRequire();
@@ -408,7 +408,7 @@ QList<int> P_ObjectSortController::get_NameInc_IndexSeq(int bottom, int top){
 	if (top < bottom){ int pos = top; top = bottom; bottom = pos; }
 	if (top > this->local_org_dataList.count() - 1){ top = this->local_org_dataList.count() - 1; }
 
-	QList<int> index_list = QList<int>();
+	QList<int> index_list;
 	for (int i = bottom; i <= top; i++){
 		int index = this->local_dataList_orderBy_NameInc.at(i)->arrIndex;
 		index_list.push_back(index);
@@ -416,7 +416,7 @@ QList<int> P_ObjectSortController::get_NameInc_IndexSeq(int bottom, int top){
 	return index_list;
 }
 /*-------------------------------------------------
-		Ãû³Æ - »ñÈ¡Ë÷ÒıĞòÁĞ£¨½µĞò£©
+		åç§° - è·å–ç´¢å¼•åºåˆ—ï¼ˆé™åºï¼‰
 */
 QList<int> P_ObjectSortController::get_NameDec_IndexSeq(){
 	this->initSort_Name_IfRequire();
@@ -427,7 +427,7 @@ QList<int> P_ObjectSortController::get_NameDec_IndexSeq(int bottom, int top){
 	if (top < bottom){ int pos = top; top = bottom; bottom = pos; }
 	if (top > this->local_org_dataList.count() - 1){ top = this->local_org_dataList.count() - 1; }
 
-	QList<int> index_list = QList<int>();
+	QList<int> index_list;
 	for (int i = bottom; i <= top; i++){
 		int index = this->local_dataList_orderBy_NameDec.at(i)->arrIndex;
 		index_list.push_back(index);
@@ -435,22 +435,22 @@ QList<int> P_ObjectSortController::get_NameDec_IndexSeq(int bottom, int top){
 	return index_list;
 }
 /*-------------------------------------------------
-		Ãû³Æ - ÅĞ¶ÏÊÇ·ñº¬Ö¸¶¨Ê××ÖÄ¸µÄÊı¾İ
+		åç§° - åˆ¤æ–­æ˜¯å¦å«æŒ‡å®šé¦–å­—æ¯çš„æ•°æ®
 */
 bool P_ObjectSortController::hasAnyData_Name_ByCharacter(QChar ch){
 	ch = ch.toLower();
 	return this->m_firstCharSeq.contains(ch);
 }
 /*-------------------------------------------------
-		Ãû³Æ - »ñÈ¡Ö¸¶¨Ê××ÖÄ¸µÄË÷ÒıĞòÁĞ
+		åç§° - è·å–æŒ‡å®šé¦–å­—æ¯çš„ç´¢å¼•åºåˆ—
 */
 QList<int> P_ObjectSortController::get_Name_IndexListByCharacter(QChar ch){
 	this->initSort_Name_IfRequire();
-	QList<int> result_list = QList<int>();
+	QList<int> result_list;
 	ch = ch.toLower();
 
-	int bottom = this->m_firstCharSeq.indexOf(ch);		//£¨Ê××ÖÄ¸ĞòÁĞÊÇµİÔöµÄ£¬ÓëµİÔöÃû³ÆĞòÁĞ¶ÔÓ¦£©
-	int top = this->m_firstCharSeq.lastIndexOf(ch);		//£¨±ÈÈçÅÅĞòÎª£º"aaaabbffzz@@"£¬ @ÎªÉúÆ§×Ö£©
+	int bottom = this->m_firstCharSeq.indexOf(ch);		//ï¼ˆé¦–å­—æ¯åºåˆ—æ˜¯é€’å¢çš„ï¼Œä¸é€’å¢åç§°åºåˆ—å¯¹åº”ï¼‰
+	int top = this->m_firstCharSeq.lastIndexOf(ch);		//ï¼ˆæ¯”å¦‚æ’åºä¸ºï¼š"aaaabbffzz@@"ï¼Œ @ä¸ºç”Ÿåƒ»å­—ï¼‰
 	if (bottom == -1){ return QList<int>(); }
 	if (top == -1){ return QList<int>(); }
 	for (int i = bottom; i <= top; i++){
@@ -460,14 +460,14 @@ QList<int> P_ObjectSortController::get_Name_IndexListByCharacter(QChar ch){
 	return result_list;
 }
 /*-------------------------------------------------
-		Ãû³Æ - »ñÈ¡·Ç×ÖÄ¸µÄË÷ÒıĞòÁĞ
+		åç§° - è·å–éå­—æ¯çš„ç´¢å¼•åºåˆ—
 */
 QList<int> P_ObjectSortController::get_Name_IndexListByNonAlphabetic(){
 	this->initSort_Name_IfRequire();
-	QList<int> result_list = QList<int>();
+	QList<int> result_list;
 	
-	// > ×ÖÄ¸Ç°ÃæµÄ·ûºÅ
-	int index = this->m_firstCharSeq.indexOf(QRegExp("[a-z@]"));	//ÆäËû·ûºÅ¶¼»áÅÅÔÚ×ÖÄ¸µÄÇ°Ãæ
+	// > å­—æ¯å‰é¢çš„ç¬¦å·
+	int index = this->m_firstCharSeq.indexOf(QRegExp("[a-z@]"));	//å…¶ä»–ç¬¦å·éƒ½ä¼šæ’åœ¨å­—æ¯çš„å‰é¢
 	if (index > 0){
 		for (int i = 0; i < index; i++){
 			int arr_index = this->local_dataList_orderBy_NameInc.at(i)->arrIndex;
@@ -475,7 +475,7 @@ QList<int> P_ObjectSortController::get_Name_IndexListByNonAlphabetic(){
 		}
 	}
 
-	// > ºóÃæµÄ·ûºÅ£¨zºóÃæµÄ·ûºÅ£º 123{  124|  125}  126~ £©
+	// > åé¢çš„ç¬¦å·ï¼ˆzåé¢çš„ç¬¦å·ï¼š 123{  124|  125}  126~ ï¼‰
 	{
 		int bottom = this->m_firstCharSeq.indexOf('|');
 		int top = this->m_firstCharSeq.lastIndexOf('|');
@@ -500,12 +500,12 @@ QList<int> P_ObjectSortController::get_Name_IndexListByNonAlphabetic(){
 	return result_list;
 }
 /*-------------------------------------------------
-		Ãû³Æ - »ñÈ¡Ãû³ÆÎª¿ÕµÄË÷ÒıĞòÁĞ
+		åç§° - è·å–åç§°ä¸ºç©ºçš„ç´¢å¼•åºåˆ—
 */
 QList<int> P_ObjectSortController::get_Name_IndexListByEmptyName(){
 	this->initSort_Name_IfRequire();
-	QList<int> result_list = QList<int>();
-	int ch_count = this->m_firstCharSeq.count();		//£¨Ãû³ÆÎª¿ÕµÄ¶ÔÏóÅÅÔÚÄ©Î²£¬ÇÒÃ»ÓĞÊ××ÖÄ¸£©
+	QList<int> result_list;
+	int ch_count = this->m_firstCharSeq.count();		//ï¼ˆåç§°ä¸ºç©ºçš„å¯¹è±¡æ’åœ¨æœ«å°¾ï¼Œä¸”æ²¡æœ‰é¦–å­—æ¯ï¼‰
 	
 	for (int i = ch_count; i < this->local_dataList_orderBy_NameInc.count(); i++){
 		int arr_index = this->local_dataList_orderBy_NameInc.at(i)->arrIndex;
@@ -517,7 +517,7 @@ QList<int> P_ObjectSortController::get_Name_IndexListByEmptyName(){
 
 
 /*-------------------------------------------------
-		ÀàĞÍ+id ÅÅĞò
+		ç±»å‹+id æ’åº
 */
 bool P_ObjectSortController_sortBy_TypeAndId(const C_ObjectSortData* a, const C_ObjectSortData* b){
 	if (a->type == b->type){
@@ -526,7 +526,7 @@ bool P_ObjectSortController_sortBy_TypeAndId(const C_ObjectSortData* a, const C_
 	return a->type.toLocal8Bit() < b->type.toLocal8Bit();
 }
 /*-------------------------------------------------
-		ÀàĞÍ+Ãû³Æ ÅÅĞò
+		ç±»å‹+åç§° æ’åº
 */
 bool P_ObjectSortController_sortBy_TypeAndName(const C_ObjectSortData* a, const C_ObjectSortData* b){
 	if (a->type == b->type){
@@ -537,20 +537,20 @@ bool P_ObjectSortController_sortBy_TypeAndName(const C_ObjectSortData* a, const 
 	return a->type.toLocal8Bit() < b->type.toLocal8Bit();
 }
 /*-------------------------------------------------
-		ÀàĞÍ - ³õÊ¼»¯£¨×Ô¶¯£©
+		ç±»å‹ - åˆå§‹åŒ–ï¼ˆè‡ªåŠ¨ï¼‰
 */
 void P_ObjectSortController::initSort_Type_IfRequire(){
 	if (this->local_dataList_orderBy_TypeAndId.count() != 0){ return; }
 	if (this->local_dataList_orderBy_TypeAndName.count() != 0){ return; }
 
-	// > ¸ù¾İÀàĞÍ¸³Öµ²¢ÅÅĞò
+	// > æ ¹æ®ç±»å‹èµ‹å€¼å¹¶æ’åº
 	this->local_dataList_orderBy_TypeAndId = this->local_org_dataList;
 	this->local_dataList_orderBy_TypeAndName = this->local_org_dataList;
 	qSort(this->local_dataList_orderBy_TypeAndId.begin(), this->local_dataList_orderBy_TypeAndId.end(), P_ObjectSortController_sortBy_TypeAndId);
 	qSort(this->local_dataList_orderBy_TypeAndName.begin(), this->local_dataList_orderBy_TypeAndName.end(), P_ObjectSortController_sortBy_TypeAndName);
 
-	// > »ñÈ¡²»ÖØ¸´µÄÀàĞÍ
-	this->m_distinguishedType = QStringList();
+	// > è·å–ä¸é‡å¤çš„ç±»å‹
+	this->m_distinguishedType;
 	for (int i = 0; i < this->local_org_dataList.count(); i++){
 		QString type = this->local_org_dataList.at(i)->type;
 		if (this->m_distinguishedType.contains(type)){
@@ -560,7 +560,7 @@ void P_ObjectSortController::initSort_Type_IfRequire(){
 	}
 }
 /*-------------------------------------------------
-		ÀàĞÍ - ÅĞ¶ÏÊÇ·ñº¬ÀàĞÍ·Ö×éµÄÊı¾İ
+		ç±»å‹ - åˆ¤æ–­æ˜¯å¦å«ç±»å‹åˆ†ç»„çš„æ•°æ®
 */
 bool P_ObjectSortController::hasAnyData_Type(){
 	this->initSort_Type_IfRequire();
@@ -573,14 +573,14 @@ bool P_ObjectSortController::hasAnyData_Type(){
 	return false;
 }
 /*-------------------------------------------------
-		ÀàĞÍ - »ñÈ¡ËùÓĞÀàĞÍ
+		ç±»å‹ - è·å–æ‰€æœ‰ç±»å‹
 */
 QStringList P_ObjectSortController::get_Type_DistinguishedList(){
 	this->initSort_Type_IfRequire();
 	return this->m_distinguishedType;
 }
 /*-------------------------------------------------
-		ÀàĞÍ - »ñÈ¡Ë÷ÒıĞòÁĞ£¨ÀàĞÍ+ID Ë³Ğò£©
+		ç±»å‹ - è·å–ç´¢å¼•åºåˆ—ï¼ˆç±»å‹+ID é¡ºåºï¼‰
 */
 QList<int> P_ObjectSortController::get_TypeAndId_IndexSeq(){
 	this->initSort_Type_IfRequire();
@@ -591,7 +591,7 @@ QList<int> P_ObjectSortController::get_TypeAndId_IndexSeq(int bottom, int top){
 	if (top < bottom){ int pos = top; top = bottom; bottom = pos; }
 	if (top > this->local_org_dataList.count() - 1){ top = this->local_org_dataList.count()-1; }
 
-	QList<int> index_list = QList<int>();
+	QList<int> index_list;
 	for (int i = bottom; i <= top; i++){
 		int index = this->local_dataList_orderBy_TypeAndId.at(i)->arrIndex;
 		index_list.push_back(index);
@@ -599,12 +599,12 @@ QList<int> P_ObjectSortController::get_TypeAndId_IndexSeq(int bottom, int top){
 	return index_list;
 }
 /*-------------------------------------------------
-		ÀàĞÍ - »ñÈ¡Ö¸¶¨ÀàĞÍµÄË÷ÒıÁĞ£¨ÀàĞÍ+ID Ë³Ğò£©
+		ç±»å‹ - è·å–æŒ‡å®šç±»å‹çš„ç´¢å¼•åˆ—ï¼ˆç±»å‹+ID é¡ºåºï¼‰
 */
 QList<int> P_ObjectSortController::get_TypeAndId_IndexListByType(QString type){
 	this->initSort_Type_IfRequire();
 
-	QList<int> index_list = QList<int>();
+	QList<int> index_list;
 	for (int i = 0; i < this->local_dataList_orderBy_TypeAndId.count(); i++){
 		if (this->local_dataList_orderBy_TypeAndId.at(i)->type != type){
 			continue;
@@ -615,7 +615,7 @@ QList<int> P_ObjectSortController::get_TypeAndId_IndexListByType(QString type){
 	return index_list;
 }
 /*-------------------------------------------------
-		ÀàĞÍ - »ñÈ¡Ë÷ÒıĞòÁĞ£¨ÀàĞÍ+Ãû³Æ Ë³Ğò£©
+		ç±»å‹ - è·å–ç´¢å¼•åºåˆ—ï¼ˆç±»å‹+åç§° é¡ºåºï¼‰
 */
 QList<int> P_ObjectSortController::get_TypeAndName_IndexSeq(){
 	this->initSort_Type_IfRequire();
@@ -626,7 +626,7 @@ QList<int> P_ObjectSortController::get_TypeAndName_IndexSeq(int bottom, int top)
 	if (top < bottom){ int pos = top; top = bottom; bottom = pos; }
 	if (top > this->local_org_dataList.count() - 1){ top = this->local_org_dataList.count()-1; }
 
-	QList<int> index_list = QList<int>();
+	QList<int> index_list;
 	for (int i = bottom; i <= top; i++){
 		int index = this->local_dataList_orderBy_TypeAndName.at(i)->arrIndex;
 		index_list.push_back(index);
@@ -634,12 +634,12 @@ QList<int> P_ObjectSortController::get_TypeAndName_IndexSeq(int bottom, int top)
 	return index_list;
 }
 /*-------------------------------------------------
-		ÀàĞÍ - »ñÈ¡Ö¸¶¨ÀàĞÍµÄË÷ÒıÁĞ£¨ÀàĞÍ+Ãû³Æ Ë³Ğò£©
+		ç±»å‹ - è·å–æŒ‡å®šç±»å‹çš„ç´¢å¼•åˆ—ï¼ˆç±»å‹+åç§° é¡ºåºï¼‰
 */
 QList<int> P_ObjectSortController::get_TypeAndName_IndexListByType(QString type){
 	this->initSort_Type_IfRequire();
 
-	QList<int> index_list = QList<int>();
+	QList<int> index_list;
 	for (int i = 0; i < this->local_dataList_orderBy_TypeAndName.count(); i++){
 		if (this->local_dataList_orderBy_TypeAndName.at(i)->type != type){
 			continue;
@@ -652,10 +652,10 @@ QList<int> P_ObjectSortController::get_TypeAndName_IndexListByType(QString type)
 
 
 /*-------------------------------------------------
-		¾²Ì¬·½·¨
+		é™æ€æ–¹æ³•
 */
 QList<QJsonObject> P_ObjectSortController::_to_objectList_(QList<int> id_list, QList<QString> name_list){
-	QStringList type_list = QStringList();
+	QStringList type_list;
 	for (int i = 0; i < id_list.count(); i++){
 		type_list.append("");
 	}
@@ -665,9 +665,9 @@ QList<QJsonObject> P_ObjectSortController::_to_objectList_(QList<int> id_list, Q
 	if (id_list.count() != name_list.count()){ return QList<QJsonObject>(); }
 	if (id_list.count() != type_list.count()){ return QList<QJsonObject>(); }
 
-	QList<QJsonObject> result_list = QList<QJsonObject>();
+	QList<QJsonObject> result_list;
 	for (int i = 0; i < id_list.count(); i++){
-		QJsonObject object = QJsonObject();
+		QJsonObject object;
 		object.insert("id", id_list.at(i));
 		object.insert("name", name_list.at(i));
 		object.insert("type", type_list.at(i));

@@ -1,15 +1,16 @@
-#pragma once
+ï»¿#pragma once
+#include "stdafx.h"
 
-#include "Source/Utils/widgetFormSenior/flexiblePageTree/private/c_FPT_Config.h"
-#include "c_FCT_Classify.h"
+#include "Source/Utils/WidgetFormSenior/FlexiblePageTree/Private/C_FPT_Config.h"
+#include "C_FCT_Classify.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Ê÷ÉèÖÃ Êı¾İÀà£¨³£¹æ+ÖÖÀà·ÖÖ§£©.h
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		Áé»î·ÖÀàÊ÷µÄ Ê÷ÉèÖÃ Êı¾İÀà¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		æ ‘è®¾ç½® æ•°æ®ç±»ï¼ˆå¸¸è§„+ç§ç±»åˆ†æ”¯ï¼‰.h
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		çµæ´»åˆ†ç±»æ ‘çš„ æ ‘è®¾ç½® æ•°æ®ç±»ã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 class C_FCT_Config : public C_FPT_Config{
@@ -19,54 +20,54 @@ class C_FCT_Config : public C_FPT_Config{
 		~C_FCT_Config();
 		
 	//-----------------------------------
-	//----·ÖÖ§Ä£Ê½
+	//----åˆ†æ”¯æ¨¡å¼
 	public:
-									//·ÖÖ§Ä£Ê½ - ÅĞ¶Ï ÖÖÀà·ÖÖ§_IDµİÔö Ä£Ê½
+									//åˆ†æ”¯æ¨¡å¼ - åˆ¤æ–­ ç§ç±»åˆ†æ”¯_IDé€’å¢ æ¨¡å¼
 		bool is_classify_idInc_Mode();
-									//·ÖÖ§Ä£Ê½ - ÅĞ¶Ï ÖÖÀà·ÖÖ§_Ãû³ÆµİÔö Ä£Ê½
+									//åˆ†æ”¯æ¨¡å¼ - åˆ¤æ–­ ç§ç±»åˆ†æ”¯_åç§°é€’å¢ æ¨¡å¼
 		bool is_classify_nameInc_Mode();
 		
 	//-----------------------------------
-	//----ÖÖÀàÒ³
+	//----ç§ç±»é¡µ
 	protected:
 		C_FCT_Classify* m_emptyClassify;
 		QList<C_FCT_Classify*> m_classifyList;
 	public:
-									//ÖÖÀàÒ³ - »ñÈ¡ÁĞ±í
+									//ç§ç±»é¡µ - è·å–åˆ—è¡¨
 		QList<C_FCT_Classify*> get_classify_DataList();
-									//ÖÖÀàÒ³ - ÇåÀíÁĞ±í
+									//ç§ç±»é¡µ - æ¸…ç†åˆ—è¡¨
 		void clear_classify_DataList();
 
-									//ÖÖÀàÒ³ - Ìí¼ÓÊı¾İ£¨»ùº¯Êı£©
+									//ç§ç±»é¡µ - æ·»åŠ æ•°æ®ï¼ˆåŸºå‡½æ•°ï¼‰
 		void add_classify(C_FCT_Classify* data);
-									//ÖÖÀàÒ³ - É¾³ıÊı¾İ£¨»ùº¯Êı£©
+									//ç§ç±»é¡µ - åˆ é™¤æ•°æ®ï¼ˆåŸºå‡½æ•°ï¼‰
 		void remove_classify(QString classify_name);
-									//ÖÖÀàÒ³ - Êı¾İÉÏÒÆ
+									//ç§ç±»é¡µ - æ•°æ®ä¸Šç§»
 		void set_classify_moveUp(QString classify_name);
-									//ÖÖÀàÒ³ - Êı¾İÏÂÒÆ
+									//ç§ç±»é¡µ - æ•°æ®ä¸‹ç§»
 		void set_classify_moveDown(QString classify_name);
 
-									//ÖÖÀàÒ³ - »ñÈ¡
+									//ç§ç±»é¡µ - è·å–
 		C_FCT_Classify* get_classify(QString classify_name);
-									//ÖÖÀàÒ³ - »ñÈ¡ - ÖÖÀàÒ³Ë÷Òı
+									//ç§ç±»é¡µ - è·å– - ç§ç±»é¡µç´¢å¼•
 		int get_classify_Index(QString classify_name);
-									//ÖÖÀàÒ³ - »ñÈ¡ - ÊıÁ¿
+									//ç§ç±»é¡µ - è·å– - æ•°é‡
 		int get_classify_Count();
-									//ÖÖÀàÒ³ - »ñÈ¡ - ÅĞ¶ÏÖÖÀà´æÔÚ
+									//ç§ç±»é¡µ - è·å– - åˆ¤æ–­ç§ç±»å­˜åœ¨
 		bool has_classify(QString classify_name);
-									//ÖÖÀàÒ³ - »ñÈ¡ - È«²¿ÖÖÀà
+									//ç§ç±»é¡µ - è·å– - å…¨éƒ¨ç§ç±»
 		QStringList getAll_classify_NameList();
 	protected:
-									//Ë½ÓĞ - ¼ì²éÁĞ±í
+									//ç§æœ‰ - æ£€æŸ¥åˆ—è¡¨
 		void checkClassifyList();
 		
 	//-----------------------------------
-	//----ÀàÊôĞÔ
+	//----ç±»å±æ€§
 	public:
-									//ÊµÌåÀà -> QJsonObject
+									//å®ä½“ç±» -> QJsonObject
 		virtual QJsonObject getJsonObject() override;
-									//QJsonObject -> ÊµÌåÀà
-									//		¡¾ËµÃ÷¡¿£ºÓÃ×ÓÀà¶ÔÏó£ºP_FlexibleClassificationTree¸³Öµparent_obj£»
-									//				  Ö»ÓĞ¸ÃÊ÷²ÅÓĞ ¹¤³§ ´´½¨ÖÖÀà¶ÔÏó¡£
+									//QJsonObject -> å®ä½“ç±»
+									//		ã€è¯´æ˜ã€‘ï¼šç”¨å­ç±»å¯¹è±¡ï¼šP_FlexibleClassificationTreeèµ‹å€¼parent_objï¼›
+									//				  åªæœ‰è¯¥æ ‘æ‰æœ‰ å·¥å‚ åˆ›å»ºç§ç±»å¯¹è±¡ã€‚
 		virtual void setJsonObject(QJsonObject obj, P_FlexiblePageTree* parent_obj) override;
 };

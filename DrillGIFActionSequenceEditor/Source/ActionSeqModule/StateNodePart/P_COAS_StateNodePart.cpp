@@ -137,6 +137,9 @@ void P_COAS_StateNodePart::stateNameChanged(){
 */
 void P_COAS_StateNodePart::btn_editTagTank(){
 	W_QStringListEditor d(this);
+	d.setParamShowingName("状态节点 标签");
+	d.setParamDescription("标签名不可重复。");
+	d.setParamListDescription("你可以在游戏中通过 插件指令 执行标签播放，播放时将找出含指定标签的状态节点，然后播放。（具体需要看 插件指令用法）");
 	d.setDataInModifyMode(this->m_curTagTank);
 	if (d.exec() == QDialog::Accepted){
 		this->m_curTagTank = d.getData();
@@ -338,6 +341,7 @@ void P_COAS_StateNodePart::btn_moveDown(){
 void P_COAS_StateNodePart::btn_editConfig(){
 	W_QStringListEditor d(this);
 	d.setParamShowingName("当前配置");
+	d.setParamListDescription("你可以直接手填 状态元/状态节点 的名称，可以输入不存在的 状态元/状态节点 名称，但记得后期要配好。");
 	d.setDataInModifyMode(this->m_P_TwoTableStringFiller->getRightString());
 	if (d.exec() == QDialog::Accepted){
 		this->m_P_TwoTableStringFiller->setRightString(d.getData());
@@ -508,6 +512,18 @@ void P_COAS_StateNodePart::local_loadIndexData(int index){
 
 	// > 直接数据指针中读取值
 	C_COAS_StateNodePtr node_ptr = this->m_stateNodeDataList.at(index);
+
+	// > 标签
+	QString label_text;
+	label_text.append("参数 [状态节点");
+	label_text.append(QString::number(node_ptr->id + 1));
+	label_text.append("]");
+	ui.groupBox_param->setTitle(label_text);
+	label_text = "";
+	label_text.append("播放 [状态节点");
+	label_text.append(QString::number(node_ptr->id + 1));
+	label_text.append("]");
+	ui.groupBox_play->setTitle(label_text);
 
 	// > 常规
 	ui.lineEdit_name->setText(node_ptr->name);

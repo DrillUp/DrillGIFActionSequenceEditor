@@ -1,15 +1,16 @@
-#ifndef I_FCTBranch_H
+ï»¿#ifndef I_FCTBranch_H
 #define I_FCTBranch_H
+#include "stdafx.h"
 
-#include "Source/Utils/common/TTool.h"
-#include "c_FPT_Config.h"
+#include "Source/Utils/Common/TTool.h"
+#include "C_FPT_Config.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Ê÷Ö¦.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		Ê÷Ö¦¿Ø¼şÀà¡£
+		ç±»ï¼š		æ ‘æ.cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		æ ‘ææ§ä»¶ç±»ã€‚
 -----==========================================================-----
 */
 class I_FPT_Branch : public QTreeWidgetItem{
@@ -19,29 +20,29 @@ class I_FPT_Branch : public QTreeWidgetItem{
 		~I_FPT_Branch();
 
 	//-----------------------------------
-	//----Êı¾İ
-		TTOOL_DATA_PROPERTY(int, Id);							//ĞòºÅ
+	//----æ•°æ®
+		TTOOL_DATA_PROPERTY(int, Id);							//åºå·
 
-		TTOOL_DATA_PROPERTY(int, Branch_id_Index);				//ID·ÖÖ§ - µ±Ç°Ò³Ë÷ÒıµÄÎ»ÖÃ
-		TTOOL_DATA_PROPERTY(int, Branch_id_Bottom);				//ID·ÖÖ§ - µ×
-		TTOOL_DATA_PROPERTY(int, Branch_id_Top);				//ID·ÖÖ§ - ¶¥
+		TTOOL_DATA_PROPERTY(int, Branch_id_Index);				//IDåˆ†æ”¯ - å½“å‰é¡µç´¢å¼•çš„ä½ç½®
+		TTOOL_DATA_PROPERTY(int, Branch_id_Bottom);				//IDåˆ†æ”¯ - åº•
+		TTOOL_DATA_PROPERTY(int, Branch_id_Top);				//IDåˆ†æ”¯ - é¡¶
 
-		TTOOL_DATA_PROPERTY(int, Branch_name_Index);			//Ãû³Æ·ÖÖ§ - µ±Ç°Ò³Ë÷ÒıµÄÎ»ÖÃ
-		TTOOL_DATA_PROPERTY(QString, Branch_name_Showing);		//Ãû³Æ·ÖÖ§ - Ãû³Æ²éÕÒ×Ö·ûµÄ±êÖ¾
-		TTOOL_DATA_PROPERTY(QString, Branch_name_Symbol);		//Ãû³Æ·ÖÖ§ - Ãû³Æ²éÕÒ×Ö·ûµÄ±êÖ¾
+		TTOOL_DATA_PROPERTY(int, Branch_name_Index);			//åç§°åˆ†æ”¯ - å½“å‰é¡µç´¢å¼•çš„ä½ç½®
+		TTOOL_DATA_PROPERTY(QString, Branch_name_Showing);		//åç§°åˆ†æ”¯ - åç§°æŸ¥æ‰¾å­—ç¬¦çš„æ ‡å¿—
+		TTOOL_DATA_PROPERTY(QString, Branch_name_Symbol);		//åç§°åˆ†æ”¯ - åç§°æŸ¥æ‰¾å­—ç¬¦çš„æ ‡å¿—
 
-		TTOOL_DATA_PROPERTY(QString, Branch_type_Name);			//×Ô¶¨Òå·ÖÖ§ - ÀàĞÍ
-		TTOOL_DATA_PROPERTY(QString, Branch_type_Description);	//×Ô¶¨Òå·ÖÖ§ - ÃèÊö
+		TTOOL_DATA_PROPERTY(QString, Branch_type_Name);			//è‡ªå®šä¹‰åˆ†æ”¯ - ç±»å‹
+		TTOOL_DATA_PROPERTY(QString, Branch_type_Description);	//è‡ªå®šä¹‰åˆ†æ”¯ - æè¿°
 		
 	protected:
-		C_FPT_Config* m_config;		//Ê÷ÉèÖÃ
+		C_FPT_Config* m_config;		//æ ‘è®¾ç½®
 
 	//-----------------------------------
-	//----¿Ø¼ş
+	//----æ§ä»¶
 	public:
-										//¿Ø¼ş - »ñÈ¡ÏÔÊ¾ÎÄ±¾
+										//æ§ä»¶ - è·å–æ˜¾ç¤ºæ–‡æœ¬
 		QString getShowingText();
-										//¿Ø¼ş - ¸ù¾İÊı¾İ×ÔÎÒË¢ĞÂ
+										//æ§ä»¶ - æ ¹æ®æ•°æ®è‡ªæˆ‘åˆ·æ–°
 		void refreshItemSelf();	
 
 };

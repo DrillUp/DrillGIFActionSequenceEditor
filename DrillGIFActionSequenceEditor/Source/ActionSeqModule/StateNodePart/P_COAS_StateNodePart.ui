@@ -36,7 +36,7 @@
        <number>0</number>
       </property>
       <property name="topMargin">
-       <number>0</number>
+       <number>9</number>
       </property>
       <property name="rightMargin">
        <number>0</number>
@@ -63,18 +63,21 @@
           <widget class="QWidget" name="widget_4" native="true">
            <property name="minimumSize">
             <size>
-             <width>200</width>
+             <width>220</width>
              <height>0</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>200</width>
+             <width>220</width>
              <height>16777215</height>
             </size>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_4">
             <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
              <number>0</number>
             </property>
             <property name="rightMargin">
@@ -161,7 +164,7 @@ QTableView::item:selected {
              <number>0</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="groupBox_2">
+             <widget class="QGroupBox" name="groupBox_param">
               <property name="title">
                <string>参数</string>
               </property>
@@ -269,7 +272,7 @@ QTableView::item:selected {
              </widget>
             </item>
             <item>
-             <widget class="QGroupBox" name="groupBox">
+             <widget class="QGroupBox" name="groupBox_play">
               <property name="title">
                <string>播放</string>
               </property>
@@ -442,14 +445,6 @@ QTableView::item:selected {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="pushButton_editDefaultRandomSeq_2">
-                   <property name="text">
-                    <string>编辑默认的
-状态元集合</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
                   <spacer name="verticalSpacer">
                    <property name="orientation">
                     <enum>Qt::Vertical</enum>
@@ -461,6 +456,14 @@ QTableView::item:selected {
                     </size>
                    </property>
                   </spacer>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="pushButton_editDefaultRandomSeq_2">
+                   <property name="text">
+                    <string>编辑默认的
+状态元集合</string>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </item>

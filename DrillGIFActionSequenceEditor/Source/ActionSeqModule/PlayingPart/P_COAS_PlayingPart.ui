@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>900</width>
+    <width>902</width>
     <height>582</height>
    </rect>
   </property>
@@ -36,7 +36,7 @@
        <number>4</number>
       </property>
       <property name="topMargin">
-       <number>4</number>
+       <number>9</number>
       </property>
       <property name="rightMargin">
        <number>4</number>
@@ -94,7 +94,7 @@ QToolButton:pressed{
          </property>
          <item>
           <widget class="QWidget" name="widget" native="true">
-           <layout class="QHBoxLayout" name="horizontalLayout" stretch="4,0,1">
+           <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,1">
             <property name="leftMargin">
              <number>0</number>
             </property>
@@ -109,6 +109,18 @@ QToolButton:pressed{
             </property>
             <item>
              <widget class="QLabel" name="label">
+              <property name="minimumSize">
+               <size>
+                <width>220</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>220</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="styleSheet">
                <string notr="true">
 font-family:&quot;微软雅黑&quot;;
@@ -131,10 +143,10 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #44
             <item>
              <widget class="QToolButton" name="toolButton_open">
               <property name="toolTip">
-               <string>启动放映</string>
+               <string>启动/关闭放映</string>
               </property>
               <property name="text">
-               <string>启动放映</string>
+               <string>启动/关闭放映</string>
               </property>
               <property name="icon">
                <iconset resource="../../../drillgifactionsequenceeditor.qrc">
@@ -180,12 +192,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #44
             </property>
             <item row="0" column="0">
              <widget class="QLabel" name="label_6">
-              <property name="styleSheet">
-               <string notr="true">font-weight:600;</string>
-              </property>
               <property name="text">
                <string>默认的
-状态元集合</string>
+状态元集合   </string>
               </property>
              </widget>
             </item>
@@ -202,10 +211,10 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #44
             <item row="0" column="2">
              <widget class="QToolButton" name="toolButton_editGroup">
               <property name="toolTip">
-               <string>编辑状态元集合</string>
+               <string>编辑默认的状态元集合</string>
               </property>
               <property name="text">
-               <string>编辑状态元集合</string>
+               <string>编辑默认的状态元集合</string>
               </property>
               <property name="icon">
                <iconset resource="../../../drillgifactionsequenceeditor.qrc">
@@ -244,12 +253,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #44
             </item>
             <item row="1" column="0">
              <widget class="QLabel" name="label_7">
-              <property name="styleSheet">
-               <string notr="true">font-weight:600;</string>
-              </property>
               <property name="text">
                <string>临时的简单
-状态元集合</string>
+状态元集合   </string>
               </property>
              </widget>
             </item>
@@ -266,10 +272,10 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #44
             <item row="1" column="2">
              <widget class="QToolButton" name="toolButton_editSimple">
               <property name="toolTip">
-               <string>编辑状态元集合</string>
+               <string>编辑临时的简单状态元集合</string>
               </property>
               <property name="text">
-               <string>编辑状态元集合</string>
+               <string>编辑临时的简单状态元集合</string>
               </property>
               <property name="icon">
                <iconset resource="../../../drillgifactionsequenceeditor.qrc">
@@ -585,7 +591,9 @@ QToolButton:pressed{
              </widget>
             </item>
             <item>
-             <widget class="QWidget" name="widget_view" native="true"/>
+             <widget class="QWidget" name="widget_view" native="true">
+              <zorder>groupBox_seq</zorder>
+             </widget>
             </item>
            </layout>
           </widget>

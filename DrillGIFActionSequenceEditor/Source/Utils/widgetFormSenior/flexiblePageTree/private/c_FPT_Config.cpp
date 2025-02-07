@@ -1,80 +1,80 @@
-#include "stdafx.h"
-#include "c_FPT_Config.h"
+ï»¿#include "stdafx.h"
+#include "C_FPT_Config.h"
 
-#include "../p_FlexiblePageTree.h"
-#include "Source/Utils/manager/chineseManager/S_ChineseManager.h"
-#include "Source/Utils/common/TTool.h"
+#include "../P_FlexiblePageTree.h"
+#include "Source/Utils/Manager/ChineseManager/S_ChineseManager.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Ê÷ÉèÖÃ Êý¾ÝÀà.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		Áé»î·ÖÀàÊ÷µÄ Ê÷ÉèÖÃ Êý¾ÝÀà¡£
+		ç±»ï¼š		æ ‘è®¾ç½® æ•°æ®ç±».cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±žæ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		çµæ´»åˆ†ç±»æ ‘çš„ æ ‘è®¾ç½® æ•°æ®ç±»ã€‚
 					
-		×Ó¹¦ÄÜ£º
-					->¿Õ¶ÔÏó
+		å­åŠŸèƒ½ï¼š
+					->ç©ºå¯¹è±¡
 					
 -----==========================================================-----
 */
 C_FPT_Config::C_FPT_Config(){
 
-	// > ÏÔÊ¾ÉèÖÃ
-	this->rowHeight = 30;
+	// > æ˜¾ç¤ºè®¾ç½®
+	this->rowHeight = 24;
 	this->zeroFill = true;
 	this->zeroFillCount = 4;
 	this->zeroFillChar = '0';
 
-	// > ·ÖÖ§Ä£Ê½
-	this->m_mode = "ID·ÖÖ§£¨°´idµÝÔöÅÅÐò£©";
-	this->m_modeList = QStringList() << "ID·ÖÖ§£¨°´idµÝÔöÅÅÐò£©" << "Ãû³Æ·ÖÖ§£¨°´Ãû³ÆµÝÔöÅÅÐò£©";
+	// > åˆ†æ”¯æ¨¡å¼
+	this->m_mode = "IDåˆ†æ”¯ï¼ˆæŒ‰idé€’å¢žæŽ’åºï¼‰";
+	this->m_modeList = QStringList() << "IDåˆ†æ”¯ï¼ˆæŒ‰idé€’å¢žæŽ’åºï¼‰" << "åç§°åˆ†æ”¯ï¼ˆæŒ‰åç§°é€’å¢žæŽ’åºï¼‰";
 
-	// > IDÒ³
+	// > IDé¡µ
 	this->pagePerNum = 30;
 
-	// > ×Ô¶¨ÒåÊý¾Ý
-	this->data = QJsonObject();
+	// > è‡ªå®šä¹‰æ•°æ®
+	this->data;
 
-	// > Ë½ÓÐÁÙÊ±¶ÔÏó
+	// > ç§æœ‰ä¸´æ—¶å¯¹è±¡
 	this->m_id_maxCount = -1;
 
-	//  £¨Ãû³ÆÁÐ±í - s_ChineseManagerÊ××ÖÄ¸¶¨Òå£©
-	this->m_name_textList = QStringList() << "- A -" << "- B -" << "- C -" << "- D -" << "- E -" << "- F -" << "- G -" << "- H -" << "- I -" << "- J -" << "- K -" << "- L -" << "- M -" << "- N -" << "- O -" << "- P -" << "- Q -" << "- R -" << "- S -" << "- T -" << "- U -" << "- V -" << "- W -" << "- X -" << "- Y -" << "- Z -" << "ÉúÆ§×Ö";
+	//  ï¼ˆåç§°åˆ—è¡¨ - s_ChineseManageré¦–å­—æ¯å®šä¹‰ï¼‰
+	this->m_name_textList = QStringList() << "- A -" << "- B -" << "- C -" << "- D -" << "- E -" << "- F -" << "- G -" << "- H -" << "- I -" << "- J -" << "- K -" << "- L -" << "- M -" << "- N -" << "- O -" << "- P -" << "- Q -" << "- R -" << "- S -" << "- T -" << "- U -" << "- V -" << "- W -" << "- X -" << "- Y -" << "- Z -" << "ç”Ÿåƒ»å­—";
 	this->m_name_symbolList = QStringList() << "A" << "B" << "C" << "D" << "E" << "F" << "G" << "H" << "I" << "J" << "K" << "L" << "M" << "N" << "O" << "P" << "Q" << "R" << "S" << "T" << "U" << "V" << "W" << "X" << "Y" << "Z" << "@";
-	//  £¨Ãû³ÆÁÐ±í - ÌØÊâ·ûºÅÇé¿ö£©
-	this->m_name_textList << "ÆäËû·ûºÅ" << "¿ÕÃû³Æ";
-	this->m_name_symbolList << "ÆäËû·ûºÅ" << "¿ÕÃû³Æ";
+	//  ï¼ˆåç§°åˆ—è¡¨ - ç‰¹æ®Šç¬¦å·æƒ…å†µï¼‰
+	this->m_name_textList << "å…¶ä»–ç¬¦å·" << "ç©ºåç§°";
+	this->m_name_symbolList << "å…¶ä»–ç¬¦å·" << "ç©ºåç§°";
 }
 C_FPT_Config::~C_FPT_Config(){
 }
 
 
 /*-------------------------------------------------
-		·ÖÖ§Ä£Ê½ - ÉèÖÃµ±Ç°Ä£Ê½
+		åˆ†æ”¯æ¨¡å¼ - è®¾ç½®å½“å‰æ¨¡å¼
 */
 void C_FPT_Config::setCurrentMode(QString sortMode){
 	this->m_mode = sortMode;
 }
 /*-------------------------------------------------
-		·ÖÖ§Ä£Ê½ - »ñÈ¡µ±Ç°Ä£Ê½
+		åˆ†æ”¯æ¨¡å¼ - èŽ·å–å½“å‰æ¨¡å¼
 */
 QString C_FPT_Config::getCurrentMode(){
 	return this->m_mode;
 }
 bool C_FPT_Config::is_id_Mode(){
-	return this->m_mode == "ID·ÖÖ§£¨°´idµÝÔöÅÅÐò£©";
+	return this->m_mode == "IDåˆ†æ”¯ï¼ˆæŒ‰idé€’å¢žæŽ’åºï¼‰";
 }
 bool C_FPT_Config::is_name_Mode(){
-	return this->m_mode == "Ãû³Æ·ÖÖ§£¨°´Ãû³ÆµÝÔöÅÅÐò£©";
+	return this->m_mode == "åç§°åˆ†æ”¯ï¼ˆæŒ‰åç§°é€’å¢žæŽ’åºï¼‰";
 }
 /*-------------------------------------------------
-		·ÖÖ§Ä£Ê½ - ÉèÖÃÄ£Ê½ÁÐ±í
+		åˆ†æ”¯æ¨¡å¼ - è®¾ç½®æ¨¡å¼åˆ—è¡¨
 */
 void C_FPT_Config::setModeList(QStringList sortModeList){
 	this->m_modeList = sortModeList;
 }
 /*-------------------------------------------------
-		·ÖÖ§Ä£Ê½ - »ñÈ¡Ä£Ê½ÁÐ±í
+		åˆ†æ”¯æ¨¡å¼ - èŽ·å–æ¨¡å¼åˆ—è¡¨
 */
 QStringList C_FPT_Config::getModeList(){
 	return this->m_modeList;
@@ -83,26 +83,26 @@ QStringList C_FPT_Config::getModeList(){
 
 
 /*-------------------------------------------------
-		IDÒ³ - ÉèÖÃ×î´óÖµ
+		IDé¡µ - è®¾ç½®æœ€å¤§å€¼
 */
 void C_FPT_Config::set_id_MaxCount(int count){
 	this->m_id_maxCount = count;
 }
 /*-------------------------------------------------
-		IDÒ³ - »ñÈ¡×î´óÖµ
+		IDé¡µ - èŽ·å–æœ€å¤§å€¼
 */
 int C_FPT_Config::get_id_MaxCount(){
 	return this->m_id_maxCount;
 }
 /*-------------------------------------------------
-		IDÒ³ - »ñÈ¡Ò³Êý
+		IDé¡µ - èŽ·å–é¡µæ•°
 */
 int C_FPT_Config::get_id_PageCount(){
 	if (this->m_id_maxCount <= 0){ return -1; }
 	return qCeil((double)this->m_id_maxCount / this->pagePerNum);
 }
 /*-------------------------------------------------
-		IDÒ³ - »ñÈ¡µ×
+		IDé¡µ - èŽ·å–åº•
 */
 int C_FPT_Config::get_id_Bottom(int page_index){
 	int bottom = page_index * this->pagePerNum + 1;
@@ -110,7 +110,7 @@ int C_FPT_Config::get_id_Bottom(int page_index){
 	return bottom;
 }
 /*-------------------------------------------------
-		IDÒ³ - »ñÈ¡¶¥
+		IDé¡µ - èŽ·å–é¡¶
 */
 int C_FPT_Config::get_id_Top(int page_index){
 	int top = (page_index + 1) * this->pagePerNum;
@@ -122,7 +122,7 @@ int C_FPT_Config::get_id_Top(int page_index){
 	return top;
 }
 /*-------------------------------------------------
-		IDÒ³ - »ñÈ¡Ê÷Ö¦Ãû³Æ£¨¸ù¾ÝÒ³Ë÷Òý£©
+		IDé¡µ - èŽ·å–æ ‘æžåç§°ï¼ˆæ ¹æ®é¡µç´¢å¼•ï¼‰
 */
 QString C_FPT_Config::get_id_PageNameByIndex(int page_index){
 	int bottom = this->get_id_Bottom(page_index);
@@ -131,19 +131,19 @@ QString C_FPT_Config::get_id_PageNameByIndex(int page_index){
 	if (top == -1){ return ""; }
 
 	QString page_name = "";
-	page_name = "µÚ" + S_ChineseManager::getInstance()->toChineseNumLower(page_index + 1) + "Ò³ ";
+	page_name = "ç¬¬" + S_ChineseManager::getInstance()->toChineseNumLower(page_index + 1) + "é¡µ ";
 
-	// > id±àºÅ
+	// > idç¼–å·
 	if (this->zeroFill){
 		page_name += TTool::_zeroFill_(bottom, this->zeroFillCount, QLatin1Char(this->zeroFillChar.toLatin1()))
-			+ "ÖÁ" + TTool::_zeroFill_(top, this->zeroFillCount, QLatin1Char(this->zeroFillChar.toLatin1()));
+			+ "è‡³" + TTool::_zeroFill_(top, this->zeroFillCount, QLatin1Char(this->zeroFillChar.toLatin1()));
 	}else{
-		page_name += QString::number(bottom) + "ÖÁ" + QString::number(top);
+		page_name += QString::number(bottom) + "è‡³" + QString::number(top);
 	}
 	return page_name;
 }
 /*-------------------------------------------------
-		IDÒ³ - »ñÈ¡ID¸ñÊ½»¯Ãû³Æ
+		IDé¡µ - èŽ·å–IDæ ¼å¼åŒ–åç§°
 */
 QString C_FPT_Config::get_id_FormatedId(int id){
 	QString result = "";
@@ -157,19 +157,19 @@ QString C_FPT_Config::get_id_FormatedId(int id){
 
 
 /*-------------------------------------------------
-		Ãû³ÆÒ³ - »ñÈ¡Ò³Êý
+		åç§°é¡µ - èŽ·å–é¡µæ•°
 */
 int C_FPT_Config::get_name_PageCount(){
 	return this->m_name_textList.count();
 }
 /*-------------------------------------------------
-		Ãû³ÆÒ³ - »ñÈ¡Ãû³ÆÁÐ±í
+		åç§°é¡µ - èŽ·å–åç§°åˆ—è¡¨
 */
 QStringList C_FPT_Config::get_name_PageNameList(){
 	return this->m_name_textList;
 }
 /*-------------------------------------------------
-		Ãû³ÆÒ³ - »ñÈ¡±êÊ¶ÁÐ±í
+		åç§°é¡µ - èŽ·å–æ ‡è¯†åˆ—è¡¨
 */
 QStringList C_FPT_Config::get_name_PageSymbolList(){
 	return this->m_name_symbolList;
@@ -177,54 +177,54 @@ QStringList C_FPT_Config::get_name_PageSymbolList(){
 
 
 /*-------------------------------------------------
-		×Ô¶¨ÒåÊý¾Ý - »ñÈ¡Êý¾Ý
+		è‡ªå®šä¹‰æ•°æ® - èŽ·å–æ•°æ®
 */
 QJsonObject C_FPT_Config::getCustomData(){
 	return this->data;
 }
 
 /*-------------------------------------------------
-		ÊµÌåÀà -> QJsonObject
+		å®žä½“ç±» -> QJsonObject
 */
 QJsonObject C_FPT_Config::getJsonObject(){
-	QJsonObject obj = QJsonObject();
+	QJsonObject obj;
 
-	// > ÏÔÊ¾ÉèÖÃ
+	// > æ˜¾ç¤ºè®¾ç½®
 	obj.insert("rowHeight", this->rowHeight);
 	obj.insert("zeroFill", this->zeroFill);
 	obj.insert("zeroFillCount", this->zeroFillCount);
 	obj.insert("zeroFillChar", QString(this->zeroFillChar));
 
-	// > ·ÖÖ§Ä£Ê½
+	// > åˆ†æ”¯æ¨¡å¼
 	obj.insert("sortType", this->m_mode);
-	//£¨m_sortModeListÓÃÓÚ¼Ì³Ð¿ØÖÆ£¬²»´æ£©
+	//ï¼ˆm_sortModeListç”¨äºŽç»§æ‰¿æŽ§åˆ¶ï¼Œä¸å­˜ï¼‰
 
-	// > IDÒ³
+	// > IDé¡µ
 	obj.insert("pagePerNum", this->pagePerNum);
 
-	// > ×Ô¶¨ÒåÊý¾Ý
+	// > è‡ªå®šä¹‰æ•°æ®
 	obj.insert("data", this->data);
 
 	return obj;
 }
 /*-------------------------------------------------
-		QJsonObject -> ÊµÌåÀà
+		QJsonObject -> å®žä½“ç±»
 */
 void C_FPT_Config::setJsonObject(QJsonObject obj, P_FlexiblePageTree* parent_obj){
 
-	// > ÏÔÊ¾ÉèÖÃ
+	// > æ˜¾ç¤ºè®¾ç½®
 	if (obj.value("rowHeight").isUndefined() == false){ this->rowHeight = obj.value("rowHeight").toInt(); }
 	if (obj.value("zeroFill").isUndefined() == false){ this->zeroFill = obj.value("zeroFill").toBool(); }
 	if (obj.value("zeroFillCount").isUndefined() == false){ this->zeroFillCount = obj.value("zeroFillCount").toInt(); }
 	if (obj.value("zeroFillChar").isUndefined() == false){ this->zeroFillChar = obj.value("zeroFillChar").toString().at(0); }
 
-	// > ·ÖÖ§Ä£Ê½
+	// > åˆ†æ”¯æ¨¡å¼
 	if (obj.value("sortType").isUndefined() == false){ this->m_mode = obj.value("sortType").toString(); }
-	//£¨m_sortModeListÓÃÓÚ¼Ì³Ð¿ØÖÆ£¬²»´æ£©
+	//ï¼ˆm_sortModeListç”¨äºŽç»§æ‰¿æŽ§åˆ¶ï¼Œä¸å­˜ï¼‰
 
-	// > IDÒ³
+	// > IDé¡µ
 	if (obj.value("pagePerNum").isUndefined() == false){ this->pagePerNum = obj.value("pagePerNum").toInt(); }
 
-	// > ×Ô¶¨ÒåÊý¾Ý
+	// > è‡ªå®šä¹‰æ•°æ®
 	if (obj.value("data").isUndefined() == false){ this->data = obj.value("data").toObject(); }
 }

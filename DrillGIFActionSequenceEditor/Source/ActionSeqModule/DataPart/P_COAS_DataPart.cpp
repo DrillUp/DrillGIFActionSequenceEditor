@@ -52,10 +52,11 @@ P_COAS_DataPart::P_COAS_DataPart(QWidget *parent)
 	config->rowHeight = 32;
 	config->setCurrentMode("自定义分支（按id递增排序）");
 	this->m_p_tree->setConfigEx(config);
-	connect(this->m_p_tree, &P_FlexibleClassificationTree::currentLeafChanged, this, &P_COAS_DataPart::currentActionSeqChanged);
-	connect(this->m_p_tree, &P_FlexibleClassificationTree::menuCopyLeafTriggered, this, &P_COAS_DataPart::shortcut_copyData);
-	connect(this->m_p_tree, &P_FlexibleClassificationTree::menuPasteLeafTriggered, this, &P_COAS_DataPart::shortcut_pasteData);
-	connect(this->m_p_tree, &P_FlexibleClassificationTree::menuClearLeafTriggered, this, &P_COAS_DataPart::shortcut_clearData);
+	connect(this->m_p_tree, &P_FlexibleClassificationTree::signal_currentLeafChanged, this, &P_COAS_DataPart::currentActionSeqChanged);
+	connect(this->m_p_tree, &P_FlexibleClassificationTree::signal_anyWindowLocked, ui.widget_editPart, &QWidget::setDisabled);	//（打开动画序列配置时，置灰动画序列编辑区域）
+	connect(this->m_p_tree, &P_FlexibleClassificationTree::signal_menuCopyLeafTriggered, this, &P_COAS_DataPart::shortcut_copyData);
+	connect(this->m_p_tree, &P_FlexibleClassificationTree::signal_menuPasteLeafTriggered, this, &P_COAS_DataPart::shortcut_pasteData);
+	connect(this->m_p_tree, &P_FlexibleClassificationTree::signal_menuClearLeafTriggered, this, &P_COAS_DataPart::shortcut_clearData);
 
 	// > 水平分割线
 	ui.splitter->setStretchFactor(0, 4);		//（比例变化比较奇怪，暂时这样吧）
@@ -86,10 +87,6 @@ void P_COAS_DataPart::currentActionSeqChanged(QTreeWidgetItem* item, int id, QSt
 
 	// > 新数据填充
 	this->local_loadIndexData(id - 1);
-	
-
-	// > 树选择变化时，清理 放映区 的临时简单状态元
-	this->m_playingPart->clearSimpleState();
 }
 
 
@@ -149,7 +146,12 @@ void P_COAS_DataPart::local_loadIndexData(int index){
 	// > 子控件 - 标签
 	ui.widget_editPart->setEnabled(true);
 	ui.lineEdit->setText(action_data->m_COAS_name);
-	
+	QString label_text;
+	label_text.append("【动画序列");
+	label_text.append(QString::number(action_data->m_COAS_id));
+	label_text.append("】  标签");
+	ui.label->setText(label_text);
+
 	// > 子控件 - 动作元块
 	this->m_actionPart->setData(action_data->m_act_tank);
 
@@ -162,6 +164,7 @@ void P_COAS_DataPart::local_loadIndexData(int index){
 	// > 子控件 - 放映区
 	this->m_playingPart->stopFrame();
 	this->m_playingPart->putDataToUi();
+	this->m_playingPart->clearSimpleState();	//（清理 放映区 的临时简单状态元）
 
 }
 

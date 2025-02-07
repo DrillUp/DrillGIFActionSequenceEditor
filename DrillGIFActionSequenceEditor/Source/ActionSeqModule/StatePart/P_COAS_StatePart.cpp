@@ -136,6 +136,9 @@ void P_COAS_StatePart::backRunChanged(bool checked){
 */
 void P_COAS_StatePart::btn_editTagTank(){
 	W_QStringListEditor d(this);
+	d.setParamShowingName("状态元 标签");
+	d.setParamDescription("标签名不可重复。");
+	d.setParamListDescription("你可以在游戏中通过 插件指令 执行标签播放，播放时将找出含指定标签的状态元，然后播放。（具体需要看 插件指令用法）");
 	d.setDataInModifyMode(this->m_curTagTank);
 	if (d.exec() == QDialog::Accepted){
 		this->m_curTagTank = d.getData();
@@ -349,6 +352,23 @@ void P_COAS_StatePart::local_loadIndexData(int index){
 
 	// > 直接数据指针中读取值
 	C_COAS_StatePtr state_ptr = this->m_stateDataList.at(index);
+
+	// > 标签
+	QString label_text;
+	label_text.append("参数 [状态元");
+	label_text.append(QString::number(state_ptr->id + 1));
+	label_text.append("]");
+	ui.groupBox_param->setTitle(label_text);
+	label_text = "";
+	label_text.append("动画帧 [状态元");
+	label_text.append(QString::number(state_ptr->id + 1));
+	label_text.append("]");
+	ui.groupBox_animPlayer->setTitle(label_text);
+	label_text = "";
+	label_text.append("视图 [状态元");
+	label_text.append(QString::number(state_ptr->id + 1));
+	label_text.append("]");
+	ui.groupBox_view->setTitle(label_text);
 
 	// > 常规
 	ui.lineEdit_name->setText(state_ptr->name);

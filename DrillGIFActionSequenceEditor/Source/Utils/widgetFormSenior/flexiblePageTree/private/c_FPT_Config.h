@@ -1,13 +1,13 @@
-#pragma once
+ï»¿#pragma once
 
 
 /*
 -----==========================================================-----
-		Àà£º		Ê÷ÉèÖÃ Êý¾ÝÀà.h
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		Áé»î·ÖÀàÊ÷µÄ Ê÷ÉèÖÃ Êý¾ÝÀà¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		æ ‘è®¾ç½® æ•°æ®ç±».h
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±žæ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		çµæ´»åˆ†ç±»æ ‘çš„ æ ‘è®¾ç½® æ•°æ®ç±»ã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 class P_FlexiblePageTree;
@@ -18,84 +18,84 @@ class C_FPT_Config{
 		~C_FPT_Config();
 		
 	//-----------------------------------
-	//----ÏÔÊ¾ÉèÖÃ
+	//----æ˜¾ç¤ºè®¾ç½®
 	public:
-		int rowHeight;				//ÐÐ¸ß
-		bool zeroFill;				//ÁãÌî³ä
-		int zeroFillCount;			//Ìî³äÎ»Êý
-		QChar zeroFillChar;			//Ìî³ä×Ö·û
+		int rowHeight;				//è¡Œé«˜
+		bool zeroFill;				//é›¶å¡«å……
+		int zeroFillCount;			//å¡«å……ä½æ•°
+		QChar zeroFillChar;			//å¡«å……å­—ç¬¦
 
 	
 	//-----------------------------------
-	//----·ÖÖ§Ä£Ê½
+	//----åˆ†æ”¯æ¨¡å¼
 	protected:
-		QString m_mode;				//µ±Ç°Ä£Ê½
-		QStringList m_modeList;		//Ä£Ê½ÁÐ±í
+		QString m_mode;				//å½“å‰æ¨¡å¼
+		QStringList m_modeList;		//æ¨¡å¼åˆ—è¡¨
 	public:
-									//·ÖÖ§Ä£Ê½ - ÉèÖÃµ±Ç°Ä£Ê½
+									//åˆ†æ”¯æ¨¡å¼ - è®¾ç½®å½“å‰æ¨¡å¼
 		void setCurrentMode(QString sortMode);
-									//·ÖÖ§Ä£Ê½ - »ñÈ¡µ±Ç°Ä£Ê½
+									//åˆ†æ”¯æ¨¡å¼ - èŽ·å–å½“å‰æ¨¡å¼
 		QString getCurrentMode();
-									//·ÖÖ§Ä£Ê½ - ÉèÖÃÄ£Ê½ÁÐ±í
+									//åˆ†æ”¯æ¨¡å¼ - è®¾ç½®æ¨¡å¼åˆ—è¡¨
 		void setModeList(QStringList sortModeList);
-									//·ÖÖ§Ä£Ê½ - »ñÈ¡Ä£Ê½ÁÐ±í
+									//åˆ†æ”¯æ¨¡å¼ - èŽ·å–æ¨¡å¼åˆ—è¡¨
 		QStringList getModeList();
-									//·ÖÖ§Ä£Ê½ - ÅÐ¶Ï ID·ÖÖ§ Ä£Ê½
+									//åˆ†æ”¯æ¨¡å¼ - åˆ¤æ–­ IDåˆ†æ”¯ æ¨¡å¼
 		bool is_id_Mode();
-									//·ÖÖ§Ä£Ê½ - ÅÐ¶Ï Ãû³Æ·ÖÖ§ Ä£Ê½
+									//åˆ†æ”¯æ¨¡å¼ - åˆ¤æ–­ åç§°åˆ†æ”¯ æ¨¡å¼
 		bool is_name_Mode();
 		
 
 	//-----------------------------------
-	//----IDÒ³
+	//----IDé¡µ
 	public:
-		int pagePerNum;				//ID·ÖÖ§Ã¿Ò³ÌõÊý
+		int pagePerNum;				//IDåˆ†æ”¯æ¯é¡µæ¡æ•°
 	protected:
-		int m_id_maxCount;			//×î´óÖµ£¨Ë½ÓÐÁÙÊ±¶ÔÏó£©
+		int m_id_maxCount;			//æœ€å¤§å€¼ï¼ˆç§æœ‰ä¸´æ—¶å¯¹è±¡ï¼‰
 	public:
-									//IDÒ³ - ÉèÖÃ×î´óÖµ
-									//		¡¾ËµÃ÷¡¿£º×¢Òâ£¬±ØÐëÒªÏÈ¸³Öµ£¬ÔÚÖ´ÐÐºóÃæµÄ»ñÈ¡º¯Êý£¬²»È»¶¼»áµÃµ½-1ºÍ¿Õ×Ö·û´®¡£
+									//IDé¡µ - è®¾ç½®æœ€å¤§å€¼
+									//		ã€è¯´æ˜Žã€‘ï¼šæ³¨æ„ï¼Œå¿…é¡»è¦å…ˆèµ‹å€¼ï¼Œåœ¨æ‰§è¡ŒåŽé¢çš„èŽ·å–å‡½æ•°ï¼Œä¸ç„¶éƒ½ä¼šå¾—åˆ°-1å’Œç©ºå­—ç¬¦ä¸²ã€‚
 		void set_id_MaxCount(int count);
-									//IDÒ³ - »ñÈ¡×î´óÖµ
+									//IDé¡µ - èŽ·å–æœ€å¤§å€¼
 		int get_id_MaxCount();
 	public:
-									//IDÒ³ - »ñÈ¡Ò³Êý
+									//IDé¡µ - èŽ·å–é¡µæ•°
 		int get_id_PageCount();
-									//IDÒ³ - »ñÈ¡µ×
+									//IDé¡µ - èŽ·å–åº•
 		int get_id_Bottom(int page_index);
-									//IDÒ³ - »ñÈ¡¶¥
+									//IDé¡µ - èŽ·å–é¡¶
 		int get_id_Top(int page_index);
-									//IDÒ³ - »ñÈ¡Ò³Ãû³Æ£¨¸ù¾ÝÒ³Ë÷Òý£©
+									//IDé¡µ - èŽ·å–é¡µåç§°ï¼ˆæ ¹æ®é¡µç´¢å¼•ï¼‰
 		QString get_id_PageNameByIndex(int page_index);
-									//IDÒ³ - »ñÈ¡¸ñÊ½»¯µÄID
+									//IDé¡µ - èŽ·å–æ ¼å¼åŒ–çš„ID
 		QString get_id_FormatedId(int id);
 		
 	//-----------------------------------
-	//----Ãû³ÆÒ³
+	//----åç§°é¡µ
 	protected:
-		QStringList m_name_textList;	//Ãû³ÆÁÐ±í
-		QStringList m_name_symbolList;	//±êÊ¶ÁÐ±í
+		QStringList m_name_textList;	//åç§°åˆ—è¡¨
+		QStringList m_name_symbolList;	//æ ‡è¯†åˆ—è¡¨
 	public:
-									//Ãû³ÆÒ³ - »ñÈ¡Ò³Êý
+									//åç§°é¡µ - èŽ·å–é¡µæ•°
 		int get_name_PageCount();
-									//Ãû³ÆÒ³ - »ñÈ¡Ãû³ÆÁÐ±í
+									//åç§°é¡µ - èŽ·å–åç§°åˆ—è¡¨
 		QStringList get_name_PageNameList();
-									//Ãû³ÆÒ³ - »ñÈ¡±êÊ¶ÁÐ±í
+									//åç§°é¡µ - èŽ·å–æ ‡è¯†åˆ—è¡¨
 		QStringList get_name_PageSymbolList();
 		
 	//-----------------------------------
-	//----×Ô¶¨ÒåÊý¾Ý
+	//----è‡ªå®šä¹‰æ•°æ®
 	protected:
 		QJsonObject data;
 	public:
-									//×Ô¶¨ÒåÊý¾Ý - »ñÈ¡Êý¾Ý
+									//è‡ªå®šä¹‰æ•°æ® - èŽ·å–æ•°æ®
 		QJsonObject getCustomData();
 		
 	//-----------------------------------
-	//----ÀàÊôÐÔ
+	//----ç±»å±žæ€§
 	public:
-									//ÊµÌåÀà -> QJsonObject
+									//å®žä½“ç±» -> QJsonObject
 		virtual QJsonObject getJsonObject();
-									//QJsonObject -> ÊµÌåÀà
+									//QJsonObject -> å®žä½“ç±»
 		virtual void setJsonObject(QJsonObject obj, P_FlexiblePageTree* parent_obj);
 };

@@ -53,6 +53,9 @@ P_AnimationListPlayer::P_AnimationListPlayer(QWidget *parent)
 	this->m_IndexFrameCount = 0;				//总时间帧数
 	this->m_isPlaying = false;					//是否正在播放
 
+	// > 下拉框高度
+	TTool::_ChangeCombox_itemHeight_(ui.combo, 26);
+
 	// > 倒放
 	this->m_isBackRun = false;					//是否倒放
 

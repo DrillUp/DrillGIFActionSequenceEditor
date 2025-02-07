@@ -1,17 +1,18 @@
-#ifndef W_ObjectSortList_H
+ï»¿#ifndef W_ObjectSortList_H
 #define W_ObjectSortList_H
+#include "stdafx.h"
 
-#include "c_ObjectSortData.h"
+#include "C_ObjectSortData.h"
 
 /*
 -----==========================================================-----
-		Àà£º		¶ÔÏóÅÅĞò ¿ØÖÆÆ÷.h
-		°æ±¾£º		v1.02
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		ÄÜ½«Ö¸¶¨ÊäÈëµÄÁĞ±í½øĞĞÅÅĞò£¬·µ»ØÅÅĞò×ø±ê¡¢Ò²¿ÉÌá¹©·ÖÒ³¹¦ÄÜ¡£
-					ÉèÖÃÊı¾İ£¨setData£©Ê±£¬¡¾¿ØÖÆÆ÷²ÅÅÅĞòÒ»´Î¡¿£¬»áÖØË¢¿ØÖÆÆ÷µÄËùÓĞÊı¾İ¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		å¯¹è±¡æ’åº æ§åˆ¶å™¨.h
+		ç‰ˆæœ¬ï¼š		v1.02
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		èƒ½å°†æŒ‡å®šè¾“å…¥çš„åˆ—è¡¨è¿›è¡Œæ’åºï¼Œè¿”å›æ’åºåæ ‡ã€ä¹Ÿå¯æä¾›åˆ†é¡µåŠŸèƒ½ã€‚
+					è®¾ç½®æ•°æ®ï¼ˆsetDataï¼‰æ—¶ï¼Œã€æ§åˆ¶å™¨æ‰æ’åºä¸€æ¬¡ã€‘ï¼Œä¼šé‡åˆ·æ§åˆ¶å™¨çš„æ‰€æœ‰æ•°æ®ã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 class P_ObjectSortController : public QObject
@@ -23,131 +24,131 @@ class P_ObjectSortController : public QObject
 		~P_ObjectSortController();
 		
 	//-----------------------------------
-	//----Êı¾İ
+	//----æ•°æ®
 	protected:
-		QList<QJsonObject>* local_org_objList;						//ÔØÈëÊ±µÄobj
-		QList<C_ObjectSortData*> local_org_dataList;				//ÔØÈëÊ±µÄÅÅĞòÊı¾İÁĞ±í
-		QString m_symbol_id;										//±êÊ¶Ãûid
-		QString m_symbol_name;										//±êÊ¶Ãûname
-		QString m_symbol_type;										//±êÊ¶Ãûtype
+		QList<QJsonObject>* local_org_objList;						//è½½å…¥æ—¶çš„obj
+		QList<C_ObjectSortData*> local_org_dataList;				//è½½å…¥æ—¶çš„æ’åºæ•°æ®åˆ—è¡¨
+		QString m_symbol_id;										//æ ‡è¯†åid
+		QString m_symbol_name;										//æ ‡è¯†åname
+		QString m_symbol_type;										//æ ‡è¯†åtype
 	public:
-												//Êı¾İ - ÉèÖÃÊı¾İ£¨¶ÔÏóÁĞ±í£©
-												//		¡¾²ÎÊı1¡¿obj¶ÔÏóÁĞ±í£¨Ä¬ÈÏ»áËÑË÷ id, name, type£©
-												//		¡¾²ÎÊı2¡¿id±êÊ¶Ãû£¨ÌØÊâ³ÆºôÓÃ£¬±ÈÈç·ÅµÄÊÇ"sid"£©
-												//		¡¾²ÎÊı3¡¿name±êÊ¶Ãû£¨ÌØÊâ³ÆºôÓÃ£©
-												//		¡¾²ÎÊı4¡¿type±êÊ¶Ãû£¨ÌØÊâ³ÆºôÓÃ£©
-												//		¡¾ËµÃ÷¡¿ÉèÖÃÁË¶ÔÏóÁĞ±í£¬¾ÍÄÜ´Ó JsonObject»ñÈ¡º¯Êı ÖĞ»ñÈ¡µ½¶ÔÏó¡£
+												//æ•°æ® - è®¾ç½®æ•°æ®ï¼ˆå¯¹è±¡åˆ—è¡¨ï¼‰
+												//		ã€å‚æ•°1ã€‘objå¯¹è±¡åˆ—è¡¨ï¼ˆé»˜è®¤ä¼šæœç´¢ id, name, typeï¼‰
+												//		ã€å‚æ•°2ã€‘idæ ‡è¯†åï¼ˆç‰¹æ®Šç§°å‘¼ç”¨ï¼Œæ¯”å¦‚æ”¾çš„æ˜¯"sid"ï¼‰
+												//		ã€å‚æ•°3ã€‘nameæ ‡è¯†åï¼ˆç‰¹æ®Šç§°å‘¼ç”¨ï¼‰
+												//		ã€å‚æ•°4ã€‘typeæ ‡è¯†åï¼ˆç‰¹æ®Šç§°å‘¼ç”¨ï¼‰
+												//		ã€è¯´æ˜ã€‘è®¾ç½®äº†å¯¹è±¡åˆ—è¡¨ï¼Œå°±èƒ½ä» JsonObjectè·å–å‡½æ•° ä¸­è·å–åˆ°å¯¹è±¡ã€‚
 		void setData_FromObject(QList<QJsonObject>* obj_list);
 		void setData_FromObject(QList<QJsonObject>* obj_list, QString id_symbol, QString name_symbol, QString type_symbol);
-												//Êı¾İ - ÉèÖÃÊı¾İ£¨ÅÅĞòÊı¾İÁĞ±í£©
-												//		¡¾²ÎÊı¡¿idÁĞ±í
-												//		¡¾ËµÃ÷¡¿arrIndex¿ÉÒÔ²»Ìî£¬¸³ÖµÊ±ÓÃ²»ÉÏ¡£
+												//æ•°æ® - è®¾ç½®æ•°æ®ï¼ˆæ’åºæ•°æ®åˆ—è¡¨ï¼‰
+												//		ã€å‚æ•°ã€‘idåˆ—è¡¨
+												//		ã€è¯´æ˜ã€‘arrIndexå¯ä»¥ä¸å¡«ï¼Œèµ‹å€¼æ—¶ç”¨ä¸ä¸Šã€‚
 		void setData_FromSortData(QList<C_ObjectSortData> sort_data_list);
-												//Êı¾İ - ÉèÖÃÊı¾İ£¨»ù±¾ÁĞ±í£©
-												//		¡¾²ÎÊı1¡¿idÁĞ±í
-												//		¡¾²ÎÊı2¡¿nameÁĞ±í
-												//		¡¾²ÎÊı3¡¿typeÁĞ±í
-												//		¡¾ËµÃ÷¡¿²ÎÊıµÄÁĞ±í³¤¶È±ØĞëÒ»ÖÂ¡£ÈôÉèÖÃÎª»ù±¾ÁĞ±í£¬Ôò JsonObject»ñÈ¡º¯Êı Ö»ÄÜÎª¿Õ¡£
+												//æ•°æ® - è®¾ç½®æ•°æ®ï¼ˆåŸºæœ¬åˆ—è¡¨ï¼‰
+												//		ã€å‚æ•°1ã€‘idåˆ—è¡¨
+												//		ã€å‚æ•°2ã€‘nameåˆ—è¡¨
+												//		ã€å‚æ•°3ã€‘typeåˆ—è¡¨
+												//		ã€è¯´æ˜ã€‘å‚æ•°çš„åˆ—è¡¨é•¿åº¦å¿…é¡»ä¸€è‡´ã€‚è‹¥è®¾ç½®ä¸ºåŸºæœ¬åˆ—è¡¨ï¼Œåˆ™ JsonObjectè·å–å‡½æ•° åªèƒ½ä¸ºç©ºã€‚
 		void setData_FromBasic(QList<int> id_list, QList<QString> name_list);
 		void setData_FromBasic(QList<int> id_list, QList<QString> name_list, QList<QString> type_list);
 
-												//Êı¾İ - Çå³ıµ±Ç°È«²¿»º´æ
+												//æ•°æ® - æ¸…é™¤å½“å‰å…¨éƒ¨ç¼“å­˜
 		void clearAll();
-												//Êı¾İ - »ñÈ¡Êı¾İÊıÁ¿
+												//æ•°æ® - è·å–æ•°æ®æ•°é‡
 		int getDataCount();
-												//Êı¾İJsonObject - ÉèÖÃµÄÊı¾İÊÇ·ñÎªJsonObject¶ÔÏó
+												//æ•°æ®JsonObject - è®¾ç½®çš„æ•°æ®æ˜¯å¦ä¸ºJsonObjectå¯¹è±¡
 		bool isObjectData();
-												//Êı¾İJsonObject - ĞŞ¸Ä±êÊ¶Ãû
+												//æ•°æ®JsonObject - ä¿®æ”¹æ ‡è¯†å
 		void modifySymbol(QString id_symbol, QString name_symbol, QString type_symbol);
-												//Êı¾İJsonObject - »ñÈ¡±êÊ¶Ãû
+												//æ•°æ®JsonObject - è·å–æ ‡è¯†å
 		QString getSymbolId();
 		QString getSymbolName();
 		QString getSymbolType();
 
 	//-----------------------------------
-	//----ÅÅĞò½á¹û
+	//----æ’åºç»“æœ
 	public:
-												//ÅÅĞò½á¹û - ¸ù¾İË÷ÒıĞòÁĞ£¬»ñÈ¡µ½Êı¾İ
+												//æ’åºç»“æœ - æ ¹æ®ç´¢å¼•åºåˆ—ï¼Œè·å–åˆ°æ•°æ®
 		C_ObjectSortData* getSortData_ByIndex(int arrIndex);
 		QList<C_ObjectSortData*> getSortDataList_ByIndex(QList<int> arrIndex_list);
-												//ÅÅĞò½á¹û - ¸ù¾İË÷ÒıĞòÁĞ£¬»ñÈ¡µ½Êı¾İ£¨×¢Òâ£¬Èç¹û¸³ÖµÊ±²»ÊÇFromObject£¬Ôò·µ»Ø¿Õ£©
+												//æ’åºç»“æœ - æ ¹æ®ç´¢å¼•åºåˆ—ï¼Œè·å–åˆ°æ•°æ®ï¼ˆæ³¨æ„ï¼Œå¦‚æœèµ‹å€¼æ—¶ä¸æ˜¯FromObjectï¼Œåˆ™è¿”å›ç©ºï¼‰
 		QJsonObject getObjectData_ByIndex(int arrIndex);
 		QList<QJsonObject> getObjectDataList_ByIndex(QList<int> arrIndex_list);
 
 	//-----------------------------------
-	//----IDÅÅĞò
+	//----IDæ’åº
 	protected:
-		QList<C_ObjectSortData*> local_dataList_orderBy_IdInc;		//°´IDµİÔöµÄÁĞ±í
-		QList<C_ObjectSortData*> local_dataList_orderBy_IdDec;		//°´IDµİ¼õµÄÁĞ±í
+		QList<C_ObjectSortData*> local_dataList_orderBy_IdInc;		//æŒ‰IDé€’å¢çš„åˆ—è¡¨
+		QList<C_ObjectSortData*> local_dataList_orderBy_IdDec;		//æŒ‰IDé€’å‡çš„åˆ—è¡¨
 	public:
-												//ID - ³õÊ¼»¯£¨×Ô¶¯£©
+												//ID - åˆå§‹åŒ–ï¼ˆè‡ªåŠ¨ï¼‰
 		void initSort_Id_IfRequire();
-												//ID - »ñÈ¡Ë÷ÒıĞòÁĞ£¨ÉıĞò£©
+												//ID - è·å–ç´¢å¼•åºåˆ—ï¼ˆå‡åºï¼‰
 		QList<int> get_IdInc_IndexSeq();
 		QList<int> get_IdInc_IndexSeq(int bottom, int top);
-												//ID - »ñÈ¡Ö¸¶¨Ò³µÄË÷ÒıĞòÁĞ£¨ÉıĞò£©
+												//ID - è·å–æŒ‡å®šé¡µçš„ç´¢å¼•åºåˆ—ï¼ˆå‡åºï¼‰
 		QList<int> get_IdInc_PageIndexList(int page_index, int page_per_count);
 
-												//ID - »ñÈ¡Ë÷ÒıĞòÁĞ£¨½µĞò£©
+												//ID - è·å–ç´¢å¼•åºåˆ—ï¼ˆé™åºï¼‰
 		QList<int> get_IdDec_IndexSeq();
 		QList<int> get_IdDec_IndexSeq(int bottom, int top);
-												//ID - »ñÈ¡Ö¸¶¨Ò³µÄË÷ÒıĞòÁĞ£¨½µĞò£©
+												//ID - è·å–æŒ‡å®šé¡µçš„ç´¢å¼•åºåˆ—ï¼ˆé™åºï¼‰
 		QList<int> get_IdDec_PageIndexList(int page_index, int page_per_count);
 		
 	//-----------------------------------
-	//----Ãû³ÆÅÅĞò
+	//----åç§°æ’åº
 	protected:
-		QList<C_ObjectSortData*> local_dataList_orderBy_NameInc;	//°´Ãû³ÆµİÔöµÄÁĞ±í
-		QList<C_ObjectSortData*> local_dataList_orderBy_NameDec;	//°´Ãû³Æµİ¼õµÄÁĞ±í
-		QString m_firstCharSeq;										//Ê××ÖÄ¸ĞòÁĞ
+		QList<C_ObjectSortData*> local_dataList_orderBy_NameInc;	//æŒ‰åç§°é€’å¢çš„åˆ—è¡¨
+		QList<C_ObjectSortData*> local_dataList_orderBy_NameDec;	//æŒ‰åç§°é€’å‡çš„åˆ—è¡¨
+		QString m_firstCharSeq;										//é¦–å­—æ¯åºåˆ—
 	public:
-												//Ãû³Æ - ³õÊ¼»¯£¨×Ô¶¯£©
+												//åç§° - åˆå§‹åŒ–ï¼ˆè‡ªåŠ¨ï¼‰
 		void initSort_Name_IfRequire();
-												//Ãû³Æ - »ñÈ¡Ë÷ÒıĞòÁĞ£¨ÉıĞò£©
+												//åç§° - è·å–ç´¢å¼•åºåˆ—ï¼ˆå‡åºï¼‰
 		QList<int> get_NameInc_IndexSeq();
 		QList<int> get_NameInc_IndexSeq(int bottom, int top);
-												//Ãû³Æ - »ñÈ¡Ë÷ÒıĞòÁĞ£¨½µĞò£©
+												//åç§° - è·å–ç´¢å¼•åºåˆ—ï¼ˆé™åºï¼‰
 		QList<int> get_NameDec_IndexSeq();
 		QList<int> get_NameDec_IndexSeq(int bottom, int top);
-												//Ãû³Æ - ÅĞ¶ÏÊÇ·ñº¬Ö¸¶¨Ê××ÖÄ¸µÄÊı¾İ
+												//åç§° - åˆ¤æ–­æ˜¯å¦å«æŒ‡å®šé¦–å­—æ¯çš„æ•°æ®
 		bool hasAnyData_Name_ByCharacter(QChar ch);
-												//Ãû³Æ - »ñÈ¡Ö¸¶¨Ê××ÖÄ¸µÄË÷ÒıĞòÁĞ
-												//		¡¾ËµÃ÷¡¿£º°üº¬ a-z Ê××ÖÄ¸£¬@ÎªÉúÆ§×ÖÇé¿ö¡££¨s_ChineseManagerµÄ¶¨Òå£©
+												//åç§° - è·å–æŒ‡å®šé¦–å­—æ¯çš„ç´¢å¼•åºåˆ—
+												//		ã€è¯´æ˜ã€‘ï¼šåŒ…å« a-z é¦–å­—æ¯ï¼Œ@ä¸ºç”Ÿåƒ»å­—æƒ…å†µã€‚ï¼ˆs_ChineseManagerçš„å®šä¹‰ï¼‰
 		QList<int> get_Name_IndexListByCharacter(QChar ch);
-												//Ãû³Æ - »ñÈ¡·Ç×ÖÄ¸µÄË÷ÒıĞòÁĞ
-												//		¡¾ËµÃ÷¡¿£º³ıÁË a-z ºÍ @ ÒÔÍâµÄ×Ö·û¡£
+												//åç§° - è·å–éå­—æ¯çš„ç´¢å¼•åºåˆ—
+												//		ã€è¯´æ˜ã€‘ï¼šé™¤äº† a-z å’Œ @ ä»¥å¤–çš„å­—ç¬¦ã€‚
 		QList<int> get_Name_IndexListByNonAlphabetic();
-												//Ãû³Æ - »ñÈ¡Ãû³ÆÎª¿ÕµÄË÷ÒıĞòÁĞ
+												//åç§° - è·å–åç§°ä¸ºç©ºçš„ç´¢å¼•åºåˆ—
 		QList<int> get_Name_IndexListByEmptyName();
 		
 
 	//-----------------------------------
-	//----ÀàĞÍÅÅĞò
+	//----ç±»å‹æ’åº
 	protected:
-		QList<C_ObjectSortData*> local_dataList_orderBy_TypeAndId;			//°´ ÀàĞÍ+ID ÅÅĞòµÄÁĞ±í
-		QList<C_ObjectSortData*> local_dataList_orderBy_TypeAndName;		//°´ ÀàĞÍ+Ãû³Æ ÅÅĞòµÄÁĞ±í
+		QList<C_ObjectSortData*> local_dataList_orderBy_TypeAndId;			//æŒ‰ ç±»å‹+ID æ’åºçš„åˆ—è¡¨
+		QList<C_ObjectSortData*> local_dataList_orderBy_TypeAndName;		//æŒ‰ ç±»å‹+åç§° æ’åºçš„åˆ—è¡¨
 		QStringList m_distinguishedType;
 	public:
-												//ÀàĞÍ - ³õÊ¼»¯£¨×Ô¶¯£©
+												//ç±»å‹ - åˆå§‹åŒ–ï¼ˆè‡ªåŠ¨ï¼‰
 		void initSort_Type_IfRequire();
-												//ÀàĞÍ - ÅĞ¶ÏÊÇ·ñº¬ÀàĞÍ·Ö×éµÄÊı¾İ
+												//ç±»å‹ - åˆ¤æ–­æ˜¯å¦å«ç±»å‹åˆ†ç»„çš„æ•°æ®
 		bool hasAnyData_Type();
-												//ÀàĞÍ - »ñÈ¡ËùÓĞÀàĞÍ
+												//ç±»å‹ - è·å–æ‰€æœ‰ç±»å‹
 		QStringList get_Type_DistinguishedList();
-												//ÀàĞÍ - »ñÈ¡Ë÷ÒıĞòÁĞ£¨ÀàĞÍ+ID Ë³Ğò£©
+												//ç±»å‹ - è·å–ç´¢å¼•åºåˆ—ï¼ˆç±»å‹+ID é¡ºåºï¼‰
 		QList<int> get_TypeAndId_IndexSeq();
 		QList<int> get_TypeAndId_IndexSeq(int bottom, int top);
-												//ÀàĞÍ - »ñÈ¡Ö¸¶¨ÀàĞÍµÄË÷ÒıÁĞ£¨ÀàĞÍ+ID Ë³Ğò£©
+												//ç±»å‹ - è·å–æŒ‡å®šç±»å‹çš„ç´¢å¼•åˆ—ï¼ˆç±»å‹+ID é¡ºåºï¼‰
 		QList<int> get_TypeAndId_IndexListByType(QString type);
-												//ÀàĞÍ - »ñÈ¡Ë÷ÒıĞòÁĞ£¨ÀàĞÍ+Ãû³Æ Ë³Ğò£©
+												//ç±»å‹ - è·å–ç´¢å¼•åºåˆ—ï¼ˆç±»å‹+åç§° é¡ºåºï¼‰
 		QList<int> get_TypeAndName_IndexSeq();
 		QList<int> get_TypeAndName_IndexSeq(int bottom, int top);
-												//ÀàĞÍ - »ñÈ¡Ö¸¶¨ÀàĞÍµÄË÷ÒıÁĞ£¨ÀàĞÍ+Ãû³Æ Ë³Ğò£©
+												//ç±»å‹ - è·å–æŒ‡å®šç±»å‹çš„ç´¢å¼•åˆ—ï¼ˆç±»å‹+åç§° é¡ºåºï¼‰
 		QList<int> get_TypeAndName_IndexListByType(QString type);
 
 		
 	//-----------------------------------
-	//----¾²Ì¬·½·¨
+	//----é™æ€æ–¹æ³•
 	public:
 		static QList<QJsonObject> _to_objectList_(QList<int> id_list, QList<QString> name_list);
 		static QList<QJsonObject> _to_objectList_(QList<int> id_list, QList<QString> name_list, QList<QString> type_list);

@@ -1,13 +1,13 @@
-#include "stdafx.h"
-#include "c_ObjectSortData.h"
+ï»¿#include "stdafx.h"
+#include "C_ObjectSortData.h"
 
 
 /*
 -----==========================================================-----
-		Àà£º		ÅÅÐòÊý¾ÝÀà.cpp
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		ÓÃÓÚÅÅÐòµÄ¶ÔÏóÊý¾Ý¡£
-					£¨¸ÃÀà²»º¬QJsonObjectµÄ»Ø×ª£¬ÒòÎªsymbol±êÊ¶²»Ã÷È·£©
+		ç±»ï¼š		æŽ’åºæ•°æ®ç±».cpp
+		æ‰€å±žæ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		ç”¨äºŽæŽ’åºçš„å¯¹è±¡æ•°æ®ã€‚
+					ï¼ˆè¯¥ç±»ä¸å«QJsonObjectçš„å›žè½¬ï¼Œå› ä¸ºsymbolæ ‡è¯†ä¸æ˜Žç¡®ï¼‰
 -----==========================================================-----
 */
 C_ObjectSortData::C_ObjectSortData(){
@@ -27,19 +27,19 @@ C_ObjectSortData::~C_ObjectSortData(){
 
 
 /*-------------------------------------------------
-		ÔËËã·ûÖØÔØ
+		è¿ç®—ç¬¦é‡è½½
 */
 const bool C_ObjectSortData::operator== (const C_ObjectSortData& a)const {
 	return this->id == a.id;
 }
 /*-------------------------------------------------
-		¿ÕÅÐ¶Ï
+		ç©ºåˆ¤æ–­
 */
 bool C_ObjectSortData::isNull(){
 	return this->id == -1;
 }
 /*-------------------------------------------------
-		QJsonObject -> ÊµÌåÀà
+		QJsonObject -> å®žä½“ç±»
 */
 void C_ObjectSortData::setJsonObject(QJsonObject obj){
 	if (obj.isEmpty()){ return; }

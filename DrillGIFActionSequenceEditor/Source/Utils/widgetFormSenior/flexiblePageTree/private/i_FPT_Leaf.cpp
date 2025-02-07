@@ -1,14 +1,14 @@
-#include "stdafx.h"
-#include "i_FPT_Leaf.h"
+ï»¿#include "stdafx.h"
+#include "I_FPT_Leaf.h"
 
-#include "Source/Utils/common/TTool.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Ò¶×Ó.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		Ò¶×Ó¿Ø¼þÀà¡£
+		ç±»ï¼š		å¶å­.cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±žæ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		å¶å­æŽ§ä»¶ç±»ã€‚
 -----==========================================================-----
 */
 
@@ -22,19 +22,19 @@ I_FPT_Leaf::~I_FPT_Leaf(){
 }
 
 /*-------------------------------------------------
-		¿Ø¼þ - ¸ù¾ÝÊý¾Ý×ÔÎÒË¢ÐÂ
+		æŽ§ä»¶ - æ ¹æ®æ•°æ®è‡ªæˆ‘åˆ·æ–°
 */
 void I_FPT_Leaf::refreshItemSelf(){
 
-	this->setText(0, this->getShowingText());		//£¨Ë¢ÐÂÏÔÊ¾µÄÃû³Æ£©
+	this->setText(0, this->getShowingText());		//ï¼ˆåˆ·æ–°æ˜¾ç¤ºçš„åç§°ï¼‰
 	this->setToolTip(0, this->getName());
 }
 /*-------------------------------------------------
-		¿Ø¼þ - »ñÈ¡ÏÔÊ¾ÎÄ±¾
+		æŽ§ä»¶ - èŽ·å–æ˜¾ç¤ºæ–‡æœ¬
 */
 QString I_FPT_Leaf::getShowingText(){
-	int id = this->getId();				//±êÊ¶
-	QString name = this->getName();		//Ãû³Æ
+	int id = this->getId();				//æ ‡è¯†
+	QString name = this->getName();		//åç§°
 
 	return this->m_config->get_id_FormatedId(id) + " " + name;
 }

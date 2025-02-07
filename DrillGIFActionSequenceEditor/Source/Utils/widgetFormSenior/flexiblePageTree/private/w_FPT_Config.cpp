@@ -1,18 +1,18 @@
-#include "stdafx.h"
-#include "w_FPT_Config.h"
+ï»¿#include "stdafx.h"
+#include "W_FPT_Config.h"
 
-#include "Source/Utils/common/TTool.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Ê÷ÉèÖÃ ´°¿Ú.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		±à¼­ Ê÷ÉèÖÃ ´°¿ÚµÄÒ»Ð©ÅäÖÃ¡£
-					×¢Òâ£¬ÕâÊÇË½ÓÐÅäÖÃ´°¿Ú¡£Ò»°ã²»ÍâÓÃ¡£
+		ç±»ï¼š		æ ‘è®¾ç½® çª—å£.cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±žæ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		ç¼–è¾‘ æ ‘è®¾ç½® çª—å£çš„ä¸€äº›é…ç½®ã€‚
+					æ³¨æ„ï¼Œè¿™æ˜¯ç§æœ‰é…ç½®çª—å£ã€‚ä¸€èˆ¬ä¸å¤–ç”¨ã€‚
 
-		Ê¹ÓÃ·½·¨£º
-				>´ò¿ª´°¿Ú
+		ä½¿ç”¨æ–¹æ³•ï¼š
+				>æ‰“å¼€çª—å£
 					W_FCTConfig d;
 					d.setDataInModifyMode(this->getConfigParam());
 					if (d.exec() == QDialog::Accepted){
@@ -26,25 +26,25 @@ W_FPT_Config::W_FPT_Config(QWidget *parent)
 	ui.setupUi(this);
 
 	//-----------------------------------
-	//----³õÊ¼»¯²ÎÊý
+	//----åˆå§‹åŒ–å‚æ•°
+	TTool::_ChangeCombox_itemHeight_(ui.comboBox_sort_type, 30);	//ï¼ˆä¸æ¸…æ¥šåŽŸå› ã€‚åœ¨ç¬¬äºŒé¡µçš„ä¸‹æ‹‰æ¡†ï¼Œå°±æ˜¯ä¸èƒ½æ’‘å¼€é«˜åº¦ï¼‰
 
 	//-----------------------------------
-	//----ÊÂ¼þ°ó¶¨
-	this->m_delegate = TTool::_ChangeCombox_itemHeight_(ui.comboBox_sortType, 30);
+	//----äº‹ä»¶ç»‘å®š
 	connect(ui.checkBox_zeroFill, &QCheckBox::toggled, this, &W_FPT_Config::zeroFillChanged);
 	connect(ui.buttonBox, &QDialogButtonBox::accepted, this, &W_FPT_Config::acceptData);
 	
 	//-----------------------------------
-	//----³õÊ¼»¯ui
-	if (ui.buttonBox->button(QDialogButtonBox::Ok) != nullptr){ ui.buttonBox->button(QDialogButtonBox::Ok)->setText("È·¶¨"); }
-	if (ui.buttonBox->button(QDialogButtonBox::Cancel) != nullptr){ ui.buttonBox->button(QDialogButtonBox::Cancel)->setText("È¡Ïû"); }
+	//----åˆå§‹åŒ–ui
+	if (ui.buttonBox->button(QDialogButtonBox::Ok) != nullptr){ ui.buttonBox->button(QDialogButtonBox::Ok)->setText("ç¡®å®š"); }
+	if (ui.buttonBox->button(QDialogButtonBox::Cancel) != nullptr){ ui.buttonBox->button(QDialogButtonBox::Cancel)->setText("å–æ¶ˆ"); }
 }
 
 W_FPT_Config::~W_FPT_Config(){
 }
 
 /*-------------------------------------------------
-		¿Ø¼þ - »Ø³µÊÂ¼þ¹ýÂË
+		æŽ§ä»¶ - å›žè½¦äº‹ä»¶è¿‡æ»¤
 */
 void W_FPT_Config::keyPressEvent(QKeyEvent *event) {
 	if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
@@ -54,7 +54,7 @@ void W_FPT_Config::keyPressEvent(QKeyEvent *event) {
 	}
 }
 /*-------------------------------------------------
-		¿Ø¼þ - ÁãÌî³ä¹´Ñ¡±ä»¯
+		æŽ§ä»¶ - é›¶å¡«å……å‹¾é€‰å˜åŒ–
 */
 void W_FPT_Config::zeroFillChanged(bool enable) {
 
@@ -66,42 +66,42 @@ void W_FPT_Config::zeroFillChanged(bool enable) {
 
 
 /*-------------------------------------------------
-		´°¿Ú - ÉèÖÃÊý¾Ý£¨ÐÞ¸Ä£©
+		çª—å£ - è®¾ç½®æ•°æ®ï¼ˆä¿®æ”¹ï¼‰
 */
 void W_FPT_Config::setData(C_FPT_Config* data) {
 	this->local_data = data;
 	this->putDataToUi();
 }
 /*-------------------------------------------------
-		´°¿Ú - È¡³öÊý¾Ý
+		çª—å£ - å–å‡ºæ•°æ®
 */
 C_FPT_Config* W_FPT_Config::getData(){
 	return this->local_data;
 };
 /*-------------------------------------------------
-		´°¿Ú - ±¾µØÊý¾Ý -> uiÊý¾Ý
+		çª—å£ - æœ¬åœ°æ•°æ® -> uiæ•°æ®
 */
 void W_FPT_Config::putDataToUi() {
 
-	// > ÏÔÊ¾
+	// > æ˜¾ç¤º
 	TTool::_int_(ui.spinBox_rowHeight, &this->local_data->rowHeight);
 	ui.checkBox_zeroFill->setChecked(this->local_data->zeroFill);
 	this->zeroFillChanged(this->local_data->zeroFill);
 	TTool::_int_(ui.spinBox_zeroFillCount, &this->local_data->zeroFillCount);
 	ui.lineEdit_zeroFillChar->setText(QString(this->local_data->zeroFillChar));
 
-	// > ·ÖÖ§
-	ui.comboBox_sortType->clear();
-	ui.comboBox_sortType->addItems(this->local_data->getModeList());
-	ui.comboBox_sortType->setCurrentText(this->local_data->getCurrentMode());
+	// > åˆ†æ”¯
+	ui.comboBox_sort_type->clear();
+	ui.comboBox_sort_type->addItems(this->local_data->getModeList());
+	ui.comboBox_sort_type->setCurrentText(this->local_data->getCurrentMode());
 	TTool::_int_(ui.spinBox_pageContainCount, &this->local_data->pagePerNum);
 };
 /*-------------------------------------------------
-		´°¿Ú - uiÊý¾Ý -> ±¾µØÊý¾Ý
+		çª—å£ - uiæ•°æ® -> æœ¬åœ°æ•°æ®
 */
 void W_FPT_Config::putUiToData() {
 
-	// > ÏÔÊ¾
+	// > æ˜¾ç¤º
 	TTool::_int_(&this->local_data->rowHeight, ui.spinBox_rowHeight);
 	this->local_data->zeroFill = ui.checkBox_zeroFill->isChecked();
 	TTool::_int_(&this->local_data->zeroFillCount, ui.spinBox_zeroFillCount);
@@ -109,12 +109,12 @@ void W_FPT_Config::putUiToData() {
 		this->local_data->zeroFillChar = ui.lineEdit_zeroFillChar->text().at(0);
 	}
 
-	// > ·ÖÖ§
-	this->local_data->setCurrentMode(ui.comboBox_sortType->currentText());
+	// > åˆ†æ”¯
+	this->local_data->setCurrentMode(ui.comboBox_sort_type->currentText());
 	TTool::_int_(&this->local_data->pagePerNum, ui.spinBox_pageContainCount);
 };
 /*-------------------------------------------------
-		´°¿Ú - Ìá½»Êý¾Ý£¨Ð£Ñé£©
+		çª—å£ - æäº¤æ•°æ®ï¼ˆæ ¡éªŒï¼‰
 */
 void W_FPT_Config::acceptData(){
 	this->putUiToData();

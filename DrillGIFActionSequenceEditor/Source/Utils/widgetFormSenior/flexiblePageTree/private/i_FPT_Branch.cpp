@@ -1,14 +1,14 @@
-#include "stdafx.h"
-#include "i_FPT_Branch.h"
+ï»¿#include "stdafx.h"
+#include "I_FPT_Branch.h"
 
-#include "Source/Utils/common/TTool.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Ê÷Ö¦.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		Ê÷Ö¦¿Ø¼şÀà¡£
+		ç±»ï¼š		æ ‘æ.cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		æ ‘ææ§ä»¶ç±»ã€‚
 -----==========================================================-----
 */
 
@@ -21,26 +21,26 @@ I_FPT_Branch::~I_FPT_Branch(){
 }
 
 /*-------------------------------------------------
-		¿Ø¼ş - ¸ù¾İÊı¾İ×ÔÎÒË¢ĞÂ
+		æ§ä»¶ - æ ¹æ®æ•°æ®è‡ªæˆ‘åˆ·æ–°
 */
 void I_FPT_Branch::refreshItemSelf(){
 
-	this->setText(0, this->getShowingText());		//£¨Ë¢ĞÂÏÔÊ¾µÄÃû³Æ£©
+	this->setText(0, this->getShowingText());		//ï¼ˆåˆ·æ–°æ˜¾ç¤ºçš„åç§°ï¼‰
 	this->setToolTip(0, this->getShowingText());
 }
 /*-------------------------------------------------
-		¿Ø¼ş - »ñÈ¡ÏÔÊ¾ÎÄ±¾
+		æ§ä»¶ - è·å–æ˜¾ç¤ºæ–‡æœ¬
 */
 QString I_FPT_Branch::getShowingText(){
 
-	// > ID·ÖÖ§ ÏÔÊ¾
+	// > IDåˆ†æ”¯ æ˜¾ç¤º
 	if (this->m_config->is_id_Mode()){ return this->m_config->get_id_PageNameByIndex(this->getBranch_id_Index()); }
 
-	// > Ãû³Æ·ÖÖ§ ÏÔÊ¾
+	// > åç§°åˆ†æ”¯ æ˜¾ç¤º
 	if (this->m_config->is_name_Mode()){ return this->getBranch_name_Showing(); }
 
-	// > ×Ô¶¨Òå·ÖÖ§ ÏÔÊ¾
+	// > è‡ªå®šä¹‰åˆ†æ”¯ æ˜¾ç¤º
 	if (this->getBranch_type_Name() != ""){ return this->getBranch_type_Name(); }
 
-	return "Î´·ÖÀà";
+	return "æœªåˆ†ç±»";
 }

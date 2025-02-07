@@ -1,14 +1,14 @@
-#include "stdafx.h"
-#include "w_FCT_Classify.h"
+ï»¿#include "stdafx.h"
+#include "W_FCT_Classify.h"
 
-#include "Source/Utils/common/TTool.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
-		Àà£º		ÖÖÀà ÅäÖÃ´°¿Ú.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		ÖÖÀàµÄÉèÖÃÄÚÈÝÔÚ¸Ã´°¿ÚÉèÖÃ¡£
+		ç±»ï¼š		ç§ç±» é…ç½®çª—å£.cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±žæ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		ç§ç±»çš„è®¾ç½®å†…å®¹åœ¨è¯¥çª—å£è®¾ç½®ã€‚
 -----==========================================================-----
 */
 
@@ -18,16 +18,16 @@ W_FCT_Classify::W_FCT_Classify(P_FlexibleClassificationTree* p_obj)
 	ui.setupUi(this);
 
 	//-----------------------------------
-	//----³õÊ¼»¯²ÎÊý
+	//----åˆå§‹åŒ–å‚æ•°
 	this->isAddMode = true;
 	this->m_parentObj = p_obj;
 
 	//-----------------------------------
-	//----ÊÂ¼þ°ó¶¨
+	//----äº‹ä»¶ç»‘å®š
 	connect(ui.buttonBox, SIGNAL(accepted()), this, SLOT(acceptData()));
 
 	//-----------------------------------
-	//----³õÊ¼»¯ui
+	//----åˆå§‹åŒ–ui
 	TTool::_chinese_(ui.buttonBox);
 
 }
@@ -38,88 +38,88 @@ W_FCT_Classify::~W_FCT_Classify(){
 
 
 /*-------------------------------------------------
-		´°¿Ú - ÉèÖÃÊý¾Ý£¨Ìí¼Ó£©
+		çª—å£ - è®¾ç½®æ•°æ®ï¼ˆæ·»åŠ ï¼‰
 */
 void W_FCT_Classify::setDataInAddMode() {
 	this->isAddMode = true;
 	this->m_dataPtr = this->m_parentObj->createClassifyData();
-	this->m_dataPtr->setName("ÐÂµÄÖÖÀà");
-	this->m_dataPtr->setDescription("Ã»ÓÐÃèÊö¡£");
-	this->setWindowTitle("Ìí¼ÓÖÖÀà");
+	this->m_dataPtr->setName("æ–°çš„ç§ç±»");
+	this->m_dataPtr->setDescription("æ²¡æœ‰æè¿°ã€‚");
+	this->setWindowTitle("æ·»åŠ ç§ç±»");
 	this->putDataToUi();
 };
 /*-------------------------------------------------
-		´°¿Ú - ÉèÖÃÊý¾Ý£¨ÐÞ¸Ä£©
+		çª—å£ - è®¾ç½®æ•°æ®ï¼ˆä¿®æ”¹ï¼‰
 */
 void W_FCT_Classify::setDataInModifyMode(C_FCT_Classify* p) {
 	this->isAddMode = false;
 	this->m_dataPtr = p;
-	this->setWindowTitle("±à¼­ÖÖÀà");
+	this->setWindowTitle("ç¼–è¾‘ç§ç±»");
 	this->putDataToUi();
 };
 /*-------------------------------------------------
-		´°¿Ú - È¡³öÊý¾Ý
+		çª—å£ - å–å‡ºæ•°æ®
 */
 C_FCT_Classify* W_FCT_Classify::getData(){
 	return this->m_dataPtr;
 };
 /*-------------------------------------------------
-		´°¿Ú - ±¾µØÊý¾Ý -> uiÊý¾Ý
+		çª—å£ - æœ¬åœ°æ•°æ® -> uiæ•°æ®
 */
 void W_FCT_Classify::putDataToUi() {
 	ui.lineEdit_tagName->setText(m_dataPtr->getName());
 	ui.plainTextEdit->setPlainText(m_dataPtr->getDescription());
 };
 /*-------------------------------------------------
-		´°¿Ú - uiÊý¾Ý -> ±¾µØÊý¾Ý
+		çª—å£ - uiæ•°æ® -> æœ¬åœ°æ•°æ®
 */
 void W_FCT_Classify::putUiToData() {
-	//£¨×¢Òâ£¬ÓÉÓÚ´«µÄÖ¸Õë£¬¸³ÖµÒª×îºó¾ö¶¨ÁË²ÅÖ´ÐÐ£©
+	//ï¼ˆæ³¨æ„ï¼Œç”±äºŽä¼ çš„æŒ‡é’ˆï¼Œèµ‹å€¼è¦æœ€åŽå†³å®šäº†æ‰æ‰§è¡Œï¼‰
 	m_dataPtr->setName(ui.lineEdit_tagName->text());
 	m_dataPtr->setDescription(ui.plainTextEdit->toPlainText());
 };
 /*-------------------------------------------------
-		´°¿Ú - Ð£ÑéÊý¾Ý
+		çª—å£ - æ ¡éªŒæ•°æ®
 */
 bool W_FCT_Classify::checkData(){
 	QString old_name = m_dataPtr->getName();
 	QString tag_name = ui.lineEdit_tagName->text();
 	QStringList all_name = this->m_parentObj->getAllClassifyName();
 
-	// > ¿ÕÐ£Ñé
+	// > ç©ºæ ¡éªŒ
 	if (tag_name == "") {
-		QMessageBox::warning(this, "ÌáÊ¾", "ÖÖÀàÃû³Æ²»ÄÜÎª¿Õ¡£");
+		QMessageBox::warning(this, "æç¤º", "ç§ç±»åç§°ä¸èƒ½ä¸ºç©ºã€‚");
 		return false;
 	}
-	if (tag_name == "Î´·ÖÀà") {
-		QMessageBox::warning(this, "ÌáÊ¾", "ÖÖÀàÃû³Æ²»ÄÜÎª\"Î´·ÖÀà\"¡£");
+	if (tag_name == "æœªåˆ†ç±»") {
+		QMessageBox::warning(this, "æç¤º", "ç§ç±»åç§°ä¸èƒ½ä¸º\"æœªåˆ†ç±»\"ã€‚");
 		return false;
 	}
 
-	// > ÐÂÔöÐ£Ñé
+	// > æ–°å¢žæ ¡éªŒ
 	if (this->isAddMode == true && all_name.contains(tag_name)){
-		QMessageBox::warning(this, "ÌáÊ¾", "ÖÖÀàÃû³Æ\"" + tag_name + "\"ÒÑ´æÔÚ¡£");
+		QMessageBox::warning(this, "æç¤º", "ç§ç±»åç§°\"" + tag_name + "\"å·²å­˜åœ¨ã€‚");
 		return false;
 	}
-	// > ±à¼­Ð£Ñé£¨±à¼­³ÉÐÂÃû³Æ£¬ÐÂÃû³ÆÖØ¸´Çé¿ö£©
+	// > ç¼–è¾‘æ ¡éªŒï¼ˆç¼–è¾‘æˆæ–°åç§°ï¼Œæ–°åç§°é‡å¤æƒ…å†µï¼‰
 	if (this->isAddMode == false &&
 		old_name != tag_name &&
 		all_name.contains(tag_name)){
-		QMessageBox::warning(this, "ÌáÊ¾", "ÖÖÀàÃû³Æ\"" + tag_name + "\"ÒÑ´æÔÚ¡£");
+		QMessageBox::warning(this, "æç¤º", "ç§ç±»åç§°\"" + tag_name + "\"å·²å­˜åœ¨ã€‚");
 		return false;
 	}
 	return true;
 }
 /*-------------------------------------------------
-		´°¿Ú - Ìá½»Êý¾Ý
+		çª—å£ - æäº¤æ•°æ®
 */
 void W_FCT_Classify::acceptData(){
 
-	// > Ð£Ñé
+	// > æ ¡éªŒ
 	bool pass = this->checkData();
 	if ( pass == false){ return; }
 
-	// > Ìá½»
+	// > æäº¤
 	this->putUiToData();
 	this->accept();
 };

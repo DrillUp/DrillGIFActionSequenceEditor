@@ -16,6 +16,13 @@
   <property name="windowTitle">
    <string>Drill动画序列编辑器(DrillGIFActionSequenceEditor)</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">
+/*所有框有效*/
+QGroupBox{
+	font-weight:bold;
+}</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
    <property name="spacing">
     <number>0</number>

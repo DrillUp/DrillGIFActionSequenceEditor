@@ -6,7 +6,7 @@
 /*
 -----==========================================================-----
 		类：		字符串编辑 窗口.cpp
-		版本：		v1.06
+		版本：		v1.07
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		编辑一条字符串的窗口。
@@ -109,8 +109,10 @@ void W_QStringEditor::setDataInAddMode() {
 
 	// > 描述
 	ui.label_description->setText(this->m_paramDescription);
-	if (this->m_paramDescription == ""){
+	if (this->m_paramDescription.isEmpty()){
 		ui.label_description->setVisible(false);
+	}else{
+		ui.label_description->setVisible(true);
 	}
 
 	this->m_isAddMode = true;
@@ -130,8 +132,10 @@ void W_QStringEditor::setDataInModifyMode(QString data) {
 
 	// > 描述
 	ui.label_description->setText(this->m_paramDescription);
-	if (this->m_paramDescription == ""){
+	if (this->m_paramDescription.isEmpty()){
 		ui.label_description->setVisible(false);
+	}else{
+		ui.label_description->setVisible(true);
 	}
 
 	this->m_isAddMode = false;

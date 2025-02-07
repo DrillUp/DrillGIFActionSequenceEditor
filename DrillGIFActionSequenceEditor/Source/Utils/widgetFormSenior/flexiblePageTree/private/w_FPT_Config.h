@@ -1,16 +1,17 @@
-#ifndef W_FPT_Config_H
+ï»¿#ifndef W_FPT_Config_H
 #define W_FPT_Config_H
+#include "stdafx.h"
 
 #include "ui_W_FPT_Config.h"
-#include "c_FPT_Config.h"
+#include "C_FPT_Config.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Ê÷ÉèÖÃ ´°¿Ú.h
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		±à¼­ Ê÷ÉèÖÃ ´°¿ÚµÄÒ»Ğ©ÅäÖÃ¡£
-					£¨ÏêÏ¸¼ûcpp£©
+		ç±»ï¼š		æ ‘è®¾ç½® çª—å£.h
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		ç¼–è¾‘ æ ‘è®¾ç½® çª—å£çš„ä¸€äº›é…ç½®ã€‚
+					ï¼ˆè¯¦ç»†è§cppï¼‰
 -----==========================================================-----
 */
 class W_FPT_Config : public QDialog
@@ -22,31 +23,29 @@ class W_FPT_Config : public QDialog
 		~W_FPT_Config();
 		
 	//-----------------------------------
-	//----¿Ø¼ş
+	//----æ§ä»¶
 	public:
-		QStyledItemDelegate* m_delegate;
-	public:
-										//¿Ø¼ş - »Ø³µ¹ıÂË
+										//æ§ä»¶ - å›è½¦è¿‡æ»¤
 		void keyPressEvent(QKeyEvent *event);
 	public slots:
-										//¿Ø¼ş - ÁãÌî³ä¹´Ñ¡±ä»¯
+										//æ§ä»¶ - é›¶å¡«å……å‹¾é€‰å˜åŒ–
 		void zeroFillChanged(bool enable);
 
 	//-----------------------------------
-	//----´°¿Ú
+	//----çª—å£
 	protected:
 		C_FPT_Config* local_data;
 	public:
-										//´°¿Ú - ÉèÖÃÊı¾İ
+										//çª—å£ - è®¾ç½®æ•°æ®
 		void setData(C_FPT_Config* data);
-										//´°¿Ú - È¡³öÊı¾İ
+										//çª—å£ - å–å‡ºæ•°æ®
 		C_FPT_Config* getData();
-										//´°¿Ú - ±¾µØÊı¾İ -> uiÊı¾İ
+										//çª—å£ - æœ¬åœ°æ•°æ® -> uiæ•°æ®
 		void putDataToUi();							
-										//´°¿Ú - uiÊı¾İ -> ±¾µØÊı¾İ
+										//çª—å£ - uiæ•°æ® -> æœ¬åœ°æ•°æ®
 		void putUiToData();
 	public slots:
-										//´°¿Ú - Ìá½»Êı¾İ£¨Ğ£Ñé£©
+										//çª—å£ - æäº¤æ•°æ®ï¼ˆæ ¡éªŒï¼‰
 		void acceptData();	
 	private:
 		Ui::W_FPT_Config ui;

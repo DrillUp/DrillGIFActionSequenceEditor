@@ -1,30 +1,30 @@
-#include "stdafx.h"
-#include "c_FCT_Config.h"
+ï»¿#include "stdafx.h"
+#include "C_FCT_Config.h"
 
-#include "../p_FlexibleClassificationTree.h"
-#include "Source/Utils/common/TTool.h"
+#include "../P_FlexibleClassificationTree.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Ê÷ÉèÖÃ Êı¾İÀà.cpp
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		Áé»î·ÖÀàÊ÷µÄ Ê÷ÉèÖÃ Êı¾İÀà¡£
+		ç±»ï¼š		æ ‘è®¾ç½® æ•°æ®ç±».cpp
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		çµæ´»åˆ†ç±»æ ‘çš„ æ ‘è®¾ç½® æ•°æ®ç±»ã€‚
 					
-		×Ó¹¦ÄÜ£º
-					->¿Õ¶ÔÏó
+		å­åŠŸèƒ½ï¼š
+					->ç©ºå¯¹è±¡
 					
 -----==========================================================-----
 */
 C_FCT_Config::C_FCT_Config() : C_FPT_Config(){
 
-	// > ·ÖÖ§Ä£Ê½
-	this->m_mode = "ÖÖÀà·ÖÖ§£¨°´idµİÔöÅÅĞò£©";
-	this->m_modeList << "ÖÖÀà·ÖÖ§£¨°´idµİÔöÅÅĞò£©" << "ÖÖÀà·ÖÖ§£¨°´Ãû³ÆµİÔöÅÅĞò£©";
+	// > åˆ†æ”¯æ¨¡å¼
+	this->m_modeList << "ç§ç±»åˆ†æ”¯ï¼ˆæŒ‰idé€’å¢æ’åºï¼‰" << "ç§ç±»åˆ†æ”¯ï¼ˆæŒ‰åç§°é€’å¢æ’åºï¼‰";
+	this->m_mode = "ç§ç±»åˆ†æ”¯ï¼ˆæŒ‰idé€’å¢æ’åºï¼‰";
 
-	// > ÖÖÀàÒ³
-	this->m_emptyClassify = new C_FCT_Classify();		//Î´·ÖÀà
-	this->m_classifyList = QList<C_FCT_Classify*>();
+	// > ç§ç±»é¡µ
+	this->m_emptyClassify = new C_FCT_Classify();		//æœªåˆ†ç±»
+	this->m_classifyList.clear();
 	this->checkClassifyList();
 }
 C_FCT_Config::~C_FCT_Config(){
@@ -32,26 +32,26 @@ C_FCT_Config::~C_FCT_Config(){
 
 
 /*-------------------------------------------------
-		·ÖÖ§Ä£Ê½ - ÅĞ¶Ï ÖÖÀà·ÖÖ§_IDµİÔö Ä£Ê½
+		åˆ†æ”¯æ¨¡å¼ - åˆ¤æ–­ ç§ç±»åˆ†æ”¯_IDé€’å¢ æ¨¡å¼
 */
 bool C_FCT_Config::is_classify_idInc_Mode(){
-	return this->m_mode == "ÖÖÀà·ÖÖ§£¨°´idµİÔöÅÅĞò£©";
+	return this->m_mode == "ç§ç±»åˆ†æ”¯ï¼ˆæŒ‰idé€’å¢æ’åºï¼‰";
 }
 /*-------------------------------------------------
-		·ÖÖ§Ä£Ê½ - ÅĞ¶Ï ÖÖÀà·ÖÖ§_Ãû³ÆµİÔö Ä£Ê½
+		åˆ†æ”¯æ¨¡å¼ - åˆ¤æ–­ ç§ç±»åˆ†æ”¯_åç§°é€’å¢ æ¨¡å¼
 */
 bool C_FCT_Config::is_classify_nameInc_Mode(){
-	return this->m_mode == "ÖÖÀà·ÖÖ§£¨°´Ãû³ÆµİÔöÅÅĞò£©";
+	return this->m_mode == "ç§ç±»åˆ†æ”¯ï¼ˆæŒ‰åç§°é€’å¢æ’åºï¼‰";
 }
 
 /*-------------------------------------------------
-		ÖÖÀàÒ³ - »ñÈ¡
+		ç§ç±»é¡µ - è·å–
 */
 QList<C_FCT_Classify*> C_FCT_Config::get_classify_DataList(){
 	return this->m_classifyList;
 }
 /*-------------------------------------------------
-		ÖÖÀàÒ³ - ÇåÀíÁĞ±í
+		ç§ç±»é¡µ - æ¸…ç†åˆ—è¡¨
 */
 void C_FCT_Config::clear_classify_DataList(){
 	this->m_classifyList.clear();
@@ -59,18 +59,18 @@ void C_FCT_Config::clear_classify_DataList(){
 }
 
 /*-------------------------------------------------
-		ÖÖÀàÒ³ - Ìí¼ÓÊı¾İ£¨»ùº¯Êı£©
+		ç§ç±»é¡µ - æ·»åŠ æ•°æ®ï¼ˆåŸºå‡½æ•°ï¼‰
 */
 void C_FCT_Config::add_classify(C_FCT_Classify* data){
 	if (data->getName() == ""){ return; }
 	if (this->m_classifyList.contains(data)){ return; }
 	this->checkClassifyList();
 
-	int index = this->m_classifyList.count() - 1;	//£¨Êı¾İÁĞ±íÖĞÖÁÉÙÓĞÒ»¸ö£©
-	this->m_classifyList.insert(index, data);		//£¨ÔÚµ¹ÊıµÚ¶ş¸öÎ»ÖÃÌí¼ÓÖÖÀà£©
+	int index = this->m_classifyList.count() - 1;	//ï¼ˆæ•°æ®åˆ—è¡¨ä¸­è‡³å°‘æœ‰ä¸€ä¸ªï¼‰
+	this->m_classifyList.insert(index, data);		//ï¼ˆåœ¨å€’æ•°ç¬¬äºŒä¸ªä½ç½®æ·»åŠ ç§ç±»ï¼‰
 }
 /*-------------------------------------------------
-		ÖÖÀàÒ³ - É¾³ıÊı¾İ£¨»ùº¯Êı£©
+		ç§ç±»é¡µ - åˆ é™¤æ•°æ®ï¼ˆåŸºå‡½æ•°ï¼‰
 */
 void C_FCT_Config::remove_classify(QString classify_name){
 	if (classify_name == ""){ return; }
@@ -81,7 +81,7 @@ void C_FCT_Config::remove_classify(QString classify_name){
 	}
 }
 /*-------------------------------------------------
-		ÖÖÀàÒ³ - Êı¾İÉÏÒÆ
+		ç§ç±»é¡µ - æ•°æ®ä¸Šç§»
 */
 void C_FCT_Config::set_classify_moveUp(QString classify_name){
 
@@ -92,7 +92,7 @@ void C_FCT_Config::set_classify_moveUp(QString classify_name){
 	this->m_classifyList.swap(index, index - 1);
 }
 /*-------------------------------------------------
-		ÖÖÀàÒ³ - Êı¾İÏÂÒÆ
+		ç§ç±»é¡µ - æ•°æ®ä¸‹ç§»
 */
 void C_FCT_Config::set_classify_moveDown(QString classify_name){
 
@@ -103,7 +103,7 @@ void C_FCT_Config::set_classify_moveDown(QString classify_name){
 }
 
 /*-------------------------------------------------
-		ÖÖÀàÒ³ - »ñÈ¡
+		ç§ç±»é¡µ - è·å–
 */
 C_FCT_Classify* C_FCT_Config::get_classify(QString classify_name){
 	for (int i = 0; i < this->m_classifyList.count(); i++){
@@ -115,10 +115,10 @@ C_FCT_Classify* C_FCT_Config::get_classify(QString classify_name){
 	return nullptr;
 }
 /*-------------------------------------------------
-		ÖÖÀàÒ³ - »ñÈ¡ - ÖÖÀàÒ³Ë÷Òı
+		ç§ç±»é¡µ - è·å– - ç§ç±»é¡µç´¢å¼•
 */
 int C_FCT_Config::get_classify_Index(QString classify_name){
-	if (classify_name == "Î´·ÖÀà"){ classify_name = ""; }	//£¨Î´·ÖÀàÓë¿ÕÒ³ĞÔÖÊÒ»Ñù£©
+	if (classify_name == "æœªåˆ†ç±»"){ classify_name = ""; }	//ï¼ˆæœªåˆ†ç±»ä¸ç©ºé¡µæ€§è´¨ä¸€æ ·ï¼‰
 	for (int i = 0; i < this->m_classifyList.count(); i++){
 		if (this->m_classifyList.at(i)->getName() == classify_name){
 			return i;
@@ -127,29 +127,29 @@ int C_FCT_Config::get_classify_Index(QString classify_name){
 	return -1;
 }
 /*-------------------------------------------------
-		ÖÖÀàÒ³ - »ñÈ¡ - ÊıÁ¿
+		ç§ç±»é¡µ - è·å– - æ•°é‡
 */
 int C_FCT_Config::get_classify_Count(){
 	return this->m_classifyList.count();
 }
 /*-------------------------------------------------
-		ÖÖÀàÒ³ - »ñÈ¡ - ÅĞ¶ÏÖÖÀà´æÔÚ
+		ç§ç±»é¡µ - è·å– - åˆ¤æ–­ç§ç±»å­˜åœ¨
 */
 bool C_FCT_Config::has_classify(QString classify_name){
 	return this->get_classify_Index(classify_name) != -1;
 }
 /*-------------------------------------------------
-		ÖÖÀàÒ³ - »ñÈ¡ - È«²¿ÖÖÀà
+		ç§ç±»é¡µ - è·å– - å…¨éƒ¨ç§ç±»
 */
 QStringList C_FCT_Config::getAll_classify_NameList(){
-	QStringList result_list = QStringList();
+	QStringList result_list;
 	for (int i = 0; i < this->m_classifyList.count(); i++){
 		result_list.append(this->m_classifyList.at(i)->getName());
 	}
 	return result_list;
 }
 /*-------------------------------------------------
-		Ë½ÓĞ - ¼ì²éÁĞ±í
+		ç§æœ‰ - æ£€æŸ¥åˆ—è¡¨
 */
 void C_FCT_Config::checkClassifyList(){
 	if (this->m_classifyList.contains(this->m_emptyClassify) != true){
@@ -159,34 +159,34 @@ void C_FCT_Config::checkClassifyList(){
 
 
 /*-------------------------------------------------
-		ÊµÌåÀà -> QJsonObject
+		å®ä½“ç±» -> QJsonObject
 */
 QJsonObject C_FCT_Config::getJsonObject(){
 
-	// > ÖÖÀàÊı¾İ£¨´æ´¢ÔÚ this->data ÖĞ£©
-	QJsonArray arr = QJsonArray();
+	// > ç§ç±»æ•°æ®ï¼ˆå­˜å‚¨åœ¨ this->data ä¸­ï¼‰
+	QJsonArray arr;
 	for (int i = 0; i < this->m_classifyList.count(); i++){
 		C_FCT_Classify* c_c = this->m_classifyList.at(i);
-		if (c_c->isNull() == false){		//£¨ÅÅ³ı"Î´·ÖÀà"£©
+		if (c_c->isNull() == false){		//ï¼ˆæ’é™¤"æœªåˆ†ç±»"ï¼‰
 			arr.append(c_c->getJsonObject());
 		}
 	}
 	this->data.insert("FCT_ClassifyList", arr);
 
-	// > ¶ÔÏó
+	// > å¯¹è±¡
 	QJsonObject obj = C_FPT_Config::getJsonObject();
 	return obj;
 }
 /*-------------------------------------------------
-		QJsonObject -> ÊµÌåÀà
+		QJsonObject -> å®ä½“ç±»
 */
 void C_FCT_Config::setJsonObject(QJsonObject obj, P_FlexiblePageTree* parent_obj){
 	C_FPT_Config::setJsonObject(obj, parent_obj);
 
-	// > ¸¸¶ÔÏóÇ¿×ª
+	// > çˆ¶å¯¹è±¡å¼ºè½¬
 	P_FlexibleClassificationTree* parent_obj_ex = dynamic_cast<P_FlexibleClassificationTree*>(parent_obj);
 
-	// > ÖÖÀàÊı¾İ£¨´æ´¢ÔÚ this->data ÖĞ£©
+	// > ç§ç±»æ•°æ®ï¼ˆå­˜å‚¨åœ¨ this->data ä¸­ï¼‰
 	this->m_classifyList.clear();
 	if (this->data.value("FCT_ClassifyList").isUndefined() == false){
 		QJsonArray arr = this->data.value("FCT_ClassifyList").toArray();
@@ -196,7 +196,7 @@ void C_FCT_Config::setJsonObject(QJsonObject obj, P_FlexiblePageTree* parent_obj
 			this->m_classifyList.append(c_c);
 		}
 	}
-	// > ¾ÉÊı¾İÇé¿ö
+	// > æ—§æ•°æ®æƒ…å†µ
 	if (obj.value("FCTClassifyList").isUndefined() == false){
 		QJsonArray arr = obj.value("FCTClassifyList").toArray();
 		for (int i = 0; i < arr.count(); i++){

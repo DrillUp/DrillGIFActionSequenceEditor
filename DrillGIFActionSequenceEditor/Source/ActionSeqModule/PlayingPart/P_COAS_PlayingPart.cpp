@@ -328,6 +328,8 @@ void P_COAS_PlayingPart::stopFrame(){
 	ui.widget_operateFrame->setEnabled(false);
 	ui.toolButton_playDefault->setEnabled(false);
 	ui.toolButton_playSimple->setEnabled(false);
+	ui.tableWidget_state->clearSelection();
+	ui.tableWidget_action->clearSelection();
 	this->updateIcon();
 }
 /*-------------------------------------------------

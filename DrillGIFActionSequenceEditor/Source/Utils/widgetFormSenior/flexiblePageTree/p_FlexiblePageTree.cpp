@@ -1,61 +1,61 @@
-#include "stdafx.h"
-#include "p_FlexiblePageTree.h"
+ï»¿#include "stdafx.h"
+#include "P_FlexiblePageTree.h"
 
-#include "private/w_FPT_Config.h"
+#include "Private/W_FPT_Config.h"
 
-#include "Source/Utils/common/TTool.h"
-#include "Source/Utils/widgetFormSenior/ObjectSortController/c_ObjectSortData.h"
-#include "Source/Utils/widgetFormSenior/ObjectSortController/p_ObjectSortController.h"
-#include "Source/Utils/manager/chineseManager/S_ChineseManager.h"
+#include "Source/Utils/Common/TTool.h"
+#include "Source/Utils/WidgetFormSenior/ObjectSortController/C_ObjectSortData.h"
+#include "Source/Utils/WidgetFormSenior/ObjectSortController/P_ObjectSortController.h"
+#include "Source/Utils/Manager/ChineseManager/S_ChineseManager.h"
 
 /*
 -----==========================================================-----
-		Àà£º		Áé»î·ÖÀàÊ÷.cpp
-		°æ±¾£º		v1.04
-		×÷Õß£º		drill_up
-		ËùÊôÄ£¿é£º	¹¤¾ßÄ£¿é
-		¹¦ÄÜ£º		ÄÜ¹»ÏÔÊ¾Ò»¶ÑÊı¾İ£¬²¢ÇÒ½«ÕâĞ©Êı¾İ·ÖÀà»ò×ªÒÆµ½²»Í¬µÄÊ÷Ö¦ÖĞ£¬±ãÓÚ²éÑ¯¡£
-					×¢Òâ£¬¸ÃÊ÷±»×°ÊÎºó£¬ĞèÒª¶Ô¸Ã¿Ø¼ş¿é½øĞĞ½»»¥£¬²»Òª¶ÔÊ÷½øĞĞÖ±½Ó½»»¥¡£
-					¡¾°üº¬id·ÖÖ§¡¢Ãû³Æ·ÖÖ§£¬²»º¬ÖÖÀà·ÖÖ§¡¿
+		ç±»ï¼š		çµæ´»åˆ†ç±»æ ‘.cpp
+		ç‰ˆæœ¬ï¼š		v1.05
+		ä½œè€…ï¼š		drill_up
+		æ‰€å±æ¨¡å—ï¼š	å·¥å…·æ¨¡å—
+		åŠŸèƒ½ï¼š		èƒ½å¤Ÿæ˜¾ç¤ºä¸€å †æ•°æ®ï¼Œå¹¶ä¸”å°†è¿™äº›æ•°æ®åˆ†ç±»æˆ–è½¬ç§»åˆ°ä¸åŒçš„æ ‘æä¸­ï¼Œä¾¿äºæŸ¥è¯¢ã€‚
+					æ³¨æ„ï¼Œè¯¥æ ‘è¢«è£…é¥°åï¼Œéœ€è¦å¯¹è¯¥æ§ä»¶å—è¿›è¡Œäº¤äº’ï¼Œä¸è¦å¯¹æ ‘è¿›è¡Œç›´æ¥äº¤äº’ã€‚
+					ã€åŒ…å«idåˆ†æ”¯ã€åç§°åˆ†æ”¯ï¼Œä¸å«ç§ç±»åˆ†æ”¯ã€‘
 
-		×Ó¹¦ÄÜ£º	-> Ê÷½á¹¹
-						-> Ö»ÓĞÒ»²ãÊ÷Ö¦£¬Ê÷Ö¦¶¼ÊÇ·ÖÀà£¬Ò¶×Ó¶¼ÊÇ¶ÔÏó
-						-> ²»º¬Ò¶×ÓµÄÌí¼Ó¡¢É¾³ı¹¦ÄÜ£¬µ«¿ÉÒÔ±à¼­
-						-> ²»¿É±à¼­¶ÔÏó×î´óÖµ£¨ÉÏÏŞ£©
-					-> Ñ¡ÖĞ
-						-> ¿É¶àÑ¡£¬×¢ÒâÃ»ÓĞÑ¡ÏîÊ±ÎÊÌâ
-						-> Ã¿´ÎÑ¡ÖĞÊ±£¬·¢ÉäÊ÷µÄĞÅºÅ
-					-> ·ÖÖ§
-						-> ID·ÖÖ§
-						-> Ãû³Æ·ÖÖ§
-						x-> ÖÖÀà·ÖÖ§£¨¸ÃÀà²»º¬ÖÖÀà·ÖÖ§¹¦ÄÜ£©
-					-> Ê÷ÅäÖÃ
-						-> ÏÔÊ¾
-							> ÉèÖÃĞĞ¸ß
-							> ÉèÖÃÒ¶×ÓÏÔÊ¾ÎÄ±¾
-						-> ·ÖÖ§Ä£Ê½
-							> ĞŞ¸ÄÄ£Ê½
-							> ID·ÖÖ§ÌõÊı
+		å­åŠŸèƒ½ï¼š	-> æ ‘ç»“æ„
+						-> åªæœ‰ä¸€å±‚æ ‘æï¼Œæ ‘æéƒ½æ˜¯åˆ†ç±»ï¼Œå¶å­éƒ½æ˜¯å¯¹è±¡
+						-> ä¸å«å¶å­çš„æ·»åŠ ã€åˆ é™¤åŠŸèƒ½ï¼Œä½†å¯ä»¥ç¼–è¾‘
+						-> ä¸å¯ç¼–è¾‘å¯¹è±¡æœ€å¤§å€¼ï¼ˆä¸Šé™ï¼‰
+					-> é€‰ä¸­
+						-> å¯å¤šé€‰ï¼Œæ³¨æ„æ²¡æœ‰é€‰é¡¹æ—¶é—®é¢˜
+						-> æ¯æ¬¡é€‰ä¸­æ—¶ï¼Œå‘å°„æ ‘çš„ä¿¡å·
+					-> åˆ†æ”¯
+						-> IDåˆ†æ”¯
+						-> åç§°åˆ†æ”¯
+						x-> ç§ç±»åˆ†æ”¯ï¼ˆè¯¥ç±»ä¸å«ç§ç±»åˆ†æ”¯åŠŸèƒ½ï¼‰
+					-> æ ‘é…ç½®
+						-> æ˜¾ç¤º
+							> è®¾ç½®è¡Œé«˜
+							> è®¾ç½®å¶å­æ˜¾ç¤ºæ–‡æœ¬
+						-> åˆ†æ”¯æ¨¡å¼
+							> ä¿®æ”¹æ¨¡å¼
+							> IDåˆ†æ”¯æ¡æ•°
 
-		ËµÃ÷£º		ËùÓĞÒ¶×ÓÔÚloadSourceºó²»ÔÙÔö¼õ¡£
-						rebuildTreeData£º¿ÉÒÔÊ¹µÃÒ¶×ÓÖØĞÂÅÅĞò¡¢Ë¢ĞÂÒ¶×ÓÏÔÊ¾
-						refreshTreeData£ºË¢ĞÂÒ¶×ÓÏÔÊ¾
-					Ê÷ÖĞ·´¸´¸Ä±äµÄÊÇÊ÷Ö¦£¬Ê÷Ö¦µÄÊı¾İ£¬¶¼ÔÚ Ê÷ÅäÖÃ ÖĞ´æ´¢£¬Óë ×ÊÔ´Êı¾İ ÎŞ¹Ø¡£
+		è¯´æ˜ï¼š		æ‰€æœ‰å¶å­åœ¨loadSourceåä¸å†å¢å‡ã€‚
+						rebuildTreeDataï¼šå¯ä»¥ä½¿å¾—å¶å­é‡æ–°æ’åºã€åˆ·æ–°å¶å­æ˜¾ç¤º
+						refreshTreeDataï¼šåˆ·æ–°å¶å­æ˜¾ç¤º
+					æ ‘ä¸­åå¤æ”¹å˜çš„æ˜¯æ ‘æï¼Œæ ‘æçš„æ•°æ®ï¼Œéƒ½åœ¨ æ ‘é…ç½® ä¸­å­˜å‚¨ï¼Œä¸ èµ„æºæ•°æ® æ— å…³ã€‚
 					
-		Ê¹ÓÃ·½·¨£º
-				> ³õÊ¼»¯
-					this->m_p_tree = new P_FlexiblePageTree(ui.treeWidget_2);	//£¨´´½¨¶ÔÏó£©
-				> Êı¾İ³õÊ¼»¯
-					C_FPT_Config* config = this->m_p_tree->createConfigData();				//£¨´Ó¹¤³§ÖĞ»ñÈ¡ Ê÷ÅäÖÃ £¬ĞèÒªÇ¿×ª£©
-					config->setJsonObject(obj_treeData, this->m_p_tree);					//£¨Ê÷ÅäÖÃ³õÊ¼»¯£©
+		ä½¿ç”¨æ–¹æ³•ï¼š
+				> åˆå§‹åŒ–
+					this->m_p_tree = new P_FlexiblePageTree(ui.treeWidget_2);	//ï¼ˆåˆ›å»ºå¯¹è±¡ï¼‰
+				> æ•°æ®åˆå§‹åŒ–
+					C_FPT_Config* config = this->m_p_tree->createConfigData();				//ï¼ˆä»å·¥å‚ä¸­è·å– æ ‘é…ç½® ï¼Œéœ€è¦å¼ºè½¬ï¼‰
+					config->setJsonObject(obj_treeData, this->m_p_tree);					//ï¼ˆæ ‘é…ç½®åˆå§‹åŒ–ï¼‰
 					this->m_p_tree->setConfigEx(config);									//
-					this->m_p_tree->loadSource(data_list, "id", "name", "type");			//£¨¶ÁÈ¡×ÊÔ´Êı¾İ£©
-				> »ñÈ¡Ê÷ÅäÖÃ
+					this->m_p_tree->loadSource(data_list, "id", "name", "type");			//ï¼ˆè¯»å–èµ„æºæ•°æ®ï¼‰
+				> è·å–æ ‘é…ç½®
 					C_FPT_Config* config = this->m_p_tree->getConfig();
 					
-		Ê¹ÓÃ×¢Òâ£º	¡¾Ö÷ÒªÓĞÁ½¸ö½»»¥¶ÔÏó£ºÊ÷ÅäÖÃ ºÍ ×ÊÔ´Êı¾İ ¡¿
-					config´«ÈëµÄÊÇÖ¸Õë£¬ĞŞ¸Ä»áÁ¢¼´ÉúĞ§£¬µ«²»»áË¢ĞÂÊı¾İ£¬ËùÒÔÈÔÈ»ĞèÒªµ÷ÓÃsetConfig()º¯Êı¡£
-					ÄÚ²¿ĞŞ¸Ä»áÖ±½Ó¸Ä±ä ×ÊÔ´Êı¾İ µÄÊı¾İÄÚÈİ£¬Èç¹ûÍâ²¿ĞèÒªÍ¬²½Ë¢ĞÂ£¬¿ÉÒÔ»ñÈ¡±ä»¯µÄÊı¾İ£¬È»ºóË¢ĞÂ¡£
+		ä½¿ç”¨æ³¨æ„ï¼š	ã€ä¸»è¦æœ‰ä¸¤ä¸ªäº¤äº’å¯¹è±¡ï¼šæ ‘é…ç½® å’Œ èµ„æºæ•°æ® ã€‘
+					configä¼ å…¥çš„æ˜¯æŒ‡é’ˆï¼Œä¿®æ”¹ä¼šç«‹å³ç”Ÿæ•ˆï¼Œä½†ä¸ä¼šåˆ·æ–°æ•°æ®ï¼Œæ‰€ä»¥ä»ç„¶éœ€è¦è°ƒç”¨setConfig()å‡½æ•°ã€‚
+					å†…éƒ¨ä¿®æ”¹ä¼šç›´æ¥æ”¹å˜ èµ„æºæ•°æ® çš„æ•°æ®å†…å®¹ï¼Œå¦‚æœå¤–éƒ¨éœ€è¦åŒæ­¥åˆ·æ–°ï¼Œå¯ä»¥è·å–å˜åŒ–çš„æ•°æ®ï¼Œç„¶ååˆ·æ–°ã€‚
 -----==========================================================-----
 */
 P_FlexiblePageTree::P_FlexiblePageTree(QTreeWidget *parent)
@@ -63,49 +63,52 @@ P_FlexiblePageTree::P_FlexiblePageTree(QTreeWidget *parent)
 {
 
 	//-----------------------------------
-	//----²ÎÊı³õÊ¼»¯
+	//----å‚æ•°åˆå§‹åŒ–
 
-	// > Ê÷¶ÔÏó
-	this->m_tree = parent;								//Ê÷¶ÔÏó
-	this->m_treeStyle = this->m_tree->styleSheet();		//Ê÷Ä¬ÈÏÑùÊ½
+	// > æ ‘å¯¹è±¡
+	this->m_tree = parent;								//æ ‘å¯¹è±¡
+	this->m_treeStyle = this->m_tree->styleSheet();		//æ ‘é»˜è®¤æ ·å¼
 
-	// > Ò¶×Ó
-	this->m_leafItem = QList<I_FPT_Leaf*>();				//Ò¶×ÓÁĞ±í
+	// > å¶å­
+	this->m_leafItem.clear();							//å¶å­åˆ—è¡¨
 
-	// > Ê÷Ö¦
-	this->m_branchItem = QList<I_FPT_Branch*>();			//Ê÷Ö¦ÁĞ±í
+	// > æ ‘æ
+	this->m_branchItem.clear();							//æ ‘æåˆ—è¡¨
 
-	// > Ñ¡ÖĞ
+	// > é€‰ä¸­
 	this->m_last_selectedItem = nullptr;
 	this->m_last_selectedLeaf = nullptr;
 
-	// > Ê÷ÊÂ¼ş
-	this->m_slotBlock = false;							//²Û×èÈû
+	// > æ ‘äº‹ä»¶
+	this->m_slotBlock = false;							//æ§½é˜»å¡
 
-	// > ÓÒ¼ü²Ëµ¥
-	this->m_mainMenu = nullptr;							//ÓÒ¼ü²Ëµ¥
-	this->m_modeMenu = nullptr;							//·ÖÖ§²Ëµ¥
-	this->m_leafOuterControlEnabled = true;				//²Ëµ¥ - ¿ª¹Ø
-	this->m_leafOuterControl_CopyActive = true;			//²Ëµ¥ - ¸´ÖÆ¼¤»î
-	this->m_leafOuterControl_PasteActive = false;		//²Ëµ¥ - Õ³Ìù¼¤»î
-	this->m_leafOuterControl_ClearActive = true;		//²Ëµ¥ - Çå¿Õ¼¤»î
+	// > å³é”®èœå•
+	this->m_mainMenu = nullptr;							//å³é”®èœå•
+	this->m_modeMenu = nullptr;							//åˆ†æ”¯èœå•
+	this->m_leafOuterControlEnabled = true;				//èœå• - å¼€å…³
+	this->m_leafOuterControl_CopyActive = true;			//èœå• - å¤åˆ¶æ¿€æ´»
+	this->m_leafOuterControl_PasteActive = false;		//èœå• - ç²˜è´´æ¿€æ´»
+	this->m_leafOuterControl_ClearActive = true;		//èœå• - æ¸…ç©ºæ¿€æ´»
 
-	// > Ê÷ÉèÖÃ
+	// > æ ‘è®¾ç½®
 	this->m_config = this->createConfigData();
 
-	// > ×ÊÔ´Êı¾İ
+	// > èµ„æºæ•°æ®
 	this->m_source_ObjectSortController = new P_ObjectSortController();
-	this->m_source_list = QList<C_ObjectSortData>();
+	this->m_source_list.clear();
+
+	// > çª—å£é”
+	this->m_config_windowLockNum = 0;
 
 
 	//-----------------------------------
-	//----ui³õÊ¼»¯
-	this->m_tree->setContextMenuPolicy(Qt::CustomContextMenu);								//¼¤»îÓÒ¼ü
-	this->m_tree->setSelectionMode(QAbstractItemView::SelectionMode::ContiguousSelection);	//¶àÑ¡Ò¶×Ó
+	//----uiåˆå§‹åŒ–
+	this->m_tree->setContextMenuPolicy(Qt::CustomContextMenu);								//æ¿€æ´»å³é”®
+	this->m_tree->setSelectionMode(QAbstractItemView::SelectionMode::ContiguousSelection);	//å¤šé€‰å¶å­
 
 
 	//-----------------------------------
-	//----ÊÂ¼ş°ó¶¨
+	//----äº‹ä»¶ç»‘å®š
 	connect(this->m_tree, &QTreeWidget::itemClicked, this, &P_FlexiblePageTree::sltItemClicked);
 	connect(this->m_tree, &QTreeWidget::itemDoubleClicked, this, &P_FlexiblePageTree::sltItemDoubleClicked);
 	connect(this->m_tree, &QTreeWidget::customContextMenuRequested, this, &P_FlexiblePageTree::sltItemRightClicked);
@@ -117,25 +120,25 @@ P_FlexiblePageTree::~P_FlexiblePageTree(){
 
 
 /*-------------------------------------------------
-		¹¤³§ - ´´½¨ Ê÷ÉèÖÃ Êı¾İ£¨¿É¸²Ğ´£©
+		å·¥å‚ - åˆ›å»º æ ‘è®¾ç½® æ•°æ®ï¼ˆå¯è¦†å†™ï¼‰
 */
 C_FPT_Config* P_FlexiblePageTree::createConfigData(){
 	return new C_FPT_Config();
 }
 /*-------------------------------------------------
-		¹¤³§ - ´´½¨ Ê÷ÉèÖÃ ±à¼­´°¿Ú£¨¿É¸²Ğ´£©
+		å·¥å‚ - åˆ›å»º æ ‘è®¾ç½® ç¼–è¾‘çª—å£ï¼ˆå¯è¦†å†™ï¼‰
 */
 W_FPT_Config* P_FlexiblePageTree::createConfigWindow(){
 	return new W_FPT_Config(this->m_tree);
 }
 /*-------------------------------------------------
-		¹¤³§ - ´´½¨ Ò¶×Ó¿Ø¼ş£¨¿É¸²Ğ´£©
+		å·¥å‚ - åˆ›å»º å¶å­æ§ä»¶ï¼ˆå¯è¦†å†™ï¼‰
 */
 I_FPT_Leaf* P_FlexiblePageTree::createFCTLeaf(){
 	return new I_FPT_Leaf(this->m_config);
 }
 /*-------------------------------------------------
-		¹¤³§ - ´´½¨ Ê÷Ö¦¿Ø¼ş£¨¿É¸²Ğ´£©
+		å·¥å‚ - åˆ›å»º æ ‘ææ§ä»¶ï¼ˆå¯è¦†å†™ï¼‰
 */
 I_FPT_Branch* P_FlexiblePageTree::createFCTBranch(){
 	return new I_FPT_Branch(this->m_config);
@@ -143,48 +146,48 @@ I_FPT_Branch* P_FlexiblePageTree::createFCTBranch(){
 
 
 /*-------------------------------------------------
-		Ê÷¶ÔÏó - »ñÈ¡Ê÷
+		æ ‘å¯¹è±¡ - è·å–æ ‘
 */
 QTreeWidget* P_FlexiblePageTree::getTree(){
 	return this->m_tree;
 }
 /*-------------------------------------------------
-		Ê÷¶ÔÏó - Ë¢ĞÂÊ÷
+		æ ‘å¯¹è±¡ - åˆ·æ–°æ ‘
 */
 void P_FlexiblePageTree::refreshTreeUi() {
 	QList<QTreeWidgetItem*> last_selected_item = this->m_tree->selectedItems();
 
-	// > È¥µôÈ«²¿Ê÷Ö¦
+	// > å»æ‰å…¨éƒ¨æ ‘æ
 	for (int i = this->m_tree->topLevelItemCount()-1; i >=0; i--){
 		this->m_tree->takeTopLevelItem(i);
 	}
 
-	// > ÖØĞÂÌí¼ÓÊ÷Ö¦
+	// > é‡æ–°æ·»åŠ æ ‘æ
 	for (int i = 0; i < this->m_branchItem.count(); i++){
 		this->m_tree->addTopLevelItem(this->m_branchItem.at(i));
 	}
 
-	// > Ë¢ĞÂÊ÷Ö¦Êı¾İ
+	// > åˆ·æ–°æ ‘ææ•°æ®
 	for (int i = 0; i < this->m_branchItem.count(); i++){
 		I_FPT_Branch* branch = this->m_branchItem.at(i);
 		branch->refreshItemSelf();
 	}
-	// > Ë¢ĞÂÒ¶×ÓÊı¾İ
+	// > åˆ·æ–°å¶å­æ•°æ®
 	for (int i = 0; i < this->m_leafItem.count(); i++){
 		I_FPT_Leaf* leaf = this->m_leafItem.at(i);
 		leaf->refreshItemSelf();
 	}
 
-	// > ÌØÊâ·ÖÖ§²Ù×÷
+	// > ç‰¹æ®Šåˆ†æ”¯æ“ä½œ
 	this->refreshTreeUi_special();
 
-	// > ĞĞ¸ßË¢ĞÂ
+	// > è¡Œé«˜åˆ·æ–°
 	this->m_tree->setStyleSheet(this->m_treeStyle + "\n QTreeView::item { height: " + QString::number(this->m_config->rowHeight) + "px;}");
 	
-	// > Õ¹¿ªÈ«²¿
+	// > å±•å¼€å…¨éƒ¨
 	this->m_tree->expandAll();
 
-	// > Ñ¡ÖĞ±ä»¯Ïî
+	// > é€‰ä¸­å˜åŒ–é¡¹
 	for (int i = 0; i < last_selected_item.count(); i++){
 		if (i == 0){
 			this->m_tree->scrollToItem(last_selected_item.at(0));
@@ -193,50 +196,50 @@ void P_FlexiblePageTree::refreshTreeUi() {
 	}
 }
 /*-------------------------------------------------
-		Ê÷¶ÔÏó - ÇåÀíÈ«²¿
+		æ ‘å¯¹è±¡ - æ¸…ç†å…¨éƒ¨
 */
 void P_FlexiblePageTree::clearAll(){
 
-	// > È¥µôÈ«²¿·ÖÀà
+	// > å»æ‰å…¨éƒ¨åˆ†ç±»
 	for (int i = this->m_tree->topLevelItemCount() - 1; i >= 0; i--){
 		this->m_tree->takeTopLevelItem(i);
 	}
 
-	// > ¿Ø¼şÇåÀí
+	// > æ§ä»¶æ¸…ç†
 	this->m_leafItem.clear();
 	this->m_branchItem.clear();
 
-	// > Ê÷ÉèÖÃ£¨Ê÷ÉèÖÃÓë×ÊÔ´¶ÁÈ¡ÎŞ¹Ø£¬²»ÇåÀí£©
+	// > æ ‘è®¾ç½®ï¼ˆæ ‘è®¾ç½®ä¸èµ„æºè¯»å–æ— å…³ï¼Œä¸æ¸…ç†ï¼‰
 
-	// > ×ÊÔ´ÇåÀí
+	// > èµ„æºæ¸…ç†
 	this->m_source_list.clear();
 	this->m_leafOuterControl_PasteActive = false;
 }
 
 /*-------------------------------------------------
-		Ê÷¶ÔÏó - Ë¢ĞÂÊ÷ - ·ÖÖ§
+		æ ‘å¯¹è±¡ - åˆ·æ–°æ ‘ - åˆ†æ”¯
 */
 void P_FlexiblePageTree::refreshTreeUi_special() {
 
-	// > Ò¶×ÓÎ»ÖÃ×ªÒÆ
+	// > å¶å­ä½ç½®è½¬ç§»
 	if (this->m_config->is_id_Mode()){ this->refreshTreeUi_id_inc(); }
 	if (this->m_config->is_name_Mode()){ this->refreshTreeUi_name_inc(); }
 
 }
 /*-------------------------------------------------
-		Ê÷¶ÔÏó - Ë¢ĞÂÊ÷ - ·ÖÖ§ - ID·ÖÖ§
+		æ ‘å¯¹è±¡ - åˆ·æ–°æ ‘ - åˆ†æ”¯ - IDåˆ†æ”¯
 */
 void P_FlexiblePageTree::refreshTreeUi_id_inc() {
 	
-	// > ÎŞÊ÷Ö¦±ä»¯£¨ÔÚ²»ÖØË¢µÄÇé¿öÏÂ£¬idÊÇ²»¿ÉÄÜ»á±äµÄ£©
+	// > æ— æ ‘æå˜åŒ–ï¼ˆåœ¨ä¸é‡åˆ·çš„æƒ…å†µä¸‹ï¼Œidæ˜¯ä¸å¯èƒ½ä¼šå˜çš„ï¼‰
 
 }
 /*-------------------------------------------------
-		Ê÷¶ÔÏó - Ë¢ĞÂÊ÷ - ·ÖÖ§ - Ãû³Æ·ÖÖ§
+		æ ‘å¯¹è±¡ - åˆ·æ–°æ ‘ - åˆ†æ”¯ - åç§°åˆ†æ”¯
 */
 void P_FlexiblePageTree::refreshTreeUi_name_inc() {
 	
-	// > Ãû³ÆĞŞ¸Äºó£¬ĞŞ¸ÄµÄÒ¶×Ó¿ÉÄÜ»áÅÜµ½ĞÂÊ÷Ö¦ÏÂ
+	// > åç§°ä¿®æ”¹åï¼Œä¿®æ”¹çš„å¶å­å¯èƒ½ä¼šè·‘åˆ°æ–°æ ‘æä¸‹
 	for (int i = 0; i < this->m_leafItem.count(); i++){
 		I_FPT_Leaf* leaf = this->m_leafItem.at(i);
 		I_FPT_Branch* parent_branch = dynamic_cast<I_FPT_Branch*>(leaf->parent());
@@ -256,25 +259,25 @@ void P_FlexiblePageTree::refreshTreeUi_name_inc() {
 
 
 /*-------------------------------------------------
-		Ò¶×Ó - ¡¾Íâ²¿ĞŞ¸Ä¡¿Ò¶×ÓÃû³Æ
+		å¶å­ - ã€å¤–éƒ¨ä¿®æ”¹ã€‘å¶å­åç§°
 */
 void P_FlexiblePageTree::outerModifyLeafName(int id, QString name){
 	I_FPT_Leaf* leaf = this->getLeafById(id);
 	if (leaf == nullptr){ return; }
 	
-	// > ĞŞ¸ÄÒ¶×Ó
+	// > ä¿®æ”¹å¶å­
 	leaf->setName(name);
-	// > ĞŞ¸ÄÒ¶×Ó - Ãû³Æ·ÖÖ§Ê±£¬Ò¶×Ó¸¸Àà¿ÉÄÜ×ªÒÆ
+	// > ä¿®æ”¹å¶å­ - åç§°åˆ†æ”¯æ—¶ï¼Œå¶å­çˆ¶ç±»å¯èƒ½è½¬ç§»
 	if (this->m_config->is_name_Mode()){
 		if (name == ""){
-			leaf->setLeaf_name_Symbol("¿Õ×Ö·û");
+			leaf->setLeaf_name_Symbol("ç©ºå­—ç¬¦");
 		}else{
-			leaf->setLeaf_name_Symbol(S_ChineseManager::getInstance()->getChineseFirstSpell(name));	//Ê××ÖÄ¸
+			leaf->setLeaf_name_Symbol(S_ChineseManager::getInstance()->getChineseFirstSpell(name));	//é¦–å­—æ¯
 		}
 	}
 	leaf->refreshItemSelf();
 
-	// > ĞŞ¸Ä±¾µØÊı¾İ
+	// > ä¿®æ”¹æœ¬åœ°æ•°æ®
 	for (int i = 0; i < this->m_source_list.count(); i++){
 		C_ObjectSortData c_data = this->m_source_list.at(i);
 		if (c_data.id == id ){
@@ -287,17 +290,17 @@ void P_FlexiblePageTree::outerModifyLeafName(int id, QString name){
 	}
 }
 /*-------------------------------------------------
-		Ò¶×Ó - ¡¾Íâ²¿ĞŞ¸Ä¡¿Ò¶×ÓÀàĞÍ
+		å¶å­ - ã€å¤–éƒ¨ä¿®æ”¹ã€‘å¶å­ç±»å‹
 */
 void P_FlexiblePageTree::outerModifyLeafType(int id, QString type){
 	I_FPT_Leaf* leaf = this->getLeafById(id);
 	if (leaf == nullptr){ return; }
 
-	// > ĞŞ¸ÄÒ¶×Ó
+	// > ä¿®æ”¹å¶å­
 	leaf->setType(type);
 	leaf->refreshItemSelf();
 
-	// > ĞŞ¸Ä±¾µØÊı¾İ
+	// > ä¿®æ”¹æœ¬åœ°æ•°æ®
 	for (int i = 0; i < this->m_source_list.count(); i++){
 		C_ObjectSortData c_data = this->m_source_list.at(i);
 		if (c_data.id == id){
@@ -310,24 +313,24 @@ void P_FlexiblePageTree::outerModifyLeafType(int id, QString type){
 	}
 }
 /*-------------------------------------------------
-		Ò¶×Ó - ¡¾Íâ²¿ĞŞ¸Ä¡¿Ñ¡ÖĞµÄÒ¶×ÓÃû³Æ
+		å¶å­ - ã€å¤–éƒ¨ä¿®æ”¹ã€‘é€‰ä¸­çš„å¶å­åç§°
 */
 void P_FlexiblePageTree::outerModifySelectedLeafName(QString name){
 	if (this->m_last_selectedLeaf == nullptr){ return; }
 	
-	// > ĞŞ¸ÄÒ¶×Ó
+	// > ä¿®æ”¹å¶å­
 	this->m_last_selectedLeaf->setName(name);
-	// > ĞŞ¸ÄÒ¶×Ó - Ãû³Æ·ÖÖ§Ê±£¬Ò¶×Ó¸¸Àà¿ÉÄÜ×ªÒÆ
+	// > ä¿®æ”¹å¶å­ - åç§°åˆ†æ”¯æ—¶ï¼Œå¶å­çˆ¶ç±»å¯èƒ½è½¬ç§»
 	if (this->m_config->is_name_Mode()){
 		if (name == ""){
-			this->m_last_selectedLeaf->setLeaf_name_Symbol("¿Õ×Ö·û");
+			this->m_last_selectedLeaf->setLeaf_name_Symbol("ç©ºå­—ç¬¦");
 		}else{
-			this->m_last_selectedLeaf->setLeaf_name_Symbol(S_ChineseManager::getInstance()->getChineseFirstSpell(name));	//Ê××ÖÄ¸
+			this->m_last_selectedLeaf->setLeaf_name_Symbol(S_ChineseManager::getInstance()->getChineseFirstSpell(name));	//é¦–å­—æ¯
 		}
 	}
 	this->m_last_selectedLeaf->refreshItemSelf();
 
-	// > ĞŞ¸Ä±¾µØÊı¾İ
+	// > ä¿®æ”¹æœ¬åœ°æ•°æ®
 	for (int i = 0; i < this->m_source_list.count(); i++){
 		C_ObjectSortData c_data = this->m_source_list.at(i);
 		if (c_data.id == this->m_last_selectedLeaf->getId()){
@@ -340,16 +343,16 @@ void P_FlexiblePageTree::outerModifySelectedLeafName(QString name){
 	}
 }
 /*-------------------------------------------------
-		Ò¶×Ó - ¡¾Íâ²¿ĞŞ¸Ä¡¿Ñ¡ÖĞµÄÒ¶×ÓÀàĞÍ
+		å¶å­ - ã€å¤–éƒ¨ä¿®æ”¹ã€‘é€‰ä¸­çš„å¶å­ç±»å‹
 */
 void P_FlexiblePageTree::outerModifySelectedLeafType(QString type){
 	if (this->m_last_selectedLeaf == nullptr){ return; }
 
-	// > ĞŞ¸ÄÒ¶×Ó
+	// > ä¿®æ”¹å¶å­
 	this->m_last_selectedLeaf->setType(type);
 	this->m_last_selectedLeaf->refreshItemSelf();
 
-	// > ĞŞ¸Ä±¾µØÊı¾İ
+	// > ä¿®æ”¹æœ¬åœ°æ•°æ®
 	for (int i = 0; i < this->m_source_list.count(); i++){
 		C_ObjectSortData c_data = this->m_source_list.at(i);
 		if (c_data.id == this->m_last_selectedLeaf->getId()){
@@ -364,7 +367,7 @@ void P_FlexiblePageTree::outerModifySelectedLeafType(QString type){
 
 
 /*-------------------------------------------------
-		Ò¶×Ó - »ñÈ¡ - »ñÈ¡¶ÔÏó£¨¸ù¾İID£©
+		å¶å­ - è·å– - è·å–å¯¹è±¡ï¼ˆæ ¹æ®IDï¼‰
 */
 I_FPT_Leaf* P_FlexiblePageTree::getLeafById(int id){
 	for (int i = 0; i < this->m_leafItem.count(); i++){
@@ -384,7 +387,7 @@ I_FPT_Leaf* P_FlexiblePageTree::getLeafByName(QString name){
 	return nullptr;
 }
 /*-------------------------------------------------
-		Ò¶×Ó - »ñÈ¡ - Ãû³Æ
+		å¶å­ - è·å– - åç§°
 */
 QString P_FlexiblePageTree::getLeafName(int id){
 	I_FPT_Leaf* leaf = this->getLeafById(id);
@@ -392,7 +395,7 @@ QString P_FlexiblePageTree::getLeafName(int id){
 	return leaf->getName();
 }
 /*-------------------------------------------------
-		Ò¶×Ó - »ñÈ¡ - ÅĞ¶ÏÒ¶×Ó
+		å¶å­ - è·å– - åˆ¤æ–­å¶å­
 */
 bool P_FlexiblePageTree::hasLeafName(QString name){
 	for (int i = 0; i < this->m_leafItem.count(); i++){
@@ -403,7 +406,7 @@ bool P_FlexiblePageTree::hasLeafName(QString name){
 	return false;
 }
 /*-------------------------------------------------
-		Ò¶×Ó - »ñÈ¡ - ÅĞ¶Ï¶ÔÏó
+		å¶å­ - è·å– - åˆ¤æ–­å¯¹è±¡
 */
 bool P_FlexiblePageTree::isLeaf(QTreeWidgetItem* item){
 	for (int i = 0; i < this->m_leafItem.count(); i++){
@@ -424,7 +427,7 @@ bool P_FlexiblePageTree::isLeafList(QList<QTreeWidgetItem*> item_list){
 
 
 /*-------------------------------------------------
-		Ê÷Ö¦ - »ñÈ¡Ê÷Ö¦£¨Ãû³Æ·ÖÖ§×¨ÓÃ£©
+		æ ‘æ - è·å–æ ‘æï¼ˆåç§°åˆ†æ”¯ä¸“ç”¨ï¼‰
 */
 I_FPT_Branch* P_FlexiblePageTree::getBranchByNameSymbol(QString symbol){
 	for (int i = 0; i < this->m_branchItem.count(); i++){
@@ -435,7 +438,7 @@ I_FPT_Branch* P_FlexiblePageTree::getBranchByNameSymbol(QString symbol){
 	return nullptr;
 }
 /*-------------------------------------------------
-		Ê÷Ö¦ - »ñÈ¡ - ÅĞ¶Ï¶ÔÏó
+		æ ‘æ - è·å– - åˆ¤æ–­å¯¹è±¡
 */
 bool P_FlexiblePageTree::isBranch(QTreeWidgetItem* item){
 	for (int i = 0; i < this->m_branchItem.count(); i++){
@@ -457,7 +460,7 @@ bool P_FlexiblePageTree::isBranchList(QList<QTreeWidgetItem*> item_list){
 
 
 /*-------------------------------------------------
-		Ê÷ÊÂ¼ş - µ¥»÷ÊÂ¼ş
+		æ ‘äº‹ä»¶ - å•å‡»äº‹ä»¶
 */
 void P_FlexiblePageTree::sltItemClicked(QTreeWidgetItem *item, int index) {
 	if (item == nullptr){ return; }
@@ -466,7 +469,7 @@ void P_FlexiblePageTree::sltItemClicked(QTreeWidgetItem *item, int index) {
 	//...
 }
 /*-------------------------------------------------
-		Ê÷ÊÂ¼ş - Ë«»÷ÊÂ¼ş
+		æ ‘äº‹ä»¶ - åŒå‡»äº‹ä»¶
 */
 void P_FlexiblePageTree::sltItemDoubleClicked(QTreeWidgetItem *item, int index) {
 	if (item == nullptr){ return; }
@@ -475,7 +478,7 @@ void P_FlexiblePageTree::sltItemDoubleClicked(QTreeWidgetItem *item, int index) 
 	//...
 }
 /*-------------------------------------------------
-		Ê÷ÊÂ¼ş -  È¦Ñ¡±ä»¯ÊÂ¼ş
+		æ ‘äº‹ä»¶ -  åœˆé€‰å˜åŒ–äº‹ä»¶
 */
 void P_FlexiblePageTree::sltItemSelectionChanged(){
 	if (this->m_slotBlock == true){ return; }
@@ -483,27 +486,27 @@ void P_FlexiblePageTree::sltItemSelectionChanged(){
 	if (selected_items.count() == 0){ return; }
 	QTreeWidgetItem *item = selected_items.at(0);
 
-	// > Ê÷½Úµã±ä»¯
+	// > æ ‘èŠ‚ç‚¹å˜åŒ–
 	if (this->m_last_selectedItem != item){
 		this->m_last_selectedItem = item;
-		emit currentItemChanged(item);
+		emit signal_currentItemChanged(item);
 	}
-	// > Ò¶×Ó±ä»¯
+	// > å¶å­å˜åŒ–
 	if ( this->isLeaf(item) && 
 		 this->m_last_selectedLeaf != item){
 		this->m_last_selectedLeaf = dynamic_cast<I_FPT_Leaf*>(item);
-		emit currentLeafChanged(item, this->m_last_selectedLeaf->getId(), this->m_last_selectedLeaf->getName());
+		emit signal_currentLeafChanged(item, this->m_last_selectedLeaf->getId(), this->m_last_selectedLeaf->getName());
 	}
 }
 /*-------------------------------------------------
-		Ê÷ÊÂ¼ş - ÓÒ¼üÊÂ¼ş
+		æ ‘äº‹ä»¶ - å³é”®äº‹ä»¶
 */
 void P_FlexiblePageTree::sltItemRightClicked(QPoint point) {
-	QTreeWidgetItem *item = this->m_tree->itemAt(point);	//£¨µ±Ç°ÓÒ¼üÑ¡ÖĞµÄÏî£©
+	QTreeWidgetItem *item = this->m_tree->itemAt(point);	//ï¼ˆå½“å‰å³é”®é€‰ä¸­çš„é¡¹ï¼‰
 	if (item == nullptr){ return; }
 	if (this->m_tree->selectedItems().count() == 0){ return; }
 
-	/*------------------------ÓÒ¼üµã»÷Ò»¸ö»ò¶à¸ö Ê÷Ö¦/Ò¶×Ó------------------------*/
+	/*------------------------å³é”®ç‚¹å‡»ä¸€ä¸ªæˆ–å¤šä¸ª æ ‘æ/å¶å­------------------------*/
 	this->m_mainMenu = new QMenu(this->m_tree);
 
 		this->m_modeMenu = new QMenu(this->m_mainMenu);
@@ -518,17 +521,17 @@ void P_FlexiblePageTree::sltItemRightClicked(QPoint point) {
 
 
 /*-------------------------------------------------
-		ÓÒ¼ü²Ëµ¥ - Ò»¼¶²Ëµ¥
+		å³é”®èœå• - ä¸€çº§èœå•
 */
 void P_FlexiblePageTree::drawMenuMain(){
 	QAction *action;
 	QList<QTreeWidgetItem*> selected_items = this->m_tree->selectedItems();
 
-	/*------------------------ÓÒ¼üµã»÷µ¥¸öÒ¶×Ó------------------------*/
+	/*------------------------å³é”®ç‚¹å‡»å•ä¸ªå¶å­------------------------*/
 	if (this->isLeafList(selected_items) == true && selected_items.count() == 1 && this->m_leafOuterControlEnabled == true){
 		I_FPT_Leaf* leaf = dynamic_cast<I_FPT_Leaf*>(selected_items.at(0));
 
-		action = new QAction("¸´ÖÆ", this);
+		action = new QAction("å¤åˆ¶", this);
 		action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Copy.png"));
 		action->setData(leaf->getId());
 		action->setShortcut(QKeySequence::Copy);
@@ -536,7 +539,7 @@ void P_FlexiblePageTree::drawMenuMain(){
 		this->m_mainMenu->addAction(action);
 		action->setEnabled(this->m_leafOuterControl_CopyActive);
 		
-		action = new QAction("Õ³Ìù", this);
+		action = new QAction("ç²˜è´´", this);
 		action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Paste.png"));
 		action->setData(leaf->getId());
 		action->setShortcut(QKeySequence::Paste);
@@ -544,7 +547,7 @@ void P_FlexiblePageTree::drawMenuMain(){
 		this->m_mainMenu->addAction(action);
 		action->setEnabled(this->m_leafOuterControl_PasteActive);
 
-		action = new QAction("Çå¿Õ", this);
+		action = new QAction("æ¸…ç©º", this);
 		action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Clear.png"));
 		action->setData(leaf->getId());
 		action->setShortcut(QKeySequence::Delete);
@@ -555,13 +558,13 @@ void P_FlexiblePageTree::drawMenuMain(){
 		this->m_mainMenu->addSeparator();
 	}
 
-	/*------------------------ÈÎÒâÇé¿ö------------------------*/
-	action = new QAction("Õ¹¿ªÈ«²¿", this);
+	/*------------------------ä»»æ„æƒ…å†µ------------------------*/
+	action = new QAction("å±•å¼€å…¨éƒ¨", this);
 	action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Unfold.png"));
 	connect(action, &QAction::triggered, this->m_tree, &QTreeWidget::expandAll);
 	this->m_mainMenu->addAction(action);
 
-	action = new QAction("ÊÕÆğÈ«²¿", this);
+	action = new QAction("æ”¶èµ·å…¨éƒ¨", this);
 	action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Fold.png"));
 	connect(action, &QAction::triggered, this->m_tree, &QTreeWidget::collapseAll);
 	this->m_mainMenu->addAction(action);
@@ -569,7 +572,7 @@ void P_FlexiblePageTree::drawMenuMain(){
 
 }
 /*-------------------------------------------------
-		ÓÒ¼ü²Ëµ¥ - Ò»¼¶²Ëµ¥£¨Î²²¿£©
+		å³é”®èœå• - ä¸€çº§èœå•ï¼ˆå°¾éƒ¨ï¼‰
 */
 void P_FlexiblePageTree::drawMenuMainLast(){
 	QAction *action;
@@ -577,23 +580,23 @@ void P_FlexiblePageTree::drawMenuMainLast(){
 	this->m_mainMenu->addSeparator();
 	this->m_mainMenu->addMenu(this->m_modeMenu);
 
-	action = new QAction("Ë¢ĞÂÅÅĞò", this);
+	action = new QAction("åˆ·æ–°æ’åº", this);
 	action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Refresh.png"));
 	connect(action, &QAction::triggered, this, &P_FlexiblePageTree::rebuildTreeData);
 	this->m_mainMenu->addAction(action);
 
-	action = new QAction("Ê÷ÉèÖÃ...", this);
+	action = new QAction("æ ‘è®¾ç½®...", this);
 	action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Setting.png"));
 	connect(action, &QAction::triggered, this, &P_FlexiblePageTree::openConfigParamWindow);
 	this->m_mainMenu->addAction(action);
 
 }
 /*-------------------------------------------------
-		ÓÒ¼ü²Ëµ¥ - ¶ş¼¶²Ëµ¥£¨Ä£Ê½£©
+		å³é”®èœå• - äºŒçº§èœå•ï¼ˆæ¨¡å¼ï¼‰
 */
 void P_FlexiblePageTree::drawMenuMode(){
 	QAction *action;
-	this->m_modeMenu->setTitle("·ÖÖ§Ä£Ê½");
+	this->m_modeMenu->setTitle("åˆ†æ”¯æ¨¡å¼");
 
 	QStringList sort_mode_list = this->m_config->getModeList();
 	for (int i = 0; i < sort_mode_list.count(); i++){
@@ -610,13 +613,13 @@ void P_FlexiblePageTree::drawMenuMode(){
 }
 
 /*-------------------------------------------------
-		ÓÒ¼ü²Ëµ¥ - ¿ª¹Ø£¨Ä¬ÈÏ¿ªÆô£©
+		å³é”®èœå• - å¼€å…³ï¼ˆé»˜è®¤å¼€å¯ï¼‰
 */
 void P_FlexiblePageTree::setLeafOuterControlEnabled(bool enabled){
 	this->m_leafOuterControlEnabled = enabled;
 }
 /*-------------------------------------------------
-		ÓÒ¼ü²Ëµ¥ - ¼¤»î¿ØÖÆ
+		å³é”®èœå• - æ¿€æ´»æ§åˆ¶
 */
 void P_FlexiblePageTree::setLeafOuterControl_CopyActive(bool enabled){
 	this->m_leafOuterControl_CopyActive = enabled;
@@ -628,77 +631,79 @@ void P_FlexiblePageTree::setLeafOuterControl_ClearActive(bool enabled){
 	this->m_leafOuterControl_ClearActive = enabled;
 }
 /*-------------------------------------------------
-		ÓÒ¼ü²Ëµ¥ - ¸´ÖÆ°´ÏÂ
+		å³é”®èœå• - å¤åˆ¶æŒ‰ä¸‹
 */
 void P_FlexiblePageTree::menuCopyLeafInAction(){
 	if (this->m_leafOuterControl_CopyActive == false){ return; }
-	QAction* cur_action = qobject_cast<QAction*>(sender());		//´ÓactionÀïÃæÈ¡³öÊı¾İ
+	QAction* cur_action = qobject_cast<QAction*>(sender());		//ä»actioné‡Œé¢å–å‡ºæ•°æ®
 	int id = cur_action->data().value<int>();
-	emit menuCopyLeafTriggered(id);
+	emit signal_menuCopyLeafTriggered(id);
 }
 /*-------------------------------------------------
-		ÓÒ¼ü²Ëµ¥ - Õ³Ìù°´ÏÂ
+		å³é”®èœå• - ç²˜è´´æŒ‰ä¸‹
 */
 void P_FlexiblePageTree::menuPasteLeafInAction(){
 	if (this->m_leafOuterControl_PasteActive == false){ return; }
-	QAction* cur_action = qobject_cast<QAction*>(sender());		//´ÓactionÀïÃæÈ¡³öÊı¾İ
+	QAction* cur_action = qobject_cast<QAction*>(sender());		//ä»actioné‡Œé¢å–å‡ºæ•°æ®
 	int id = cur_action->data().value<int>();
-	emit menuPasteLeafTriggered(id);
+	emit signal_menuPasteLeafTriggered(id);
 }
 /*-------------------------------------------------
-		ÓÒ¼ü²Ëµ¥ - Çå¿Õ°´ÏÂ
+		å³é”®èœå• - æ¸…ç©ºæŒ‰ä¸‹
 */
 void P_FlexiblePageTree::menuClearLeafInAction(){
 	if (this->m_leafOuterControl_ClearActive == false){ return; }
-	QAction* cur_action = qobject_cast<QAction*>(sender());		//´ÓactionÀïÃæÈ¡³öÊı¾İ
+	QAction* cur_action = qobject_cast<QAction*>(sender());		//ä»actioné‡Œé¢å–å‡ºæ•°æ®
 	int id = cur_action->data().value<int>();
-	emit menuClearLeafTriggered(id);
+	emit signal_menuClearLeafTriggered(id);
 }
 
 
 /*-------------------------------------------------
-		Ê÷ÉèÖÃ - ÉèÖÃ²ÎÊı
+		æ ‘è®¾ç½® - è®¾ç½®å‚æ•°
 */
 void P_FlexiblePageTree::setConfig(C_FPT_Config* config){
 	this->m_config = config;
 	this->refreshTreeUi();
 }
 /*-------------------------------------------------
-		Ê÷ÉèÖÃ - È¡³ö²ÎÊı
+		æ ‘è®¾ç½® - å–å‡ºå‚æ•°
 */
 C_FPT_Config* P_FlexiblePageTree::getConfig(){
 	return this->m_config;
 }
 /*-------------------------------------------------
-		Ê÷ÉèÖÃ - ±à¼­´°¿Ú
+		æ ‘è®¾ç½® - ç¼–è¾‘çª—å£
 */
 void P_FlexiblePageTree::openConfigParamWindow(){
 	QString last_sortMode = this->m_config->getCurrentMode();
 	int last_pageNum = this->m_config->pagePerNum;
 
+	this->windowLock_incOne();
 	W_FPT_Config* d = this->createConfigWindow();
 	d->setData(this->m_config);
 	if (d->exec() == QDialog::Accepted){
 		this->m_config = d->getData() ;
 		
-		// > id·ÖÖ§Ê±£¬ÊıÁ¿±ä»¯ÁË£¬ÔòÖØ½¨
+		// > idåˆ†æ”¯æ—¶ï¼Œæ•°é‡å˜åŒ–äº†ï¼Œåˆ™é‡å»º
 		if (this->m_config->is_id_Mode() && last_pageNum != this->m_config->pagePerNum){
 			this->rebuildTreeData();
 
-		// > ·ÖÖ§Ä£Ê½ ±äÁË£¬ÖØ½¨
+		// > åˆ†æ”¯æ¨¡å¼ å˜äº†ï¼Œé‡å»º
 		}else if ( last_sortMode != this->m_config->getCurrentMode() ){
 			this->rebuildTreeData();
 
-		// > ÖØË¢Êı¾İ£¨ĞĞ¸ßºÍÁãÌî³ä±äÁË±ØĞëË¢£¬Ë¢Ö»»á±äuiºÍÃû³Æ£¬²»»á¸Ä±äÅÅÁĞ·½Ê½£©
+		// > é‡åˆ·æ•°æ®ï¼ˆè¡Œé«˜å’Œé›¶å¡«å……å˜äº†å¿…é¡»åˆ·ï¼Œåˆ·åªä¼šå˜uiå’Œåç§°ï¼Œä¸ä¼šæ”¹å˜æ’åˆ—æ–¹å¼ï¼‰
 		}else{
 			this->refreshTreeUi();
 		}
 
 	}
 	d->deleteLater();
+	this->windowLock_decOne();
 }
 /*-------------------------------------------------
-		Ê÷ÉèÖÃ - ÇĞ»»Ä£Ê½
+		æ ‘è®¾ç½® - åˆ‡æ¢æ¨¡å¼
 */
 void  P_FlexiblePageTree::changeSortMode(QString sortMode){
 	if (this->getCurrentSortMode() == sortMode){ return; }
@@ -706,13 +711,13 @@ void  P_FlexiblePageTree::changeSortMode(QString sortMode){
 	this->rebuildTreeData();
 }
 void  P_FlexiblePageTree::changeSortModeInAction(){
-	QAction* cur_action = qobject_cast<QAction*>(sender());		//´ÓactionÀïÃæÈ¡³öÊı¾İ
+	QAction* cur_action = qobject_cast<QAction*>(sender());		//ä»actioné‡Œé¢å–å‡ºæ•°æ®
 	QString sortMode = cur_action->data().value<QString>();
 
 	this->changeSortMode(sortMode);
 }
 /*-------------------------------------------------
-		Ê÷ÉèÖÃ - »ñÈ¡µ±Ç°Ä£Ê½
+		æ ‘è®¾ç½® - è·å–å½“å‰æ¨¡å¼
 */
 QString P_FlexiblePageTree::getCurrentSortMode(){
 	return this->m_config->getCurrentMode();
@@ -720,47 +725,47 @@ QString P_FlexiblePageTree::getCurrentSortMode(){
 
 
 /*-------------------------------------------------
-		×ÊÔ´Êı¾İ - ÔØÈë
+		èµ„æºæ•°æ® - è½½å…¥
 */
 void P_FlexiblePageTree::loadSource(QList<QJsonObject> obj_list) {
 
-	// > È«Çå
+	// > å…¨æ¸…
 	this->clearAll();
 
-	// > ½âÎöÊı¾İ
+	// > è§£ææ•°æ®
 	for (int i = 0; i < obj_list.count(); i++){
-		C_ObjectSortData data = C_ObjectSortData();
+		C_ObjectSortData data;
 		data.setJsonObject(obj_list.at(i));
 		if (data.isNull()){ continue; }
 		this->m_source_list.append(data);
 	}
-	// > ½âÎöºó±ØĞë³õÊ¼»¯Ò»´Î£¨×ÓÀàÊ÷ÒªÓÃ£©
+	// > è§£æåå¿…é¡»åˆå§‹åŒ–ä¸€æ¬¡ï¼ˆå­ç±»æ ‘è¦ç”¨ï¼‰
 	this->m_source_ObjectSortController->setData_FromSortData(this->m_source_list);
 
-	// > ÖØ½¨È«²¿Êı¾İ
+	// > é‡å»ºå…¨éƒ¨æ•°æ®
 	this->rebuildTreeData();
 }
 void P_FlexiblePageTree::loadSource(QList<QJsonObject> obj_list, QString id_symbol, QString name_symbol, QString type_symbol) {
 
-	// > È«Çå
+	// > å…¨æ¸…
 	this->clearAll();
 
-	// > ½âÎöÊı¾İ
+	// > è§£ææ•°æ®
 	for (int i = 0; i < obj_list.count(); i++){
-		C_ObjectSortData data = C_ObjectSortData();
-		data.setJsonObject(obj_list.at(i), id_symbol, name_symbol, type_symbol);	//×¢Òâsymbol²»´æ
+		C_ObjectSortData data;
+		data.setJsonObject(obj_list.at(i), id_symbol, name_symbol, type_symbol);	//æ³¨æ„symbolä¸å­˜
 		if (data.isNull()){ continue; }
 		this->m_source_list.append(data);
 	}
-	// > ½âÎöºó±ØĞë³õÊ¼»¯Ò»´Î£¨×ÓÀàÊ÷ÒªÓÃ£©
+	// > è§£æåå¿…é¡»åˆå§‹åŒ–ä¸€æ¬¡ï¼ˆå­ç±»æ ‘è¦ç”¨ï¼‰
 	this->m_source_ObjectSortController->setData_FromSortData(this->m_source_list);
 
-	// > ÖØ½¨È«²¿Êı¾İ
+	// > é‡å»ºå…¨éƒ¨æ•°æ®
 	this->rebuildTreeData();
 }
 
 /*-------------------------------------------------
-		×ÊÔ´Êı¾İ - »ñÈ¡Ñ¡ÖĞµÄÊı¾İ
+		èµ„æºæ•°æ® - è·å–é€‰ä¸­çš„æ•°æ®
 */
 int P_FlexiblePageTree::getSelectedSourceId(){
 	if (this->getSelectedSource() == nullptr){ return -1; }
@@ -775,14 +780,14 @@ QString P_FlexiblePageTree::getSelectedSourceType(){
 	return this->getSelectedSource()->type;
 };
 /*-------------------------------------------------
-		×ÊÔ´Êı¾İ - »ñÈ¡Ñ¡ÖĞµÄ¶ÔÏó£¨Ë½ÓĞ£©
+		èµ„æºæ•°æ® - è·å–é€‰ä¸­çš„å¯¹è±¡ï¼ˆç§æœ‰ï¼‰
 */
 C_ObjectSortData* P_FlexiblePageTree::getSelectedSource(){
 	if (this->m_leafItem.count() == 0){ return nullptr; }
 	QList<QTreeWidgetItem*> item_list = this->m_tree->selectedItems();
 	if (item_list.count() == 0){ return nullptr; }
 
-	// > ÕÒµ½Ñ¡ÖĞµÄÒ¶×Ó
+	// > æ‰¾åˆ°é€‰ä¸­çš„å¶å­
 	I_FPT_Leaf* leaf = nullptr;
 	for (int i = 0; i < item_list.count(); i++){
 		QTreeWidgetItem* item = item_list.at(i);
@@ -793,18 +798,18 @@ C_ObjectSortData* P_FlexiblePageTree::getSelectedSource(){
 	}
 	if (leaf == nullptr){ return nullptr; }
 
-	int arr_index = leaf->getId();			//£¨´ÓitemÖĞ»ñÈ¡µ½id£©
+	int arr_index = leaf->getId();			//ï¼ˆä»itemä¸­è·å–åˆ°idï¼‰
 	return this->m_source_ObjectSortController->getSortData_ByIndex(arr_index);
 }
 /*-------------------------------------------------
-		×ÊÔ´Êı¾İ - ÖØ½¨Êı¾İ£¨Ë½ÓĞ£©
+		èµ„æºæ•°æ® - é‡å»ºæ•°æ®ï¼ˆç§æœ‰ï¼‰
 */
 void P_FlexiblePageTree::rebuildTreeData(){
 	this->m_source_ObjectSortController->setData_FromSortData(this->m_source_list);
 
-	// > Îª¿ÕÊ±£¬Ñ¡ÔñµÚÒ»¸ö
+	// > ä¸ºç©ºæ—¶ï¼Œé€‰æ‹©ç¬¬ä¸€ä¸ª
 	if (this->getCurrentSortMode() == ""){
-		QMessageBox::warning(nullptr, "´íÎó", "Ê÷¿Ø¼şÖĞ³öÏÖÁËÓĞÎóµÄ·ÖÖ§Ä£Ê½ÉèÖÃ£¬ÒÑ¹éÎªÄ¬ÈÏÉèÖÃ¡£", QMessageBox::Yes);
+		QMessageBox::warning(nullptr, "é”™è¯¯", "æ ‘æ§ä»¶ä¸­å‡ºç°äº†æœ‰è¯¯çš„åˆ†æ”¯æ¨¡å¼è®¾ç½®ï¼Œå·²å½’ä¸ºé»˜è®¤è®¾ç½®ã€‚", QMessageBox::Yes);
 		this->m_config->setCurrentMode( this->m_config->getModeList().first() );
 	}
 	if (this->m_config->is_id_Mode()){
@@ -818,21 +823,21 @@ void P_FlexiblePageTree::rebuildTreeData(){
 
 }
 /*-------------------------------------------------
-		×ÊÔ´Êı¾İ - ÖØ½¨Êı¾İ_ID·ÖÖ§£¨Ë½ÓĞ£©
+		èµ„æºæ•°æ® - é‡å»ºæ•°æ®_IDåˆ†æ”¯ï¼ˆç§æœ‰ï¼‰
 */
 void P_FlexiblePageTree::rebuildTreeData_id_inc(){
 
-	// > ÖØË¢ËùÓĞÊ÷Ö¦
+	// > é‡åˆ·æ‰€æœ‰æ ‘æ
 	for (int i = 0; i < this->m_branchItem.count(); i++){
 		this->m_branchItem.at(i)->takeChildren();
 	}
 	this->m_branchItem.clear();
 
-	// > Êı¾İ×¼±¸
+	// > æ•°æ®å‡†å¤‡
 	int all_count = this->m_source_ObjectSortController->getDataCount();
 	this->m_config->set_id_MaxCount(all_count);
 
-	// > Ìí¼ÓÊ÷Ö¦
+	// > æ·»åŠ æ ‘æ
 	int page_count = this->m_config->get_id_PageCount();
 	for (int i = 0; i < page_count; i++){
 		int bottom = this->m_config->get_id_Bottom(i);
@@ -841,28 +846,28 @@ void P_FlexiblePageTree::rebuildTreeData_id_inc(){
 		if (top == -1){ break; }
 
 		I_FPT_Branch* branch_item = this->createFCTBranch();
-		branch_item->setId(i);							//ĞòºÅ
-		branch_item->setBranch_id_Index(i);				//ID·ÖÖ§ - µ±Ç°Ò³Ë÷ÒıµÄÎ»ÖÃ
-		branch_item->setBranch_id_Bottom(bottom);		//ID·ÖÖ§ - µ×
-		branch_item->setBranch_id_Top(top);				//ID·ÖÖ§ - ¶¥
+		branch_item->setId(i);							//åºå·
+		branch_item->setBranch_id_Index(i);				//IDåˆ†æ”¯ - å½“å‰é¡µç´¢å¼•çš„ä½ç½®
+		branch_item->setBranch_id_Bottom(bottom);		//IDåˆ†æ”¯ - åº•
+		branch_item->setBranch_id_Top(top);				//IDåˆ†æ”¯ - é¡¶
 		this->m_branchItem.append(branch_item);
 	}
 
-	// > ÖØË¢ËùÓĞÒ¶×Ó
+	// > é‡åˆ·æ‰€æœ‰å¶å­
 	this->m_leafItem.clear();
 	for (int i = 0; i < this->m_branchItem.count(); i++){
 		I_FPT_Branch* branch_item = this->m_branchItem.at(i);
-		int page_index = branch_item->getBranch_id_Index();	//µ±Ç°Ò³Ë÷ÒıµÄÎ»ÖÃ
+		int page_index = branch_item->getBranch_id_Index();	//å½“å‰é¡µç´¢å¼•çš„ä½ç½®
 		QList<int> index_list = this->m_source_ObjectSortController->get_IdInc_PageIndexList(page_index, this->m_config->pagePerNum);
 		QList<C_ObjectSortData*> data_list = this->m_source_ObjectSortController->getSortDataList_ByIndex(index_list);
 		for (int j = 0; j < data_list.count(); j++){
 			C_ObjectSortData* data = data_list.at(j);
 
-			// > ÔÚÒ¶×ÓÖĞÌîÈëÊı¾İ
+			// > åœ¨å¶å­ä¸­å¡«å…¥æ•°æ®
 			I_FPT_Leaf* leaf = this->createFCTLeaf();
-			leaf->setId(data->id);					//±êÊ¶
-			leaf->setName(data->name);				//Ãû³Æ
-			leaf->setType(data->type);				//·ÖÀà
+			leaf->setId(data->id);					//æ ‡è¯†
+			leaf->setName(data->name);				//åç§°
+			leaf->setType(data->type);				//åˆ†ç±»
 			this->m_leafItem.append(leaf);
 
 			I_FPT_Branch* p_item = this->m_branchItem.at(i);
@@ -872,42 +877,42 @@ void P_FlexiblePageTree::rebuildTreeData_id_inc(){
 
 }
 /*-------------------------------------------------
-		×ÊÔ´Êı¾İ - ÖØ½¨Êı¾İ_Ãû³Æ·ÖÖ§£¨Ë½ÓĞ£©
+		èµ„æºæ•°æ® - é‡å»ºæ•°æ®_åç§°åˆ†æ”¯ï¼ˆç§æœ‰ï¼‰
 */
 void P_FlexiblePageTree::rebuildTreeData_name_inc(){
 
-	// > ÖØË¢ËùÓĞÊ÷Ö¦
+	// > é‡åˆ·æ‰€æœ‰æ ‘æ
 	for (int i = 0; i < this->m_branchItem.count(); i++){
 		this->m_branchItem.at(i)->takeChildren();
 	}
 	this->m_branchItem.clear();
 
-	// > Êı¾İ×¼±¸
+	// > æ•°æ®å‡†å¤‡
 	QStringList page_name_list = this->m_config->get_name_PageNameList();
 	QStringList page_symbol_list = this->m_config->get_name_PageSymbolList();
 
-	// > Ìí¼ÓÒ³
+	// > æ·»åŠ é¡µ
 	for (int i = 0; i < page_name_list.count(); i++){
 		QString page_name = page_name_list.at(i);
 		QString page_symbol = page_symbol_list.at(i);
 
 		I_FPT_Branch* branch_item = this->createFCTBranch();
-		branch_item->setId(i);									//ĞòºÅ
-		branch_item->setBranch_name_Index(i);					//Ãû³Æ·ÖÖ§ - µ±Ç°Ò³Ë÷ÒıµÄÎ»ÖÃ
-		branch_item->setBranch_name_Showing(page_name);			//Ãû³Æ·ÖÖ§ - ÏÔÊ¾µÄÃû³Æ
-		branch_item->setBranch_name_Symbol(page_symbol);		//Ãû³Æ·ÖÖ§ - Ãû³Æ²éÕÒ×Ö·ûµÄ±êÖ¾
+		branch_item->setId(i);									//åºå·
+		branch_item->setBranch_name_Index(i);					//åç§°åˆ†æ”¯ - å½“å‰é¡µç´¢å¼•çš„ä½ç½®
+		branch_item->setBranch_name_Showing(page_name);			//åç§°åˆ†æ”¯ - æ˜¾ç¤ºçš„åç§°
+		branch_item->setBranch_name_Symbol(page_symbol);		//åç§°åˆ†æ”¯ - åç§°æŸ¥æ‰¾å­—ç¬¦çš„æ ‡å¿—
 		this->m_branchItem.append(branch_item);
 	}
 
-	// > ÖØË¢ËùÓĞÒ¶×Ó
+	// > é‡åˆ·æ‰€æœ‰å¶å­
 	this->m_leafItem.clear();
 	for (int i = 0; i < page_symbol_list.count(); i++){
 		QString symbol = page_symbol_list.at(i);
-		QList<int> index_list = QList<int>();
-		if (symbol == "¿ÕÃû³Æ"){
+		QList<int> index_list;
+		if (symbol == "ç©ºåç§°"){
 			index_list = this->m_source_ObjectSortController->get_Name_IndexListByEmptyName();
 
-		}else if (symbol == "ÆäËû·ûºÅ"){
+		}else if (symbol == "å…¶ä»–ç¬¦å·"){
 			index_list = this->m_source_ObjectSortController->get_Name_IndexListByNonAlphabetic();
 
 		}else{
@@ -917,16 +922,36 @@ void P_FlexiblePageTree::rebuildTreeData_name_inc(){
 		for (int j = 0; j < data_list.count(); j++){
 			C_ObjectSortData* data = data_list.at(j);
 
-			// > ÔÚÒ¶×ÓÖĞÌîÈëÊı¾İ
+			// > åœ¨å¶å­ä¸­å¡«å…¥æ•°æ®
 			I_FPT_Leaf* leaf = this->createFCTLeaf();
-			leaf->setId(data->id);					//±êÊ¶
-			leaf->setName(data->name);				//Ãû³Æ
-			leaf->setType(data->type);				//·ÖÀà
-			leaf->setLeaf_name_Symbol(symbol);		//Ãû³Æ·ÖÖ§ - Ê××ÖÄ¸±êÊ¶
+			leaf->setId(data->id);					//æ ‡è¯†
+			leaf->setName(data->name);				//åç§°
+			leaf->setType(data->type);				//åˆ†ç±»
+			leaf->setLeaf_name_Symbol(symbol);		//åç§°åˆ†æ”¯ - é¦–å­—æ¯æ ‡è¯†
 			this->m_leafItem.append(leaf);
 
 			I_FPT_Branch* p_item = this->m_branchItem.at(i);
 			p_item->addChild(leaf);
 		}
+	}
+}
+
+/*-------------------------------------------------
+		çª—å£ç®¡ç† - çª—å£æ•°é‡+1
+*/
+void P_FlexiblePageTree::windowLock_incOne(){
+	this->m_config_windowLockNum += 1;
+	if (this->m_config_windowLockNum == 1){
+		emit signal_anyWindowLocked(true);
+	}
+}
+/*-------------------------------------------------
+		çª—å£ç®¡ç† - çª—å£æ•°é‡-1
+*/
+void P_FlexiblePageTree::windowLock_decOne(){
+	this->m_config_windowLockNum -= 1;
+	if (this->m_config_windowLockNum <= 0){
+		this->m_config_windowLockNum = 0;
+		emit signal_anyWindowLocked(false);
 	}
 }
