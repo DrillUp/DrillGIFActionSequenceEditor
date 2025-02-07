@@ -129,6 +129,7 @@ void P_PiS_Selector::refreshPictureCell(int index){
 
 	// > 项
 	QListWidgetItem* item = cell->item;
+	int item_width = this->m_config.getSize_ItemWidth();
 	int item_height = this->m_config.getSize_ItemHeight();
 
 	// > 项 - 撑开每项
@@ -136,14 +137,14 @@ void P_PiS_Selector::refreshPictureCell(int index){
 	//temp_bitmap.fill(Qt::white);						//（现在是listMode了，所以不需要了。）
 	//item->setIcon(QIcon(temp_bitmap));				//
 	item->setText(this->m_config.getSize_LineExpand());		//（用换行符撑开纵向）
-	item->setSizeHint(QSize(item_height, item_height));		//（如果不撑开，选中的 蓝色方块 会紊乱）
+	item->setSizeHint(QSize(item_width, item_height));		//（如果不撑开，选中的 蓝色方块 会紊乱）
 
 
 	// > 控件
 	P_PictureBlock* widget = cell->getBlock();
 
 	// > 控件 - 刷新大小
-	widget->setSize(item_height, item_height);
+	widget->setSize(item_width, item_height);
 
 	// > 控件 - 刷新标题文本
 	if (this->m_config.m_zeroFill == true){
@@ -165,6 +166,7 @@ void P_PiS_Selector::refreshPictureCell(int index){
 		控件 - 重建UI
 */
 void P_PiS_Selector::rebuildUI(QStringList bitmapPath_list) {
+	int item_width = this->m_config.getSize_ItemWidth();
 	int item_height = this->m_config.getSize_ItemHeight();
 
 	// > 清理
@@ -181,7 +183,7 @@ void P_PiS_Selector::rebuildUI(QStringList bitmapPath_list) {
 		// > 建立元胞数据
 		C_PictureBlockDataPtr cellData = this->createPictureCellData();
 		cellData->init(
-			item_height, 
+			item_width,
 			item_height, 
 			i, 
 			bitmapPath

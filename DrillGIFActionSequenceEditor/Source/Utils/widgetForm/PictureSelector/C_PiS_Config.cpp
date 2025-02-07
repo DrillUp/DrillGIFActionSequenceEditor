@@ -6,7 +6,7 @@
 		类：		图片选择块 配置类.cpp
 		作者：		drill_up
 		所属模块：	工具模块
-		功能：		图片选择块 的配置类。
+		功能：		控件块的数据配置类。
 					
 		说明：		尺寸可以修改，但是由于每次修改config，都需要重建贴图和bitmap，系统速度会变慢。
 -----==========================================================-----
@@ -52,6 +52,13 @@ void C_PiS_Config::setSize_Custom(int customHeight){
 QString C_PiS_Config::getSize_Mode(){
 	return this->m_size_mode;
 }
+
+/*-------------------------------------------------
+		尺寸 - 获取单块宽度
+*/
+int C_PiS_Config::getSize_ItemWidth(){
+	return this->getSize_ItemHeight();
+}
 /*-------------------------------------------------
 		尺寸 - 获取单块高度
 */
@@ -74,6 +81,7 @@ int C_PiS_Config::getSize_ItemHeight(){
 int C_PiS_Config::getSize_ParentHeight(){
 	return this->getSize_ItemHeight() + 28;		//（固定28像素的距离，用于放滚动条）
 }
+
 /*-------------------------------------------------
 		尺寸 - 获取换行字符串（\n 撑开选中的 蓝色方块）
 */

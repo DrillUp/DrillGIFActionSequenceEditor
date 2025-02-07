@@ -7,7 +7,7 @@
 /*
 -----==========================================================-----
 		类：		字符串编辑列表 窗口.h
-		版本：		v1.04
+		版本：		v1.06
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		数据编辑的字符串列表控制。
@@ -28,6 +28,7 @@ class W_QStringListEditor : public QDialog
 	//----控件
 	protected:
 		QString m_paramShowingName;			//参数显示名
+		QString m_paramShowingSuffix;		//参数后缀名
 		QString m_paramDescription;			//参数编辑的描述
 		QString m_paramListDescription;		//列表编辑的描述
 		bool m_notNull;						//非空
@@ -37,6 +38,8 @@ class W_QStringListEditor : public QDialog
 	public:
 										//控件 - 设置参数显示名
 		void setParamShowingName(QString name);
+										//控件 - 设置参数后缀名
+		void setParamShowingSuffix(QString suffix);
 										//控件 - 设置参数编辑的描述
 		void setParamDescription(QString description);
 										//控件 - 设置列表编辑的描述
@@ -69,8 +72,6 @@ class W_QStringListEditor : public QDialog
 		
 	//-----------------------------------
 	//----快捷键
-	protected:
-		QString m_copyed_data;
 	public:
 									//快捷键 - 事件
 		void keyPressEvent(QKeyEvent *event);

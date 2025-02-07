@@ -769,6 +769,7 @@ QStringList P_PLE_Editor::importPic_addToParentDir(QStringList file_list){
 		导入图片 - 文件 转 图片单块
 */
 QList<C_PictureBlockDataPtr> P_PLE_Editor::importPic_getCellListByFileList(QStringList file_list){
+	int item_width = this->m_config.getSize_ItemWidth();
 	int item_height = this->m_config.getSize_ItemHeight();
 	int cell_count = this->m_cellTank.count();
 	QList<C_PictureBlockDataPtr> cellData_list;
@@ -777,7 +778,7 @@ QList<C_PictureBlockDataPtr> P_PLE_Editor::importPic_getCellListByFileList(QStri
 
 		C_PictureBlockDataPtr cellData = this->createPictureCellData();
 		cellData->init(
-			item_height,
+			item_width,
 			item_height,
 			cell_count + i,
 			bitmapPath
@@ -964,6 +965,7 @@ void P_PLE_Editor::base_paste(int index){
 	QJsonObject data_all = jsonDocument.object();
 
 	// > 建立元胞数据
+	int item_width = this->m_config.getSize_ItemWidth();
 	int item_height = this->m_config.getSize_ItemHeight();
 	int cell_count = this->m_cellTank.count();
 	QList<C_PictureBlockDataPtr> cellData_list;
@@ -974,7 +976,7 @@ void P_PLE_Editor::base_paste(int index){
 		dataPtr->setJsonObject(obj);
 
 		// > 画布与粘贴的位置一直
-		dataPtr->m_width = item_height;
+		dataPtr->m_width = item_width;
 		dataPtr->m_height = item_height;
 		
 		// > 重新编号

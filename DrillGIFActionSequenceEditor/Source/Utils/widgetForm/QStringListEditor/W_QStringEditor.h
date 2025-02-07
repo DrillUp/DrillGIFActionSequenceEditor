@@ -7,7 +7,7 @@
 /*
 -----==========================================================-----
 		类：		字符串编辑 窗口.h
-		版本：		v1.04
+		版本：		v1.06
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		编辑一条字符串的窗口。
@@ -32,12 +32,15 @@ class W_QStringEditor : public QDialog
 	protected:
 		W_QStringListEditor* m_windowParent;
 		QString m_paramShowingName;		//参数显示名
+		QString m_paramShowingSuffix;	//参数后缀名
 		QString m_paramDescription;		//参数编辑的描述
 		bool m_notNull;					//非空
 		bool m_noRepeat;				//不可重复
 	public:
 										//控件 - 设置参数显示名
 		void setParamShowingName(QString name);
+										//控件 - 设置参数后缀名
+		void setParamShowingSuffix(QString suffix);
 										//控件 - 设置参数编辑的描述
 		void setParamDescription(QString description);
 										//控件 - 设置非空

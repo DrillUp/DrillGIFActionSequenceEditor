@@ -237,9 +237,6 @@
     <Filter Include="源文件\【 图形模块 GraphModule】\集合组件（Widget）\图片分割器\私有类">
       <UniqueIdentifier>{c2dab1be-9350-4094-8f85-e48eb4bce5f4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\字符串列表编辑器">
-      <UniqueIdentifier>{b6b126b4-5d32-43a4-9231-7c8c784db4b2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\【 工具箱 Utils】\辅助操作器（operater）\双表格字符串填写器">
       <UniqueIdentifier>{e0da4532-5bcc-491c-a213-744a5aad28a7}</UniqueIdentifier>
     </Filter>
@@ -329,6 +326,9 @@
     </Filter>
     <Filter Include="源文件\【 主窗体 MainModule】\版本日志">
       <UniqueIdentifier>{8d841181-33a5-47f2-8437-8af834529c93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\列表编辑器-字符串">
+      <UniqueIdentifier>{b6b126b4-5d32-43a4-9231-7c8c784db4b2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -738,7 +738,7 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utils\widgetForm\QStringListEditor\W_QStringEditor.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\字符串列表编辑器</Filter>
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\列表编辑器-字符串</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_W_QStringEditor.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -747,7 +747,7 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utils\widgetForm\QStringListEditor\W_QStringListEditor.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\字符串列表编辑器</Filter>
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\列表编辑器-字符串</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_W_QStringListEditor.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -1346,16 +1346,16 @@
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\单选表格\私有类</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\Utils\widgetForm\QStringListEditor\W_QStringEditor.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\字符串列表编辑器</Filter>
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\列表编辑器-字符串</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\Utils\widgetForm\QStringListEditor\W_QStringEditor.ui">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\字符串列表编辑器</Filter>
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\列表编辑器-字符串</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\Utils\widgetForm\QStringListEditor\W_QStringListEditor.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\字符串列表编辑器</Filter>
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\列表编辑器-字符串</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\Utils\widgetForm\QStringListEditor\W_QStringListEditor.ui">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\字符串列表编辑器</Filter>
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\列表编辑器-字符串</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ProjectModule\S_ProjectManager.h">
       <Filter>源文件\【 项目管理模块 ProjectModule】</Filter>

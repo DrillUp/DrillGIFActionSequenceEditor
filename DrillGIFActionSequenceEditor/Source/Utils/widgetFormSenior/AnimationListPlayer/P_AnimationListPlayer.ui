@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>367</width>
-    <height>37</height>
+    <width>245</width>
+    <height>74</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -50,24 +50,39 @@ QToolButton:pressed{
    </property>
    <item>
     <widget class="QWidget" name="widget_controlArea" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <property name="spacing">
-       <number>2</number>
-      </property>
+     <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0,0,0,1">
       <property name="leftMargin">
-       <number>2</number>
+       <number>4</number>
       </property>
       <property name="topMargin">
-       <number>2</number>
+       <number>4</number>
       </property>
       <property name="rightMargin">
-       <number>2</number>
+       <number>4</number>
       </property>
       <property name="bottomMargin">
+       <number>4</number>
+      </property>
+      <property name="horizontalSpacing">
        <number>2</number>
       </property>
-      <item>
+      <property name="verticalSpacing">
+       <number>0</number>
+      </property>
+      <item row="0" column="0" colspan="2">
        <widget class="QComboBox" name="combo">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>26</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>26</height>
+         </size>
+        </property>
         <item>
          <property name="text">
           <string>播放一次</string>
@@ -85,107 +100,7 @@ QToolButton:pressed{
         </item>
        </widget>
       </item>
-      <item>
-       <widget class="QToolButton" name="toolButton_jumpToStart">
-        <property name="toolTip">
-         <string>跳至首帧</string>
-        </property>
-        <property name="text">
-         <string>跳至首帧</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../../../../CodePieceQT_Graph.qrc">
-          <normaloff>:/CodePieceQT_Graph/Resources/icon/player/Play_Start.png</normaloff>:/CodePieceQT_Graph/Resources/icon/player/Play_Start.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>24</width>
-          <height>24</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="toolButton_last">
-        <property name="toolTip">
-         <string>上一帧</string>
-        </property>
-        <property name="text">
-         <string>上一帧</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../../../../CodePieceQT_Graph.qrc">
-          <normaloff>:/CodePieceQT_Graph/Resources/icon/player/Play_Last.png</normaloff>:/CodePieceQT_Graph/Resources/icon/player/Play_Last.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>24</width>
-          <height>24</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="toolButton_play">
-        <property name="toolTip">
-         <string>播放</string>
-        </property>
-        <property name="text">
-         <string>播放</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../../../../CodePieceQT_Graph.qrc">
-          <normaloff>:/CodePieceQT_Graph/Resources/icon/player/Play_Run.png</normaloff>:/CodePieceQT_Graph/Resources/icon/player/Play_Run.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>24</width>
-          <height>24</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="toolButton_next">
-        <property name="toolTip">
-         <string>下一帧</string>
-        </property>
-        <property name="text">
-         <string>下一帧</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../../../../CodePieceQT_Graph.qrc">
-          <normaloff>:/CodePieceQT_Graph/Resources/icon/player/Play_Next.png</normaloff>:/CodePieceQT_Graph/Resources/icon/player/Play_Next.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>24</width>
-          <height>24</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="toolButton_backRun">
-        <property name="toolTip">
-         <string>播放顺序</string>
-        </property>
-        <property name="text">
-         <string>播放顺序</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../../../../CodePieceQT_Graph.qrc">
-          <normaloff>:/CodePieceQT_Graph/Resources/icon/menu/Common_Right.png</normaloff>:/CodePieceQT_Graph/Resources/icon/menu/Common_Right.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>24</width>
-          <height>24</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
+      <item row="0" column="2">
        <widget class="QToolButton" name="toolButton_new">
         <property name="toolTip">
          <string>添加帧</string>
@@ -205,7 +120,7 @@ QToolButton:pressed{
         </property>
        </widget>
       </item>
-      <item>
+      <item row="0" column="3">
        <widget class="QToolButton" name="toolButton_ExportGIF">
         <property name="toolTip">
          <string>导出GIF</string>
@@ -225,7 +140,7 @@ QToolButton:pressed{
         </property>
        </widget>
       </item>
-      <item>
+      <item row="0" column="4">
        <widget class="QToolButton" name="toolButton_setting">
         <property name="toolTip">
          <string>播放器设置</string>
@@ -236,6 +151,109 @@ QToolButton:pressed{
         <property name="icon">
          <iconset resource="../../../../CodePieceQT_Graph.qrc">
           <normaloff>:/CodePieceQT_Graph/Resources/icon/menu/Common_Setting.png</normaloff>:/CodePieceQT_Graph/Resources/icon/menu/Common_Setting.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>24</width>
+          <height>24</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5">
+       <widget class="QWidget" name="widget" native="true"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QToolButton" name="toolButton_jumpToStart">
+        <property name="toolTip">
+         <string>跳至首帧</string>
+        </property>
+        <property name="text">
+         <string>跳至首帧</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../../../CodePieceQT_Graph.qrc">
+          <normaloff>:/CodePieceQT_Graph/Resources/icon/player/Play_Start.png</normaloff>:/CodePieceQT_Graph/Resources/icon/player/Play_Start.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>24</width>
+          <height>24</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QToolButton" name="toolButton_last">
+        <property name="toolTip">
+         <string>上一帧</string>
+        </property>
+        <property name="text">
+         <string>上一帧</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../../../CodePieceQT_Graph.qrc">
+          <normaloff>:/CodePieceQT_Graph/Resources/icon/player/Play_Last.png</normaloff>:/CodePieceQT_Graph/Resources/icon/player/Play_Last.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>24</width>
+          <height>24</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QToolButton" name="toolButton_play">
+        <property name="toolTip">
+         <string>播放</string>
+        </property>
+        <property name="text">
+         <string>播放</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../../../CodePieceQT_Graph.qrc">
+          <normaloff>:/CodePieceQT_Graph/Resources/icon/player/Play_Run.png</normaloff>:/CodePieceQT_Graph/Resources/icon/player/Play_Run.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>24</width>
+          <height>24</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QToolButton" name="toolButton_next">
+        <property name="toolTip">
+         <string>下一帧</string>
+        </property>
+        <property name="text">
+         <string>下一帧</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../../../CodePieceQT_Graph.qrc">
+          <normaloff>:/CodePieceQT_Graph/Resources/icon/player/Play_Next.png</normaloff>:/CodePieceQT_Graph/Resources/icon/player/Play_Next.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>24</width>
+          <height>24</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QToolButton" name="toolButton_backRun">
+        <property name="toolTip">
+         <string>播放顺序</string>
+        </property>
+        <property name="text">
+         <string>播放顺序</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../../../CodePieceQT_Graph.qrc">
+          <normaloff>:/CodePieceQT_Graph/Resources/icon/menu/Common_Right.png</normaloff>:/CodePieceQT_Graph/Resources/icon/menu/Common_Right.png</iconset>
         </property>
         <property name="iconSize">
          <size>

@@ -6,7 +6,7 @@
 /*
 -----==========================================================-----
 		类：		字符串编辑 窗口.cpp
-		版本：		v1.04
+		版本：		v1.06
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		编辑一条字符串的窗口。
@@ -32,6 +32,7 @@ W_QStringEditor::W_QStringEditor(QWidget *parent, W_QStringListEditor *windowPar
 	//-----------------------------------
 	//----初始化参数
 	this->m_paramShowingName = "字符串";
+	this->m_paramShowingSuffix = "";
 	this->m_paramDescription = "";
 	this->m_notNull = false;
 	this->m_noRepeat = false;
@@ -44,8 +45,8 @@ W_QStringEditor::W_QStringEditor(QWidget *parent, W_QStringListEditor *windowPar
 
 	//-----------------------------------
 	//----初始化ui
-	if (ui.buttonBox->button(QDialogButtonBox::Ok) != nullptr){ ui.buttonBox->button(QDialogButtonBox::Ok)->setText("确定"); }
-	if (ui.buttonBox->button(QDialogButtonBox::Cancel) != nullptr){ ui.buttonBox->button(QDialogButtonBox::Cancel)->setText("取消"); }
+	if (ui.buttonBox->button(QDialogButtonBox::Ok) != nullptr){ ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("确定")); }
+	if (ui.buttonBox->button(QDialogButtonBox::Cancel) != nullptr){ ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("取消")); }
 }
 
 W_QStringEditor::~W_QStringEditor(){
@@ -64,11 +65,17 @@ void W_QStringEditor::keyPressEvent(QKeyEvent *event) {
 
 
 /*-------------------------------------------------
-		控件 - 设置参数名
+		控件 - 设置参数显示名
 */
 void W_QStringEditor::setParamShowingName(QString name){
 	this->m_paramShowingName = name;
 };
+/*-------------------------------------------------
+		控件 - 设置参数后缀名
+*/
+void W_QStringEditor::setParamShowingSuffix(QString suffix) {
+	this->m_paramShowingSuffix = suffix;
+}
 /*-------------------------------------------------
 		控件 - 设置参数编辑的描述
 */
@@ -96,8 +103,9 @@ void W_QStringEditor::setConditionNoRepeat(bool b){
 void W_QStringEditor::setDataInAddMode() {
 
 	// > 标题
-	this->setWindowTitle("编辑" + this->m_paramShowingName);
-	ui.label->setText(this->m_paramShowingName);
+	this->setWindowTitle(tr("编辑") + this->m_paramShowingName);
+	ui.label_prefix->setText(this->m_paramShowingName);
+	ui.label_suffix->setText(this->m_paramShowingSuffix);
 
 	// > 描述
 	ui.label_description->setText(this->m_paramDescription);
@@ -116,8 +124,9 @@ void W_QStringEditor::setDataInAddMode() {
 void W_QStringEditor::setDataInModifyMode(QString data) {
 
 	// > 标题
-	this->setWindowTitle("编辑" + this->m_paramShowingName);
-	ui.label->setText(this->m_paramShowingName);
+	this->setWindowTitle(tr("编辑") + this->m_paramShowingName);
+	ui.label_prefix->setText(this->m_paramShowingName);
+	ui.label_suffix->setText(this->m_paramShowingSuffix);
 
 	// > 描述
 	ui.label_description->setText(this->m_paramDescription);
@@ -157,7 +166,7 @@ void W_QStringEditor::acceptData(){
 
 	// > 空校验
 	if (this->m_notNull == true && this->local_data.isEmpty()) {
-		QMessageBox::warning(this, "提示", "必填项不能为空。");
+		QMessageBox::warning(this, tr("提示"), this->m_paramShowingName + tr("不能为空。"));
 		return;
 	}
 	// > 重复校验
@@ -167,7 +176,7 @@ void W_QStringEditor::acceptData(){
 
 		// > 添加时
 		if (this->m_isAddMode){
-			QMessageBox::warning(this, "提示", this->m_paramShowingName + "不能重复。");
+			QMessageBox::warning(this, tr("提示"), this->m_paramShowingName + tr("不能重复。"));
 			return;
 
 		// > 修改时
@@ -175,7 +184,7 @@ void W_QStringEditor::acceptData(){
 			if (this->m_modifyLastData == this->local_data){
 				// （未编辑直接点确定，不操作）
 			}else{
-				QMessageBox::warning(this, "提示", this->m_paramShowingName + "不能重复。");
+				QMessageBox::warning(this, tr("提示"), this->m_paramShowingName + tr("不能重复。"));
 				return;
 			}
 		}

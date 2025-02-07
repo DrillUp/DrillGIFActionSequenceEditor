@@ -838,6 +838,7 @@ void P_ALE_Editor::base_paste(int index){
 	QJsonObject data_all = jsonDocument.object();
 
 	// > 建立元胞数据
+	int item_width = this->m_config.getSize_ItemWidth();
 	int item_height = this->m_config.getSize_ItemHeight();
 	int cell_count = this->m_cellTank.count();
 	QList<C_PictureBlockDataPtr> cellData_list;
@@ -848,7 +849,7 @@ void P_ALE_Editor::base_paste(int index){
 		dataPtr->setJsonObject(obj);
 
 		// > 画布与粘贴的位置一直
-		dataPtr->m_width = item_height;
+		dataPtr->m_width = item_width;
 		dataPtr->m_height = item_height;
 
 		// > 重新编号
@@ -990,6 +991,7 @@ QString P_ALE_Editor::importGIF_openQFileDialog(){
 		导入GIF - 文件 转 图片单块
 */
 QList<C_PictureBlockDataPtr> P_ALE_Editor::importGIF_getCellListByFileList(QList<QFileInfo> file_list, QList<int> interval_list){
+	int item_width = this->m_config.getSize_ItemWidth();
 	int item_height = this->m_config.getSize_ItemHeight();
 	int cell_count = this->m_cellTank.count();
 	QList<C_PictureBlockDataPtr> cellData_list;
@@ -1000,7 +1002,7 @@ QList<C_PictureBlockDataPtr> P_ALE_Editor::importGIF_getCellListByFileList(QList
 		C_PictureBlockDataPtr cellData_pic = this->createPictureCellData();
 		C_AnimationBlockDataPtr cellData = cellData_pic.dynamicCast<C_AnimationBlockData>();
 		cellData->init(
-			item_height,
+			item_width,
 			item_height,
 			cell_count + i,
 			file_info.absoluteFilePath()

@@ -7,7 +7,7 @@
 /*
 -----==========================================================-----
 		类：		字符串编辑列表 窗口.cpp
-		版本：		v1.04
+		版本：		v1.06
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		数据编辑的字符串列表控制。
@@ -34,15 +34,15 @@ W_QStringListEditor::W_QStringListEditor(QWidget *parent)
 
 	//-----------------------------------
 	//----初始化参数
-	this->local_dataList = QStringList();
+	this->local_dataList;
 	this->m_paramShowingName = "字符串";
+	this->m_paramShowingSuffix = "";
 	this->m_paramDescription = "";
 	this->m_paramListDescription = "";
 	this->m_notNull = false;
 	this->m_noRepeat = false;
 	this->m_size_width = 400;
 	this->m_size_height = 450;
-	this->m_copyed_data = "";
 
 	// > 窗口内容刷新
 	this->refreshWindow();
@@ -76,11 +76,17 @@ W_QStringListEditor::~W_QStringListEditor(){
 
 
 /*-------------------------------------------------
-		控件 - 设置参数名
+		控件 - 设置参数显示名
 */
 void W_QStringListEditor::setParamShowingName(QString name){
 	this->m_paramShowingName = name;
 };
+/*-------------------------------------------------
+		控件 - 设置参数后缀名
+*/
+void W_QStringListEditor::setParamShowingSuffix(QString suffix) {
+	this->m_paramShowingSuffix = suffix;
+}
 /*-------------------------------------------------
 		控件 - 设置参数编辑的描述
 */
@@ -121,6 +127,7 @@ void W_QStringListEditor::setConditionWindowSize(int width, int height){
 void W_QStringListEditor::addOneRow() {
 	W_QStringEditor d(this, this);
 	d.setParamShowingName(m_paramShowingName);
+	d.setParamShowingSuffix(m_paramShowingSuffix);
 	d.setParamDescription(m_paramDescription);
 	d.setConditionNotNull(m_notNull);
 	d.setConditionNoRepeat(m_noRepeat);
@@ -138,7 +145,7 @@ void W_QStringListEditor::addOneRow() {
 int W_QStringListEditor::modifyOneRow() {
 	QList<QTableWidgetSelectionRange> range = ui.tableWidget->selectedRanges();
 	if (range.size() == 0) {
-		QMessageBox::warning(this, ("提示"), ("请先选择需要编辑的一行。"));
+		QMessageBox::warning(this, tr("提示"), tr("请先选择需要编辑的一行。"));
 		return -1;
 	}
 	int pos = range.at(0).topRow();
@@ -146,6 +153,7 @@ int W_QStringListEditor::modifyOneRow() {
 	QString old_str = local_dataList.at(pos);
 	W_QStringEditor d(this, this);
 	d.setParamShowingName(m_paramShowingName);
+	d.setParamShowingSuffix(m_paramShowingSuffix);
 	d.setParamDescription(m_paramDescription);
 	d.setConditionNotNull(m_notNull);
 	d.setConditionNoRepeat(m_noRepeat);
@@ -163,7 +171,7 @@ int W_QStringListEditor::modifyOneRow() {
 int W_QStringListEditor::deleteOneRow() {
 	QList<QTableWidgetSelectionRange> range = ui.tableWidget->selectedRanges();
 	if (range.size() == 0) {
-		QMessageBox::warning(this, ("提示"), ("请先选择需要删除的一行。"));
+		QMessageBox::warning(this, tr("提示"), tr("请先选择需要删除的一行。"));
 		return -1;
 	}
 	int pos = range.at(0).topRow();
@@ -179,7 +187,7 @@ int W_QStringListEditor::deleteOneRow() {
 int W_QStringListEditor::moveUpOneRow(){
 	QList<QTableWidgetSelectionRange> range = ui.tableWidget->selectedRanges();
 	if (range.size() == 0) {
-		QMessageBox::warning(this, ("提示"), ("请先选择一行。"));
+		QMessageBox::warning(this, tr("提示"), tr("请先选择一行。"));
 		return -1;
 	}
 	int pos = range.at(0).topRow();
@@ -202,7 +210,7 @@ int W_QStringListEditor::moveUpOneRow(){
 int W_QStringListEditor::moveDownOneRow(){
 	QList<QTableWidgetSelectionRange> range = ui.tableWidget->selectedRanges();
 	if (range.size() == 0) {
-		QMessageBox::warning(this, ("提示"), ("请先选择一行。"));
+		QMessageBox::warning(this, tr("提示"), tr("请先选择一行。"));
 		return -1;
 	}
 	int pos = range.at(0).topRow();
@@ -223,7 +231,7 @@ int W_QStringListEditor::moveDownOneRow(){
 		控件 - 清空
 */
 bool W_QStringListEditor::clearAllRow(){
-	switch (QMessageBox::information(this, "提示", "你确定要清空全部?", "确定", "取消", 0, 1)){
+	switch (QMessageBox::information(this, tr("提示"), tr("你确定要清空全部?"), tr("确定"), tr("取消"), 0, 1)){
 		case 0:
 			this->local_dataList.clear();
 			this->refreshTable();
@@ -246,6 +254,8 @@ void W_QStringListEditor::refreshTable() {
 	// > 表数据
 	for (int i = 0; i < this->local_dataList.count(); i++) {
 		QString str = this->local_dataList.at(i);
+		str.append(" ");
+		str.append(this->m_paramShowingSuffix);
 		ui.tableWidget->setItem(i, 0, new QTableWidgetItem(str));
 	}
 }
@@ -255,7 +265,7 @@ void W_QStringListEditor::refreshTable() {
 void W_QStringListEditor::refreshWindow(){
 
 	// > 窗口名称
-	this->setWindowTitle(this->m_paramShowingName + "列表");
+	this->setWindowTitle(tr("编辑") + this->m_paramShowingName + tr("列表"));
 	ui.groupBox->setTitle(this->m_paramShowingName);
 
 	// > 描述
@@ -291,30 +301,58 @@ void W_QStringListEditor::keyPressEvent(QKeyEvent *event){
 		快捷键 - 复制
 */
 void W_QStringListEditor::shortcut_copyData(){
+
+	// > 获取字符串
 	QList<QTableWidgetSelectionRange> range = ui.tableWidget->selectedRanges();
 	if (range.size() == 0) { return; }
 	int pos = range.at(0).topRow();
-	this->m_copyed_data = this->local_dataList.at(pos);
-	if (this->m_copyed_data != ""){		//（启用粘贴功能）
+	QString data = this->local_dataList.at(pos);
+
+	// > 启用粘贴功能
+	if (data != ""){
 		ui.pushButton_paste->setEnabled(true);
 	}
+
+	// > 剪贴板 - 清除
+	QClipboard* clipboard = QApplication::clipboard();
+	clipboard->clear();
+
+	// > 剪贴板 - 赋值
+	QMimeData* mimeData = new QMimeData();
+	mimeData->setText(data);
+	clipboard->setMimeData(mimeData);
 }
 /*-------------------------------------------------
 		快捷键 - 粘贴
 */
 void W_QStringListEditor::shortcut_pasteData(){
-	if (this->m_copyed_data == ""){ return; }
+
+	// > 剪贴板 - 获取
+	QClipboard* clipboard = QApplication::clipboard();
+	const QMimeData* mimeData = clipboard->mimeData();
+	QString data = mimeData->text();
+	if (data.isEmpty()){ return; }
+
+	// > 赋值字符串
 	QList<QTableWidgetSelectionRange> range = ui.tableWidget->selectedRanges();
 	if (range.size() == 0) { return; }
 	int pos = range.at(0).topRow();
-	QString data = this->m_copyed_data;
-	while (true){
-		data = TTool::_QString_suffix_addOne_(data);
-		if (this->local_dataList.contains(data) == false){
-			this->local_dataList.insert(pos + 1, data);
-			break;
+
+	// > 不可重复 - 相同字符串自动+1
+	if (this->m_noRepeat == true){
+		while (true){
+			data = TTool::_QString_suffix_addOne_(data);
+			if (this->local_dataList.contains(data) == false){
+				this->local_dataList.insert(pos + 1, data);
+				break;
+			}
 		}
+
+	// > 可重复 - 直接复制
+	}else{
+		this->local_dataList.insert(pos + 1, data);
 	}
+
 	this->refreshTable();
 }
 /*-------------------------------------------------

@@ -7,7 +7,7 @@
 		类：		图片选择块 配置类.h
 		作者：		drill_up
 		所属模块：	工具模块
-		功能：		图片选择块 的配置类。
+		功能：		控件块的数据配置类。
 					（详细见cpp）
 -----==========================================================-----
 */
@@ -42,10 +42,14 @@ class C_PiS_Config{
 		void setSize_Custom(int customHeight);
 									//尺寸 - 获取模式
 		QString getSize_Mode();
+
+									//尺寸 - 获取单块宽度
+		int getSize_ItemWidth();
 									//尺寸 - 获取单块高度
 		int getSize_ItemHeight();
 									//尺寸 - 获取父对象高度
 		int getSize_ParentHeight();
+
 									//尺寸 - 获取换行字符串（\n 撑开选中的 蓝色方块）
 		QString getSize_LineExpand();
 		
