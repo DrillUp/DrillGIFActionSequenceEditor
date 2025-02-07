@@ -5,7 +5,7 @@
 
 /*
 -----==========================================================-----
-		类：		灵活分类树（含自定义分支）.cpp
+		类：		灵活分类树（含种类分支）.cpp
 		版本：		v1.05
 		作者：		drill_up
 		所属模块：	工具模块
@@ -44,9 +44,9 @@ class P_FlexibleClassificationTree : public P_FlexiblePageTree
 	protected:
 									//树对象 - 刷新树 - 分支
 		virtual void refreshTreeUi_special() override;
-									//树对象 - 刷新树 - 分支 - 自定义分支_id递增
+									//树对象 - 刷新树 - 分支 - 种类分支_id递增
 		virtual void refreshTreeUi_classify_idInc();
-									//树对象 - 刷新树 - 分支 - 自定义分支_名称递增
+									//树对象 - 刷新树 - 分支 - 种类分支_名称递增
 		virtual void refreshTreeUi_classify_nameInc();
 		
 
@@ -71,7 +71,7 @@ class P_FlexibleClassificationTree : public P_FlexiblePageTree
 	//-----------------------------------
 	//----树枝
 	public:
-									//树枝 - 获取树枝（自定义分支专用）
+									//树枝 - 获取树枝（种类分支专用）
 		I_FPT_Branch* getBranchByTypeName(QString classify_name);
 
 
@@ -97,7 +97,7 @@ class P_FlexibleClassificationTree : public P_FlexiblePageTree
 		void moveUpInAction();
 									//种类 - 下移
 		void moveDownInAction();
-									//种类 - 获取 - 是否为自定义分支
+									//种类 - 获取 - 是否为种类分支
 		bool isClassifyMode();
 									//种类 - 获取 - 全部种类名
 		QStringList getAllClassifyName();
@@ -150,9 +150,9 @@ class P_FlexibleClassificationTree : public P_FlexiblePageTree
 	protected slots:
 										//资源数据 - 重建数据（私有）
 		virtual void rebuildTreeData() override;
-										//资源数据 - 重建数据_自定义分支_id递增（私有）
+										//资源数据 - 重建数据_种类分支_id递增（私有）
 		void rebuildTreeData_classify_idInc();
-										//资源数据 - 重建数据_自定义分支_名称递增（私有）
+										//资源数据 - 重建数据_种类分支_名称递增（私有）
 		void rebuildTreeData_classify_nameInc();
 
 };

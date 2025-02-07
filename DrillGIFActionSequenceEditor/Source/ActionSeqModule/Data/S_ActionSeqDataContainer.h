@@ -3,7 +3,9 @@
 
 #include "../DataPart/C_COAS_Data.h"
 #include "LengthData/C_COAS_Length.h"
-#include "Source/PluginModule/StorageData/C_PluginData.h"
+#include "Source/RmmvUtilsPluginModule/StorageData/C_PluginData.h"
+#include "Source/RmmvUtilsPluginModule/StorageData/S_PluginDataContainer.h"
+#include "Source/RmmvUtilsPluginModule/LengthEditor/S_LEAnnotationReader.h"
 
 /*
 -----==========================================================-----

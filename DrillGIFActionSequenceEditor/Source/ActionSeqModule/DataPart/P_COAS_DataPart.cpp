@@ -48,10 +48,6 @@ P_COAS_DataPart::P_COAS_DataPart(QWidget *parent)
 
 	// > 树
 	this->m_p_tree = new P_FlexibleClassificationTree(ui.treeWidget_ActionSeq);
-	C_FCT_Config* config = this->m_p_tree->getConfigEx();
-	config->rowHeight = 32;
-	config->setCurrentMode("自定义分支（按id递增排序）");
-	this->m_p_tree->setConfigEx(config);
 	connect(this->m_p_tree, &P_FlexibleClassificationTree::signal_currentLeafChanged, this, &P_COAS_DataPart::currentActionSeqChanged);
 	connect(this->m_p_tree, &P_FlexibleClassificationTree::signal_anyWindowLocked, ui.widget_editPart, &QWidget::setDisabled);	//（打开动画序列配置时，置灰动画序列编辑区域）
 	connect(this->m_p_tree, &P_FlexibleClassificationTree::signal_menuCopyLeafTriggered, this, &P_COAS_DataPart::shortcut_copyData);
@@ -320,9 +316,16 @@ void P_COAS_DataPart::putDataToUi() {
 
 	// > 树结构 - 初始化
 	QJsonObject tree_config = S_ActionSeqDataContainer::getInstance()->getTreeConfig();
-	C_FCT_Config* config = dynamic_cast<C_FCT_Config*>(this->m_p_tree->createConfigData());
-	config->setJsonObject(tree_config, this->m_p_tree);		//（存储的数据需要在load前完成赋值）
-	this->m_p_tree->setConfigEx(config);
+	if (tree_config.isEmpty()){
+		C_FCT_Config* config = dynamic_cast<C_FCT_Config*>(this->m_p_tree->createConfigData());
+		config->setJsonObject(tree_config, this->m_p_tree);		//（存储的数据需要在load前完成赋值）
+		config->rowHeight = 30;
+		this->m_p_tree->setConfigEx(config);
+	}else{
+		C_FCT_Config* config = dynamic_cast<C_FCT_Config*>(this->m_p_tree->createConfigData());
+		config->setJsonObject(tree_config, this->m_p_tree);		//（存储的数据需要在load前完成赋值）
+		this->m_p_tree->setConfigEx(config);
+	}
 
 	// > 树结构 - 数据赋值
 	QList<QJsonObject> tree_data = S_ActionSeqDataContainer::getInstance()->getTreeData();

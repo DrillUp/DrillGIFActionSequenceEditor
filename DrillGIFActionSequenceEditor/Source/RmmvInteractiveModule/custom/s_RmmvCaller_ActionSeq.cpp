@@ -3,9 +3,9 @@
 
 #include "Source/ProjectModule/S_ProjectManager.h"
 #include "Source/ProjectModule/File/S_TempFileManager.h"
-#include "Source/PluginModule/StorageData/S_PluginDataContainer.h"
-#include "Source/PluginModule/LengthEditor/S_LEAnnotationReader.h"
-#include "Source/PluginModule/LengthEditor/S_LEConfigWriter.h"
+#include "Source/RmmvUtilsPluginModule/StorageData/S_PluginDataContainer.h"
+#include "Source/RmmvUtilsPluginModule/LengthEditor/S_LEAnnotationReader.h"
+#include "Source/RmmvUtilsPluginModule/LengthEditor/S_LEConfigWriter.h"
 #include "Source/ActionSeqModule/Data/S_ActionSeqDataContainer.h"
 #include "../Base/S_RmmvDataContainer.h"
 

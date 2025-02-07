@@ -39,7 +39,7 @@ QString I_FPT_Branch::getShowingText(){
 	// > 名称分支 显示
 	if (this->m_config->is_name_Mode()){ return this->getBranch_name_Showing(); }
 
-	// > 自定义分支 显示
+	// > 种类分支 显示
 	if (this->getBranch_type_Name() != ""){ return this->getBranch_type_Name(); }
 
 	return "未分类";

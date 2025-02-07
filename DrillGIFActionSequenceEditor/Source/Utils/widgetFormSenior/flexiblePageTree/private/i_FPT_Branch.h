@@ -31,8 +31,8 @@ class I_FPT_Branch : public QTreeWidgetItem{
 		TTOOL_DATA_PROPERTY(QString, Branch_name_Showing);		//名称分支 - 名称查找字符的标志
 		TTOOL_DATA_PROPERTY(QString, Branch_name_Symbol);		//名称分支 - 名称查找字符的标志
 
-		TTOOL_DATA_PROPERTY(QString, Branch_type_Name);			//自定义分支 - 类型
-		TTOOL_DATA_PROPERTY(QString, Branch_type_Description);	//自定义分支 - 描述
+		TTOOL_DATA_PROPERTY(QString, Branch_type_Name);			//种类分支 - 类型
+		TTOOL_DATA_PROPERTY(QString, Branch_type_Description);	//种类分支 - 描述
 		
 	protected:
 		C_FPT_Config* m_config;		//树设置

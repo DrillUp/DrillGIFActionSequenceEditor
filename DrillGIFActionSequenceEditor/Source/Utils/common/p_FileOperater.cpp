@@ -5,7 +5,7 @@
 /*
 -----==========================================================-----
 		类：		文件操作器.cpp
-		版本：		v1.32
+		版本：		v1.33
 		所属模块：	工具模块
 		功能：		提供最基础的文件操作功能。
 
@@ -179,6 +179,10 @@ bool P_FileOperater::copyDirPrivate_iterator(QString dirPath_tarParent, QString 
 
 		// > 文件时，复制
 		if (from_info.isFile()){
+			QDir to_dir = QFileInfo(to_path).absoluteDir();
+			if (to_dir.exists() == false ){
+				to_dir.mkpath(to_dir.absolutePath());	//（迭代遍历时，有时会跳文件夹，需要创建文件夹路径）
+			}
 
 			// > 移除已存在的文件
 			// 【基于原生操作函数QFile::remove】
@@ -354,6 +358,10 @@ bool P_FileOperater::moveDirPrivate_iterator(QString dirPath_tarParent, QString 
 
 		// > 文件时，移动
 		if (from_info.isFile()){
+			QDir to_dir = QFileInfo(to_path).absoluteDir();
+			if (to_dir.exists() == false){
+				to_dir.mkpath(to_dir.absolutePath());	//（迭代遍历时，有时会跳文件夹，需要创建文件夹路径）
+			}
 
 			// > 移除已存在的文件
 			// 【基于原生操作函数QFile::remove】

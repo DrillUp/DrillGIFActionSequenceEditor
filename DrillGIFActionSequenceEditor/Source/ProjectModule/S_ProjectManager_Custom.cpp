@@ -101,7 +101,12 @@ void S_ProjectManager_Custom::createSaveFile_Before(QString tar_fileDir, QString
 		项目操作 - 保存文件后
 */
 void S_ProjectManager_Custom::createSaveFile_After(QString tar_fileDir, QString saveAs_last_fileDir) {
-	//（无）
+	//（只缓存文件夹 - 默认复制 unique文件夹 到 src）
+
+	// > 只缓存文件夹 - 复制 Special__actionSeq文件夹 到 src
+	S_TempFileManager::getInstance()->copy_DirWithAllSubfolders(QDir(S_TempFileManager::getInstance()->getTempFileUrl() + "/Special__actionSeq/"), QDir(S_ProjectManager::getInstance()->data_ProjectData.getProjectFilePath() + "Special__actionSeq/"));
+
+	//（只缓存文件夹 - 其它文件全部扔掉了）
 }
 
 
@@ -110,6 +115,7 @@ void S_ProjectManager_Custom::createSaveFile_After(QString tar_fileDir, QString 
 */
 void S_ProjectManager_Custom::readSaveFile_Before() {
 	//（无）
+	//（只缓存文件夹 - 读取文件会把项目文件夹下 所有文件 拿到temp文件夹里面）
 }
 /* --------------------------------------------------------------
 		项目操作 - 读取文件后

@@ -3,8 +3,6 @@
 
 #include "DrillGIFActionSequenceEditor.h"
 #include "Source/ProjectModule/File/S_TempFileManager.h"
-#include "Source/PluginModule/StorageData/S_PluginDataContainer.h"
-#include "Source/PluginModule/LengthEditor/S_LEAnnotationReader.h"
 #include "Source/RmmvInteractiveModule/Base/S_RmmvDataContainer.h"
 
 /*

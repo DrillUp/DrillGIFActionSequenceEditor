@@ -57,9 +57,6 @@
     <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\排序控制器">
       <UniqueIdentifier>{44565946-60d1-475a-9f35-b27bfc90a2e2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 插件模块 PluginModule】">
-      <UniqueIdentifier>{d649dcb5-a2e0-4355-adc7-03e0fb29633c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\【 工具箱 Utils】\管理器工具（manager）\文本解析器">
       <UniqueIdentifier>{25e51dd7-a47f-4f22-a0c3-4d90f4cbfc69}</UniqueIdentifier>
     </Filter>
@@ -69,20 +66,8 @@
     <Filter Include="源文件\【 工具箱 Utils】\通用工具（common）">
       <UniqueIdentifier>{b1b392c0-0a3a-4d3a-b9dc-f8e81bab288c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 交互模块 RmmvInteractiveModule】">
-      <UniqueIdentifier>{2611183d-eedb-48d4-96e5-197f2cb8caa9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\【 交互模块 RmmvInteractiveModule】\基本交互">
-      <UniqueIdentifier>{c7593aec-c579-40a9-ab68-acb338a788fb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\【 交互模块 RmmvInteractiveModule】\操作面板">
-      <UniqueIdentifier>{0765d8a1-c8d5-40dd-afaf-d2329f7086ad}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\【 工具箱 Utils】\管理器工具（manager）\GIF转换器">
       <UniqueIdentifier>{fbb5ac67-a910-4409-8d58-11231d4d0315}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\【 交互模块 RmmvInteractiveModule】\专用交互">
-      <UniqueIdentifier>{379783ed-3608-4d90-927d-e374fc13ca76}</UniqueIdentifier>
     </Filter>
     <Filter Include="源文件\【 项目管理模块 ProjectModule】">
       <UniqueIdentifier>{850e5c2d-13fb-48ce-97ac-a1a21f40d1c3}</UniqueIdentifier>
@@ -111,12 +96,6 @@
     <Filter Include="源文件\【 动画序列 ActionSeqModule】">
       <UniqueIdentifier>{f5f343cf-ad4f-47e0-a294-4d22e35b468c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 动画序列 ActionSeqModule】\数据读取器">
-      <UniqueIdentifier>{34c87558-44ee-4308-b51b-19156d9ad909}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\【 动画序列 ActionSeqModule】\数据读取器\数据最大值编辑">
-      <UniqueIdentifier>{bc9f198c-e495-4c47-83e5-c5fabf56c615}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\【 动画序列 ActionSeqModule】\动画序列块">
       <UniqueIdentifier>{04488223-3081-4fd0-86a0-1dcc57331ec8}</UniqueIdentifier>
     </Filter>
@@ -141,9 +120,6 @@
     <Filter Include="源文件\【 工具箱 Utils】\管理器工具（manager）\句柄调取管理器">
       <UniqueIdentifier>{ada4ffbf-2b5c-4548-96ed-6e07f017dffb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 插件模块 PluginModule】\插件注解读取器（无）">
-      <UniqueIdentifier>{0aa113a6-ba17-4464-bf00-d737bd54718d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规+种类分支）">
       <UniqueIdentifier>{28219431-f7bf-41a6-896b-3af9d5ef37fb}</UniqueIdentifier>
     </Filter>
@@ -161,18 +137,6 @@
     </Filter>
     <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\灵活分类树（常规）\树控件">
       <UniqueIdentifier>{5caec8a3-5fe4-4492-b9a7-9f7858963d52}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\【 插件模块 PluginModule】\最大值编辑器  [plugins文件夹，读写]">
-      <UniqueIdentifier>{73814674-7d50-4cf5-811d-1257c7dbce3d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\【 插件模块 PluginModule】\最大值编辑器  [plugins文件夹，读写]\读取器">
-      <UniqueIdentifier>{0b11bcbb-0da1-46fa-be1c-0d7ed38fe2d6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\【 插件模块 PluginModule】\最大值编辑器  [plugins文件夹，读写]\修改器">
-      <UniqueIdentifier>{ec383764-e654-4cd9-886e-139151a23868}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\【 插件模块 PluginModule】\插件存储数据容器  [plugins.js，读写]">
-      <UniqueIdentifier>{a39775db-bab5-481e-bc55-dc41981ce72c}</UniqueIdentifier>
     </Filter>
     <Filter Include="源文件\【 动画序列 ActionSeqModule】\核心复刻类（只放映区用）">
       <UniqueIdentifier>{321bb369-30cf-4274-82df-e3b37caeaf62}</UniqueIdentifier>
@@ -330,6 +294,42 @@
     <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单（widgetForm）\列表编辑器-字符串">
       <UniqueIdentifier>{b6b126b4-5d32-43a4-9231-7c8c784db4b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\【 RMMV交互模块 RmmvInteractiveModule】">
+      <UniqueIdentifier>{2611183d-eedb-48d4-96e5-197f2cb8caa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 RMMV交互模块 RmmvInteractiveModule】\基本交互（此类不再更新）">
+      <UniqueIdentifier>{c7593aec-c579-40a9-ab68-acb338a788fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 RMMV交互模块 RmmvInteractiveModule】\操作面板">
+      <UniqueIdentifier>{0765d8a1-c8d5-40dd-afaf-d2329f7086ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 动画序列 ActionSeqModule】\数据容器">
+      <UniqueIdentifier>{34c87558-44ee-4308-b51b-19156d9ad909}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 动画序列 ActionSeqModule】\数据容器\数据最大值编辑">
+      <UniqueIdentifier>{bc9f198c-e495-4c47-83e5-c5fabf56c615}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 RMMV交互模块 RmmvInteractiveModule】\操作流程">
+      <UniqueIdentifier>{379783ed-3608-4d90-927d-e374fc13ca76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 RMMV工具-插件模块 RmmvUtilsPluginModule】">
+      <UniqueIdentifier>{d649dcb5-a2e0-4355-adc7-03e0fb29633c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 RMMV工具-插件模块 RmmvUtilsPluginModule】\插件注解读取器（无）">
+      <UniqueIdentifier>{0aa113a6-ba17-4464-bf00-d737bd54718d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 RMMV工具-插件模块 RmmvUtilsPluginModule】\最大值编辑器（LengthEditor）[读写][plugins文件夹]">
+      <UniqueIdentifier>{73814674-7d50-4cf5-811d-1257c7dbce3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 RMMV工具-插件模块 RmmvUtilsPluginModule】\最大值编辑器（LengthEditor）[读写][plugins文件夹]\读取器">
+      <UniqueIdentifier>{0b11bcbb-0da1-46fa-be1c-0d7ed38fe2d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 RMMV工具-插件模块 RmmvUtilsPluginModule】\最大值编辑器（LengthEditor）[读写][plugins文件夹]\修改器">
+      <UniqueIdentifier>{ec383764-e654-4cd9-886e-139151a23868}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 RMMV工具-插件模块 RmmvUtilsPluginModule】\插件存储数据容器（StorageData）[读写][plugins.js]">
+      <UniqueIdentifier>{a39775db-bab5-481e-bc55-dc41981ce72c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -366,10 +366,10 @@
       <Filter>源文件\【 工具箱 Utils】\通用工具（common）</Filter>
     </ClCompile>
     <ClCompile Include="Source\RmmvInteractiveModule\base\c_RmmvProjectData.cpp">
-      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\基本交互</Filter>
+      <Filter>源文件\【 RMMV交互模块 RmmvInteractiveModule】\基本交互（此类不再更新）</Filter>
     </ClCompile>
     <ClCompile Include="Source\RmmvInteractiveModule\operateBoard\p_RmmvOperateBoard.cpp">
-      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\操作面板</Filter>
+      <Filter>源文件\【 RMMV交互模块 RmmvInteractiveModule】\操作面板</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_p_RmmvOperateBoard.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -378,7 +378,7 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\RmmvInteractiveModule\operateBoard\w_RmmvOperateBoard.cpp">
-      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\操作面板</Filter>
+      <Filter>源文件\【 RMMV交互模块 RmmvInteractiveModule】\操作面板</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_w_RmmvOperateBoard.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -387,7 +387,7 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\RmmvInteractiveModule\custom\s_RmmvCaller_ActionSeq.cpp">
-      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\专用交互</Filter>
+      <Filter>源文件\【 RMMV交互模块 RmmvInteractiveModule】\操作流程</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_s_RmmvCaller_ActionSeq.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -438,7 +438,7 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\RmmvInteractiveModule\base\s_RmmvDataContainer.cpp">
-      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\基本交互</Filter>
+      <Filter>源文件\【 RMMV交互模块 RmmvInteractiveModule】\基本交互（此类不再更新）</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_s_RmmvDataContainer.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -447,7 +447,7 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\RmmvInteractiveModule\custom\p_RmmvCaller.cpp">
-      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\专用交互</Filter>
+      <Filter>源文件\【 RMMV交互模块 RmmvInteractiveModule】\操作流程</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_p_RmmvCaller.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -767,44 +767,8 @@
     <ClCompile Include="Source\Utils\widgetFormSenior\NodeData\S_NodeFactoryContainer.cpp">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（常规无向图）</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_S_LEAnnotationReader.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_S_LEAnnotationReader.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_S_LEConfigWriter.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_S_LEConfigWriter.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\PluginModule\LengthEditor\C_LEAnnotation.cpp">
-      <Filter>源文件\【 插件模块 PluginModule】\最大值编辑器  [plugins文件夹，读写]\读取器</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\PluginModule\LengthEditor\S_LEAnnotationReader.cpp">
-      <Filter>源文件\【 插件模块 PluginModule】\最大值编辑器  [plugins文件夹，读写]\读取器</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\PluginModule\StorageData\C_PluginData.cpp">
-      <Filter>源文件\【 插件模块 PluginModule】\插件存储数据容器  [plugins.js，读写]</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\PluginModule\StorageData\S_PluginDataContainer.cpp">
-      <Filter>源文件\【 插件模块 PluginModule】\插件存储数据容器  [plugins.js，读写]</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_S_PluginDataContainer.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_S_PluginDataContainer.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\PluginModule\LengthEditor\S_LEConfigWriter.cpp">
-      <Filter>源文件\【 插件模块 PluginModule】\最大值编辑器  [plugins文件夹，读写]\修改器</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\PluginModule\LengthEditor\C_LEConfigData.cpp">
-      <Filter>源文件\【 插件模块 PluginModule】\最大值编辑器  [plugins文件夹，读写]\修改器</Filter>
-    </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\Data\S_ActionSeqDataContainer.cpp">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\数据读取器</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\数据容器</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_S_ActionSeqDataContainer.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -813,10 +777,10 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\Data\LengthData\C_COAS_Length.cpp">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\数据读取器\数据最大值编辑</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\数据容器\数据最大值编辑</Filter>
     </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\Data\LengthData\W_COAS_Length.cpp">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\数据读取器\数据最大值编辑</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\数据容器\数据最大值编辑</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_W_COAS_Length.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -1184,6 +1148,42 @@
     <ClCompile Include="Source\ProjectModule\Storage\S_StorageManagerTemplate.cpp">
       <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件（Storage）</Filter>
     </ClCompile>
+    <ClCompile Include="Source\RmmvUtilsPluginModule\StorageData\C_PluginData.cpp">
+      <Filter>源文件\【 RMMV工具-插件模块 RmmvUtilsPluginModule】\插件存储数据容器（StorageData）[读写][plugins.js]</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RmmvUtilsPluginModule\StorageData\S_PluginDataContainer.cpp">
+      <Filter>源文件\【 RMMV工具-插件模块 RmmvUtilsPluginModule】\插件存储数据容器（StorageData）[读写][plugins.js]</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_S_PluginDataContainer.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_S_PluginDataContainer.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_S_LEAnnotationReader.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_S_LEAnnotationReader.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_S_LEConfigWriter.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_S_LEConfigWriter.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RmmvUtilsPluginModule\LengthEditor\S_LEAnnotationReader.cpp">
+      <Filter>源文件\【 RMMV工具-插件模块 RmmvUtilsPluginModule】\最大值编辑器（LengthEditor）[读写][plugins文件夹]\读取器</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RmmvUtilsPluginModule\LengthEditor\S_LEConfigWriter.cpp">
+      <Filter>源文件\【 RMMV工具-插件模块 RmmvUtilsPluginModule】\最大值编辑器（LengthEditor）[读写][plugins文件夹]\修改器</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RmmvUtilsPluginModule\LengthEditor\C_LEAnnotation.cpp">
+      <Filter>源文件\【 RMMV工具-插件模块 RmmvUtilsPluginModule】\最大值编辑器（LengthEditor）[读写][plugins文件夹]\读取器</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RmmvUtilsPluginModule\LengthEditor\C_LEConfigData.cpp">
+      <Filter>源文件\【 RMMV工具-插件模块 RmmvUtilsPluginModule】\最大值编辑器（LengthEditor）[读写][plugins文件夹]\修改器</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="drillgifactionsequenceeditor.qrc">
@@ -1199,19 +1199,19 @@
       <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\中文管理器</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\RmmvInteractiveModule\operateBoard\p_RmmvOperateBoard.h">
-      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\操作面板</Filter>
+      <Filter>源文件\【 RMMV交互模块 RmmvInteractiveModule】\操作面板</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\RmmvInteractiveModule\operateBoard\p_RmmvOperateBoard.ui">
-      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\操作面板</Filter>
+      <Filter>源文件\【 RMMV交互模块 RmmvInteractiveModule】\操作面板</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\RmmvInteractiveModule\operateBoard\w_RmmvOperateBoard.h">
-      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\操作面板</Filter>
+      <Filter>源文件\【 RMMV交互模块 RmmvInteractiveModule】\操作面板</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\RmmvInteractiveModule\operateBoard\w_RmmvOperateBoard.ui">
-      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\操作面板</Filter>
+      <Filter>源文件\【 RMMV交互模块 RmmvInteractiveModule】\操作面板</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\RmmvInteractiveModule\custom\s_RmmvCaller_ActionSeq.h">
-      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\专用交互</Filter>
+      <Filter>源文件\【 RMMV交互模块 RmmvInteractiveModule】\操作流程</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\MainModule\about\w_SoftwareAbout.h">
       <Filter>源文件\【 主窗体 MainModule】\关于</Filter>
@@ -1235,10 +1235,10 @@
       <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\句柄调取管理器</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\RmmvInteractiveModule\base\s_RmmvDataContainer.h">
-      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\基本交互</Filter>
+      <Filter>源文件\【 RMMV交互模块 RmmvInteractiveModule】\基本交互（此类不再更新）</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\RmmvInteractiveModule\custom\p_RmmvCaller.h">
-      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\专用交互</Filter>
+      <Filter>源文件\【 RMMV交互模块 RmmvInteractiveModule】\操作流程</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\GraphModule\Middleware\MatrixBlockSelector\P_MBS_Selector.h">
       <Filter>源文件\【 图形模块 GraphModule】\中间件（Middleware）\方块阵列点选器</Filter>
@@ -1366,23 +1366,14 @@
     <CustomBuild Include="Source\Utils\widgetFormSenior\NodeData\S_NodeFactoryContainer.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（常规无向图）</Filter>
     </CustomBuild>
-    <CustomBuild Include="Source\PluginModule\LengthEditor\S_LEAnnotationReader.h">
-      <Filter>源文件\【 插件模块 PluginModule】\最大值编辑器  [plugins文件夹，读写]\读取器</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\PluginModule\StorageData\S_PluginDataContainer.h">
-      <Filter>源文件\【 插件模块 PluginModule】\插件存储数据容器  [plugins.js，读写]</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\PluginModule\LengthEditor\S_LEConfigWriter.h">
-      <Filter>源文件\【 插件模块 PluginModule】\最大值编辑器  [plugins文件夹，读写]\修改器</Filter>
-    </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\Data\S_ActionSeqDataContainer.h">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\数据读取器</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\数据容器</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\Data\LengthData\W_COAS_Length.h">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\数据读取器\数据最大值编辑</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\数据容器\数据最大值编辑</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\Data\LengthData\W_COAS_Length.ui">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\数据读取器\数据最大值编辑</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\数据容器\数据最大值编辑</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\DataPart\P_COAS_DataPart.h">
       <Filter>源文件\【 动画序列 ActionSeqModule】\动画序列块</Filter>
@@ -1537,6 +1528,15 @@
     <CustomBuild Include="Source\ProjectModule\S_ProjectManager_Custom.h">
       <Filter>源文件\【 项目管理模块 ProjectModule】</Filter>
     </CustomBuild>
+    <CustomBuild Include="Source\RmmvUtilsPluginModule\StorageData\S_PluginDataContainer.h">
+      <Filter>源文件\【 RMMV工具-插件模块 RmmvUtilsPluginModule】\插件存储数据容器（StorageData）[读写][plugins.js]</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\RmmvUtilsPluginModule\LengthEditor\S_LEAnnotationReader.h">
+      <Filter>源文件\【 RMMV工具-插件模块 RmmvUtilsPluginModule】\最大值编辑器（LengthEditor）[读写][plugins文件夹]\读取器</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\RmmvUtilsPluginModule\LengthEditor\S_LEConfigWriter.h">
+      <Filter>源文件\【 RMMV工具-插件模块 RmmvUtilsPluginModule】\最大值编辑器（LengthEditor）[读写][plugins文件夹]\修改器</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DrillGIFActionSequenceEditor.rc" />
@@ -1555,7 +1555,7 @@
       <Filter>源文件\【 工具箱 Utils】\通用工具（common）</Filter>
     </ClInclude>
     <ClInclude Include="Source\RmmvInteractiveModule\base\c_RmmvProjectData.h">
-      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\基本交互</Filter>
+      <Filter>源文件\【 RMMV交互模块 RmmvInteractiveModule】\基本交互（此类不再更新）</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_p_RmmvOperateBoard.h">
       <Filter>Generated Files</Filter>
@@ -1644,17 +1644,8 @@
     <ClInclude Include="Source\Utils\widgetFormSenior\NodeData\C_Node.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（常规无向图）</Filter>
     </ClInclude>
-    <ClInclude Include="Source\PluginModule\LengthEditor\C_LEAnnotation.h">
-      <Filter>源文件\【 插件模块 PluginModule】\最大值编辑器  [plugins文件夹，读写]\读取器</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\PluginModule\StorageData\C_PluginData.h">
-      <Filter>源文件\【 插件模块 PluginModule】\插件存储数据容器  [plugins.js，读写]</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\PluginModule\LengthEditor\C_LEConfigData.h">
-      <Filter>源文件\【 插件模块 PluginModule】\最大值编辑器  [plugins文件夹，读写]\修改器</Filter>
-    </ClInclude>
     <ClInclude Include="Source\ActionSeqModule\Data\LengthData\C_COAS_Length.h">
-      <Filter>源文件\【 动画序列 ActionSeqModule】\数据读取器\数据最大值编辑</Filter>
+      <Filter>源文件\【 动画序列 ActionSeqModule】\数据容器\数据最大值编辑</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_W_COAS_Length.h">
       <Filter>Generated Files</Filter>
@@ -1806,10 +1797,19 @@
     <ClInclude Include="Source\ProjectModule\Storage\S_StorageManagerTemplate.h">
       <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件（Storage）</Filter>
     </ClInclude>
+    <ClInclude Include="Source\RmmvUtilsPluginModule\StorageData\C_PluginData.h">
+      <Filter>源文件\【 RMMV工具-插件模块 RmmvUtilsPluginModule】\插件存储数据容器（StorageData）[读写][plugins.js]</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RmmvUtilsPluginModule\LengthEditor\C_LEAnnotation.h">
+      <Filter>源文件\【 RMMV工具-插件模块 RmmvUtilsPluginModule】\最大值编辑器（LengthEditor）[读写][plugins文件夹]\读取器</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RmmvUtilsPluginModule\LengthEditor\C_LEConfigData.h">
+      <Filter>源文件\【 RMMV工具-插件模块 RmmvUtilsPluginModule】\最大值编辑器（LengthEditor）[读写][plugins文件夹]\修改器</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\RmmvInteractiveModule\base\程序入口.txt">
-      <Filter>源文件\【 交互模块 RmmvInteractiveModule】\基本交互</Filter>
+      <Filter>源文件\【 RMMV交互模块 RmmvInteractiveModule】\基本交互（此类不再更新）</Filter>
     </Text>
     <Text Include="Source\ActionSeqModule\reprintedCore\复刻说明.txt">
       <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类（只放映区用）</Filter>
@@ -1819,9 +1819,6 @@
     </Text>
     <Text Include="Source\DllModule\cximagecrt_drill\关于cximagecrt_drill.txt">
       <Filter>源文件\【 外部库模块 DllModule】\图像操作库（cximagecrt_drill）</Filter>
-    </Text>
-    <Text Include="Source\PluginModule\【插件模块 PluginModule】说明.txt">
-      <Filter>源文件\【 插件模块 PluginModule】</Filter>
     </Text>
     <Text Include="Source\GraphModule\Middleware\MatrixBlockSelector\程序入口.txt">
       <Filter>源文件\【 图形模块 GraphModule】\中间件（Middleware）\方块阵列点选器</Filter>
