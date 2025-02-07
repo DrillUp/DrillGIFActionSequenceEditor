@@ -6,15 +6,14 @@
 /*
 -----==========================================================-----
 		类：		存储管理器.h
+		作者：		drill_up
 		所属模块：	项目管理模块
 		功能：		将所有继承模板的子类的数据，存储文件/读取文件。
 					详细见.cpp。
 -----==========================================================-----
 */
 
-class S_StorageManager : public QWidget
-{
-	Q_OBJECT
+class S_StorageManager{
 
 	public:
 		S_StorageManager();
@@ -27,7 +26,8 @@ class S_StorageManager : public QWidget
 	private:
 		QList<S_StorageManagerTemplate*> m_managers;
 	public:
-										//数据 - 添加管理器（模板中自动添加，不需要重复添加）
+										//数据 - 添加管理器
+										//		【说明】：该函数在模板中自动添加，不需要重复添加。
 		void addManager(S_StorageManagerTemplate* s_m);
 		
 

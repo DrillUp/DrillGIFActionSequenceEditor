@@ -2,10 +2,10 @@
 #include "S_StorageManager.h"
 
 
-
 /*
 -----==========================================================-----
 		类：		存储管理器.cpp
+		作者：		drill_up
 		所属模块：	项目管理模块
 		功能：		将所有继承模板的子类的数据，存储文件/读取文件。
 			
@@ -41,7 +41,7 @@ S_StorageManager::~S_StorageManager() {
 }
 
 /* --------------------------------------------------------------
-----------StorageManager 单例
+----------单例
 */
 S_StorageManager* S_StorageManager::cur_manager = NULL;
 S_StorageManager* S_StorageManager::getInstance() {
@@ -52,15 +52,21 @@ S_StorageManager* S_StorageManager::getInstance() {
 }
 
 
+/* ----------------------------------------------------------------------------------
+		数据 - 添加管理器
+*/
 void S_StorageManager::addManager(S_StorageManagerTemplate* s_m) {
 	this->m_managers.append(s_m);
 }
+
 
 /* ----------------------------------------------------------------------------------
 		管理 - 存储文件（F:/aaa/bbb.xxx ）
 */
 void S_StorageManager::createSaveFile(QString file_name) {
-	QJsonObject obj_all = QJsonObject();
+
+	// > 存储 - json数据
+	QJsonObject obj_all;
 	for (int i = 0; i < this->m_managers.count() ;i++) {		//依次数据获取
 		S_StorageManagerTemplate* s_m = this->m_managers.at(i);
 		s_m->m_storage_fileInfo = QFileInfo(file_name);
@@ -68,10 +74,11 @@ void S_StorageManager::createSaveFile(QString file_name) {
 		obj_all.insert( s_m->getSaveName() , obj_manager);
 	}
 
+	// > 存储 - 文本
 	QString context_all = QJsonDocument(obj_all).toJson();
 	QFile file(file_name);
 	if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QFile::Truncate)){
-		QMessageBox::warning(this, "错误", "无法创建存储文件。", QMessageBox::Yes);
+		QMessageBox::warning(nullptr, QObject::tr("错误"), QObject::tr("无法创建存储文件。"), QMessageBox::Yes);
 		return;
 	}
 	QTextStream write_stream(&file);
@@ -82,31 +89,34 @@ void S_StorageManager::createSaveFile(QString file_name) {
 	write_stream << context_all;
 	file.close();
 }
-
 /* ----------------------------------------------------------------------------------
 		管理 - 读取文件（F:/aaa/bbb.xxx ）
 */
 void S_StorageManager::readSaveFile(QString file_name) {
+
+	// > 读取 - 文本
 	QFile file(file_name);
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) { 
-		QMessageBox::warning(this, "错误", "未找到文件。", QMessageBox::Yes);
+		QMessageBox::warning(nullptr, QObject::tr("错误"), QObject::tr("未找到存储文件。"), QMessageBox::Yes);
 		return;
 	}
 	QString context = file.readAll();
 	file.close();
 
+	// > 读取 - json数据
 	QJsonDocument jsonDocument = QJsonDocument::fromJson(context.toUtf8());
 	if (jsonDocument.isNull()){
-		QMessageBox::warning(this, "错误", "读取文件失败。", QMessageBox::Yes);
+		QMessageBox::warning(nullptr, QObject::tr("错误"), QObject::tr("读取存储文件失败。"), QMessageBox::Yes);
 		return;
 	}
-
 	QJsonObject obj_all = jsonDocument.object();
-	for (int i = 0; i < this->m_managers.count(); i++) {		//依次数据赋值
+
+	// > 读取 - 遍历管理器
+	for (int i = 0; i < this->m_managers.count(); i++) {
 		S_StorageManagerTemplate* s_m = this->m_managers.at(i);
-		QJsonObject obj_project = obj_all.value(s_m->getSaveName()).toObject();
 		s_m->m_storage_fileInfo = QFileInfo(file_name);
 
+		QJsonObject obj_project = obj_all.value(s_m->getSaveName()).toObject();
 		QStringList old_names = s_m->getOldNamesForRead();
 		for (int j = 0; j < old_names.count(); j++) {
 			QString old_name = old_names.at(j);
@@ -117,16 +127,12 @@ void S_StorageManager::readSaveFile(QString file_name) {
 
 		s_m->setAllDataFromJsonObject(obj_project);
 	}
-													
 }
-
-
 /* ----------------------------------------------------------------------------------
 		管理 - 清除所有程序数据
 */
 void S_StorageManager::clearAllApplicationData() {
-
-	for (int i = 0; i < this->m_managers.count(); i++) {		//依次数据赋值
+	for (int i = 0; i < this->m_managers.count(); i++) {
 		S_StorageManagerTemplate* s_m = this->m_managers.at(i);
 		s_m->clearAllData();
 	}

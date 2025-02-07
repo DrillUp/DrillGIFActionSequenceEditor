@@ -1,7 +1,6 @@
 ﻿#include "stdafx.h"
 #include "S_ProjectWindowManager.h"
 
-#include "Data/C_ProjectData.h"
 #include PROJECT_INCLUDE
 
 /*

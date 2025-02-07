@@ -3,17 +3,15 @@
 #include <QList>
 #include <QMap>
 
-#define PROJECT_SUFFIX		"drillas"										//项目文件后缀
-#define PROJECT_INCLUDE		"DrillGIFActionSequenceEditor.h"				//引用头文件
-#define PROJECT_INSTANCE	DrillGIFActionSequenceEditor::getInstance()		//父窗口关联
-
 /*
 -----==========================================================-----
 		类：		项目数据 实体类.h
+		作者：		drill_up
 		所属模块：	项目管理模块
 		功能：		存储项目的基本内容的数据类。
 -----==========================================================-----
 */
+
 class C_ProjectData{
 
 	public:
@@ -42,17 +40,18 @@ class C_ProjectData{
 		QString getProjectFilePath();
 										//项目数据 - 获取项目文件（D:/aaa/vvv/项目名/项目名.xxx）
 		QString getProjectFile();
+										//项目数据 - 获取后缀筛选器
+		QString getProjectFileFilter();
+										//项目数据 - 获取后缀筛选器（含旧后缀）
+		QString getProjectFileFilterWithOld();
 										//项目数据 - 获取用户名
 		QString getUserName();
-										//项目数据 - 获取机器名
-		QString getMachineName();
+										//项目数据 - 原生对话框窗口获取
+		static C_ProjectData openQDialogForProjectCreate();
 		
 	//-----------------------------------
 	//----软件数据
 	public:
-		static QString softname;				//软件名
-		static QString version;					//软件版本
-		static QString version_serial;			//软件版本号
 		QString author;							//项目作者
 		QDateTime createDate;					//创建时间
 		QDateTime lastSaveDate;					//上一次修改时间

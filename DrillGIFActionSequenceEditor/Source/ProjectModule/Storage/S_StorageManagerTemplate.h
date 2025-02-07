@@ -4,6 +4,7 @@
 /*
 -----==========================================================-----
 		类：		存储模板块.h
+		作者：		drill_up
 		所属模块：	项目管理模块
 		功能：		存储的模板，用于规范子类实现的数据结构。
 					详细见s_StorageManager.cpp。
@@ -26,9 +27,9 @@ class S_StorageManagerTemplate
 		virtual QString getSaveName() = 0;
 										//数据 - 清除当前管理器数据
 		virtual void clearAllData() = 0;
-										//数据 - 全部激励源数据 -> QJsonObject
+										//数据 - 全部管理器数据 -> QJsonObject
 		virtual QJsonObject getAllDataOfJsonObject() = 0;
-										//数据 - QJsonObject -> 全部激励源数据
+										//数据 - QJsonObject -> 全部管理器数据
 		virtual void setAllDataFromJsonObject(QJsonObject obj) = 0;
 		
 	//-----------------------------------

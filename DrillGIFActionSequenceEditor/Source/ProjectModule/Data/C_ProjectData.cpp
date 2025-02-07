@@ -1,40 +1,29 @@
 ﻿#include "stdafx.h"
 #include "C_ProjectData.h"
 
-#ifdef QT_NETWORK_LIB
-#include <QHostInfo>
-#endif // QT_NETWORK_LIB
+#include "Source/ProjectModule/S_ProjectManager_Custom.h"
 
 /*
 -----==========================================================-----
 		类：		项目数据 实体类.cpp
+		作者：		drill_up
 		所属模块：	项目管理模块
 		功能：		存储项目的基本内容的数据类。
 -----==========================================================-----
 */
+
 C_ProjectData::C_ProjectData(){
-	this->name = "";														//项目名
-	this->path = QCoreApplication::applicationDirPath() + "/workspace/";	//项目路径（含项目名 D:/aaa/vvv/项目名/）
-
-	this->note = "";									//项目笔记（备注）
-	this->createDate = QDateTime::currentDateTime();	//创建时间
-	this->lastSaveDate = QDateTime::currentDateTime();	//上一次修改时间
+	this->clear();
 }
-
 C_ProjectData::~C_ProjectData(){
 }
-
-QString C_ProjectData::softname = "GIF动画序列编辑器";	//软件名
-QString C_ProjectData::version = "v1.32";				//软件版本
-QString C_ProjectData::version_serial = "";				//软件版本号
 
 
 /*-------------------------------------------------
 		软件数据 - 获取软件全名
 */
 QString C_ProjectData::getSoftname(){
-	//return this->softname + "(" + this->version + "." + this->version_serial + ")";
-	return this->softname + "(" + this->version + ")";
+	return S_ProjectManager_Custom::getInstance()->getSoftname();
 }
 
 
@@ -111,6 +100,7 @@ QString C_ProjectData::getProjectRootPath() {
 		项目数据 - 获取项目文件夹（D:/aaa/vvv/项目名/项目名Files/）
 */
 QString C_ProjectData::getProjectFilePath() {
+	Q_ASSERT(this->name != "");  //（该断言可以注释掉）（这里不允许项目名为空字符串，如果有报错，注意检查一下）
 	QString file_path = this->getProjectRootPath() + this->name + "Files/";
 	QDir temp_dir;
 	temp_dir.mkpath(file_path);
@@ -120,7 +110,54 @@ QString C_ProjectData::getProjectFilePath() {
 		项目数据 - 获取项目文件（D:/aaa/vvv/项目名/项目名.xxx）
 */
 QString C_ProjectData::getProjectFile() {
+	//	（必须返回一个非空字符串）
+
+	// > 打开时 - 检查文件
+	QString file_path = this->getProjectRootPath() + this->name + "." + PROJECT_SUFFIX;
+	if (QFileInfo(file_path).exists()) { return file_path; }
+
+	// > 打开时 - 检查旧项目文件
+	QStringList old_suffix_list = QString(PROJECT_SUFFIX_OLD).split(",");
+	for (int i = 0; i < old_suffix_list.count(); i++) {
+		QString old_suffix = old_suffix_list.at(i);
+		if (old_suffix.isEmpty()) { continue; }
+		file_path = this->getProjectRootPath() + this->name + "." + old_suffix;
+		if (QFileInfo(file_path).exists()) { return file_path; }
+	}
+
+
+	// > 保存时 - 固定字符串
 	return this->getProjectRootPath() + this->name + "." + PROJECT_SUFFIX;
+}
+/*-------------------------------------------------
+		项目数据 - 获取后缀筛选器
+*/
+QString C_ProjectData::getProjectFileFilter() {
+	QString result;
+	result.append(QObject::tr("工程文件(*."));
+	result.append(PROJECT_SUFFIX);
+	result.append(")");
+	return result;
+}
+/*-------------------------------------------------
+		项目数据 - 获取后缀筛选器（含旧后缀）
+*/
+QString C_ProjectData::getProjectFileFilterWithOld() {
+	QString result;
+	result.append(QObject::tr("工程文件(*."));
+	result.append(PROJECT_SUFFIX);
+
+	QStringList old_suffix_list = QString(PROJECT_SUFFIX_OLD).split(",");
+	for (int i = 0; i < old_suffix_list.count(); i++) {
+		QString old_suffix = old_suffix_list.at(i);
+		if (old_suffix.isEmpty()) { continue; }
+		result.append(";");
+		result.append("*.");
+		result.append(old_suffix);
+	}
+
+	result.append(")");
+	return result;
 }
 
 /*-------------------------------------------------
@@ -132,14 +169,34 @@ QString C_ProjectData::getUserName(){
 	return userName;
 }
 /*-------------------------------------------------
-		项目数据 - 获取机器名
+		项目数据 - 原生对话框窗口获取
 */
-QString C_ProjectData::getMachineName(){
-	#ifdef QT_NETWORK_LIB
-	return QHostInfo::localHostName();
-	#else
-	return "";
-	#endif // QT_NETWORK_LIB
+C_ProjectData C_ProjectData::openQDialogForProjectCreate(){
+
+	C_ProjectData data;
+	QFileDialog fd;
+	fd.setWindowTitle( QObject::tr("保存工程文件") );
+	fd.setAcceptMode(QFileDialog::AcceptSave);		//对话框类型（打开/保存）（保存会有文件覆盖提示）
+	fd.setDirectory(data.getProjectRootPath());		//默认目录
+	fd.setNameFilters(QStringList() << data.getProjectFileFilter());
+	fd.setViewMode(QFileDialog::Detail);
+	if (fd.exec() == QDialog::Accepted) {
+		if (fd.selectedFiles().empty()) {
+			return C_ProjectData();
+		}
+		QString file_path = fd.selectedFiles().first();
+		QFileInfo file_info(file_path);
+		if (file_info.exists()){	//（文件已存在，则覆盖项目文件）
+			data.setName(file_info.completeBaseName());
+			data.setPath(file_info.absolutePath());
+		}else{						//（文件不存在，则创建项目文件夹+项目文件）
+			data.setName(file_info.completeBaseName());
+			data.setPath(file_info.absolutePath() + "/" + file_info.completeBaseName());
+		}
+		return data;
+	}else {
+		return C_ProjectData();
+	}
 }
 
 

@@ -2,7 +2,7 @@
 #include "W_SoftwareAbout.h"
 
 #include "../versionLog/w_SoftwareVersionLog.h"
-#include "Source/ProjectModule/Data/C_ProjectData.h"
+#include "Source/ProjectModule/S_ProjectManager_Custom.h"
 #include "Source/Utils/common/TTool.h"
 
 /*
@@ -32,7 +32,7 @@ W_SoftwareAbout::W_SoftwareAbout(QWidget *parent)
 	//----ui初始化
 
 	// > 标题块文本
-	ui.label_title->setText("GIF动画序列编辑器（" + C_ProjectData::version + "）");
+	ui.label_title->setText("GIF动画序列编辑器（" + S_ProjectManager_Custom::getInstance()->version + "）");
 
 	// > 按钮组
 	TTool::_chinese_(ui.buttonBox);

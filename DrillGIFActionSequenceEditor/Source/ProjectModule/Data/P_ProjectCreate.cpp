@@ -5,6 +5,7 @@
 /*
 -----==========================================================-----
 		类：		新建项目块.cpp
+		作者：		drill_up
 		所属模块：	项目管理模块
 		功能：		经过该流程后，将新建项目文件夹。
 					比如新建项目、另存为项目。
@@ -76,7 +77,7 @@ void P_ProjectCreate::pathChanged(QString s) {
 void P_ProjectCreate::chooseFiles() {
 	QFileDialog fd;
 	QString path;
-	path = fd.getExistingDirectory(this, ("请选择文件夹"), this->local_ProjectData.getParentPath());
+	path = fd.getExistingDirectory(this, tr("选择文件夹"), this->local_ProjectData.getParentPath());
 	if (path == "") {
 		return;
 	}
@@ -96,7 +97,7 @@ void P_ProjectCreate::radioChanged(bool toggled) {
 void P_ProjectCreate::refreshOutput() {
 	QString name = ui.lineEdit_name->text();
 	if (name == "") {
-		ui.lineEdit_outPut->setText("未填写名称");
+		ui.lineEdit_outPut->setText(tr("未填写名称"));
 		return;
 	}
 	if (ui.checkBox->isChecked()) {
@@ -158,11 +159,11 @@ C_ProjectData P_ProjectCreate::getData(){
 	// > 校验
 	QString name = ui.lineEdit_name->text();
 	if (name == "") {
-		QMessageBox::warning(this, ("错误"), ("名称不能为空。"));
+		QMessageBox::warning(this, tr("错误"), tr("名称不能为空。"));
 		return C_ProjectData();
 	}
 	if (this->getCurrentPath() == "") {
-		QMessageBox::warning(this, ("错误"), ("位置不能为空。"));
+		QMessageBox::warning(this, tr("错误"), tr("位置不能为空。"));
 		return C_ProjectData();
 	}
 

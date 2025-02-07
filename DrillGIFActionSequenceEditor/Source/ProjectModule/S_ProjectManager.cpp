@@ -1,7 +1,5 @@
 ﻿#include "stdafx.h"
-
 #include "S_ProjectManager.h"
-#include "S_ProjectWindowManager.h"
 
 #include "Data/C_ProjectData.h"
 #include "Data/W_ProjectCreate.h"
@@ -10,12 +8,15 @@
 #include "File/S_TempFileManager.h"
 #include PROJECT_INCLUDE
 
-//【注意该cpp中带#号的函数，可能有自定义的工程控制代码】
+#ifdef PROJECT_USE_S_UniqueTempFileFactory
+#include "File/UniqueTempFile/S_UniqueTempFileFactory.h"
+#endif
+
 
 /*
 -----==========================================================-----
 		类：		项目管理.cpp
-		版本：		v1.17
+		版本：		v1.22
 		作者：		drill_up
 		所属模块：	项目管理模块
 		功能：		项目管理相关数据、相关操作都在这里主要控制。
@@ -46,15 +47,15 @@
 							数据结构类需要实现"getJsonObject"方法和"setJsonObject"方法，确保所有数据类都能够转成json数据。
 			
 		注意事项：	1. 该管理器需要修改窗口名字，会发送信号。
-					2. PROJECT_SUFFIX 在C_ProjectData类中定义。
-					3. 【注意该cpp中带#号的函数，可能有自定义的工程控制代码】。
+					2. 自定义部分 全部转移到 S_ProjectManager_Custom 中执行。
 -----==========================================================-----
 */
 
 S_ProjectManager::S_ProjectManager(){
-	S_TempFileManager::getInstance()->setSkipSuffix(S_TempFileManager::getInstance()->getSkipSuffix() << PROJECT_SUFFIX << "cbf");
 	
 	// > 参数初始化
+	this->m_fixTitle.clear();
+	this->m_isSampleProject = false;
 	this->m_isDirty = false;
 	this->m_lockingWidgets.clear();
 	
@@ -64,12 +65,17 @@ S_ProjectManager::S_ProjectManager(){
 	this->m_historyProjectMax = 10;
 	this->m_historyDirMax = 6;
 	this->loadHistory();
+
+	// > 唯一文件初始化
+	#ifdef PROJECT_USE_S_UniqueTempFileFactory
+		S_UniqueTempFileFactory::getInstance();
+	#endif
 }
 S_ProjectManager::~S_ProjectManager() {
 }
 
 /* --------------------------------------------------------------
-----------ProjectManager 单例
+----------单例
 */
 S_ProjectManager* S_ProjectManager::project_manager = NULL;
 S_ProjectManager* S_ProjectManager::getInstance() {
@@ -87,7 +93,7 @@ void S_ProjectManager::setDirty() {
 	if (this->m_isDirty == false) {
 		this->m_isDirty = true;
 		emit signal_dirtyChanged(true);
-		this->changeTitle();
+		this->refreshTitle();
 	}
 }
 /* --------------------------------------------------------------
@@ -109,19 +115,45 @@ void S_ProjectManager::removeLock(QWidget* widget) {
 	}
 }
 /* --------------------------------------------------------------
-		#全局 - 修改名称
+		全局 - 修改名称
 */
-void S_ProjectManager::changeTitle(){
-	QString title = "";
+void S_ProjectManager::refreshTitle(){
+
+	// > 自定义部分
+	S_ProjectManager_Custom::getInstance()->changeTitle_Before();
+
+	// > 名称设置
+	QString new_title;
 	if (this->data_ProjectData.isNull()) {
-		title = this->data_ProjectData.getSoftname() + " - newProject";
+		new_title.append(this->data_ProjectData.getSoftname());
+		new_title.append(" - ");
+		new_title.append("newProject");
 	}else {
-		title = this->data_ProjectData.getSoftname() + " - " + this->data_ProjectData.getName();
+		new_title.append(this->data_ProjectData.getSoftname());
+		new_title.append(" - ");
+		new_title.append(this->data_ProjectData.getName());
 	}
 	if (this->m_isDirty) {
-		title += "*";
+		new_title.append("*");
 	}
-	emit signal_titleChanged(title);
+
+	// > 固定名称
+	if (this->m_fixTitle != ""){
+		new_title = this->m_fixTitle;
+	}
+
+	// > 自定义部分
+	S_ProjectManager_Custom::getInstance()->changeTitle_After(new_title);
+	emit signal_titleChanged(new_title);
+}
+/* --------------------------------------------------------------
+		全局 - 使用固定名称
+*/
+void S_ProjectManager::setFixTitle(QString fix_title){
+	this->m_fixTitle = fix_title;
+}
+void S_ProjectManager::clearFixTitle(){
+	this->m_fixTitle = "";
 }
 /* --------------------------------------------------------------
 		全局 - 判断锁定
@@ -154,8 +186,8 @@ bool S_ProjectManager::dirtyTip() {
 	else {
 		return true;
 	}
-
 }
+
 
 /* --------------------------------------------------------------
 		项目 - 新建（对话框）
@@ -166,7 +198,7 @@ bool S_ProjectManager::newProject() {
 	if (this->dirtyTip() == false) { return false; }
 
 	this->clearProject();					//清理项目
-	this->changeTitle();					//修改标题
+	this->refreshTitle();					//修改标题
 	emit signal_newProjectFinished();		//项目新建清空后（信号）
 
 	return true;
@@ -186,8 +218,8 @@ bool S_ProjectManager::openProject() {
 	QFileDialog fd;
 	fd.setWindowTitle(tr("打开项目"));
 	fd.setAcceptMode(QFileDialog::AcceptOpen);
-	fd.setDirectory(this->data_ProjectData.getParentPath());	
-	fd.setNameFilters(QStringList() << QString(tr("项目文件(*.")) + PROJECT_SUFFIX + ")");
+	fd.setDirectory(this->data_ProjectData.getParentPath());
+	fd.setNameFilters(QStringList() << this->data_ProjectData.getProjectFileFilterWithOld() << QString(tr("所有文件(*.*)")));
 	fd.setViewMode(QFileDialog::Detail);
 	if (fd.exec() == QDialog::Accepted) {
 		if (fd.selectedFiles().empty()) {
@@ -211,10 +243,10 @@ bool S_ProjectManager::openProjectByArgs(int argc, char *argv[]) {
 	if (argc == 2) {
 		//qDebug() << argv[0];	//exe的路径
 		//qDebug() << argv[1];	//输入文件的路径
-		QString exe_path = argv[0];
-		QString file_path = argv[1];
+		QString exe_path = QString::fromLocal8Bit(argv[0]);		//（需要转换一下Unicode字符，确保识别中文路径，不能用Latin1）
+		QString file_path = QString::fromLocal8Bit(argv[1]);
 		if (QFileInfo(file_path).suffix() == PROJECT_SUFFIX) {
-			this->openProjectDirectly(file_path);		//根据文件打开
+			this->openProjectDirectly(file_path);				//根据文件打开
 			return true;
 		}
 	}
@@ -250,20 +282,41 @@ bool S_ProjectManager::saveProject() {
 
 	// > 项目未打开情况
 	if (this->data_ProjectData.isNull()) {
-		W_ProjectCreate d(PROJECT_INSTANCE);
-		d.setDataInModifyMode(this->data_ProjectData);
-		bool accepted = d.exec();
-		if (accepted == QDialog::Accepted) {
-			this->data_ProjectData = d.getData();	//刷新项目数据
-			this->changeTitle();					//修改标题
 
-			this->saveAll(this->data_ProjectData.getProjectRootPath());
+		// > 新建项目（窗口）
+		if (PROJECT_USE_W_ProjectCreate){
+			W_ProjectCreate d(PROJECT_INSTANCE);
+			d.setDataInModifyMode(this->data_ProjectData);
+			bool accepted = d.exec();
+			if (accepted == QDialog::Accepted) {
+				this->data_ProjectData = d.getData();	//刷新项目数据
+				this->refreshTitle();					//修改标题
+
+				this->saveAll(this->data_ProjectData.getProjectFilePath(), "");
+			}
+			return accepted;
+
+		// > 新建项目（原生选择框）
+		}else{
+			C_ProjectData data = C_ProjectData::openQDialogForProjectCreate();
+			if (data.isNull()){ return false; }
+
+			this->data_ProjectData = data;			//刷新项目数据
+			this->refreshTitle();					//修改标题
+
+			this->saveAll(this->data_ProjectData.getProjectFilePath(), "");
+			return true;
 		}
-		return accepted;
-	}
+
 	// > 项目已打开情况
-	else{
-		this->saveAll(this->data_ProjectData.getProjectRootPath());
+	}else{
+
+		// > 样例工程标记
+		if (this->m_isSampleProject == true){
+			return this->saveAs();
+		}
+
+		this->saveAll(this->data_ProjectData.getProjectFilePath(), "");
 		return true;
 	}
 
@@ -274,18 +327,40 @@ bool S_ProjectManager::saveProject() {
 */
 bool S_ProjectManager::saveAs() {
 
-	W_ProjectCreate d(PROJECT_INSTANCE);
-	d.setDataInModifyMode(this->data_ProjectData);
-	d.setWindowTitle(tr("项目另存为"));
-	bool accepted = d.exec();
-	if (accepted == QDialog::Accepted) {
-		this->data_ProjectData = d.getData();	//刷新项目数据
-		this->changeTitle();					//修改标题
+	// > 新建项目（窗口）
+	if (PROJECT_USE_W_ProjectCreate){
+		W_ProjectCreate d(PROJECT_INSTANCE);
+		d.setDataInModifyMode(this->data_ProjectData);
+		d.setWindowTitle(tr("项目另存为"));
+		bool accepted = d.exec();
+		if (accepted == QDialog::Accepted) {
+			QString saveAs_lastDir = "";
+			if (this->data_ProjectData.isNull() == false) {		//（这里要避免新建工程时直接点击另存为的情况）
+				saveAs_lastDir = this->data_ProjectData.getProjectFilePath();
+			}
 
-		this->saveAll(this->data_ProjectData.getProjectRootPath());
+			this->data_ProjectData = d.getData();	//刷新项目数据
+			this->refreshTitle();					//修改标题
+
+			this->saveAll(this->data_ProjectData.getProjectFilePath(), saveAs_lastDir);
+		}
+		return accepted;
+
+	// > 新建项目（原生选择框）
+	}else{
+		C_ProjectData data = C_ProjectData::openQDialogForProjectCreate();
+		if (data.isNull()) { return false; }
+		QString saveAs_lastDir = "";
+		if (this->data_ProjectData.isNull() == false) {			//（这里要避免新建工程时直接点击另存为的情况）
+			saveAs_lastDir = this->data_ProjectData.getProjectFilePath();
+		}
+
+		this->data_ProjectData = data;				//刷新项目数据
+		this->refreshTitle();						//修改标题
+
+		this->saveAll(this->data_ProjectData.getProjectFilePath(), saveAs_lastDir);
+		return true;
 	}
-	return accepted;
-
 }
 /* --------------------------------------------------------------
 		项目 - 强制保存
@@ -296,31 +371,42 @@ bool S_ProjectManager::saveInForce() {
 	if (this->data_ProjectData.isNull()) { return false; }
 
 	// > 项目已打开情况
-	this->saveAll(this->data_ProjectData.getProjectRootPath());
+	this->saveAll(this->data_ProjectData.getProjectFilePath(), "");
 	return true;
 }
 
 /* --------------------------------------------------------------
-		#项目 - 清除项目数据
+		项目 - 清除项目数据
 */
 void S_ProjectManager::clearProject() {
+
+	// > 自定义部分
+	S_ProjectManager_Custom::getInstance()->clearProject_Before();
+
 
 	// > 项目所有参数初始化
 	S_StorageManager::getInstance()->clearAllApplicationData();		//清理存储数据
 	this->data_ProjectData.clear();									//清理当前项目数据
+	this->m_isSampleProject = false;								//清理样例工程标记
 	this->m_isDirty = false;										//清理项目修改痕迹
 	emit signal_dirtyChanged(false);
+	
+	#ifdef PROJECT_USE_S_UniqueTempFileFactory
+		
+		// > 唯一文件工厂 - 清空缓存文件夹
+		S_UniqueTempFileFactory::getInstance()->removeAllTempFile();
+	#else
+		// > 只缓存文件夹 - 清空缓存文件夹
+		S_TempFileManager::getInstance()->removeAllTempFile();
+	#endif
 
-	// > 清除缓存数据
-	S_TempFileManager::getInstance()->removeAllTempFile();
 
-	// > 清理输出窗口
-	//S_ConsoleManager::getInstance()->clearContents();
-	//S_ConsoleManager::getInstance()->append(tr("----开始新工程----"));
+	// > 自定义部分
+	S_ProjectManager_Custom::getInstance()->clearProject_After();
 }
 
 /* --------------------------------------------------------------
-		#项目 - 打开（根据文件名）
+		项目 - 打开（根据文件名）
 */
 void S_ProjectManager::openProjectDirectly(QString open_path) {
 
@@ -335,14 +421,6 @@ void S_ProjectManager::openProjectDirectly(QString open_path) {
 	this->addHistoryDir(info.absolutePath());
 	this->saveHistory();
 
-	// > 复制文件到temp中
-	bool success = S_TempFileManager::getInstance()->copyResourceToTemp_Dir(this->data_ProjectData.getProjectFilePath());
-	if (success == false){
-		QMessageBox message(QMessageBox::Information, tr("提示"), tr("当前项目中包含非法文件路径，打开失败。\n请将工程文件移动至一个空的文件夹中，再打开工程。"));
-		message.exec();
-		return;
-	}
-
 	// > 读取存储文件
 	this->readSaveFile();
 
@@ -353,59 +431,96 @@ void S_ProjectManager::openProjectDirectly(QString open_path) {
 	emit signal_openProjectFinished();
 }
 /* --------------------------------------------------------------
-		#项目 - 保存（目标文件夹）
+		项目 - 保存（目标文件夹）
 */
-void S_ProjectManager::saveAll(QString url) {
+void S_ProjectManager::saveAll(QString tar_fileDir, QString saveAs_last_fileDir) {
 
 	// > 创建文件夹
-	if (url.at(url.size() - 1) != '/') { url += "/"; }
-	QDir temp_dir(url);
-	temp_dir.mkpath(url);
+	QDir temp_dir(tar_fileDir);
+	temp_dir.mkpath(tar_fileDir);
 
 	// > 保存记录
 	this->data_ProjectData.lastSaveDate = QDateTime::currentDateTime();
 
 	// > 生成存储文件
-	this->createSaveFile();
+	//		（注意，生成存储文件时，样例工程的标记仍然存在）
+	this->createSaveFile(tar_fileDir, saveAs_last_fileDir);
 
 	// > 清理痕迹
+	this->m_isSampleProject = false;
 	this->m_isDirty = false;
 	emit signal_dirtyChanged(false);
-	this->changeTitle();
+	this->refreshTitle();
 
 	// > 项目保存后（信号）
 	emit signal_saveProjectFinished();
 }
 /* --------------------------------------------------------------
-		#项目 - 保存（文件）
+		项目 - 保存（文件）
 */
-void S_ProjectManager::createSaveFile() {
+void S_ProjectManager::createSaveFile(QString tar_fileDir, QString saveAs_last_fileDir) {
 
-	// > 确保复制文件时，不出现覆盖问题
-	S_TempFileManager::getInstance()->removeInTemp_File(this->data_ProjectData.getName() + "." + this->data_ProjectData.getSuffix());
+	// > 自定义部分
+	S_ProjectManager_Custom::getInstance()->createSaveFile_Before(tar_fileDir, saveAs_last_fileDir);
 
 	// > 存储
 	S_StorageManager::getInstance()->createSaveFile(this->data_ProjectData.getProjectFile());
 	this->addHistoryProject(this->data_ProjectData.getProjectFile());
-	this->addHistoryDir(this->data_ProjectData.getProjectRootPath());
+	this->addHistoryDir(this->data_ProjectData.getProjectRootPath());	//（tar_dir的值 就是 this->data_ProjectData.getProjectRootPath() )
 	this->saveHistory();
 
-	// > 复制 temp 到 src
-	S_TempFileManager::getInstance()->copyTempToTarget_DirWithAllSubfolders(this->data_ProjectData.getProjectFilePath());
+	#ifdef PROJECT_USE_S_UniqueTempFileFactory
+		
+		// > 唯一文件工厂 - 执行保存（相同的文件会被覆盖）
+		if (saveAs_last_fileDir == "") {
+			S_UniqueTempFileFactory::getInstance()->doSave(QDir(tar_fileDir));
+		
+		// > 唯一文件工厂 - 执行复制
+		}else{
+			S_UniqueTempFileFactory::getInstance()->doSaveAs(QDir(tar_fileDir), QDir(saveAs_last_fileDir));
+		}
+	#else
+		// > 只缓存文件夹 - 确保复制文件时，不出现工程文件覆盖问题
+		S_TempFileManager::getInstance()->removeInTemp_File(this->data_ProjectData.getName() + "." + this->data_ProjectData.getSuffix());
+		
+		// > 只缓存文件夹 - 复制 unique文件 到 src
+		S_TempFileManager::getInstance()->copy_DirWithAllSubfolders(QDir(S_TempFileManager::getInstance()->getTempFileUrl() + "/unique/"), QDir(this->data_ProjectData.getProjectFilePath() + "unique/"));
+	#endif
 
+	// > 自定义部分
+	S_ProjectManager_Custom::getInstance()->createSaveFile_After(tar_fileDir, saveAs_last_fileDir);
 }
 
 /* --------------------------------------------------------------
-		#项目 - 读取（文件）
+		项目 - 读取（文件）
 */
 void S_ProjectManager::readSaveFile() {
 
-	// > 复制 src 到 temp【先复制文件，再读取数据】
-	S_TempFileManager::getInstance()->copyResourceToTemp_DirWithAllSubfolders(this->data_ProjectData.getProjectFilePath());
+	// > 自定义部分
+	S_ProjectManager_Custom::getInstance()->readSaveFile_Before();
+	
+	#ifdef PROJECT_USE_S_UniqueTempFileFactory
+		
+		// > 唯一文件工厂 - 提前读取
+		S_UniqueTempFileFactory::getInstance()->preReadFile(QFileInfo(this->data_ProjectData.getProjectFile()));
+
+		// > 唯一文件工厂 - 执行打开
+		S_UniqueTempFileFactory::getInstance()->doOpen(QDir(this->data_ProjectData.getProjectFilePath()));
+	#else
+		// > 只缓存文件夹 - 复制 src 到 temp【先复制文件，再读取数据，因为读取数据会影响到所有DataContainer，包括一些读取文件数据的操作】
+		bool success = S_TempFileManager::getInstance()->copyResourceToTemp_DirWithAllSubfolders(this->data_ProjectData.getProjectFilePath());
+		if (success == false){
+			QMessageBox::warning(nullptr, tr("提示"), tr("当前项目中包含非法文件路径，打开失败。\n请将工程文件移动至一个空的文件夹中，再打开工程。"));
+			return;
+		}
+	#endif
 
 	// > 读取
 	S_StorageManager::getInstance()->readSaveFile(this->data_ProjectData.getProjectFile());
 
+
+	// > 自定义部分
+	S_ProjectManager_Custom::getInstance()->readSaveFile_After();
 }
 
 
@@ -427,6 +542,18 @@ QString S_ProjectManager::getOneFileBySuffix(QString url, QString suffix) {
 	return result;
 }
 
+
+/*-----------------------------------
+		样例工程 - 设置
+*/
+void S_ProjectManager::setSampleProject(bool enabled){
+	this->m_isSampleProject = enabled;
+}
+bool S_ProjectManager::isSampleProject(){
+	return this->m_isSampleProject;
+}
+
+
 /*-----------------------------------
 		数据 - 获取存储的名称
 */
@@ -437,11 +564,8 @@ QString S_ProjectManager::getSaveName() {
 		数据 - 清除当前管理器数据
 */
 void S_ProjectManager::clearAllData() {
-	
 	this->data_ProjectData.clear();
-	
 }
-
 /*-----------------------------------
 		数据 - 全部求解需求数据 -> QJsonObject
 */
@@ -578,6 +702,7 @@ void S_ProjectManager::loadHistory(){
 		this->m_historyDirTank.append(dir);
 	}
 }
+
 
 /* --------------------------------------------------------------
 		其他 - 打开项目路径文件夹

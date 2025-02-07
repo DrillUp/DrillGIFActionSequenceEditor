@@ -1,10 +1,13 @@
 ﻿#include "stdafx.h"
 #include "W_ProjectCreate.h"
+
 #include "../S_ProjectManager.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
 		类：		新建项目窗口.cpp
+		作者：		drill_up
 		所属模块：	项目管理模块
 		功能：		经过该流程后，将新建项目文件夹。
 					比如新建项目、另存为项目。
@@ -30,8 +33,7 @@ W_ProjectCreate::W_ProjectCreate(QWidget* parent)
 
 	//-----------------------------------
 	//----ui初始化
-	ui.buttonBox->button(QDialogButtonBox::Ok)->setText( ("确定"));
-	ui.buttonBox->button(QDialogButtonBox::Cancel)->setText( ("取消"));
+	TTool::_chinese_(ui.buttonBox);
 }
 W_ProjectCreate::~W_ProjectCreate(){
 }

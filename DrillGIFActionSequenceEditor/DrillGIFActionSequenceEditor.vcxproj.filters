@@ -731,18 +731,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_S_TempFileManager.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ProjectModule\Storage\S_StorageManager.cpp">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件（Storage）</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_S_StorageManager.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_S_StorageManager.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ProjectModule\Storage\S_StorageManagerTemplate.cpp">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件（Storage）</Filter>
-    </ClCompile>
     <ClCompile Include="Source\ProjectModule\StorageGlobal\S_IniManager.cpp">
       <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件-全局（StorageGlobal）</Filter>
     </ClCompile>
@@ -1181,6 +1169,21 @@
     <ClCompile Include="GeneratedFiles\Release\moc_P_FileOperater.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ProjectModule\S_ProjectManager_Custom.cpp">
+      <Filter>源文件\【 项目管理模块 ProjectModule】</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_S_ProjectManager_Custom.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_S_ProjectManager_Custom.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ProjectModule\Storage\S_StorageManager.cpp">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件（Storage）</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ProjectModule\Storage\S_StorageManagerTemplate.cpp">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件（Storage）</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="drillgifactionsequenceeditor.qrc">
@@ -1353,9 +1356,6 @@
     </CustomBuild>
     <CustomBuild Include="Source\ProjectModule\File\S_TempFileManager.h">
       <Filter>源文件\【 项目管理模块 ProjectModule】\Temp文件夹（File）</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\ProjectModule\Storage\S_StorageManager.h">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件（Storage）</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\ProjectModule\StorageGlobal\S_IniManager.h">
       <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件-全局（StorageGlobal）</Filter>
@@ -1534,6 +1534,9 @@
     <CustomBuild Include="Source\Utils\common\P_FileOperater.h">
       <Filter>源文件\【 工具箱 Utils】\通用工具（common）</Filter>
     </CustomBuild>
+    <CustomBuild Include="Source\ProjectModule\S_ProjectManager_Custom.h">
+      <Filter>源文件\【 项目管理模块 ProjectModule】</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DrillGIFActionSequenceEditor.rc" />
@@ -1631,9 +1634,6 @@
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_W_ProjectNote.h">
       <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ProjectModule\Storage\S_StorageManagerTemplate.h">
-      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件（Storage）</Filter>
     </ClInclude>
     <ClInclude Include="Source\Utils\widgetFormSenior\NodeDataOfTree\C_TreeNode.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\节点数据（树图）</Filter>
@@ -1799,6 +1799,12 @@
     </ClInclude>
     <ClInclude Include="Source\Utils\widgetFormSenior\ObjectSortController\C_ObjectSortData.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\排序控制器</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ProjectModule\Storage\S_StorageManager.h">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件（Storage）</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ProjectModule\Storage\S_StorageManagerTemplate.h">
+      <Filter>源文件\【 项目管理模块 ProjectModule】\存储文件（Storage）</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
