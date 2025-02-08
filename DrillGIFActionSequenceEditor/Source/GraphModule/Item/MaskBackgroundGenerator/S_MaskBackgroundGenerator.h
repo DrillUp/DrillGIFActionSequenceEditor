@@ -23,7 +23,7 @@ class S_MaskBackgroundGenerator : public QObject
 		~S_MaskBackgroundGenerator();
 	public:
 		static S_MaskBackgroundGenerator* cur_manager;			//单例
-		static S_MaskBackgroundGenerator* getInstance();		//单例，获取自己（必须要拿到全局配置才能进行计算）
+		static S_MaskBackgroundGenerator* getInstance();		//单例，获取自己
 	
 	//-----------------------------------
 	//----生成器

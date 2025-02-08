@@ -24,7 +24,7 @@ class S_IniManager : public QObject
 		S_IniManager();
 		~S_IniManager();
 		static S_IniManager* cur_instance;			//单例
-		static S_IniManager* getInstance();			//单例，获取自己（必须要拿到全局配置才能进行计算）
+		static S_IniManager* getInstance();			//单例，获取自己
 		void _init();								//初始化
 		
 	//-----------------------------------

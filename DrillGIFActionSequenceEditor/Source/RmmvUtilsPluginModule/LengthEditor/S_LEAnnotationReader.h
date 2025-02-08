@@ -2,12 +2,14 @@
 #include <QObject>
 #include "C_LEAnnotation.h"
 
-#include "Source/Utils/Common/TTool.h"
 #include "Source/Utils/Manager/TxtRead/P_TxtFastReader.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
 		类：		最大值 注解 读取器.h
+		版本：		v1.01
+		作者：		drill_up
 		所属模块：	插件模块
 		功能：		只扫描最大值的相关注解。
 					（详细见cpp）
@@ -21,8 +23,7 @@ class S_LEAnnotationReader : public QObject
 		S_LEAnnotationReader();
 		~S_LEAnnotationReader();
 		static S_LEAnnotationReader* cur_manager;			//单例
-		static S_LEAnnotationReader* getInstance();			//单例，获取自己（必须要拿到全局配置才能进行计算）
-		void init();										//初始化
+		static S_LEAnnotationReader* getInstance();			//单例，获取自己
 		
 	//-----------------------------------
 	//----读取

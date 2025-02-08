@@ -20,7 +20,7 @@ class S_ALE_FileManager : public S_PLE_FileManager{
 		~S_ALE_FileManager();
 	public:
 		static S_ALE_FileManager* cur_manager;			//单例
-		static S_ALE_FileManager* getInstance();		//单例，获取自己（必须要拿到全局配置才能进行计算）
+		static S_ALE_FileManager* getInstance();		//单例，获取自己
 	
 
 	//-----------------------------------

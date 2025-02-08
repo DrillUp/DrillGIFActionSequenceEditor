@@ -24,7 +24,7 @@ class S_TempFileManager : public P_FileOperater
 		S_TempFileManager();
 		~S_TempFileManager();
 		static S_TempFileManager* cur_instance;				//单例
-		static S_TempFileManager* getInstance();			//单例，获取自己（必须要拿到全局配置才能进行计算）
+		static S_TempFileManager* getInstance();			//单例，获取自己
 		void init();										//初始化
 		void destroyInstance();								//销毁
 

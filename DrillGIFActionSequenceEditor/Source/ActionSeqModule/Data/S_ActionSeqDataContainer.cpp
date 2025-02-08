@@ -22,7 +22,7 @@ S_ActionSeqDataContainer::S_ActionSeqDataContainer(){
 
 	//-----------------------------------
 	//----事件绑定
-	connect(S_PluginDataContainer::getInstance(), &S_PluginDataContainer::pluginDataReloaded, this, &S_ActionSeqDataContainer::resetPluginData);
+	connect(S_PluginDataContainer::getInstance(), &S_PluginDataContainer::signal_pluginDataReloaded, this, &S_ActionSeqDataContainer::resetPluginData);
 
 }
 S_ActionSeqDataContainer::~S_ActionSeqDataContainer() {

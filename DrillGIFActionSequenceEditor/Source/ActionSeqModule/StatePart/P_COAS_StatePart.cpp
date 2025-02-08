@@ -4,7 +4,7 @@
 #include "../Data/S_ActionSeqDataContainer.h"
 #include "Source/ProjectModule/S_ProjectManager.h"
 #include "Source/Utils/WidgetForm/QStringListEditor/W_QStringListEditor.h"
-#include "Source/Utils/common/TTool.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----

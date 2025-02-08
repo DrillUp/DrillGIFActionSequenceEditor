@@ -6,7 +6,7 @@
 /*
 -----==========================================================-----
 		类：		插件数据 实体类.cpp
-		版本：		v1.04
+		版本：		v1.05
 		作者：		drill_up
 		所属模块：	插件模块
 		功能：		存储插件信息的类，对应plugin.js中每条插件的配置数据。
@@ -16,22 +16,53 @@
 -----==========================================================-----
 */
 C_PluginData::C_PluginData(){
+
+	// > 数据
 	this->name = "";
 	this->status = false;
 	this->description = "";
 	this->parameters = QJsonObject();
 
-	this->temp_inited = false;
-	this->temp_version = "";			//版本(调取时才初始化）
-	this->temp_type = "";				//类型（调取时才初始化）
-	this->temp_name = "";				//中文名（调取时才初始化）
+	// > 数据切片
+	this->temp_inited = false;			//初始化标记
+	this->temp_version = "";			//版本(用到时才初始化）
+	this->temp_type = "";				//类型（用到时才初始化）
+	this->temp_name = "";				//中文名（用到时才初始化）
 }
 C_PluginData::~C_PluginData(){
 }
 
 
 
-//数据 - 初始化截取段
+/*-------------------------------------------------
+		数据切片 - 获取版本
+*/
+QString C_PluginData::getDescription_version(){
+	if (this->temp_inited == false){ this->initDescription_data(); }
+	return this->temp_version;
+}
+double C_PluginData::getDescription_versionNum(){
+	if (this->temp_inited == false){ this->initDescription_data(); }
+	if (this->temp_version.isEmpty()){ return -1; }
+	return TTool::_to_double_(this->temp_version);
+}
+/*-------------------------------------------------
+		数据切片 - 获取类型
+*/
+QString C_PluginData::getDescription_type(){
+	if (this->temp_inited == false){ this->initDescription_data(); }
+	return this->temp_type;
+}
+/*-------------------------------------------------
+		数据切片 - 获取中文名
+*/
+QString C_PluginData::getDescription_name(){
+	if (this->temp_inited == false){ this->initDescription_data(); }
+	return this->temp_name;
+}
+/*-------------------------------------------------
+		数据切片 - 初始化（私有）
+*/
 void C_PluginData::initDescription_data(){
 	this->temp_inited = true;
 
@@ -68,26 +99,6 @@ void C_PluginData::initDescription_data(){
 	QStringList data_list2 = this->description.split(" ");
 	this->temp_name = data_list2.last();
 }
-//数据 - 获取版本（插件描述 截取段）
-QString C_PluginData::getDescription_version(){
-	if (this->temp_inited == false){ this->initDescription_data(); }
-	return this->temp_version;
-}
-double C_PluginData::getDescription_versionNum(){
-	if (this->temp_inited == false){ this->initDescription_data(); }
-	if (this->temp_version.isEmpty()){ return -1; }
-	return TTool::_to_double_(this->temp_version);
-}
-//数据 - 获取类型（插件描述 截取段）
-QString C_PluginData::getDescription_type(){
-	if (this->temp_inited == false){ this->initDescription_data(); }
-	return this->temp_type;
-}
-//数据 - 获取中文名（插件描述 截取段）
-QString C_PluginData::getDescription_name(){
-	if (this->temp_inited == false){ this->initDescription_data(); }
-	return this->temp_name;
-}
 
 
 /*-------------------------------------------------
@@ -107,10 +118,15 @@ const bool C_PluginData::operator== (const C_PluginData& a)const {
 */
 QJsonObject C_PluginData::getJsonObject(){
 	QJsonObject obj = QJsonObject();
+
+	// > 数据
 	obj.insert("name", this->name);
 	obj.insert("status", this->status);
 	obj.insert("description", this->description);
 	obj.insert("parameters", this->parameters);
+
+	// > 数据切片
+	//	（不存储）
 
 	return obj;
 }
@@ -118,8 +134,13 @@ QJsonObject C_PluginData::getJsonObject(){
 		QJsonObject -> 实体类
 */
 void C_PluginData::setJsonObject(QJsonObject obj){
+
+	// > 数据
 	this->name = obj.value("name").toString();
 	this->status = obj.value("status").toBool();
 	this->description = obj.value("description").toString();
 	this->parameters = obj.value("parameters").toObject();
+
+	// > 数据切片
+	//	（不存储）
 }

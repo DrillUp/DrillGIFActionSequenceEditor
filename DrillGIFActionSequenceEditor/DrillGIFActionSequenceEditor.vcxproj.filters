@@ -347,21 +347,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_drillgifactionsequenceeditor.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Utils\manager\txtRead\p_TxtFastReader.cpp">
-      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\文本解析器</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\manager\txtRead\p_TxtFastReaderWithRecord.cpp">
-      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\文本解析器</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\manager\chineseManager\s_ChineseManager.cpp">
-      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\中文管理器</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_s_ChineseManager.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_s_ChineseManager.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Utils\common\TTool.cpp">
       <Filter>源文件\【 工具箱 Utils】\通用工具（common）</Filter>
     </ClCompile>
@@ -413,29 +398,11 @@
     <ClCompile Include="GeneratedFiles\Release\moc_w_SoftwareFirstTip.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Utils\manager\GIFManager\s_GIFManager.cpp">
-      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\GIF转换器</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_s_GIFManager.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_s_GIFManager.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_Init.cpp">
       <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类（只放映区用）</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件\【 主窗体 MainModule】</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\manager\callManager\s_CallManager.cpp">
-      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\句柄调取管理器</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_s_CallManager.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_s_CallManager.cpp">
-      <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Source\RmmvInteractiveModule\base\s_RmmvDataContainer.cpp">
       <Filter>源文件\【 RMMV交互模块 RmmvInteractiveModule】\基本交互（此类不再更新）</Filter>
@@ -1184,6 +1151,39 @@
     <ClCompile Include="Source\RmmvUtilsPluginModule\LengthEditor\C_LEConfigData.cpp">
       <Filter>源文件\【 RMMV工具-插件模块 RmmvUtilsPluginModule】\最大值编辑器（LengthEditor）[读写][plugins文件夹]\修改器</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Utils\manager\GIFManager\S_GIFManager.cpp">
+      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\GIF转换器</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_S_GIFManager.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_S_GIFManager.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\manager\CallManager\S_CallManager.cpp">
+      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\句柄调取管理器</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_S_CallManager.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_S_CallManager.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\manager\TxtRead\P_TxtFastReader.cpp">
+      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\文本解析器</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\manager\TxtRead\P_TxtFastReaderWithRecord.cpp">
+      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\文本解析器</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils\manager\ChineseManager\S_ChineseManager.cpp">
+      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\中文管理器</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_S_ChineseManager.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_S_ChineseManager.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="drillgifactionsequenceeditor.qrc">
@@ -1194,9 +1194,6 @@
     </CustomBuild>
     <CustomBuild Include="Source\MainModule\drillgifactionsequenceeditor.ui">
       <Filter>源文件\【 主窗体 MainModule】</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\Utils\manager\chineseManager\s_ChineseManager.h">
-      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\中文管理器</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\RmmvInteractiveModule\operateBoard\p_RmmvOperateBoard.h">
       <Filter>源文件\【 RMMV交互模块 RmmvInteractiveModule】\操作面板</Filter>
@@ -1225,14 +1222,8 @@
     <CustomBuild Include="Source\MainModule\firstTip\w_SoftwareFirstTip.ui">
       <Filter>源文件\【 主窗体 MainModule】\首页提示</Filter>
     </CustomBuild>
-    <CustomBuild Include="Source\Utils\manager\GIFManager\s_GIFManager.h">
-      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\GIF转换器</Filter>
-    </CustomBuild>
     <CustomBuild Include="Source\ActionSeqModule\reprintedCore\Drill_COAS_Init.h">
       <Filter>源文件\【 动画序列 ActionSeqModule】\核心复刻类（只放映区用）</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Source\Utils\manager\callManager\s_CallManager.h">
-      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\句柄调取管理器</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\RmmvInteractiveModule\base\s_RmmvDataContainer.h">
       <Filter>源文件\【 RMMV交互模块 RmmvInteractiveModule】\基本交互（此类不再更新）</Filter>
@@ -1537,6 +1528,15 @@
     <CustomBuild Include="Source\RmmvUtilsPluginModule\LengthEditor\S_LEConfigWriter.h">
       <Filter>源文件\【 RMMV工具-插件模块 RmmvUtilsPluginModule】\最大值编辑器（LengthEditor）[读写][plugins文件夹]\修改器</Filter>
     </CustomBuild>
+    <CustomBuild Include="Source\Utils\manager\GIFManager\S_GIFManager.h">
+      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\GIF转换器</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\manager\CallManager\S_CallManager.h">
+      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\句柄调取管理器</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Source\Utils\manager\ChineseManager\S_ChineseManager.h">
+      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\中文管理器</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DrillGIFActionSequenceEditor.rc" />
@@ -1544,12 +1544,6 @@
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_drillgifactionsequenceeditor.h">
       <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\manager\txtRead\p_TxtFastReader.h">
-      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\文本解析器</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\manager\txtRead\p_TxtFastReaderWithRecord.h">
-      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\文本解析器</Filter>
     </ClInclude>
     <ClInclude Include="Source\Utils\common\TTool.h">
       <Filter>源文件\【 工具箱 Utils】\通用工具（common）</Filter>
@@ -1571,9 +1565,6 @@
     </ClInclude>
     <ClInclude Include="Source\DllModule\cximagecrt_drill\src_header\s_cximageManager.h">
       <Filter>源文件\【 外部库模块 DllModule】\图像操作库（cximagecrt_drill）</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\manager\GIFManager\gif.h">
-      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\GIF转换器</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>源文件\【 主窗体 MainModule】</Filter>
@@ -1805,6 +1796,15 @@
     </ClInclude>
     <ClInclude Include="Source\RmmvUtilsPluginModule\LengthEditor\C_LEConfigData.h">
       <Filter>源文件\【 RMMV工具-插件模块 RmmvUtilsPluginModule】\最大值编辑器（LengthEditor）[读写][plugins文件夹]\修改器</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\manager\GIFManager\Gif.h">
+      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\GIF转换器</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\manager\TxtRead\P_TxtFastReader.h">
+      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\文本解析器</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utils\manager\TxtRead\P_TxtFastReaderWithRecord.h">
+      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\文本解析器</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

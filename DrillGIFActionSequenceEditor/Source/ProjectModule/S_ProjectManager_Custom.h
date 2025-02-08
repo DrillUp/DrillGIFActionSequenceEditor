@@ -29,7 +29,7 @@ class S_ProjectManager_Custom : public QObject
 		S_ProjectManager_Custom();
 		~S_ProjectManager_Custom();
 		static S_ProjectManager_Custom* project_manager;		//单例
-		static S_ProjectManager_Custom* getInstance();			//单例，获取自己（必须要拿到全局配置才能进行计算）
+		static S_ProjectManager_Custom* getInstance();			//单例，获取自己
 		
 	
 	//-----------------------------------

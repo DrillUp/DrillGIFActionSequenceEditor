@@ -5,7 +5,7 @@
 /*
 -----==========================================================-----
 		类：		插件数据 容器.h
-		版本：		v1.04
+		版本：		v1.05
 		作者：		drill_up
 		所属模块：	插件模块
 		功能：		管理plugin.js中的全部插件配置数据。
@@ -21,11 +21,12 @@ class S_PluginDataContainer : public QObject
 		S_PluginDataContainer();
 		~S_PluginDataContainer();
 		static S_PluginDataContainer* cur_manager;			//单例
-		static S_PluginDataContainer* getInstance();			//单例，获取自己（必须要拿到全局配置才能进行计算）
+		static S_PluginDataContainer* getInstance();		//单例，获取自己
+
 
 	//-----------------------------------
 	//----数据
-	private:
+	protected:
 		QList<C_PluginData*> data_PluginDataTank;
 	public:
 										//数据 - 获取全部插件数据
@@ -37,29 +38,36 @@ class S_PluginDataContainer : public QObject
 		C_PluginData* getPluginData(QString pluginName);
 
 	//-----------------------------------
-	//----操作
+	//----数据操作
 	public:
-										//操作 - 添加
+										//数据操作 - 添加
+										//		【说明】：写入数据时用。
 		void op_add(C_PluginData* data);
-										//操作 - 修改
+										//数据操作 - 修改
+										//		【说明】：写入数据时用。
 		void op_modify(C_PluginData* data);
-										//操作 - 删除
+										//数据操作 - 删除
+										//		【说明】：写入数据时用。
 		void op_remove(C_PluginData* data);
 
 
 	//-----------------------------------
 	//----读取
 	public:
-										//读取 - 读取数据（plugins.js文本）
+										//读取 - 读取数据
+										//		【说明】：读取包括plugins.js的全部文本。
 		void loadPluginData(QString data_context);
-										//读取 - 读取数据（plugins.js文本，不发信号）
+										//读取 - 读取数据（不发信号）
+										//		【说明】：读取包括plugins.js的全部文本。
 		void loadPluginDataNoSignal(QString data_context);
-										//读取 - 一次性读取数据（plugins.js文本，读取后直接返回列表，不纳入容器）
+										//读取 - 读取数据（一次性）
+										//		【说明】：一次性读取数据，不纳入当前的数据容器。
 		QList<C_PluginData*> loadPluginDataDirectly(QString data_context);
+	public:
 	signals:
-										//读取 - 数据已读取（信号）
-		void pluginDataReloaded();
-	private:
+										//读取 - 读取全部数据时（信号）
+		void signal_pluginDataReloaded();
+	protected:
 										//读取 - 读取数据（私有）
 		QList<C_PluginData*> readPluginDataPrivate(QString data_context);
 		
@@ -67,11 +75,13 @@ class S_PluginDataContainer : public QObject
 	//-----------------------------------
 	//----写入
 	public:
-										//写入 - 写入数据（plugins.js文本）
+										//写入 - 写入数据
+										//		【说明】：plugins.js中的文本会被清空，并写入全部文本。
 		QString writePluginData();
-										//写入 - 一次性写入数据（plugins.js文本，不包括容器的数据）
+										//写入 - 写入数据（一次性）
+										//		【说明】：一次性写入数据，不包括当前的数据容器。
 		QString writePluginDataDirectly(QList<C_PluginData*> data_list);
-	private:
+	protected:
 										//写入 - 写入数据（私有）
 		QString writePluginDataPrivate(QList<C_PluginData*> data_list);
 

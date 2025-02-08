@@ -5,7 +5,7 @@
 /*
 -----==========================================================-----
 		类：		插件数据 容器.cpp
-		版本：		v1.04
+		版本：		v1.05
 		作者：		drill_up
 		所属模块：	插件模块
 		功能：		管理plugin.js中的全部插件配置数据。
@@ -33,7 +33,7 @@ S_PluginDataContainer::~S_PluginDataContainer() {
 }
 
 /* --------------------------------------------------------------
-----------PluginDataManager 单例
+----------单例
 */
 S_PluginDataContainer* S_PluginDataContainer::cur_manager = NULL;
 S_PluginDataContainer* S_PluginDataContainer::getInstance() {
@@ -64,15 +64,16 @@ C_PluginData* S_PluginDataContainer::getPluginData(QString pluginName){
 	}
 	return nullptr;
 }
+
 /*-------------------------------------------------
-		操作 - 添加
+		数据操作 - 添加
 */
 void S_PluginDataContainer::op_add(C_PluginData* data){
 	if (this->data_PluginDataTank.contains(data) == true){ return; }
 	this->data_PluginDataTank.append(data);
 }
 /*-------------------------------------------------
-		操作 - 替换
+		数据操作 - 替换
 */
 void S_PluginDataContainer::op_modify(C_PluginData* data){
 	int index = this->data_PluginDataTank.indexOf(data);	//（数据类根据 data->name 来进行搜寻）
@@ -80,7 +81,7 @@ void S_PluginDataContainer::op_modify(C_PluginData* data){
 	this->data_PluginDataTank.replace(index, data);
 }
 /*-------------------------------------------------
-		操作 - 去除
+		数据操作 - 去除
 */
 void S_PluginDataContainer::op_remove(C_PluginData* data){
 	this->data_PluginDataTank.removeOne(data);
@@ -89,22 +90,22 @@ void S_PluginDataContainer::op_remove(C_PluginData* data){
 
 
 /*-------------------------------------------------
-		读取 - 读取数据（流程）
+		读取 - 读取数据
 */
 void S_PluginDataContainer::loadPluginData(QString data_context){
 	QList<C_PluginData*> data_list = this->readPluginDataPrivate(data_context);
 	this->data_PluginDataTank = data_list;
-	emit pluginDataReloaded();		//数据已读取（信号）
+	emit signal_pluginDataReloaded();
 }
 /*-------------------------------------------------
-		读取 - 读取数据（流程，不发信号）
+		读取 - 读取数据（不发信号）
 */
 void S_PluginDataContainer::loadPluginDataNoSignal(QString data_context){
 	QList<C_PluginData*> data_list = this->readPluginDataPrivate(data_context);
 	this->data_PluginDataTank = data_list;
 }
 /*-------------------------------------------------
-		读取 - 一次性读取数据（流程，不纳入容器）
+		读取 - 读取数据（一次性）
 */
 QList<C_PluginData*> S_PluginDataContainer::loadPluginDataDirectly(QString data_context){
 	return this->readPluginDataPrivate(data_context);
@@ -145,13 +146,13 @@ QList<C_PluginData*> S_PluginDataContainer::readPluginDataPrivate(QString data_c
 
 
 /*-------------------------------------------------
-		写入 - 写入数据（流程）
+		写入 - 写入数据
 */
 QString S_PluginDataContainer::writePluginData(){
 	return this->writePluginDataPrivate(this->data_PluginDataTank);
 }
 /*-------------------------------------------------
-		写入 - 一次性写入数据（流程，不包括容器的数据）
+		写入 - 写入数据（一次性）
 */
 QString S_PluginDataContainer::writePluginDataDirectly(QList<C_PluginData*> data_list){
 	return this->writePluginDataPrivate(data_list);

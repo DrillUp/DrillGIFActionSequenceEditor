@@ -5,6 +5,8 @@
 /*
 -----==========================================================-----
 		类：		最大值 注解 读取器.h
+		版本：		v1.01
+		作者：		drill_up
 		所属模块：	插件模块
 		功能：		只扫描最大值的相关注解。
 
@@ -17,23 +19,20 @@
 		说明：		这里只提供单一操作，不含先后流程。
 -----==========================================================-----
 */
-
 S_LEAnnotationReader::S_LEAnnotationReader() : QObject(){
-	init();
 }
 S_LEAnnotationReader::~S_LEAnnotationReader() {
 }
-/*  - - 单例 - - */
+
+/* --------------------------------------------------------------
+----------单例
+*/
 S_LEAnnotationReader* S_LEAnnotationReader::cur_manager = NULL;
 S_LEAnnotationReader* S_LEAnnotationReader::getInstance() {
 	if (cur_manager == NULL) {
 		cur_manager = new S_LEAnnotationReader();
 	}
 	return cur_manager;
-}
-/*  - - 初始化 - - */
-void S_LEAnnotationReader::init() {
-
 }
 
 /*-------------------------------------------------

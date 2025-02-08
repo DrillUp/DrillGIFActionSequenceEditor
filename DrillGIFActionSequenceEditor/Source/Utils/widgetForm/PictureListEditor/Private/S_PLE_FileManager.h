@@ -20,7 +20,7 @@ class S_PLE_FileManager : public QObject{
 		~S_PLE_FileManager();
 	public:
 		static S_PLE_FileManager* cur_manager;			//单例
-		static S_PLE_FileManager* getInstance();		//单例，获取自己（必须要拿到全局配置才能进行计算）
+		static S_PLE_FileManager* getInstance();		//单例，获取自己
 		
 
 	//-----------------------------------

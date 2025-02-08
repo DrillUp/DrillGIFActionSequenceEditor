@@ -24,7 +24,7 @@ class S_ActionSeqDataContainer : public QObject, public S_StorageManagerTemplate
 		S_ActionSeqDataContainer();
 		~S_ActionSeqDataContainer();
 		static S_ActionSeqDataContainer* cur_manager;			//单例
-		static S_ActionSeqDataContainer* getInstance();			//单例，获取自己（必须要拿到全局配置才能进行计算）
+		static S_ActionSeqDataContainer* getInstance();			//单例，获取自己
 
 	//-----------------------------------
 	//----读取器（只读，不存）

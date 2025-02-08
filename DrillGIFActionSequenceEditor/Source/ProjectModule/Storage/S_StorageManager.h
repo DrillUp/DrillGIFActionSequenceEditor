@@ -19,7 +19,7 @@ class S_StorageManager{
 		S_StorageManager();
 		~S_StorageManager();
 		static S_StorageManager* cur_manager;		//单例
-		static S_StorageManager* getInstance();		//单例，获取自己（必须要拿到全局配置才能进行计算）
+		static S_StorageManager* getInstance();		//单例，获取自己
 		
 	//-----------------------------------
 	//----数据

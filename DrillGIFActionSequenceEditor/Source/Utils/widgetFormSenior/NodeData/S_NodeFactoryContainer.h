@@ -24,7 +24,7 @@ class S_NodeFactoryContainer : public QObject
 		S_NodeFactoryContainer();
 		~S_NodeFactoryContainer();
 		static S_NodeFactoryContainer* cur_manager;		//单例
-		static S_NodeFactoryContainer* getInstance();	//单例，获取自己（必须要拿到全局配置才能进行计算）
+		static S_NodeFactoryContainer* getInstance();	//单例，获取自己
 		
 	//-----------------------------------
 	//----工厂容器

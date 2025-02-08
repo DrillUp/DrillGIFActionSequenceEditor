@@ -5,7 +5,9 @@
 /*
 -----==========================================================-----
 		类：		文本扫描器.h
-		所属模块：	核心模块
+		版本：		v1.01
+		作者：		drill_up
+		所属模块：	插件模块
 		功能：		提供扫描、覆写直接功能。
 
 		目标：		识别下面的文本，并作修改：
@@ -19,23 +21,20 @@
 
 -----==========================================================-----
 */
-
 S_LEConfigWriter::S_LEConfigWriter() : QObject(){
-	init();
 }
 S_LEConfigWriter::~S_LEConfigWriter() {
 }
-/*  - - 单例 - - */
+
+/* --------------------------------------------------------------
+----------单例
+*/
 S_LEConfigWriter* S_LEConfigWriter::cur_manager = NULL;
 S_LEConfigWriter* S_LEConfigWriter::getInstance() {
 	if (cur_manager == NULL) {
 		cur_manager = new S_LEConfigWriter();
 	}
 	return cur_manager;
-}
-/*  - - 初始化 - - */
-void S_LEConfigWriter::init() {
-
 }
 
 
