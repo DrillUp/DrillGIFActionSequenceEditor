@@ -2,7 +2,7 @@
 #include "W_SoftwareFirstTip.h"
 
 #include "../drillgifactionsequenceeditor.h"
-#include "Source/ProjectModule/storageGlobal/s_IniManager.h"
+#include "Source/ProjectModule/StorageGlobal/S_IniManager.h"
 #include "Source/Utils/Common/TTool.h"
 
 /*
