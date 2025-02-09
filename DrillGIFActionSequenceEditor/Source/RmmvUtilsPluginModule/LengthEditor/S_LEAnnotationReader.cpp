@@ -1,6 +1,8 @@
 ﻿#include "stdafx.h"
 #include "S_LEAnnotationReader.h"
 
+#include "Source/Utils/Manager/TxtRead/P_TxtFastReader.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
@@ -55,6 +57,7 @@ C_LEAnnotation* S_LEAnnotationReader::readPlugin(QFileInfo file){
 
 	// > 扫描器准备
 	P_TxtFastReader reader = P_TxtFastReader(result->context);
+	reader.clearEmptyRows();
 	reader.prepare_trimAllRows();
 	reader.prepare_replaceInStrings(QRegExp("( \\* )|( \\*)|(\\* )|(/\\*:)|(/\\*:ja)"), "");	//预备去掉注释
 
@@ -115,6 +118,7 @@ void S_LEAnnotationReader::refreshPluginAnnotation(C_LEAnnotation* plugin){
 	// > 扫描器准备
 	QString context = plugin->context;
 	P_TxtFastReader reader = P_TxtFastReader(context);
+	reader.clearEmptyRows();
 	reader.prepare_trimAllRows();
 	reader.prepare_replaceInStrings(QRegExp("( \\* )|( \\*)|(\\* )|(/\\*:)|(/\\*:ja)"), "");	//此行的去掉注释
 
@@ -170,6 +174,7 @@ bool S_LEAnnotationReader::isPluginIncludedLengthParam(QString context){
 
 	// > 扫描器准备
 	P_TxtFastReader reader = P_TxtFastReader(context);
+	reader.clearEmptyRows();
 	
 	// > 实际变量依次搜索
 	QStringList param_names = reader.d_getAllRowsContains(QRegExp("@param[ ]+.*-[0123456789]+"));

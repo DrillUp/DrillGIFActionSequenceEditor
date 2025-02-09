@@ -4,6 +4,7 @@
 #include "DrillGIFActionSequenceEditor.h"
 #include "Source/ProjectModule/File/S_TempFileManager.h"
 #include "Source/RmmvUtilsProjectModule/ProjectData/S_RmmvProjectDataContainer.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
@@ -67,7 +68,7 @@ void S_ActionSeqDataContainer::resetPluginData() {
 		}
 	}
 
-	emit dataAllReloaded();
+	emit signal_dataAllReloaded();
 }
 /*-------------------------------------------------
 		插件数据 - 获取（插件数据）
@@ -91,11 +92,10 @@ C_COAS_Length S_ActionSeqDataContainer::getPluginData_ActionSeqLength() {
 
 	C_LEAnnotation* c_le = S_LEAnnotationReader::getInstance()->readPlugin(plugin_file);
 	result.realLen_actionSeq = c_le->getParamByKey("动画序列-%d").getRealLen();
-	if (result.realLen_actionSeq == 0){
-		result.realLen_actionSeq = c_le->getParamByKey("动作序列-%d").getRealLen();
-	}
+	if (result.realLen_actionSeq == 0){ result.realLen_actionSeq = c_le->getParamByKey("动作序列-%d").getRealLen(); }
 	result.realLen_action = c_le->getParamByKey("动作元-%d").getRealLen();
 	result.realLen_state = c_le->getParamByKey("状态元-%d").getRealLen();
+	result.realLen_stateNode = c_le->getParamByKey("状态节点-%d").getRealLen();
 	return result;
 }
 
@@ -390,5 +390,5 @@ void S_ActionSeqDataContainer::setAllDataFromJsonObject(QJsonObject obj_all){
 	this->data_ActionSeqLength.setJsonObject( obj_all.value("data_ActionSeqLength").toObject() );	//动画序列长度
 	this->setActionSeqData_Object( obj_all.value("data_ActionSeqData").toObject() );				//动画序列数据
 
-	emit dataAllReloaded();
+	emit signal_dataAllReloaded();
 }

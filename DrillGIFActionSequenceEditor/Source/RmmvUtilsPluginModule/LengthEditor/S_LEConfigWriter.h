@@ -4,7 +4,6 @@
 #include "C_LEConfigData.h"
 #include "C_LEAnnotation.h"
 
-#include "Source/Utils/Manager/TxtRead/P_TxtFastReader.h"
 #include "Source/Utils/Common/TTool.h"
 
 /*

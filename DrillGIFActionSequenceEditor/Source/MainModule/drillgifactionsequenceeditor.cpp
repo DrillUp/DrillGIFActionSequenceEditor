@@ -87,7 +87,7 @@ void DrillGIFActionSequenceEditor::_init() {
 	connect(S_ProjectManager::getInstance(), &S_ProjectManager::signal_titleChanged, this, &DrillGIFActionSequenceEditor::changeWindowTitle);
 	// （注意rmmv交互的数据要最先连接，这样在存档读取时不会乱序）
 	connect(S_RmmvProjectDataContainer::getInstance(), &S_RmmvProjectDataContainer::signal_dataAllReloaded, this, &DrillGIFActionSequenceEditor::rmmvInteractiveDataLoaded);
-	connect(S_ActionSeqDataContainer::getInstance(), &S_ActionSeqDataContainer::dataAllReloaded, this, &DrillGIFActionSequenceEditor::actionSeqDataLoaded);
+	connect(S_ActionSeqDataContainer::getInstance(), &S_ActionSeqDataContainer::signal_dataAllReloaded, this, &DrillGIFActionSequenceEditor::actionSeqDataLoaded);
 
 
 	// > 生日彩蛋
@@ -130,6 +130,8 @@ void DrillGIFActionSequenceEditor::actionSeqDataLoaded(){
 		ui.main_widget->setEnabled(false);
 		ui.toolButton_save->setEnabled(false);
 		ui.toolButton_saveAs->setEnabled(false);
+
+		QMessageBox::warning(nullptr, "错误", "系统没有读取到任何动画序列数据。\n1.请检查 工程存储文件.drillas 是否有问题。\n2.请检查目标Rmmv工程中使用的动画序列核心插件是否有问题。", QMessageBox::Yes);
 	}else{
 		ui.main_widget->setEnabled(true);
 		ui.toolButton_save->setEnabled(true);

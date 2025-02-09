@@ -121,7 +121,7 @@ C_RmmvProjectData C_RmmvProjectData::callRmmvSelectDialog(){
 QFileInfo C_RmmvProjectData::getRmmvFile_Plugin(QString plugin_name){
 	if (this->isNull()){ return QFileInfo(); }
 	QString name = plugin_name.replace(".js", "");
-	return QFileInfo(this->getRootPath() + "/js/plugins/" + plugin_name + ".js");
+	return QFileInfo(this->getRootPath() + "/js/plugins/" + name + ".js");
 }
 //获取文件 - 插件存储数据
 QFileInfo C_RmmvProjectData::getRmmvFile_PluginsData(){

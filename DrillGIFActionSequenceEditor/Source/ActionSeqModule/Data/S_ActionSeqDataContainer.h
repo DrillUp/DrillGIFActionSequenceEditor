@@ -45,7 +45,7 @@ class S_ActionSeqDataContainer : public QObject, public S_StorageManagerTemplate
 	//-----------------------------------
 	//----动画序列数据
 	private:
-		C_COAS_Length data_ActionSeqLength;			//长度
+		C_COAS_Length data_ActionSeqLength;				//长度
 		QList<C_COAS_DataPtr> data_ActionSeqData;		//动画序列
 	public:
 										//数据 - 设置数据
@@ -83,6 +83,13 @@ class S_ActionSeqDataContainer : public QObject, public S_StorageManagerTemplate
 										//		【说明】：不是rmmv的文件路径，rmmv相关数据都在交互模块。
 		QString getActionSeqDir();
 		
+		
+	//-----------------------------------
+	//----信号
+	public:
+	signals:
+										//信号 - 存储数据被读取
+		void signal_dataAllReloaded();
 
 	//-----------------------------------
 	//----存储数据（继承）
@@ -95,10 +102,4 @@ class S_ActionSeqDataContainer : public QObject, public S_StorageManagerTemplate
 		QJsonObject getAllDataOfJsonObject();
 										//数据 - QJsonObject -> 全部激励源数据
 		void setAllDataFromJsonObject(QJsonObject obj);
-		
-	//-----------------------------------
-	//----信号
-	signals:
-										//信号 - 存储数据被读取
-		void dataAllReloaded();
 };

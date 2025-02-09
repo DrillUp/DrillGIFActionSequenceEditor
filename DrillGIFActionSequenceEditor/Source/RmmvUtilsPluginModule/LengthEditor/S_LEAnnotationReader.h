@@ -2,9 +2,6 @@
 #include <QObject>
 #include "C_LEAnnotation.h"
 
-#include "Source/Utils/Manager/TxtRead/P_TxtFastReader.h"
-#include "Source/Utils/Common/TTool.h"
-
 /*
 -----==========================================================-----
 		类：		最大值 注解 读取器.h

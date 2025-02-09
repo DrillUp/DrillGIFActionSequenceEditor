@@ -46,6 +46,7 @@ S_RmmvCaller_ActionSeq* S_RmmvCaller_ActionSeq::getInstance() {
 bool S_RmmvCaller_ActionSeq::loadAllRmmvFile(C_RmmvProjectData rmmvProjectData) {
 	if (rmmvProjectData.isNull()){ return false; }
 
+
 	// > 读取插件文件
 	QFileInfo plugin_info = S_RmmvProjectDataContainer::getInstance()->getRmmvFile_PluginsData();
 	QString plugin_path = plugin_info.absoluteFilePath();
@@ -55,8 +56,11 @@ bool S_RmmvCaller_ActionSeq::loadAllRmmvFile(C_RmmvProjectData rmmvProjectData) 
 		return false;
 	}
 	QString plugin_context = plugin_file.readAll();
-	S_PluginDataContainer::getInstance()->loadPluginData(plugin_context);		//（读取文件）
+
+	// > 读取插件文件 - 【读取并载入插件存储数据】
+	S_PluginDataContainer::getInstance()->loadPluginData(plugin_context);
 	plugin_file.close();
+
 
 	// > 读取系统文件
 	QFileInfo system_info = S_RmmvProjectDataContainer::getInstance()->getRmmvFile_System();
@@ -71,19 +75,16 @@ bool S_RmmvCaller_ActionSeq::loadAllRmmvFile(C_RmmvProjectData rmmvProjectData) 
 
 	return true;
 }
-
 /*-------------------------------------------------
 		工程 - 覆盖资源文件
 */
 void S_RmmvCaller_ActionSeq::coverSourceFileToTemp(C_RmmvProjectData rmmvProjectData){
 	if (rmmvProjectData.isNull()){ return ; }
 
-
-	// > 资源文件夹img/Special__actionSeq
+	// > 资源文件夹/img/Special__actionSeq
 	QString temp_path = S_TempFileManager::getInstance()->getTempFileUrl() + "/Special__actionSeq";
 	S_TempFileManager::getInstance()->remove_Dir(QDir(temp_path));
 	S_TempFileManager::getInstance()->copy_Dir(QDir(rmmvProjectData.getRootPath() + "/img/Special__actionSeq"), QDir(temp_path));
-
 }
 
 
