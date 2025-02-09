@@ -861,7 +861,6 @@
     <ClCompile Include="Source\Utils\manager\ChineseManager\S_ChineseManager.cpp" />
     <ClCompile Include="Source\Utils\manager\GIFManager\S_GIFManager.cpp" />
     <ClCompile Include="Source\Utils\manager\TxtRead\P_TxtFastReader.cpp" />
-    <ClCompile Include="Source\Utils\manager\TxtRead\P_TxtFastReaderWithRecord.cpp" />
     <ClCompile Include="Source\Utils\operater\TwoTableStringFiller\P_TwoTableStringFiller.cpp" />
     <ClCompile Include="Source\Utils\widgetFormSenior\AnimationBlock\C_AnimationBlockData.cpp" />
     <ClCompile Include="Source\Utils\widgetFormSenior\AnimationBlock\P_AnimationBlock.cpp" />
@@ -1963,7 +1962,6 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp" "-fstdafx.h" "-f../../Source/Utils/manager/GIFManager/S_GIFManager.h"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_SVG_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtSvg"</Command>
     </CustomBuild>
     <ClInclude Include="Source\Utils\manager\TxtRead\P_TxtFastReader.h" />
-    <ClInclude Include="Source\Utils\manager\TxtRead\P_TxtFastReaderWithRecord.h" />
     <ClInclude Include="Source\Utils\widgetFormSenior\AnimationBlock\C_AnimationBlockData.h" />
     <ClInclude Include="Source\Utils\widgetFormSenior\AnimationBlock\P_AnimationBlock.h" />
     <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListPlayer\P_AnimationListPlayer.h">

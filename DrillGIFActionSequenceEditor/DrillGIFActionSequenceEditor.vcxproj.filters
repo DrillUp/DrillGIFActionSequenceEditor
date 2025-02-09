@@ -1127,9 +1127,6 @@
     <ClCompile Include="Source\Utils\manager\TxtRead\P_TxtFastReader.cpp">
       <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\文本解析器</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Utils\manager\TxtRead\P_TxtFastReaderWithRecord.cpp">
-      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\文本解析器</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Utils\manager\ChineseManager\S_ChineseManager.cpp">
       <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\中文管理器</Filter>
     </ClCompile>
@@ -1807,9 +1804,6 @@
       <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\GIF转换器</Filter>
     </ClInclude>
     <ClInclude Include="Source\Utils\manager\TxtRead\P_TxtFastReader.h">
-      <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\文本解析器</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\manager\TxtRead\P_TxtFastReaderWithRecord.h">
       <Filter>源文件\【 工具箱 Utils】\管理器工具（manager）\文本解析器</Filter>
     </ClInclude>
     <ClInclude Include="Source\RmmvUtilsProjectModule\ProjectData\C_RmmvProjectData.h">

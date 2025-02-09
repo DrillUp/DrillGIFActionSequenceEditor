@@ -25,7 +25,7 @@
 -----==========================================================-----
 */
 P_TxtFastReader::P_TxtFastReader(QString context){
-	this->log_context_list = context.split(QRegExp("[\n\r]"));		//（可以包含空行）
+	this->log_context_list = context.split(QRegExp("([\n][\r]?)|([\r][\n]?)"));		//（可以包含空行）
 	this->m_trim = false;
 }
 P_TxtFastReader::P_TxtFastReader(QString context, QRegExp re){
