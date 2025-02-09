@@ -4,7 +4,8 @@
 #include "about/w_SoftwareAbout.h"
 #include "birthDayTip/w_SoftwareBirthDayTip.h"
 #include "Source/RmmvInteractiveModule/OperateBoard/W_RmmvOperateBoard.h"
-#include "Source/RmmvInteractiveModule/Base/S_RmmvDataContainer.h"
+#include "Source/RmmvInteractiveModule/OperateBoard/S_RmmvOperateBoardConfig.h"
+#include "Source/RmmvUtilsProjectModule/ProjectData/S_RmmvProjectDataContainer.h"
 #include "Source/ActionSeqModule/Data/S_ActionSeqDataContainer.h"
 #include "Source/ActionSeqModule/Data/LengthData/W_COAS_Length.h"
 #include "Source/ActionSeqModule/DataPart/P_COAS_DataPart.h"
@@ -70,8 +71,9 @@ void DrillGIFActionSequenceEditor::_init() {
 	//----初始化参数
 	this->m_w_RmmvOperateBoard = nullptr;
 	S_ProjectManager::getInstance();
-	S_RmmvDataContainer::getInstance();
+	S_RmmvProjectDataContainer::getInstance();
 	S_ActionSeqDataContainer::getInstance();
+	S_RmmvOperateBoardConfig::getInstance();
 
 	//-----------------------------------
 	//----事件绑定
@@ -84,7 +86,7 @@ void DrillGIFActionSequenceEditor::_init() {
 	connect(ui.toolButton_about, &QToolButton::clicked, this, &DrillGIFActionSequenceEditor::openAbout);
 	connect(S_ProjectManager::getInstance(), &S_ProjectManager::signal_titleChanged, this, &DrillGIFActionSequenceEditor::changeWindowTitle);
 	// （注意rmmv交互的数据要最先连接，这样在存档读取时不会乱序）
-	connect(S_RmmvDataContainer::getInstance(), &S_RmmvDataContainer::dataAllReloaded, this, &DrillGIFActionSequenceEditor::rmmvInteractiveDataLoaded);
+	connect(S_RmmvProjectDataContainer::getInstance(), &S_RmmvProjectDataContainer::signal_dataAllReloaded, this, &DrillGIFActionSequenceEditor::rmmvInteractiveDataLoaded);
 	connect(S_ActionSeqDataContainer::getInstance(), &S_ActionSeqDataContainer::dataAllReloaded, this, &DrillGIFActionSequenceEditor::actionSeqDataLoaded);
 
 
@@ -101,7 +103,7 @@ void DrillGIFActionSequenceEditor::_init() {
 void DrillGIFActionSequenceEditor::openWindowRmmvInteractive(){
 	if (this->m_w_RmmvOperateBoard == nullptr){
 		this->m_w_RmmvOperateBoard = new W_RmmvOperateBoard(this);
-		this->m_w_RmmvOperateBoard->setData(S_RmmvDataContainer::getInstance()->getRmmvProjectData());
+		this->m_w_RmmvOperateBoard->setData(S_RmmvProjectDataContainer::getInstance()->getData());
 	}
 	this->m_w_RmmvOperateBoard->show();
 
@@ -112,7 +114,7 @@ void DrillGIFActionSequenceEditor::openWindowRmmvInteractive(){
 */
 void DrillGIFActionSequenceEditor::rmmvInteractiveDataLoaded(){
 	if (this->m_w_RmmvOperateBoard != nullptr){		//（刷新窗口数据）
-		this->m_w_RmmvOperateBoard->setData(S_RmmvDataContainer::getInstance()->getRmmvProjectData());
+		this->m_w_RmmvOperateBoard->setData(S_RmmvProjectDataContainer::getInstance()->getData());
 	}
 }
 
@@ -184,7 +186,7 @@ void DrillGIFActionSequenceEditor::saveProject(){
 
 	// > rmmv配置数据存储
 	if (this->m_w_RmmvOperateBoard != nullptr){
-		S_RmmvDataContainer::getInstance()->modify(this->m_w_RmmvOperateBoard->getData());
+		S_RmmvProjectDataContainer::getInstance()->modifyData(this->m_w_RmmvOperateBoard->getData());
 	}
 	
 	// > 保存

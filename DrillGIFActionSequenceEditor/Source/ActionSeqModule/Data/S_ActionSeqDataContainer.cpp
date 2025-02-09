@@ -3,7 +3,7 @@
 
 #include "DrillGIFActionSequenceEditor.h"
 #include "Source/ProjectModule/File/S_TempFileManager.h"
-#include "Source/RmmvInteractiveModule/Base/S_RmmvDataContainer.h"
+#include "Source/RmmvUtilsProjectModule/ProjectData/S_RmmvProjectDataContainer.h"
 
 /*
 -----==========================================================-----
@@ -79,7 +79,7 @@ C_PluginData* S_ActionSeqDataContainer::getPluginData_ActionSeq() {
 		插件数据 - 获取（插件文件）
 */
 QFileInfo S_ActionSeqDataContainer::getPluginFile_ActionSeq() {
-	return S_RmmvDataContainer::getInstance()->getRmmvFile_Plugin("Drill_CoreOfActionSequence");
+	return S_RmmvProjectDataContainer::getInstance()->getRmmvFile_Plugin("Drill_CoreOfActionSequence");
 }
 /*-------------------------------------------------
 		插件数据 - 获取长度

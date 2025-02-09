@@ -8,7 +8,7 @@
 		版本：		v1.01
 		作者：		drill_up
 		所属模块：	插件模块
-		功能：		只扫描最大值的相关注解。
+		功能：		读取最大值的相关注解。
 
 		目标：		识别下面的文本：
 						* @Drill_LE_param "内容-%d"
@@ -108,7 +108,7 @@ C_LEAnnotation* S_LEAnnotationReader::readPlugin(QFileInfo file){
 	return result;
 }
 /*-------------------------------------------------
-		读取 - 刷新参数最大值
+		读取 - 刷新最大值信息
 */
 void S_LEAnnotationReader::refreshPluginAnnotation(C_LEAnnotation* plugin){
 

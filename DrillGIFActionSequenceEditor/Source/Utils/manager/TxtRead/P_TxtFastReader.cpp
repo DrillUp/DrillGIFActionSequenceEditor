@@ -6,7 +6,7 @@
 /*
 -----==========================================================-----
 		类：		文本快速读取器.cpp
-		版本：		v1.11
+		版本：		v1.12
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		读取 文本文件的内容，批量操作。
@@ -46,14 +46,8 @@ QStringList P_TxtFastReader::getAllRows() {
 		全行 - 清理空行
 */
 void P_TxtFastReader::clearEmptyRows() {
-	QStringList result;
-	for (int i = 0; i < this->log_context_list.count(); i++) {
-		QString str = this->log_context_list.at(i).trimmed();
-		if (str != "") {
-			result.push_back(str);
-		}
-	}
-	this->log_context_list = result;
+	TTool::_QStringList_clearEmptyRows_(&this->log_context_list);
+	//（只清理空行，不要多操作去执行trimmed）
 }
 /*-------------------------------------------------
 		全行 - 去除注释行（根据首字符）

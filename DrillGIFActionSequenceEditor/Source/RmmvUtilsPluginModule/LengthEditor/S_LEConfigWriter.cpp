@@ -4,11 +4,11 @@
 
 /*
 -----==========================================================-----
-		类：		文本扫描器.h
+		类：		最大值 注解 写入器.cpp
 		版本：		v1.01
 		作者：		drill_up
 		所属模块：	插件模块
-		功能：		提供扫描、覆写直接功能。
+		功能：		提供 将单条注解参数覆盖写入 的功能。
 
 		目标：		识别下面的文本，并作修改：
 						* @Drill_LE_param "内容-%d"
@@ -18,7 +18,6 @@
 		说明：		这里只提供必要独立功能。
 					不考虑流程性的结构。
 					不考虑数据存储，只是一个执行工具。
-
 -----==========================================================-----
 */
 S_LEConfigWriter::S_LEConfigWriter() : QObject(){
@@ -39,7 +38,7 @@ S_LEConfigWriter* S_LEConfigWriter::getInstance() {
 
 
 /*-------------------------------------------------
-		覆写 - 最大值修改
+		写入 - 最大值修改
 */
 QString S_LEConfigWriter::doOverwritePlugin(QString context, C_LEAnnotation_Param param, C_LEConfigData config){
 	
@@ -236,7 +235,7 @@ QString S_LEConfigWriter::doOverwritePlugin(QString context, C_LEAnnotation_Para
 }
 
 /*-------------------------------------------------
-		覆写 - 根据 "阶段-1" 获取到 "@param 阶段-1" 的全部参数字符串
+		覆写 - 找到第一个变量结构（私有）
 */
 QStringList S_LEConfigWriter::getParamStringList(QStringList contextList,QRegExp re){
 	QStringList result_list = QStringList();

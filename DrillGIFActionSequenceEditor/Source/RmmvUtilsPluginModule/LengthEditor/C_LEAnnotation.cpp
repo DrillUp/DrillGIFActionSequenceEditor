@@ -5,9 +5,11 @@
 
 /*
 -----==========================================================-----
-		类：		插件注解 参数.cpp（只读）
-		所属模块：	核心模块
-		功能：		插件的固定参数数据。
+		类：		单条最大值注解 数据类.cpp（只读）
+		作者：		drill_up
+		所属模块：	插件模块
+		功能：		插件中 @ 注解中的数据。
+					数据结构为：插件注解信息 > 单条最大值注解。
 
 		说明：		参数真实只存几个需要的数据。
 					其他结构调用此 实体类 都是数据的各种组合结果。
@@ -15,17 +17,19 @@
 -----==========================================================-----
 */
 C_LEAnnotation_Param::C_LEAnnotation_Param(){
+
+	// > 数据
 	this->paramKey = "";				//变量键（@Drill_LE_param）
 	this->parentKey = "";				//变量组键（@Drill_LE_parentKey）
 	this->var = "";						//定义名（@Drill_LE_var）
-	this->varLen = 0;					//定义最大值
-	this->realLen = 0;					//实际最大值
+	this->varLen = 0;					//定义最大值【定义的 var xxx_length = 后面的值】
+	this->realLen = 0;					//实际最大值【遍历的 @param 找到的最大值】
 }
 C_LEAnnotation_Param::~C_LEAnnotation_Param(){
 }
 
 /*-------------------------------------------------
-		参数 - 初始化
+		数据 - 初始化
 */
 void C_LEAnnotation_Param::initParam(QString param, QString parentKey, QString var){
 	this->paramKey = param;
@@ -33,49 +37,56 @@ void C_LEAnnotation_Param::initParam(QString param, QString parentKey, QString v
 	this->var = var;
 }
 /*-------------------------------------------------
-		获取 - 变量键
+		数据 - 设置 定义最大值
+*/
+void C_LEAnnotation_Param::setVarLen(int len){
+	this->varLen = len;
+}
+/*-------------------------------------------------
+		数据 - 设置 实际最大值
+*/
+void C_LEAnnotation_Param::setRealLen(int len){
+	this->realLen = len;
+}
+
+/*-------------------------------------------------
+		数据 - 获取 变量键
 */
 QString C_LEAnnotation_Param::getParamKey(){
 	return this->paramKey;
 }
 /*-------------------------------------------------
-		获取 - 变量组键
+		数据 - 获取 变量组键
 */
 QString C_LEAnnotation_Param::getParentKey(){
 	return this->parentKey;
 }
 /*-------------------------------------------------
-		获取 - 定义名
+		数据 - 获取 定义名
 */
 QString C_LEAnnotation_Param::getVarName(){
 	return this->var;
 }
 /*-------------------------------------------------
-		获取 - 定义最大值
+		数据 - 获取 定义最大值
 */
-void C_LEAnnotation_Param::setVarLen(int len){
-	this->varLen = len;
-}
 int C_LEAnnotation_Param::getVarLen(){
 	return varLen;
 }
 /*-------------------------------------------------
-		获取 - 实际最大值
+		数据 - 获取 实际最大值
 */
-void C_LEAnnotation_Param::setRealLen(int len){
-	this->realLen = len;
-}
 int C_LEAnnotation_Param::getRealLen(){
 	return realLen;
 }
 /*-------------------------------------------------
-		获取 - 变量显示名
+		数据 - 获取 变量显示名
 */
 QString C_LEAnnotation_Param::getParamShowingName(){
 	return this->paramKey.split("-").at(0);
 }
 /*-------------------------------------------------
-		获取 - 变量名（从1开始计数）
+		数据 - 获取 变量名（从1开始计数）
 */
 QString C_LEAnnotation_Param::getParamName(int index){
 	QString i_str = QString::number(index);
@@ -84,7 +95,7 @@ QString C_LEAnnotation_Param::getParamName(int index){
 	return result;
 }
 /*-------------------------------------------------
-		获取 - 变量组名（从1开始计数）
+		数据 - 获取 变量组名（从1开始计数）
 */
 QString C_LEAnnotation_Param::getParentName(int index){
 	if (this->isParentGrouping() == false){ return ""; }
@@ -102,14 +113,14 @@ QString C_LEAnnotation_Param::getParentName(int index){
 	return result;
 }
 /*-------------------------------------------------
-		获取 - 变量注释名（全词匹配用）
+		数据 - 获取 变量注释名（全词匹配用，从1开始计数）
 */
 QRegExp C_LEAnnotation_Param::getParamCommentRe(int index){
 	QString param_re = "@param[ ]*" + this->getParamName(index) + "$";
 	return QRegExp(param_re);
 }
 /*-------------------------------------------------
-		获取 - 变量注释组名（全词匹配用）
+		数据 - 获取 变量注释组名（全词匹配用，从1开始计数）
 */
 QRegExp C_LEAnnotation_Param::getParentCommentRe(int index){
 	QString parent_re = "@param[ ]*" + this->getParentName(index) + "$";
@@ -124,16 +135,23 @@ bool C_LEAnnotation_Param::isParentGrouping(){
 
 /*
 -----==========================================================-----
-		类：		插件信息.cpp（只读）
+		类：		插件注解信息 数据类.cpp（只读）
+		作者：		drill_up
+		所属模块：	插件模块
+		功能：		插件中 @ 注解中的数据。
+					数据结构为：插件注解信息 > 单条最大值注解。
 -----==========================================================-----
 */
 C_LEAnnotation::C_LEAnnotation(){
+
+	// > 数据
 	this->pluginName = "";								//插件名
 	this->pluginDesc = "";								//插件简介（@plugindesc）
 	this->pluginAuthor = "";							//插件作者（@author）
 	this->paramList = QList<C_LEAnnotation_Param>();	//插件参数
 	this->paramForbidden = false;						//禁止编辑（@Drill_LE_editForbidden）
 
+	// > 暂存数据
 	this->fullPath = "";				//插件文件路径
 	this->context = "";					//插件文本
 	this->message = "";					//插件消息（读取后，显示的字符串）	
@@ -141,6 +159,9 @@ C_LEAnnotation::C_LEAnnotation(){
 }
 C_LEAnnotation::~C_LEAnnotation(){
 }
+/*-------------------------------------------------
+		数据 - 根据变量键获取参数
+*/
 C_LEAnnotation_Param C_LEAnnotation::getParamByKey(QString paramKey){
 	for (int i = 0; i < this->paramList.count(); i++){
 		C_LEAnnotation_Param p = this->paramList.at(i);
@@ -151,26 +172,26 @@ C_LEAnnotation_Param C_LEAnnotation::getParamByKey(QString paramKey){
 	return C_LEAnnotation_Param();
 }
 /*-------------------------------------------------
-		判断 - 空判断
+		数据 - 空判断
 */
 bool C_LEAnnotation::isNull(){
 	return this->pluginName == "" || this->pluginDesc == "";
 }
 /*-------------------------------------------------
-		判断 - 是否被禁用
+		数据 - 是否被禁用
 */
 bool C_LEAnnotation::isForbidden(){
 	return this->paramForbidden;
 }
 /*-------------------------------------------------
-		判断 - 是否可编辑
+		数据 - 是否可编辑
 */
 bool C_LEAnnotation::isEditable(){
 	if (this->paramList.count() == 0){ return false; }
 	return true;
 }
 /*-------------------------------------------------
-		判断 - 完整性检查
+		数据 - 是否配置完整
 */
 bool C_LEAnnotation::isIntegrity(){
 	for (int i = 0; i < this->paramList.count(); i++){
