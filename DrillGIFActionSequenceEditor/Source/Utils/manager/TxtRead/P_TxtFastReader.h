@@ -6,7 +6,7 @@
 /*
 -----==========================================================-----
 		类：		文本快速读取器.h
-		版本：		v1.12
+		版本：		v1.13
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		读取 文本文件的内容，批量操作。
@@ -22,7 +22,8 @@ class P_TxtFastReader
 	//----基础结构
 	public:
 		P_TxtFastReader(QString context);
-		P_TxtFastReader(QString context,QRegExp re);
+		P_TxtFastReader(QString context, QRegExp re);
+		P_TxtFastReader(QStringList context_list);
 		~P_TxtFastReader();
 		
 	//-----------------------------------
