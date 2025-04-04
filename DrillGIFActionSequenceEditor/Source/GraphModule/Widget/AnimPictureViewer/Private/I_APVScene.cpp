@@ -49,10 +49,13 @@ void I_APVScene::init(){
 	this->m_P_GridLineItem = new P_GridLineItem(this);
 	this->m_maskBackground = nullptr;
 
-	// > 部件
-	this->m_animList.clear();
-	this->m_curFrame = -1;
+	// > 着色器
 	this->m_curTint = 0;
+	this->m_lastTinted = false;
+
+	// > 部件
+	this->m_animItem = nullptr;
+	this->m_curFrame = -1;
 
 	// > 场景初始化
 	this->m_rebuildBlock = false;
@@ -193,10 +196,7 @@ void I_APVScene::rebuildScene(){
 	this->m_rebuildBlock = true;
 
 	// > 去除旧图片
-	for (int i = 0; i < this->m_animList.count(); i++){
-		this->removeItem(this->m_animList.at(i));
-	}
-	this->m_animList.clear();
+	this->removeItem(this->m_animItem);
 
 	// > 高宽适配
 	this->m_canvasWidth = this->getMaxWidth();
@@ -205,21 +205,10 @@ void I_APVScene::rebuildScene(){
 	this->refreshBackground();
 
 	// > 放置图片
-	for (int i = 0; i < this->m_fileList.count(); i++){
-		QString file_path = this->m_fileList.at(i).absoluteFilePath();
-		QPixmap pixmap = S_PictureBitmapCache::getInstance()->getBitmapByPath(file_path);
-		QPixmap result_pixmap = this->rotateColor(pixmap, this->m_curTint);
-		QGraphicsPixmapItem* item = new QGraphicsPixmapItem();
-
-		double xx = (this->m_canvasWidth - result_pixmap.width())*0.5;
-		double yy = (this->m_canvasHeight - result_pixmap.height())*0.5;
-		item->setPixmap(result_pixmap);
-		item->setPos(xx, yy);
-		this->addItem(item);
-
-		this->m_animList.append(item);
-	}
-	if (this->m_animList.count() > 0 && this->m_curFrame == -1){
+	this->m_animItem = new QGraphicsPixmapItem();
+	this->m_animItem->setVisible(true);
+	this->addItem(this->m_animItem);
+	if (this->m_curFrame == -1){
 		this->m_curFrame = 0;
 	}
 
@@ -289,6 +278,9 @@ QPixmap I_APVScene::rotateColor(QPixmap pixmap, int rotate_offset){
 	//	pixels[i + 2] = rgb[2];
 	//}
 	//context.putImageData(imageData, 0, 0);
+
+	this->m_lastTinted = true;
+	this->m_lastTintedImage = img;
 
 	// > 放置图片
 	QPixmap result_pixmap = QPixmap::fromImage(img);
@@ -403,15 +395,31 @@ void I_APVScene::setAnimName(QFileInfo file){
 */
 void I_APVScene::refreshFrame(){
 	if (this->m_curFrame < 0){ this->m_curFrame = -1; }
-	if (this->m_curFrame >= this->m_animList.count()){ this->m_curFrame = -1; }
-
-	for (int i = 0; i < this->m_animList.count(); i++){
-		if (i == this->m_curFrame){
-			this->m_animList.at(i)->setVisible(true);
-		}else{
-			this->m_animList.at(i)->setVisible(false);
-		}
+	if (this->m_curFrame >= this->m_fileList.count()){ this->m_curFrame = -1; }
+	if (this->m_curFrame == -1){
+		this->m_animItem->setPixmap(QPixmap());
+		return;
 	}
+
+	// > 变色处理的旧图，清空
+	if (this->m_lastTinted == true){
+		this->m_lastTinted = false;
+		this->m_animItem->setPixmap(QPixmap());	//2025-4-4：目前无法清空缓存，deepseek给的方法也没用
+		this->m_lastTintedImage = QImage();		//  播放的时候，内存不会涨，但是拉动变色条的时候，内存一直在涨。
+	}
+
+	// > 获取图片
+	QString file_path = this->m_fileList.at(this->m_curFrame).absoluteFilePath();
+	QPixmap pixmap = S_PictureBitmapCache::getInstance()->getBitmapByPath(file_path);
+
+	// > 变色处理
+	QPixmap result_pixmap = this->rotateColor(pixmap, this->m_curTint);
+
+	// > 播放图片
+	double xx = (this->m_canvasWidth - result_pixmap.width())*0.5;
+	double yy = (this->m_canvasHeight - result_pixmap.height())*0.5;
+	this->m_animItem->setPixmap(result_pixmap);
+	this->m_animItem->setPos(xx, yy);
 }
 /*-------------------------------------------------
 		部件 - 资源高度

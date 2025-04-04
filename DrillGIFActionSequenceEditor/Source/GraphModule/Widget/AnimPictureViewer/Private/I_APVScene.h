@@ -49,10 +49,10 @@ class I_APVScene : public QGraphicsScene
 	//-----------------------------------
 	//----辅助对象
 	private:
-		QColor m_gridLineColor;						//网格线底色
-		QColor m_backgroundColor;					//背景底色
-		P_GridLineItem* m_P_GridLineItem;			//网格线
-		I_MaskBackgroundItem* m_maskBackground;		//背景
+		QColor m_gridLineColor;								//网格线底色
+		QColor m_backgroundColor;							//背景底色
+		P_GridLineItem* m_P_GridLineItem = nullptr;			//网格线
+		I_MaskBackgroundItem* m_maskBackground = nullptr;	//背景
 	public:
 									//辅助 - 设置网格线
 		void setGridLine(int column, int row);
@@ -66,6 +66,8 @@ class I_APVScene : public QGraphicsScene
 	//----着色器
 	protected:
 		int m_curTint;
+		bool m_lastTinted;
+		QImage m_lastTintedImage;
 	public:
 									//着色器 - 修改色调
 		void setTint(int rotate_offset);
@@ -102,8 +104,8 @@ class I_APVScene : public QGraphicsScene
 	//-----------------------------------
 	//----动画帧
 	private:
-		QList<QGraphicsPixmapItem*> m_animList;		//动画帧列表
-		int m_curFrame;
+		QGraphicsPixmapItem* m_animItem = nullptr;	//动画帧块
+		int m_curFrame;								//当前帧
 	public:
 									//动画帧 - 切换帧（根据索引）
 		void setAnimFrame(int index);
