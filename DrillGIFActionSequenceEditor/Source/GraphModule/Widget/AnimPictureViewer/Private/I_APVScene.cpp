@@ -151,7 +151,6 @@ void I_APVScene::setSource(QList<QFileInfo> file_list){
 
 	// > 资源赋值
 	this->m_fileList = file_list;
-	this->m_bitmapList = bitmap_list;
 	this->rebuildScene();
 }
 /*-------------------------------------------------
@@ -165,17 +164,25 @@ QList<QFileInfo> I_APVScene::getSource(){
 */
 void I_APVScene::clearSource(){
 	this->m_fileList.clear();
-	this->m_bitmapList.clear();
 	this->rebuildScene();
 }
 /*-------------------------------------------------
 		资源 - 添加资源（私有）
 */
 void I_APVScene::addSource(QFileInfo file){
+
+	//// > 根据资源获取bitmap（常规创建）
+	//QImage image = QImage(file.absoluteFilePath());
+	//QPixmap pixmap = QPixmap::fromImage(image);
+
+	// > 根据资源获取bitmap（从缓存容器中获取）
+	QString file_path = file.absoluteFilePath();
+	if (S_PictureBitmapCache::getInstance()->hasPath(file_path) == false){
+		S_PictureBitmapCache::getInstance()->addPath(file_path);
+	}
+
+	// > 资源赋值
 	this->m_fileList.append(file);
-	QImage image = QImage(file.absoluteFilePath());
-	QPixmap pixmap = QPixmap::fromImage(image);
-	this->m_bitmapList.append(pixmap);
 	this->rebuildScene();		//（重建）
 }
 /*-------------------------------------------------
@@ -198,10 +205,11 @@ void I_APVScene::rebuildScene(){
 	this->refreshBackground();
 
 	// > 放置图片
-	for (int i = 0; i < this->m_bitmapList.count(); i++){
-		QPixmap bitmap = this->m_bitmapList.at(i);
+	for (int i = 0; i < this->m_fileList.count(); i++){
+		QString file_path = this->m_fileList.at(i).absoluteFilePath();
+		QPixmap pixmap = S_PictureBitmapCache::getInstance()->getBitmapByPath(file_path);
+		QPixmap result_pixmap = this->rotateColor(pixmap, this->m_curTint);
 		QGraphicsPixmapItem* item = new QGraphicsPixmapItem();
-		QPixmap result_pixmap = this->rotateColor(bitmap, this->m_curTint);
 
 		double xx = (this->m_canvasWidth - result_pixmap.width())*0.5;
 		double yy = (this->m_canvasHeight - result_pixmap.height())*0.5;
@@ -409,10 +417,12 @@ void I_APVScene::refreshFrame(){
 		部件 - 资源高度
 */
 int I_APVScene::getMaxHeight(){
-	if (this->m_bitmapList.count() == 0){ return 600; }	//（默认）
+	if (this->m_fileList.count() == 0){ return 600; }	//（默认）
 	int result = 0;
-	for (int i = 0; i < this->m_bitmapList.count(); i++){
-		int hh = this->m_bitmapList.at(i).height();
+	for (int i = 0; i < this->m_fileList.count(); i++){
+		QString file_path = this->m_fileList.at(i).absoluteFilePath();
+		QPixmap pixmap = S_PictureBitmapCache::getInstance()->getBitmapByPath(file_path);
+		int hh = pixmap.height();
 		if (result < hh){
 			result = hh;
 		}
@@ -423,10 +433,12 @@ int I_APVScene::getMaxHeight(){
 		部件 - 资源宽度
 */
 int I_APVScene::getMaxWidth(){
-	if (this->m_bitmapList.count() == 0){ return 800; }	//（默认）
+	if (this->m_fileList.count() == 0){ return 800; }	//（默认）
 	int result = 0;
-	for (int i = 0; i < this->m_bitmapList.count(); i++){
-		int ww = this->m_bitmapList.at(i).width();
+	for (int i = 0; i < this->m_fileList.count(); i++){
+		QString file_path = this->m_fileList.at(i).absoluteFilePath();
+		QPixmap pixmap = S_PictureBitmapCache::getInstance()->getBitmapByPath(file_path);
+		int ww = pixmap.width();
 		if (result < ww){
 			result = ww;
 		}

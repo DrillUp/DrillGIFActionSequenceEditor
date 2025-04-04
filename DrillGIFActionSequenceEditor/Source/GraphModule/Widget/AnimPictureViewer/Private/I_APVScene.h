@@ -85,7 +85,6 @@ class I_APVScene : public QGraphicsScene
 	private:
 		bool m_rebuildBlock;
 		QList<QFileInfo> m_fileList;
-		QList<QPixmap> m_bitmapList;
 	public:
 									//资源 - 设置资源
 		void setSource(QList<QFileInfo> file_list);
