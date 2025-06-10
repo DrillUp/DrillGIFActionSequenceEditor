@@ -40,7 +40,7 @@ S_ProjectManager_Custom* S_ProjectManager_Custom::getInstance() {
 
 
 QString S_ProjectManager_Custom::softname = "GIF动画序列编辑器";	//软件名
-QString S_ProjectManager_Custom::version = "v1.32";					//软件版本
+QString S_ProjectManager_Custom::version = "v1.33";					//软件版本
 QString S_ProjectManager_Custom::version_serial = "";				//软件版本号
 
 /*-------------------------------------------------
