@@ -27,22 +27,22 @@ class C_PluginData{
 		QJsonObject parameters;			//参数
 	
 	//-----------------------------------
-	//----数据切片
+	//----数据临时切片
 	protected:
 		bool temp_inited;				//初始化标记
 		QString temp_version;			//版本(用到时才初始化）
 		QString temp_type;				//类型（用到时才初始化）
 		QString temp_name;				//中文名（用到时才初始化）
 	public:
-										//数据切片 - 获取版本（切片来自 插件描述）
+										//数据临时切片 - 获取版本（切片来自 插件描述）
 		QString getDescription_version();
 		double getDescription_versionNum();
-										//数据切片 - 获取类型（切片来自 插件描述）
+										//数据临时切片 - 获取类型（切片来自 插件描述）
 		QString getDescription_type();
-										//数据切片 - 获取中文名（切片来自 插件描述）
+										//数据临时切片 - 获取中文名（切片来自 插件描述）
 		QString getDescription_name();
 	protected:
-										//数据切片 - 初始化（私有）
+										//数据临时切片 - 初始化（私有）
 		void initDescription_data();
 
 	//-----------------------------------

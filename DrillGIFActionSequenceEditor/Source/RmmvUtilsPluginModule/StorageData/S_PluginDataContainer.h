@@ -44,7 +44,7 @@ class S_PluginDataContainer : public QObject
 										//		【说明】：写入数据时用。
 		void op_add(C_PluginData* data);
 										//数据操作 - 修改
-										//		【说明】：写入数据时用。
+										//		【说明】：写入数据时用。（虽然是指针，但还是要执行一下，后期维护能找到函数）
 		void op_modify(C_PluginData* data);
 										//数据操作 - 删除
 										//		【说明】：写入数据时用。
@@ -60,8 +60,8 @@ class S_PluginDataContainer : public QObject
 										//读取 - 读取数据（不发信号）
 										//		【说明】：读取包括plugins.js的全部文本。
 		void loadPluginDataNoSignal(QString data_context);
-										//读取 - 读取数据（一次性）
-										//		【说明】：一次性读取数据，不纳入当前的数据容器。
+										//读取 - 读取数据（只数组）
+										//		【说明】：读取数据后，直接返回数组，不纳入当前的数据容器。
 		QList<C_PluginData*> loadPluginDataDirectly(QString data_context);
 	public:
 	signals:
@@ -76,10 +76,10 @@ class S_PluginDataContainer : public QObject
 	//----写入
 	public:
 										//写入 - 写入数据
-										//		【说明】：plugins.js中的文本会被清空，并写入全部文本。
+										//		【说明】：返回新的plugins.js文本。
 		QString writePluginData();
-										//写入 - 写入数据（一次性）
-										//		【说明】：一次性写入数据，不包括当前的数据容器。
+										//写入 - 写入数据（只数组）
+										//		【说明】：返回只包含数组中数据的plugins.js文本，不包括当前的数据容器。
 		QString writePluginDataDirectly(QList<C_PluginData*> data_list);
 	protected:
 										//写入 - 写入数据（私有）

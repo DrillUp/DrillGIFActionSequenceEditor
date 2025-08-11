@@ -76,7 +76,7 @@ void S_PluginDataContainer::op_add(C_PluginData* data){
 		数据操作 - 替换
 */
 void S_PluginDataContainer::op_modify(C_PluginData* data){
-	int index = this->data_PluginDataTank.indexOf(data);	//（数据类根据 data->name 来进行搜寻）
+	int index = this->data_PluginDataTank.indexOf(data);	//（数据类 运算符重载 根据data->name来进行搜寻）
 	if (index == -1){ return; }
 	this->data_PluginDataTank.replace(index, data);
 }
@@ -105,7 +105,7 @@ void S_PluginDataContainer::loadPluginDataNoSignal(QString data_context){
 	this->data_PluginDataTank = data_list;
 }
 /*-------------------------------------------------
-		读取 - 读取数据（一次性）
+		读取 - 读取数据（只数组）
 */
 QList<C_PluginData*> S_PluginDataContainer::loadPluginDataDirectly(QString data_context){
 	return this->readPluginDataPrivate(data_context);
@@ -152,7 +152,7 @@ QString S_PluginDataContainer::writePluginData(){
 	return this->writePluginDataPrivate(this->data_PluginDataTank);
 }
 /*-------------------------------------------------
-		写入 - 写入数据（一次性）
+		写入 - 写入数据（只数组）
 */
 QString S_PluginDataContainer::writePluginDataDirectly(QList<C_PluginData*> data_list){
 	return this->writePluginDataPrivate(data_list);
@@ -178,4 +178,8 @@ QString S_PluginDataContainer::writePluginDataPrivate(QList<C_PluginData*> data_
 
 	result = result + "];\r\n";
 	return result;
+	/*
+		外部函数写入文件时，字符串要记得转成utf8。
+		如果是GBK存储的plugins.js，会比utf8格式少 400k左右 的空间。
+	*/
 }

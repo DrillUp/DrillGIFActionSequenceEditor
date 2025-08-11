@@ -23,7 +23,7 @@ C_PluginData::C_PluginData(){
 	this->description = "";
 	this->parameters = QJsonObject();
 
-	// > 数据切片
+	// > 数据临时切片
 	this->temp_inited = false;			//初始化标记
 	this->temp_version = "";			//版本(用到时才初始化）
 	this->temp_type = "";				//类型（用到时才初始化）
@@ -35,7 +35,7 @@ C_PluginData::~C_PluginData(){
 
 
 /*-------------------------------------------------
-		数据切片 - 获取版本
+		数据临时切片 - 获取版本
 */
 QString C_PluginData::getDescription_version(){
 	if (this->temp_inited == false){ this->initDescription_data(); }
@@ -47,21 +47,21 @@ double C_PluginData::getDescription_versionNum(){
 	return TTool::_to_double_(this->temp_version);
 }
 /*-------------------------------------------------
-		数据切片 - 获取类型
+		数据临时切片 - 获取类型
 */
 QString C_PluginData::getDescription_type(){
 	if (this->temp_inited == false){ this->initDescription_data(); }
 	return this->temp_type;
 }
 /*-------------------------------------------------
-		数据切片 - 获取中文名
+		数据临时切片 - 获取中文名
 */
 QString C_PluginData::getDescription_name(){
 	if (this->temp_inited == false){ this->initDescription_data(); }
 	return this->temp_name;
 }
 /*-------------------------------------------------
-		数据切片 - 初始化（私有）
+		数据临时切片 - 初始化（私有）
 */
 void C_PluginData::initDescription_data(){
 	this->temp_inited = true;
@@ -101,6 +101,7 @@ void C_PluginData::initDescription_data(){
 }
 
 
+
 /*-------------------------------------------------
 		空判断
 */
@@ -125,7 +126,7 @@ QJsonObject C_PluginData::getJsonObject(){
 	obj.insert("description", this->description);
 	obj.insert("parameters", this->parameters);
 
-	// > 数据切片
+	// > 数据临时切片
 	//	（不存储）
 
 	return obj;
@@ -141,6 +142,6 @@ void C_PluginData::setJsonObject(QJsonObject obj){
 	this->description = obj.value("description").toString();
 	this->parameters = obj.value("parameters").toObject();
 
-	// > 数据切片
+	// > 数据临时切片
 	//	（不存储）
 }
