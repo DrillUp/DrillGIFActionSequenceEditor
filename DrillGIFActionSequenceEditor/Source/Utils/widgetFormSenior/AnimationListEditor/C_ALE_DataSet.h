@@ -86,26 +86,29 @@ class C_ALE_DataSet : public C_PLE_DataSet
 											//帧间隔明细表 - 获取（原数据）
 		QList<int> getData_IntervalTank();
 	public:
-											//帧间隔明细表 - 自适应 - 获取（含自适应）
+											//帧间隔明细表 - 数组自适应 - 获取（原数据+数组自适应）
 											//		【说明】：明细表 原数据的数组长度 可能与 图片资源长度 不一致，所以需要获取自适应数据。
 		QList<int> getData_IntervalTank_WithFit();
-											//帧间隔明细表 - 自适应 - 执行自适应转换
+											//帧间隔明细表 - 数组自适应 - 执行转换
 		static QList<int> converterFit_getIntervalList(QList<int> intervalValueList, int default_interval, int pic_count);
 		
 	public:
-											//帧间隔明细表 - 单位 - 获取（含单位转换）
+											//帧间隔明细表 - 单位显示 - 获取文本（"0.01秒"或"1帧"）
+		QString getDescriptionString(int intervalValue);
+											//帧间隔明细表 - 单位显示 - 执行文本转换
+		static QString converterUnit_getDescriptionString(int intervalValue, C_ALE_DataSet::DATA_UNIT unit);
+
+	/*（注意，单位转换压根就没用上，秒单位和帧单位 只是看看效果而已）
+	public:
+											//帧间隔明细表 - 单位转换 - 获取（原数据+单位转换）
 		double getData_IntervalTankOne_WithUnit(int index);
 		QList<double> getData_IntervalTankList_WithUnit(QList<int> index_list);
 		QList<double> getData_IntervalTankAll_WithUnit();
-											//帧间隔明细表 - 单位 - 执行单位转换
+											//帧间隔明细表 - 单位转换 - 执行转换
 		static double converterUnit_getInterval(int intervalValue, C_ALE_DataSet::DATA_UNIT unit);
 		static QList<double> converterUnit_getIntervalList(QList<int> intervalValueList, C_ALE_DataSet::DATA_UNIT unit);
-
-											//帧间隔明细表 - 单位 - 获取描述文本（"0.01"，实际帧为 0.01666 * n ）
-		QString getDescriptionString(int intervalValue);
-											//帧间隔明细表 - 单位 - 执行描述文本转换
-		static QString converterUnit_getDescriptionString(int intervalValue, C_ALE_DataSet::DATA_UNIT unit);
-
+	*/
+	
 
 	//-----------------------------------
 	//----类属性

@@ -31,7 +31,6 @@ class P_AnimationListPlayer : public QWidget
 	//----播放器
 	protected:
 		QTimer* m_timer = nullptr;		//计时器
-		int m_timerInterval;			//计时器间隔
 		int m_curFrame;					//当前时间帧
 		QList<int> m_IndexFrame;		//动画帧的时间帧数
 		int m_IndexFrameCount;			//总时间帧数
@@ -48,8 +47,9 @@ class P_AnimationListPlayer : public QWidget
 		void setPlayType(QStringList play_type);
 										//播放器 - 设置时间帧列表（每个动画帧占用的时间帧数）
 		void setPlayFrame(QList<int> indexFrame);
-										//播放器 - 设置播放间隔
-		void setPlayTimerInterval(int timerInterval);
+										//播放器 - 获取计时器间隔
+										//		【说明】：单位毫秒，直接设置到QTimer中。
+		int getPlayTimerInterval();
 	protected slots:
 										//播放器 - 帧刷新（私有）
 		void updateFrame();

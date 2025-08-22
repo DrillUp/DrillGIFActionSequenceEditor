@@ -279,9 +279,6 @@
     <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑数据-多选">
       <UniqueIdentifier>{36b5aa3b-6351-4c21-b5d6-5a6cd910f6e9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑数据-全局">
-      <UniqueIdentifier>{45f1f94c-875b-4668-883a-def5140ef624}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\文件夹管理器">
       <UniqueIdentifier>{94af6bd5-9b83-4578-83fe-307fea1b83df}</UniqueIdentifier>
     </Filter>
@@ -332,6 +329,9 @@
     </Filter>
     <Filter Include="源文件\【 RMMV工具-插件模块 RmmvUtilsPluginModule】\最大值编辑器（LengthEditor）[读写][plugins文件夹]\写入器">
       <UniqueIdentifier>{ec383764-e654-4cd9-886e-139151a23868}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑数据-默认设置">
+      <UniqueIdentifier>{45f1f94c-875b-4668-883a-def5140ef624}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -930,7 +930,7 @@
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\文件夹管理器</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALE_CellDataGlobal.cpp">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑数据-全局</Filter>
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑数据-默认设置</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALE_CellDataMultiple.cpp">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑数据-多选</Filter>
@@ -1424,10 +1424,10 @@
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALE_CellDataGlobal.h">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑数据-全局</Filter>
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑数据-默认设置</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALE_CellDataGlobal.ui">
-      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑数据-全局</Filter>
+      <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑数据-默认设置</Filter>
     </CustomBuild>
     <CustomBuild Include="Source\Utils\widgetFormSenior\AnimationListEditor\Private\W_ALE_CellDataMultiple.h">
       <Filter>源文件\【 工具箱 Utils】\集合组件-表单高级 （widgetFormSenior）\动画帧编辑块[ALE]\私有类\编辑数据-多选</Filter>

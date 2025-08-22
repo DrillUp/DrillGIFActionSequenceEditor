@@ -473,8 +473,8 @@ QMenu* P_ALE_Editor::createMenu_selectSingle(int pos){
 	connect(action, &QAction::triggered, this, &P_ALE_Editor::action_openWindow_CellDataSingle_ALE);
 	menu->addAction(action);
 
-	// > 单个 - 帧设置
-	action = new QAction("编辑帧设置", this);
+	// > 单个 - 默认设置
+	action = new QAction("默认设置", this);
 	action->setIcon(QIcon(QRC_IconSrcPath + "/menu/Common_Edit.png"));
 	action->setData(pos_str);
 	connect(action, &QAction::triggered, this, &P_ALE_Editor::action_openWindow_CellDataGlobal_ALE);
@@ -617,8 +617,8 @@ QMenu* P_ALE_Editor::createMenu_selectMultiple(QList<int> pos_list){
 	connect(action, &QAction::triggered, this, &P_ALE_Editor::action_openWindow_CellDataMultiple_ALE);
 	menu->addAction(action);
 
-	// > 多个 - 帧设置
-	action = new QAction("编辑帧设置", this);
+	// > 多个 - 默认设置
+	action = new QAction("默认设置", this);
 	action->setIcon(QIcon(QRC_IconSrcPath + "/menu/Common_Edit.png"));
 	action->setData(pos_list_str.join(","));
 	connect(action, &QAction::triggered, this, &P_ALE_Editor::action_openWindow_CellDataGlobal_ALE);

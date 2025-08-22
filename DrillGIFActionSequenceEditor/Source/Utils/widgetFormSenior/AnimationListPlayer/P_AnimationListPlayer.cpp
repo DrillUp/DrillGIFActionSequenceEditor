@@ -47,7 +47,6 @@ P_AnimationListPlayer::P_AnimationListPlayer(QWidget *parent)
 	// > 播放器
 	this->m_timer = new QTimer();				//计时器
 	connect(this->m_timer, SIGNAL(timeout()), this, SLOT(updateFrame()));
-	this->m_timerInterval = 10;					//计时器间隔
 	this->m_curFrame = 0;						//当前时间帧
 	this->m_IndexFrame.clear();					//动画帧的时间帧数
 	this->m_IndexFrameCount = 0;				//总时间帧数
@@ -169,7 +168,7 @@ void P_AnimationListPlayer::updateFrame(){
 		播放器 - 开始
 */
 void P_AnimationListPlayer::startFrame(){
-	this->m_timer->start(this->m_timerInterval);
+	this->m_timer->start(this->getPlayTimerInterval());		//『单位与动画播放』
 	this->m_curFrame = 0; 
 	this->m_isPlaying = true;
 	this->updateIcon();
@@ -208,10 +207,18 @@ void P_AnimationListPlayer::setPlayFrame(QList<int> indexFrame){
 	}
 }
 /*-------------------------------------------------
-		播放器 - 设置播放间隔
+		播放器 - 获取计时器间隔
 */
-void P_AnimationListPlayer::setPlayTimerInterval(int timerInterval){
-	this->m_timerInterval = timerInterval;
+int P_AnimationListPlayer::getPlayTimerInterval(){
+	if (this->m_animEditor != nullptr){
+		if (this->m_animEditor->getCurrentData_Unit() == C_ALE_DataSet::SecondUnit){
+			return 10;		//秒单位『单位与动画播放』
+		}
+		if (this->m_animEditor->getCurrentData_Unit() == C_ALE_DataSet::FrameUnit){
+			return 16;		//帧单位『单位与动画播放』
+		}
+	}
+	return 10;
 }
 
 
@@ -337,14 +344,6 @@ void P_AnimationListPlayer::setAnimationListEditor(P_ALE_Editor* animEditor){
 
 	// > 按钮显示
 	ui.toolButton_ExportGIF->setVisible(true);
-
-	// > 计时器间隔设置
-	if (this->m_animEditor->getCurrentData_Unit() == C_ALE_DataSet::SecondUnit){
-		this->m_timerInterval = 10;
-	}
-	if (this->m_animEditor->getCurrentData_Unit() == C_ALE_DataSet::FrameUnit){
-		this->m_timerInterval = 16;
-	}
 
 	// > 按钮连接
 	connect(this, &P_AnimationListPlayer::signal_frameIndexChanged, this->m_animEditor, &P_ALE_Editor::selectIndex_Single);				//播放器 索引 信号连接

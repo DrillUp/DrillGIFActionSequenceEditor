@@ -6,10 +6,10 @@
 
 /*
 -----==========================================================-----
-		类：		编辑数据-全局 窗口.cpp
+		类：		编辑数据-默认设置 窗口.cpp
 		作者：		drill_up
 		所属模块：	工具模块
-		功能：		编辑数据-全局 的配置窗口。
+		功能：		编辑数据-默认设置 的配置窗口。
 
 		使用方法：
 				>打开窗口
@@ -37,7 +37,7 @@ W_ALE_CellDataGlobal::W_ALE_CellDataGlobal(QWidget *parent)
 	ui.comboBox_unit->setView(new QListView());
 	ui.comboBox_unit->addItems(QStringList() << "帧单位（1秒60帧）" << "秒单位（1秒100帧）" );
 
-	// > 数字设置
+	// > 数字设置『单位与动画播放』
 	ui.comboBox_frameUnit->clear();
 	ui.comboBox_frameUnit->setView(new QListView());
 	ui.comboBox_frameUnit->addItems(QStringList()

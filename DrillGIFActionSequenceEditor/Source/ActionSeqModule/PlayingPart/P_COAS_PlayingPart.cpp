@@ -291,7 +291,7 @@ void P_COAS_PlayingPart::startFrame(){
 	if (data_ptr.isNull()){ return; }
 
 	// > 开启计时器
-	this->m_timer->start(16);		//（由于不是生成gif模式，所以这里播放帧速度固定）
+	this->m_timer->start(16);	//『单位与动画播放』（由于不是生成gif模式，所以这里播放帧速度固定）
 	this->m_playing = true;
 
 	// > 强制刷新内容

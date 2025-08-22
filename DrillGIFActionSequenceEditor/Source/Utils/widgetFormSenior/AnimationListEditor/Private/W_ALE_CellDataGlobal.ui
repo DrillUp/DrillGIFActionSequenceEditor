@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>450</width>
-    <height>250</height>
+    <height>320</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>编辑帧设置</string>
+   <string>默认设置</string>
   </property>
   <property name="styleSheet">
    <string notr="true">
@@ -154,17 +154,10 @@ QComboBox QAbstractItemView::item { min-height: 26px;}</string>
    <item>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
-      <string>单位</string>
+      <string>默认播放单位</string>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,2">
-      <item>
-       <widget class="QLabel" name="label_frameUnit_2">
-        <property name="text">
-         <string>单位</string>
-        </property>
-       </widget>
-      </item>
-      <item>
+     <layout class="QGridLayout" name="gridLayout_2" columnstretch="1,2">
+      <item row="0" column="1">
        <widget class="QComboBox" name="comboBox_unit">
         <property name="minimumSize">
          <size>
@@ -182,6 +175,26 @@ QComboBox QAbstractItemView::item { min-height: 26px;}</string>
           <string>秒单位（1秒100帧）</string>
          </property>
         </item>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_frameUnit_2">
+        <property name="text">
+         <string>单位</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QLabel" name="label">
+        <property name="styleSheet">
+         <string notr="true">color: rgb(140, 140, 140);</string>
+        </property>
+        <property name="text">
+         <string>此处的单位设置，并不会影响实际配置。
+只是在播放时速度不一样，帧单位慢一点，秒单位快一点。
+导出GIF时，使用固定的秒单位。
+导出到游戏时，使用固定的帧单位。（放映区固定为帧单位）</string>
+        </property>
        </widget>
       </item>
      </layout>

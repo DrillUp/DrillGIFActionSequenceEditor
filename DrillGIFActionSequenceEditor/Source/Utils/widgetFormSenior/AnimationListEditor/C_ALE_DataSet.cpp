@@ -101,6 +101,7 @@ void C_ALE_DataSet::setIntervalDefaultInAll(int gif_interval){
 }
 
 
+
 /*-------------------------------------------------
 		帧间隔明细表 - 获取（原数据）
 */
@@ -115,13 +116,13 @@ QList<int> C_ALE_DataSet::getData_IntervalTank(){
 }
 
 /*-------------------------------------------------
-		帧间隔明细表 - 自适应 - 获取（含自适应）
+		帧间隔明细表 - 数组自适应 - 获取（原数据+数组自适应）
 */
 QList<int> C_ALE_DataSet::getData_IntervalTank_WithFit(){
 	return C_ALE_DataSet::converterFit_getIntervalList(this->m_gif_intervalTank, this->m_gif_interval, this->getData_PicListCount());
 }
 /*-------------------------------------------------
-		帧间隔明细表 - 自适应 - 执行自适应转换
+		帧间隔明细表 - 数组自适应 - 执行转换
 */
 QList<int> C_ALE_DataSet::converterFit_getIntervalList(QList<int> intervalValueList, int default_interval, int pic_count){
 
@@ -141,9 +142,31 @@ QList<int> C_ALE_DataSet::converterFit_getIntervalList(QList<int> intervalValueL
 	return intervalValueList;
 }
 
+
 /*-------------------------------------------------
-		帧间隔明细表 - 单位 - 获取（含单位转换）
+		帧间隔明细表 - 单位显示 - 获取文本（"0.01秒"或"1帧"）
 */
+QString C_ALE_DataSet::getDescriptionString(int intervalValue){
+	return C_ALE_DataSet::converterUnit_getDescriptionString(intervalValue, this->m_unit);
+}
+/*-------------------------------------------------
+		帧间隔明细表 - 单位显示 - 执行文本转换
+*/
+QString C_ALE_DataSet::converterUnit_getDescriptionString(int intervalValue, C_ALE_DataSet::DATA_UNIT unit){
+	
+	// > 秒单位『单位与动画播放』（实际播放速度0.0100秒）
+	if (unit == DATA_UNIT::SecondUnit){
+		return QString::number(intervalValue*0.01) + "秒";
+	}
+
+	// > 帧单位『单位与动画播放』（实际播放速度0.0166秒）
+	return QString::number(intervalValue) + "帧";
+}
+
+
+/*-------------------------------------------------
+		帧间隔明细表 - 单位转换 - 获取（原数据+单位转换）
+
 double C_ALE_DataSet::getData_IntervalTankOne_WithUnit(int index){
 
 	// > 若越界，则返回默认帧间隔
@@ -168,9 +191,10 @@ QList<double> C_ALE_DataSet::getData_IntervalTankAll_WithUnit(){
 	}
 	return result_list;
 }
-/*-------------------------------------------------
-		帧间隔明细表 - 单位 - 执行单位转换
 */
+/*-------------------------------------------------
+		帧间隔明细表 - 单位转换 - 执行转换
+
 double C_ALE_DataSet::converterUnit_getInterval(int intervalValue, C_ALE_DataSet::DATA_UNIT unit){
 	
 	// > 秒单位：0.0100秒
@@ -192,27 +216,7 @@ QList<double> C_ALE_DataSet::converterUnit_getIntervalList(QList<int> intervalVa
 	}
 	return result_list;
 }
-
-
-/*-------------------------------------------------
-		帧间隔明细表 - 单位 - 获取描述文本
 */
-QString C_ALE_DataSet::getDescriptionString(int intervalValue){
-	return C_ALE_DataSet::converterUnit_getDescriptionString(intervalValue, this->m_unit);
-}
-/*-------------------------------------------------
-		帧间隔明细表 - 单位 - 执行描述文本转换
-*/
-QString C_ALE_DataSet::converterUnit_getDescriptionString(int intervalValue, C_ALE_DataSet::DATA_UNIT unit){
-	
-	// > 秒单位：0.0100秒
-	if (unit == DATA_UNIT::SecondUnit){
-		return QString::number(intervalValue*0.01) + "秒";
-	}
-
-	// > 帧单位：0.0166秒
-	return QString::number(intervalValue) + "帧";
-}
 
 
 /*-------------------------------------------------
