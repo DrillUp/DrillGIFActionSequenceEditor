@@ -7,10 +7,11 @@
 /*
 -----==========================================================-----
 		类：		单选表格.cpp
-		版本：		v1.03
+		版本：		v1.04
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		将数据全部显示，并能单选。（不含排序功能）
+					另外，表格可以设置支持多选。
 
 		子功能：	-> 文本选择
 						-> 单选
@@ -37,11 +38,11 @@ P_RadioTable::P_RadioTable(QTableWidget *parent)
 	//----参数初始化
 	this->m_table = parent;									//表格对象
 	this->m_tableStyle = this->m_table->styleSheet();		//表格默认样式
-	this->m_itemTank = QList<QTableWidgetItem*>();			//表格项列表
+	this->m_itemTank.clear();								//表格项列表
 	this->m_last_index = -1;								//上一个选中的索引项
 
 	// > 数据
-	this->m_config = C_RaTConfig();
+	this->m_config;
 
 	// > 右键菜单
 	this->m_itemOuterControlEnabled = false;				//编辑 - 开关（默认关闭）
@@ -81,13 +82,16 @@ void P_RadioTable::refreshTableUi() {
 
 	// > 清理
 	this->m_table->clearContents();
-	this->m_table->setRowCount(local_text.count());
+	this->m_table->setRowCount(local_realText.count());
 
 	// > 刷新内容
-	this->m_itemTank = QList<QTableWidgetItem*>();
-	for (int i = 0; i < local_text.count(); i++){
+	this->m_itemTank.clear();
+	for (int i = 0; i < local_realText.count(); i++){
 		QTableWidgetItem* item = new QTableWidgetItem();
-		item->setData(Qt::UserRole + 1, local_text.at(i));	//名称
+		item->setData(Qt::UserRole + 1, local_realText.at(i));			//资源数据
+		if ( i < local_showingText.count()){
+			item->setData(Qt::UserRole + 2, local_showingText.at(i));	//显示数据
+		}
 		this->m_table->setItem(i, 0, item);
 		this->m_itemTank.append(item);
 		this->refreshItem(item);		//（刷新项）
@@ -102,7 +106,8 @@ void P_RadioTable::refreshTableUi() {
 	}
 
 	// > 行高刷新
-	this->m_table->setStyleSheet(this->m_tableStyle + "\n QTableView::item { height: " + QString::number(this->m_config.rowHeight) + "px;}");
+	this->m_table->verticalHeader()->setDefaultSectionSize(this->m_config.rowHeight);	//（表格中，通过style样式修改不了行高）
+	//this->m_table->setStyleSheet(this->m_tableStyle + "\n QTableView::item { height: " + QString::number(this->m_config.rowHeight) + "px;}");
 
 	// > 选中变化项
 	if (this->m_config.isMultiSelect){
@@ -125,7 +130,7 @@ void P_RadioTable::clearAll(){
 	this->m_table->setRowCount(0);
 
 	// > 表格设置
-	this->m_config = C_RaTConfig();
+	this->m_config;
 	this->m_itemOuterControl_PasteActive = false;
 }
 /*-------------------------------------------------
@@ -137,24 +142,24 @@ int P_RadioTable::count(){
 /*-------------------------------------------------
 		控件 - 修改指定位置文本（不发信号）
 */
-void P_RadioTable::modifyText(int index, QString text){
+void P_RadioTable::modifyText(int index, QString realText){
 	if (index == -1 ){ return; }
 	if (index < 0){ index = 0; }
 	if (index >= this->m_itemTank.count()){ index = this->m_itemTank.count() - 1; }
 
 	// > 修改本地数据
-	this->local_text.replace(index, text);
+	this->local_realText.replace(index, realText);
 
 	// > 刷新项
 	QTableWidgetItem* item = this->m_itemTank.at(index);
-	item->setData(Qt::UserRole + 1, text);
+	item->setData(Qt::UserRole + 1, realText);
 	this->refreshItem(item);
 }
 /*-------------------------------------------------
 		控件 - 修改选中项文本（不发信号）
 */
-void P_RadioTable::modifyText_Selected(QString text){
-	this->modifyText(this->getSelectedIndex(),text);
+void P_RadioTable::modifyText_Selected(QString realText){
+	this->modifyText(this->getSelectedIndex(), realText);
 }
 /*-------------------------------------------------
 		控件 - 获取名称
@@ -167,7 +172,7 @@ QString P_RadioTable::getTextByIndex(int index){
 	return this->getRealText(this->m_itemTank.at(index));
 }
 QStringList P_RadioTable::getTextByIndex(QList<int> index_list){
-	QStringList result_list = QStringList();
+	QStringList result_list;
 	for (int i = 0; i < index_list.count(); i++){
 		result_list.append(this->getTextByIndex(index_list.at(i)));
 	}
@@ -180,6 +185,10 @@ QString P_RadioTable::getRealText(QTableWidgetItem* item){
 	if (item == nullptr){ return ""; }
 	return item->data(Qt::UserRole + 1).toString();
 }
+QString P_RadioTable::getShowingText(QTableWidgetItem* item){
+	if (item == nullptr){ return ""; }
+	return item->data(Qt::UserRole + 2).toString();
+}
 /*-------------------------------------------------
 		控件 - 刷新 项 自身文本
 */
@@ -187,14 +196,16 @@ void P_RadioTable::refreshItem(QTableWidgetItem* item){
 	int index = this->m_itemTank.indexOf(item);
 	if (index == -1){ return; }
 
-	QString text = this->getRealText(item);
+	QString temp_text = this->getShowingText(item);	//（显示时，显示数据优先）
+	if (temp_text == ""){ temp_text = this->getRealText(item); }
+
 	if (this->m_config.showNumber == false){
-		item->setText(text);
+		item->setText(temp_text);
 	}else{
 		if (this->m_config.zeroFill == true){
-			item->setText(TTool::_zeroFill_(index + 1, this->m_config.zeroFillCount, QLatin1Char(this->m_config.zeroFillChar.toLatin1())) + " " + text);
+			item->setText(TTool::_zeroFill_(index + 1, this->m_config.zeroFillCount, QLatin1Char(this->m_config.zeroFillChar.toLatin1())) + " " + temp_text);
 		}else{
-			item->setText(QString::number(index + 1) + " " + text);
+			item->setText(QString::number(index + 1) + " " + temp_text);
 		}
 	}
 	
@@ -221,7 +232,13 @@ QJsonObject P_RadioTable::getConfigParam_obj(){
 	return this->m_config.getJsonObject();
 }
 /*-------------------------------------------------
-		表格设置 - 编辑窗口
+		表格设置 - 编辑窗口（开放）
+*/
+void P_RadioTable::openConfigParamWindow_Public(){
+	this->openConfigParamWindow();
+}
+/*-------------------------------------------------
+		表格设置 - 编辑窗口（私有）
 */
 void P_RadioTable::openConfigParamWindow(){
 	W_RaTConfig d(this->m_table);
@@ -308,8 +325,9 @@ void P_RadioTable::sltItemRightClicked(QPoint point) {
 /*-------------------------------------------------
 		资源数据 - 设置数据
 */
-void P_RadioTable::setSource(QStringList text_list) {
-	this->local_text = text_list;
+void P_RadioTable::setSource(QStringList realText_list, QStringList showingText_list) {
+	this->local_realText = realText_list;			//资源数据
+	this->local_showingText = showingText_list;		//显示数据
 	this->refreshTableUi();
 }
 /*-------------------------------------------------
@@ -336,7 +354,7 @@ QString P_RadioTable::getSelectedText(){
 		资源数据 - 取出数据（多选）
 */
 QList<int> P_RadioTable::getSelectedIndex_Multi(){
-	QList<int> result_list = QList<int>();
+	QList<int> result_list;
 	for (int i = 0; i < this->m_itemTank.count(); i++){
 		if (this->m_itemTank.at(i)->isSelected()){
 			result_list.append(i);
@@ -345,7 +363,7 @@ QList<int> P_RadioTable::getSelectedIndex_Multi(){
 	return result_list;
 }
 QList<QString> P_RadioTable::getSelectedText_Multi(){
-	QList<QString> result_list = QList<QString>();
+	QList<QString> result_list;
 	for (int i = 0; i < this->m_itemTank.count(); i++){
 		QTableWidgetItem* item = this->m_itemTank.at(i);
 		if (item->isSelected()){
@@ -357,8 +375,11 @@ QList<QString> P_RadioTable::getSelectedText_Multi(){
 /*-------------------------------------------------
 		资源数据 - 取出全部数据
 */
-QStringList P_RadioTable::getAllText(){
-	return this->local_text;
+QStringList P_RadioTable::getAllRealText(){
+	return this->local_realText;
+}
+QStringList P_RadioTable::getAllShowingText(){
+	return this->local_showingText;
 }
 
 

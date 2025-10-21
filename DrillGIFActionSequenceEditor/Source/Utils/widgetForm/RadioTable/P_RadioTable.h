@@ -9,10 +9,11 @@
 /*
 -----==========================================================-----
 		类：		单选表格.cpp
-		版本：		v1.03
+		版本：		v1.04
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		将数据全部显示，并能单选。（不含排序功能）
+					另外，表格可以设置支持多选。
 					（详细见cpp）
 -----==========================================================-----
 */
@@ -37,10 +38,12 @@ class P_RadioTable : public QObject
 		void clearAll();
 									//控件 - 表格项数量
 		int count();
-									//控件 - 修改指定位置文本（不发textchange信号）
-		void modifyText(int index, QString text);
-									//控件 - 修改选中项文本（不发textchange信号）
-		void modifyText_Selected( QString text );
+									//控件 - 修改指定位置文本
+									//		【说明】：不发textchange信号，不修改showingText显示数据。
+		void modifyText(int index, QString realText);
+									//控件 - 修改选中项文本
+									//		【说明】：不发textchange信号，不修改showingText显示数据。
+		void modifyText_Selected(QString realText);
 									//控件 - 获取名称
 		QString getTextByIndex(int index);
 		QStringList getTextByIndex(QList<int> index_list);
@@ -48,6 +51,7 @@ class P_RadioTable : public QObject
 	protected:
 									//控件 - 获取文本
 		QString getRealText(QTableWidgetItem* item);
+		QString getShowingText(QTableWidgetItem* item);
 									//控件 - 刷新 项 自身文本
 		void refreshItem(QTableWidgetItem* item);
 		
@@ -64,8 +68,10 @@ class P_RadioTable : public QObject
 		void setConfigParam_obj(QJsonObject config);
 										//表格设置 - 取出参数
 		QJsonObject getConfigParam_obj();
+										//表格设置 - 编辑窗口（开放）
+		void openConfigParamWindow_Public();
 	protected slots:
-										//表格设置 - 编辑窗口
+										//表格设置 - 编辑窗口（私有）
 		void openConfigParamWindow();
 
 	//-----------------------------------
@@ -81,10 +87,11 @@ class P_RadioTable : public QObject
 	//-----------------------------------
 	//----资源数据
 	protected:
-		QStringList local_text;		//资源数据
+		QStringList local_realText;		//资源数据
+		QStringList local_showingText;	//显示数据
 	public:
 									//资源数据 - 设置数据
-		void setSource(QStringList text_list);
+		void setSource(QStringList realText_list, QStringList showingText_list = QStringList());
 									//资源数据 - 取出数据
 		int getSelectedIndex();
 		QString getSelectedText();
@@ -92,7 +99,8 @@ class P_RadioTable : public QObject
 		QList<int> getSelectedIndex_Multi();
 		QList<QString> getSelectedText_Multi();
 									//资源数据 - 取出全部数据
-		QStringList getAllText();
+		QStringList getAllRealText();
+		QStringList getAllShowingText();
 
 		
 	//-----------------------------------

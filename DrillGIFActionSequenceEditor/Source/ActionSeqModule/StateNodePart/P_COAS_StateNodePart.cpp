@@ -54,7 +54,7 @@ P_COAS_StateNodePart::P_COAS_StateNodePart(P_COAS_StatePart* statePart, QWidget 
 	this->m_table = new P_RadioTable(ui.tableWidget);
 	C_RaTConfig rat_config = C_RaTConfig();
 	rat_config.zeroFillCount = 2;
-	rat_config.rowHeight = 22;
+	rat_config.rowHeight = 28;
 	this->m_table->setConfigParam(rat_config);			//固定参数
 	this->m_table->setItemOuterControlEnabled(true);	//开启右键菜单
 
@@ -114,7 +114,7 @@ void P_COAS_StateNodePart::nameEdited(QString name){
 	// > 可选的状态节点变化
 	QString text = ui.comboBox_playType->currentText();
 	if (text == "随机播放嵌套集合" || text == "顺序播放嵌套集合"){
-		QStringList name_list = this->m_table->getAllText();//节点名称列表
+		QStringList name_list = this->m_table->getAllRealText();//节点名称列表
 		TTool::_QStringList_clearEmptyRows_(&name_list);
 		this->m_P_TwoTableStringFiller->setLeftString(name_list);
 		this->m_P_TwoTableStringFiller->refreshTable();

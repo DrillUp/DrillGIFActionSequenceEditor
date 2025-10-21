@@ -52,7 +52,7 @@ P_COAS_ActionPart::P_COAS_ActionPart(QWidget *parent)
 	this->m_table = new P_RadioTable(ui.tableWidget);
 	C_RaTConfig rat_config = C_RaTConfig();
 	rat_config.zeroFillCount = 2;
-	rat_config.rowHeight = 22;
+	rat_config.rowHeight = 28;
 	this->m_table->setConfigParam(rat_config);			//固定参数
 	this->m_table->setItemOuterControlEnabled(true);	//开启右键菜单
 

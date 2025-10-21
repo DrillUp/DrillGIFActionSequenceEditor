@@ -20,7 +20,7 @@ C_RaTConfig::C_RaTConfig(){
 	this->zeroFillCount = 4;			//填充位数
 	this->zeroFillChar = '0';			//填充字符
 
-	this->rowHeight = 24;				//行高
+	this->rowHeight = 28;				//行高
 	this->isMultiSelect = false;		//多选开关
 }
 C_RaTConfig::~C_RaTConfig(){
@@ -31,7 +31,7 @@ C_RaTConfig::~C_RaTConfig(){
 		实体类 -> QJsonObject
 */
 QJsonObject C_RaTConfig::getJsonObject(){
-	QJsonObject obj = QJsonObject();
+	QJsonObject obj;
 	obj.insert("showNumber", this->showNumber);
 	obj.insert("zeroFill", this->zeroFill);
 	obj.insert("zeroFillCount", this->zeroFillCount);
