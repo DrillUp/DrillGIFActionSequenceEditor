@@ -14,7 +14,7 @@
 /*
 -----==========================================================-----
 		类：		灵活分类树（含种类分支）.cpp
-		版本：		v1.05
+		版本：		v1.06
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		能够显示一堆数据，并且将这些数据分类或转移到不同的树枝中，便于查询。
@@ -402,9 +402,9 @@ void P_FlexibleClassificationTree::innerModifyLeafType(int id, QString type){
 	// > 修改本地数据
 	for (int i = 0; i < this->m_source_list.count(); i++){
 		C_ObjectSortData c_data = this->m_source_list.at(i);
-		if (c_data.id == id){
-			if (c_data.type != type){
-				c_data.type = type;
+		if (c_data.getID_Org() == id){
+			if (c_data.getType_Org() != type){
+				c_data.setType(type);
 				this->m_source_list.replace(i, c_data);
 			}
 			break;
@@ -413,8 +413,8 @@ void P_FlexibleClassificationTree::innerModifyLeafType(int id, QString type){
 
 	// > 记录改变
 	C_ObjectSortData changeData;
-	changeData.id = leaf->getId();
-	changeData.type = leaf->getType();
+	changeData.setID(leaf->getId());
+	changeData.setType(leaf->getType());
 	this->appendChangedSource(changeData);
 
 }
@@ -649,9 +649,9 @@ void P_FlexibleClassificationTree::rebuildTreeData_classify_idInc(){
 
 			// > 在叶子中填入数据
 			I_FPT_Leaf* leaf = this->createFCTLeaf();
-			leaf->setId(data->id);					//标识
-			leaf->setName(data->name);				//名称
-			leaf->setType(data->type);				//分类
+			leaf->setId(data->getID_Org());					//标识
+			leaf->setName(data->getName_Org());				//名称
+			leaf->setType(data->getType_Org());				//分类
 			this->m_leafItem.append(leaf);
 
 			QTreeWidgetItem* p_item = this->m_branchItem.at(i);
@@ -696,9 +696,9 @@ void P_FlexibleClassificationTree::rebuildTreeData_classify_nameInc(){
 
 			// > 在叶子中填入数据
 			I_FPT_Leaf* leaf = this->createFCTLeaf();
-			leaf->setId(data->id);					//标识
-			leaf->setName(data->name);				//名称
-			leaf->setType(data->type);				//分类
+			leaf->setId(data->getID_Org());					//标识
+			leaf->setName(data->getName_Org());				//名称
+			leaf->setType(data->getType_Org());				//分类
 			this->m_leafItem.append(leaf);
 
 			QTreeWidgetItem* p_item = this->m_branchItem.at(i);

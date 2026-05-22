@@ -4,24 +4,15 @@
 /*
 -----==========================================================-----
 		类：		中文管理器.cpp
-		版本：		v1.01
+		版本：		v1.03
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		提供中文转换、排序等功能。
-
-		目标：		-> 判断中文字符
-					-> 中文转拼音
-					-> 获取拼音首字母
-					-> 数字转中文
-					
-		使用方法：
-				>打开：
-			
 -----==========================================================-----
 */
 
 S_ChineseManager::S_ChineseManager(){
-	this->m_textCodeGBK = QTextCodec::codecForName("GBK");		//初始化qt提供的gbk的解码器
+	this->m_textCodeGBK = QTextCodec::codecForName("GBK");	//（初始化qt提供的gbk的解码器）
 }
 S_ChineseManager::~S_ChineseManager() {
 }
@@ -47,7 +38,7 @@ bool S_ChineseManager::hasAnyChineseCharacter(QString test_str) {
 
 
 /*-------------------------------------------------
-		中文拼音 - 获取首字母
+		首字母 - 获取
 */
 QString S_ChineseManager::getChineseFirstSpell(QString chinese_string){
 	if (chinese_string == ""){ return ""; }
@@ -58,8 +49,8 @@ QString S_ChineseManager::getChineseFirstSpell(QString chinese_string){
 	QString alphbats;
 
 	for (int i = 0, j = 0; i < buf.size(); i++, j++){
-		if ((quint8)buf[i] < 0x80){					//小于0x80的都是符号，字母，数字等
-			alphbats.append(QChar(buf[i]));	
+		if ((quint8)buf[i] < 0x80){						//小于0x80的都是符号，字母，数字等
+			alphbats.append(QChar(buf[i]).toLower());	//（该函数返回小写字母）
 			continue; 
 		}
 		array[j] = (((quint8)buf[i]) << 8) + (quint8)buf[i + 1];	//计算gbk编码
@@ -69,45 +60,39 @@ QString S_ChineseManager::getChineseFirstSpell(QString chinese_string){
 	delete[] array;
 	return alphbats;
 }
-
 /*-------------------------------------------------
-		中文拼音 - 单个字符判断
+		首字母 - 获取（排除指定字符）
 */
-bool S_ChineseManager::codeIn(wchar_t start, wchar_t end, wchar_t code){
-	if (code >= start && code <= end){ return true;}
-	return false;
+QString S_ChineseManager::getChineseFirstSpell_Exclude(QString chinese_string, QList<QChar> exclude_char_list){
+	QString result_string;
+	for (int i = 0; i < chinese_string.count(); i++){
+		QChar cur_ch = chinese_string.at(i);
+
+		// > 排除指定字符
+		if (exclude_char_list.contains(cur_ch)){ continue; }
+
+		result_string.append(cur_ch);
+	}
+	return this->getChineseFirstSpell(result_string);
 }
-char S_ChineseManager::convert(int n){
-	if (codeIn(0xB0A1, 0xB0C4, n)) return 'a';
-	if (codeIn(0XB0C5, 0XB2C0, n)) return 'b';
-	if (codeIn(0xB2C1, 0xB4ED, n)) return 'c';
-	if (codeIn(0xB4EE, 0xB6E9, n)) return 'd';
-	if (codeIn(0xB6EA, 0xB7A1, n)) return 'e';
-	if (codeIn(0xB7A2, 0xB8c0, n)) return 'f';
-	if (codeIn(0xB8C1, 0xB9FD, n)) return 'g';
-	if (codeIn(0xB9FE, 0xBBF6, n)) return 'h';
-	if (codeIn(0xBBF7, 0xBFA5, n)) return 'j';
-	if (codeIn(0xBFA6, 0xC0AB, n)) return 'k';
-	if (codeIn(0xC0AC, 0xC2E7, n)) return 'l';
-	if (codeIn(0xC2E8, 0xC4C2, n)) return 'm';
-	if (codeIn(0xC4C3, 0xC5B5, n)) return 'n';
-	if (codeIn(0xC5B6, 0xC5BD, n)) return 'o';
-	if (codeIn(0xC5BE, 0xC6D9, n)) return 'p';
-	if (codeIn(0xC6DA, 0xC8BA, n)) return 'q';
-	if (codeIn(0xC8BB, 0xC8F5, n)) return 'r';
-	if (codeIn(0xC8F6, 0xCBF0, n)) return 's';
-	if (codeIn(0xCBFA, 0xCDD9, n)) return 't';
-	if (codeIn(0xCDDA, 0xCEF3, n)) return 'w';
-	if (codeIn(0xCEF4, 0xD188, n)) return 'x';
-	if (codeIn(0xD1B9, 0xD4D0, n)) return 'y';
-	if (codeIn(0xD4D1, 0xD7F9, n)) return 'z';
-	return '@';		//@表示生僻字
+/*-------------------------------------------------
+		首字母 - 获取（排除常规符号）
+*/
+QString S_ChineseManager::getChineseFirstSpell_ExcludeBracket(QString chinese_string){
+	return this->getChineseFirstSpell_Exclude(chinese_string, this->getBracketList());
+}
+/*-------------------------------------------------
+		首字母 - 获取常规符号
+*/
+QList<QChar> S_ChineseManager::getBracketList(){
+	return QList<QChar>() << '+' << '-' << '*' << '/' << '=' << '_' << '|' << '(' << ')' << '<' << '>' << '[' << ']' << '{' << '}';
 }
 
+
 /*-------------------------------------------------
-		中文拼音 - 获取中文的拼音
+		中文拼音 - 获取
 */
-QString S_ChineseManager::getChinesePinYin(QString chinese){
+QString S_ChineseManager::getChinesePinYin(QString chinese_string){
 
 	static int pyvalue[] = { -20319, -20317, -20304, -20295, -20292, -20283, -20265, -20257, -20242, -20230, -20051, -20036, -20032, -20026,
 		-20002, -19990, -19986, -19982, -19976, -19805, -19784, -19775, -19774, -19763, -19756, -19751, -19746, -19741, -19739, -19728,
@@ -159,10 +144,9 @@ QString S_ChineseManager::getChinesePinYin(QString chinese){
 		"zi", "zong", "zou", "zu", "zuan", "zui", "zun", "zuo", "@" };		//@表示生僻字
 
 	int chrasc = 0;
-
 	char* pcReturnString = NULL;
 
-	QByteArray ba = chinese.toLocal8Bit();
+	QByteArray ba = chinese_string.toLocal8Bit();
 	const char * acBa = ba.constData();
 	int length = strlen(acBa);
 	char* nowchar = new char[length + 1];
@@ -173,50 +157,78 @@ QString S_ChineseManager::getChinesePinYin(QString chinese){
 	memset(returnstr, 0, 6 * length + 1);
 
 	int offset = 0;
-	for (int j = 0; j < length;) // 循环处理字节数组
-	{
-		if (nowchar[j] >= 0 && nowchar[j] < 128) // 非汉字处理
-		{
+	for (int j = 0; j < length;){
+
+		// > 非汉字处理
+		if (nowchar[j] >= 0 && nowchar[j] < 128){
 			returnstr[offset] = nowchar[j];
 			offset++;
 			j++;
 			continue;
 		}
 
-		// 汉字处理
+		// > 汉字处理
 		chrasc = nowchar[j] * 256 + nowchar[j + 1] + 256;
-
-		if (chrasc > 0 && chrasc < 160)
-		{
+		if (chrasc > 0 && chrasc < 160){
 			returnstr[offset] = nowchar[j];
 			offset++;
 			j++;
-		}
-		else
-		{
-			for (int i = (sizeof(pyvalue) / sizeof(pyvalue[0]) - 1); i >= 0; i--)
-			{
-				if (pyvalue[i] <= chrasc)
-				{
+		}else{
+			for (int i = (sizeof(pyvalue) / sizeof(pyvalue[0]) - 1); i >= 0; i--){
+				if (pyvalue[i] <= chrasc){
 					strcpy(returnstr + offset, pystr[i]);
 					offset += strlen(pystr[i]);
-					if (j + 2 < length)
-					{
+					if (j + 2 < length){
 						strcpy(returnstr + offset, " ");
 						offset++;
 					}
-
 					break;
 				}
 			}
 			j += 2;
 		}
 	}
+
 	QString returnString = returnstr;
 	delete[]returnstr;
 	delete[]nowchar;
 	return returnString;
-
+}
+/*-------------------------------------------------
+		中文拼音 - 单个字符判断（私有）
+*/
+bool S_ChineseManager::codeIn(wchar_t start, wchar_t end, wchar_t code){
+	if (code >= start && code <= end){ return true;}
+	return false;
+}
+/*-------------------------------------------------
+		中文拼音 - 单个字符转换（私有）
+*/
+char S_ChineseManager::convert(int n){
+	if (codeIn(0xB0A1, 0xB0C4, n)) return 'a';
+	if (codeIn(0XB0C5, 0XB2C0, n)) return 'b';
+	if (codeIn(0xB2C1, 0xB4ED, n)) return 'c';
+	if (codeIn(0xB4EE, 0xB6E9, n)) return 'd';
+	if (codeIn(0xB6EA, 0xB7A1, n)) return 'e';
+	if (codeIn(0xB7A2, 0xB8c0, n)) return 'f';
+	if (codeIn(0xB8C1, 0xB9FD, n)) return 'g';
+	if (codeIn(0xB9FE, 0xBBF6, n)) return 'h';
+	if (codeIn(0xBBF7, 0xBFA5, n)) return 'j';
+	if (codeIn(0xBFA6, 0xC0AB, n)) return 'k';
+	if (codeIn(0xC0AC, 0xC2E7, n)) return 'l';
+	if (codeIn(0xC2E8, 0xC4C2, n)) return 'm';
+	if (codeIn(0xC4C3, 0xC5B5, n)) return 'n';
+	if (codeIn(0xC5B6, 0xC5BD, n)) return 'o';
+	if (codeIn(0xC5BE, 0xC6D9, n)) return 'p';
+	if (codeIn(0xC6DA, 0xC8BA, n)) return 'q';
+	if (codeIn(0xC8BB, 0xC8F5, n)) return 'r';
+	if (codeIn(0xC8F6, 0xCBF0, n)) return 's';
+	if (codeIn(0xCBFA, 0xCDD9, n)) return 't';
+	if (codeIn(0xCDDA, 0xCEF3, n)) return 'w';
+	if (codeIn(0xCEF4, 0xD188, n)) return 'x';
+	if (codeIn(0xD1B9, 0xD4D0, n)) return 'y';
+	if (codeIn(0xD4D1, 0xD7F9, n)) return 'z';
+	return '@';		//@表示生僻字
 }
 
 

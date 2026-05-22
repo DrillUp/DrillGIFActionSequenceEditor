@@ -1,25 +1,25 @@
-	【注意，排序控制器的全部以 CodePieceQT笔记 为准，所有修改在笔记中强化】
+﻿	【注意，排序控制器的全部以 CodePieceQT笔记 为准，所有修改在笔记中强化】
 			
 	程序入口（独立控件块）：
 		P_ObjectSortController.cpp
 		P_ObjectSortController.h
 
 		能将指定输入的列表进行排序，返回排序坐标、也可提供分页功能。
-		设置数据（setData）时，【控制器才排序一次】，会重刷控制器的所有数据。
+		设置数据时（函数setData_XXXX），【控制器才排序一次】，会重刷控制器的所有数据。
 		如果你的数据是随时修改的数据，然后立即排序，此控制器可能会消耗一定计算量。
 		
 
 	交互对象：
-		1.	资源数据（QList<QJsonObject>*）
-			只读。获取 id、name、type 。
+		1.	设置数据（对象列表）（QList<QJsonObject>*）
+			只读。获取obj中 key-value 的key："id"、"name"、"type"。
 			注意，id固定为int类型，【如果id是uuid字符串，则无法排序。】
-			你需要用其他参数充当id，对"QString id_symbol"参数进行赋值即可。
-			
-		2.	资源列表串（QList<int> id_list, QList<QString> name_list, QList<QString> type_list）
-			只要三个数据即可，就能进行排序了。
 
-		3.	排序结果（C_ObjectSortData）
-			通过该数据，你可以从里面获取到id、name、type、arrIndex。
+		2.	设置数据（排序数据列表）（QList<C_ObjectSortData>）
+			函数setData_XXXX，可以传递QJsonObject，也可以传递C_ObjectSortData对象。
+			区分 org_name 和 sort_name，使用时都用org数据，P_ObjectSortController专用sort数据。
+			
+		3.	设置数据（基本列表）（QList<int> id_list, QList<QString> name_list, QList<QString> type_list）
+			只要三个数据即可，就能进行排序了。
 
 	私有类：
 		无

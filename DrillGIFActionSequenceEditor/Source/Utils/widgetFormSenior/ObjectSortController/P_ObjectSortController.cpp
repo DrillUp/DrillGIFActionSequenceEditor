@@ -6,11 +6,11 @@
 /*
 -----==========================================================-----
 		类：		对象排序 控制器.cpp
-		版本：		v1.02
+		版本：		v1.04
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		能将指定输入的列表进行排序，返回排序坐标、也可提供分页功能。
-					设置数据（setData）时，【控制器才排序一次】，会重刷控制器的所有数据。
+					设置数据时（函数setData_XXXX），【控制器才排序一次】，会重刷控制器的所有数据。
 					
 		结构：		> 分页处理
 					> 添加type类，可根据分类来选择
@@ -18,7 +18,7 @@
 		使用方法：
 				> 初始化
 					this->m_p_ObjectSortController = new P_ObjectSortController();
-					this->m_p_ObjectSortController->setData_FromObject(obj_list, id_symbol, name_symbol, type_symbol);
+					this->m_p_ObjectSortController->setData_FromObject(obj_list, key_id, key_name, key_type);
 				> 获取id分页
 					index_list = this->m_p_ObjectSortController->get_IdInc_PageIndexList( this->cur_selectIndex_page, 30 );
 					
@@ -31,21 +31,29 @@ P_ObjectSortController::P_ObjectSortController(QWidget *parent)
 
 	//-----------------------------------
 	//----初始化参数
+
+	// > 数据
 	this->local_org_objList = nullptr;
 	this->local_org_dataList.clear();
-	this->m_symbol_id = "id";	//（默认小写，setData时会统一）
-	this->m_symbol_name = "name";
-	this->m_symbol_type = "type";
 
+	// > 排序结果
+	//	（无）
+
+	// > ID排序
 	this->local_dataList_orderBy_IdInc.clear();
 	this->local_dataList_orderBy_IdDec.clear();
+
+	// > 名称排序
 	this->local_dataList_orderBy_NameInc.clear();
 	this->local_dataList_orderBy_NameDec.clear();
+	this->m_firstCharSeq.clear();
+
+	// > 类型排序
 	this->local_dataList_orderBy_TypeAndId.clear();
 	this->local_dataList_orderBy_TypeAndName.clear();
+	this->m_distinguishedType.clear();
 	
 }
-
 P_ObjectSortController::~P_ObjectSortController(){
 }
 
@@ -58,21 +66,28 @@ void P_ObjectSortController::setData_FromObject(QList<QJsonObject>* obj_list) {
 	this->local_org_objList = obj_list;
 	if (this->local_org_objList->count() == 0){ return; }
 
-	// > 确定第一个obj的标识名
+
+	// > 标识名 - 初始化
+	QString temp_key_id = "id";		//（默认小写，setData时会统一）
+	QString temp_key_name = "name";
+	QString temp_key_type = "type";
+
+	// > 标识名 - 确定第一个obj的标识名
 	QJsonObject first_obj = obj_list->at(0);
 	if (first_obj.isEmpty()){ return; }
 	QJsonValue v_id = first_obj.value("id");
-	if (v_id.isUndefined()){ this->m_symbol_id = "Id"; v_id = first_obj.value("Id"); }
-	if (v_id.isUndefined()){ this->m_symbol_id = "ID"; v_id = first_obj.value("ID"); }
-	if (v_id.isUndefined()){ this->m_symbol_id = ""; return; }
+	if (v_id.isUndefined()){ temp_key_id = "Id"; v_id = first_obj.value("Id"); }
+	if (v_id.isUndefined()){ temp_key_id = "ID"; v_id = first_obj.value("ID"); }
+	if (v_id.isUndefined()){ temp_key_id = ""; return; }
 	QString name = first_obj.value("name").toString();
-	if (name == ""){ this->m_symbol_name = "Name"; name = first_obj.value("Name").toString(); }
-	if (name == ""){ this->m_symbol_name = "NAME"; name = first_obj.value("NAME").toString(); }
-	if (name == ""){ this->m_symbol_name = "name"; }	//（保持原标识）
+	if (name == ""){ temp_key_name = "Name"; name = first_obj.value("Name").toString(); }
+	if (name == ""){ temp_key_name = "NAME"; name = first_obj.value("NAME").toString(); }
+	if (name == ""){ temp_key_name = "name"; }	//（保持原标识）
 	QString type = first_obj.value("type").toString();
-	if (type == ""){ this->m_symbol_type = "Type"; type = first_obj.value("Type").toString(); }
-	if (type == ""){ this->m_symbol_type = "TYPE"; type = first_obj.value("TYPE").toString(); }
-	if (type == ""){ this->m_symbol_type = "type"; }	//（保持原标识）
+	if (type == ""){ temp_key_type = "Type"; type = first_obj.value("Type").toString(); }
+	if (type == ""){ temp_key_type = "TYPE"; type = first_obj.value("TYPE").toString(); }
+	if (type == ""){ temp_key_type = "type"; }	//（保持原标识）
+
 
 	// > 准备列表值
 	QList<int> id_list;
@@ -82,31 +97,33 @@ void P_ObjectSortController::setData_FromObject(QList<QJsonObject>* obj_list) {
 		QJsonObject obj = obj_list->at(i);
 		if (obj.isEmpty()){ continue; }
 
-		QJsonValue v_id = obj.value(this->m_symbol_id);
+		QJsonValue v_id = obj.value(temp_key_id);
 		if (v_id.isUndefined()){ continue; }
 		int id = 0;
 		if (v_id.isString()){ id = v_id.toString().toInt(); }
 		else{ id = v_id.toInt(); }
 		id_list.push_back(id);
 		
-		QString name = obj.value(this->m_symbol_name).toString();
+		QString name = obj.value(temp_key_name).toString();
 		name_list.push_back(name);
 
-		QString type = obj.value(this->m_symbol_type).toString();
+		QString type = obj.value(temp_key_type).toString();
 		type_list.push_back(type);
 	}
 
 	// > 设置（基本列表）
 	this->setData_FromBasic(id_list, name_list, type_list);
 }
-void P_ObjectSortController::setData_FromObject(QList<QJsonObject>* obj_list, QString id_symbol, QString name_symbol, QString type_symbol){
+void P_ObjectSortController::setData_FromObject(QList<QJsonObject>* obj_list, QString key_id, QString key_name, QString key_type){
 	this->local_org_objList = obj_list;
 	if (this->local_org_objList->count() == 0){ return; }
 
-	// > 确定标识名
-	this->m_symbol_id = id_symbol;
-	this->m_symbol_name = name_symbol;
-	this->m_symbol_type = type_symbol;
+
+	// > 标识名 - 初始化
+	QString temp_key_id = key_id;
+	QString temp_key_name = key_name;
+	QString temp_key_type = key_type;
+
 
 	// > 准备列表值
 	QList<int> id_list;
@@ -116,17 +133,17 @@ void P_ObjectSortController::setData_FromObject(QList<QJsonObject>* obj_list, QS
 		QJsonObject obj = obj_list->at(i);
 		if (obj.isEmpty()){ continue; }
 
-		QJsonValue v_id = obj.value(this->m_symbol_id);
+		QJsonValue v_id = obj.value(temp_key_id);
 		if (v_id.isUndefined()){ continue; }
 		int id = 0;
 		if (v_id.isString()){ id = v_id.toString().toInt(); }
 		else{ id = v_id.toInt(); }
 		id_list.push_back(id);
 
-		QString name = obj.value(this->m_symbol_name).toString();
+		QString name = obj.value(temp_key_name).toString();
 		name_list.push_back(name);
 
-		QString type = obj.value(this->m_symbol_type).toString();
+		QString type = obj.value(temp_key_type).toString();
 		type_list.push_back(type);
 	}
 
@@ -144,9 +161,9 @@ void P_ObjectSortController::setData_FromSortData(QList<C_ObjectSortData> sort_d
 	QList<QString> type_list;
 	for (int i = 0; i < sort_data_list.count(); i++){
 		C_ObjectSortData data = sort_data_list.at(i);
-		id_list.append(data.id);
-		name_list.append(data.name);
-		type_list.append(data.type);
+		id_list.append(data.getID_Org());
+		name_list.append(data.getName_Org());
+		type_list.append(data.getType_Org());
 	}
 
 	// > 设置（基本列表）
@@ -175,7 +192,9 @@ void P_ObjectSortController::setData_FromBasic(QList<int> id_list, QList<QString
 		int id = id_list.at(i);
 		QString name = name_list.at(i);
 		QString type = type_list.at(i);
-		C_ObjectSortData* data = new C_ObjectSortData(i, id, name, type);
+
+		C_ObjectSortData* data = new C_ObjectSortData();
+		data->initData(i, id, name, type);
 		this->local_org_dataList.append(data);
 	}
 }
@@ -184,18 +203,28 @@ void P_ObjectSortController::setData_FromBasic(QList<int> id_list, QList<QString
 */
 void P_ObjectSortController::clearAll() {
 
-	this->local_dataList_orderBy_IdInc.clear();
-	this->local_dataList_orderBy_IdDec.clear();
-	this->local_dataList_orderBy_NameInc.clear();
-	this->local_dataList_orderBy_NameDec.clear();
-	this->local_dataList_orderBy_TypeAndId.clear();
-	this->local_dataList_orderBy_TypeAndName.clear();
-	
+	// > 数据
 	for (int i = 0; i < this->local_org_dataList.count(); i++){
 		delete this->local_org_dataList.at(i);
 	}
 	this->local_org_dataList.clear();
 
+	// > 排序结果
+	//	（无）
+
+	// > ID排序
+	this->local_dataList_orderBy_IdInc.clear();
+	this->local_dataList_orderBy_IdDec.clear();
+
+	// > 名称排序
+	this->local_dataList_orderBy_NameInc.clear();
+	this->local_dataList_orderBy_NameDec.clear();
+	this->m_firstCharSeq.clear();
+
+	// > 类型排序
+	this->local_dataList_orderBy_TypeAndId.clear();
+	this->local_dataList_orderBy_TypeAndName.clear();
+	this->m_distinguishedType.clear();
 }
 /*-------------------------------------------------
 		数据 - 获取数据数量
@@ -204,33 +233,15 @@ int P_ObjectSortController::getDataCount(){
 	return this->local_org_dataList.count();
 }
 /*-------------------------------------------------
-		数据 - 修改标识名
-*/
-void P_ObjectSortController::modifySymbol(QString id_symbol, QString name_symbol, QString type_symbol){
-	this->m_symbol_id = id_symbol;
-	this->m_symbol_name = name_symbol;
-	this->m_symbol_type = type_symbol;
-}
-/*-------------------------------------------------
-		数据 - 获取标识名
-*/
-QString P_ObjectSortController::getSymbolId(){
-	return this->m_symbol_id;
-}
-QString P_ObjectSortController::getSymbolName(){
-	return this->m_symbol_name;
-}
-QString P_ObjectSortController::getSymbolType(){
-	return this->m_symbol_type;
-}
-/*-------------------------------------------------
 		数据 - 设置的数据是否为JsonObject对象
 */
 bool P_ObjectSortController::isObjectData(){
 	return this->local_org_objList != nullptr;
 }
+
+
 /*-------------------------------------------------
-		数据 - 根据索引序列，获取到数据
+		排序结果 - 根据索引序列，获取到数据
 */
 C_ObjectSortData* P_ObjectSortController::getSortData_ByIndex(int arrIndex){
 	return this->local_org_dataList.at(arrIndex);
@@ -243,6 +254,9 @@ QList<C_ObjectSortData*> P_ObjectSortController::getSortDataList_ByIndex(QList<i
 	}
 	return result_list;
 }
+/*-------------------------------------------------
+		排序结果 - 根据索引序列，获取到数据
+*/
 QJsonObject P_ObjectSortController::getObjectData_ByIndex(int arrIndex){
 	return this->local_org_objList->at(arrIndex);
 }
@@ -262,10 +276,10 @@ QList<QJsonObject> P_ObjectSortController::getObjectDataList_ByIndex(QList<int> 
 		ID排序
 */
 bool P_ObjectSortController_sortBy_IdInc(const C_ObjectSortData* a, const C_ObjectSortData* b){
-	return a->id < b->id;
+	return a->m_sort_id < b->m_sort_id;
 }
 bool P_ObjectSortController_sortBy_IdDec(const C_ObjectSortData* a, const C_ObjectSortData* b){
-	return a->id > b->id;
+	return a->m_sort_id > b->m_sort_id;
 }
 /*-------------------------------------------------
 		ID - 初始化（自动）
@@ -294,7 +308,7 @@ QList<int> P_ObjectSortController::get_IdInc_IndexSeq(int bottom, int top){
 
 	QList<int> index_list;
 	for (int i = bottom; i <= top; i++){
-		int index = this->local_dataList_orderBy_IdInc.at(i)->arrIndex;
+		int index = this->local_dataList_orderBy_IdInc.at(i)->getArrIndex();
 		index_list.push_back(index);
 	}
 	return index_list;
@@ -313,7 +327,7 @@ QList<int> P_ObjectSortController::get_IdDec_IndexSeq(int bottom, int top){
 
 	QList<int> index_list;
 	for (int i = bottom; i <= top; i++){
-		int index = this->local_dataList_orderBy_IdDec.at(i)->arrIndex;
+		int index = this->local_dataList_orderBy_IdDec.at(i)->getArrIndex();
 		index_list.push_back(index);
 	}
 	return index_list;
@@ -364,14 +378,14 @@ QList<int> P_ObjectSortController::get_IdDec_PageIndexList(int page_index, int p
 		名称排序
 */
 bool P_ObjectSortController_sortBy_NameInc(const C_ObjectSortData* a, const C_ObjectSortData* b){
-	if (a->name == ""){ return false; }
-	if (b->name == ""){ return true; }
-	return a->name.toLocal8Bit() < b->name.toLocal8Bit();
+	if (a->m_sort_name == ""){ return false; }
+	if (b->m_sort_name == ""){ return true; }
+	return a->m_sort_name.toLocal8Bit() < b->m_sort_name.toLocal8Bit();
 }
 bool P_ObjectSortController_sortBy_NameDec(const C_ObjectSortData* a, const C_ObjectSortData* b){
-	if (a->name == ""){ return true; }
-	if (b->name == ""){ return false; }
-	return a->name.toLocal8Bit() > b->name.toLocal8Bit();
+	if (a->m_sort_name == ""){ return true; }
+	if (b->m_sort_name == ""){ return false; }
+	return a->m_sort_name.toLocal8Bit() > b->m_sort_name.toLocal8Bit();
 }
 /*-------------------------------------------------
 		名称 - 初始化（自动）
@@ -387,11 +401,17 @@ void P_ObjectSortController::initSort_Name_IfRequire(){
 	qSort(this->local_dataList_orderBy_NameDec.begin(), this->local_dataList_orderBy_NameDec.end(), P_ObjectSortController_sortBy_NameDec);
 
 	// > 序列位置
-	this->m_firstCharSeq = "";
+	this->m_firstCharSeq.clear();
 	for (int i = 0; i < this->local_dataList_orderBy_NameInc.count(); i++){
-		QString name = this->local_dataList_orderBy_NameInc.at(i)->name;
+		QString name = this->local_dataList_orderBy_NameInc.at(i)->getName_Sort();
+
+		// > 获取第一个字的首字母
 		if (name.count() > 0){
-			this->m_firstCharSeq.push_back(S_ChineseManager::getInstance()->getChineseFirstSpell(name.at(0)));
+			this->m_firstCharSeq.push_back(name.at(0));
+		
+		// > 获取不到，则按生僻字算
+		}else{
+			this->m_firstCharSeq.push_back("@");
 		}
 	}
 
@@ -410,7 +430,7 @@ QList<int> P_ObjectSortController::get_NameInc_IndexSeq(int bottom, int top){
 
 	QList<int> index_list;
 	for (int i = bottom; i <= top; i++){
-		int index = this->local_dataList_orderBy_NameInc.at(i)->arrIndex;
+		int index = this->local_dataList_orderBy_NameInc.at(i)->getArrIndex();
 		index_list.push_back(index);
 	}
 	return index_list;
@@ -429,7 +449,7 @@ QList<int> P_ObjectSortController::get_NameDec_IndexSeq(int bottom, int top){
 
 	QList<int> index_list;
 	for (int i = bottom; i <= top; i++){
-		int index = this->local_dataList_orderBy_NameDec.at(i)->arrIndex;
+		int index = this->local_dataList_orderBy_NameDec.at(i)->getArrIndex();
 		index_list.push_back(index);
 	}
 	return index_list;
@@ -454,7 +474,7 @@ QList<int> P_ObjectSortController::get_Name_IndexListByCharacter(QChar ch){
 	if (bottom == -1){ return QList<int>(); }
 	if (top == -1){ return QList<int>(); }
 	for (int i = bottom; i <= top; i++){
-		int arr_index = this->local_dataList_orderBy_NameInc.at(i)->arrIndex;
+		int arr_index = this->local_dataList_orderBy_NameInc.at(i)->getArrIndex();
 		result_list.append(arr_index);
 	}
 	return result_list;
@@ -470,7 +490,7 @@ QList<int> P_ObjectSortController::get_Name_IndexListByNonAlphabetic(){
 	int index = this->m_firstCharSeq.indexOf(QRegExp("[a-z@]"));	//其他符号都会排在字母的前面
 	if (index > 0){
 		for (int i = 0; i < index; i++){
-			int arr_index = this->local_dataList_orderBy_NameInc.at(i)->arrIndex;
+			int arr_index = this->local_dataList_orderBy_NameInc.at(i)->getArrIndex();
 			result_list.append(arr_index);
 		}
 	}
@@ -481,7 +501,7 @@ QList<int> P_ObjectSortController::get_Name_IndexListByNonAlphabetic(){
 		int top = this->m_firstCharSeq.lastIndexOf('|');
 		if (bottom != -1 && top != -1){
 			for (int i = bottom; i <= top; i++){
-				int arr_index = this->local_dataList_orderBy_NameInc.at(i)->arrIndex;
+				int arr_index = this->local_dataList_orderBy_NameInc.at(i)->getArrIndex();
 				result_list.append(arr_index);
 			}
 		}
@@ -491,7 +511,7 @@ QList<int> P_ObjectSortController::get_Name_IndexListByNonAlphabetic(){
 		int top = this->m_firstCharSeq.lastIndexOf('~');
 		if (bottom != -1 && top != -1){
 			for (int i = bottom; i <= top; i++){
-				int arr_index = this->local_dataList_orderBy_NameInc.at(i)->arrIndex;
+				int arr_index = this->local_dataList_orderBy_NameInc.at(i)->getArrIndex();
 				result_list.append(arr_index);
 			}
 		}
@@ -508,7 +528,7 @@ QList<int> P_ObjectSortController::get_Name_IndexListByEmptyName(){
 	int ch_count = this->m_firstCharSeq.count();		//（名称为空的对象排在末尾，且没有首字母）
 	
 	for (int i = ch_count; i < this->local_dataList_orderBy_NameInc.count(); i++){
-		int arr_index = this->local_dataList_orderBy_NameInc.at(i)->arrIndex;
+		int arr_index = this->local_dataList_orderBy_NameInc.at(i)->getArrIndex();
 		result_list.append(arr_index);
 	}
 	return result_list;
@@ -520,21 +540,21 @@ QList<int> P_ObjectSortController::get_Name_IndexListByEmptyName(){
 		类型+id 排序
 */
 bool P_ObjectSortController_sortBy_TypeAndId(const C_ObjectSortData* a, const C_ObjectSortData* b){
-	if (a->type == b->type){
-		return a->id < b->id;
+	if (a->m_sort_type == b->m_sort_type){
+		return a->m_sort_id < b->m_sort_id;
 	}
-	return a->type.toLocal8Bit() < b->type.toLocal8Bit();
+	return a->m_sort_type.toLocal8Bit() < b->m_sort_type.toLocal8Bit();
 }
 /*-------------------------------------------------
 		类型+名称 排序
 */
 bool P_ObjectSortController_sortBy_TypeAndName(const C_ObjectSortData* a, const C_ObjectSortData* b){
-	if (a->type == b->type){
-		if (a->name == ""){ return false; }
-		if (b->name == ""){ return true; }
-		return a->name.toLocal8Bit() < b->name.toLocal8Bit();
+	if (a->m_sort_type == b->m_sort_type){
+		if (a->m_sort_name == ""){ return false; }
+		if (b->m_sort_name == ""){ return true; }
+		return a->m_sort_name.toLocal8Bit() < b->m_sort_name.toLocal8Bit();
 	}
-	return a->type.toLocal8Bit() < b->type.toLocal8Bit();
+	return a->m_sort_type.toLocal8Bit() < b->m_sort_type.toLocal8Bit();
 }
 /*-------------------------------------------------
 		类型 - 初始化（自动）
@@ -550,9 +570,9 @@ void P_ObjectSortController::initSort_Type_IfRequire(){
 	qSort(this->local_dataList_orderBy_TypeAndName.begin(), this->local_dataList_orderBy_TypeAndName.end(), P_ObjectSortController_sortBy_TypeAndName);
 
 	// > 获取不重复的类型
-	this->m_distinguishedType;
+	this->m_distinguishedType.clear();
 	for (int i = 0; i < this->local_org_dataList.count(); i++){
-		QString type = this->local_org_dataList.at(i)->type;
+		QString type = this->local_org_dataList.at(i)->getType_Org();
 		if (this->m_distinguishedType.contains(type)){
 			continue;
 		}
@@ -566,7 +586,7 @@ bool P_ObjectSortController::hasAnyData_Type(){
 	this->initSort_Type_IfRequire();
 	for (int i = 0; i < this->local_org_dataList.count(); i++){
 		C_ObjectSortData* data = this->local_org_dataList.at(i);
-		if (data->type.isEmpty() == false){
+		if (data->getType_Org().isEmpty() == false){
 			return true;
 		}
 	}
@@ -593,7 +613,7 @@ QList<int> P_ObjectSortController::get_TypeAndId_IndexSeq(int bottom, int top){
 
 	QList<int> index_list;
 	for (int i = bottom; i <= top; i++){
-		int index = this->local_dataList_orderBy_TypeAndId.at(i)->arrIndex;
+		int index = this->local_dataList_orderBy_TypeAndId.at(i)->getArrIndex();
 		index_list.push_back(index);
 	}
 	return index_list;
@@ -606,10 +626,10 @@ QList<int> P_ObjectSortController::get_TypeAndId_IndexListByType(QString type){
 
 	QList<int> index_list;
 	for (int i = 0; i < this->local_dataList_orderBy_TypeAndId.count(); i++){
-		if (this->local_dataList_orderBy_TypeAndId.at(i)->type != type){
+		if (this->local_dataList_orderBy_TypeAndId.at(i)->getType_Org() != type){
 			continue;
 		}
-		int index = this->local_dataList_orderBy_TypeAndId.at(i)->arrIndex;
+		int index = this->local_dataList_orderBy_TypeAndId.at(i)->getArrIndex();
 		index_list.push_back(index);
 	}
 	return index_list;
@@ -628,7 +648,7 @@ QList<int> P_ObjectSortController::get_TypeAndName_IndexSeq(int bottom, int top)
 
 	QList<int> index_list;
 	for (int i = bottom; i <= top; i++){
-		int index = this->local_dataList_orderBy_TypeAndName.at(i)->arrIndex;
+		int index = this->local_dataList_orderBy_TypeAndName.at(i)->getArrIndex();
 		index_list.push_back(index);
 	}
 	return index_list;
@@ -641,10 +661,10 @@ QList<int> P_ObjectSortController::get_TypeAndName_IndexListByType(QString type)
 
 	QList<int> index_list;
 	for (int i = 0; i < this->local_dataList_orderBy_TypeAndName.count(); i++){
-		if (this->local_dataList_orderBy_TypeAndName.at(i)->type != type){
+		if (this->local_dataList_orderBy_TypeAndName.at(i)->getType_Org() != type){
 			continue;
 		}
-		int index = this->local_dataList_orderBy_TypeAndName.at(i)->arrIndex;
+		int index = this->local_dataList_orderBy_TypeAndName.at(i)->getArrIndex();
 		index_list.push_back(index);
 	}
 	return index_list;

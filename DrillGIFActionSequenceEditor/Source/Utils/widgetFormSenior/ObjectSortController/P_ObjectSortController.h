@@ -1,5 +1,5 @@
-﻿#ifndef W_ObjectSortList_H
-#define W_ObjectSortList_H
+﻿#ifndef P_ObjectSortController_H
+#define P_ObjectSortController_H
 #include "stdafx.h"
 
 #include "C_ObjectSortData.h"
@@ -7,11 +7,11 @@
 /*
 -----==========================================================-----
 		类：		对象排序 控制器.h
-		版本：		v1.02
+		版本：		v1.04
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		能将指定输入的列表进行排序，返回排序坐标、也可提供分页功能。
-					设置数据（setData）时，【控制器才排序一次】，会重刷控制器的所有数据。
+					设置数据时（函数setData_XXXX），【控制器才排序一次】，会重刷控制器的所有数据。
 					（详细见cpp）
 -----==========================================================-----
 */
@@ -28,21 +28,18 @@ class P_ObjectSortController : public QObject
 	protected:
 		QList<QJsonObject>* local_org_objList;						//载入时的obj
 		QList<C_ObjectSortData*> local_org_dataList;				//载入时的排序数据列表
-		QString m_symbol_id;										//标识名id
-		QString m_symbol_name;										//标识名name
-		QString m_symbol_type;										//标识名type
 	public:
 												//数据 - 设置数据（对象列表）
 												//		【参数1】obj对象列表（默认会搜索 id, name, type）
-												//		【参数2】id标识名（特殊称呼用，比如放的是"sid"）
-												//		【参数3】name标识名（特殊称呼用）
-												//		【参数4】type标识名（特殊称呼用）
+												//		【参数2】id标识名（obj中 key-value 的key名）
+												//		【参数3】name标识名（obj中 key-value 的key名）
+												//		【参数4】type标识名（obj中 key-value 的key名）
 												//		【说明】设置了对象列表，就能从 JsonObject获取函数 中获取到对象。
 		void setData_FromObject(QList<QJsonObject>* obj_list);
-		void setData_FromObject(QList<QJsonObject>* obj_list, QString id_symbol, QString name_symbol, QString type_symbol);
+		void setData_FromObject(QList<QJsonObject>* obj_list, QString key_id, QString key_name, QString key_type);
 												//数据 - 设置数据（排序数据列表）
 												//		【参数】id列表
-												//		【说明】arrIndex可以不填，赋值时用不上。
+												//		【说明】arrIndex可以不填，系统自动按照QList顺序初始化。
 		void setData_FromSortData(QList<C_ObjectSortData> sort_data_list);
 												//数据 - 设置数据（基本列表）
 												//		【参数1】id列表
@@ -56,14 +53,8 @@ class P_ObjectSortController : public QObject
 		void clearAll();
 												//数据 - 获取数据数量
 		int getDataCount();
-												//数据JsonObject - 设置的数据是否为JsonObject对象
+												//数据 - 设置的数据是否为JsonObject对象
 		bool isObjectData();
-												//数据JsonObject - 修改标识名
-		void modifySymbol(QString id_symbol, QString name_symbol, QString type_symbol);
-												//数据JsonObject - 获取标识名
-		QString getSymbolId();
-		QString getSymbolName();
-		QString getSymbolType();
 
 	//-----------------------------------
 	//----排序结果
@@ -154,4 +145,4 @@ class P_ObjectSortController : public QObject
 		static QList<QJsonObject> _to_objectList_(QList<int> id_list, QList<QString> name_list, QList<QString> type_list);
 };
 
-#endif // W_ObjectSortList_H
+#endif // P_ObjectSortController_H

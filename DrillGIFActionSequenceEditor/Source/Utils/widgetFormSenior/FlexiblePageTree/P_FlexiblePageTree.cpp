@@ -11,7 +11,7 @@
 /*
 -----==========================================================-----
 		类：		灵活分类树.cpp
-		版本：		v1.05
+		版本：		v1.06
 		作者：		drill_up
 		所属模块：	工具模块
 		功能：		能够显示一堆数据，并且将这些数据分类或转移到不同的树枝中，便于查询。
@@ -272,7 +272,7 @@ void P_FlexiblePageTree::outerModifyLeafName(int id, QString name){
 		if (name == ""){
 			leaf->setLeaf_name_Symbol("空字符");
 		}else{
-			leaf->setLeaf_name_Symbol(S_ChineseManager::getInstance()->getChineseFirstSpell(name));	//首字母
+			leaf->setLeaf_name_Symbol(S_ChineseManager::getInstance()->getChineseFirstSpell_ExcludeBracket(name));	//首字母
 		}
 	}
 	leaf->refreshItemSelf();
@@ -280,9 +280,9 @@ void P_FlexiblePageTree::outerModifyLeafName(int id, QString name){
 	// > 修改本地数据
 	for (int i = 0; i < this->m_source_list.count(); i++){
 		C_ObjectSortData c_data = this->m_source_list.at(i);
-		if (c_data.id == id ){
-			if (c_data.name != name){
-				c_data.name = name;
+		if (c_data.getID_Org() == id ){
+			if (c_data.getName_Org() != name){
+				c_data.setName(name);
 				this->m_source_list.replace(i, c_data);
 			}
 			break;
@@ -303,9 +303,9 @@ void P_FlexiblePageTree::outerModifyLeafType(int id, QString type){
 	// > 修改本地数据
 	for (int i = 0; i < this->m_source_list.count(); i++){
 		C_ObjectSortData c_data = this->m_source_list.at(i);
-		if (c_data.id == id){
-			if (c_data.type != type){
-				c_data.type = type;
+		if (c_data.getID_Org() == id){
+			if (c_data.getType_Org() != type){
+				c_data.setType(type);
 				this->m_source_list.replace(i, c_data);
 			}
 			break;
@@ -325,7 +325,7 @@ void P_FlexiblePageTree::outerModifySelectedLeafName(QString name){
 		if (name == ""){
 			this->m_last_selectedLeaf->setLeaf_name_Symbol("空字符");
 		}else{
-			this->m_last_selectedLeaf->setLeaf_name_Symbol(S_ChineseManager::getInstance()->getChineseFirstSpell(name));	//首字母
+			this->m_last_selectedLeaf->setLeaf_name_Symbol(S_ChineseManager::getInstance()->getChineseFirstSpell_ExcludeBracket(name));	//首字母
 		}
 	}
 	this->m_last_selectedLeaf->refreshItemSelf();
@@ -333,9 +333,9 @@ void P_FlexiblePageTree::outerModifySelectedLeafName(QString name){
 	// > 修改本地数据
 	for (int i = 0; i < this->m_source_list.count(); i++){
 		C_ObjectSortData c_data = this->m_source_list.at(i);
-		if (c_data.id == this->m_last_selectedLeaf->getId()){
-			if (c_data.name != name){
-				c_data.name = name;
+		if (c_data.getID_Org() == this->m_last_selectedLeaf->getId()){
+			if (c_data.getName_Org() != name){
+				c_data.setName(name);
 				this->m_source_list.replace(i, c_data);
 			}
 			break;
@@ -355,9 +355,9 @@ void P_FlexiblePageTree::outerModifySelectedLeafType(QString type){
 	// > 修改本地数据
 	for (int i = 0; i < this->m_source_list.count(); i++){
 		C_ObjectSortData c_data = this->m_source_list.at(i);
-		if (c_data.id == this->m_last_selectedLeaf->getId()){
-			if (c_data.type != type){
-				c_data.type = type;
+		if (c_data.getID_Org() == this->m_last_selectedLeaf->getId()){
+			if (c_data.getType_Org() != type){
+				c_data.setType(type);
 				this->m_source_list.replace(i, c_data);
 			}
 			break;
@@ -769,15 +769,15 @@ void P_FlexiblePageTree::loadSource(QList<QJsonObject> obj_list, QString id_symb
 */
 int P_FlexiblePageTree::getSelectedSourceId(){
 	if (this->getSelectedSource() == nullptr){ return -1; }
-	return this->getSelectedSource()->id;
+	return this->getSelectedSource()->getID_Org();
 };
 QString P_FlexiblePageTree::getSelectedSourceName(){
 	if (this->getSelectedSource() == nullptr){ return ""; }
-	return this->getSelectedSource()->name;
+	return this->getSelectedSource()->getName_Org();
 };
 QString P_FlexiblePageTree::getSelectedSourceType(){
 	if (this->getSelectedSource() == nullptr){ return ""; }
-	return this->getSelectedSource()->type;
+	return this->getSelectedSource()->getType_Org();
 };
 /*-------------------------------------------------
 		资源数据 - 获取选中的对象（私有）
@@ -865,9 +865,9 @@ void P_FlexiblePageTree::rebuildTreeData_id_inc(){
 
 			// > 在叶子中填入数据
 			I_FPT_Leaf* leaf = this->createFCTLeaf();
-			leaf->setId(data->id);					//标识
-			leaf->setName(data->name);				//名称
-			leaf->setType(data->type);				//分类
+			leaf->setId(data->getID_Org());					//标识
+			leaf->setName(data->getName_Org());				//名称
+			leaf->setType(data->getType_Org());				//分类
 			this->m_leafItem.append(leaf);
 
 			I_FPT_Branch* p_item = this->m_branchItem.at(i);
@@ -924,10 +924,10 @@ void P_FlexiblePageTree::rebuildTreeData_name_inc(){
 
 			// > 在叶子中填入数据
 			I_FPT_Leaf* leaf = this->createFCTLeaf();
-			leaf->setId(data->id);					//标识
-			leaf->setName(data->name);				//名称
-			leaf->setType(data->type);				//分类
-			leaf->setLeaf_name_Symbol(symbol);		//名称分支 - 首字母标识
+			leaf->setId(data->getID_Org());				//标识
+			leaf->setName(data->getName_Org());			//名称
+			leaf->setType(data->getType_Org());			//分类
+			leaf->setLeaf_name_Symbol(symbol);			//名称分支 - 首字母标识
 			this->m_leafItem.append(leaf);
 
 			I_FPT_Branch* p_item = this->m_branchItem.at(i);
