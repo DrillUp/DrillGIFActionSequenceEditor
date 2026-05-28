@@ -48,7 +48,7 @@ P_COAS_DataPart::P_COAS_DataPart(QWidget *parent)
 
 	// > 树
 	this->m_p_tree = new P_FlexibleClassificationTree(ui.treeWidget_ActionSeq);
-	connect(this->m_p_tree, &P_FlexibleClassificationTree::signal_currentLeafChanged, this, &P_COAS_DataPart::currentActionSeqChanged);
+	connect(this->m_p_tree, &P_FlexibleClassificationTree::signal_currentLeafSelectionChanged, this, &P_COAS_DataPart::currentActionSeqChanged);
 	connect(this->m_p_tree, &P_FlexibleClassificationTree::signal_anyWindowLocked, ui.widget_editPart, &QWidget::setDisabled);	//（打开动画序列配置时，置灰动画序列编辑区域）
 	connect(this->m_p_tree, &P_FlexibleClassificationTree::signal_menuCopyLeafTriggered, this, &P_COAS_DataPart::shortcut_copyData);
 	connect(this->m_p_tree, &P_FlexibleClassificationTree::signal_menuPasteLeafTriggered, this, &P_COAS_DataPart::shortcut_pasteData);

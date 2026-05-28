@@ -1,9 +1,7 @@
 ﻿#include "stdafx.h"
 #include "W_FCT_ClassifySelector.h"
 
-#include "C_FCT_Config.h"
-#include "C_FCT_Classify.h"
-#include "W_FCT_Classify.h"
+#include "../P_FlexibleClassificationTree.h"
 #include "Source/Utils/Common/TTool.h"
 
 /*
@@ -15,18 +13,15 @@
 -----==========================================================-----
 */
 
-W_FCT_ClassifySelector::W_FCT_ClassifySelector(P_FlexibleClassificationTree *p_obj)
-	: QDialog(p_obj->getTree())
+W_FCT_ClassifySelector::W_FCT_ClassifySelector(QWidget *parent)
+	: QDialog(parent)
 {
 	ui.setupUi(this);
 
 	//-----------------------------------
-	//----初始化参数
-	this->m_parentObj = p_obj;
-
-	//-----------------------------------
 	//----事件绑定
 	connect(ui.pushButton, &QPushButton::clicked, this, &W_FCT_ClassifySelector::addClassifyInAction);
+	connect(ui.tableWidget, &QTableWidget::itemSelectionChanged, this, &W_FCT_ClassifySelector::refreshDescription);
 	connect(ui.buttonBox, &QDialogButtonBox::accepted, this, &W_FCT_ClassifySelector::acceptData);
 
 	//-----------------------------------
@@ -38,11 +33,33 @@ W_FCT_ClassifySelector::W_FCT_ClassifySelector(P_FlexibleClassificationTree *p_o
 W_FCT_ClassifySelector::~W_FCT_ClassifySelector(){
 }
 
+
+/*-------------------------------------------------
+		控件 - 控件初始化
+*/
+void W_FCT_ClassifySelector::initWidget(C_FCT_Config* config, P_FlexibleClassificationTree* parentObj){
+	this->m_configPtr = config;
+	this->m_parentObj = parentObj;
+	
+	// > 窗口名称
+	QString treeName = this->m_configPtr->getTreeName();
+	if (treeName == ""){
+		this->setWindowTitle("移动到");
+	}else{
+		QString window_title = treeName;
+		window_title.append(" - 移动到");
+		this->setWindowTitle(window_title);
+	}
+}
+
+
 /*-------------------------------------------------
 		控件 - 添加类型
 */
 void W_FCT_ClassifySelector::addClassifyInAction(){
-	this->m_parentObj->addClassifyInAction();
+	if (this->m_parentObj != nullptr){
+		this->m_parentObj->addClassifyInAction();
+	}
 	this->refreshTable();
 }
 /*-------------------------------------------------
@@ -81,13 +98,33 @@ void W_FCT_ClassifySelector::refreshTable(){
 		}
 	}
 }
+/*-------------------------------------------------
+		控件 - 刷新描述
+*/
+void W_FCT_ClassifySelector::refreshDescription(){
+	QList<QTableWidgetSelectionRange> range = ui.tableWidget->selectedRanges();
+	if (range.size() == 0) {
+		ui.label_description->setText("");
+		return;
+	}
+
+	int pos = range.at(0).topRow();
+	QList<C_FCT_Classify*> data_list = this->m_configPtr->get_classify_DataList();
+	if (pos >= data_list.count()){
+		ui.label_description->setText("");
+		return;
+	}
+
+	QString description = data_list.at(pos)->getDescription();
+	ui.label_description->setText(description);
+}
+
+
 
 /*-------------------------------------------------
 		窗口 - 设置数据（修改）
 */
-void W_FCT_ClassifySelector::setData(C_FCT_Config* config, QString last_selectedName) {
-	this->m_configPtr = config;
-	this->setWindowTitle("移动到");
+void W_FCT_ClassifySelector::setSelectedName(QString last_selectedName) {
 
 	// > 刷新列表
 	this->refreshTable();
@@ -103,21 +140,27 @@ void W_FCT_ClassifySelector::setData(C_FCT_Config* config, QString last_selected
 			}
 		}
 	}
-}
 
+	// > 刷新描述
+	this->refreshDescription();
+}
 /*-------------------------------------------------
 		窗口 - 取出数据
 */
-QString W_FCT_ClassifySelector::getSelectedData(){
-
+QString W_FCT_ClassifySelector::getSelectedName(){
 	QList<QTableWidgetSelectionRange> range = ui.tableWidget->selectedRanges();
 	if (range.size() == 0) {
 		QMessageBox::warning(this, ("提示"), ("请选择一行。"));
 		return "";
 	}
-	int pos = range.at(0).topRow();
 
-	return this->m_configPtr->get_classify_DataList().at(pos)->getName();
+	int pos = range.at(0).topRow();
+	QList<C_FCT_Classify*> data_list = this->m_configPtr->get_classify_DataList();
+	if (pos >= data_list.count()){
+		return "";
+	}
+
+	return data_list.at(pos)->getName();
 };
 
 /*-------------------------------------------------

@@ -14,8 +14,8 @@
 -----==========================================================-----
 */
 C_FCT_Classify::C_FCT_Classify(){
-	this->name = "";
-	this->description = "";
+	this->name.clear();
+	this->description.clear();
 }
 C_FCT_Classify::~C_FCT_Classify(){
 }

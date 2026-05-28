@@ -17,6 +17,7 @@ class C_FPT_Config{
 		C_FPT_Config();
 		~C_FPT_Config();
 		
+
 	//-----------------------------------
 	//----显示设置
 	public:
@@ -24,6 +25,17 @@ class C_FPT_Config{
 		bool zeroFill;				//零填充
 		int zeroFillCount;			//填充位数
 		QChar zeroFillChar;			//填充字符
+		
+
+	//-----------------------------------
+	//----树名称
+	protected:
+		QString m_treeName;			//树名称
+	public:
+									//树名称 - 设置
+		void setTreeName(QString treeName);
+									//树名称 - 获取
+		QString getTreeName();
 
 	
 	//-----------------------------------
@@ -41,17 +53,16 @@ class C_FPT_Config{
 									//分支模式 - 获取模式列表
 		QStringList getModeList();
 									//分支模式 - 判断 ID分支 模式
-		bool is_id_Mode();
+		bool isSortMode_id();
 									//分支模式 - 判断 名称分支 模式
-		bool is_name_Mode();
+		bool isSortMode_name();
 		
-
 	//-----------------------------------
 	//----ID页
 	public:
 		int pagePerNum;				//ID分支每页条数
 	protected:
-		int m_id_maxCount;			//最大值（私有临时对象）
+		int temp_id_maxCount;		//最大值（私有临时对象）
 	public:
 									//ID页 - 设置最大值
 									//		【说明】：注意，必须要先赋值，在执行后面的获取函数，不然都会得到-1和空字符串。
@@ -83,14 +94,16 @@ class C_FPT_Config{
 									//名称页 - 获取标识列表
 		QStringList get_name_PageSymbolList();
 		
+
 	//-----------------------------------
-	//----自定义数据
+	//----子类用数据
 	protected:
-		QJsonObject data;
+		QJsonObject m_childCustomData;
 	public:
-									//自定义数据 - 获取数据
-		QJsonObject getCustomData();
+									//子类用数据 - 获取数据
+		QJsonObject getChildCustomData();
 		
+
 	//-----------------------------------
 	//----类属性
 	public:

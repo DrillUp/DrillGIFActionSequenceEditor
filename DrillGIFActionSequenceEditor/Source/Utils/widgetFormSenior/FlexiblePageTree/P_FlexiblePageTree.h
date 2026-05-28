@@ -4,10 +4,10 @@
 #include <QKeyEvent>
 #include <QTreeWidget>
 
-#include "Private/I_FPT_Branch.h"
-#include "Private/I_FPT_Leaf.h"
 #include "Private/C_FPT_Config.h"
 #include "Private/W_FPT_Config.h"
+#include "Private/I_FPT_Branch.h"
+#include "Private/I_FPT_Leaf.h"
 
 /*
 -----==========================================================-----
@@ -54,15 +54,16 @@ class P_FlexiblePageTree : public QObject
 		QTreeWidget* getTree();
 									//树对象 - 刷新树
 		void refreshTreeUi();
+		void refreshTreeUi_KeepSelection();
 									//树对象 - 清理全部（不含树配置）
 		virtual void clearAll();
 	protected:
 									//树对象 - 刷新树 - 分支
-		virtual void refreshTreeUi_special();
+		virtual void refreshSortMode();
 									//树对象 - 刷新树 - 分支 - ID分支
-		virtual void refreshTreeUi_id_inc();
+		virtual void refreshSortMode_id_inc();
 									//树对象 - 刷新树 - 分支 - 名称分支
-		virtual void refreshTreeUi_name_inc();
+		virtual void refreshSortMode_name_inc();
 
 	//-----------------------------------
 	//----叶子
@@ -103,17 +104,19 @@ class P_FlexiblePageTree : public QObject
 	//-----------------------------------
 	//----选中
 	protected:
-		QTreeWidgetItem* m_last_selectedItem;
-		I_FPT_Leaf* m_last_selectedLeaf;
+		QTreeWidgetItem* m_last_selectedItem;	//上一个选中的树节点
+		I_FPT_Leaf* m_last_selectedLeaf;		//上一个选中的叶子
+		bool m_signalBlock_selectionChanged;	//选中阻塞
 	public:
 	signals:
 									//选中 - 树节点变化（信号）
 									//		【说明】：包括叶子和树枝。
-		void signal_currentItemChanged(QTreeWidgetItem* item);
+		void signal_currentItemSelectionChanged(QTreeWidgetItem* item);
 	public:
 	signals:
 									//选中 - 叶子变化（信号）
-		void signal_currentLeafChanged(QTreeWidgetItem* item, int id, QString name);
+									//		【说明】：叶子的id默认为-1。（来自 C_ObjectSortData 的定义）
+		void signal_currentLeafSelectionChanged(QTreeWidgetItem* item, int id, QString name);
 
 
 	//-----------------------------------
@@ -211,10 +214,13 @@ class P_FlexiblePageTree : public QObject
 	protected slots:
 										//资源数据 - 重建数据（私有）
 		virtual void rebuildTreeData();
-										//资源数据 - 重建数据_ID分支（私有）
-		void rebuildTreeData_id_inc();
-										//资源数据 - 重建数据_名称分支（私有）
-		void rebuildTreeData_name_inc();
+		void rebuildTreeData_KeepSelection();
+										//资源数据 - 重建数据 - 分支（私有）
+		virtual void rebuildSortMode();
+										//资源数据 - 重建数据 - 分支 - ID分支（私有）
+		void rebuildSortMode_id_inc();
+										//资源数据 - 重建数据 - 分支 - 名称分支（私有）
+		void rebuildSortMode_name_inc();
 
 	//-----------------------------------
 	//----窗口锁

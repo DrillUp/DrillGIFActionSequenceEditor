@@ -12,15 +12,14 @@
 -----==========================================================-----
 */
 
-W_FCT_Classify::W_FCT_Classify(P_FlexibleClassificationTree* p_obj)
-	: QDialog(p_obj->getTree())
+W_FCT_Classify::W_FCT_Classify(QWidget *parent)
+	: QDialog(parent)
 {
 	ui.setupUi(this);
 
 	//-----------------------------------
-	//----初始化参数
-	this->isAddMode = true;
-	this->m_parentObj = p_obj;
+	//----参数初始化
+	this->m_isAddMode = true;
 
 	//-----------------------------------
 	//----事件绑定
@@ -35,26 +34,40 @@ W_FCT_Classify::~W_FCT_Classify(){
 }
 
 
+/*-------------------------------------------------
+		控件 - 控件初始化
+*/
+void W_FCT_Classify::initWidget(C_FCT_Config* config, bool isAddMode){
+	this->m_configPtr = config;
+	this->m_isAddMode = isAddMode;
+	
+	// > 窗口名称
+	QString treeName = this->m_configPtr->getTreeName();
+	if (isAddMode == true){
+		if (treeName == ""){
+			this->setWindowTitle("添加种类");
+		}else{
+			QString window_title = treeName;
+			window_title.append(" - 添加种类");
+			this->setWindowTitle(window_title);
+		}
+	}else{
+		if (treeName == ""){
+			this->setWindowTitle("编辑种类");
+		}else{
+			QString window_title = treeName;
+			window_title.append(" - 编辑种类");
+			this->setWindowTitle(window_title);
+		}
+	}
+}
 
 
 /*-------------------------------------------------
-		窗口 - 设置数据（添加）
+		窗口 - 设置数据
 */
-void W_FCT_Classify::setDataInAddMode() {
-	this->isAddMode = true;
-	this->m_dataPtr = this->m_parentObj->createClassifyData();
-	this->m_dataPtr->setName("新的种类");
-	this->m_dataPtr->setDescription("没有描述。");
-	this->setWindowTitle("添加种类");
-	this->putDataToUi();
-};
-/*-------------------------------------------------
-		窗口 - 设置数据（修改）
-*/
-void W_FCT_Classify::setDataInModifyMode(C_FCT_Classify* p) {
-	this->isAddMode = false;
+void W_FCT_Classify::setData(C_FCT_Classify* p) {
 	this->m_dataPtr = p;
-	this->setWindowTitle("编辑种类");
 	this->putDataToUi();
 };
 /*-------------------------------------------------
@@ -84,7 +97,7 @@ void W_FCT_Classify::putUiToData() {
 bool W_FCT_Classify::checkData(){
 	QString old_name = m_dataPtr->getName();
 	QString tag_name = ui.lineEdit_tagName->text();
-	QStringList all_name = this->m_parentObj->getAllClassifyName();
+	QStringList all_name = this->m_configPtr->getAll_classify_NameList();
 
 	// > 空校验
 	if (tag_name == "") {
@@ -97,12 +110,12 @@ bool W_FCT_Classify::checkData(){
 	}
 
 	// > 新增校验
-	if (this->isAddMode == true && all_name.contains(tag_name)){
+	if (this->m_isAddMode == true && all_name.contains(tag_name)){
 		QMessageBox::warning(this, "提示", "种类名称\"" + tag_name + "\"已存在。");
 		return false;
 	}
 	// > 编辑校验（编辑成新名称，新名称重复情况）
-	if (this->isAddMode == false &&
+	if (this->m_isAddMode == false &&
 		old_name != tag_name &&
 		all_name.contains(tag_name)){
 		QMessageBox::warning(this, "提示", "种类名称\"" + tag_name + "\"已存在。");

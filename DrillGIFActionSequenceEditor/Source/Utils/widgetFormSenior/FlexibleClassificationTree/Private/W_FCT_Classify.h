@@ -4,7 +4,7 @@
 
 #include "ui_W_FCT_Classify.h"
 #include "C_FCT_Classify.h"
-#include "../P_FlexibleClassificationTree.h"
+#include "C_FCT_Config.h"
 
 /*
 -----==========================================================-----
@@ -14,30 +14,31 @@
 		功能：		种类的设置内容在该窗口设置。
 -----==========================================================-----
 */
-
 class W_FCT_Classify : public QDialog
 {
 	Q_OBJECT
 
 	public:
-		W_FCT_Classify(P_FlexibleClassificationTree* p_tree);
+		W_FCT_Classify(QWidget *parent = 0);
 		~W_FCT_Classify();
 		
 	//-----------------------------------
-	//----父控件
+	//----控件
 	protected:
-		P_FlexibleClassificationTree* m_parentObj;
+		C_FCT_Config* m_configPtr = nullptr;
+	public:
+										//控件 - 控件初始化
+										//		【说明】：窗口不能直接嵌套 分类树 本体，所以只能把需要的参数都通过这个函数进行传递。
+		void initWidget(C_FCT_Config* config, bool isAddMode);
 
 	//-----------------------------------
 	//----窗口
+	protected:
+		bool m_isAddMode;
+		C_FCT_Classify* m_dataPtr = nullptr;
 	public:
-		bool isAddMode;
-		C_FCT_Classify* m_dataPtr;
-	public:
-										//窗口 - 设置数据（添加）
-		void setDataInAddMode();
-										//窗口 - 设置数据（修改）
-		void setDataInModifyMode(C_FCT_Classify* p);
+										//窗口 - 设置数据
+		void setData(C_FCT_Classify* p);
 										//窗口 - 取出数据
 		C_FCT_Classify* getData();
 										//窗口 - 本地数据 -> ui数据

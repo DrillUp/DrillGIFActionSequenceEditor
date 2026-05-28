@@ -1,12 +1,10 @@
 ﻿#include "stdafx.h"
 #include "P_FlexiblePageTree.h"
 
-#include "Private/W_FPT_Config.h"
-
-#include "Source/Utils/Common/TTool.h"
 #include "Source/Utils/WidgetFormSenior/ObjectSortController/C_ObjectSortData.h"
 #include "Source/Utils/WidgetFormSenior/ObjectSortController/P_ObjectSortController.h"
 #include "Source/Utils/Manager/ChineseManager/S_ChineseManager.h"
+#include "Source/Utils/Common/TTool.h"
 
 /*
 -----==========================================================-----
@@ -38,8 +36,10 @@
 							> ID分支条数
 
 		说明：		所有叶子在loadSource后不再增减。
-						rebuildTreeData：可以使得叶子重新排序、刷新叶子显示
-						refreshTreeData：刷新叶子显示
+						rebuildTreeData：    重建树枝、叶子，包含 刷新叶子显示
+						└ rebuildSortMode： 针对分支模式的重建
+						refreshTreeData：    刷新叶子显示
+						└ rebuildSortMode： 针对分支模式的刷新
 					树中反复改变的是树枝，树枝的数据，都在 树配置 中存储，与 资源数据 无关。
 					
 		使用方法：
@@ -78,6 +78,7 @@ P_FlexiblePageTree::P_FlexiblePageTree(QTreeWidget *parent)
 	// > 选中
 	this->m_last_selectedItem = nullptr;
 	this->m_last_selectedLeaf = nullptr;
+	this->m_signalBlock_selectionChanged = false;
 
 	// > 树事件
 	this->m_slotBlock = false;							//槽阻塞
@@ -155,45 +156,62 @@ QTreeWidget* P_FlexiblePageTree::getTree(){
 		树对象 - 刷新树
 */
 void P_FlexiblePageTree::refreshTreeUi() {
-	QList<QTreeWidgetItem*> last_selected_item = this->m_tree->selectedItems();
 
-	// > 去掉全部树枝
+	// > 树枝排序 - 去掉全部
 	for (int i = this->m_tree->topLevelItemCount()-1; i >=0; i--){
 		this->m_tree->takeTopLevelItem(i);
 	}
-
-	// > 重新添加树枝
+	// > 树枝排序 - 重新添加
 	for (int i = 0; i < this->m_branchItem.count(); i++){
 		this->m_tree->addTopLevelItem(this->m_branchItem.at(i));
 	}
 
-	// > 刷新树枝数据
+	// > 刷新数据 - 树枝
 	for (int i = 0; i < this->m_branchItem.count(); i++){
 		I_FPT_Branch* branch = this->m_branchItem.at(i);
 		branch->refreshItemSelf();
 	}
-	// > 刷新叶子数据
+	// > 刷新数据 - 叶子
 	for (int i = 0; i < this->m_leafItem.count(); i++){
 		I_FPT_Leaf* leaf = this->m_leafItem.at(i);
 		leaf->refreshItemSelf();
 	}
 
-	// > 特殊分支操作
-	this->refreshTreeUi_special();
+	// > 刷新 - 树名称
+	QString treeName = this->m_config->getTreeName();
+	if (treeName.isEmpty()){ treeName = "树"; }
+	this->m_tree->headerItem()->setText(0, treeName);
 
-	// > 行高刷新
+	// > 刷新 - 分支
+	this->refreshSortMode();
+
+	// > 刷新 - 行高
 	this->m_tree->setStyleSheet(this->m_treeStyle + "\n QTreeView::item { height: " + QString::number(this->m_config->rowHeight) + "px;}");
 	
-	// > 展开全部
+	// > 刷新 - 展开全部
 	this->m_tree->expandAll();
 
-	// > 选中变化项
+}
+void P_FlexiblePageTree::refreshTreeUi_KeepSelection() {
+	//（刷新树的过程，不会销毁重建树枝对象、叶子对象）
+
+	// > 『保持选中』 - 记录
+	QList<QTreeWidgetItem*> last_selected_item = this->m_tree->selectedItems();
+
+	// > 『保持选中』 - 阻塞选中
+	this->m_signalBlock_selectionChanged = true;
+	
+	// > 刷新树
+	this->refreshTreeUi();
+
+	// > 『保持选中』 - 执行选中
 	for (int i = 0; i < last_selected_item.count(); i++){
 		if (i == 0){
 			this->m_tree->scrollToItem(last_selected_item.at(0));
 		}
 		this->m_tree->setItemSelected(last_selected_item.at(i), true);
 	}
+	this->m_signalBlock_selectionChanged = false;
 }
 /*-------------------------------------------------
 		树对象 - 清理全部
@@ -219,17 +237,16 @@ void P_FlexiblePageTree::clearAll(){
 /*-------------------------------------------------
 		树对象 - 刷新树 - 分支
 */
-void P_FlexiblePageTree::refreshTreeUi_special() {
+void P_FlexiblePageTree::refreshSortMode() {
 
 	// > 叶子位置转移
-	if (this->m_config->is_id_Mode()){ this->refreshTreeUi_id_inc(); }
-	if (this->m_config->is_name_Mode()){ this->refreshTreeUi_name_inc(); }
-
+	if (this->m_config->isSortMode_id()){ this->refreshSortMode_id_inc(); }
+	if (this->m_config->isSortMode_name()){ this->refreshSortMode_name_inc(); }
 }
 /*-------------------------------------------------
 		树对象 - 刷新树 - 分支 - ID分支
 */
-void P_FlexiblePageTree::refreshTreeUi_id_inc() {
+void P_FlexiblePageTree::refreshSortMode_id_inc() {
 	
 	// > 无树枝变化（在不重刷的情况下，id是不可能会变的）
 
@@ -237,7 +254,7 @@ void P_FlexiblePageTree::refreshTreeUi_id_inc() {
 /*-------------------------------------------------
 		树对象 - 刷新树 - 分支 - 名称分支
 */
-void P_FlexiblePageTree::refreshTreeUi_name_inc() {
+void P_FlexiblePageTree::refreshSortMode_name_inc() {
 	
 	// > 名称修改后，修改的叶子可能会跑到新树枝下
 	for (int i = 0; i < this->m_leafItem.count(); i++){
@@ -268,7 +285,7 @@ void P_FlexiblePageTree::outerModifyLeafName(int id, QString name){
 	// > 修改叶子
 	leaf->setName(name);
 	// > 修改叶子 - 名称分支时，叶子父类可能转移
-	if (this->m_config->is_name_Mode()){
+	if (this->m_config->isSortMode_name()){
 		if (name == ""){
 			leaf->setLeaf_name_Symbol("空字符");
 		}else{
@@ -321,7 +338,7 @@ void P_FlexiblePageTree::outerModifySelectedLeafName(QString name){
 	// > 修改叶子
 	this->m_last_selectedLeaf->setName(name);
 	// > 修改叶子 - 名称分支时，叶子父类可能转移
-	if (this->m_config->is_name_Mode()){
+	if (this->m_config->isSortMode_name()){
 		if (name == ""){
 			this->m_last_selectedLeaf->setLeaf_name_Symbol("空字符");
 		}else{
@@ -482,6 +499,7 @@ void P_FlexiblePageTree::sltItemDoubleClicked(QTreeWidgetItem *item, int index) 
 */
 void P_FlexiblePageTree::sltItemSelectionChanged(){
 	if (this->m_slotBlock == true){ return; }
+	if (this->m_signalBlock_selectionChanged == true){ return; }
 	QList<QTreeWidgetItem*> selected_items = this->m_tree->selectedItems();
 	if (selected_items.count() == 0){ return; }
 	QTreeWidgetItem *item = selected_items.at(0);
@@ -489,13 +507,15 @@ void P_FlexiblePageTree::sltItemSelectionChanged(){
 	// > 树节点变化
 	if (this->m_last_selectedItem != item){
 		this->m_last_selectedItem = item;
-		emit signal_currentItemChanged(item);
+		emit signal_currentItemSelectionChanged(item);
 	}
 	// > 叶子变化
+	//		（注意，这里只是单向监听 圈选变化事件，与『保持选中』相互影响）
+	//		（重建数据、刷新树，不会进入这个事件）
 	if ( this->isLeaf(item) && 
 		 this->m_last_selectedLeaf != item){
 		this->m_last_selectedLeaf = dynamic_cast<I_FPT_Leaf*>(item);
-		emit signal_currentLeafChanged(item, this->m_last_selectedLeaf->getId(), this->m_last_selectedLeaf->getName());
+		emit signal_currentLeafSelectionChanged(item, this->m_last_selectedLeaf->getId(), this->m_last_selectedLeaf->getName());
 	}
 }
 /*-------------------------------------------------
@@ -582,7 +602,7 @@ void P_FlexiblePageTree::drawMenuMainLast(){
 
 	action = new QAction("刷新排序", this);
 	action->setIcon(QIcon(QRC_IconSrcPath+ "/menu/Common_Refresh.png"));
-	connect(action, &QAction::triggered, this, &P_FlexiblePageTree::rebuildTreeData);
+	connect(action, &QAction::triggered, this, &P_FlexiblePageTree::rebuildTreeData_KeepSelection);
 	this->m_mainMenu->addAction(action);
 
 	action = new QAction("树设置...", this);
@@ -664,7 +684,7 @@ void P_FlexiblePageTree::menuClearLeafInAction(){
 */
 void P_FlexiblePageTree::setConfig(C_FPT_Config* config){
 	this->m_config = config;
-	this->refreshTreeUi();
+	this->refreshTreeUi_KeepSelection();
 }
 /*-------------------------------------------------
 		树设置 - 取出参数
@@ -676,30 +696,36 @@ C_FPT_Config* P_FlexiblePageTree::getConfig(){
 		树设置 - 编辑窗口
 */
 void P_FlexiblePageTree::openConfigParamWindow(){
+	this->windowLock_incOne();
+
+	// > 参数准备
+	QString treeName = this->m_config->getTreeName();
+
 	QString last_sortMode = this->m_config->getCurrentMode();
 	int last_pageNum = this->m_config->pagePerNum;
 
-	this->windowLock_incOne();
+	// > 创建窗口
 	W_FPT_Config* d = this->createConfigWindow();
+	d->initWidget(treeName);
 	d->setData(this->m_config);
 	if (d->exec() == QDialog::Accepted){
 		this->m_config = d->getData() ;
 		
 		// > id分支时，数量变化了，则重建
-		if (this->m_config->is_id_Mode() && last_pageNum != this->m_config->pagePerNum){
-			this->rebuildTreeData();
+		if (this->m_config->isSortMode_id() && last_pageNum != this->m_config->pagePerNum){
+			this->rebuildTreeData_KeepSelection();
 
 		// > 分支模式 变了，重建
 		}else if ( last_sortMode != this->m_config->getCurrentMode() ){
-			this->rebuildTreeData();
+			this->rebuildTreeData_KeepSelection();
 
 		// > 重刷数据（行高和零填充变了必须刷，刷只会变ui和名称，不会改变排列方式）
 		}else{
-			this->refreshTreeUi();
+			this->refreshTreeUi_KeepSelection();
 		}
-
 	}
 	d->deleteLater();
+
 	this->windowLock_decOne();
 }
 /*-------------------------------------------------
@@ -708,7 +734,7 @@ void P_FlexiblePageTree::openConfigParamWindow(){
 void  P_FlexiblePageTree::changeSortMode(QString sortMode){
 	if (this->getCurrentSortMode() == sortMode){ return; }
 	this->m_config->setCurrentMode(sortMode);
-	this->rebuildTreeData();
+	this->rebuildTreeData_KeepSelection();
 }
 void  P_FlexiblePageTree::changeSortModeInAction(){
 	QAction* cur_action = qobject_cast<QAction*>(sender());		//从action里面取出数据
@@ -739,8 +765,6 @@ void P_FlexiblePageTree::loadSource(QList<QJsonObject> obj_list) {
 		if (data.isNull()){ continue; }
 		this->m_source_list.append(data);
 	}
-	// > 解析后必须初始化一次（子类树要用）
-	this->m_source_ObjectSortController->setData_FromSortData(this->m_source_list);
 
 	// > 重建全部数据
 	this->rebuildTreeData();
@@ -757,8 +781,6 @@ void P_FlexiblePageTree::loadSource(QList<QJsonObject> obj_list, QString id_symb
 		if (data.isNull()){ continue; }
 		this->m_source_list.append(data);
 	}
-	// > 解析后必须初始化一次（子类树要用）
-	this->m_source_ObjectSortController->setData_FromSortData(this->m_source_list);
 
 	// > 重建全部数据
 	this->rebuildTreeData();
@@ -801,43 +823,82 @@ C_ObjectSortData* P_FlexiblePageTree::getSelectedSource(){
 	int arr_index = leaf->getId();			//（从item中获取到id）
 	return this->m_source_ObjectSortController->getSortData_ByIndex(arr_index);
 }
+
 /*-------------------------------------------------
-		资源数据 - 重建数据（私有）
+		重建数据（私有）
 */
 void P_FlexiblePageTree::rebuildTreeData(){
+
+	// > 重建数据 - 资源数据初始化
 	this->m_source_ObjectSortController->setData_FromSortData(this->m_source_list);
 
-	// > 为空时，选择第一个
+	// > 重建数据 - 分支
+	this->rebuildSortMode();
+}
+void P_FlexiblePageTree::rebuildTreeData_KeepSelection(){
+	//（重建过程，会销毁重建树枝对象、叶子对象，资源数据也可能受到影响，这里只记录id）
+
+	// > 『保持选中』 - 记录
+	int last_selected_id = -1;
+	if (this->m_last_selectedLeaf != nullptr){
+		last_selected_id = this->m_last_selectedLeaf->getId();
+	}
+
+	// > 『保持选中』 - 阻塞选中
+	this->m_signalBlock_selectionChanged = true;
+	this->m_last_selectedItem = nullptr;	//（取消上一个选中）
+	this->m_last_selectedLeaf = nullptr;
+
+	// > 重建数据
+	this->rebuildTreeData();
+
+	// > 『保持选中』 - 执行选中
+	I_FPT_Leaf* selected_leaf = this->getLeafById(last_selected_id);
+	if (selected_leaf != nullptr){
+		this->m_tree->scrollToItem(selected_leaf);
+		this->m_tree->setItemSelected(selected_leaf, true);
+		this->m_last_selectedItem = selected_leaf;	//（恢复上一个选中）
+		this->m_last_selectedLeaf = selected_leaf;
+	}
+	this->m_signalBlock_selectionChanged = false;
+}
+/*-------------------------------------------------
+		重建数据 - 分支（私有）
+*/
+void P_FlexiblePageTree::rebuildSortMode(){
+
+	// > 重建数据 - 分支模式为空时，选择第一个
 	if (this->getCurrentSortMode() == ""){
 		QMessageBox::warning(nullptr, "错误", "树控件中出现了有误的分支模式设置，已归为默认设置。", QMessageBox::Yes);
 		this->m_config->setCurrentMode( this->m_config->getModeList().first() );
 	}
-	if (this->m_config->is_id_Mode()){
-		this->rebuildTreeData_id_inc();
-		this->refreshTreeUi();
+	// > 重建数据 - 分支模式 - ID分支
+	if (this->m_config->isSortMode_id()){
+		this->rebuildSortMode_id_inc();
+		this->refreshTreeUi();		//（因为重建，所以不需要保持选中）
 	}
-	if (this->m_config->is_name_Mode()){
-		this->rebuildTreeData_name_inc();
-		this->refreshTreeUi();
+	// > 重建数据 - 分支模式 - 名称分支
+	if (this->m_config->isSortMode_name()){
+		this->rebuildSortMode_name_inc();
+		this->refreshTreeUi();		//（因为重建，所以不需要保持选中）
 	}
-
 }
 /*-------------------------------------------------
-		资源数据 - 重建数据_ID分支（私有）
+		重建数据 - 分支 - ID分支（私有）
 */
-void P_FlexiblePageTree::rebuildTreeData_id_inc(){
+void P_FlexiblePageTree::rebuildSortMode_id_inc(){
 
-	// > 重刷所有树枝
+	// > 重建数据 - 数据准备
+	int all_count = this->m_source_ObjectSortController->getDataCount();
+	this->m_config->set_id_MaxCount(all_count);
+
+	// > 重建数据 - 清空树枝
 	for (int i = 0; i < this->m_branchItem.count(); i++){
 		this->m_branchItem.at(i)->takeChildren();
 	}
 	this->m_branchItem.clear();
 
-	// > 数据准备
-	int all_count = this->m_source_ObjectSortController->getDataCount();
-	this->m_config->set_id_MaxCount(all_count);
-
-	// > 添加树枝
+	// > 重建数据 - 创建树枝
 	int page_count = this->m_config->get_id_PageCount();
 	for (int i = 0; i < page_count; i++){
 		int bottom = this->m_config->get_id_Bottom(i);
@@ -853,8 +914,10 @@ void P_FlexiblePageTree::rebuildTreeData_id_inc(){
 		this->m_branchItem.append(branch_item);
 	}
 
-	// > 重刷所有叶子
+	// > 重建数据 - 清空叶子
 	this->m_leafItem.clear();
+
+	// > 重建数据 - 创建叶子
 	for (int i = 0; i < this->m_branchItem.count(); i++){
 		I_FPT_Branch* branch_item = this->m_branchItem.at(i);
 		int page_index = branch_item->getBranch_id_Index();	//当前页索引的位置
@@ -877,21 +940,21 @@ void P_FlexiblePageTree::rebuildTreeData_id_inc(){
 
 }
 /*-------------------------------------------------
-		资源数据 - 重建数据_名称分支（私有）
+		重建数据 - 分支 - 名称分支（私有）
 */
-void P_FlexiblePageTree::rebuildTreeData_name_inc(){
+void P_FlexiblePageTree::rebuildSortMode_name_inc(){
 
-	// > 重刷所有树枝
+	// > 重建数据 - 数据准备
+	QStringList page_name_list = this->m_config->get_name_PageNameList();
+	QStringList page_symbol_list = this->m_config->get_name_PageSymbolList();
+
+	// > 重建数据 - 清空树枝
 	for (int i = 0; i < this->m_branchItem.count(); i++){
 		this->m_branchItem.at(i)->takeChildren();
 	}
 	this->m_branchItem.clear();
 
-	// > 数据准备
-	QStringList page_name_list = this->m_config->get_name_PageNameList();
-	QStringList page_symbol_list = this->m_config->get_name_PageSymbolList();
-
-	// > 添加页
+	// > 重建数据 - 创建树枝
 	for (int i = 0; i < page_name_list.count(); i++){
 		QString page_name = page_name_list.at(i);
 		QString page_symbol = page_symbol_list.at(i);
@@ -904,8 +967,10 @@ void P_FlexiblePageTree::rebuildTreeData_name_inc(){
 		this->m_branchItem.append(branch_item);
 	}
 
-	// > 重刷所有叶子
+	// > 重建数据 - 清空叶子
 	this->m_leafItem.clear();
+
+	// > 重建数据 - 创建叶子
 	for (int i = 0; i < page_symbol_list.count(); i++){
 		QString symbol = page_symbol_list.at(i);
 		QList<int> index_list;
@@ -936,8 +1001,9 @@ void P_FlexiblePageTree::rebuildTreeData_name_inc(){
 	}
 }
 
+
 /*-------------------------------------------------
-		窗口管理 - 窗口数量+1
+		窗口锁 - 窗口数量+1
 */
 void P_FlexiblePageTree::windowLock_incOne(){
 	this->m_config_windowLockNum += 1;
@@ -946,7 +1012,7 @@ void P_FlexiblePageTree::windowLock_incOne(){
 	}
 }
 /*-------------------------------------------------
-		窗口管理 - 窗口数量-1
+		窗口锁 - 窗口数量-1
 */
 void P_FlexiblePageTree::windowLock_decOne(){
 	this->m_config_windowLockNum -= 1;

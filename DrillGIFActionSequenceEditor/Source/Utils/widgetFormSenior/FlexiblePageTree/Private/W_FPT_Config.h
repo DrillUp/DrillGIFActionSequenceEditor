@@ -19,22 +19,25 @@ class W_FPT_Config : public QDialog
 	Q_OBJECT
 
 	public:
-		W_FPT_Config( QWidget *parent = 0 );
+		W_FPT_Config(QWidget *parent = 0);
 		~W_FPT_Config();
 		
 	//-----------------------------------
 	//----控件
 	public:
-										//控件 - 回车过滤
-		void keyPressEvent(QKeyEvent *event);
+										//控件 - 控件初始化
+										//		【说明】：窗口不能直接嵌套 分类树 本体，所以只能把需要的参数都通过这个函数进行传递。
+		void initWidget(QString treeName);
 	public slots:
 										//控件 - 零填充勾选变化
 		void zeroFillChanged(bool enable);
+										//控件 - 回车过滤
+		void keyPressEvent(QKeyEvent *event);
 
 	//-----------------------------------
 	//----窗口
 	protected:
-		C_FPT_Config* local_data;
+		C_FPT_Config* local_data = nullptr;
 	public:
 										//窗口 - 设置数据
 		void setData(C_FPT_Config* data);

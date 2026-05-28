@@ -31,21 +31,34 @@ C_FPT_Config::C_FPT_Config(){
 
 	// > ID页
 	this->pagePerNum = 30;
+	this->temp_id_maxCount = -1;
 
-	// > 自定义数据
-	this->data;
-
-	// > 私有临时对象
-	this->m_id_maxCount = -1;
-
-	//  （名称列表 - s_ChineseManager首字母定义）
+	// > 名称页
+	//		（名称列表 - s_ChineseManager首字母定义）
 	this->m_name_textList = QStringList() << "- A -" << "- B -" << "- C -" << "- D -" << "- E -" << "- F -" << "- G -" << "- H -" << "- I -" << "- J -" << "- K -" << "- L -" << "- M -" << "- N -" << "- O -" << "- P -" << "- Q -" << "- R -" << "- S -" << "- T -" << "- U -" << "- V -" << "- W -" << "- X -" << "- Y -" << "- Z -" << "生僻字";
 	this->m_name_symbolList = QStringList() << "A" << "B" << "C" << "D" << "E" << "F" << "G" << "H" << "I" << "J" << "K" << "L" << "M" << "N" << "O" << "P" << "Q" << "R" << "S" << "T" << "U" << "V" << "W" << "X" << "Y" << "Z" << "@";
-	//  （名称列表 - 特殊符号情况）
+	//		（名称列表 - 特殊符号情况）
 	this->m_name_textList << "其他符号" << "空名称";
 	this->m_name_symbolList << "其他符号" << "空名称";
+
+	// > 子类用数据
+	this->m_childCustomData;
 }
 C_FPT_Config::~C_FPT_Config(){
+}
+
+
+/*-------------------------------------------------
+		树名称 - 设置
+*/
+void C_FPT_Config::setTreeName(QString treeName){
+	this->m_treeName = treeName;
+}
+/*-------------------------------------------------
+		树名称 - 获取
+*/
+QString C_FPT_Config::getTreeName(){
+	return this->m_treeName;
 }
 
 
@@ -61,10 +74,10 @@ void C_FPT_Config::setCurrentMode(QString sortMode){
 QString C_FPT_Config::getCurrentMode(){
 	return this->m_mode;
 }
-bool C_FPT_Config::is_id_Mode(){
+bool C_FPT_Config::isSortMode_id(){
 	return this->m_mode == "ID分支（按id递增排序）";
 }
-bool C_FPT_Config::is_name_Mode(){
+bool C_FPT_Config::isSortMode_name(){
 	return this->m_mode == "名称分支（按名称递增排序）";
 }
 /*-------------------------------------------------
@@ -86,27 +99,27 @@ QStringList C_FPT_Config::getModeList(){
 		ID页 - 设置最大值
 */
 void C_FPT_Config::set_id_MaxCount(int count){
-	this->m_id_maxCount = count;
+	this->temp_id_maxCount = count;
 }
 /*-------------------------------------------------
 		ID页 - 获取最大值
 */
 int C_FPT_Config::get_id_MaxCount(){
-	return this->m_id_maxCount;
+	return this->temp_id_maxCount;
 }
 /*-------------------------------------------------
 		ID页 - 获取页数
 */
 int C_FPT_Config::get_id_PageCount(){
-	if (this->m_id_maxCount <= 0){ return -1; }
-	return qCeil((double)this->m_id_maxCount / this->pagePerNum);
+	if (this->temp_id_maxCount <= 0){ return -1; }
+	return qCeil((double)this->temp_id_maxCount / this->pagePerNum);
 }
 /*-------------------------------------------------
 		ID页 - 获取底
 */
 int C_FPT_Config::get_id_Bottom(int page_index){
 	int bottom = page_index * this->pagePerNum + 1;
-	if (this->m_id_maxCount < 0){ return -1; }
+	if (this->temp_id_maxCount < 0){ return -1; }
 	return bottom;
 }
 /*-------------------------------------------------
@@ -114,10 +127,10 @@ int C_FPT_Config::get_id_Bottom(int page_index){
 */
 int C_FPT_Config::get_id_Top(int page_index){
 	int top = (page_index + 1) * this->pagePerNum;
-	if (this->m_id_maxCount < 0){ return -1; }
+	if (this->temp_id_maxCount < 0){ return -1; }
 
-	if (top >= this->m_id_maxCount){
-		top = this->m_id_maxCount;
+	if (top >= this->temp_id_maxCount){
+		top = this->temp_id_maxCount;
 	}
 	return top;
 }
@@ -177,10 +190,10 @@ QStringList C_FPT_Config::get_name_PageSymbolList(){
 
 
 /*-------------------------------------------------
-		自定义数据 - 获取数据
+		子类用数据 - 获取数据
 */
-QJsonObject C_FPT_Config::getCustomData(){
-	return this->data;
+QJsonObject C_FPT_Config::getChildCustomData(){
+	return this->m_childCustomData;
 }
 
 /*-------------------------------------------------
@@ -202,8 +215,11 @@ QJsonObject C_FPT_Config::getJsonObject(){
 	// > ID页
 	obj.insert("pagePerNum", this->pagePerNum);
 
-	// > 自定义数据
-	obj.insert("data", this->data);
+	// > 名称页
+	//	（无）
+
+	// > 子类用数据
+	obj.insert("data", this->m_childCustomData);
 
 	return obj;
 }
@@ -225,6 +241,9 @@ void C_FPT_Config::setJsonObject(QJsonObject obj, P_FlexiblePageTree* parent_obj
 	// > ID页
 	if (obj.value("pagePerNum").isUndefined() == false){ this->pagePerNum = obj.value("pagePerNum").toInt(); }
 
-	// > 自定义数据
-	if (obj.value("data").isUndefined() == false){ this->data = obj.value("data").toObject(); }
+	// > 名称页
+	//	（无）
+
+	// > 子类用数据
+	if (obj.value("data").isUndefined() == false){ this->m_childCustomData = obj.value("data").toObject(); }
 }

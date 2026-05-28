@@ -409,9 +409,9 @@ void P_ObjectSortController::initSort_Name_IfRequire(){
 		if (name.count() > 0){
 			this->m_firstCharSeq.push_back(name.at(0));
 		
-		// > 获取不到，则按生僻字算
+		// > 获取不到，则不操作
 		}else{
-			this->m_firstCharSeq.push_back("@");
+			//（空字符肯定会排到后排，超出 m_firstCharSeq 的数组长度）
 		}
 	}
 

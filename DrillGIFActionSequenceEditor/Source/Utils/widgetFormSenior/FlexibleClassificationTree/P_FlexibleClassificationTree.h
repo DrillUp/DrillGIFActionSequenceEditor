@@ -2,6 +2,10 @@
 #include "stdafx.h"
 
 #include "../FlexiblePageTree/P_FlexiblePageTree.h"
+#include "Private/C_FCT_Classify.h"
+#include "Private/W_FCT_Classify.h"
+
+#include "Private/C_FCT_Config.h"
 
 /*
 -----==========================================================-----
@@ -14,9 +18,6 @@
 					（详细见cpp）
 -----==========================================================-----
 */
-class C_FCT_Config;
-class C_FCT_Classify;
-class W_FCT_Classify;
 class P_FlexibleClassificationTree : public P_FlexiblePageTree
 {
 	Q_OBJECT
@@ -30,7 +31,14 @@ class P_FlexibleClassificationTree : public P_FlexiblePageTree
 	//----工厂（子类继承覆写用接口）
 	public:
 											//工厂 - 创建 树设置 数据（覆写父类）
-		virtual C_FPT_Config* createConfigData();
+		virtual C_FPT_Config* createConfigData() override;
+											//工厂 - 创建 树设置 编辑窗口（覆写父类）
+		virtual W_FPT_Config* createConfigWindow() override;
+											//工厂 - 创建 叶子控件（覆写父类）
+		virtual I_FPT_Leaf* createFCTLeaf() override;
+											//工厂 - 创建 树枝控件（覆写父类）
+		virtual I_FPT_Branch* createFCTBranch() override;
+
 											//工厂 - 创建 种类 数据（可覆写）
 		virtual C_FCT_Classify* createClassifyData();
 											//工厂 - 创建 种类 编辑窗口（可覆写）
@@ -43,11 +51,11 @@ class P_FlexibleClassificationTree : public P_FlexiblePageTree
 		virtual void clearAll() override;
 	protected:
 									//树对象 - 刷新树 - 分支
-		virtual void refreshTreeUi_special() override;
+		virtual void refreshSortMode() override;
 									//树对象 - 刷新树 - 分支 - 种类分支_id递增
-		virtual void refreshTreeUi_classify_idInc();
+		virtual void refreshSortMode_classify_idInc();
 									//树对象 - 刷新树 - 分支 - 种类分支_名称递增
-		virtual void refreshTreeUi_classify_nameInc();
+		virtual void refreshSortMode_classify_nameInc();
 		
 
 	//-----------------------------------
@@ -134,9 +142,9 @@ class P_FlexibleClassificationTree : public P_FlexiblePageTree
 	//-----------------------------------
 	//----数据（树设置）
 	protected:
-										//树设置 - 设置参数
+										//树设置 - 设置参数（私有）
 		virtual void setConfig(C_FPT_Config* config) override;
-										//树设置 - 取出参数
+										//树设置 - 取出参数（私有）
 		virtual C_FPT_Config* getConfig() override;
 	public:
 										//树设置 - 设置参数Ex
@@ -150,9 +158,11 @@ class P_FlexibleClassificationTree : public P_FlexiblePageTree
 	protected slots:
 										//资源数据 - 重建数据（私有）
 		virtual void rebuildTreeData() override;
-										//资源数据 - 重建数据_种类分支_id递增（私有）
-		void rebuildTreeData_classify_idInc();
-										//资源数据 - 重建数据_种类分支_名称递增（私有）
-		void rebuildTreeData_classify_nameInc();
+										//资源数据 - 重建数据 - 分支（私有）
+		virtual void rebuildSortMode() override;
+										//资源数据 - 重建数据 - 分支 - 种类分支_id递增（私有）
+		void rebuildSortMode_classify_idInc();
+										//资源数据 - 重建数据 - 分支 - 种类分支_名称递增（私有）
+		void rebuildSortMode_classify_nameInc();
 
 };

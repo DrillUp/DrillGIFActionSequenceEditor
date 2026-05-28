@@ -40,10 +40,12 @@ class I_FPT_Branch : public QTreeWidgetItem{
 	//-----------------------------------
 	//----控件
 	public:
+										//控件 - 刷新数据
+		void refreshItemSelf();	
 										//控件 - 获取显示文本
 		QString getShowingText();
-										//控件 - 根据数据自我刷新
-		void refreshItemSelf();	
+										//控件 - 获取悬浮文本
+		QString getToolTipText();
 
 };
 

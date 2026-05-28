@@ -23,15 +23,15 @@ class C_FCT_Config : public C_FPT_Config{
 	//----分支模式
 	public:
 									//分支模式 - 判断 种类分支_ID递增 模式
-		bool is_classify_idInc_Mode();
+		bool isSortMode_classify_idInc();
 									//分支模式 - 判断 种类分支_名称递增 模式
-		bool is_classify_nameInc_Mode();
+		bool isSortMode_classify_nameInc();
 		
 	//-----------------------------------
 	//----种类页
 	protected:
-		C_FCT_Classify* m_emptyClassify;
-		QList<C_FCT_Classify*> m_classifyList;
+		QList<C_FCT_Classify*> m_classifyList;		//种类列表
+		C_FCT_Classify* m_emptyClassify;			//种类"未分类"
 	public:
 									//种类页 - 获取列表
 		QList<C_FCT_Classify*> get_classify_DataList();
@@ -58,7 +58,7 @@ class C_FCT_Config : public C_FPT_Config{
 									//种类页 - 获取 - 全部种类
 		QStringList getAll_classify_NameList();
 	protected:
-									//私有 - 检查列表
+									//种类页 - 检查列表（私有）
 		void checkClassifyList();
 		
 	//-----------------------------------

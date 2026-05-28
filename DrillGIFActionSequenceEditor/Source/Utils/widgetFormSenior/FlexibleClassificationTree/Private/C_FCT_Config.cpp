@@ -34,13 +34,13 @@ C_FCT_Config::~C_FCT_Config(){
 /*-------------------------------------------------
 		分支模式 - 判断 种类分支_ID递增 模式
 */
-bool C_FCT_Config::is_classify_idInc_Mode(){
+bool C_FCT_Config::isSortMode_classify_idInc(){
 	return this->m_mode == "种类分支（按id递增排序）";
 }
 /*-------------------------------------------------
 		分支模式 - 判断 种类分支_名称递增 模式
 */
-bool C_FCT_Config::is_classify_nameInc_Mode(){
+bool C_FCT_Config::isSortMode_classify_nameInc(){
 	return this->m_mode == "种类分支（按名称递增排序）";
 }
 
@@ -149,7 +149,7 @@ QStringList C_FCT_Config::getAll_classify_NameList(){
 	return result_list;
 }
 /*-------------------------------------------------
-		私有 - 检查列表
+		种类页 - 检查列表（私有）
 */
 void C_FCT_Config::checkClassifyList(){
 	if (this->m_classifyList.contains(this->m_emptyClassify) != true){
@@ -163,7 +163,7 @@ void C_FCT_Config::checkClassifyList(){
 */
 QJsonObject C_FCT_Config::getJsonObject(){
 
-	// > 种类数据（存储在 this->data 中）
+	// > 种类数据（存储在 this->m_childCustomData 中）
 	QJsonArray arr;
 	for (int i = 0; i < this->m_classifyList.count(); i++){
 		C_FCT_Classify* c_c = this->m_classifyList.at(i);
@@ -171,9 +171,10 @@ QJsonObject C_FCT_Config::getJsonObject(){
 			arr.append(c_c->getJsonObject());
 		}
 	}
-	this->data.insert("FCT_ClassifyList", arr);
+	this->m_childCustomData.insert("FCT_ClassifyList", arr);
 
-	// > 对象
+
+	// > 父对象
 	QJsonObject obj = C_FPT_Config::getJsonObject();
 	return obj;
 }
@@ -181,22 +182,25 @@ QJsonObject C_FCT_Config::getJsonObject(){
 		QJsonObject -> 实体类
 */
 void C_FCT_Config::setJsonObject(QJsonObject obj, P_FlexiblePageTree* parent_obj){
+
+	// > 父对象
 	C_FPT_Config::setJsonObject(obj, parent_obj);
 
 	// > 父对象强转
 	P_FlexibleClassificationTree* parent_obj_ex = dynamic_cast<P_FlexibleClassificationTree*>(parent_obj);
 
-	// > 种类数据（存储在 this->data 中）
+
+	// > 种类数据（存储在 this->m_childCustomData 中）
 	this->m_classifyList.clear();
-	if (this->data.value("FCT_ClassifyList").isUndefined() == false){
-		QJsonArray arr = this->data.value("FCT_ClassifyList").toArray();
+	if (this->m_childCustomData.value("FCT_ClassifyList").isUndefined() == false){
+		QJsonArray arr = this->m_childCustomData.value("FCT_ClassifyList").toArray();
 		for (int i = 0; i < arr.count(); i++){
 			C_FCT_Classify* c_c = parent_obj_ex->createClassifyData();
 			c_c->setJsonObject(arr.at(i).toObject());
 			this->m_classifyList.append(c_c);
 		}
 	}
-	// > 旧数据情况
+	// > 种类数据 - 旧数据情况
 	if (obj.value("FCTClassifyList").isUndefined() == false){
 		QJsonArray arr = obj.value("FCTClassifyList").toArray();
 		for (int i = 0; i < arr.count(); i++){

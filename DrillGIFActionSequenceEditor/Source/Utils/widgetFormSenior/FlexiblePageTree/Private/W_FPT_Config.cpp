@@ -43,14 +43,19 @@ W_FPT_Config::W_FPT_Config(QWidget *parent)
 W_FPT_Config::~W_FPT_Config(){
 }
 
+
 /*-------------------------------------------------
-		控件 - 回车事件过滤
+		控件 - 控件初始化
 */
-void W_FPT_Config::keyPressEvent(QKeyEvent *event) {
-	if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
-		this->focusNextChild();
+void W_FPT_Config::initWidget(QString treeName){
+
+	// > 窗口名称
+	if (treeName == ""){
+		this->setWindowTitle("树设置");
 	}else{
-		QDialog::keyPressEvent(event);
+		QString window_title = treeName;
+		window_title.append(" - 树设置");
+		this->setWindowTitle(window_title);
 	}
 }
 /*-------------------------------------------------
@@ -62,6 +67,16 @@ void W_FPT_Config::zeroFillChanged(bool enable) {
 	ui.label_zeroFillCount->setEnabled(enable);
 	ui.spinBox_zeroFillCount->setEnabled(enable);
 	ui.lineEdit_zeroFillChar->setEnabled(enable);
+}
+/*-------------------------------------------------
+		控件 - 回车事件过滤
+*/
+void W_FPT_Config::keyPressEvent(QKeyEvent *event) {
+	if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
+		this->focusNextChild();
+	}else{
+		QDialog::keyPressEvent(event);
+	}
 }
 
 

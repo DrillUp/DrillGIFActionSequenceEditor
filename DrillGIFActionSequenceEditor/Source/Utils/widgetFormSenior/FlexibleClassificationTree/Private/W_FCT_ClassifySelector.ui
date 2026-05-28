@@ -17,25 +17,12 @@
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>种类</string>
+      <string>选择种类</string>
      </property>
      <layout class="QGridLayout" name="gridLayout" columnstretch="0,0">
       <property name="topMargin">
        <number>5</number>
       </property>
-      <item row="0" column="1">
-       <widget class="QPushButton" name="pushButton">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>24</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>新建种类</string>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="0">
        <spacer name="horizontalSpacer">
         <property name="orientation">
@@ -48,6 +35,19 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item row="0" column="1">
+       <widget class="QPushButton" name="pushButton">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>24</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>新建种类</string>
+        </property>
+       </widget>
       </item>
       <item row="1" column="0" colspan="2">
        <widget class="QTableWidget" name="tableWidget">
@@ -66,6 +66,9 @@ QTableView::item:selected {
         <property name="selectionBehavior">
          <enum>QAbstractItemView::SelectRows</enum>
         </property>
+        <attribute name="horizontalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
         <attribute name="horizontalHeaderDefaultSectionSize">
          <number>200</number>
         </attribute>
@@ -97,6 +100,19 @@ QTableView::item:selected {
           <string>未分类</string>
          </property>
         </item>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="2">
+       <widget class="QLabel" name="label_description">
+        <property name="styleSheet">
+         <string notr="true">color: rgb(122, 122, 122);</string>
+        </property>
+        <property name="text">
+         <string>没有描述。</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
      </layout>
