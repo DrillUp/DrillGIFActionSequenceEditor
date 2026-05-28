@@ -320,10 +320,12 @@ void P_COAS_DataPart::putDataToUi() {
 		C_FCT_Config* config = dynamic_cast<C_FCT_Config*>(this->m_p_tree->createConfigData());
 		config->setJsonObject(tree_config, this->m_p_tree);		//（存储的数据需要在load前完成赋值）
 		config->rowHeight = 30;
+		config->setTreeName("动画序列树");
 		this->m_p_tree->setConfigEx(config);
 	}else{
 		C_FCT_Config* config = dynamic_cast<C_FCT_Config*>(this->m_p_tree->createConfigData());
 		config->setJsonObject(tree_config, this->m_p_tree);		//（存储的数据需要在load前完成赋值）
+		config->setTreeName("动画序列树");
 		this->m_p_tree->setConfigEx(config);
 	}
 

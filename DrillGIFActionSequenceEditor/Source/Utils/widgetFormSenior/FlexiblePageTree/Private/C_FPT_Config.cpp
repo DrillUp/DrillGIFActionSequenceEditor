@@ -21,9 +21,13 @@ C_FPT_Config::C_FPT_Config(){
 
 	// > 显示设置
 	this->rowHeight = 24;
+	this->indentation = 20;
 	this->zeroFill = true;
 	this->zeroFillCount = 4;
 	this->zeroFillChar = '0';
+
+	// > 树名称
+	this->m_treeName.clear();
 
 	// > 分支模式
 	this->m_mode = "ID分支（按id递增排序）";
@@ -204,9 +208,13 @@ QJsonObject C_FPT_Config::getJsonObject(){
 
 	// > 显示设置
 	obj.insert("rowHeight", this->rowHeight);
+	obj.insert("indentation", this->indentation);
 	obj.insert("zeroFill", this->zeroFill);
 	obj.insert("zeroFillCount", this->zeroFillCount);
 	obj.insert("zeroFillChar", QString(this->zeroFillChar));
+
+	// > 树名称
+	obj.insert("treeName", this->m_treeName);
 
 	// > 分支模式
 	obj.insert("sortType", this->m_mode);
@@ -230,9 +238,13 @@ void C_FPT_Config::setJsonObject(QJsonObject obj, P_FlexiblePageTree* parent_obj
 
 	// > 显示设置
 	if (obj.value("rowHeight").isUndefined() == false){ this->rowHeight = obj.value("rowHeight").toInt(); }
+	if (obj.value("indentation").isUndefined() == false){ this->indentation = obj.value("indentation").toInt(); }
 	if (obj.value("zeroFill").isUndefined() == false){ this->zeroFill = obj.value("zeroFill").toBool(); }
 	if (obj.value("zeroFillCount").isUndefined() == false){ this->zeroFillCount = obj.value("zeroFillCount").toInt(); }
 	if (obj.value("zeroFillChar").isUndefined() == false){ this->zeroFillChar = obj.value("zeroFillChar").toString().at(0); }
+
+	// > 树名称
+	if (obj.value("treeName").isUndefined() == false){ this->m_treeName = obj.value("treeName").toString(); }
 
 	// > 分支模式
 	if (obj.value("sortType").isUndefined() == false){ this->m_mode = obj.value("sortType").toString(); }

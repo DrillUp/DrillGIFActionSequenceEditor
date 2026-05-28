@@ -187,7 +187,12 @@ void P_FlexiblePageTree::refreshTreeUi() {
 
 	// > 刷新 - 行高
 	this->m_tree->setStyleSheet(this->m_treeStyle + "\n QTreeView::item { height: " + QString::number(this->m_config->rowHeight) + "px;}");
-	
+
+	// > 刷新 - 缩进
+	if (this->m_tree->indentation() != this->m_config->indentation){
+		this->m_tree->setIndentation(this->m_config->indentation);
+	}
+
 	// > 刷新 - 展开全部
 	this->m_tree->expandAll();
 

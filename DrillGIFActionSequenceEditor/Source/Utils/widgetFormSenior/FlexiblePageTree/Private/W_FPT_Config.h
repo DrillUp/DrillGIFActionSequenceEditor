@@ -31,6 +31,8 @@ class W_FPT_Config : public QDialog
 	public slots:
 										//控件 - 零填充勾选变化
 		void zeroFillChanged(bool enable);
+										//控件 - 分支模式变化
+		void sortTypeChanged();
 										//控件 - 回车过滤
 		void keyPressEvent(QKeyEvent *event);
 

@@ -27,19 +27,20 @@ W_FPT_Config::W_FPT_Config(QWidget *parent)
 
 	//-----------------------------------
 	//----初始化参数
-	TTool::_ChangeCombox_itemHeight_(ui.comboBox_sort_type, 30);	//（不清楚原因。在第二页的下拉框，就是不能撑开高度）
+	TTool::_ChangeCombox_itemHeight_(ui.comboBox_sortMode, 24);	//（选项高度不能大于下拉框的高度，否则加高会失效）
 
 	//-----------------------------------
 	//----事件绑定
 	connect(ui.checkBox_zeroFill, &QCheckBox::toggled, this, &W_FPT_Config::zeroFillChanged);
+	connect(ui.comboBox_sortMode, &QComboBox::currentTextChanged, this, &W_FPT_Config::sortTypeChanged);
 	connect(ui.buttonBox, &QDialogButtonBox::accepted, this, &W_FPT_Config::acceptData);
 	
 	//-----------------------------------
 	//----初始化ui
 	if (ui.buttonBox->button(QDialogButtonBox::Ok) != nullptr){ ui.buttonBox->button(QDialogButtonBox::Ok)->setText("确定"); }
 	if (ui.buttonBox->button(QDialogButtonBox::Cancel) != nullptr){ ui.buttonBox->button(QDialogButtonBox::Cancel)->setText("取消"); }
-}
 
+}
 W_FPT_Config::~W_FPT_Config(){
 }
 
@@ -62,11 +63,23 @@ void W_FPT_Config::initWidget(QString treeName){
 		控件 - 零填充勾选变化
 */
 void W_FPT_Config::zeroFillChanged(bool enable) {
-
 	ui.label_zeroFillChar->setEnabled(enable);
 	ui.label_zeroFillCount->setEnabled(enable);
 	ui.spinBox_zeroFillCount->setEnabled(enable);
 	ui.lineEdit_zeroFillChar->setEnabled(enable);
+}
+/*-------------------------------------------------
+		控件 - 分支模式变化
+*/
+void W_FPT_Config::sortTypeChanged(){
+	int index = ui.comboBox_sortMode->currentIndex();
+	
+	// > ID分支的专用设置
+	if (index == 0){
+		ui.groupBox_sortMode_id->setEnabled(true);
+	}else{
+		ui.groupBox_sortMode_id->setEnabled(false);
+	}
 }
 /*-------------------------------------------------
 		控件 - 回车事件过滤
@@ -100,16 +113,18 @@ void W_FPT_Config::putDataToUi() {
 
 	// > 显示
 	TTool::_int_(ui.spinBox_rowHeight, &this->local_data->rowHeight);
+	TTool::_int_(ui.spinBox_indentation, &this->local_data->indentation);
 	ui.checkBox_zeroFill->setChecked(this->local_data->zeroFill);
 	this->zeroFillChanged(this->local_data->zeroFill);
 	TTool::_int_(ui.spinBox_zeroFillCount, &this->local_data->zeroFillCount);
 	ui.lineEdit_zeroFillChar->setText(QString(this->local_data->zeroFillChar));
 
 	// > 分支
-	ui.comboBox_sort_type->clear();
-	ui.comboBox_sort_type->addItems(this->local_data->getModeList());
-	ui.comboBox_sort_type->setCurrentText(this->local_data->getCurrentMode());
+	ui.comboBox_sortMode->clear();
+	ui.comboBox_sortMode->addItems(this->local_data->getModeList());
+	ui.comboBox_sortMode->setCurrentText(this->local_data->getCurrentMode());
 	TTool::_int_(ui.spinBox_pageContainCount, &this->local_data->pagePerNum);
+	this->sortTypeChanged();
 };
 /*-------------------------------------------------
 		窗口 - ui数据 -> 本地数据
@@ -118,6 +133,7 @@ void W_FPT_Config::putUiToData() {
 
 	// > 显示
 	TTool::_int_(&this->local_data->rowHeight, ui.spinBox_rowHeight);
+	TTool::_int_(&this->local_data->indentation, ui.spinBox_indentation);
 	this->local_data->zeroFill = ui.checkBox_zeroFill->isChecked();
 	TTool::_int_(&this->local_data->zeroFillCount, ui.spinBox_zeroFillCount);
 	if (ui.lineEdit_zeroFillChar->text().isEmpty() == false){
@@ -125,7 +141,7 @@ void W_FPT_Config::putUiToData() {
 	}
 
 	// > 分支
-	this->local_data->setCurrentMode(ui.comboBox_sort_type->currentText());
+	this->local_data->setCurrentMode(ui.comboBox_sortMode->currentText());
 	TTool::_int_(&this->local_data->pagePerNum, ui.spinBox_pageContainCount);
 };
 /*-------------------------------------------------

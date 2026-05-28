@@ -22,6 +22,7 @@ class C_FPT_Config{
 	//----显示设置
 	public:
 		int rowHeight;				//行高
+		int indentation;			//缩进
 		bool zeroFill;				//零填充
 		int zeroFillCount;			//填充位数
 		QChar zeroFillChar;			//填充字符
@@ -33,6 +34,7 @@ class C_FPT_Config{
 		QString m_treeName;			//树名称
 	public:
 									//树名称 - 设置
+									//		【说明】：树名称没有提供UI修改的途径，但是名称会被存储与读取。固定名称需要考虑强制赋值。
 		void setTreeName(QString treeName);
 									//树名称 - 获取
 		QString getTreeName();

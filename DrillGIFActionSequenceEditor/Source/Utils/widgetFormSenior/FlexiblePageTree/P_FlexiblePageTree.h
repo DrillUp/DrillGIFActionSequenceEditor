@@ -110,12 +110,14 @@ class P_FlexiblePageTree : public QObject
 	public:
 	signals:
 									//选中 - 树节点变化（信号）
-									//		【说明】：包括叶子和树枝。
+									//		【说明1】：包括叶子和树枝。
+									//		【说明2】：修改树设置、排序、分支模式时，此信号不会发出。
 		void signal_currentItemSelectionChanged(QTreeWidgetItem* item);
 	public:
 	signals:
 									//选中 - 叶子变化（信号）
-									//		【说明】：叶子的id默认为-1。（来自 C_ObjectSortData 的定义）
+									//		【说明1】：叶子的id默认为-1。（来自 C_ObjectSortData 的定义）
+									//		【说明2】：修改树设置、排序、分支模式时，此信号不会发出。
 		void signal_currentLeafSelectionChanged(QTreeWidgetItem* item, int id, QString name);
 
 
